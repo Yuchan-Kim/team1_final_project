@@ -13,6 +13,8 @@ import '../css/dh_header.css';
 const DH_Header = () => {
 
 	/*---일반 변수 --------------------------------------------*/
+	// 로그인 전 1
+	const state = 1;	
 
 	/*---라우터 관련------------------------------------------*/
 
@@ -48,10 +50,28 @@ const DH_Header = () => {
 				{/* /dy-menu */}
 
 				<div className="dy-info">
-					<ol>
-						<li><Link to="" className="dy-link" rel="noreferrer noopener">로그인</Link></li>
-						<li><Link to="" className="dy-link" rel="noreferrer noopener">가입하기</Link></li>
-					</ol>
+					{state === 1 ? (
+						<>
+							<ol className="dy-beforelogin">
+								<li><Link to="" className="dy-link" rel="noreferrer noopener">로그인</Link></li>
+								<li><Link to="" className="dy-link" rel="noreferrer noopener">가입하기</Link></li>
+							</ol>
+						</>
+					):(
+						<>
+							<div className="dy-afterlogin">
+								<Link to="">
+									<img src="../images/profile.png" className="dy-header-profile" alt="profile" />
+								</Link>
+								<ol className="dy-header-login-info">
+									<li><Link to="" className="dy-link" rel="noreferrer noopener">씽씽이도둑김유찬</Link></li>
+									{/* <li className="dy-header-point"><img src="../images/point.png" alt="point" />3600</li> */}
+									<li><button className="dy-logout-btn">로그아웃</button></li>
+								</ol>
+							</div>
+						</>
+					)}
+
 				</div>
 			</header>
         </>
