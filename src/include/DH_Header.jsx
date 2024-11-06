@@ -50,7 +50,7 @@ const DH_Header = () => {
 				<div className="dy-info">
 					<ol>
 						<li><Link to="" className="dy-link" rel="noreferrer noopener">로그인</Link></li>
-						<li><Link to="" className="dy-link" rel="noreferrer noopener">회원가입</Link></li>
+						<li><Link to="" className="dy-link" rel="noreferrer noopener">가입하기</Link></li>
 					</ol>
 				</div>
 			</header>
