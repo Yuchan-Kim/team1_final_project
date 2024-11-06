@@ -1,0 +1,63 @@
+@charset "UTF-8";
+
+/* 링크 */
+.dy-link {
+    color: black; 
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+.dy-link:visited {
+    color: black; 
+}
+
+.dy-link:hover {
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+
+/* 헤더 크기 */
+.dy-header {
+    width: 1400px;          /* 전체 화면 너비 */
+    height: 60px;
+    z-index: 1050;          /* 다른 요소들과 겹칠 때, 이 요소가 위에 오도록 설정 (z-index 값이 클수록 위에 표시됨) */
+    position: relative;     /* 요소의 위치를 상대적으로 설정 */
+    margin: 0 auto;         /* 중앙 정렬 */
+    display: flex;        /* flex 부모쪽 */
+    flex-direction: row;
+    justify-content: space-between;
+    
+    border: 1px solid black;
+    background-color: lightblue;
+}
+
+/* 로고 */
+.dy-header .dy-logo {
+
+    background-color: lightcoral;
+}
+
+/* 메뉴 */
+.dy-header .dy-menu {
+
+    background-color: rgb(186, 230, 186);
+}
+
+.dy-header .dy-menu ol {
+    display: flex;        /* flex 부모쪽 */
+    flex-direction: row;
+    justify-content: space-between;
+
+    background-color: rgb(186, 230, 186);
+}
+
+
+
+
+
+/* 로그인에 따라 달라지는 화면 */
+.dy-header .dy-info {
+
+    background-color: rgb(230, 186, 230);
+}
+
+
