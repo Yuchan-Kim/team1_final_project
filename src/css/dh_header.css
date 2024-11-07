@@ -17,17 +17,24 @@
 
 /* 헤더 크기 */
 .dy-header {
-    width: 1400px;          /* 전체 화면 너비 */
+    width: 100%;          /* 전체 화면 너비 */
+    height: 60px;
+    margin: 0 auto;         /* 중앙 정렬 */
+    
+    border: 1px solid black;
+}
+
+.dy-header .dy-header-content {
+    width: 60%;
+    min-width: 600px;
     height: 60px;
     margin: 0 auto;         /* 중앙 정렬 */
     display: flex;        /* flex 부모쪽 */
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    
-    border: 1px solid black;
-}
 
+}
 
 /* 로고 */
 .dy-header .dy-logo {
@@ -84,31 +91,48 @@
     display: flex;        /* flex 부모쪽 */
     flex-direction: column;
 
-    width: 120px;
+    width: 130px;
     height: 45px;
     margin-left: 7px;
 
 }
 
-.dy-header .dy-info .dy-afterlogin .dy-header-login-info .dy-link {
+/* 닉네임 */
+.dy-header .dy-info .dy-afterlogin .dy-header-login-info .dy-header-nickname {
+    font-size: 16px;
+}
+
+/* 닉네임 아래줄 모두 */
+/* .dy-header .dy-info .dy-afterlogin .dy-header-login-info .dy-header-pointNlogout {
+
+
+} */
+
+.dy-afterlogin .dy-header-login-info .dy-header-pointNlogout .dy-header-point {
+    float: left;
+}
+
+.dy-afterlogin .dy-header-login-info .dy-header-pointNlogout .dy-header-point img {
+    width: 18px;
+    height: 18px;
+    margin-top: 3px;
+} 
+
+/* 포인트 숫자 */
+.dy-afterlogin .dy-header-login-info .dy-header-pointNlogout .dy-header-point span {
+    margin-left: 5px;
     font-size: 15px;
 }
 
-/* .dy-header .dy-info .dy-afterlogin .dy-header-login-info .dy-header-point {
-    display: flex;        flex 부모쪽 
-    flex-direction: row;
-}
-
-.dy-afterlogin .dy-header-login-info .dy-header-point img {
-    width: 10px;
-    height: 10px;
-} */
-
-.dy-afterlogin .dy-header-login-info .dy-logout-btn {
-    font-size: 12px;
+/* 로그아웃 버튼 */
+.dy-afterlogin .dy-header-login-info .dy-header-pointNlogout .dy-logout-btn {
+    float: right;
+    margin-top: 6px;
+    font-size: 13px;
     border: none;
+    background-color: white;
 }
-.dy-afterlogin .dy-header-login-info .dy-logout-btn:hover {
+.dy-afterlogin .dy-header-login-info .dy-header-pointNlogout .dy-logout-btn:hover {
     cursor: pointer;
 }
 

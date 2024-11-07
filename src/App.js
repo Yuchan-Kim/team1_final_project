@@ -1,6 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import DH_Header from './include/DH_Header';
-import DH_Footer from './include/DH_Footer';
+import DH_LoginForm from './user/DH_LoginForm';
+import DH_JoinForm from './user/DH_JoinForm';
+import DH_PwSearch from './user/DH_PwSearch';
+import DH_PwAlter from './user/DH_PwAlter';
+
+
 
 import './css/reset.css';
 
@@ -10,7 +15,10 @@ function App() {
 			<BrowserRouter>
 				<Routes>
 					<Route path='/include/header' element={<DH_Header />} />
-					<Route path='/include/footer' element={<DH_Footer />} />
+					<Route path='/user/loginform' element={<DH_LoginForm />} />
+					<Route path='/user/joinform' element={<DH_JoinForm />} />
+					<Route path='/user/pwsearch' element={<DH_PwSearch />} />
+					<Route path='/user/pwalter' element={<DH_PwAlter />} />
 				</Routes>
 			</BrowserRouter>
 		</div>

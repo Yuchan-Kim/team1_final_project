@@ -28,51 +28,59 @@ const DH_Header = () => {
     return (
         <>
 			<header className="dy-header">
-				<div className="dy-logo">
-					<Link to="" className="dy-link" rel="noreferrer noopener">
-						<ol>
-							<li>DONKEY</li>
-							<li>동기 키우기</li>
-						</ol>
-					</Link>
-				</div>
-				{/* /dy-logo */}
-
-				<div className="dy-menu">
-					<ol>
-						<li><Link to="" className="dy-link" rel="noreferrer noopener">챌린지</Link></li>
-						<li><Link to="" className="dy-link" rel="noreferrer noopener">커뮤니티</Link></li>
-						<li><Link to="" className="dy-link" rel="noreferrer noopener">랭킹</Link></li>
-						<li><Link to="" className="dy-link" rel="noreferrer noopener">상점</Link></li>
-						<li><Link to="" className="dy-link" rel="noreferrer noopener">고객센터</Link></li>
-					</ol>
-				</div>
-				{/* /dy-menu */}
-
-				<div className="dy-info">
-					{state === 1 ? (
-						<>
-							<ol className="dy-beforelogin">
-								<li><Link to="" className="dy-link" rel="noreferrer noopener">로그인</Link></li>
-								<li><Link to="" className="dy-link" rel="noreferrer noopener">가입하기</Link></li>
+				<div className="dy-header-content">
+					<div className="dy-logo">
+						<Link to="" className="dy-link" rel="noreferrer noopener">
+							<ol>
+								<li>DONKEY</li>
+								<li>동기 키우기</li>
 							</ol>
-						</>
-					):(
-						<>
-							<div className="dy-afterlogin">
-								<Link to="">
-									<img src="../images/profile.png" className="dy-header-profile" alt="profile" />
-								</Link>
-								<ol className="dy-header-login-info">
-									<li><Link to="" className="dy-link" rel="noreferrer noopener">씽씽이도둑김유찬</Link></li>
-									{/* <li className="dy-header-point"><img src="../images/point.png" alt="point" />3600</li> */}
-									<li><button className="dy-logout-btn">로그아웃</button></li>
-								</ol>
-							</div>
-						</>
-					)}
+						</Link>
+					</div>
+					{/* /dy-logo */}
 
+					<div className="dy-menu">
+						<ol>
+							<li><Link to="" className="dy-link" rel="noreferrer noopener">챌린지</Link></li>
+							<li><Link to="" className="dy-link" rel="noreferrer noopener">커뮤니티</Link></li>
+							<li><Link to="" className="dy-link" rel="noreferrer noopener">랭킹</Link></li>
+							<li><Link to="" className="dy-link" rel="noreferrer noopener">상점</Link></li>
+							<li><Link to="" className="dy-link" rel="noreferrer noopener">고객센터</Link></li>
+						</ol>
+					</div>
+					{/* /dy-menu */}
+
+					<div className="dy-info">
+						{state === 1 ? (
+							<>
+								<ol className="dy-beforelogin">
+									<li><Link to="" className="dy-link" rel="noreferrer noopener">로그인</Link></li>
+									<li><Link to="" className="dy-link" rel="noreferrer noopener">가입하기</Link></li>
+								</ol>
+							</>
+						):(
+							<>
+								<div className="dy-afterlogin">
+									<Link to="">
+										<img src="../images/profile.png" className="dy-header-profile" alt="profile" />
+									</Link>
+									<ol className="dy-header-login-info">
+										<li className="dy-header-nickname">씽씽이도둑김유찬</li>
+										<li className="dy-header-pointNlogout">
+											<div className="dy-header-point">
+												<img src="../images/point.png" alt="point" />
+												<span>3600</span>
+											</div>
+											<button className="dy-logout-btn">로그아웃</button>
+										</li>
+									</ol>
+								</div>
+							</>
+						)}
+
+					</div>
 				</div>
+				{/* /dy-header-content */}
 			</header>
         </>
     );
