@@ -1,0 +1,27 @@
+@charset "UTF-8";
+
+
+/* 부모 클래스: .hmk_header .hmk_menu ul */
+.hmk_header .hmk_menu ul {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+}
+
+.hmk_header .hmk_menu2 {
+    position: absolute;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.hmk_header .hmk_menu2 ul {
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    list-style: none;
+}

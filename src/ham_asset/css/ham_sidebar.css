@@ -1,0 +1,63 @@
+@charset "UTF-8";
+
+/* 부모 클래스: .hmk_sidebar-container */
+.hmk_sidebar-container {
+    width: 220px;
+    padding: 20px;
+    background-color: #ffffff; /* 배경색을 흰색으로 변경 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 추가 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    margin-top: 10px;
+}
+
+/* 부모 클래스: .hmk_sidebar-container h1 */
+.hmk_sidebar-container h1 {
+    font-size: 20px; /* 제목 폰트 크기 조정 */
+    font-weight: bold;
+    color: #333; /* 텍스트 색상 조정 */
+    margin-bottom: 20px;
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* 부모 클래스: .hmk_sidebar ul */
+.hmk_sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin-left: 15px;
+}
+
+/* 부모 클래스: .hmk_sidebar ul li */
+.hmk_sidebar ul li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px; /* 각 항목에 패딩 추가 */
+    border-radius: 5px; /* 항목 모서리 둥글게 */
+    transition: background-color 0.3s; /* 배경색 변경 애니메이션 */
+}
+
+/* 부모 클래스: .hmk_sidebar ul li:hover */
+.hmk_sidebar ul li:hover {
+    background-color: #f0f0f0; /* 호버 시 배경색 변경 */
+}
+
+/* 부모 클래스: .hmk_sidebar ul li img */
+.hmk_sidebar ul li img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+/* 부모 클래스: .hmk_sidebar ul li a */
+.hmk_sidebar ul li a {
+    font-size: 14px; /* 링크 폰트 크기 */
+    color: #333; /* 링크 텍스트 색상 */
+    text-decoration: none; /* 링크에 밑줄 제거 */
+}
+
+/* 부모 클래스: .hmk_sidebar ul li a:hover */
+.hmk_sidebar ul li a:hover {
+    color: #5c6bc0; /* 호버 시 색상 변경 */
+}
