@@ -1,0 +1,117 @@
+/* 기존 jm- 클래스명 유지 */
+.jm-room-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.jm-c-title {
+    font-size: 35px;
+    font-weight: bold;
+    flex-basis: 18%;
+}
+
+.jm-c-time {
+    text-align: left;
+    padding-top: 20px;
+    margin-left: 10px;
+    flex-grow: 3; 
+    flex-basis: 0px;
+}
+
+/* 시작 버튼 */
+.jm-c-start {
+    flex-grow: 0; 
+    flex-basis: auto;
+    padding: 10px 20px;
+    background-color: #1a6ddb;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    
+}
+
+.jm-c-start:hover {
+    background-color: #155bb5;
+}
+
+/* 방장용 버튼 색상 변경 */
+.jm-room-header .jm-c-start.host {
+    background-color: #28a745; /* 초록색 */
+}
+
+.jm-room-header .jm-c-start.host:hover {
+    background-color: #218838;
+}
+
+/* 태그 박스 */
+.jm-tags {
+    margin-bottom: 30px;
+}
+
+.jm-tag-box {
+    border: solid 1px #1a6ddb;
+    border-radius: 8px;
+    padding: 5px 10px;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+/* 새로 추가된 yc- 클래스명 */
+.yc-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.yc-modal {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.yc-modal-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.yc-modal-confirm,
+.yc-modal-cancel {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.yc-modal-confirm {
+    background-color: #1a6ddb;
+    color: white;
+}
+
+.yc-modal-confirm:hover {
+    background-color: #155bb5;
+}
+
+.yc-modal-cancel {
+    background-color: #ccc;
+    color: black;
+}
+
+.yc-modal-cancel:hover {
+    background-color: #999;
+}

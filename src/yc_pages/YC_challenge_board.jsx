@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../yc_assets/yc_css/yc_css_challenge_board.css";
 import Sidebar from "../yc_pages/YC_challenge_sidebar.jsx";
+import Header from "./JMYC_challenge_header.jsx";
 
 const YcChallengeBoard = () => {
     const [notices, setNotices] = useState([
@@ -53,10 +54,10 @@ const YcChallengeBoard = () => {
 
     return (
         <div className="wrap">
-            <Sidebar />
+            <div> <Sidebar/> </div>
             {/* 메인 콘텐츠 섹션 */}
             <main className="yc_challenge_main-content">
-
+                <Header/>
                 <div className="yc_challenge_content">
                     {/* 공지 / 유의사항 섹션 */}
                     <section className="yc_challenge_notice-section">

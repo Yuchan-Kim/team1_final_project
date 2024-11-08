@@ -3,7 +3,9 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../yc_assets/yc_css/yc_css_challenge_statistics.css";
 import Sidebar from "./YC_challenge_sidebar.jsx";
-import { Doughnut } from "react-chartjs-2"; // Changed to Doughnut
+import Header from "./JMYC_challenge_header.jsx";
+import YCProfileInfo from "../yc_pages/YC_profile_info.jsx";
+import { Doughnut } from "react-chartjs-2"; 
 import {
     Chart as ChartJS,
     ArcElement,
@@ -17,6 +19,9 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 const YCChallengeStatistics = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+
+  const [isProfileOpen, setProfileOpen] = useState(false); // 프로필 모달 상태 추가
+  const [profileUser, setProfileUser] = useState(null);
 
   const users = [
     { id: 1, name: "함민규", progress: 92, details: "줄넘기 5000번 뛰기 15회 달성!" },
@@ -42,6 +47,16 @@ const YCChallengeStatistics = () => {
     setSelectedUser(null);
   };
 
+  const openProfile = (user) => {
+    setProfileUser(user);
+    setProfileOpen(true);
+  };
+
+  const closeProfile = () => {
+    setProfileOpen(false);
+    setProfileUser(null);
+  };
+
   const chartData = selectedUser ? {
     labels: ["완료", "미완료"],
     datasets: [
@@ -56,8 +71,10 @@ const YCChallengeStatistics = () => {
 
   return (
     <div className="wrap">
-      <Sidebar />
+      <div> <Sidebar/> </div>
+      
       <div className="yc_challenge_statistics_main">
+        <Header/>
         <h2 className="yc_challenge_statistics_title">유저 현황</h2>
 
         {/* 전체 달성율 섹션 */}
@@ -104,8 +121,12 @@ const YCChallengeStatistics = () => {
                 {emojis[index % emojis.length]}
               </span>
               <div className="yc_challenge_statistics_user-info">
-                <Link to="#" className="yc_challenge_statistics_user-name">
-                  {user.name}
+                <Link
+                    to="#"
+                    className="yc_challenge_statistics_user-name"
+                    onClick={() => openProfile(user)} // 프로필 열기 
+                    >
+                    {user.name}
                 </Link>
                 <div className="yc_challenge_statistics_user-progress-bar">
                   <div
@@ -186,6 +207,12 @@ const YCChallengeStatistics = () => {
             </div>
           </div>
         )}
+        {/* 프로필 정보 모달 */}
+        <YCProfileInfo
+          isOpen={isProfileOpen}
+          onClose={closeProfile}
+          user={profileUser} // 선택한 사용자 정보 전달
+        />
       </div>
     </div>
   );

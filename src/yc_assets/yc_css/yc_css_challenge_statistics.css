@@ -1,7 +1,9 @@
 /* 메인 섹션 */
 .yc_challenge_statistics_main{
     margin-left: 250px;
-    padding: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
     box-sizing: border-box; /* 패딩 포함하여 크기 계산 */
     width: calc(100vw - 250px);
 }
@@ -10,7 +12,7 @@
     color: #1d3f72;
     margin-bottom: 20px;
     font-size: 24px; /* 제목 폰트 사이즈 증가 */
-    text-align: center; /* 중앙 정렬 */
+    text-align: left; /* 중앙 정렬 */
     font-weight: bold;
 }
 

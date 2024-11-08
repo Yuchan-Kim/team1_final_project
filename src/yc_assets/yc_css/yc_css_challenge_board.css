@@ -1,15 +1,12 @@
-/* 전체 래퍼 */
-.wrap {
-    width: 1400px; /* 고정 너비 */
-    height: auto;
-}
 
 /* 메인 콘텐츠 */
 .yc_challenge_main-content {
     margin-left: 250px; /* 사이드바 너비만큼 왼쪽 마진 */
-    padding: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
     box-sizing: border-box; /* 패딩 포함하여 크기 계산 */
-    width: 175vh;
+    width: calc(100vw-250px);
 }
 
 /* 콘텐츠 레이아웃 */
@@ -18,7 +15,6 @@
     flex-wrap: wrap;
     justify-content: space-between; /* 요소 사이에 균등한 공간 배분 */
     gap: 20px; /* 요소 간 간격 */
-    width: 100%; /* 컨테이너가 전체 너비 사용 */
 }
 
 /* 공지 섹션 */
