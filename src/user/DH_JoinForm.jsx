@@ -31,7 +31,7 @@ const DH_JoinForm = () => {
 
 			<div className="wrap">
                 <div className="dy-joinform">
-                    <p1 className="dy-joinTitle">가입하고 원하는 콘텐츠를 즐기세요</p1>
+                    <h1 className="dy-joinTitle">가입하고 원하는 콘텐츠를 즐기세요</h1>
 
                     <div className="dy-joinform-content">
                         <div className="dy-joinform-join">

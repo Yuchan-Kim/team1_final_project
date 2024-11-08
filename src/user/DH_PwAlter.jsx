@@ -31,7 +31,7 @@ const DH_PwAlter = () => {
 
 			<div className="wrap">
                 <div className="dy-pwalter">
-                    <p1 className="dy-pwalterTitle">비밀번호 변경</p1>
+                    <h1 className="dy-pwalterTitle">비밀번호 변경</h1>
 
                     <div className="dy-pwalter-content">
                         <div className="dy-pwalter-alter">

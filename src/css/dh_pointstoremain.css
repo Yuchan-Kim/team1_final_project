@@ -1,0 +1,100 @@
+@charset "UTF-8";
+
+/* 링크 */
+.dy-link {
+    color: black; 
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+.dy-link:visited {
+    color: black; 
+}
+
+.dy-link:hover {
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+.wrap {
+    margin: 0 auto;
+
+}
+
+/* 포인트 상점 메인 틀 */
+.dy-pointstoremain {
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 70px;
+
+}
+
+/* 제목 */
+.dy-pointstoremain .dy-pointstoremainTitle {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 50px;
+}
+
+/* 출석하기 버튼 */
+.dy-pointstoremain .dy-attendance {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.dy-pointstoremain .dy-attendance-btn {
+    width: 110px;
+    height: 40px;
+    font-size: 15px;
+    text-align: center;
+    cursor: pointer;
+    margin-right: 70px;
+    margin-bottom: 50px;
+
+    background-color: white;
+    border: 1px solid black;
+}
+
+/* 세션마다 */
+.dy-pointstoremain .dy-product-sections {
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 50px;
+    
+}
+
+/* 세션 제목 */
+.dy-pointstoremain .dy-product-sections .dy-product-header {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+/* 제목빼고 나머지 세션 */
+.dy-pointstoremain .dy-product-sections .dy-product-section {
+    width: 100%;
+    margin: 0 auto;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(5, 1fr);
+    
+}
+
+/* 상품 하나하나 전체칸 (사진 + 정보)*/
+.dy-pointstoremain .dy-product-info {
+    display: flex;
+    flex-direction: column;
+    text-align: flex-start;
+
+    border: 1px solid black;
+}
+
+/* 상품사진 */
+.dy-pointstoremain .dy-product-info .dy-pointstore-pointproduct {
+    width: 230px;
+    height: 230px;
+
+    margin-bottom: 10px;
+}
+
+/* 상품이름, 포인트 가격 */
+.dy-pointstoremain .dy-product-info .dy-product-details {
+    font-size: 15px;
+}

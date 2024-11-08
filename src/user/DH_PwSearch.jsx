@@ -31,7 +31,7 @@ const DH_PwSearch = () => {
 
 			<div className="wrap">
                 <div className="dy-pwsearch">
-                    <p1 className="dy-pwsearchTitle">비밀번호 찾기</p1>
+                    <h1 className="dy-pwsearchTitle">비밀번호 찾기</h1>
 
                     <div className="dy-pwsearch-content">
                         <div className="dy-pwsearch-search">

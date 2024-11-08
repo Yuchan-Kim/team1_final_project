@@ -31,7 +31,7 @@ const DH_LoginForm = () => {
             
 			<div className="wrap">
                 <div className="dy-loginform">
-                    <p1 className="dy-loginTitle">DONKEY에 로그인하기</p1>
+                    <h1 className="dy-loginTitle">DONKEY에 로그인하기</h1>
                     
                     <div className="dy-loginform-content">
                         <div className="dy-api-logins">
