@@ -1,4 +1,4 @@
-// src/components/Topbar.js
+// src/ham_pages/ham_common/ham_topbar.js
 
 /**
  * Topbar 컴포넌트
@@ -18,7 +18,7 @@
  */
 
 import React from 'react';
-// import '../ham_asset/css/ham_topbar.css'; // 상단 바 전용 CSS
+import '../../ham_asset/css/ham_topbar.css'; // 상단 바 전용 CSS
 
 const Topbar = ({
     profileImage,

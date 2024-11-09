@@ -12,7 +12,6 @@
  */
 
 import React from 'react';
-// import '../ham_asset/css/ham_giftcard.css'; // 기프티콘 카드 전용 CSS
 
 const GiftCard = ({ gift, onClick }) => {
     return (

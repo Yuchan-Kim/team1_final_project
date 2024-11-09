@@ -1,4 +1,4 @@
-// src/components/Modal.js
+// src/ham_pages/ham_common/ham_modal.js
 
 /**
  * Modal 컴포넌트
@@ -14,11 +14,13 @@
  * - children: 모달 내부의 내용
  */
 
-import React, { useRef, useEffect } from 'react';
-// import '../ham_asset/css/ham_modal.css'; // 모달 전용 CSS
+// src/ham_common/ham_modal.jsx
+
+import React, { useEffect, useRef } from 'react';
+import FocusTrap from 'focus-trap-react';
 
 const Modal = ({ type, isOpen, onClose, children }) => {
-    const modalRef = useRef(null); // 모달에 포커스를 맞추기 위한 참조
+    const modalRef = useRef(null); // 모달 컨테이너 참조
 
     // 키보드 이벤트를 처리하는 useEffect 훅
     useEffect(() => {
@@ -29,12 +31,11 @@ const Modal = ({ type, isOpen, onClose, children }) => {
         };
 
         if (isOpen) {
-            document.addEventListener('keydown', handleKeyDown); // 모달이 열려있을 때 키보드 이벤트 리스너 추가
-            if (modalRef.current) {
-                modalRef.current.focus(); // 모달이 열리면 포커스 맞추기
-            }
+            // 모달이 열려있을 때 키보드 이벤트 리스너 추가
+            document.addEventListener('keydown', handleKeyDown); 
         } else {
-            document.removeEventListener('keydown', handleKeyDown); // 모달이 닫히면 키보드 이벤트 리스너 제거
+            // 모달이 닫히면 키보드 이벤트 리스너 제거
+            document.removeEventListener('keydown', handleKeyDown); 
         }
 
         // 컴포넌트 언마운트 시 키보드 이벤트 리스너 정리
@@ -47,13 +48,15 @@ const Modal = ({ type, isOpen, onClose, children }) => {
     if (!isOpen) return null;
 
     return (
-        <div className={`hmk_${type}-modal`} role="dialog" aria-modal="true">
-            <div className={`hmk_${type}-modal-content`} ref={modalRef} tabIndex="-1">
-                {/* 모달 닫기 버튼 */}
-                <button className="hmk_close-modal" onClick={onClose} aria-label="Close Modal">×</button>
-                {children} {/* 모달 내부의 내용 */}
+        <FocusTrap>
+            <div className={`hmk_${type}-modal`} role="dialog" aria-modal="true">
+                <div className={`hmk_${type}-modal-content`} ref={modalRef}>
+                    {/* 모달 닫기 버튼 */}
+                    <button className="hmk_close-modal" onClick={onClose} aria-label="Close Modal">×</button>
+                    {children} {/* 모달 내부의 내용 */}
+                </div>
             </div>
-        </div>
+        </FocusTrap>
     );
 };
 

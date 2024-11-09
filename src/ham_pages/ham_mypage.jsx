@@ -1,31 +1,18 @@
+// src/ham_pages/ham_mypage.jsx
+
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Chart from 'chart.js/auto'; // 차트 만드는 라이브러리
+
+// Header, Sidebar, Topbar 컴포넌트 import
+import Header from './ham_common/ham_header';
+import Sidebar from './ham_common/ham_sidebar';
+import Topbar from './ham_common/ham_topbar';
+
+//공통 리셋 & 마이페이지 스타일 
 import '../ham_asset/css/reset.css';
-import '../ham_asset/css/mypage.css';
+import '../ham_asset/css/ham_mypage.css';
 
-// 아이콘 이미지 import
-import ChallengeIcon from '../ham_asset/images/challenge.png';
-import FriendsIcon from '../ham_asset/images/friends.png';
-import PointsIcon from '../ham_asset/images/points.png';
-import InventoryIcon from '../ham_asset/images/inventory.png';
-
-// 공용 이미지 import
-import DefaultProfile from '../ham_asset/images/profile-fill.png'; // 기본 프로필 이미지
-import InitialProfileImage from '../ham_asset/images/IMG_4879.jpg'; // 초기 프로필 이미지
-
-// 공통 Modal 컴포넌트(정보 수정용 모달창 공통틀)
-const Modal = ({ type, isOpen, onClose, children }) => {
-    if (!isOpen) return null; // isOpen이 false이면 모달을 렌더링하지 않음
-    return (
-        <div className={`hmk_${type}-modal`}>
-            <div className={`hmk_${type}-modal-content`}>
-                <button className="hmk_close-modal" onClick={onClose}>×</button>
-                {children}
-            </div>
-        </div>
-    );
-};
 
 // 차트 출력용 더미 데이터
 const chartData = [
@@ -54,22 +41,7 @@ const challenges = {
 };
 
 const MyPage = () => {
-    // 모달 초기 상태값 세팅
-    const [modalState, setModalState] = useState({
-        profile: false,
-        password: false,
-        address: false,
-        nickname: false,
-    });
-    // 프로필 편집용 상태값
-    const [selectedProfileImage, setSelectedProfileImage] = useState(null); // 선택된 프로필 이미지
-    const [profileImage, setProfileImage] = useState(InitialProfileImage);    // 현재 프로필 이미지
-    // 비밀번호 편집용 상태값
-    const [currentPassword, setCurrentPassword] = useState(''); // 현재 비밀번호
-    const [newPassword, setNewPassword] = useState(''); // 새 비밀번호
-    // 지역설정 편집용 상태값
-    const [newAddress, setNewAddress] = useState(''); // 새로 입력한 지역 정보
-    const [newNickname, setNewNickname] = useState(''); // 새로 입력한 닉네임
+    
     // 챌린지 히스토리 탭 전환 상태값
     const [activeTab, setActiveTab] = useState('ongoing'); // 현재 활성화된 챌린지 탭 (진행 중, 시작 전, 종료)
 
@@ -146,157 +118,34 @@ const MyPage = () => {
         setActiveTab(tab); // 클릭된 탭으로 activeTab 업데이트
     };
 
-    // 모달 열기
-    const openModal = (type) => {
-        setModalState(prev => ({ ...prev, [type]: true })); // 해당 모달 유형의 상태를 true로 설정
-    };
-
-    // 모달 닫기
-    const closeModal = (type) => {
-        setModalState(prev => ({ ...prev, [type]: false })); // 해당 모달 유형의 상태를 false로 설정
-        if (type === 'nickname') setNewNickname(''); // 닉네임 모달 닫힐 때 입력값 초기화
-        if (type === 'address') setNewAddress(''); // 주소 모달 닫힐 때 입력값 초기화
-        if (type === 'password') {
-            setCurrentPassword(''); // 비밀번호 모달 닫힐 때 입력값 초기화
-            setNewPassword('');
-        }
-    };
-
-    // 정보 변경 확인
-    const handleChange = (type) => {
-        switch (type) {
-            case 'nickname':
-                console.log('New Nickname:', newNickname); // 새 닉네임 출력
-                closeModal('nickname');
-                break;
-            case 'address':
-                console.log('New Address:', newAddress); // 새 주소 출력
-                closeModal('address');
-                break;
-            case 'password':
-                console.log('Current Password:', currentPassword); // 현재 비밀번호 출력
-                console.log('New Password:', newPassword); // 새 비밀번호 출력
-                closeModal('password');
-                break;
-            default:
-                break;
-        }
-    };
-
-    // 프로필 이미지 선택 시 상태 업데이트
-    const handleProfileSelect = (imageSrc) => {
-        setSelectedProfileImage(imageSrc); // 선택된 프로필 이미지 상태로 저장
-    };
-
-    // 선택된 프로필 이미지 저장 및 모달 닫기
-    const handleProfileConfirm = () => {
-        if (selectedProfileImage) {
-            setProfileImage(selectedProfileImage); // 프로필 이미지 상태 업데이트
-        }
-        closeModal('profile');
+    // 로그아웃 핸들러 (예시)
+    const handleLogout = () => {
+        // 로그아웃 로직 추가
+        console.log("로그아웃");
     };
 
     return (
         <div className="wrap">
-            <header className="hmk_header">
-                <img src="https://via.placeholder.com/50" alt="Logo" className="hmk_logo" />
-                <div className="hmk_topmenu">
-                    <ul className="hmk_menu">
-                        <li><Link to="#">챌린지</Link></li>
-                        <li><Link to="#">커뮤니티</Link></li>
-                        <li><Link to="#">힝키</Link></li>
-                        <li><Link to="#">상점</Link></li>
-                        <li><Link to="#">고객센터</Link></li>
-                    </ul>
-                    <ul className="hmk_menu2">
-                        <li>
-                            <Link to="#">
-                                <img src={profileImage || DefaultProfile} alt="Profile" />
-                            </Link>
-                        </li>
-                        <li><p>씽씽이김유찬</p></li>
-                        <li><span>3600</span></li>
-                        <li><Link to="#">로그아웃</Link></li>
-                    </ul>
-                </div>
-            </header>
+            {/* Header 컴포넌트 */}
+            <Header
+                // profileImage는 Topbar 내에서 관리되므로 MyPage에서는 전달하지 않음
+                username="씽씽이김유찬"
+                points="3600"
+                onLogout={handleLogout}
+            />
 
+            {/* 메인 컨테이너 */}
             <div className="hmk_main-container">
-                <aside className="aside">
-                    <h1>나의 정보</h1>
-                    <div className="hmk_sidebar">
-                        <ul>
-                            <li>
-                                <img src={ChallengeIcon} alt="Challenge" className="Challenge_ico" />
-                                <Link to="#">나의 챌린지</Link>
-                            </li>
-                            <li>
-                                <img src={FriendsIcon} alt="Friends" className="Fr_ico" />
-                                <Link to="#">친구</Link>
-                            </li>
-                            <li>
-                                <img src={PointsIcon} alt="Points" className="Point_ico" />
-                                <Link to="/user/mypoint">포인트 내역</Link>
-                            </li>
-                            <li>
-                                <img src={InventoryIcon} alt="Inventory" className="inven_ico" />
-                                <Link to="/user/cargo">보관함</Link>
-                            </li>
-                        </ul>
-                    </div>
-                </aside>
+                {/* Sidebar 컴포넌트 */}
+                <Sidebar />
 
+                {/* 메인 콘텐츠 영역 */}
                 <div className="hmk_main">
-                    <div className="hmk_topbar">
-                        <div className="hmk_Profile">
-                            <div className="hmk_profile-container">
-                                <div className="hmk_profile-image">
-                                    <img src={profileImage} alt="Profile" />
-                                    <button className="hmk_edit-profile" onClick={() => openModal('profile')}>
-                                        <span className="hmk_edit-pficon">✎</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <ul>
-                                <li>
-                                    <Link to="#">{newNickname || "씽씽이김유찬"}</Link>
-                                    <button id="nickchange" className="hmk_edit-button" onClick={() => openModal('nickname')}>
-                                        <span className="hmk_edit-icon">✎</span>
-                                    </button>
-                                </li>
-                                <li>
-                                    <Link to="#">{newAddress || "경기 어디"}</Link>
-                                    <button id="addchange" className="hmk_edit-button" onClick={() => openModal('address')}>
-                                        <span className="hmk_edit-icon">✎</span>
-                                    </button>
-                                </li>
-                                <li>
-                                    <Link to="#">비밀번호 변경</Link>
-                                    <button id="pwchange" className="hmk_edit-button" onClick={() => openModal('password')}>
-                                        <span className="hmk_edit-icon">✎</span>
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="hmk_statistics">
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <th>진행중인 챌린지</th>
-                                        <th>시작 예정 챌린지</th>
-                                        <th>완료 챌린지</th>
-                                        <th>랭킹</th>
-                                    </tr>
-                                    <tr>
-                                        <td>5개</td>
-                                        <td>2개</td>
-                                        <td>213개</td>
-                                        <td>미진입</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    {/* Topbar 컴포넌트 */}
+                    <Topbar
+                        username="씽씽이김유찬"
+                        points="3600"
+                    />
 
                     <div className="hmk_stat-container">
                         {chartData.map((chart) => (
@@ -340,98 +189,6 @@ const MyPage = () => {
                     </div>
                 </div>
             </div>
-
-            {/* 프로필 변경 모달 (map으로 리스트 뿌리기 기능)*/}
-            <Modal type="profile" isOpen={modalState.profile} onClose={() => closeModal('profile')}>
-                <h2>프로필 변경</h2>
-                <p>자신의 프로필을 꾸며보세요</p>
-                <div className="hmk_profile-options">
-                    {["../ham_asset/images/IMG_4879.jpg", "../ham_asset/images/IMG_4878.jpg", "../ham_asset/images/IMG_4646.jpg", "../ham_asset/images/IMG_4645.jpg", "../ham_asset/images/IMG_4643.jpg"].map((src) => (
-                        <img
-                            key={src}
-                            src={src}
-                            alt="프로필 선택"
-                            onClick={() => handleProfileSelect(src)}
-                            className={selectedProfileImage === src ? "selected-profile" : ""}
-                        />
-                    ))}
-                </div>
-                <div className="hmk_profile-actions">
-                    <button onClick={handleProfileConfirm}>확인</button>
-                    <button>포인트 상점 이동</button>
-                    <button>기본 이미지 적용</button>
-                    <button onClick={() => closeModal('profile')}>취소</button>
-                </div>
-            </Modal>
-
-            {/* 닉네임 변경 모달 */}
-            <Modal type="nickname" isOpen={modalState.nickname} onClose={() => closeModal('nickname')}>
-                <h2>닉네임 변경</h2>
-                <p>새로운 닉네임을 입력해주세요</p>
-                <div className="hmk_nickname-field">
-                    <label htmlFor="new-nickname">닉네임 (필수)</label>
-                    <input
-                        id="new-nickname"
-                        type="text"
-                        placeholder="새 닉네임 입력"
-                        value={newNickname}
-                        onChange={(e) => setNewNickname(e.target.value)}
-                    />
-                </div>
-                <div className="hmk_nickname-actions">
-                    <button onClick={() => closeModal('nickname')}>취소</button>
-                    <button onClick={() => handleChange('nickname')}>확인</button>
-                </div>
-            </Modal>
-
-            {/* 지역 변경 모달 */}
-            <Modal type="address" isOpen={modalState.address} onClose={() => closeModal('address')}>
-                <h2>지역 변경</h2>
-                <p>새로운 지역을 입력해주세요</p>
-                <div className="hmk_address-field">
-                    <label htmlFor="new-address">지역</label>
-                    <input
-                        id="new-address"
-                        type="text"
-                        placeholder="새 지역 입력"
-                        value={newAddress}
-                        onChange={(e) => setNewAddress(e.target.value)}
-                    />
-                </div>
-                <div className="hmk_address-actions">
-                    <button onClick={() => closeModal('address')}>취소</button>
-                    <button onClick={() => handleChange('address')}>확인</button>
-                </div>
-            </Modal>
-
-            {/* 비밀번호 변경 모달 */}
-            <Modal type="password" isOpen={modalState.password} onClose={() => closeModal('password')}>
-                <h2>비밀번호 변경</h2>
-                <div className="hmk_password-field">
-                    <label htmlFor="current-password">비밀번호</label>
-                    <input
-                        id="current-password"
-                        type="password"
-                        placeholder="30자 이내"
-                        value={currentPassword}
-                        onChange={(e) => setCurrentPassword(e.target.value)}
-                    />
-                </div>
-                <div className="hmk_password-field">
-                    <label htmlFor="new-password">새 비밀번호</label>
-                    <input
-                        id="new-password"
-                        type="password"
-                        placeholder="30자 이내"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                    />
-                </div>
-                <div className="hmk_password-actions">
-                    <button onClick={() => closeModal('password')}>취소</button>
-                    <button onClick={() => handleChange('password')}>확인</button>
-                </div>
-            </Modal>
         </div>
     );
 };

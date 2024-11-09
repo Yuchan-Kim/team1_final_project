@@ -1,4 +1,4 @@
-// src/components/Header.js
+// src/ham_pages/ham_common/ham_header.jsx
 
 /**
  * Header 컴포넌트
@@ -14,11 +14,33 @@
  * - onLogout: 로그아웃 버튼 클릭 시 호출되는 함수
  */
 
-import React from 'react';
-import { Link } from 'react-router-dom';
-import '../ham_asset/css/ham_header.css'; // 헤더 전용 CSS
+// src/ham_pages/ham_common/ham_header.jsx
 
-const Header = ({ profileImage, username, points, onLogout }) => {
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import '../../ham_asset/css/ham_header.css'; // 헤더 전용 CSS
+import profileStore from './profileStore'; // profileStore 임포트
+
+const Header = ({ onLogout }) => {
+    const [profileImage, setProfileImage] = useState(profileStore.getProfileImage());
+    const [nickname, setNickname] = useState(profileStore.getNickname());
+    const [points, setPoints] = useState("3600"); // 고정 값 또는 다른 방식으로 관리
+
+    useEffect(() => {
+        // profileStore에 구독자 추가
+        const handleProfileChange = (updatedProfile) => {
+            setProfileImage(updatedProfile.profileImage);
+            setNickname(updatedProfile.nickname);
+        };
+
+        profileStore.subscribe(handleProfileChange);
+
+        // 컴포넌트 언마운트 시 구독 해제
+        return () => {
+            profileStore.unsubscribe(handleProfileChange);
+        };
+    }, []);
+
     return (
         <header className="hmk_header">
             {/* 로고 이미지 */}
@@ -40,7 +62,7 @@ const Header = ({ profileImage, username, points, onLogout }) => {
                             <img src={profileImage} alt="Profile" />
                         </Link>
                     </li>
-                    <li><p>{username}</p></li> {/* 사용자 이름 */}
+                    <li><p>{nickname}</p></li> {/* 사용자 닉네임 */}
                     <li><span>{points}</span></li> {/* 사용자 포인트 */}
                     <li><Link to="#" onClick={onLogout}>로그아웃</Link></li> {/* 로그아웃 링크 */}
                 </ul>
@@ -50,3 +72,5 @@ const Header = ({ profileImage, username, points, onLogout }) => {
 };
 
 export default Header;
+
+

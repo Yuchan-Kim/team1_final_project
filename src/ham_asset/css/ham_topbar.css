@@ -1,9 +1,16 @@
 @charset "UTF-8";
 
-/* src/ham_asset/css/topbar.css */
+/************************* < 상단바 스타일 > **************************/
 
-/* 부모 클래스: .hmk_topbar */
-.hmk_topbar {
+.wrap .hmk_main-container .hmk_main {
+    width: 1170px;
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-left: 1px solid #e0e0e0;
+}
+
+.wrap .hmk_main-container .hmk_main .hmk_topbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -11,29 +18,26 @@
     background-color: #e0e0e0;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
-    margin-bottom: 20px;
 }
 
-/* 부모 클래스: .hmk_Profile */
-.hmk_Profile {
+/* 프로필 이미지 및 편집 버튼 스타일 */
+.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_Profile {
     display: flex;
     align-items: center;
 }
 
-/* 부모 클래스: .hmk_profile-container */
-.hmk_profile-container {
+/* 프로필 이미지 컨테이너 스타일 */
+.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_Profile .hmk_profile-container {
     position: relative;
+    padding-top: 10px;
     width: 110px;
     height: 110px;
     border-radius: 30%;
-    /* 둥글게 곡선 처리 */
     overflow: hidden;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-    /* 부드러운 그림자 효과 추가 */
 }
 
-/* 부모 클래스: .hmk_profile-image */
-.hmk_profile-image img {
+/* 프로필 이미지 스타일 */
+.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_Profile .hmk_profile-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -41,10 +45,11 @@
     /* 프로필 이미지도 곡선 처리 */
 }
 
-/* 부모 클래스: .hmk_edit-profile */
-.hmk_edit-profile {
+/* 편집 버튼 스타일 */
+.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_Profile .hmk_edit-profile {
     position: absolute;
     bottom: 7px;
+    /* 둥근 영역 하단에 맞게 배치 */
     right: 7px;
     background-color: rgba(255, 255, 255, 0.9);
     border: none;
@@ -61,21 +66,20 @@
     z-index: 10;
 }
 
-/* 부모 클래스: .hmk_edit-pficon */
-.hmk_edit-pficon {
+/* 편집 아이콘 스타일 */
+.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_Profile .hmk_edit-pficon {
     font-size: 12px;
     color: #333;
 }
 
-/* 부모 클래스: .hmk_Profile ul */
-.hmk_Profile ul {
+/* 프로필 목록과 편집 버튼 스타일 */
+.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_Profile ul {
     list-style: none;
     padding-left: 20px;
     margin: 0;
 }
 
-/* 부모 클래스: .hmk_Profile ul li */
-.hmk_Profile ul li {
+.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_Profile ul li {
     font-size: 16px;
     font-weight: bold;
     margin: 10px 0;
@@ -84,8 +88,7 @@
     gap: 5px;
 }
 
-/* 부모 클래스: .hmk_edit-button */
-.hmk_edit-button {
+.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_Profile .hmk_edit-button {
     background-color: white;
     border: none;
     border-radius: 50%;
@@ -98,14 +101,14 @@
     cursor: pointer;
 }
 
-/* 부모 클래스: .hmk_edit-icon */
-.hmk_edit-icon {
+/* 각 프로필 항목의 편집 아이콘 */
+.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_Profile .hmk_edit-icon {
     font-size: 10px;
     color: black;
 }
 
-/* 부모 클래스: .hmk_statistics */
-.hmk_statistics {
+/* 챌린지 현황 요약 테이블 스타일 */
+.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -114,37 +117,32 @@
     border-radius: 8px;
 }
 
-/* 부모 클래스: .hmk_statistics table */
-.hmk_statistics table {
+.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics table {
     width: 100%;
     border-collapse: collapse;
     text-align: center;
 }
 
-/* 부모 클래스: .hmk_statistics th, .hmk_statistics td */
-.hmk_statistics th,
-.hmk_statistics td {
+.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics th,
+.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics td {
     padding: 10px 20px;
 }
-
-/* 부모 클래스: .hmk_statistics th */
-.hmk_statistics th {
+/* 타이틀 폰트 스타일 및 구분선 */
+.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics th {
     font-size: 14px;
     font-weight: 500;
     color: #4a4a4a;
     border-right: 1px solid #ccc;
 }
-
-/* 부모 클래스: .hmk_statistics td */
-.hmk_statistics td {
+/* 데이터 폰트 스타일 및 구분선  */
+.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics td {
     font-size: 20px;
     font-weight: bold;
     color: #333;
     border-right: 1px solid #ccc;
 }
 
-/* 부모 클래스: .hmk_statistics th:last-child, .hmk_statistics td:last-child */
-.hmk_statistics th:last-child,
-.hmk_statistics td:last-child {
+.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics th:last-child,
+.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics td:last-child {
     border-right: none;
 }

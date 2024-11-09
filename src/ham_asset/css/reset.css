@@ -12,7 +12,8 @@ header, footer, main, nav, section, article, aside {
 
 /* 기본 틀 초기세팅 */
 .wrap {
-    width: 1400px;
+    width: 100vw;
+    height: 100vh;
 }
 
 /* 리스트 스타일 초기화 */

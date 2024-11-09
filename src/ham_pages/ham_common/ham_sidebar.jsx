@@ -1,4 +1,4 @@
-// src/components/Sidebar.js
+// src/ham_pages/ham_common/ham_sidebar.jsx
 
 /**
  * Sidebar 컴포넌트
@@ -9,11 +9,11 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import ChallengeIcon from '../ham_asset/images/challenge.png';
-import FriendsIcon from '../ham_asset/images/friends.png';
-import PointsIcon from '../ham_asset/images/points.png';
-import InventoryIcon from '../ham_asset/images/inventory.png';
-import '../ham_asset/css/ham_sidebar.css'; // 사이드바 전용 CSS
+import ChallengeIcon from '../../ham_asset/images/challenge.png';
+import FriendsIcon from '../../ham_asset/images/friends.png';
+import PointsIcon from '../../ham_asset/images/points.png';
+import InventoryIcon from '../../ham_asset/images/inventory.png';
+import '../../ham_asset/css/ham_sidebar.css'; // 사이드바 전용 CSS
 
 const Sidebar = () => {
     return (
@@ -35,7 +35,7 @@ const Sidebar = () => {
                     </li>
                     <li>
                         <img src={InventoryIcon} alt="Inventory" className="hmk_sidebar-icon" />
-                        <Link to="#">보관함</Link>
+                        <Link to="/user/cargo">보관함</Link>
                     </li>
                 </ul>
             </div>
