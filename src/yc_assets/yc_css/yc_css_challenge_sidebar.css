@@ -95,6 +95,7 @@
     margin-bottom: 10px;
     cursor: pointer;
     border-radius: 4px;
+    font-size: 20px;
 }
 
 /* 링크 스타일 */
@@ -109,7 +110,7 @@
 .yc_challenge_sidebar_submission-status,
 .yc_challenge_sidebar_user-status,
 .yc_challenge_sidebar_board {
-    padding-left: 20px;
+    margin-left: 20px;
 }
 
 /* 메뉴 아이템 호버 및 활성화 스타일 */

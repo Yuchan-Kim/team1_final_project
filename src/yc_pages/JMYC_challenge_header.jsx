@@ -48,7 +48,7 @@ const JMYCChallengeHeader = ({ userType }) => {
 
     const handleConfirmStartChallenge = () => {
         // 챌린지 시작 로직 추가
-        setIsRecruiting(false);
+        setIsRecruiting(false); // 챌린지 시작 후 모집 상태를 false로 변경
         setShowStartChallengeModal(false);
     };
 

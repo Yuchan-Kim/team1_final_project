@@ -27,18 +27,18 @@ const YCChallengeSidebar = () => {
             {/* 메뉴 섹션 */}
             <nav className="yc_challenge_menu">
                 <ul>
-                    <li className="yc_challenge_sidebar_home"><Link to="/">홈</Link></li>
-                    <li className="yc_challenge_sidebar_home"><Link to="#e">공지/유의 사항</Link></li>
+                    <li className="yc_challenge_sidebar_home"><Link to="/cmain">홈</Link></li>
+                    <li className="yc_challenge_sidebar_home"><Link to="/board">공지/유의 사항</Link></li>
                     <li className="yc_challenge_sidebar_mission" onClick={toggleMission}>
                         미션
                     </li>
                     {isMissionOpen && (
                         <>
                             <li className="yc_challenge_sidebar_mission-detail">
-                                <Link to="#">미션 상세</Link>
+                                <Link to="/missioninfo">미션 상세</Link>
                             </li>
                             <li className="yc_challenge_sidebar_submission-status">
-                                <Link to="#">제출 현황</Link>
+                                <Link to="/mission">제출 현황</Link>
                             </li>
                         </>
                     )}
@@ -48,7 +48,7 @@ const YCChallengeSidebar = () => {
                     {isCommunityOpen && (
                         <>
                             <li className="yc_challenge_sidebar_user-status">
-                                <Link to="#">유저 현황</Link>
+                                <Link to="/stat">유저 현황</Link>
                             </li>
                             <li className="yc_challenge_sidebar_board">
                                 <Link to="#">게시판</Link>
