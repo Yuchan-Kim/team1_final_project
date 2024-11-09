@@ -1,6 +1,6 @@
 //import 라이브러리
 import React from 'react';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 // import React, {useState} from 'react';	화면 상태관리
 // import { useSearchParams} from 'react-router-dom';	파라미터값사용하는 라우터
 

@@ -7,7 +7,6 @@ import DH_PwSearch from './user/DH_PwSearch';
 import DH_PwAlter from './user/DH_PwAlter';
 
 import DH_PointStoreMain from './pointstore/DH_PointStoreMain';
-import DH_PointStoreDetail from './pointstore/DH_PointStoreDetail';
 
 
 import './css/reset.css';
@@ -25,7 +24,6 @@ function App() {
 					<Route path='/user/pwalter' element={<DH_PwAlter />} />
 
 					<Route path='/pointstore/pointstoremain' element={<DH_PointStoreMain />} />
-					<Route path='/pointstore/pointstoredetail' element={<DH_PointStoreDetail />} />
 				</Routes>
 			</BrowserRouter>
 		</div>
