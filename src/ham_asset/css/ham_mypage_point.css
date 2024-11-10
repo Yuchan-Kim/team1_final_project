@@ -238,3 +238,15 @@
     background-color: #f2cccf; /* 활성화된 버튼의 배경색 */
     font-weight: bold; /* 강조 효과 */
 }
+
+/* 포인트 내역 섹션 내 포인트 테이블의 적립 포인트 스타일 */
+.wrap .hmk_main-container .hmk_main .hmk_point-history .hmk_point-table tbody tr td .earned {
+    color: #007BFF; /* 파란색 */
+    font-weight: bold;
+}
+
+/* 포인트 내역 섹션 내 포인트 테이블의 사용 포인트 스타일 */
+.wrap .hmk_main-container .hmk_main .hmk_point-history .hmk_point-table tbody tr td .spent {
+    color: #000; /* 검은색 */
+    font-weight: bold;
+}
