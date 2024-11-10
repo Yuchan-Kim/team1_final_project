@@ -71,7 +71,7 @@ const DH_JoinForm = () => {
                             <div className="dy-api-join">네이버로 계속하기</div>
                         </div>
 
-                        <div className="dy-to-loginform">이미 계정이 있나요? 여기에서 <Link to="" className="dy-link" rel="noreferrer noopener">로그인</Link>하세요</div>
+                        <div className="dy-to-loginform">이미 계정이 있나요? 여기에서 <Link to="/user/loginform" className="dy-link" rel="noreferrer noopener">로그인</Link>하세요</div>
                     </div>
                     {/* /dy-joinform-content */}
                 </div>

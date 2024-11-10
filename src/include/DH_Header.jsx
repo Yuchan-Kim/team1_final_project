@@ -44,7 +44,7 @@ const DH_Header = () => {
 							<li><Link to="" className="dy-link" rel="noreferrer noopener">챌린지</Link></li>
 							<li><Link to="" className="dy-link" rel="noreferrer noopener">커뮤니티</Link></li>
 							<li><Link to="" className="dy-link" rel="noreferrer noopener">랭킹</Link></li>
-							<li><Link to="" className="dy-link" rel="noreferrer noopener">상점</Link></li>
+							<li><Link to="/pointstore/pointstoremain" className="dy-link" rel="noreferrer noopener">상점</Link></li>
 							<li><Link to="" className="dy-link" rel="noreferrer noopener">고객센터</Link></li>
 						</ol>
 					</div>
@@ -54,8 +54,8 @@ const DH_Header = () => {
 						{state === 1 ? (
 							<>
 								<ol className="dy-beforelogin">
-									<li><Link to="" className="dy-link" rel="noreferrer noopener">로그인</Link></li>
-									<li><Link to="" className="dy-link" rel="noreferrer noopener">가입하기</Link></li>
+									<li><Link to="/user/loginform" className="dy-link" rel="noreferrer noopener">로그인</Link></li>
+									<li><Link to="/user/joinform" className="dy-link" rel="noreferrer noopener">가입하기</Link></li>
 								</ol>
 							</>
 						):(

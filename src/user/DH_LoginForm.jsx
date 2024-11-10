@@ -52,8 +52,8 @@ const DH_LoginForm = () => {
                         </div>
 
                         <button type="submit" className="dy-submit-btn">로그인</button>
-                        <div className="dy-password-search"><Link to="" className="dy-link" rel="noreferrer noopener">비밀번호</Link>를 잊었나요?</div>
-                        <div className="dy-to-joinform">계정이 없나요? DONKEY에 <Link to="" className="dy-link" rel="noreferrer noopener">가입하기</Link></div>
+                        <div className="dy-password-search"><Link to="/user/pwsearch" className="dy-link" rel="noreferrer noopener">비밀번호</Link>를 잊었나요?</div>
+                        <div className="dy-to-joinform">계정이 없나요? DONKEY에 <Link to="/user/joinform" className="dy-link" rel="noreferrer noopener">가입하기</Link></div>
 
                     </div>
                     {/* /dy-loginform-content */}

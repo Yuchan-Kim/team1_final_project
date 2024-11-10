@@ -194,7 +194,6 @@
     font-size: 17px;
 
     border: 1px solid black;
-    background-color: lightblue;
 }
 
 .dy-pointstoremain .dy-change-modal h3 {
@@ -241,7 +240,6 @@
     font-size: 17px;
 
     border: 1px solid black;
-    background-color: lightblue;
 }
 
 .dy-pointstoremain .dy-end-modal h3 {
@@ -264,4 +262,31 @@
     border: 1px solid black;
 }
 
+/**********************************************/
+/* 모달창 */
+/**********************************************/
+/* 모달 위치 잡아주기 */
+.modal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 검정 배경 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999; /* 다른 요소 위에 표시 */
+}
+/* 모달 위치 잡아주기 */
+.dy-pointstoremain .dy-detailContent-modal, .dy-change-modal, .dy-end-modal {
+    width: 46%;
+    height: 300px;
+    background-color: white;
+    padding: 20px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1000; /* 배경 위에 표시 */
+}
 

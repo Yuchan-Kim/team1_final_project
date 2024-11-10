@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import DH_Header from './include/DH_Header';
 
 import DH_LoginForm from './user/DH_LoginForm';
 import DH_JoinForm from './user/DH_JoinForm';
@@ -16,8 +15,6 @@ function App() {
 		<div>
 			<BrowserRouter>
 				<Routes>
-					<Route path='/include/header' element={<DH_Header />} />
-
 					<Route path='/user/loginform' element={<DH_LoginForm />} />
 					<Route path='/user/joinform' element={<DH_JoinForm />} />
 					<Route path='/user/pwsearch' element={<DH_PwSearch />} />
