@@ -5,7 +5,7 @@ import React from 'react';
 // import { useSearchParams} from 'react-router-dom';	파라미터값사용하는 라우터
 
 //import 컴포넌트
-import DH_Header from '../include/DH_Header';
+import Header from '../include/DH_Header';
 
 //import css
 import '../css/dh_pwalter.css';
@@ -26,7 +26,7 @@ const DH_PwAlter = () => {
 
     return (
         <>
-            <DH_Header />
+            <Header />
             {/* // header */}
 
 			<div className="wrap">

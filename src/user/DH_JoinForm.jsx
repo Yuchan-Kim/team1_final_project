@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 // import { useSearchParams} from 'react-router-dom';	파라미터값사용하는 라우터
 
 //import 컴포넌트
-import DH_Header from '../include/DH_Header';
+import Header from '../include/DH_Header';
 
 //import css
 import '../css/dh_joinform.css';
@@ -26,7 +26,7 @@ const DH_JoinForm = () => {
 
     return (
         <>
-            <DH_Header />
+            <Header />
             {/* // header */}
 
 			<div className="wrap">
@@ -71,7 +71,7 @@ const DH_JoinForm = () => {
                             <div className="dy-api-join">네이버로 계속하기</div>
                         </div>
 
-                        <div className="dy-to-loginform">이미 계정이 있나요? 여기에서 <Link to="/user/loginform" className="dy-link" rel="noreferrer noopener">로그인</Link>하세요</div>
+                        <div className="dy-to-loginform"><Link to="/user/loginform" className="dy-link" rel="noreferrer noopener">이미 계정이 있나요? 여기에서 로그인하세요</Link></div>
                     </div>
                     {/* /dy-joinform-content */}
                 </div>

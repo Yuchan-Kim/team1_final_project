@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 // import { useSearchParams} from 'react-router-dom';	파라미터값사용하는 라우터
 
 //import 컴포넌트
-import DH_Header from '../include/DH_Header';
+import Header from '../include/DH_Header';
 
 //import css
 import '../css/dh_loginform.css';
@@ -26,7 +26,7 @@ const DH_LoginForm = () => {
 
     return (
         <>
-            <DH_Header />
+            <Header />
             {/* // header */}
             
 			<div className="wrap">
@@ -52,8 +52,8 @@ const DH_LoginForm = () => {
                         </div>
 
                         <button type="submit" className="dy-submit-btn">로그인</button>
-                        <div className="dy-password-search"><Link to="/user/pwsearch" className="dy-link" rel="noreferrer noopener">비밀번호</Link>를 잊었나요?</div>
-                        <div className="dy-to-joinform">계정이 없나요? DONKEY에 <Link to="/user/joinform" className="dy-link" rel="noreferrer noopener">가입하기</Link></div>
+                        <div className="dy-password-search"><Link to="/user/pwsearch" className="dy-link" rel="noreferrer noopener">비밀번호를 잊었나요?</Link></div>
+                        <div className="dy-to-joinform"><Link to="/user/joinform" className="dy-link" rel="noreferrer noopener">계정이 없나요? DONKEY에 가입하기</Link></div>
 
                     </div>
                     {/* /dy-loginform-content */}

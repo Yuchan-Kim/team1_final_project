@@ -42,5 +42,6 @@ a {
 
 /* wrap 크기 설정 */
 .wrap {
-    width: 1400px;
+    width: 100vw;
+    min-width: 1000px;
 }
