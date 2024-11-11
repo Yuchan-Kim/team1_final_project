@@ -1,6 +1,8 @@
 //import 라이브러리
 
 import {React,useState} from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import SearchIcon from '@rsuite/icons/Search';
 import SortDescIcon from '@rsuite/icons/SortDesc';
 
@@ -10,11 +12,18 @@ import '../../css/jy_main.css';
 import Header from '../include/DH_Header';
 
 const Main = () => {
+
+    const navigate = useNavigate();
+
     const [score, setScore] = useState([
         { item: "item1", score: 10 },
         { item: "item2", score: 20 },
         { item: "item3", score: 64 }
     ]);
+
+    const handleNavigate = () => {
+        navigate('/mainlist');
+    };
 
     /*---라우터 관련-------------------------------*/
 
@@ -32,7 +41,7 @@ const Main = () => {
 
             <Header />
 
-            <div id="wrap" className="wrap">
+            <div id="jy_wrap" className="jy_wrap">
 
                 
                 {/* //header + //nav */}
@@ -58,7 +67,7 @@ const Main = () => {
                             
                             {/* //search */}
 
-                            <div id='search-bar'>
+                            {/* <div id='search-bar'>
                                 <div id='search-bar1'>
                                     <div><SortDescIcon/></div>
                                     <div><input type="radio" hidden checked id="menu01" name="searchMenu" /><label htmlFor="menu01"><span className="radioBtn"></span>일반</label></div>
@@ -80,7 +89,7 @@ const Main = () => {
                                     </div>
                                 </div>
                                 
-                            </div>
+                            </div> */}
                             {/* //search-bar */}
 
                             <div id='ad-banner'>

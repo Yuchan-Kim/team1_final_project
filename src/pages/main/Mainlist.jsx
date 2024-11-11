@@ -47,6 +47,10 @@ const Mainlist = () => {
 
                         <div id="board">
 
+                            <div id='search'>
+                                <div><SearchIcon/><input placeholder='Search' /></div>
+                            </div>
+
 
                             <div id='search-bar'>
                                 <div id='search-bar1'>

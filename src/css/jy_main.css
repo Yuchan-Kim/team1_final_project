@@ -1,3 +1,21 @@
+
+/* .jy_wrap {
+    max-width: 1440px;
+    width: 100%;
+    margin: 0 auto;
+    padding:0 20px;
+} */
+
+.jy_main {
+    max-width: 1440px;
+    width: 100vw;
+    min-width: 1000px;
+    margin: 0 auto;
+    padding:0 20px;
+}
+
+/* ##################################################### */
+
 .jy_main #board {
     margin: 10px;
 
@@ -22,7 +40,13 @@
     border:0;
     outline: 0;
     background-color: transparent;
+    width: 100%;
 }
+
+.jy_main #search-bar {
+    margin: 20px;
+}
+
 .jy_main #search-bar1 {
     display: flex;
     gap: 20px;

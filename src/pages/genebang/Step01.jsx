@@ -27,7 +27,7 @@ const Step01 = () => {
 
         <>
 
-            <div id="wrap">
+            <div id="jy_step" className="jy_wrap">
 
                 {/* <Header /> */}
                 {/* //header + //nav */}
