@@ -1,0 +1,194 @@
+.jm-bady {
+  display: flex;
+  width: 100%;
+}
+
+.Sidenav{
+  width: 300px; 
+}
+
+.jm-main-top {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+/* 방소개, 공지, 유의사항 */
+.room-info {
+  flex-grow: 2;
+}
+  
+.room-card {
+  border: solid 1px #ccc;
+  border-radius: 15px;
+  background: #fff;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+  
+.participant-table td {
+  padding: 10px;
+}
+/* 방소개, 공지, 유의사항 */
+
+ 
+/* 방 커뮤니티 */
+.weekly-info {
+  width: 25%;
+  height: 410px;
+  border: 1px solid #ccc;
+  margin-inline: 20px;
+}
+
+#chat-box {
+  height: 300px;
+  margin-bottom: 20px;
+  overflow-y: scroll;
+}
+
+#auestion {
+    display: flex;
+}
+
+#txt-box {
+    height: 30px;
+    width: 90%;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    padding-left: 10px;
+}
+
+#btn-send {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.user-msg-box {
+    width: 100%;
+    text-align: -webkit-right;
+}
+
+.user-msg {
+    width: fit-content;
+    text-align: right;
+    background-color: #fed3d3;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-inline: 10px;
+    font-size: 15px;
+}
+
+.bot-msg {
+    width: fit-content;
+    text-align: left;
+    background-color: #bef3f7;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-inline: 10px;
+    font-size: 15px;
+}
+
+.jm-comunity-tatle {
+  font-size: 20px;
+  margin-left: 15px;
+}
+
+/* 방 유저목록 */
+.participant-info {
+  height: 400px;
+  border-radius: 5px;
+  background: rgb(173, 173, 173);
+  padding: 10px;
+  flex-grow: 1;
+}
+
+.participant-info h3 {
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+.participant-table {
+  width: 100%;
+}
+
+.participant-table th {
+  text-align: center;
+}
+
+.jm-user-list td{
+  text-align: center;
+  padding: 0;
+}
+
+.jm-main-bottom {
+  display: flex;
+}
+
+/* 슬라이더 컨테이너 */
+.mission-slider {
+  width: 80%;
+  overflow-x: auto; /* 수평 스크롤 활성화 */
+  scroll-snap-type: x mandatory; /* 스크롤 스냅 활성화 */
+  -webkit-overflow-scrolling: touch; /* 모바일 환경에서 부드러운 스크롤 */
+}
+
+/* 슬라이더 트랙 */
+.mission-slider-track {
+  display: flex;
+  gap: 20px; /* 슬라이드 간격 */
+}
+
+/* 개별 슬라이드 */
+.mission-slide {
+  flex: 0 0 30%; /* 슬라이드 크기 */
+  background: #f3f3f3;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  scroll-snap-align: start; /* 슬라이드 시작 부분에서 정렬 */
+  text-decoration: none; /* 링크 밑줄 제거 */
+  color: inherit; /* 텍스트 색상 상속 */
+}
+
+/* 이미지 스타일링 */
+.mission-slide img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+/* 스크롤바 스타일 (옵션) */
+.mission-slider::-webkit-scrollbar {
+  height: 8px;
+}
+
+.mission-slider::-webkit-scrollbar-thumb {
+  background: #007bff;
+  border-radius: 4px;
+}
+
+.mission-slider::-webkit-scrollbar-track {
+  background: #f3f3f3;
+}
+
+.mission-summary {
+  width: 30%;
+  margin-left: 30px;
+}
+
+.jm-main-goal-mission {
+  height: 120px;
+  text-decoration: none; /* 링크 밑줄 제거 */
+  color: inherit; /* 텍스트 색상 상속 */
+}
+
+.jm-main-group-mission {
+  height: 120px;
+  text-decoration: none; /* 링크 밑줄 제거 */
+  color: inherit; /* 텍스트 색상 상속 */
+}
