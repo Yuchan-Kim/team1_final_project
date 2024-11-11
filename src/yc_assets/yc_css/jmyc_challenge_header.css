@@ -24,7 +24,7 @@
     flex-grow: 0; 
     flex-basis: auto;
     padding: 10px 20px;
-    background-color: #1a6ddb;
+    background-color: #5E91A7;
     color: white;
     border: none;
     border-radius: 5px;
@@ -35,7 +35,7 @@
 }
 
 .jm-c-start:hover {
-    background-color: #155bb5;
+    background-color: #383E47;
 }
 
 /* 방장용 버튼 색상 변경 */
@@ -53,7 +53,7 @@
 }
 
 .jm-tag-box {
-    border: solid 1px #1a6ddb;
+    border: solid 1px #497B91;
     border-radius: 8px;
     padding: 5px 10px;
     margin-right: 10px;
@@ -99,12 +99,12 @@
 }
 
 .yc-modal-confirm {
-    background-color: #1a6ddb;
+    background-color: #497B91;
     color: white;
 }
 
 .yc-modal-confirm:hover {
-    background-color: #155bb5;
+    background-color: #497B91;
 }
 
 .yc-modal-cancel {

@@ -163,19 +163,6 @@
 }
 
 
-button {
-  background: #1a6ddb;
-  color: white;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #1a43b1;
-}
-
 /* 최종목표 컨테이너 */
 .jm-final-goal {
   margin: 20px;
