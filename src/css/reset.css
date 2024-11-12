@@ -40,8 +40,3 @@ a {
     color: inherit; /* 부모 색상 상속 */
 }
 
-/* wrap 크기 설정 */
-.wrap {
-    width: 100vw;
-    min-width: 1000px;
-}
