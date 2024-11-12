@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 //import 컴포넌트
 
 //import css
-import '../css/dh_header.css';
+import '../../css/dh_header.css';
 
 
 const DH_Header = () => {
