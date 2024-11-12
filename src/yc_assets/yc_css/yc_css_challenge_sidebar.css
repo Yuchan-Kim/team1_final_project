@@ -1,149 +1,86 @@
 /* Sidebar 전체 */
 .yc_challenge_sidebar {
-    position: fixed; /* 고정 위치 */
-    top: 0;
-    left: 0;
-    width: 250px; /* 고정 너비 */
-    height: 100vh; /* 전체 높이 */
+    position: fixed;
+    top: 20px; /* yc-board-wrap의 padding과 맞추기 */
+    left: calc((100vw - 80vw) / 2 + 50px); /* yc-board-wrap의 중앙에 맞춰 좌측 위치 조정 */
+    width: 120px; /* 사이드바 너비 */
+    height: calc(100vh - 130px); /* 상하 padding 고려 */
     display: flex;
     flex-direction: column;
-    padding: 20px;
-    background-color: #497B91; /* 어두운 배경색으로 변경 */
+    padding: 20px 10px; /* 좌우 패딩 조정 */
+    background-color: #f4f4f4; /* 배경색 */
     box-sizing: border-box;
-    overflow-y: auto; /* 사이드바 내용이 길어질 경우 스크롤 추가 */
+    overflow-y: auto; /* 스크롤 추가 */
     z-index: 1000; /* 다른 요소 위에 표시 */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* 사이드바에 그림자 추가 */
-    transition: background-color 0.3s ease; /* 배경색 전환 효과 */
-}
-
-/* 프로필 섹션 */
-.yc_challenge_profile-section {
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 30px; /* 여백 증가 */
-    background-color: #34495e; /* 프로필 섹션 배경색 변경 */
-    padding: 15px;
-    border-radius: 10px;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
-}
-
-/* 프로필 사진 섹션 */
-.yc_challenge_profile-pic-section {
-    flex-shrink: 0; /* 크기 고정 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 15px; /* 사진과 정보 간 간격 추가 */
-}
-
-/* 프로필 사진 */
-.yc_challenge_profile-pic {
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
-    border: 2px solid #ecf0f1; /* 테두리 추가 */
-}
-
-/* 프로필 정보 및 로그아웃 버튼 */
-.yc_challenge_profile-info_logoutBtn {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* 왼쪽 정렬 */
-    justify-content: center;
-}
-
-/* 사용자 이름 */
-.yc_challenge_username {
-    margin: 0;
-    font-size: 18px;
-    color: #ecf0f1;
-    font-weight: bold;
-}
-
-/* 포인트 */
-.yc_challenge_points {
-    font-size: 14px;
-    margin: 5px 0;
-    color: #bdc3c7;
-}
-
-/* 로그아웃 버튼 */
-.yc_challenge_logout-btn {
-    background: #34495e;
-    color: white;
-    border: none;
-    padding: 4px 6px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 10px;
-    font-size: 14px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.yc_challenge_logout-btn:hover {
-    background-color: #c0392b;
-    transform: translateY(-2px);
-}
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* 그림자 */
+    transition: background-color 0.3s ease; /* 전환 효과 */
+    border-radius: 8px; /* 둥근 테두리 */
+    margin-top: 70px;
+    margin-bottom: 65px;
+  }
 
 /* 메뉴 섹션 */
 .yc_challenge_menu {
     background-color: transparent; /* 배경색 제거 */
-    flex-grow: 1; /* 메뉴가 남은 공간을 모두 차지 */
+    flex-grow: 1; /* 남은 공간 모두 차지 */
     margin-bottom: 20px;
     border-radius: 8px;
+    /* height: 80vh; */ /* 제거: flex-grow으로 대체 */
 }
 
 /* 메뉴 리스트 */
 .yc_challenge_menu ul {
     list-style-type: none;
     padding: 0;
+    margin: 0;
     width: 100%;
-    
-    border-bottom: 1px solid #bdc3c7;
-    border-top: 1px solid #bdc3c7;
+    border-bottom: 1px solid #353535;
+    border-top: 1px solid #353535;
 }
 
 /* 메뉴 아이템 */
 .yc_challenge_menu li {
-    padding: 12px 15px;
+    padding: 12px 0; /* 좌우 패딩 제거 */
     margin-bottom: 8px;
     cursor: pointer;
     border-radius: 6px;
-    font-size: 16px;
-    color: #ecf0f1;
+    font-size: 14px; /* 폰트 크기 조정 */
+    color: #000000;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    justify-content: center;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
 }
+
 .yc_challenge_menu li:first-child{
     margin-top: 10px;
 }
 
-/* 메뉴 아이템 아이콘 (예시) */
-/* .yc_challenge_menu li::before {
-    content: "🔹"; 
-    margin-right: 10px;
-} */
+/* 메뉴 텍스트 */
+.menu-text {
+    margin-top: 5px;
+    text-align: center;
+    font-size: 12px; /* 텍스트 크기 조정 */
+}
 
 /* 링크 스타일 */
 .yc_challenge_menu a {
     color: inherit; /* 링크 색상 상속 */
     text-decoration: none; /* 밑줄 제거 */
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 100%;
+    height: 100%;
 }
 
-/* 서브 메뉴 아이템 들여쓰기 */
-.yc_challenge_sidebar_mission-detail,
-.yc_challenge_sidebar_submission-status,
-.yc_challenge_sidebar_user-status,
-.yc_challenge_sidebar_board {
-    margin-left: 20px;
-    font-size: 14px;
-    color: #bdc3c7;
+/* 메뉴 아이콘 색상 */
+.yc_challenge_menu li a svg {
+    color: inherit; /* 부모 요소의 색상 상속 */
+    width: 24px;
+    height: 24px;
 }
 
 /* 메뉴 아이템 호버 및 활성화 스타일 */
@@ -164,36 +101,41 @@
 
 /* 신고 버튼 */
 .yc_challenge_report-btn {
-    background-color: #c0392b;
-    color: white;
+    background-color: transparent; /* 배경색 제거 */
+    color: #c0392b; /* 텍스트 색상 변경 */
     border: none;
-    padding: 10px;
+    margin-bottom: 4px;
     border-radius: 8px;
     width: 100%;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease, transform 0.2s ease;
 }
 
 .yc_challenge_report-btn:hover {
-    background-color: #a32415;
+    color: #a32415;
     transform: translateY(-2px);
 }
 
 /* Exit 버튼 */
 .yc_challenge_exit-btn {
-    background-color: #383E47;
-    color: white;
+    background-color: transparent; /* 배경색 제거 */
+    color: #383E47; /* 텍스트 색상 변경 */
     border: none;
-    padding: 10px;
     border-radius: 8px;
     width: 100%;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease, transform 0.2s ease;
 }
 
 .yc_challenge_exit-btn:hover {
-    background-color: #383E47;
+    color: #2c2f33;
     transform: translateY(-2px);
 }
