@@ -60,9 +60,10 @@ const Step04 = () => {
                                     </div>
                                     <div id='box-double'>
                                         <div id='box1'>
-                                            <div>최대 참여 인원</div>
+                                            {/* <div>최대 참여 인원</div> */}
                                             <div>
-                                                <input placeholder='20' />
+                                                <div className="inputTT"><label htmlFor="">최대 참여 인원</label></div><div className="inputBox"><select name="" id=""></select></div>
+                                                {/* <input placeholder='20' /> */}
                                             </div>
                                         </div>
                                         <div id='box1'>

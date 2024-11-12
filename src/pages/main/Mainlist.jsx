@@ -3,6 +3,8 @@
 import {React , useState} from 'react';
 import SearchIcon from '@rsuite/icons/Search';
 import SortDescIcon from '@rsuite/icons/SortDesc';
+import SendIcon from '@rsuite/icons/Send';
+
 
 import '../../css/reset.css';
 import '../../css/jy_main.css';
@@ -117,6 +119,13 @@ const Mainlist = () => {
 
                             </div>
                             {/* //list */}
+
+
+                            <div className="btn">
+
+                                <button id="seconday"><span><SendIcon size="5em" /><br/>방 생성</span></button>
+
+                            </div>
 
                         </div>
                         {/* //board */}

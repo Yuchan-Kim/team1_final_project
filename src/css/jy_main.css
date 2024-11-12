@@ -14,6 +14,103 @@
     padding:0 20px;
 }
 
+
+
+/* ##################################### */
+/* 방생성 버튼 */
+
+.jy_main .btn {
+    padding: 50px 0;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.jy_main button {
+    width: 300px;
+    height: 48px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 25px;
+}
+.jy_main .btn {
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
+}
+.jy_main .btn #seconday {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    color: #fff;
+    background-color: rgb(13, 110, 253);
+    font-size: 20px;
+    position:relative;
+    animation: dung 1s infinite linear;
+    z-index: 10;
+    cursor: pointer;
+}
+.jy_main .btn #seconday span {
+    position: relative;
+    z-index: 11;
+    display: block;
+}
+.jy_main .btn #seconday span svg {
+    margin-bottom: 10px;
+    font-size: 2em;
+    transition: 0.5s;
+}
+.jy_main .btn #seconday:hover span svg {
+    transform: translate(70px,-70px);
+}
+.jy_main .btn #seconday:after {
+    content:"";
+    display: block;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: rgb(13, 110, 253,0.4);
+    
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    z-index: 9;
+}
+.jy_main .btn #seconday:hover:after {
+    animation : scale 2s infinite linear;
+}
+
+@keyframes dung {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes scale {
+    0% {
+        opacity: 0;
+        transform:translate(-50%,-50%) scale(1)
+    }
+    50% {
+        opacity: 1;
+        transform:translate(-50%,-50%) scale(1.3)
+    }
+}
+
+
+
 /* ##################################################### */
 
 .jy_main #board {
@@ -44,7 +141,9 @@
 }
 
 .jy_main #search-bar {
-    margin: 20px;
+    /* margin: 20px; */
+    margin-bottom: 25px;
+
 }
 
 .jy_main #search-bar1 {
@@ -164,26 +263,83 @@
 
 .jy_main #icon-bar {
     display: flex;
-    gap: 12px;
+    gap: 35px;
     margin: 20px 0 ;
+    justify-content: center;
+    margin: 80px 0;
 }
 .jy_main #icon-bar > div {
-    flex : 1;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    text-align: center;
+    justify-content: center;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+    transition: .4s;
+    transform-style: preserve-3d;
+}
+.jy_main #icon-bar > div:nth-child(1) {
+    background-image: url(../../public/img/mainCate01.jpg);
+}
+.jy_main #icon-bar > div:nth-child(2) {
+    background-image: url(../../public/img/mainCate02.jpg);
+}
+.jy_main #icon-bar > div:nth-child(3) {
+    background-image: url(../../public/img/mainCate03.jpg);
+}
+.jy_main #icon-bar > div:nth-child(4) {
+    background-image: url(../../public/img/mainCate04.jpg);
+}
+.jy_main #icon-bar > div:nth-child(5) {
+    background-image: url(../../public/img/mainCate05.jpg);
+}
+
+
+.jy_main #icon-bar > div:after {
+    content:"";
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: rgba(0,0,0,0.3);
+    z-index: 2;
+}
+.jy_main #icon-bar > div:hover {
+    transform: rotateY(360deg);
+} 
+.jy_main #icon-bar > div span {
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top:50%;
+    left: 50%;
+    z-index: 3;
+    color: #fff;
+    font-size:24px;
+    font-weight: 600;
 }
 
 
 .jy_main #list {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 20px;
+    row-gap: 40px;
 }
 
 .jy_main #list > div {
-    width: calc((100% / 3) - 15px);
-    border:1px solid #ddd;
-    background-color: #f7f7f7;
-    padding: 15px;
+    width: calc((100% / 3) - 20px);
+    box-shadow: 1px 2px 10px rgba(0,0,0,0.2);
+    padding: 30px 20px;
+    transition: 0.3s;
 }
+.jy_main #list > div:hover {
+    transform: translateY(-10px);
+}
+
 .jy_main .bang_img {
     height: 200px;
     overflow: hidden;
@@ -197,11 +353,11 @@
 .jy_main .bang_level {
     margin-bottom: 10px;
 }
-.jy_main #list > div:hover .bang_img img {
+/* .jy_main #list > div:hover .bang_img img {
     transform: scale(1.1);
-}
+} */
 .jy_main .bang_info {
-    margin-top: 10px;
+    margin-top: 20px;
     display: flex;
     gap: 10px;
 }

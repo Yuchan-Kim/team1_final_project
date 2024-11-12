@@ -50,24 +50,38 @@ const Step05 = () => {
                         <div id="board">
 
 
+                            <div id="stepList">
+                                
+                                <div id='list-head'>
+                                    <h2>시간 날짜를 선택해주세요.</h2>
+                                    <h4>챌린지 시작일은 오늘로부터 최소 이틀뒤부터 설정 합니다</h4>
+                                </div>
+                                <div id='list-head'>
+                                    <h2>챌린지 기간을 설정해 주세요.</h2>
+                                    <h4>챌린지를 진행할 기간을 설정합니다</h4>
+                                </div>
+
+                            </div>
+
+
 
                             <div id="stepList">
 
+
                                 <div id='list-left'>
-                                    <h2>시간 날짜를 선택해주세요.</h2>
-                                    <h4>챌린지 시작일은 오늘로부터 최소 이틀뒤부터 설정 합니다</h4>
-                                    <div>시작날짜</div>
+                                    
+                                    {/* <div>시작날짜</div>
+                                    <div><input placeholder='value' /></div> */}
                                     <div>
-                                    <Calendar 
+                                    <Calendar
                                     formatDay={(locale, date) => moment(date).format("DD")}
-                                    onChange={onChange} value={value} 
+                                    onChange={onChange} value={value}
                                     />
                                     </div>
                                 </div>
 
                                 <div id='list-left'>
-                                    <h2>챌린지 기간을 설정해 주세요.</h2>
-                                    <h4>챌린지를 진행할 기간을 설정합니다</h4>
+                                    
                                     <div id='week'>
                                         <div>1 주간 챌린지 진행하기</div>
                                         <div>2 주간 챌린지 진행하기</div>

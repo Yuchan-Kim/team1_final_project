@@ -51,9 +51,11 @@ const Step06 = () => {
                                 <div>
                                     <h2>미션을 생성해 주세요.</h2>
                                     <h4>미션은 최대 5개까지 생성할 수 있습니다.</h4>
-                                    <div>미션</div>
-                                    <div><input placeholder='AI 추천 미션' /></div>
-                                    <div><button>+ 이미지 추가</button></div>
+                                    {/* <div>미션</div> */}
+                                    <div>
+                                        <span><input placeholder='AI 추천 미션' /></span>
+                                        <span><button>이미지 추가</button></span>
+                                    </div>
                                     <div id='mission-img'>
                                         <input placeholder='사진' />
                                         <input placeholder='사진' />

@@ -221,8 +221,9 @@
 
 
 #step2 #list #category {
-    height: 500px;
-    margin: 20px;
+    /* height: 500px; */
+    height: 100%;
+    /* margin: 20px; */
     padding: 20px;
 
     display: flex;
@@ -250,7 +251,42 @@
     justify-content: flex-start;
     align-items: center;
 
+    gap: 5px;
+
     margin: 10px;
+}
+
+#step2 #list #keyword h3 {
+    font-size: 20px;
+}
+#step2 #list #keyword h4 {
+    margin: 0px;
+}
+
+/* #step2 #list #keyword input {
+    margin: 3px;
+
+
+} */
+
+
+#step2 #list #keyword div {
+    display: flex;
+    padding: 10px 20px;
+    gap: 10px;
+    border-radius: 10px;
+    background-color: #f1f1f1;
+    display: flex;
+    align-items: center;
+    max-width:400px;
+    width: 100%;
+    margin:0 auto;
+}
+#step2 #list #keyword input {
+    border:0;
+    outline: 0;
+    background-color: transparent;
+    width: 100%;
 }
 
 
@@ -258,16 +294,18 @@
 /* step3 */
 
 #step3 #list {
-    margin-top: 100px;
+    /* margin-top: 20px; */
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     gap: 50px;
+
+    min-width: 1200px;
 }
 
 #step3 #list #input-Thumbnail {
-    border: 1px solid #000;
+    /* border: 1px solid #000; */
     width: 450px;
     height: 450px;
 
@@ -285,6 +323,10 @@
 
 }
 
+/* #step3 #list #upload-Thumbnail > div:nth-child(0) {
+    background-image: url(../../public/img/banner.jpg);
+} */
+
 #step3 #list #input-title {
     display: flex;
     flex-direction: column;
@@ -292,12 +334,40 @@
     align-items: center;
     margin-bottom: 70px;
 
+    /* border: 1px solid #000; */
+}
+
+#step3 #list h4 {
+    margin: 0px;
+}
+
+#step3 #list .input-title div {
+    display: flex;
+    padding: 10px 20px;
+    gap: 10px;
+    border-radius: 10px;
+    /* background-color: #f1f1f1; */
+    display: flex;
+    align-items: center;
+    max-width:400px;
+    width: 100%;
+    margin:0 auto;
+
+    margin-top: 5px;
+
     border: 1px solid #000;
+}
+#step3 #list .input-title input {
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+    width: 100%;
 }
 
 #step3 #list #input-title textarea {
     width: 400px;
-    height: 60px;
+    height: 100px;
+    margin-top: 20px;
 }
 
 
@@ -310,8 +380,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 50px;
+    gap: 40px;
 }
+
+#step4 #list h2 { padding-bottom: 10px;}
 
 #step4 #list #box-double {
     display: flex;
@@ -319,12 +391,12 @@
     justify-content: center;
     align-items: center;
 
-    gap: 20px;
+    gap: 40px;
 }
 
 #step4 #list #box1 {
     width: 200px;
-    height: 100px;
+    height: 60px;
 
     display: flex;
     flex-direction: column;
@@ -348,22 +420,98 @@
 
 
 
+/* #step4 #list #box-double {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    padding: 15px 30px;
+    row-gap: 10px;
+} */
+#step4 #list #box-double > div {
+    display: flex;
+    align-items: center;
+}
+#step4 #list #box-double .inputBox {
+    padding:0 30px 0 10px;
+    width: 100%;
+}
+#step4 #list #box-double .inputBox select , .inputBox input {
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: solid 1px #d9d9d9;
+    background-color: #fff;
+    width: 100%;
+}
+#step4 #list #box-double .inputTT {
+    width: 100px;
+}
+#step4 #list #box-double input + label {
+    display: flex;
+    align-items: center;
+    cursor: pointer ;
+}
+
+
+
+
+
+
+
+
+
+
+
 /* ##################################### */
 /* step5 */
+
+#step5 #board {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
 
 #step5 #stepList {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    
     width: 100%;
     gap: 50px;
 }
+
+#step5 #stepList div {
+    width: 500px;
+}
+
+#step5 #stepList #list-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 20px;
+}
+
+#step5 #board #stepList #list-head {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#step5 #board #stepList #list-head h2 {
+    padding-bottom: 10px;
+}
+
 
 
 #step5 #list-left #week div {
 
     border: 1px solid #000;
     gap: 10px;
+    width: 90%;
 
     margin: 15px;
     padding: 15px;
@@ -385,6 +533,10 @@
     align-items: center;
 
     gap: 40px;
+}
+
+#step6 #list h2, h4 {
+    padding-bottom: 5px;
 }
 
 #step6 #list button {
@@ -417,7 +569,11 @@
     justify-content: center;
     align-items: center;
 
-    gap: 40px;
+    /* gap: 10px; */
+}
+
+#step7 #list h2 {
+    padding-bottom: 5px;
 }
 
 #step7 #list #question {
@@ -426,7 +582,9 @@
     justify-content: center;
     align-items: center;
 
-    gap: 100px;
+    gap: 80px;
+
+    margin-bottom: 10px;
 }
 
 #step7 #list #category {
@@ -465,6 +623,12 @@
     /* border: 1px solid #000; */
 }
 
+#step8 #list h2 {
+    padding-bottom: 5px;
+}
+
+
+
 #step8 #list #ai-select {
     display: flex;
     flex-direction: column;
@@ -481,8 +645,8 @@
 #step8 #list #ai-box {
     width: 700px;
     border: 1px solid #000;
-    border-radius: 20;
-    padding: 10px;
+    border-radius: 10px;
+    padding: 10px 20px;
 }
 
 #step8 #list #ai-title {
@@ -490,6 +654,20 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+
+    padding: 10px;
+}
+
+#step8 #list #ai-title #ai-point {
+    /* border: 1px solid #000; */
+    border-radius: 5px;
+    padding: 3px;
+    margin-right: 10px;
+    width: 100px;
+    text-align: center;
+    /* background-color: #5E91A7; */
+    background-color: #f0f0f0;
+    /* color: #fff; */
 }
 
 #step8 #list #ai-box button {
@@ -497,6 +675,12 @@
     height: 25px;
     justify-content: center;
     align-items: center;
+    margin-top: 8px;
+
+    background-color: #5E91A7;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
 }
 
 

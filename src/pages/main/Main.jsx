@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 import SearchIcon from '@rsuite/icons/Search';
 import SortDescIcon from '@rsuite/icons/SortDesc';
+import SendIcon from '@rsuite/icons/Send';
+
 
 import '../../css/reset.css';
 import '../../css/jy_main.css';
@@ -115,11 +117,11 @@ const Main = () => {
                             {/* //ad-bang */}
 
                             <div id='icon-bar'>
-                                <div>운동</div>
-                                <div>독서</div>
-                                <div>스터디</div>
-                                <div>생활루틴</div>
-                                <div>취미</div>
+                                <div><span>운동</span></div>
+                                <div><span>독서</span></div>
+                                <div><span>스터디</span></div>
+                                <div><span>생활루틴</span></div>
+                                <div><span>취미</span></div>
                             </div>{/* //icon-bar */}
 
                             <div id="list">
@@ -161,6 +163,17 @@ const Main = () => {
 
                             </div>
                             {/* //list */}
+
+
+                            <div className="btn">
+
+                                <button id="seconday"><span><SendIcon size="5em" /><br/>방 생성</span></button>
+
+                            </div>
+
+
+
+
 
                         </div>
                         {/* //board */}

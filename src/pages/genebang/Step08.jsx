@@ -51,38 +51,38 @@ const Step08 = () => {
                                 <h2>AI 추천 그룹 챌린지</h2>
                                 <h4>사용자가 입력한 미션을 기반으로 그룹 첼린지를 제시합니다.</h4>
                                 <h4>AI는 실수할 수 있습니다.</h4>
-                                <h4>인간 시대의 끝이 도달했다.</h4>
+                                {/* <h4>인간 시대의 끝이 도달했다.</h4> */}
 
                                 <div id='ai-select'>
 
                                     <div id='ai-box'>
                                         <div id='ai-title'>
                                             <div>AI 추천 챌린지 (난이도: 하)</div>
-                                            <div><button>200,000pt</button></div>
+                                            <div id='ai-point'>200,000pt</div>
                                         </div>
                                         <div>Supporting line text lorem ipsum dolor sit</div>
                                         <div>amet, consectetur</div>
-                                        <div>+수락</div>
+                                        <div><button>수락</button></div>
                                     </div>
 
                                     <div id='ai-box'>
                                         <div id='ai-title'>
                                             <div>AI 추천 챌린지 (난이도: 중)</div>
-                                            <div><button>200,000pt</button></div>
+                                            <div id='ai-point'>200,000pt</div>
                                         </div>
                                         <div>Supporting line text lorem ipsum dolor sit</div>
                                         <div>amet, consectetur</div>
-                                        <div>+수락</div>
+                                        <div><button>수락</button></div>
                                     </div>
 
                                     <div id='ai-box'>
                                         <div id='ai-title'>
                                             <div>AI 추천 챌린지 (난이도: 상)</div>
-                                            <div><button>200,000pt</button></div>
+                                            <div id='ai-point'>200,000pt</div>
                                         </div>
                                         <div>Supporting line text lorem ipsum dolor sit</div>
                                         <div>amet, consectetur</div>
-                                        <div>+수락</div>
+                                        <div><button>수락</button></div>
                                     </div>
 
                                 </div>
