@@ -1,0 +1,460 @@
+@charset "UTF-8";
+
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+.dy-wrap > * {
+    font-family: "Pretendard Variable", Pretendard, sans-serif;
+}
+
+/* 링크 */
+.dy-link {
+    color: black; 
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+.dy-link:visited {
+    color: black; 
+}
+
+.dy-link:hover {
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+/* wrap 크기 설정 */
+.dy-wrap {
+    max-width: 1600px;
+    width: 100vw;
+    min-width: 1000px;
+    margin: 0 auto;
+    padding:0 20px;
+}
+
+/* 포인트 상점 메인 틀 */
+.dy-pointstoremain {
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 70px;
+}
+
+/* 포인트상점, 출석하기 */
+.dy-pointstoremain .dy-pointstoremain-header {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+
+/* 제목 */
+.dy-pointstoremain .dy-pointstoremainTitle {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+/* 출석하기 버튼 */
+.dy-pointstoremain .dy-attendance-btn {
+    width: 110px;
+    height: 40px;
+    font-size: 15px;
+    text-align: center;
+    cursor: pointer;
+
+    background-color: #5E91A7;
+    color: white;
+    border: #497B91;
+    border-radius: 5px;
+}
+
+/* 광고와 필터 */
+.dy-pointstoremain .dy-pointstoremain-top {
+    width: 90%;
+    height: 400px;
+    margin: 0 auto;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: row;
+}
+
+/* 광고 */
+.dy-pointstoremain .dy-ad {
+    width: 75%;
+    margin-right: 30px;
+
+    display: flex;
+    overflow: hidden; /* 이미지가 밖으로 넘어가지 않도록 설정 */
+}
+.dy-pointstoremain .dy-ad img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    flex-shrink: 0; /* 이미지들이 줄어들지 않도록 설정 */
+    transition: transform 0.5s ease; /* 부드러운 전환 효과 */
+    animation: slide 41.7s infinite; /* 무한 반복 */
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(0); /* 첫 번째 이미지 위치 */
+    }
+    24.5% { /* 첫 번째 이미지에서 10초 동안 머무름 */
+        transform: translateX(0); 
+    }
+    25% { /* 첫 번째에서 두 번째로 넘어가는 구간 (0.5초) */
+        transform: translateX(-100%);
+    }
+    49.5% { /* 두 번째 이미지에서 10초 동안 머무름 */
+        transform: translateX(-100%);
+    }
+    50% { /* 두 번째에서 세 번째로 넘어가는 구간 (0.5초) */
+        transform: translateX(-200%);
+    }
+    74.5% { /* 세 번째 이미지에서 10초 동안 머무름 */
+        transform: translateX(-200%);
+    }
+    75% { /* 세 번째에서 네 번째로 넘어가는 구간 (0.5초) */
+        transform: translateX(-300%);
+    }
+    99.5% { /* 네 번째 이미지에서 10초 동안 머무름 */
+        transform: translateX(-300%);
+    }
+    100% {
+        transform: translateX(-400%); /* 첫 번째 이미지로 돌아감 (0.5초 동안) */
+    }
+}
+
+
+
+/* 필터 */
+.dy-pointstoremain .dy-filter {
+    width: 25%;
+    height: 100%;
+    display: grid;  /* Grid 레이아웃 활성화 */
+    grid-template-columns: repeat(2, 1fr);  /* 두 개의 칸을 가로로 배치 */
+    grid-template-rows: repeat(2, auto);  /* 두 개의 행을 세로로 배치 */
+    gap: 15px;
+    perspective: 1000px; /* 3D 효과를 위한 관찰 거리 설정 */
+}
+
+.dy-pointstoremain .dy-filter .dy-filter-item {
+    width: 170px;
+    height: 170px;
+    margin-top: 10px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.7s ease; /* 부드러운 회전 애니메이션 */
+    transform-style: preserve-3d; /* 자식 요소들이 3D로 보이게 함 */
+}
+
+.dy-pointstoremain .dy-filter .dy-filter-item:hover {
+    transform: rotateY(360deg);
+}
+
+.dy-pointstoremain .dy-filter .dy-filter-item .dy-Logo-image {
+    width: 100%;
+    height: 100%;
+}
+
+/* ------------------------------------------- */
+
+/* 세션마다 */
+.dy-pointstoremain .dy-product-sections {
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 50px;
+}
+
+/* 세션 제목 */
+.dy-pointstoremain .dy-product-sections .dy-product-header {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+/* 제목빼고 나머지 세션 */
+.dy-pointstoremain .dy-product-sections .dy-product-section {
+    width: 100%;
+    margin: 0 auto;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(5, 1fr);
+    
+}
+
+/* 상품 하나하나 전체칸 (사진 + 정보)*/
+.dy-pointstoremain .dy-product-info {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+
+    /* border: 1px solid  #497B91; */
+    border-radius: 5px;
+    box-shadow: 1px 2px 10px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;  /* 확대 효과에 애니메이션 추가 */
+}
+
+.dy-pointstoremain .dy-product-info:hover:hover {
+    transform: scale(1.05);  /* 1.1배로 확대 */
+}
+
+/* 상품사진 */
+.dy-pointstoremain .dy-product-info .dy-pointstore-pointproduct {
+    width: 230px;
+    height: 230px;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* 상품이름, 포인트 가격 */
+.dy-pointstoremain .dy-product-info .dy-product-details h3, h4 {
+    font-size: 15px;
+}
+.dy-pointstoremain .dy-product-info .dy-product-details p {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+/* 교환하기 버튼 */
+/* <button type="button" className="dy-product-btn">교환하기</button> */
+/* .dy-pointstoremain .dy-product-info .dy-product-btn {
+    cursor: pointer;
+    width: 100%;
+    height: 35px;
+
+    background-color: #5E91A7;
+    color: white;
+    border: #497B91;
+    border-radius: 5px;
+} */
+
+
+/**********************************************/
+/* 모달창 */
+/**********************************************/
+/* 모달 위치 잡아주기 */
+.modal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 검정 배경 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999; /* 다른 요소 위에 표시 */
+}
+/* 모달 위치 잡아주기 */
+.dy-pointstoremain .dy-detailContent-modal, .dy-change-modal, .dy-end-modal {
+    width: 640px;
+    height: 310px;
+    min-width: 640px;
+    background-color: white;
+    padding: 20px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1000; /* 배경 위에 표시 */
+}
+
+
+/**********************************************/
+/* 상품 디테일 모달창 */
+/**********************************************/
+.dy-pointstoremain .dy-detailContent-modal {
+    margin: 0 auto;
+    padding: 15px 40px;
+    border: 1px solid rgb(148, 148, 148);
+}
+
+/* 취소하기 버튼 */
+.dy-detailContent-modal .dy-close {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+.dy-detailContent-modal .dy-close .dy-close-btn {
+    font-size: 27px;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.dy-pointstoremain .dy-detailContent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+}
+
+/* 상품 상세 모달 사진 */
+.dy-pointstoremain .dy-detailContent .dy-detailContent-pointproduct {
+    width: 240px;
+    height: 240px;
+    margin-right: 30px;
+}
+
+/* 브랜드명 */
+.dy-detailContent .dy-detailContent-left .dy-product-brand {
+    font-size: 23px;
+}
+
+/* 상품명 */
+.dy-detailContent .dy-detailContent-left .dy-product-name {
+    font-size: 21px;
+}
+
+/* 포인트 가격 */
+.dy-detailContent .dy-detailContent-left .dy-product-point {
+    font-size: 33px;
+    margin: 10px 0;
+}
+
+/* 본 상품은 환불불가 상품입니다. */
+.dy-detailContent .dy-detailContent-left .dy-product-warning {
+    font-size: 15px;
+    margin: 10px 0;
+}
+
+/* 사용기간 설명 */
+.dy-detailContent .dy-detailContent-left .dy-product-period {
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+/* 발송방법 설명 */
+.dy-detailContent .dy-detailContent-left .dy-product-check {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+/* 교환하기 버튼 */
+.dy-detailContent .dy-detailContent-left .dy-change-btn {
+    width: 45%;
+    height: 35px;
+    margin-top: 12px;
+    margin-left: 90px;
+    cursor: pointer;
+    background-color: #5E91A7;
+    color: white;
+    border: #497B91;
+    border-radius: 5px;
+}
+
+
+/**********************************************/
+/* 포인트 교환 모달창 */
+/**********************************************/
+.dy-pointstoremain .dy-change-modal {
+    width: 380px;
+    min-width: 380px;
+    margin: 0 auto;
+    padding: 15px 40px;
+    border: 1px solid rgb(148, 148, 148);
+    font-size: 18px;
+}
+
+.dy-pointstoremain .dy-change-modal h3 {
+    font-size: 27px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.dy-pointstoremain .dy-change-modal .dy-end-content {
+    padding-left: 30px;
+    margin: 3px 0;
+}
+
+/* 취소 확인 버튼 */
+.dy-pointstoremain .dy-change-modal .dy-two-btn {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    height: 35px;
+    margin-top: 30px;
+}
+
+/* 취소 버튼 */
+.dy-change-modal .dy-two-btn .dy-cancel-btn {
+    flex-grow: 1;
+    cursor: pointer;
+    margin: 0 40px;
+    background-color: #383E47;
+    border: 1px solid #383E47;
+    color: white;
+    border-radius: 5px;
+}
+
+/* 확인 버튼 */
+.dy-change-modal .dy-two-btn .dy-ok-btn {
+    flex-grow: 1;
+    margin: 0 40px;
+    cursor: pointer;
+    background-color: #5E91A7;
+    color: white;
+    border: #497B91;
+    border-radius: 5px;
+}
+
+/* 포인트가 없을때 확인버튼 */
+.dy-change-modal .dy-one-btn .dy-cancel-btn {
+    width: 35%;
+    height: 35px;
+    margin-left: 125px;
+    margin-top: 40px;
+    text-align: center;
+    cursor: pointer;
+
+    background-color: #5E91A7;
+    color: white;
+    border: #497B91;
+    border-radius: 5px;
+}
+
+
+
+/**********************************************/
+/* 교환 완료 모달창 */
+/**********************************************/
+.dy-pointstoremain .dy-end-modal {
+    width: 380px;
+    min-width: 380px;
+    margin: 0 auto;
+    padding: 15px 40px;
+    border: 1px solid rgb(148, 148, 148);
+    font-size: 18px;
+}
+
+.dy-pointstoremain .dy-end-modal h3 {
+    font-size: 27px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.dy-pointstoremain .dy-end-modal .dy-end-content {
+    padding-left: 30px;
+    margin: 3px 0;
+}
+
+/* 확인 버튼 */
+.dy-end-modal .dy-one-btn {
+    width: 35%;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+.dy-end-modal .dy-one-btn .dy-end-btn {
+    width: 100%;
+    height: 35px;
+    text-align: center;
+    cursor: pointer;
+
+    background-color: #5E91A7;
+    color: white;
+    border: #497B91;
+    border-radius: 5px;
+}
+
