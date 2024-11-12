@@ -1,0 +1,137 @@
+@charset "UTF-8";
+
+/* 링크 */
+.dy-link {
+    color: black; 
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+.dy-link:visited {
+    color: black; 
+}
+
+.dy-link:hover {
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+
+/* 헤더 크기 */
+.dy-header {
+    width: 100%;          /* 전체 화면 너비 */
+    height: 60px;
+    margin: 0 auto;         /* 중앙 정렬 */
+    
+    border: 1px solid black;
+}
+
+.dy-header .dy-header-content {
+    width: 60%;
+    min-width: 600px;
+    height: 60px;
+    margin: 0 auto;         /* 중앙 정렬 */
+    display: flex;        /* flex 부모쪽 */
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+/* 로고 */
+.dy-header .dy-logo {
+    margin-left: 20px;
+}
+
+
+/* 메뉴 */
+.dy-header .dy-menu {
+    width: 40%;
+}
+
+.dy-header .dy-menu ol {
+    display: flex;        /* flex 부모쪽 */
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+
+/* 로그인에 따라 달라지는 화면 */
+/* .dy-header .dy-info {
+
+} */
+
+/* 로그인전 */
+.dy-header .dy-info .dy-beforelogin {
+    display: flex;        /* flex 부모쪽 */
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.dy-header .dy-info .dy-beforelogin>li {
+    margin-right: 20px;
+}
+
+/* 로그인후 */
+.dy-header .dy-info .dy-afterlogin {
+    display: flex;        /* flex 부모쪽 */
+    flex-direction: row;
+    justify-content: space-between;
+    margin-right: 20px;
+
+}
+
+.dy-header .dy-info .dy-afterlogin .dy-header-profile {
+    width: 45px;
+    height: 45px;
+    border: 1px solid lightgray;
+}
+
+.dy-header .dy-info .dy-afterlogin .dy-header-login-info {
+    display: flex;        /* flex 부모쪽 */
+    flex-direction: column;
+
+    width: 130px;
+    height: 45px;
+    margin-left: 7px;
+
+}
+
+/* 닉네임 */
+.dy-header .dy-info .dy-afterlogin .dy-header-login-info .dy-header-nickname {
+    font-size: 16px;
+}
+
+/* 닉네임 아래줄 모두 */
+/* .dy-header .dy-info .dy-afterlogin .dy-header-login-info .dy-header-pointNlogout {
+
+
+} */
+
+.dy-afterlogin .dy-header-login-info .dy-header-pointNlogout .dy-header-point {
+    float: left;
+}
+
+.dy-afterlogin .dy-header-login-info .dy-header-pointNlogout .dy-header-point img {
+    width: 18px;
+    height: 18px;
+    margin-top: 3px;
+} 
+
+/* 포인트 숫자 */
+.dy-afterlogin .dy-header-login-info .dy-header-pointNlogout .dy-header-point span {
+    margin-left: 5px;
+    font-size: 15px;
+}
+
+/* 로그아웃 버튼 */
+.dy-afterlogin .dy-header-login-info .dy-header-pointNlogout .dy-logout-btn {
+    float: right;
+    margin-top: 6px;
+    font-size: 13px;
+    border: none;
+    background-color: white;
+}
+.dy-afterlogin .dy-header-login-info .dy-header-pointNlogout .dy-logout-btn:hover {
+    cursor: pointer;
+}
