@@ -1,6 +1,5 @@
 @charset "UTF-8";
 
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
 /* 기본 요소 초기화 */
 body, div, p, dl, dt, ol, ul, li,
 h1, h2, h3, h4, h5, h6, 
@@ -31,17 +30,13 @@ table {
 /* 기본 폼 요소 초기화 */
 input, button, textarea, select {
     font-family: inherit; /* 폰트 패밀리 상속 */
-    font-size: inherit; /* 폰트 사이즈 상속 */
-    color: inherit; /* 텍스트 색상 상속 */
+    font-size: inherit; /* 폰트 사이즈 상속 */color: inherit;
+        /* 텍스트 색상 상속 */
 }
 
-
-
-
-
-
-
-
-
-
+/* 앵커 태그 초기화 */
+a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: inherit; /* 부모 색상 상속 */
+}
 
