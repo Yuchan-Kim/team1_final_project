@@ -8,7 +8,11 @@ import '../../css/jy_step.css';
 import { StepNav } from '../include/StepNav';
 
 import CloseOutlineIcon from '@rsuite/icons/CloseOutline';
-
+// import { IoBook } from "react-icons/io5";
+// import { CiDumbbell } from "react-icons/ci";
+// import { CiFaceSmile } from "react-icons/ci";
+// import { CiForkAndKnife } from "react-icons/ci";
+// import { CiBatteryCharging } from "react-icons/ci";
 
 
 const Step02 = () => {
