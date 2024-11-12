@@ -1,0 +1,699 @@
+@charset "UTF-8";
+
+
+.jy_step {
+    max-width: 1440px;
+    width: 100vw;
+    min-width: 1000px;
+    margin: 0 auto;
+    padding:0 20px;
+}
+
+.jy_step .container {
+    border: 1px solid #000;
+}
+
+
+.step {
+    min-width: 1000px;
+    min-height: 100vh;
+    height: 100%;
+
+    /* margin: 50px; */
+    padding: 50px;
+    
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.step #board {
+    flex: 1
+}
+
+.step #board h2 {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 0.63;
+    letter-spacing: 0.1px;
+    text-align: center;
+    color: #000;
+    padding: 20px 0 30px
+}
+
+.step h4, h3 {
+    flex-grow: 0;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.43;
+    letter-spacing: 0.1px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.39);
+    margin: 5px;
+}
+
+
+
+
+.step h3 {
+    font-size: 20px;
+    color: #000;
+}
+
+
+
+
+/* ##################################### */
+/* stepNav Bar */
+
+#stepNav {
+    padding: 25px 0;
+    margin-bottom: 20px;
+}
+
+#stepNav ul {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#stepNav ul li {
+    flex: 1;
+    text-align: center;
+    color: rgba(60, 60, 67, 0.6);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.31;
+    letter-spacing: 0.25px;
+    padding: 15px;
+    word-break: keep-all;
+}
+
+#stepNav ul li.active {
+    color: #000;
+    border-bottom: 2px solid #000
+}
+
+
+
+/* ##################################### */
+/* 공통 버튼 */
+
+.step .btn {
+    padding: 50px 0;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.step button {
+    width: 300px;
+    height: 48px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 25px;
+}
+
+.step .btn #seconday {
+    width: 240px;
+    height: 48px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+    border-radius: 8px;
+    border: solid 1px #000;
+    background-color: #fff;
+}
+
+.step .btn #primary {
+    width: 240px;
+    height: 48px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: #000;
+    color: #fff;
+}
+
+
+/* ##################################### */
+/* step1 */
+
+#step1 #board h4 {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 0.63;
+    letter-spacing: 0.1px;
+    text-align: center;
+    color: #000;
+    padding: 20px 0 40px
+}
+
+#step1 #list {
+    display: flex;
+    gap: 30px;
+    max-width: 830px;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+#step1 #list>div {
+    flex: 1;
+    height: 570px;
+    border-radius: 8px;
+    border: solid 1px #cac4d0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative
+}
+
+#step1 #list>div h3 {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.1px;
+    text-align: center;
+    color: #000;
+}
+
+#step1 #list>div li+li {
+    margin-top: 40px;
+}
+
+#step1 #list>div li {
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.4;
+    letter-spacing: normal;
+    text-align: left;
+    color: #1e1e1e;
+}
+
+#step1 #list>div li > span {
+    margin-right: 5px;
+}
+
+
+
+/* ##################################### */
+/* step2 */
+
+#step2 #board h2 {
+    padding-bottom: 10px;
+}
+
+
+#step2 #list #category {
+    /* height: 500px; */
+    height: 100%;
+    /* margin: 20px; */
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+}
+
+#step2 #list #category div {
+    width: 450px;
+    /* height: 50px; */
+    margin: 15px;
+    padding: 15px;
+    text-align: center;
+    font-size: 20px;
+
+    border-radius: 15px;
+
+    border: 1px solid #000;
+}
+
+#step2 #list #keyword {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    gap: 5px;
+
+    margin: 10px;
+}
+
+#step2 #list #keyword h3 {
+    font-size: 20px;
+}
+#step2 #list #keyword h4 {
+    margin: 0px;
+}
+
+/* #step2 #list #keyword input {
+    margin: 3px;
+
+
+} */
+
+
+#step2 #list #keyword div {
+    display: flex;
+    padding: 10px 20px;
+    gap: 10px;
+    border-radius: 10px;
+    background-color: #f1f1f1;
+    display: flex;
+    align-items: center;
+    max-width:400px;
+    width: 100%;
+    margin:0 auto;
+}
+#step2 #list #keyword input {
+    border:0;
+    outline: 0;
+    background-color: transparent;
+    width: 100%;
+}
+
+
+/* ##################################### */
+/* step3 */
+
+#step3 #list {
+    /* margin-top: 20px; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+
+    min-width: 1200px;
+}
+
+#step3 #list #input-Thumbnail {
+    /* border: 1px solid #000; */
+    width: 450px;
+    height: 450px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+#step3 #list #upload-Thumbnail {
+    border: 1px solid #000;
+    width: 370px;
+    height: 250px;
+
+}
+
+/* #step3 #list #upload-Thumbnail > div:nth-child(0) {
+    background-image: url(../../public/img/banner.jpg);
+} */
+
+#step3 #list #input-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 70px;
+
+    /* border: 1px solid #000; */
+}
+
+#step3 #list h4 {
+    margin: 0px;
+}
+
+#step3 #list .input-title div {
+    display: flex;
+    padding: 10px 20px;
+    gap: 10px;
+    border-radius: 10px;
+    /* background-color: #f1f1f1; */
+    display: flex;
+    align-items: center;
+    max-width:400px;
+    width: 100%;
+    margin:0 auto;
+
+    margin-top: 5px;
+
+    border: 1px solid #000;
+}
+#step3 #list .input-title input {
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+    width: 100%;
+}
+
+#step3 #list #input-title textarea {
+    width: 400px;
+    height: 100px;
+    margin-top: 20px;
+}
+
+
+
+/* ##################################### */
+/* step4 */
+#step4 #list {
+    /* margin-top: 100px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+#step4 #list h2 { padding-bottom: 10px;}
+
+#step4 #list #box-double {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    gap: 40px;
+}
+
+#step4 #list #box1 {
+    width: 200px;
+    height: 60px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+
+    /* border: 1px solid #000; */
+
+}
+
+#step4 #list #box2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+
+    /* border: 1px solid #000; */
+}
+
+
+
+/* #step4 #list #box-double {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    padding: 15px 30px;
+    row-gap: 10px;
+} */
+#step4 #list #box-double > div {
+    display: flex;
+    align-items: center;
+}
+#step4 #list #box-double .inputBox {
+    padding:0 30px 0 10px;
+    width: 100%;
+}
+#step4 #list #box-double .inputBox select , .inputBox input {
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: solid 1px #d9d9d9;
+    background-color: #fff;
+    width: 100%;
+}
+#step4 #list #box-double .inputTT {
+    width: 100px;
+}
+#step4 #list #box-double input + label {
+    display: flex;
+    align-items: center;
+    cursor: pointer ;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* ##################################### */
+/* step5 */
+
+#step5 #board {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+
+#step5 #stepList {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    
+    width: 100%;
+    gap: 50px;
+}
+
+#step5 #stepList div {
+    width: 500px;
+}
+
+#step5 #stepList #list-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 20px;
+}
+
+#step5 #board #stepList #list-head {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#step5 #board #stepList #list-head h2 {
+    padding-bottom: 10px;
+}
+
+
+
+#step5 #list-left #week div {
+
+    border: 1px solid #000;
+    gap: 10px;
+    width: 90%;
+
+    margin: 15px;
+    padding: 15px;
+    text-align: center;
+    font-size: 25px;
+
+    border-radius: 15px;
+
+}
+
+
+/* ##################################### */
+/* step6 */
+
+#step6 #list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 40px;
+}
+
+#step6 #list h2, h4 {
+    padding-bottom: 5px;
+}
+
+#step6 #list button {
+    width: 130px;
+    height: 30px;
+
+}
+
+#step6 #list #mission-img {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+#step6 #list #mission-img input {
+    width: 200px;
+    height: 200px;
+}
+
+/* ##################################### */
+/* step7 */
+
+#step7 #list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* gap: 10px; */
+}
+
+#step7 #list h2 {
+    padding-bottom: 5px;
+}
+
+#step7 #list #question {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    gap: 80px;
+
+    margin-bottom: 10px;
+}
+
+#step7 #list #category {
+    height: 500px;
+    /* margin: 20px; */
+    /* padding: 20px; */
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+}
+
+#step7 #list #category div {
+    width: 400px;
+    /* height: 50px; */
+    margin-top: 15px;
+    padding: 15px;
+    text-align: center;
+    font-size: 25px;
+
+    border-radius: 15px;
+
+    border: 1px solid #000;
+}
+
+/* ##################################### */
+/* step8 */
+#step8 #list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* gap: 40px; */
+    /* border: 1px solid #000; */
+}
+
+#step8 #list h2 {
+    padding-bottom: 5px;
+}
+
+
+
+#step8 #list #ai-select {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin: 20px;
+
+    gap: 50px;
+
+    /* border: 1px solid #000; */
+}
+
+#step8 #list #ai-box {
+    width: 700px;
+    border: 1px solid #000;
+    border-radius: 10px;
+    padding: 10px 20px;
+}
+
+#step8 #list #ai-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 10px;
+}
+
+#step8 #list #ai-title #ai-point {
+    /* border: 1px solid #000; */
+    border-radius: 5px;
+    padding: 3px;
+    margin-right: 10px;
+    width: 100px;
+    text-align: center;
+    /* background-color: #5E91A7; */
+    background-color: #f0f0f0;
+    /* color: #fff; */
+}
+
+#step8 #list #ai-box button {
+    width: 100px;
+    height: 25px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8px;
+
+    background-color: #5E91A7;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+
+
+/* ##################################### */
+/* step9 */
+
+#step9 #board #list div {
+    padding-top: 200px;
+}
+
+/* ##################################### */
+/* step10 */
+
+#step10 #board #list div {
+    padding-top: 200px;
+}
