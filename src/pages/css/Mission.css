@@ -1,0 +1,259 @@
+/* 전체 컨테이너 */
+.jm-bady {
+  display: flex;
+  width: 100%;
+}
+
+/* 사이드바 컨테이너 */
+.jm-Sidenav{
+  width: 300px; 
+}
+
+/* 미션컨텐츠 컨테이너 */
+.jm-mission-body {
+  width: 100%;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+/* Header */
+.jm-room-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.jm-c-tatle-box {
+  flex-grow: 1; 
+}
+
+.jm-c-tatle {
+  text-align: left;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.jm-c-time {
+  text-align: left;
+  padding-top: 20px;
+  margin-left: 10px;
+}
+
+
+
+/* 태그 박스 */
+.jm-tags {
+  margin-bottom: 30px;
+}
+
+.jm-tag-box {
+  border: solid 1px #1a6ddb;
+  border-radius: 8px;
+  padding: 5px 10px;
+  margin-right: 10px;
+  font-size: 14px;
+}
+/* 태그 박스 */
+
+/* 헤더 끝 */
+
+/* 서브 타이틀 */
+.jm-sub-tatle {
+  font-size: 30px;
+  font-weight: bold;
+  color: rgb(103, 155, 252);
+  margin-bottom: 20px;
+}
+
+.jm-todo {
+  margin: 0px;
+  margin-bottom: 10px;
+}
+
+/* 달성율  퍼센트 */
+.jm-my-count {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* 달성율 그래프바 컨테이너 */
+.jm-progress-bar {
+  background: #ccc;
+  height: 10px;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+/* 달성율 그래프바 */
+.jm-progress {
+  background: #1a6ddb;
+  height: 100%;
+  border-radius: 5px;
+}
+
+/* 유의사항 컨테이너 */
+.jm-roolset {
+  padding-block: 20px;
+  border-radius: 8px;
+  border: solid 1px #ccc;
+}
+/* 유의사항 컨텐츠 */
+.jm-roolset span {
+  margin-left: 20px;
+  font-size: 16px;
+}
+/* 유의사항 등록,수정 버튼 */
+.jm-btn-updatimg {
+  float: right;
+  margin-right: 20px;
+}
+
+/* Mission List 컨테이너 */
+.jm-mission-list {
+  margin: 20px 0;
+  height: 330px;
+}
+
+.jm-missions {
+  display: flex;
+  height: 100%;
+}
+
+/* 미션 개별 컨테이너 */
+.jm-mission {
+  background: #b6b5b5;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  height: 90%;
+  margin: 20px;
+  flex-basis: 0;
+  flex-grow: 1;
+}
+
+/* 미션 타이틀 컨테이너 */
+.jm-mission-name {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+/* 미션 제목 */
+.jm-mission-name h3 {
+  text-align: left;
+  flex-grow: 1; 
+  flex-basis: 0px;
+  margin: 0px;
+}
+
+/* 미션 제출 버튼 */
+.jm-mission-name button {
+  margin-left: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  height: 25px;
+  margin-bottom: 10px;
+}
+
+/* 미션 예시 이미지 */
+.jm-mission-img {
+  background-color: black;
+  height: 200px;
+  object-fit: cover;
+}
+
+
+/* 최종목표 컨테이너 */
+.jm-final-goal {
+  margin: 20px;
+  margin-top: 40px;
+}
+
+.jm-goals {
+  display: flex;
+  gap: 10px;
+}
+
+.jm-goal-box {
+  display: flex;
+  gap: 10px;
+  flex-grow: 1;
+}
+
+.jm-goup-tatle-box {
+  flex-grow: 3;
+  border: solid 1px #b6b5b5;
+  border-radius: 8px;
+  padding-inline: 20px;
+  margin-top: 20px;
+  height: 340px;
+}
+
+.jm-goal-name p {
+  padding-top: 10px;
+  font-size: 14px;
+  margin-left: 20px;
+}
+
+.jm-goal-mission {
+  background: #b6b5b5;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  height: 320px;
+  margin: 20px;
+  width: 230px;
+  flex-grow: 1;
+}
+
+.jm-goal-tatle {
+  border: solid 1px #b6b5b5;
+  border-radius: 8px;
+  padding-inline: 20px;
+  margin-top: 20px;
+  height: 340px;
+  flex-grow: 1;
+}
+
+.jm-goal-name {
+  display: flex;
+}
+
+.jm-goal {
+  background: #f5f5f5;
+  padding: 10px;
+  border-radius: 5px;
+  flex: 1;
+}
+
+.jm-rule-input {
+  width: 100%;
+  padding-block: 10px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.jm-btn-updatimg, .jm-btn-save {
+  margin-top: 5px;
+  padding: 5px 10px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.jm-rool-add-button {
+  text-align: right;
+}
+
+.jm-btn-save {
+  background-color: #007bff;
+}
+
+.jm-btn-updatimg:hover, .jm-btn-save:hover {
+  opacity: 0.8;
+}
+
