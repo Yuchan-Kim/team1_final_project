@@ -76,7 +76,7 @@ const JMYCChallengeHeader = ({ userType }) => {
                     isRecruiting && !isChallengeStarted ? (
                         <button className="jm-c-start host" onClick={handleStartRecruitClick}>
                             <span className="emoji"></span>
-                            <span className="label">모집 시작</span>
+                            <span className="label">모집</span>
                         </button>
                     ) : (
                         !isChallengeStarted && (
@@ -90,7 +90,7 @@ const JMYCChallengeHeader = ({ userType }) => {
                     !isJoined && (
                         <button className="jm-c-start" onClick={handleJoinClick}>
                             <span className="emoji"></span>
-                            <span className="label">참가하기</span>
+                            <span className="label">+ 참가</span>
                         </button>
                     )
                 )}
@@ -106,12 +106,12 @@ const JMYCChallengeHeader = ({ userType }) => {
 
             {/* 참여자용 모달 */}
             {showJoinModal && (
-                <div className="yc-modal-overlay">
-                    <div className="yc-modal">
+                <div className="yc-modal-overlay-header">
+                    <div className="yc-modal-header">
                         <p>참여 하시겠습니까?</p>
-                        <div className="yc-modal-buttons">
-                            <button className="yc-modal-confirm" onClick={handleConfirmJoin}>확인</button>
-                            <button className="yc-modal-cancel" onClick={handleCancelJoin}>취소</button>
+                        <div className="yc-modal-buttons-header">
+                            <button className="yc-modal-confirm-header" onClick={handleConfirmJoin}>확인</button>
+                            <button className="yc-modal-cancel-header" onClick={handleCancelJoin}>취소</button>
                         </div>
                     </div>
                 </div>
@@ -119,12 +119,12 @@ const JMYCChallengeHeader = ({ userType }) => {
 
             {/* 방장용 모집 시작 모달 */}
             {showStartRecruitModal && (
-                <div className="yc-modal-overlay">
-                    <div className="yc-modal">
+                <div className="yc-modal-overlay-header">
+                    <div className="yc-modal-header">
                         <p>맴버 모집을 시작 하시겠습니까?</p>
-                        <div className="yc-modal-buttons">
-                            <button className="yc-modal-confirm" onClick={handleConfirmStartRecruit}>확인</button>
-                            <button className="yc-modal-cancel" onClick={handleCancelStartRecruit}>취소</button>
+                        <div className="yc-modal-buttons-header">
+                            <button className="yc-modal-confirm-header" onClick={handleConfirmStartRecruit}>확인</button>
+                            <button className="yc-modal-cancel-header" onClick={handleCancelStartRecruit}>취소</button>
                         </div>
                     </div>
                 </div>
@@ -132,12 +132,12 @@ const JMYCChallengeHeader = ({ userType }) => {
 
             {/* 방장용 챌린지 시작 모달 */}
             {showStartChallengeModal && (
-                <div className="yc-modal-overlay">
-                    <div className="yc-modal">
+                <div className="yc-modal-overlay-header">
+                    <div className="yc-modal-header">
                         <p>챌린지를 시작하시겠습니까?</p>
-                        <div className="yc-modal-buttons">
-                            <button className="yc-modal-confirm" onClick={handleConfirmStartChallenge}>확인</button>
-                            <button className="yc-modal-cancel" onClick={handleCancelStartChallenge}>취소</button>
+                        <div className="yc-modal-buttons-header">
+                            <button className="yc-modal-confirm-header" onClick={handleConfirmStartChallenge}>확인</button>
+                            <button className="yc-modal-cancel-header" onClick={handleCancelStartChallenge}>취소</button>
                         </div>
                     </div>
                 </div>

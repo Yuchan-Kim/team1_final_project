@@ -5,6 +5,8 @@ import "../yc_assets/yc_css/yc_css_challenge_board.css";
 import Sidebar from "../yc_pages/YC_challenge_sidebar.jsx";
 import Header from "./JMYC_challenge_header.jsx";
 import TopHeader from "../pages/include/DH_Header.jsx";
+import ChatRoom from "../yc_pages/YC_challenge_chatroom.jsx";
+
 import { FaPlus } from "react-icons/fa"; // React Icons 임포트
 
 const YcChallengeBoard = () => {
@@ -172,6 +174,8 @@ const YcChallengeBoard = () => {
                 )}
             </div>
         </div>
+        <ChatRoom/>
+
         </>
     );
 
