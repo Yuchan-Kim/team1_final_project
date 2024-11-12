@@ -100,6 +100,9 @@
     list-style-type: none;
     padding: 0;
     width: 100%;
+    
+    border-bottom: 1px solid #bdc3c7;
+    border-top: 1px solid #bdc3c7;
 }
 
 /* 메뉴 아이템 */
@@ -112,7 +115,11 @@
     color: #ecf0f1;
     display: flex;
     align-items: center;
+    
     transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.yc_challenge_menu li:first-child{
+    margin-top: 10px;
 }
 
 /* 메뉴 아이템 아이콘 (예시) */
