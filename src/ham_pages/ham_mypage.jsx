@@ -10,7 +10,6 @@ import Sidebar from './ham_common/ham_sidebar';
 import Topbar from './ham_common/ham_topbar';
 
 //공통 리셋 & 마이페이지 스타일 
-// import '../ham_asset/css/reset.css';
 import '../ham_asset/css/ham_mypage.css';
 
 
