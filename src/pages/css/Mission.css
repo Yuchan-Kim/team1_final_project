@@ -13,8 +13,8 @@
 /* 미션컨텐츠 컨테이너 */
 .jm-mission-body {
   flex: 1;
-  margin-left: 160px; /* 사이드바 너비 + 좌측 padding (120px + 40px) */
-  margin-right: 100px; /* 우측 간격 */
+  margin-left: 110px; /* 사이드바 너비 + 좌측 padding (120px + 40px) */
+  margin-right: 110px; /* 우측 간격 */
   box-sizing: border-box; /* 패딩 포함하여 크기 계산 */
   padding: 0 20px; /* 추가 패딩 */
 }
@@ -49,7 +49,6 @@
 
 .jm-todo {
   margin: 0px;
-  margin-top: 30px;
   font-size: 30px;
 }
 
@@ -77,29 +76,34 @@
 
 /* 유의사항 컨테이너 */
 .jm-roolset {
-  width: 50%;
+  display: flex;
   padding-block: 20px;
 }
 
+.jm-roolset-update-contents-box {
+  width: 48.2%;
+  
+}
+
 .jm-roolset-contents-box {
+  flex-grow: 1;
   background-color: #f9f9f9;
     border: 1px solid #ddd;
     padding: 10px;
+    margin-right: 20px;
     margin-bottom: 15px;
     border-radius: 4px;
     display: flex;
+    min-width: 200px; /* 최소 너비 설정 */
+    height: 250px;
     flex-direction: column;
     gap: 10px;
-}
-
-.jm-roolset-contents-box h3 {
-  margin: 0px;
 }
 
 .jm-roolset-contents-box span {
   background-color: white;
   width: 100%;
-  height: 100px;
+  height: 230px;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -110,17 +114,19 @@
 .jm-roolset-contents-box textarea {
   background-color: white;
   width: 100%;
-  height: 100px;
+  height: 230px;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
-  font-size: 15px; /* Prevent overflow */
+  font-size: 16px; /* Prevent overflow */
 }
 
-/* 유의사항 컨텐츠 */
-.jm-roolset span {
-  font-size: 16px;
+.jm-roolset-contents-box h3 {
+  text-align: left;
+  margin: 0px;
+  font-size: 18px;
+  color: black;
 }
 /* 유의사항 등록,수정 버튼 */
 .jm-btn-updatimg button{
@@ -133,8 +139,26 @@
   border-radius: 4px;
   cursor: pointer;
 }
+/* 내 미션 그래프 */
+.jm_challenge_statistics_additional-graph {
+  width: 20%;
+  flex-grow: 1;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  height: 250px; /* 차트 높이 지정 */
+  min-width: 200px; /* 최소 너비 설정 */
+  animation: fadeIn 0.5s ease;
+}
 
-/* Mission List 컨테이너 */
+.jm_challenge_statistics_additional-graph h2 {
+  margin: 0px;
+  font-size: 18px;
+  color: black;
+}
+
 .jm-mission-list {
   margin: 20px 0;
 }
@@ -350,4 +374,72 @@
   opacity: 0.8;
 }
 
+.jm-mission-list {
+  display: flex;
+  overflow-x: auto; /* 가로 스크롤 활성화 */
+  gap: 10px; /* 카드 간의 간격 */
+  padding: 10px 0;
+  scroll-snap-type: x mandatory; /* 스크롤 스냅 활성화 */
+  width: 100%; /* 부모 컨테이너 너비에 맞춤 */
+  box-sizing: border-box;
+}
+
+.jm-mission {
+  min-width: calc(20% - 10px); /* 5개 카드가 한 화면에 보이도록 설정 */
+  flex: 0 0 auto; /* 카드 고정 크기 */
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  scroll-snap-align: center; /* 스냅 위치 설정 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.jm-mission img {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.jm-mission-name {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.jm-mission-comment-container {
+  font-size: 14px;
+  color: #555;
+}
+
+.jm-mission {
+  min-width: calc(20% - 10px); /* 5개 카드가 한 화면에 보이도록 설정 */
+  max-width: 20%; /* 가로폭이 고정되도록 최대 너비 설정 */
+  flex: 0 0 auto;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  scroll-snap-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* 내부 내용이 넘치면 숨김 */
+}
+
+.jm-mission h3 {
+  font-size: 16px;
+  margin: 10px 0;
+  overflow: hidden;
+  text-overflow: ellipsis; /* 텍스트가 넘칠 경우 "..." 처리 */
+  white-space: nowrap; /* 텍스트를 한 줄로 유지 */
+}
+
+.jm-mission p {
+  font-size: 14px;
+  margin: 10px 0;
+  word-wrap: break-word; /* 단어 단위로 줄바꿈 */
+  white-space: normal; /* 여러 줄 허용 */
+  overflow: hidden; /* 넘치는 텍스트 숨김 */
+  text-overflow: ellipsis; /* 필요 시 "..." 표시 */
+}
 
