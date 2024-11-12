@@ -32,14 +32,15 @@
 .jm-c-start {
     flex-grow: 0; 
     flex-basis: auto;
-    padding: 10px 20px;
-    background-color: #5E91A7;
+    padding: 5px 18px;
+    background-color: #8d8d8d;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 13px;
     transition: background-color 0.3s ease;
+    align-self:flex-start;
     margin-top: 20px;
 }
 
@@ -70,7 +71,7 @@
     color: rgb(157, 156, 156);
 }
 
-.yc-modal-overlay {
+.yc-modal-overlay-header {
     position: fixed;
     top: 0;
     left: 0;
@@ -90,7 +91,7 @@
     }
 }
 
-.yc-modal {
+.yc-modal-header {
     background: white;
     padding: 20px;
     border-radius: 10px;
@@ -106,14 +107,14 @@
     }
 }
 
-.yc-modal-buttons {
+.yc-modal-buttons-header {
     margin-top: 20px;
     display: flex;
     justify-content: space-around;
 }
 
-.yc-modal-confirm,
-.yc-modal-cancel {
+.yc-modal-confirm-header,
+.yc-modal-cancel-header {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -121,20 +122,20 @@
     font-size: 14px;
 }
 
-.yc-modal-confirm {
+.yc-modal-confirm-header {
     background-color: #497B91;
     color: white;
 }
 
-.yc-modal-confirm:hover {
+.yc-modal-confirm-header:hover {
     background-color: #497B91;
 }
 
-.yc-modal-cancel {
+.yc-modal-cancel-header {
     background-color: #ccc;
     color: black;
 }
 
-.yc-modal-cancel:hover {
+.yc-modal-cancel-header:hover {
     background-color: #999;
 }
