@@ -1,7 +1,10 @@
+// YcChallengeBoard.jsx
+
 import React, { useState } from "react";
 import "../yc_assets/yc_css/yc_css_challenge_board.css";
 import Sidebar from "../yc_pages/YC_challenge_sidebar.jsx";
 import Header from "./JMYC_challenge_header.jsx";
+import { FaPlus } from "react-icons/fa"; // React Icons 임포트
 
 const YcChallengeBoard = () => {
     const [notices, setNotices] = useState([
@@ -11,27 +14,44 @@ const YcChallengeBoard = () => {
         { content: "안녕하세요! 100m 걷기 챌린지입니다.", date: "2024/10/29", id: 4 },
         { content: "500m 걷기 챌린지 시작합니다!", date: "2024/10/28", id: 5 },
         { content: "500m 걷기 챌린지 시작합니다!", date: "2024/10/28", id: 6 },
-        { content: "반갑습니다! 매일 500m 걷기 챌린지방입니다.", date: "2024/11/04", id: 1 },
-        { content: "챌린지 종료까지 얼마 남지 않았습니다!", date: "2024/11/01", id: 2 },
-        { content: "건강한 루틴을 만드는 것은 중요합니다.", date: "2024/10/30", id: 3 },
-        { content: "안녕하세요! 100m 걷기 챌린지입니다.", date: "2024/10/29", id: 4 },
-        { content: "500m 걷기 챌린지 시작합니다!", date: "2024/10/28", id: 5 },
-        { content: "500m 걷기 챌린지 시작합니다!", date: "2024/10/28", id: 6 },
-        { content: "반갑습니다! 매일 500m 걷기 챌린지방입니다.", date: "2024/11/04", id: 1 },
-        { content: "챌린지 종료까지 얼마 남지 않았습니다!", date: "2024/11/01", id: 2 },
-        { content: "건강한 루틴을 만드는 것은 중요합니다.", date: "2024/10/30", id: 3 },
-        { content: "안녕하세요! 100m 걷기 챌린지입니다.", date: "2024/10/29", id: 4 },
-        { content: "500m 걷기 챌린지 시작합니다!", date: "2024/10/28", id: 5 },
-        { content: "500m 걷기 챌린지 시작합니다!", date: "2024/10/28", id: 6 },
-
+        { content: "반갑습니다! 매일 500m 걷기 챌린지방입니다.", date: "2024/11/04", id: 7 },
+        { content: "챌린지 종료까지 얼마 남지 않았습니다!", date: "2024/11/01", id: 8 },
+        { content: "건강한 루틴을 만드는 것은 중요합니다.", date: "2024/10/30", id: 9 },
+        { content: "안녕하세요! 100m 걷기 챌린지입니다.", date: "2024/10/29", id: 10 },
+        { content: "500m 걷기 챌린지 시작합니다!", date: "2024/10/28", id: 11 },
+        { content: "500m 걷기 챌린지 시작합니다!", date: "2024/10/28", id: 12 },
+        { content: "반갑습니다! 매일 500m 걷기 챌린지방입니다.", date: "2024/11/04", id: 13 },
+        { content: "챌린지 종료까지 얼마 남지 않았습니다!", date: "2024/11/01", id: 14 },
+        { content: "건강한 루틴을 만드는 것은 중요합니다.", date: "2024/10/30", id: 15 },
+        { content: "안녕하세요! 100m 걷기 챌린지입니다.", date: "2024/10/29", id: 16 },
+        { content: "500m 걷기 챌린지 시작합니다!", date: "2024/10/28", id: 17 },
+        { content: "500m 걷기 챌린지 시작합니다!", date: "2024/10/28", id: 18 },
     ]);
 
     const [showNewNotice, setShowNewNotice] = useState(false);
     const [newNoticeContent, setNewNoticeContent] = useState("");
     const [newNoticeDate, setNewNoticeDate] = useState("");
 
-    const handleDelete = (id) => {
-        setNotices(notices.filter(notice => notice.id !== id));
+    // 삭제 모달 관련 상태
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [noticeToDelete, setNoticeToDelete] = useState(null);
+
+    const handleDeleteClick = (id) => {
+        setNoticeToDelete(id);
+        setShowDeleteModal(true);
+    };
+
+    const handleConfirmDelete = () => {
+        if (noticeToDelete !== null) {
+            setNotices(notices.filter(notice => notice.id !== noticeToDelete));
+            setNoticeToDelete(null);
+            setShowDeleteModal(false);
+        }
+    };
+
+    const handleCancelDelete = () => {
+        setNoticeToDelete(null);
+        setShowDeleteModal(false);
     };
 
     const handleAddNotice = () => {
@@ -66,8 +86,9 @@ const YcChallengeBoard = () => {
                             <button 
                                 className="yc_challenge_announcement" 
                                 onClick={() => setShowNewNotice(!showNewNotice)}
+                                aria-label="새 공지 추가"
                             >
-                                새 공지
+                                <FaPlus /> {/* 아이콘 추가 */}
                             </button>
                         </div>
 
@@ -95,7 +116,13 @@ const YcChallengeBoard = () => {
                                             <span className="yc_challenge_notice-date">작성일 {notice.date}</span>
                                         </div>
                                         <div className="yc_challenge_notice-meta">
-                                            <button className="yc_challenge_delete-btn" onClick={() => handleDelete(notice.id)}>삭제</button>
+                                            <button 
+                                                className="yc_challenge_delete-btn" 
+                                                onClick={() => handleDeleteClick(notice.id)}
+                                                aria-label="공지 삭제"
+                                            >
+                                                삭제
+                                            </button>
                                         </div>
                                     </div>
                                 ))
@@ -127,6 +154,18 @@ const YcChallengeBoard = () => {
                     </div>
                 </div>
                 
+                {/* 삭제 확인 모달 */}
+                {showDeleteModal && (
+                    <div className="yc_modal-overlay">
+                        <div className="yc_modal">
+                            <p>삭제 하시겠습니까?</p>
+                            <div className="yc_modal-buttons">
+                                <button className="yc_modal-confirm" onClick={handleConfirmDelete}>확인</button>
+                                <button className="yc_modal-cancel" onClick={handleCancelDelete}>취소</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </main>
         </div>
     );
