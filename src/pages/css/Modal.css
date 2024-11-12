@@ -42,8 +42,9 @@
 }
 
 .jm-file-upload button {
-  background: red;
-  color: white;
+  background-color: white;
+  color: rgb(255, 0, 0);
+  font-size: 20px;
   border: none;
   padding: 5px;
   cursor: pointer;
@@ -52,10 +53,11 @@
 .jm-add-file-button {
   display: block;
   margin-top: 10px;
-  background: #007bff;
+  background: #383E47;
   color: white;
+  font-size: 15px;
   border: none;
-  padding: 5px 10px;
+  padding: 5px 17px; 
   cursor: pointer;
   border-radius: 4px;
 }
@@ -74,4 +76,13 @@
 
 .jm-modal-add-ok {
   text-align: center;
+}
+
+.jm-modal-add-ok button {
+  background-color: #5E91A7;
+  color: white;
+  font-size: 15px;
+  padding: 7px 20px; 
+  border-radius: 5px;
+  border: none;
 }
