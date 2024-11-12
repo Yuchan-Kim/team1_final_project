@@ -16,47 +16,10 @@
   margin-right: 30px;
 }
 
-/* Header */
-.jm-room-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.jm-c-tatle-box {
-  flex-grow: 1; 
-}
-
-.jm-c-tatle {
-  text-align: left;
-  font-size: 35px;
-  font-weight: bold;
-}
-
-.jm-c-time {
-  text-align: left;
-  padding-top: 20px;
-  margin-left: 10px;
-}
 
 
 
-/* 태그 박스 */
-.jm-tags {
-  margin-bottom: 30px;
-}
 
-.jm-tag-box {
-  border: solid 1px #1a6ddb;
-  border-radius: 8px;
-  padding: 5px 10px;
-  margin-right: 10px;
-  font-size: 14px;
-}
-/* 태그 박스 */
-
-/* 헤더 끝 */
 
 /* 서브 타이틀 */
 .jm-sub-tatle {
