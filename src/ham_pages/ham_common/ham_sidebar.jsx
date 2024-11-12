@@ -18,8 +18,11 @@ import '../../ham_asset/css/ham_sidebar.css'; // 사이드바 전용 CSS
 const Sidebar = () => {
     return (
         <aside className="hmk_sidebar-container">
-            <h1>나의 정보</h1>
+
             <div className="hmk_sidebar">
+                <div className='ham_h1_title'>
+                    <h1>나의 정보</h1>
+                </div>
                 <ul>
                     <li>
                         <img src={ChallengeIcon} alt="Challenge" className="hmk_sidebar-icon" />

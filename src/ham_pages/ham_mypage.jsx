@@ -10,7 +10,7 @@ import Sidebar from './ham_common/ham_sidebar';
 import Topbar from './ham_common/ham_topbar';
 
 //공통 리셋 & 마이페이지 스타일 
-import '../ham_asset/css/reset.css';
+// import '../ham_asset/css/reset.css';
 import '../ham_asset/css/ham_mypage.css';
 
 
@@ -125,7 +125,7 @@ const MyPage = () => {
     };
 
     return (
-        <div className="wrap">
+        <div className="wrap ham_wrap">
             {/* Header 컴포넌트 */}
             <Header
                 // profileImage는 Topbar 내에서 관리되므로 MyPage에서는 전달하지 않음

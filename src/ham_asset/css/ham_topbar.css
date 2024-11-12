@@ -1,13 +1,15 @@
 @charset "UTF-8";
 
+
 /************************* < 상단바 스타일 > **************************/
 
 .wrap .hmk_main-container .hmk_main {
-    width: 1170px;
+    margin-left: 230px;
+    width: calc(100vw - 200px);
     flex-grow: 1;
     padding: 20px;
-    background-color: #f8f9fa;
-    border-left: 1px solid #e0e0e0;
+    background-color: #fff;
+    /* border-left: 1px solid #e0e0e0; */
 }
 
 .wrap .hmk_main-container .hmk_main .hmk_topbar {
@@ -22,6 +24,9 @@
 
 /* 프로필 이미지 및 편집 버튼 스타일 */
 .wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_Profile {
+    margin-right: 100px;
+    min-width: 260px;
+    /* 짜부러지지 않는 최소 넓이 */
     display: flex;
     align-items: center;
 }
@@ -85,7 +90,7 @@
     margin: 10px 0;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
 }
 
 .wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_Profile .hmk_edit-button {
@@ -127,6 +132,7 @@
 .wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics td {
     padding: 10px 20px;
 }
+
 /* 타이틀 폰트 스타일 및 구분선 */
 .wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics th {
     font-size: 14px;
@@ -134,6 +140,8 @@
     color: #4a4a4a;
     border-right: 1px solid #ccc;
 }
+
+
 /* 데이터 폰트 스타일 및 구분선  */
 .wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics td {
     font-size: 20px;
@@ -142,7 +150,37 @@
     border-right: 1px solid #ccc;
 }
 
+.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics th:first-child {
+    min-width: 103px;
+}
+.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics th:nth-child(2) {
+    min-width: 108px;
+}
+
+.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics th:nth-child(3) {
+    min-width: 76px;
+}
+
+.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics th:last-child {
+    min-width: 51px;
+}
+
 .wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics th:last-child,
 .wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics td:last-child {
     border-right: none;
+}
+
+/* ham_asset/css/ham_topbar.css */
+
+/* 닉네임 오류 메시지 스타일 */
+.hmk_nickname-error {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+/* 닉네임 변경 확인 버튼 비활성화 시 스타일 */
+.hmk_nickname-actions button[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
 }

@@ -108,7 +108,7 @@ const Pointpage = () => {
     };
 
     return (
-        <div className="wrap">
+        <div className="wrap ham_wrap">
             {/* Header 컴포넌트 */}
             <Header onLogout={handleLogout} />
 
@@ -173,7 +173,7 @@ const Pointpage = () => {
                                         <DatePicker
                                             selected={startDate}
                                             onChange={date => setStartDate(date)}
-                                            placeholderText="mm/dd/yyyy       📅"
+                                            placeholderText="mm/dd/yyyy                 📅"
                                             className="hmk_date-input"
                                         />
                                         <span className="hmk_calendar-icon" onClick={() => { /* 열기 로직 */ }}></span>
@@ -185,7 +185,7 @@ const Pointpage = () => {
                                         <DatePicker
                                             selected={endDate}
                                             onChange={date => setEndDate(date)}
-                                            placeholderText="mm/dd/yyyy       📅"
+                                            placeholderText="mm/dd/yyyy                 📅"
                                             className="hmk_date-input"
                                         />
                                         <span className="hmk_calendar-icon" onClick={() => { /* 열기 로직 */ }}></span>

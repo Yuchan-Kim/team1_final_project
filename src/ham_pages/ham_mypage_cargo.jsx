@@ -40,7 +40,7 @@ const Cargo = () => {
     };
 
     return (
-        <div className="wrap">
+        <div className="wrap ham_wrap">
             {/* Header 컴포넌트 */}
             <Header onLogout={handleLogout} />
 

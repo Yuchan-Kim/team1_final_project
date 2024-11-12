@@ -18,7 +18,7 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background-color: gray;
+    /* background-color: gray; */
 }
 
 /* 헤더 메뉴 스타일 */
@@ -74,66 +74,20 @@
     font-size: 14px;
     color: #666;
 }
-
-
 /**************************************< /헤더 >***********************************/
+.ham_wrap {
+    width: 1440px;
+    margin: 0 auto;
+}
 
-
-/************************* < 메인 컨테이너 및 사이드바 스타일 > *********************/
+/************************* < 메인 컨테이너 > *********************/
 .wrap .hmk_main-container {
+
     display: flex;
     margin-top: 10px;
+    background-color: #fff;
 }
-
-/* 사이드바 스타일 */
-.wrap .hmk_main-container .aside {
-    width: 220px;
-    padding: 20px;
-    background-color: #ffffff; /* 배경색을 흰색으로 변경 */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 추가 */
-    border-radius: 8px; /* 모서리 둥글게 */
-}
-
-/* 사이드바 제목 스타일 */
-.wrap .hmk_main-container .aside h1 {
-    font-size: 20px; /* 제목 폰트 크기 조정 */
-    font-weight: bold;
-    color: #333; /* 텍스트 색상 조정 */
-    margin-bottom: 20px;
-    text-align: center;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-/* 사이드바 링크 목록 스타일 */
-.wrap .hmk_main-container .aside .hmk_sidebar ul {
-    list-style: none;
-    padding: 0;
-    margin-left: 15px;
-}
-
-/* 사이드바 리스트 항목 스타일 */
-.wrap .hmk_main-container .aside .hmk_sidebar ul li {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-    padding: 10px; /* 각 항목에 패딩 추가 */
-    border-radius: 5px; /* 항목 모서리 둥글게 */
-    transition: background-color 0.3s; /* 배경색 변경 애니메이션 */
-}
-
-/* 항목 호버 시 배경색 변경 */
-.wrap .hmk_main-container .aside .hmk_sidebar ul li:hover {
-    background-color: #f0f0f0; /* 호버 시 배경색 변경 */
-}
-
-/* 아이콘 스타일 */
-.wrap .hmk_main-container .aside .hmk_sidebar ul li img {
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
-}
-/************************* < /메인 컨테이너 및 사이드바 스타일 > *********************/
+/************************* < /메인 컨테이너 > *********************/
 
 /******************** 메인 콘텐츠 : 통계 카드 컨테이너 스타일 ********************/
 .wrap .hmk_main .hmk_stat-container {
@@ -142,13 +96,14 @@
     gap: 20px; /* 카드 사이의 간격 */
     justify-content: center; /* 카드들을 중앙에 정렬 */
     padding: 20px;
-    background-color: #f8f9fa;
+    background-color: #fff;
     border-radius: 8px; /* 모서리 둥글게 */
 }
 
 /* 통계 카드 스타일 */
 .wrap .hmk_main .hmk_stat-container .hmk_stat-card {
     width: 300px;
+    min-width: 288px;
     padding: 15px;
     background-color: white;
     border-radius: 12px; /* 카드 모서리를 둥글게 */
@@ -224,7 +179,6 @@
     }
 }
 
-
 /* 탭 메뉴 전체 컨테이너 스타일 */
 .wrap .hmk_main-container .hmk_main .hmk_tab-menu {
     display: flex;
@@ -274,24 +228,55 @@
 }
 
 /* 챌린지 카드 */
+.wrap .hmk_main-container 
+.hmk_main 
+.hmk_challenge-list 
 .hmk_challenge-card {
     display: flex;
     flex-direction: row;
     width: 45%;
     max-width: 500px;
+    min-width: 395px;
     background-color: #ffffff;
     border-radius: 10px; /* 카드 전체 모서리를 둥글게 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     transition: transform 0.3s;
     padding: 10px; /* 카드 안쪽 여백 추가 */
+
 }
 
+/* 반응형 디자인 (선택 사항) */
+@media (max-width: 1024px) {
+.wrap .hmk_main-container 
+.hmk_main 
+.hmk_challenge-list 
+.hmk_challenge-card {
+        width: 25%; /* 화면이 좁아지면 두 개씩 배치 */
+    }
+}
+
+@media (max-width: 600px) {
+.wrap .hmk_main-container 
+.hmk_main 
+.hmk_challenge-list 
+.hmk_challenge-card {
+        width: 80%; /* 모바일에서는 한 줄에 하나씩 배치 */
+    }
+}
+
+.wrap .hmk_main-container 
+.hmk_main 
+.hmk_challenge-list 
 .hmk_challenge-card:hover {
     transform: translateY(-5px); /* 마우스 오버 시 카드가 살짝 올라오는 효과 */
 }
 
 /* 챌린지 카드 내 이미지 스타일 */
+.wrap .hmk_main-container 
+.hmk_main 
+.hmk_challenge-list 
+.hmk_challenge-card 
 .hmk_challenge-image {
     width: 100px;
     height: 100px;
@@ -302,12 +287,21 @@
 }
 
 /* 챌린지 카드 내용 컨테이너 */
+.wrap .hmk_main-container 
+.hmk_main 
+.hmk_challenge-list 
+.hmk_challenge-card 
 .hmk_challenge-details {
     padding: 10px 0; /* 텍스트 상하 여백 */
     flex: 1;
 }
 
 /* 챌린지 실행 기간 텍스트 스타일 */
+.wrap .hmk_main-container 
+.hmk_main 
+.hmk_challenge-list 
+.hmk_challenge-card 
+.hmk_challenge-details
 .hmk_challenge-date {
     font-size: 14px;
     color: #666;
@@ -316,6 +310,11 @@
 }
 
 /* 챌린지 타이틀 텍스트 스타일 */
+.wrap .hmk_main-container 
+.hmk_main 
+.hmk_challenge-list 
+.hmk_challenge-card 
+.hmk_challenge-details
 .hmk_challenge-title {
     font-size: 18px;
     font-weight: bold;
@@ -325,414 +324,3 @@
 }
 
 
-/* 부모 클래스: .hmk_profile-modal */
-.wrap .hmk_profile-modal {
-    /* 모달 창의 배경을 어둡게 하여 사용자 집중을 돕는 오버레이 효과 */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    /* 반투명한 검정 배경 */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    /* 다른 요소들보다 위에 표시되도록 설정 */
-}
-
-/* 부모 클래스: .hmk_profile-modal-content */
-.wrap .hmk_profile-modal .hmk_profile-modal-content {
-    /* 모달 창 내부 콘텐츠 영역 */
-    background-color: #fff;
-    /* 흰색 배경 */
-    padding: 20px;
-    /* 내부 패딩 */
-    border-radius: 8px;
-    /* 둥근 모서리 */
-    width: 400px;
-    /* 고정된 너비 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    /* 부드러운 그림자 효과 */
-    position: relative;
-    text-align: center;
-}
-
-/* 모달 창 닫기 버튼 스타일 */
-.wrap .hmk_profile-modal .hmk_close-modal {
-    /* 모달 창의 닫기 버튼 설정 */
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-/* 부모 클래스: .hmk_profile-options */
-/* 프로필 선택 컨테이너 스타일 */
-.hmk_profile-options-container {
-    width: 100%;
-    height: 140px;
-    display: grid;
-    align-items: center;
-    overflow-x: scroll;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-}
-
-.hmk_profile-options-container::-webkit-scrollbar {
-    display: none; /* Chrome, Safari에서 스크롤바 숨기기 */
-}
-
-/* 프로필 선택 이미지 리스트 스타일 */
-.hmk_profile-options {
-    display: flex;
-    gap: 15px;
-    padding: 10px; /* 패딩 추가하여 이미지가 잘리지 않도록 함 */
-    /* 추가적인 스타일 */
-}
-
-/* 프로필 선택 이미지 기본 스타일 */
-.hmk_profile-options img {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: transform 0.3s ease, border 0.3s ease;
-    border: 2px solid transparent; /* 기본 테두리 */
-    flex-shrink: 0; /* 이미지가 축소되지 않도록 설정 */
-}
-
-/* 선택된 프로필 이미지 강조 스타일 */
-.hmk_selected-profile {
-    border: 2px solid #3a7afe; /* 선택 시 파란색 테두리 */
-    transform: scale(1.1); /* 선택 시 이미지 크기 확대 */
-    box-shadow: 0 0 8px rgba(58, 122, 254, 0.6); /* 선택 시 그림자 추가 */
-}
-
-/* 선택된 프로필 이미지를 강조하기 위한 스타일 */
-.wrap .hmk_profile-modal .hmk_profile-options img.selected-profile {
-    /* 선택된 프로필에 대해 적용되는 스타일 */
-    border: 3px solid #3a7afe;
-    /* 선택된 이미지를 강조하는 파란색 테두리 */
-    transform: scale(1.1);
-    /* 선택 시 이미지 크기 확대 */
-    box-shadow: 0 0 8px rgba(58, 122, 254, 0.6);
-    /* 부드러운 파란색 그림자 효과 추가 */
-}
-
-/* 부모 클래스: .hmk_profile-actions */
-.wrap .hmk_profile-modal .hmk_profile-actions {
-    /* 프로필 변경 모달의 액션 버튼 영역 */
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    /* 각 버튼 사이의 간격 */
-}
-
-.wrap .hmk_profile-modal .hmk_profile-actions button {
-    /* 모달의 각 버튼 스타일 설정 */
-    background-color: #3a7afe;
-    /* 기본 파란색 배경 */
-    color: #fff;
-    /* 흰색 텍스트 */
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    /* 둥근 모서리 */
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    /* 버튼 색상 변경 애니메이션 */
-}
-
-/* 취소 버튼의 특수 스타일 설정 */
-.wrap .hmk_profile-modal .hmk_profile-actions button:last-child {
-    background-color: #ccc;
-    /* 취소 버튼은 회색으로 설정 */
-    color: #333;
-}
-
-/* 버튼에 마우스를 올렸을 때의 효과 */
-.wrap .hmk_profile-modal .hmk_profile-actions button:hover {
-    background-color: #2f65e0;
-    /* 버튼의 배경색이 조금 더 어두운 색상으로 변경 */
-}
-
-
-
-/* 부모 클래스: .hmk_password-modal */
-.wrap .hmk_password-modal {
-    /* 비밀번호 변경 모달의 배경 */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 어두운 배경 효과 */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000; /* 다른 요소들보다 위에 표시되도록 설정 */
-}
-
-/* 부모 클래스: .hmk_password-modal-content */
-.wrap .hmk_password-modal .hmk_password-modal-content {
-    /* 모달의 컨텐츠 영역 */
-    background-color: #f0f0f0; /* 밝은 회색 배경 */
-    padding: 30px; /* 여백 설정 */
-    border-radius: 10px; /* 모서리 둥글게 처리 */
-    width: 400px; /* 모달 너비 설정 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과로 입체감 부여 */
-    position: relative;
-    text-align: center;
-}
-
-/* 모달 닫기 버튼 스타일 */
-.wrap .hmk_password-modal .hmk_close-modal {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-/* 부모 클래스: .hmk_password-field */
-.wrap .hmk_password-modal .hmk_password-field {
-    /* 비밀번호 입력 필드 */
-    margin-bottom: 20px; /* 각 필드 사이 간격 */
-    text-align: left; /* 레이블과 입력 필드 정렬 */
-}
-
-.wrap .hmk_password-modal .hmk_password-field label {
-    /* 입력 필드 라벨 */
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-}
-
-.wrap .hmk_password-modal .hmk_password-field input {
-    /* 입력 필드 설정 */
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc; /* 테두리 회색 */
-    border-radius: 5px; /* 둥근 모서리 처리 */
-    box-sizing: border-box; /* 패딩 포함한 전체 너비 계산 */
-}
-
-/* 부모 클래스: .hmk_password-actions */
-.wrap .hmk_password-modal .hmk_password-actions {
-    /* 비밀번호 변경 모달의 버튼 영역 */
-    display: flex;
-    justify-content: space-between; /* 버튼을 양쪽 끝으로 배치 */
-    margin-top: 20px; /* 버튼 위쪽 간격 */
-}
-
-.wrap .hmk_password-modal .hmk_password-actions button {
-    /* 액션 버튼 스타일 */
-    width: 45%; /* 버튼 너비 설정 */
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-/* 취소 버튼 스타일 */
-.wrap .hmk_password-modal .hmk_password-actions button:first-child {
-    background-color: #e0e0e0; /* 회색 배경 */
-    color: #333; /* 검정 텍스트 */
-}
-
-/* 확인 버튼 스타일 */
-.wrap .hmk_password-modal .hmk_password-actions button:last-child {
-    background-color: #7d94f4; /* 파란색 배경 */
-    color: #fff; /* 흰색 텍스트 */
-}
-
-/* 부모 클래스: .hmk_address-modal */
-.wrap .hmk_address-modal {
-    /* 지역 변경 모달의 전체 배경 설정 */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 어두운 배경 효과 */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000; /* 모달이 다른 요소 위에 표시되도록 설정 */
-}
-
-/* 부모 클래스: .hmk_address-modal-content */
-.wrap .hmk_address-modal .hmk_address-modal-content {
-    /* 모달의 주요 컨텐츠 영역 */
-    background-color: #f0f0f0; /* 밝은 회색 배경 */
-    padding: 30px; /* 내부 여백 설정 */
-    border-radius: 10px; /* 모서리를 둥글게 */
-    width: 400px; /* 모달의 너비 설정 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과로 입체감 부여 */
-    position: relative; /* 닫기 버튼의 위치 설정을 위해 사용 */
-    text-align: center; /* 텍스트 중앙 정렬 */
-}
-
-/* 모달 닫기 버튼 스타일 */
-.wrap .hmk_address-modal .hmk_close-modal {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-/* 부모 클래스: .hmk_address-field */
-.wrap .hmk_address-modal .hmk_address-field {
-    /* 입력 필드 스타일 */
-    margin-bottom: 20px; /* 필드 사이 간격 설정 */
-    text-align: left; /* 레이블과 필드 정렬 */
-}
-
-.wrap .hmk_address-modal .hmk_address-field label {
-    /* 필드 레이블 스타일 */
-    font-weight: bold; /* 굵은 텍스트 */
-    display: block; /* 레이블을 블록으로 표시 */
-    margin-bottom: 5px; /* 레이블과 입력 필드 간의 간격 */
-}
-
-.wrap .hmk_address-modal .hmk_address-field input {
-    /* 입력 필드 스타일 */
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc; /* 테두리 설정 */
-    border-radius: 5px; /* 모서리 둥글게 처리 */
-    box-sizing: border-box; /* 내부 패딩을 포함한 전체 너비 계산 */
-}
-
-/* 부모 클래스: .hmk_address-actions */
-.wrap .hmk_address-modal .hmk_address-actions {
-    /* 모달 하단 버튼 영역 */
-    display: flex;
-    justify-content: space-between; /* 버튼을 양 끝으로 배치 */
-    margin-top: 20px; /* 버튼 영역 위쪽 간격 */
-}
-
-.wrap .hmk_address-modal .hmk_address-actions button {
-    /* 액션 버튼 스타일 */
-    width: 45%; /* 버튼 너비 */
-    padding: 10px; /* 버튼 여백 */
-    border-radius: 5px; /* 둥근 모서리 처리 */
-    border: none; /* 테두리 없음 */
-    cursor: pointer;
-    font-size: 16px;
-}
-
-/* 취소 버튼 스타일 */
-.wrap .hmk_address-modal .hmk_address-actions button:first-child {
-    background-color: #e0e0e0; /* 회색 배경 */
-    color: #333; /* 검정색 텍스트 */
-}
-
-/* 확인 버튼 스타일 */
-.wrap .hmk_address-modal .hmk_address-actions button:last-child {
-    background-color: #7d94f4; /* 파란색 배경 */
-    color: #fff; /* 흰색 텍스트 */
-}
-
-/* 부모 클래스: .hmk_nickname-modal */
-.wrap .hmk_nickname-modal {
-    /* 닉네임 변경 모달의 전체 배경 설정 */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 어두운 배경 효과 */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000; /* 모달이 다른 요소 위에 표시되도록 설정 */
-}
-
-/* 부모 클래스: .hmk_nickname-modal-content */
-.wrap .hmk_nickname-modal .hmk_nickname-modal-content {
-    /* 모달의 주요 컨텐츠 영역 */
-    background-color: #f0f0f0; /* 밝은 회색 배경 */
-    padding: 30px; /* 내부 여백 설정 */
-    border-radius: 10px; /* 모서리를 둥글게 */
-    width: 400px; /* 모달의 너비 설정 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과로 입체감 부여 */
-    position: relative; /* 닫기 버튼의 위치 설정을 위해 사용 */
-    text-align: center; /* 텍스트 중앙 정렬 */
-}
-
-/* 모달 닫기 버튼 스타일 */
-.wrap .hmk_nickname-modal .hmk_close-modal {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-/* 부모 클래스: .hmk_nickname-field */
-.wrap .hmk_nickname-modal .hmk_nickname-field {
-    /* 입력 필드 스타일 */
-    margin-bottom: 20px; /* 필드 사이 간격 설정 */
-    text-align: left; /* 레이블과 필드 정렬 */
-}
-
-.wrap .hmk_nickname-modal .hmk_nickname-field label {
-    /* 필드 레이블 스타일 */
-    font-weight: bold; /* 굵은 텍스트 */
-    color: #6d3b31; /* 레이블 강조 (갈색) */
-    display: block; /* 레이블을 블록으로 표시 */
-    margin-bottom: 5px; /* 레이블과 입력 필드 간의 간격 */
-}
-
-.wrap .hmk_nickname-modal .hmk_nickname-field input {
-    /* 입력 필드 스타일 */
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc; /* 테두리 설정 */
-    border-radius: 5px; /* 모서리 둥글게 처리 */
-    box-sizing: border-box; /* 내부 패딩을 포함한 전체 너비 계산 */
-}
-
-/* 부모 클래스: .hmk_nickname-actions */
-.wrap .hmk_nickname-modal .hmk_nickname-actions {
-    /* 모달 하단 버튼 영역 */
-    display: flex;
-    justify-content: space-between; /* 버튼을 양 끝으로 배치 */
-    margin-top: 20px; /* 버튼 영역 위쪽 간격 */
-}
-
-.wrap .hmk_nickname-modal .hmk_nickname-actions button {
-    /* 액션 버튼 스타일 */
-    width: 45%; /* 버튼 너비 */
-    padding: 10px; /* 버튼 여백 */
-    border-radius: 5px; /* 둥근 모서리 처리 */
-    border: none; /* 테두리 없음 */
-    cursor: pointer;
-    font-size: 16px;
-}
-
-/* 취소 버튼 스타일 */
-.wrap .hmk_nickname-modal .hmk_nickname-actions button:first-child {
-    background-color: #e0e0e0; /* 회색 배경 */
-    color: #333; /* 검정색 텍스트 */
-}
-
-/* 확인 버튼 스타일 */
-.wrap .hmk_nickname-modal .hmk_nickname-actions button:last-child {
-    background-color: #7d94f4; /* 파란색 배경 */
-    color: #fff; /* 흰색 텍스트 */
-}

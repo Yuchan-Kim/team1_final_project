@@ -1,3 +1,5 @@
+// src/ham_data/ham_giftData.jsx
+
 import GiftImage1 from '../ham_asset/images/gift1.jpg';
 import GiftImage2 from '../ham_asset/images/gift2.jpg';
 import GiftImage3 from '../ham_asset/images/gift3.jpg';
