@@ -1,48 +1,54 @@
-//import 라이브러리
+// Step05.jsx
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+import moment from 'moment';
 
 import '../../css/reset.css';
 import '../../css/jy_step.css';
 
 import { StepNav } from '../include/StepNav';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
-import moment from 'moment';
 
 const Step05 = () => {
-    const [value, onChange] = useState(new Date());
-
+    const [value, onChange] = useState(null); // 초기값을 null로 설정
     const [selectedWeek, setSelectedWeek] = useState(null); // 선택된 주차를 추적할 상태 변수
 
-    // 주간 항목을 클릭했을 때 호출되는 함수
-    const handleWeekClick = (week) => {
-        setSelectedWeek(week); // 클릭된 주차를 상태에 저장
-    };
-
     /*---라우터 관련-------------------------------*/
-
     const navigate = useNavigate();
 
-    /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
-
-    /*---일반 변수--------------------------------*/
-
-    /*---일반 메소드 -----------------------------*/
-
-    /*---훅(useEffect)+이벤트(handle)메소드-------*/
-
-    const handleCancel = () => {
-        navigate('/genebang/step10');
+    /*---이벤트 핸들러 -------------------------*/
+    const handlePrevious = () => {
+        navigate('/genebang/step4'); // "이전" 버튼을 이전 단계로 변경
     };
     const handleNext = () => {
         navigate('/genebang/step6');
     };
 
+    /*---버튼 활성화 조건---------------------------*/
+    const isNextEnabled = () => {
+        return value && selectedWeek;
+    };
 
+    /*---날짜 제한 함수-----------------------------*/
+    const tileDisabled = ({ date, view }) => {
+        // 월별 뷰에서만 날짜 비활성화
+        if (view === 'month') {
+            const today = moment().startOf('day');
+            const minDate = moment().add(2, 'days').startOf('day');
+            return moment(date).isBefore(minDate);
+        }
+        return false;
+    };
 
+    /*---선택된 날짜 포맷---------------------------*/
+    const formattedDate = value ? moment(value).format('YYYY-MM-DD') : '';
 
+    /*---주차 클릭 핸들러----------------------------*/
+    const handleWeekClick = (week) => {
+        setSelectedWeek(week);
+    };
 
     return (
 
@@ -53,15 +59,12 @@ const Step05 = () => {
                 {/* <Header /> */}
                 {/* //header + //nav */}
 
-
-                <div id="container" >
-
+                <div id="container">
 
                     {/* <div id="aside">
 
                     </div> */}
                     {/* //aside */}
-
 
                     <div className="step" id="step5">
 
@@ -69,9 +72,8 @@ const Step05 = () => {
 
                         <div id="board">
 
-
                             <div id="stepList">
-                                
+
                                 <div id='list-head'>
                                     <h2>시간 날짜를 선택해주세요.</h2>
                                     <h4>챌린지 시작일은 오늘로부터 최소 이틀뒤부터 설정 합니다</h4>
@@ -83,21 +85,20 @@ const Step05 = () => {
 
                             </div>
 
-
-
                             <div id="stepList">
 
-
                                 <div id='list-left'>
-                                    
-                                    {/* <div>시작날짜</div>
-                                    <div><input placeholder='value' /></div> */}
-                                    <div>
                                     <Calendar
-                                    formatDay={(locale, date) => moment(date).format("DD")}
-                                    onChange={onChange} value={value}
+                                        tileDisabled={tileDisabled}
+                                        onChange={onChange}
+                                        value={value}
+                                        formatDay={(locale, date) => moment(date).format("DD")}
                                     />
-                                    </div>
+                                    {formattedDate && (
+                                        <div className="selected-date">
+                                            선택된 날짜: {formattedDate}
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div id='list-left'>
@@ -113,31 +114,32 @@ const Step05 = () => {
                                         ))}
                                     </div>
                                 </div>
- 
+
                             </div>
                             {/* //list */}
 
-                            
+                            <div className="btn">
+                                <button id="secondary" onClick={handlePrevious}>이전</button>
+                                <button 
+                                    id="primary" 
+                                    onClick={handleNext} 
+                                    disabled={!isNextEnabled()}
+                                    className={!isNextEnabled() ? 'disabled' : ''}
+                                    aria-disabled={!isNextEnabled()}
+                                    title={!isNextEnabled() ? '날짜와 주차를 모두 선택해주세요.' : ''}
+                                >
+                                    다음
+                                </button>
+                            </div>
+
                         </div>
                         {/* //board */}
 
-
-                        <div className="btn">
-                                <button id="seconday" onClick={handleCancel}>취소</button>
-                                <button id="primary" onClick={handleNext}>다음</button>
-                        </div>
-
-
-
-
                     </div>
-                    {/* //step  */}
-
-
+                    {/* //step */}
 
                 </div>
-                {/* //container  */}
-
+                {/* //container */}
 
                 {/* <Footer /> */}
                 {/* //footer */}
