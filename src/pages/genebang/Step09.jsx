@@ -28,7 +28,7 @@ const Step09 = () => {
         navigate('/');
     };
     const handleNext = () => {
-        navigate('/');
+        navigate('/cmain');
     };
 
 
@@ -72,7 +72,7 @@ const Step09 = () => {
                             {/* //list */}
 
                             <div className="btn">
-                                <button id="seconday" onClick={handleCancel}>메인으로 가기</button>
+                                <button id="secondary" onClick={handleCancel}>메인으로 가기</button>
                                 <button id="primary" onClick={handleNext}>챌린지로 가기</button>
                             </div>
 

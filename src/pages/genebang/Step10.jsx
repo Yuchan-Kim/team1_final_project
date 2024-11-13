@@ -1,6 +1,7 @@
 //import 라이브러리
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import '../../css/reset.css';
 import '../../css/jy_step.css';
@@ -10,16 +11,14 @@ import '../../css/jy_step.css';
 
 
 const Step10 = () => {
+    const navigate = useNavigate();
 
-    /*---라우터 관련-------------------------------*/
-
-    /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
-
-    /*---일반 변수--------------------------------*/
-
-    /*---일반 메소드 -----------------------------*/
-
-    /*---훅(useEffect)+이벤트(handle)메소드-------*/
+    const handleCancel = () => {
+        navigate('/');
+    };
+    const handleNext = () => {
+        navigate('/cmain');
+    };
 
     return (
 
@@ -58,9 +57,9 @@ const Step10 = () => {
 
                             <div className="btn">
 
-                                <button id="seconday">취소</button>
-                                <button id="seconday">버리기</button>
-                                <button id="primary">저장하기</button>
+                                <button id="secondary">취소</button>
+                                <button id="secondary" onClick={handleCancel}>버리기</button>
+                                <button id="primary"  onClick={handleCancel}>저장하기</button>
                             
                             </div>
                         </div>
