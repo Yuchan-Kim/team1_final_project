@@ -93,7 +93,7 @@ const Step11 = () => {
 
                             <div className="btn">
 
-                                <button id="seconday">취소</button>
+                                <button id="secondary">취소</button>
                                 <button id="primary">다음</button>
                             
                             </div>

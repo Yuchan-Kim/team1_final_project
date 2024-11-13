@@ -1,7 +1,6 @@
 @charset "UTF-8";
-
-
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
 #jy_step > * {
     box-sizing: border-box;
     font-family: "Pretendard Variable", Pretendard, sans-serif;
@@ -12,13 +11,12 @@
     width: 100vw;
     min-width: 1000px;
     margin: 0 auto;
-    padding:0 20px;
+    padding: 0 20px;
 }
 
 .jy_step .container {
     border: 1px solid #000;
 }
-
 
 .step {
     min-width: 1000px;
@@ -33,8 +31,17 @@
     flex-direction: column;
 }
 
+.step.fade-in {
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
 .step #board {
-    flex: 1
+    flex: 1;
 }
 
 .step #board h2 {
@@ -44,10 +51,10 @@
     letter-spacing: 0.1px;
     text-align: center;
     color: #000;
-    padding: 20px 0 30px
+    padding: 20px 0 30px;
 }
 
-.step h4, h3 {
+.step h4, .step h3 {
     flex-grow: 0;
     font-size: 14px;
     font-weight: 500;
@@ -58,16 +65,10 @@
     margin: 5px;
 }
 
-
-
-
 .step h3 {
     font-size: 20px;
     color: #000;
 }
-
-
-
 
 /* ##################################### */
 /* stepNav Bar */
@@ -97,10 +98,8 @@
 
 #stepNav ul li.active {
     color: #000;
-    border-bottom: 2px solid #000
+    border-bottom: 2px solid #000;
 }
-
-
 
 /* ##################################### */
 /* 공통 버튼 */
@@ -123,7 +122,7 @@
     gap: 25px;
 }
 
-.step .btn #seconday {
+.step .btn #secondary {
     width: 240px;
     height: 48px;
     flex-grow: 0;
@@ -151,19 +150,20 @@
     color: #fff;
 }
 
+/* 비활성화된 "다음" 버튼 스타일 */
+.step .btn #primary.disabled {
+    background-color: #cacaca;
+    color: #888888;
+    cursor: not-allowed;
+}
+
+/* 비활성화된 "다음" 버튼 호버 방지 */
+.step .btn #primary.disabled:hover {
+    background-color: #cccccc;
+}
 
 /* ##################################### */
 /* step1 */
-
-#step1 #board h4 {
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 0.63;
-    letter-spacing: 0.1px;
-    text-align: center;
-    color: #000;
-    padding: 20px 0 40px
-}
 
 #step1 #list {
     display: flex;
@@ -174,7 +174,7 @@
     margin-top: 20px;
 }
 
-#step1 #list>div {
+#step1 #list > div {
     flex: 1;
     height: 570px;
     border-radius: 8px;
@@ -182,7 +182,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative
+    position: relative;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 #step1 #list>div h3 {
@@ -216,19 +218,6 @@
     margin-right: 5px;
 }
 
-
-#step1 #list > div {
-    flex: 1;
-    height: 570px;
-    border-radius: 8px;
-    border: solid 1px #cac4d0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    transition: all 0.3s ease;
-}
-
 /* 선택된 항목에 대해 스타일 변경 */
 #step1 #list > div.selected {
     border-color: #000;  /* 테두리 색 강조 */
@@ -247,14 +236,12 @@
     color: #000;
 }
 
-
 /* ##################################### */
 /* step2 */
 
 #step2 #board h2 {
     padding-bottom: 10px;
 }
-
 
 #step2 #list #category {
     /* height: 500px; */
@@ -290,8 +277,6 @@
     border-color: #000;
 }
 
-
-
 #step2 #list #keyword {
     display: flex;
     flex-direction: column;
@@ -306,16 +291,14 @@
 #step2 #list #keyword h3 {
     font-size: 20px;
 }
+
 #step2 #list #keyword h4 {
     margin: 0px;
 }
 
 /* #step2 #list #keyword input {
     margin: 3px;
-
-
 } */
-
 
 #step2 #list #keyword div {
     display: flex;
@@ -325,17 +308,17 @@
     background-color: #f1f1f1;
     display: flex;
     align-items: center;
-    max-width:400px;
+    max-width: 400px;
     width: 100%;
-    margin:0 auto;
+    margin: 0 auto;
 }
+
 #step2 #list #keyword input {
-    border:0;
+    border: 0;
     outline: 0;
     background-color: transparent;
     width: 100%;
 }
-
 
 /* ##################################### */
 /* step3 */
@@ -360,7 +343,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
 }
 
 #step3 #list #upload-Thumbnail {
@@ -373,7 +355,6 @@
     align-items: center;
     background-color: #f5f5f5;
     position: relative;
-
 }
 
 #upload-Thumbnail img {
@@ -381,7 +362,6 @@
     height: 100%;
     object-fit: cover;  /* 이미지 비율에 맞게 자르기 */
 }
-
 
 #step3 #list #input-title {
     display: flex;
@@ -405,14 +385,15 @@
     /* background-color: #f1f1f1; */
     display: flex;
     align-items: center;
-    max-width:400px;
+    max-width: 400px;
     width: 100%;
-    margin:0 auto;
+    margin: 0 auto;
 
     margin-top: 5px;
 
     border: 1px solid #000;
 }
+
 #step3 #list .input-title input {
     border: 0;
     outline: 0;
@@ -426,10 +407,9 @@
     margin-top: 20px;
 }
 
-
-
 /* ##################################### */
 /* step4 */
+
 #step4 #list {
     /* margin-top: 100px; */
     display: flex;
@@ -439,7 +419,7 @@
     gap: 40px;
 }
 
-#step4 #list h2 { padding-bottom: 10px;}
+#step4 #list h2 { padding-bottom: 10px; }
 
 #step4 #list #box-double {
     display: flex;
@@ -460,53 +440,48 @@
     align-items: center;
 
     /* border: 1px solid #000; */
-
 }
-
 
 #step4 #list #box-double {
     display: grid;
-    grid-template-columns: 1fr 1fr;/* 1fr 1fr;*/
+    grid-template-columns: 1fr 1fr; /* 1fr 1fr; */
     padding: 15px 30px;
     row-gap: 10px;
 }
+
 #step4 #list #box-double > div {
     display: flex;
     align-items: center;
 }
+
 #step4 #list #box-double .inputBox {
-    padding:0 30px 0 10px;
+    padding: 0 30px 0 10px;
     width: 300px;
 }
-/* #step4 #list #box-double .inputBox select , .inputBox input { */
-#step4 #list .inputBox select , .inputBox input {
+
+#step4 #list .inputBox select,
+.step4 #list .inputBox input {
     padding: 10px 16px;
     border-radius: 8px;
     border: solid 1px #d9d9d9;
     background-color: #fff;
     width: 250px;
 }
-/* #step4 #list #box-double .inputTT { */
+
 #step4 #list .inputTT {
     width: 100px;
     text-align: end;
 }
-/* #step4 #list #box-double input + label { */
+
 #step4 #list input + label {
     display: flex;
     align-items: center;
-    cursor: pointer ;
+    cursor: pointer;
 }
 
 #step4 #list #box-double label {
     width: 200px;
 }
-
-
-
-
-
-
 
 #step4 #list #box2 {
     display: flex;
@@ -514,10 +489,10 @@
     justify-content: center;
     align-items: center;
 
-
     /* border: 1px solid #000; */
 }
-#step4 #list #input-box  {
+
+#step4 #list #input-box {
     display: flex;
     align-items: center;
     padding: 10px 20px;
@@ -532,16 +507,13 @@
 
     border: 1px solid #000;
 }
+
 #step4 #list #input-box input {
     border: 0;
     outline: 0;
     background-color: transparent;
     width: 100%;
 }
-
-
-
-
 
 /* ##################################### */
 /* step5 */
@@ -551,8 +523,6 @@
     flex-direction: column;
     justify-content: center;
 }
-
-
 
 #step5 #stepList {
     display: flex;
@@ -572,9 +542,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     gap: 8px;
-
     padding: 20px;
 }
 
@@ -588,10 +556,7 @@
     padding-bottom: 10px;
 }
 
-
-
 #step5 #list-left #week div {
-
     border: 1px solid #000;
     gap: 10px;
     width: 90%;
@@ -602,7 +567,6 @@
     font-size: 25px;
 
     border-radius: 15px;
-
 }
 
 #step5 #list-left #week div.selected {
@@ -611,7 +575,6 @@
     border: 2px solid #fff;  /* 테두리 색을 흰색으로 변경 */
     border-radius: 15px;  /* 둥근 테두리 적용 */
 }
-
 
 /* ##################################### */
 /* step6 */
@@ -648,14 +611,38 @@
     width: 50px;
     height: 30px;
     border-radius: 10px;
+
+
+    
+}
+
+#step6 #list .mission-header #mission-btn button{
+    /* margin-left: 100px;
+    gap: 100px; */
+    margin-right: 10px;
+
+
 }
 
 #step6 #list .mission-header > div {
     display: flex;
     flex-direction: column;
     gap: 10px;
+
     
 }
+
+
+
+#step6 #list .mission-header #mission-btn-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    width: 250px;
+
+}
+
 
 #step6 #list h2 , h4 {
     padding-bottom: 5px;
@@ -870,9 +857,6 @@
     border: 1px solid #000;
 }
 
-
-
-
 #step7 #category div.selected {
     background-color: #000;
     color: #fff;
@@ -897,6 +881,7 @@
 
 /* ##################################### */
 /* step8 */
+
 #step8 #list {
     display: flex;
     flex-direction: column;
@@ -910,8 +895,6 @@
 #step8 #list h2 {
     padding-bottom: 5px;
 }
-
-
 
 #step8 #list #ai-select {
     display: flex;
@@ -931,6 +914,12 @@
     border: 1px solid #000;
     border-radius: 10px;
     padding: 10px 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#step8 #list #ai-box:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 #step8 #list #ai-title {
@@ -960,13 +949,24 @@
     justify-content: center;
     align-items: center;
     margin-top: 8px;
-
+    cursor:pointer;
     background-color: #5E91A7;
     color: #fff;
     border: none;
     border-radius: 5px;
 }
+/* Selected ai-box */
+#step8 #list #ai-box.selected {
+    border-color: #007BFF; /* Highlight border */
+    background-color: #e0f0ff; /* Highlight background */
+}
 
+/* Disabled ai-box */
+#step8 #list #ai-box.disabled {
+    opacity: 0.6; /* Dim the box */
+    pointer-events: none; /* Disable interactions */
+    filter: grayscale(50%); /* Optional: Make it look inactive */
+}
 
 /* ##################################### */
 /* step9 */

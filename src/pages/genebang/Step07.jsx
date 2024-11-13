@@ -1,4 +1,4 @@
-//import 라이브러리
+// Step07.jsx
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -7,8 +7,6 @@ import '../../css/reset.css';
 import '../../css/jy_step.css';
 
 import { StepNav } from '../include/StepNav';
-
-
 
 const Step07 = () => {
 
@@ -36,25 +34,22 @@ const Step07 = () => {
     };
 
     /*---라우터 관련-------------------------------*/
-
     const navigate = useNavigate();
 
-    /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
-
-    /*---일반 변수--------------------------------*/
-
-    /*---일반 메소드 -----------------------------*/
-
-    /*---훅(useEffect)+이벤트(handle)메소드-------*/
-
-    const handleCancel = () => {
-        navigate('/genebang/step10');
+    /*---이벤트 핸들러 -------------------------*/
+    const handlePrevious = () => {
+        navigate('/genebang/step6'); // "이전" 버튼을 이전 단계로 변경
     };
     const handleNext = () => {
         navigate('/genebang/step8');
     };
 
-
+    /*---버튼 활성화 조건---------------------------*/
+    const isNextEnabled = () => {
+        if (!selectedEvaluation) return false;
+        if (selectedDays.length === 0) return false;
+        return true;
+    };
 
     return (
 
@@ -65,15 +60,12 @@ const Step07 = () => {
                 {/* <Header /> */}
                 {/* //header + //nav */}
 
-
-                <div id="container" >
-
+                <div id="container">
 
                     {/* <div id="aside">
 
                     </div> */}
                     {/* //aside */}
-
 
                     <div className="step" id="step7">
 
@@ -122,24 +114,27 @@ const Step07 = () => {
                             </div>
                             {/* //list */}
 
-                            <div className="btn">
-                                <button id="seconday" onClick={handleCancel}>취소</button>
-                                <button id="primary" onClick={handleNext}>다음</button>
-                            </div>
-
-
+                            
 
                         </div>
                         {/* //board */}
-
+                        <div className="btn">
+                                <button id="secondary" onClick={handlePrevious}>이전</button>
+                                <button 
+                                    id="primary" 
+                                    onClick={handleNext} 
+                                    disabled={!isNextEnabled()}
+                                    className={!isNextEnabled() ? 'disabled' : ''}
+                                    aria-disabled={!isNextEnabled()}
+                                >
+                                    다음
+                                </button>
+                            </div>
                     </div>
-                    {/* //step  */}
-
-
-
+                    {/* //step */}
+                    
                 </div>
-                {/* //container  */}
-
+                {/* //container */}
 
                 {/* <Footer /> */}
                 {/* //footer */}
