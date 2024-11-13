@@ -1,6 +1,7 @@
 //import 라이브러리
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import '../../css/reset.css';
 import '../../css/jy_step.css';
@@ -13,6 +14,8 @@ const Step04 = () => {
 
     /*---라우터 관련-------------------------------*/
 
+    const navigate = useNavigate();
+
     /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
 
     /*---일반 변수--------------------------------*/
@@ -20,6 +23,18 @@ const Step04 = () => {
     /*---일반 메소드 -----------------------------*/
 
     /*---훅(useEffect)+이벤트(handle)메소드-------*/
+
+    const handleCancel = () => {
+        navigate('/genebang/step10');
+    };
+    const handleNext = () => {
+        navigate('/genebang/step5');
+    };
+
+
+
+
+
 
     return (
 
@@ -67,9 +82,10 @@ const Step04 = () => {
                                             </div>
                                         </div>
                                         <div id='box1'>
-                                            <div>최소 참여 인원 설정</div>
+                                            {/* <div>최소 참여 인원 설정</div> */}
                                             <div>
-                                                <input placeholder='4' />
+                                                <div className="inputTT"><label htmlFor="">최소 참여 인원</label></div><div className="inputBox"><select name="" id=""></select></div>
+                                                {/* <input placeholder='4' /> */}
                                             </div>
                                         </div>
                                     </div>
@@ -78,13 +94,16 @@ const Step04 = () => {
                                 <div id='box2'>
                                     <h3>입장 포인트 설정</h3>
                                     <h4>방에 입장하기 위해서는 일정량의 포인트가 필요합니다.</h4>
-                                    <input placeholder='value' />
+                                    <div id='input-box'>
+                                        <input placeholder='100,000 pt' />
+                                    </div>
+                                    
                                 </div>
                                 <div>
                                     <h3>입장 성실도 설정</h3>
                                     <div id='box1'>
-                                        <div>입장 성실도 설정</div>
-                                        <div>
+                                        {/* <div>입장 성실도 설정</div> */}
+                                        <div  id='input-box'>
                                             <input placeholder='4.5' />
                                         </div>
                                     </div>
@@ -93,9 +112,10 @@ const Step04 = () => {
                                     <h3>지역 설정</h3>
                                     <h4>모임이 필요한 챌린지를 위해 지역을 설정 합니다.</h4>
                                     <div>
-                                        <div>지역 설정</div>
+                                        {/* <div>지역 설정</div> */}
                                         <div>
-                                            <input placeholder='전국' />
+                                            <div className="inputTT"><label htmlFor=""></label></div><div className="inputBox"><select name="" id=""></select></div>
+                                            {/* <input placeholder='전국' /> */}
                                         </div>
                                     </div>
                                 </div>
@@ -106,11 +126,11 @@ const Step04 = () => {
                             {/* //list */}
 
                             <div className="btn">
-
-                                <button id="seconday">취소</button>
-                                <button id="primary">다음</button>
-                            
+                                <button id="seconday" onClick={handleCancel}>취소</button>
+                                <button id="primary" onClick={handleNext}>다음</button>
                             </div>
+
+                            
                         </div>
                         {/* //board */}
 
