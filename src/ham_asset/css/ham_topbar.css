@@ -1,6 +1,4 @@
 @charset "UTF-8";
-
-
 /************************* < 상단바 스타일 > **************************/
 
 .wrap .hmk_main-container .hmk_main {
@@ -9,7 +7,6 @@
     flex-grow: 1;
     padding: 20px;
     background-color: #fff;
-    /* border-left: 1px solid #e0e0e0; */
 }
 
 .wrap .hmk_main-container .hmk_main .hmk_topbar {
@@ -34,7 +31,6 @@
 /* 프로필 이미지 컨테이너 스타일 */
 .wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_Profile .hmk_profile-container {
     position: relative;
-    padding-top: 10px;
     width: 110px;
     height: 110px;
     border-radius: 30%;
@@ -117,7 +113,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 20px 0;
     background-color: #f8f9fa;
     border-radius: 8px;
 }
@@ -130,6 +126,7 @@
 
 .wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics th,
 .wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics td {
+    width: 140px;
     padding: 10px 20px;
 }
 

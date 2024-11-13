@@ -5,7 +5,7 @@ import DatePicker from 'react-datepicker'; // 날짜 선택기 import
 import 'react-datepicker/dist/react-datepicker.css';
 
 // Header, Sidebar, Topbar 컴포넌트 import
-import Header from './ham_common/ham_header';
+import Header from '../pages/include/DH_Header';
 import Sidebar from './ham_common/ham_sidebar';
 import Topbar from './ham_common/ham_topbar';
 
@@ -108,157 +108,158 @@ const Pointpage = () => {
     };
 
     return (
-        <div className="wrap ham_wrap">
+        <>
             {/* Header 컴포넌트 */}
             <Header onLogout={handleLogout} />
 
-            {/* 메인 컨테이너 */}
-            <div className="hmk_main-container">
-                {/* Sidebar 컴포넌트 */}
-                <Sidebar />
+            <div className="wrap ham_wrap">
 
-                {/* 메인 콘텐츠 영역 */}
-                <div className="hmk_main">
-                    {/* Topbar 컴포넌트 */}
-                    <Topbar />
+                {/* 메인 컨테이너 */}
+                <div className="hmk_main-container">
+                    {/* Sidebar 컴포넌트 */}
+                    <Sidebar />
 
-                    {/* 포인트 내역 테이블 */}
-                    <div className="hmk_point-history">
-                        <h2>포인트 내역</h2>
-                        <div className="hmk_point-summary">
-                            <div className="hmk_point-box">
-                                <p>Total Points</p>
-                                <div className="hmk_point-value">{totalPoints}</div>
-                            </div>
-                            <div className="hmk_point-box">
-                                <p>Points Earned</p>
-                                <div className="hmk_point-value">{pointsEarned.toLocaleString()}</div>
-                            </div>
-                            <div className="hmk_point-box">
-                                <p>Points Spent</p>
-                                <div className="hmk_point-value">{pointsSpent.toLocaleString()}</div>
-                            </div>
-                        </div>
+                    {/* 메인 콘텐츠 영역 */}
+                    <div className="hmk_main">
+                        {/* Topbar 컴포넌트 */}
+                        <Topbar />
 
-                        {/* 날짜 검색 필터 버튼 */}
-                        <div className="hmk_point-filter">
-                            <p>기간을 선택하세요</p>
-                            <div className="hmk_date-options">
-                                <button className="hmk_date-button" onClick={() => {
-                                    /* 최근 7일 필터링 로직 */
-                                    setStartDate(new Date(Date.now() - 7 * 24 * 60 * 60 * 1000));
-                                    setEndDate(new Date());
-                                }}>최근 7일</button>
-                                <button className="hmk_date-button" onClick={() => {
-                                    /* 최근 30일 필터링 로직 */
-                                    setStartDate(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000));
-                                    setEndDate(new Date());
-                                }}>최근 30일</button>
-                                <button className="hmk_date-button" onClick={() => {
-                                    /* 최근 90일 필터링 로직 */
-                                    setStartDate(new Date(Date.now() - 90 * 24 * 60 * 60 * 1000));
-                                    setEndDate(new Date());
-                                }}>최근 90일</button>
-                                {/* 초기화 버튼 */}
-                                <button className="hmk_date-button hmk_reset-button" onClick={handleResetFilters}>
-                                    초기화
-                                </button>
-                            </div>
-
-                            {/* 날짜 검색 인풋 창 */}
-                            <div className="hmk_date-inputs">
-                                <div className="hmk_date">
-                                    <label htmlFor="start-date">시작일</label>
-                                    <div className="hmk_date-wrapper">
-                                        <DatePicker
-                                            selected={startDate}
-                                            onChange={date => setStartDate(date)}
-                                            placeholderText="mm/dd/yyyy                 📅"
-                                            className="hmk_date-input"
-                                        />
-                                        <span className="hmk_calendar-icon" onClick={() => { /* 열기 로직 */ }}></span>
-                                    </div>
-                                </div>
-                                <div className="hmk_date">
-                                    <label htmlFor="end-date">종료일</label>
-                                    <div className="hmk_date-wrapper">
-                                        <DatePicker
-                                            selected={endDate}
-                                            onChange={date => setEndDate(date)}
-                                            placeholderText="mm/dd/yyyy                 📅"
-                                            className="hmk_date-input"
-                                        />
-                                        <span className="hmk_calendar-icon" onClick={() => { /* 열기 로직 */ }}></span>
-                                    </div>
-                                </div>
-
-                                <button className="hmk_search-button" onClick={handleSearch}>검색</button>
-                            </div>
-                        </div>
-
-                        {/* 포인트 내역 토글 버튼 */}
-                        <div className="hmk_toggle-container">
-                            <button
-                                className={`hmk_toggle-button ${activeTab === '전체' ? 'active' : ''}`}
-                                onClick={() => handleTabChange('전체')}
-                            >
-                                전체
-                            </button>
-                            <button
-                                className={`hmk_toggle-button ${activeTab === '적립' ? 'active' : ''}`}
-                                onClick={() => handleTabChange('적립')}
-                            >
-                                적립
-                            </button>
-                            <button
-                                className={`hmk_toggle-button ${activeTab === '사용' ? 'active' : ''}`}
-                                onClick={() => handleTabChange('사용')}
-                            >
-                                사용
-                            </button>
-                        </div>
-                        
                         {/* 포인트 내역 테이블 */}
-                        <table className="hmk_point-table">
-                            <thead>
-                                <tr>
-                                    <th>날짜</th>
-                                    <th>설명</th>
-                                    <th>변동</th>
-                                    <th>잔액</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {tablePoints.length > 0 ? (
-                                    tablePoints.map((item, index) => (
-                                        <tr key={index}>
-                                            <td>{item.date}</td>
-                                            <td>{item.description}</td>
-                                            <td>
-                                                {item.type === '적립' ? (
-                                                    <span className="earned">
-                                                        {item.change.toLocaleString()}
-                                                    </span>
-                                                ) : (
-                                                    <span className="spent">
-                                                        - {Math.abs(item.change).toLocaleString()}
-                                                    </span>
-                                                )}
-                                            </td>
-                                            <td>{item.total.toLocaleString()}</td>
-                                        </tr>
-                                    ))
-                                ) : (
+                        <div className="hmk_point-history">
+                            <h2>포인트 내역</h2>
+                            <div className="hmk_point-summary">
+                                <div className="hmk_point-box">
+                                    <p>Total Points</p>
+                                    <div className="hmk_point-value">{totalPoints}</div>
+                                </div>
+                                <div className="hmk_point-box">
+                                    <p>Points Earned</p>
+                                    <div className="hmk_point-value">{pointsEarned.toLocaleString()}</div>
+                                </div>
+                                <div className="hmk_point-box">
+                                    <p>Points Spent</p>
+                                    <div className="hmk_point-value">{pointsSpent.toLocaleString()}</div>
+                                </div>
+                            </div>
+
+                            <div className="hmk_point_filterbar">
+                                {/* 포인트 내역 토글 버튼 */}
+                                <div className="hmk_toggle-container">
+                                    <button
+                                        className={`hmk_toggle-button ${activeTab === '전체' ? 'active' : ''}`}
+                                        onClick={() => handleTabChange('전체')}
+                                    >
+                                        전체
+                                    </button>
+                                    <button
+                                        className={`hmk_toggle-button ${activeTab === '적립' ? 'active' : ''}`}
+                                        onClick={() => handleTabChange('적립')}
+                                    >
+                                        적립
+                                    </button>
+                                    <button
+                                        className={`hmk_toggle-button ${activeTab === '사용' ? 'active' : ''}`}
+                                        onClick={() => handleTabChange('사용')}
+                                    >
+                                        사용
+                                    </button>
+                                </div>
+                                {/* 날짜 검색 필터 버튼 */}
+                                <div className="hmk_point-filter">
+                                    <div className="hmk_date-options">
+                                        <button className="hmk_date-button" onClick={() => {
+                                            /* 최근 7일 필터링 로직 */
+                                            setStartDate(new Date(Date.now() - 7 * 24 * 60 * 60 * 1000));
+                                            setEndDate(new Date());
+                                        }}>최근 7일</button>
+                                        <button className="hmk_date-button" onClick={() => {
+                                            /* 최근 30일 필터링 로직 */
+                                            setStartDate(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000));
+                                            setEndDate(new Date());
+                                        }}>최근 30일</button>
+                                        <button className="hmk_date-button" onClick={() => {
+                                            /* 최근 90일 필터링 로직 */
+                                            setStartDate(new Date(Date.now() - 90 * 24 * 60 * 60 * 1000));
+                                            setEndDate(new Date());
+                                        }}>최근 90일</button>
+                                        {/* 초기화 버튼 */}
+                                        <button className="hmk_date-button hmk_reset-button" onClick={handleResetFilters}>
+                                            초기화
+                                        </button>
+                                    </div>
+                                    {/* 날짜 검색 인풋 창 */}
+                                    <div className="hmk_date-inputs">
+                                        <div className="hmk_date">
+                                            <label htmlFor="start-date">시작일</label>
+                                            <div className="hmk_date-wrapper">
+                                                <DatePicker
+                                                    selected={startDate}
+                                                    onChange={date => setStartDate(date)}
+                                                    placeholderText="mm/dd/yyyy    📅"
+                                                    className="hmk_date-input"
+                                                />
+                                                <span className="hmk_calendar-icon" onClick={() => { /* 열기 로직 */ }}></span>
+                                            </div>
+                                        </div>
+                                        <div className="hmk_date">
+                                            <label htmlFor="end-date">종료일</label>
+                                            <div className="hmk_date-wrapper">
+                                                <DatePicker
+                                                    selected={endDate}
+                                                    onChange={date => setEndDate(date)}
+                                                    placeholderText="mm/dd/yyyy    📅"
+                                                    className="hmk_date-input"
+                                                />
+                                                <span className="hmk_calendar-icon" onClick={() => { /* 열기 로직 */ }}></span>
+                                            </div>
+                                        </div>
+                                        <button className="hmk_search-button" onClick={handleSearch}>검색</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* 포인트 내역 테이블 */}
+                            <table className="hmk_point-table">
+                                <thead>
                                     <tr>
-                                        <td colSpan="4">해당 조건에 맞는 데이터가 없습니다.</td>
+                                        <th>날짜</th>
+                                        <th>설명</th>
+                                        <th>변동</th>
+                                        <th>잔액</th>
                                     </tr>
-                                )}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {tablePoints.length > 0 ? (
+                                        tablePoints.map((item, index) => (
+                                            <tr key={index}>
+                                                <td>{item.date}</td>
+                                                <td>{item.description}</td>
+                                                <td>
+                                                    {item.type === '적립' ? (
+                                                        <span className="earned">
+                                                            {item.change.toLocaleString()}
+                                                        </span>
+                                                    ) : (
+                                                        <span className="spent">
+                                                            - {Math.abs(item.change).toLocaleString()}
+                                                        </span>
+                                                    )}
+                                                </td>
+                                                <td>{item.total.toLocaleString()}</td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="4">해당 조건에 맞는 데이터가 없습니다.</td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

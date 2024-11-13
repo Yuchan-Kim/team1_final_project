@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Chart from 'chart.js/auto'; // 차트 만드는 라이브러리
 
 // Header, Sidebar, Topbar 컴포넌트 import
-import Header from './ham_common/ham_header';
+import Header from '../pages/include/DH_Header';
 import Sidebar from './ham_common/ham_sidebar';
 import Topbar from './ham_common/ham_topbar';
 
@@ -40,7 +40,7 @@ const challenges = {
 };
 
 const MyPage = () => {
-    
+
     // 챌린지 히스토리 탭 전환 상태값
     const [activeTab, setActiveTab] = useState('ongoing'); // 현재 활성화된 챌린지 탭 (진행 중, 시작 전, 종료)
 
@@ -124,71 +124,65 @@ const MyPage = () => {
     };
 
     return (
-        <div className="wrap ham_wrap">
+        <>
             {/* Header 컴포넌트 */}
-            <Header
-                // profileImage는 Topbar 내에서 관리되므로 MyPage에서는 전달하지 않음
-                username="씽씽이김유찬"
-                points="3600"
-                onLogout={handleLogout}
-            />
-
-            {/* 메인 컨테이너 */}
-            <div className="hmk_main-container">
-                {/* Sidebar 컴포넌트 */}
-                <Sidebar />
-
-                {/* 메인 콘텐츠 영역 */}
-                <div className="hmk_main">
-                    {/* Topbar 컴포넌트 */}
-                    <Topbar
-                        username="씽씽이김유찬"
-                        points="3600"
-                    />
-
-                    <div className="hmk_stat-container">
-                        {chartData.map((chart) => (
-                            <div key={chart.id} className="hmk_stat-card" style={{ position: 'relative' }}>
-                                <div className="hmk_chart">
-                                    <canvas className="hmk_chart_item" id={chart.id} width="71" height="71"></canvas>
-                                    <div className="hmk_stat-card_chart-center-text">
-                                        {chart.label} {/* 차트 중앙에 표시될 텍스트 */}
+            <Header />
+            <div className="wrap ham_wrap">
+                {/* 메인 컨테이너 */}
+                <div className="hmk_main-container">
+                    {/* Sidebar 컴포넌트 */}
+                    <Sidebar />
+                    {/* 메인 콘텐츠 영역 */}
+                    <div className="hmk_main">
+                        {/* Topbar 컴포넌트 */}
+                        <Topbar
+                            username="씽씽이김유찬"
+                            points="3600"
+                        />
+                        <div className="hmk_stat-container">
+                            {chartData.map((chart) => (
+                                <div key={chart.id} className="hmk_stat-card" style={{ position: 'relative' }}>
+                                    <div className="hmk_chart">
+                                        <canvas className="hmk_chart_item" id={chart.id} width="71" height="71"></canvas>
+                                        <div className="hmk_stat-card_chart-center-text">
+                                            {chart.label} {/* 차트 중앙에 표시될 텍스트 */}
+                                        </div>
+                                    </div>
+                                    <div className="hmk_stat-info">
+                                        <p className="hmk_stat-title">{chart.title}</p>
+                                        <p className="hmk_stat-data">{chart.stat}</p>
+                                        <Link to="#" className="hmk_stat-link">{chart.link}</Link>
                                     </div>
                                 </div>
-                                <div className="hmk_stat-info">
-                                    <p className="hmk_stat-title">{chart.title}</p>
-                                    <p className="hmk_stat-data">{chart.stat}</p>
-                                    <Link to="#" className="hmk_stat-link">{chart.link}</Link>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="hmk_tab-menu">
-                        <button className={`hmk_tab-button ${activeTab === 'ongoing' ? 'hmk_active' : ''}`} onClick={() => handleTabClick('ongoing')}>
-                            진행중인 챌린지
-                        </button>
-                        <button className={`hmk_tab-button ${activeTab === 'upcoming' ? 'hmk_active' : ''}`} onClick={() => handleTabClick('upcoming')}>
-                            시작 전 챌린지
-                        </button>
-                        <button className={`hmk_tab-button ${activeTab === 'completed' ? 'hmk_active' : ''}`} onClick={() => handleTabClick('completed')}>
-                            종료 된 챌린지
-                        </button>
-                    </div>
+                            ))}
+                        </div>
+                        <div className="hmk_tab-menu">
+                            <button className={`hmk_tab-button ${activeTab === 'ongoing' ? 'hmk_active' : ''}`} onClick={() => handleTabClick('ongoing')}>
+                                진행중인 챌린지
+                            </button>
+                            <button className={`hmk_tab-button ${activeTab === 'upcoming' ? 'hmk_active' : ''}`} onClick={() => handleTabClick('upcoming')}>
+                                시작 전 챌린지
+                            </button>
+                            <button className={`hmk_tab-button ${activeTab === 'completed' ? 'hmk_active' : ''}`} onClick={() => handleTabClick('completed')}>
+                                종료 된 챌린지
+                            </button>
+                        </div>
 
-                    <div className="hmk_challenge-list">
-                        {challenges[activeTab].map((challenge) => (
-                            <div key={challenge.id} className="hmk_challenge-card">
-                                <img src={require(`../ham_asset/images/${challenge.image}`)} alt="챌린지" className="hmk_challenge-image" />
-                                <div className="hmk_challenge-details">
-                                    <p className="hmk_challenge-date">{challenge.date}</p>
-                                    <p className="hmk_challenge-title">{challenge.title}</p>
+                        <div className="hmk_challenge-list">
+                            {challenges[activeTab].map((challenge) => (
+                                <div key={challenge.id} className="hmk_challenge-card">
+                                    <img src={require(`../ham_asset/images/${challenge.image}`)} alt="챌린지" className="hmk_challenge-image" />
+                                    <div className="hmk_challenge-details">
+                                        <p className="hmk_challenge-date">{challenge.date}</p>
+                                        <p className="hmk_challenge-title">{challenge.title}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

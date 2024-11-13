@@ -41,6 +41,19 @@
     overflow: hidden; /* 이미지가 프레임을 넘지 않도록 설정 */
 }
 
+.wrap .hmk_main-container .hmk_main .hmk_gift-image_frame:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.wrap .hmk_main-container .hmk_main .hmk_gift-image_frame {
+
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
 /* 기프티콘 이미지 스타일 */
 .wrap .hmk_main-container .hmk_main .hmk_gift-image {
     width: 100%; /* 이미지 너비를 프레임에 맞춤 */
