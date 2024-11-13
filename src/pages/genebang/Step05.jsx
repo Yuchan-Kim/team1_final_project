@@ -1,6 +1,7 @@
 //import 라이브러리
 
-import {React , useState} from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import '../../css/reset.css';
 import '../../css/jy_step.css';
@@ -13,8 +14,16 @@ import moment from 'moment';
 const Step05 = () => {
     const [value, onChange] = useState(new Date());
 
+    const [selectedWeek, setSelectedWeek] = useState(null); // 선택된 주차를 추적할 상태 변수
+
+    // 주간 항목을 클릭했을 때 호출되는 함수
+    const handleWeekClick = (week) => {
+        setSelectedWeek(week); // 클릭된 주차를 상태에 저장
+    };
 
     /*---라우터 관련-------------------------------*/
+
+    const navigate = useNavigate();
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
 
@@ -23,6 +32,17 @@ const Step05 = () => {
     /*---일반 메소드 -----------------------------*/
 
     /*---훅(useEffect)+이벤트(handle)메소드-------*/
+
+    const handleCancel = () => {
+        navigate('/genebang/step10');
+    };
+    const handleNext = () => {
+        navigate('/genebang/step6');
+    };
+
+
+
+
 
     return (
 
@@ -81,12 +101,16 @@ const Step05 = () => {
                                 </div>
 
                                 <div id='list-left'>
-                                    
                                     <div id='week'>
-                                        <div>1 주간 챌린지 진행하기</div>
-                                        <div>2 주간 챌린지 진행하기</div>
-                                        <div>3 주간 챌린지 진행하기</div>
-                                        <div>4 주간 챌린지 진행하기</div>
+                                        {['1 주간', '2 주간', '3 주간', '4 주간'].map((week, index) => (
+                                            <div
+                                                key={index}
+                                                onClick={() => handleWeekClick(week)} // 항목 클릭 시 상태 업데이트
+                                                className={selectedWeek === week ? 'selected' : ''} // 선택된 항목에 'selected' 클래스 추가
+                                            >
+                                                {week} 챌린지 진행하기
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
  
@@ -96,10 +120,16 @@ const Step05 = () => {
                             
                         </div>
                         {/* //board */}
+
+
                         <div className="btn">
-                            <button id="seconday">취소</button>
-                            <button id="primary">다음</button>
+                                <button id="seconday" onClick={handleCancel}>취소</button>
+                                <button id="primary" onClick={handleNext}>다음</button>
                         </div>
+
+
+
+
                     </div>
                     {/* //step  */}
 
