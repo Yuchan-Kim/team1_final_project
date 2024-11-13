@@ -10,7 +10,7 @@ import { StepNav } from '../include/StepNav';
 
 import CloseOutlineIcon from '@rsuite/icons/CloseOutline';
 
-const Step03 = () => {
+const Step03 = ({ onNext, onPrevious }) => {
 
     /*---라우터 관련-------------------------------*/
     const navigate = useNavigate();
@@ -123,10 +123,10 @@ const Step03 = () => {
                             {/* //list */}
 
                             <div className="btn">
-                                <button id="secondary" onClick={handlePrevious}>이전</button>
+                                <button id="secondary" onClick={onPrevious}>이전</button>
                                 <button 
                                     id="primary" 
-                                    onClick={handleNext} 
+                                    onClick={onNext}
                                     disabled={!title.trim() || !description.trim()}
                                     className={!title.trim() || !description.trim() ? 'disabled' : ''}
                                     aria-disabled={!title.trim() || !description.trim()}

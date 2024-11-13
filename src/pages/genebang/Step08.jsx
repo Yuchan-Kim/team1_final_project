@@ -8,7 +8,7 @@ import '../../css/jy_step.css';
 
 import { StepNav } from '../include/StepNav';
 
-const Step08 = () => {
+const Step08 = ({ onNext, onPrevious }) => {
 
     /*---라우터 관련-------------------------------*/
     const navigate = useNavigate();
@@ -116,10 +116,10 @@ const Step08 = () => {
                             {/* //list */}
 
                             <div className="btn">
-                                <button id="secondary" onClick={handlePrevious}>이전</button>
+                                <button id="secondary" onClick={onPrevious}>이전</button>
                                 <button 
                                     id="primary" 
-                                    onClick={handleNext} 
+                                    onClick={onNext}
                                     
                                 >
                                     다음

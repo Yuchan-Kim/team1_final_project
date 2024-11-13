@@ -8,7 +8,7 @@ import '../../css/jy_step.css';
 
 import { StepNav } from '../include/StepNav';
 
-const Step04 = () => {
+const Step04 = ({ onNext, onPrevious }) => {
 
     /*---라우터 관련-------------------------------*/
     const navigate = useNavigate();
@@ -21,7 +21,7 @@ const Step04 = () => {
     const [honestyScore, setHonestyScore] = useState('');
 
     /*---이벤트 핸들러 -------------------------*/
-    const handlePrevious = () => {
+    const handlePrevious = ({ onNext, onPrevious }) => {
         navigate('/genebang/step3'); // "이전" 버튼을 이전 단계로 변경
     };
     const handleNext = () => {
@@ -156,10 +156,10 @@ const Step04 = () => {
                             {/* //list */}
 
                             <div className="btn">
-                                <button id="secondary" onClick={handlePrevious}>이전</button>
+                                <button id="secondary" onClick={onPrevious}>이전</button>
                                 <button 
                                     id="primary" 
-                                    onClick={handleNext} 
+                                    onClick={onNext} 
                                     disabled={!isNextEnabled()}
                                     className={!isNextEnabled() ? 'disabled' : ''}
                                     aria-disabled={!isNextEnabled()}
