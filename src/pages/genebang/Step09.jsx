@@ -10,7 +10,7 @@ import '../../css/jy_step.css';
 
 
 
-const Step09 = () => {
+const Step09 = ({ onPrevious, closeModal }) => {
 
     /*---라우터 관련-------------------------------*/
 

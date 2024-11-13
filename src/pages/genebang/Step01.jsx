@@ -10,7 +10,7 @@ import { StepNav } from '../include/StepNav';
 
 import CheckRoundIcon from '@rsuite/icons/CheckRound';
 
-const Step01 = () => {
+const Step01 = ({ onNext, onCancel }) => {
 
     /*---라우터 관련-------------------------------*/
 
@@ -31,7 +31,7 @@ const Step01 = () => {
     /*---이벤트 핸들러 -------------------------*/
 
     const handleCancel = () => {
-        navigate('/genebang/step10');
+        navigate('/');
     };
     const handleNext = () => {
         navigate('/genebang/step2');
@@ -98,10 +98,10 @@ const Step01 = () => {
                             {/* //list */}
 
                             <div className="btn">
-                                <button id="secondary" onClick={handleCancel}>취소</button>
+                                <button id="secondary" onClick={onCancel}>취소</button>
                                 <button
                                     id="primary"
-                                    onClick={handleNext}
+                                    onClick={onNext}
                                     disabled={!selected}
                                     className={!selected ? 'disabled' : ''}
                                 >
