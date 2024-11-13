@@ -634,6 +634,8 @@
     gap: 40px;
 }
 
+
+
 #step6 #list .mission-header {
     display: flex;
     justify-content: flex-start;
@@ -659,6 +661,10 @@
     margin-right: 10px;
 
 
+}
+
+#step6 #list #finalgoal-button{
+    width: 180px;
 }
 
 #step6 #list .mission-header > div {
@@ -720,7 +726,7 @@
     width: 100%;
 }
 /* #step6 .input-button-group button { */
-#step6 #list button {
+#step6 #board button {
     padding: 10px 20px;
     background-color: #5E91A7;
     color: white;
@@ -798,6 +804,7 @@
     gap: 10px;
 
     margin: 10px;
+    /* margin-left: 200px; */
 
 }
 
@@ -839,6 +846,15 @@
     color: #555;
     font-weight: bold;
     cursor: pointer;
+}
+
+#step6 #board #mission-btn-plus {
+    /* display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start; */
+    /* padding-left: 200px; */
+    
 }
 
 
