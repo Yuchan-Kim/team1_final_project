@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import YCChallengeStatistics from './yc_pages/YC_challenge_statistics';
 import YcChallengeBoard from './yc_pages/YC_challenge_board';
 import MissionInfo from './pages/challenge/Missioninfo.jsx';
-import Challengemain from './pages/challenge/Challengemain.jsx';
+import Challengemain from './pages/challenge/JMYC_Challengemain.jsx';
 import Mission from './pages/challenge/mission.jsx';
 import Mypage from './ham_pages/ham_mypage';
 import Pointpage from './ham_pages/ham_mypage_point';
@@ -21,7 +21,12 @@ import Step8 from './pages/genebang/Step08';
 import Step9 from './pages/genebang/Step09';
 import Step10 from './pages/genebang/Step10';
 import Step11 from './pages/genebang/Step11';
+import DHLoginForm from './user/DH_LoginForm.jsx';
+import DHJoinForm from './user/DH_JoinForm.jsx';
+import DHPwSearch from './user/DH_PwSearch.jsx';
+import DHPwAlter from './user/DH_PwAlter.jsx';
 
+import DHPointStoreMain from './pointstore/DH_PointStoreMain.jsx';
 
 import Main from './pages/main/Main';
 import Mainlist from './pages/main/Mainlist';
@@ -51,7 +56,12 @@ function App() {
           <Route path='/genebang/step9' element={<Step9 />} />
           <Route path='/genebang/step10' element={<Step10 />} />
           <Route path='/genebang/step11' element={<Step11 />} />
+          <Route path='/user/loginform' element={<DHLoginForm/>} />
+					<Route path='/user/joinform' element={<DHJoinForm/>} />
+					<Route path='/user/pwsearch' element={<DHPwSearch/>} />
+					<Route path='/user/pwalter' element={<DHPwAlter/>} />
 
+					<Route path='/pointstore/pointstoremain' element={<DHPointStoreMain />} />
           <Route path='/' element={<Main />} />
           <Route path='/mainlist' element={<Mainlist />} />
 

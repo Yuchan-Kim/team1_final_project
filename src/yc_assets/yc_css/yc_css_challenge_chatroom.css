@@ -1,0 +1,149 @@
+/* src/yc_assets/yc_css/yc_css_chat.css */
+
+/* 채팅 아이콘 */
+.yc-floating-chat-icon {
+  position: fixed;
+  bottom: 30px; /* 하단으로 이동 */
+  right: 10px; /* 우측으로 이동 */
+  width: 60px;
+  height: 60px;
+  background-color: #9dabb7;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  font-size: 24px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  z-index: 1000; /* 다른 요소 위에 표시 */
+}
+
+.yc-floating-chat-icon:hover {
+  background-color: #1976D2;
+  transform: scale(1.1);
+}
+
+/* 채팅 모달 */
+.yc-chat-modal {
+  position: fixed;
+  bottom: 100px; /* 채팅 아이콘 위에 위치 */
+  right: 10px; /* 채팅 아이콘과 동일한 우측 위치 */
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  width: 250px; /* 가로 사이즈 200px */
+  height: 400px; /* 높이 300px */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  animation: yc-slideDown 0.3s forwards;
+  display: flex;
+  flex-direction: column;
+  z-index: 1001; /* 채팅 아이콘보다 위 */
+}
+
+@keyframes yc-slideDown {
+  from { transform: translateY(-30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.yc-chat-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.yc-chat-modal-header h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.yc-chat-modal-close-button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #f44336;
+  transition: color 0.3s ease;
+}
+
+.yc-chat-modal-close-button:hover {
+  color: #d32f2f;
+}
+
+.yc-chat-box {
+  flex-grow: 1;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 5px;
+  background-color: #f9f9f9;
+  margin-bottom: 10px;
+}
+
+.yc-chat-form {
+  display: flex;
+  gap: 5px;
+}
+
+.yc-chat-input {
+  flex-grow: 1;
+  height: 30px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding-left: 5px;
+}
+
+.yc-chat-input:focus {
+  border-color: #888;
+}
+
+.yc-btn-send {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 0 10px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.yc-btn-send:hover {
+  background-color: #45a049;
+}
+
+/* 채팅 메시지 */
+.yc-user-msg-box,
+.yc-bot-msg-box {
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.yc-user-msg-box {
+  justify-content: flex-end;
+}
+
+.yc-bot-msg-box {
+  justify-content: flex-start;
+}
+
+.yc-user-msg,
+.yc-bot-msg {
+  max-width: 80%;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.yc-user-msg {
+  background-color: #e0f7fa;
+  text-align: right;
+}
+
+.yc-bot-msg {
+  background-color: #f1f8e9;
+  text-align: left;
+}
