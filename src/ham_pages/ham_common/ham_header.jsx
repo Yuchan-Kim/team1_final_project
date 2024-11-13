@@ -18,8 +18,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import '../../ham_asset/css/ham_header.css'; // 헤더 전용 CSS
 import profileStore from './profileStore'; // profileStore 임포트
+import Logo from '../../ham_asset/images/3d_customer-service-area-apng.png';
 
 const Header = ({ onLogout }) => {
     const [profileImage, setProfileImage] = useState(profileStore.getProfileImage());
@@ -44,7 +44,7 @@ const Header = ({ onLogout }) => {
     return (
         <header className="hmk_header">
             {/* 로고 이미지 */}
-            <img src="https://via.placeholder.com/50" alt="Logo" className="hmk_logo" />
+            <img src={Logo} alt="Logo" className="hmk_logo" />
             <div className="hmk_menu">
                 <ul>
                     <li><Link to="#">챌린지</Link></li>
