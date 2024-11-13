@@ -7,6 +7,7 @@ import Mission from './pages/challenge/mission.jsx';
 import Mypage from './ham_pages/ham_mypage';
 import Pointpage from './ham_pages/ham_mypage_point';
 import Cargo from './ham_pages/ham_mypage_cargo';
+import Rank from './ham_pages/ham_mypage_ranking';
 
 import Step0 from './pages/genebang/Genebang01';
 import Step1 from './pages/genebang/Step01';
@@ -41,6 +42,7 @@ function App() {
             <Route path='/user/mypage' element={<Mypage />} />
           <Route path='/user/mypoint' element={<Pointpage />} />
           <Route path='/user/cargo' element={<Cargo />} />
+          <Route path='/user/rank' element={<Rank />} />
             <Route path='/genebang/genebang01' element={<Step0 />} />
 
           <Route path='/genebang/step1' element={<Step1 />} />
