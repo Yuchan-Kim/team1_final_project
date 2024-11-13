@@ -29,7 +29,7 @@ const Mainlist = () => {
         <>
             <Header />
 
-            <div id="wrap" className="wrap">
+            <div id="jy_wrap" className="jy_wrap">
 
                 
                 {/* //header + //nav */}

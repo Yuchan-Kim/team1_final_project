@@ -648,14 +648,38 @@
     width: 50px;
     height: 30px;
     border-radius: 10px;
+
+
+    
+}
+
+#step6 #list .mission-header #mission-btn button{
+    /* margin-left: 100px;
+    gap: 100px; */
+    margin-right: 10px;
+
+
 }
 
 #step6 #list .mission-header > div {
     display: flex;
     flex-direction: column;
     gap: 10px;
+
     
 }
+
+
+
+#step6 #list .mission-header #mission-btn-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    width: 250px;
+
+}
+
 
 #step6 #list h2 , h4 {
     padding-bottom: 5px;
@@ -847,7 +871,7 @@
 }
 
 #step7 #list #category {
-    height: 500px;
+    height: 610px;
     /* margin: 20px; */
     /* padding: 20px; */
 

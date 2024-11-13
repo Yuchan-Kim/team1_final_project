@@ -35,20 +35,8 @@ input, button, textarea, select {
     color: inherit; /* 텍스트 색상 상속 */
 }
 
-/* 앵커 태그 초기화 */
-a {
-    text-decoration: none; /* 밑줄 제거 */
-    color: inherit; /* 부모 색상 상속 */
-}
-/* * {
-    box-sizing: border-box;
-    font-family: "Pretendard Variable", Pretendard, sans-serif;
-} */
 
-* {
-    /* box-sizing: border-box; */
-    /* font-family: "Pretendard Variable", Pretendard, sans-serif; */
-}
+
 
 
 

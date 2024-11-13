@@ -71,6 +71,13 @@ const Step06 = () => {
         }
     };
 
+    // 미션 삭제 함수 (미션 1은 삭제되지 않도록 조건 추가)
+    const handleDeleteMission = (missionId) => {
+        if (missionId !== 1) { // 미션 1은 삭제하지 않도록
+            setMissions(missions.filter(mission => mission.id !== missionId));
+        }
+    };
+
     return (
         <>
             <div id="jy_step" className="jy_wrap">
@@ -89,10 +96,24 @@ const Step06 = () => {
                                                 <h4>미션은 최대 3개까지 생성할 수 있습니다.</h4>
                                             </div>
 
-                                            {/* 미션 추가 버튼 */}
-                                            <div id="mission-btn">
-                                                <button onClick={handleAddMission}>미션 추가</button>
+                                            {/* 미션 추가/삭제 버튼 */}
+                                            <div id="mission-btn-list">
+                                                {/* 미션 추가 버튼 */}
+                                                <div id="mission-btn">
+                                                    <button onClick={handleAddMission}>미션 추가</button>
+                                                </div>
+
+                                                {/* 미션 삭제 버튼 (미션 1은 삭제할 수 없음) */}
+                                                {mission.id !== 1 && (
+                                                    <div id="mission-btn">
+                                                        <button onClick={() => handleDeleteMission(mission.id)}>미션 삭제</button>
+                                                    </div>
+                                                )}
+
                                             </div>
+                                            {/* //미션 추가/삭제 버튼 */}
+
+
                                         </div>
 
                                         <div className="input-button-group">
@@ -173,95 +194,59 @@ const Step06 = () => {
                                 ))}
                                 {/* //미션 리스트 */}
 
-                                {/* 최종 미션 리스트 */}
-                                {missions.map((mission, missionIndex) => (
-                                    <div id='mission' key={mission.id}>
-                                        <div id='mission-head'>
-                                            <h2>최종 목표를 설정 하시겠습니까?</h2>
-                                            <h4>생성된 방에 대한 최종 목표를 설정할 수 있습니다. 그리고 최종 목표는 방장이 평가합니다.</h4>
-                                        </div>
+                                {/* 최종 목표 설정 부분은 한 번만 출력 */}
+                                <div id='mission' key="final-goal">
+                                    <div id='mission-head'>
+                                        <h2>최종 목표를 설정 하시겠습니까?</h2>
+                                        <h4>생성된 방에 대한 최종 목표를 설정할 수 있습니다. 그리고 최종 목표는 방장이 평가합니다.</h4>
+                                    </div>
 
-                                        <div className='input-button-group'>
-                                            <div>
-                                                <div id='mission-title '>최종 목표 설정 (100자 이내)</div>
-                                                <div id='input-box'><input placeholder='value' /></div>
-                                            </div>
-                                            <div>
-                                                <div id='mission-title'>최종 목표 평가일</div>
-                                                <div id='input-box'><input placeholder='value' /></div>
-                                            </div>
-                                            <div>
-                                                <button onClick={() => handleAddImageInput(mission.id)}>이미지 추가</button>
-                                            </div>
+                                    <div className='input-button-group'>
+                                        <div>
+                                            <div id='mission-title '>최종 목표 설정 (100자 이내)</div>
+                                            <div id='input-box'><input placeholder='value' /></div>
                                         </div>
-
-                                        <div id="mission-img">
-                                            {[...Array(mission.inputCount)].map((_, index) => (
-                                                <div key={index} style={{ position: 'relative' }}>
-                                                    <input
-                                                        type="file"
-                                                        accept="image/*"
-                                                        onChange={(e) => handleImageChange(mission.id, index, e)}
-                                                        style={{ display: 'none' }}
-                                                        id={`imageInput-${mission.id}-${index}`}
-                                                    />
-                                                    <label htmlFor={`imageInput-${mission.id}-${index}`} style={{ display: 'block', cursor: 'pointer' }}>
-                                                        {/* 이미지 미리보기 */}
-                                                        {mission.imagePreviews[index] ? (
-                                                            <div style={{ position: 'relative' }}>
-                                                                <img
-                                                                    src={mission.imagePreviews[index]}
-                                                                    alt={`미리보기 ${index}`}
-                                                                    style={{
-                                                                        width: '200px',
-                                                                        height: '200px',
-                                                                        objectFit: 'cover',
-                                                                        borderRadius: '8px'
-                                                                    }}
-                                                                />
-                                                                <button
-                                                                    onClick={() => handleImageDelete(mission.id, index)}
-                                                                    style={{
-                                                                        position: 'absolute',
-                                                                        top: '5px',
-                                                                        right: '5px',
-                                                                        background: 'rgba(255, 0, 0, 0.5)',
-                                                                        border: 'none',
-                                                                        borderRadius: '50%',
-                                                                        color: '#fff',
-                                                                        width: '20px',
-                                                                        height: '20px',
-                                                                        fontSize: '14px',
-                                                                        cursor: 'pointer'
-                                                                    }}
-                                                                >
-                                                                    X
-                                                                </button>
-                                                            </div>
-                                                        ) : (
-                                                            <div style={{
-                                                                width: '200px',
-                                                                height: '200px',
-                                                                backgroundColor: '#f0f0f0',
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                alignItems: 'center',
-                                                                borderRadius: '8px'
-                                                            }}>
-                                                                사진
-                                                            </div>
-                                                        )}
-                                                    </label>
-                                                </div>
-                                            ))}
+                                        <div>
+                                            <div id='mission-title'>최종 목표 평가일</div>
+                                            <div id='input-box'><input placeholder='value' /></div>
                                         </div>
-
-                                        <div id="mission-textarea">
-                                            <textarea placeholder="인증 방법을 입력해주세요"></textarea>
+                                        <div>
+                                            <button>이미지 추가</button>
                                         </div>
                                     </div>
-                                ))}
-                                {/* //최종 미션 리스트 */}
+
+                                    <div id="mission-img">
+                                        {/* 이미지 미리보기 */}
+                                        {[...Array(1)].map((_, index) => (
+                                            <div key={index} style={{ position: 'relative' }}>
+                                                <input
+                                                    type="file"
+                                                    accept="image/*"
+                                                    style={{ display: 'none' }}
+                                                    id={`imageInput-final-${index}`}
+                                                />
+                                                <label htmlFor={`imageInput-final-${index}`} style={{ display: 'block', cursor: 'pointer' }}>
+                                                    <div style={{
+                                                        width: '200px',
+                                                        height: '200px',
+                                                        backgroundColor: '#f0f0f0',
+                                                        display: 'flex',
+                                                        justifyContent: 'center',
+                                                        alignItems: 'center',
+                                                        borderRadius: '8px'
+                                                    }}>
+                                                        사진
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    <div id="mission-textarea">
+                                        <textarea placeholder="인증 방법을 입력해주세요"></textarea>
+                                    </div>
+                                </div>
+                                {/* //최종 목표 설정 */}
 
                                 {/* 미션 유의 사항 */}
                                 <div id='mission-content'>
@@ -275,21 +260,17 @@ const Step06 = () => {
                                 </div>
                                 {/* //미션 유의 사항 */}
 
+
                             </div>
-                            {/* //list */}
 
                             <div className="btn">
                                 <button id="seconday" onClick={handleCancel}>취소</button>
                                 <button id="primary" onClick={handleNext}>다음</button>
                             </div>
                         </div>
-                        {/* //board */}
                     </div>
-                    {/* //step */}
                 </div>
-                {/* //container */}
             </div>
-            {/* //wrap */}
         </>
     );
 };
