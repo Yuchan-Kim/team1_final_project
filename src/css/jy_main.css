@@ -394,3 +394,109 @@
 .jy_main .tab02 {
     background-color: #CFC;
 }
+
+
+/* ##############################################################*/
+  /* Ad-Bang 스타일링: 각 항목에 대한 이미지, 제목, 점수 배치 */
+
+/* 전체 Ad-Bang 영역 */
+/* .jy_main #ad-bang {
+    display: grid;
+    gap: 20px; 
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+    margin-top: 30px;
+} */
+
+/* 개별 Ad-Bang 항목 */
+.jy_main .ad-bang-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff;
+}
+
+.jy_main .ad-bang-list:hover {
+    transform: translateY(-10px); /* Hover 시 살짝 올라가는 효과 */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* 이미지 스타일링 */
+.jy_main .ad-bang-image {
+    width: 100%;
+    height: 180px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.jy_main .ad-bang-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* 제목 스타일 */
+.jy_main .ad-bang-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #333;
+}
+
+/* 원형 그래프(점수) 스타일 */
+.jy_main .ad-bang-score {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 점수의 원형 그래프 */
+.jy_main .circle_progress {
+    transform: rotate(-90deg);
+}
+
+.jy_main .frame, .bar {
+    fill: none;
+}
+
+.jy_main .bar {
+    stroke: #03c75a;
+    stroke-linecap: round;
+}
+
+.jy_main .frame {
+    stroke: #e6e6e6;
+}
+
+.jy_main .value {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    text-align: center;
+    color: #888;
+    font-size: 16px;
+    line-height: 60px;
+}
+
+/* 반응형: 작은 화면에서 더 좁은 열 간격으로 변경 */
+@media (max-width: 768px) {
+    .jy_main #ad-bang {
+        grid-template-columns: 1fr; /* 모바일에서는 1열로 표시 */
+    }
+}

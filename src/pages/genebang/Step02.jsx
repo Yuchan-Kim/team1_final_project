@@ -1,6 +1,7 @@
 //import 라이브러리
 
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import '../../css/reset.css';
 import '../../css/jy_step.css';
@@ -8,20 +9,45 @@ import '../../css/jy_step.css';
 import { StepNav } from '../include/StepNav';
 
 import CloseOutlineIcon from '@rsuite/icons/CloseOutline';
-
+// import { IoBook } from "react-icons/io5";
+// import { CiDumbbell } from "react-icons/ci";
+// import { CiFaceSmile } from "react-icons/ci";
+// import { CiForkAndKnife } from "react-icons/ci";
+// import { CiBatteryCharging } from "react-icons/ci";
 
 
 const Step02 = () => {
 
     /*---라우터 관련-------------------------------*/
 
+    const navigate = useNavigate();
+
     /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
+
+    //선택된 카테고리를 관리
+    const [selectedCategory, setSelectedCategory] = useState(null);
 
     /*---일반 변수--------------------------------*/
 
     /*---일반 메소드 -----------------------------*/
 
+    // 카테고리 클릭 시 선택된 카테고리 설정
+    const handleCategoryClick = (category) => {
+        setSelectedCategory(category);
+    };
+
     /*---훅(useEffect)+이벤트(handle)메소드-------*/
+
+    const handleCancel = () => {
+        navigate('/genebang/step10');
+    };
+    const handleNext = () => {
+        navigate('/genebang/step3');
+    };
+
+
+
+
 
     return (
 
@@ -55,11 +81,37 @@ const Step02 = () => {
 
                                 <div>
                                     <div id="category">
-                                        <div>운동</div>
-                                        <div>독서</div>
-                                        <div>스터디</div>
-                                        <div>생활루틴</div>
-                                        <div>취미</div>
+                                        {/* 각 카테고리 div에 클릭 이벤트와 선택 상태 반영 */}
+                                        <div 
+                                            onClick={() => handleCategoryClick('운동')} 
+                                            className={selectedCategory === '운동' ? 'selected' : ''}
+                                        >
+                                            운동
+                                        </div>
+                                        <div 
+                                            onClick={() => handleCategoryClick('독서')} 
+                                            className={selectedCategory === '독서' ? 'selected' : ''}
+                                        >
+                                            독서
+                                        </div>
+                                        <div 
+                                            onClick={() => handleCategoryClick('스터디')} 
+                                            className={selectedCategory === '스터디' ? 'selected' : ''}
+                                        >
+                                            스터디
+                                        </div>
+                                        <div 
+                                            onClick={() => handleCategoryClick('생활루틴')} 
+                                            className={selectedCategory === '생활루틴' ? 'selected' : ''}
+                                        >
+                                            생활루틴
+                                        </div>
+                                        <div 
+                                            onClick={() => handleCategoryClick('취미')} 
+                                            className={selectedCategory === '취미' ? 'selected' : ''}
+                                        >
+                                            취미
+                                        </div>
                                     </div>
                                 </div>
 
@@ -76,11 +128,12 @@ const Step02 = () => {
                             {/* //list */}
 
                             <div className="btn">
-
-                                <button id="seconday">취소</button>
-                                <button id="primary">다음</button>
-                            
+                                <button id="seconday" onClick={handleCancel}>취소</button>
+                                <button id="primary" onClick={handleNext}>다음</button>
                             </div>
+
+
+                            
                         </div>
                         {/* //board */}
 
