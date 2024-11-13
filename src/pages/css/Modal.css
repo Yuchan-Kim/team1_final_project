@@ -31,11 +31,13 @@
 
 .jm-file-upload-container {
   margin-top: 20px;
+  height: 300px;
 }
 
 .jm-file-upload {
   align-items: center;
   margin-bottom: 10px;
+  margin-left: 10px;
 }
 
 .jm-file-upload input[type="file"] {
@@ -69,7 +71,7 @@
 }
 
 .jm-image-preview img {
-  max-width: 90%;
+  max-width: 99%;
   max-height: 90%;
   border-radius: 4px;
   border: 1px solid #ddd;
