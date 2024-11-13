@@ -8,7 +8,7 @@ import '../../css/jy_step.css';
 
 import { StepNav } from '../include/StepNav';
 
-const Step07 = () => {
+const Step07 = ({ onNext, onPrevious }) => {
 
     // 방장 평가와 전체 평가 선택 상태
     const [selectedEvaluation, setSelectedEvaluation] = useState(null);
@@ -119,10 +119,10 @@ const Step07 = () => {
                         </div>
                         {/* //board */}
                         <div className="btn">
-                                <button id="secondary" onClick={handlePrevious}>이전</button>
+                                <button id="secondary" onClick={onPrevious}>이전</button>
                                 <button 
                                     id="primary" 
-                                    onClick={handleNext} 
+                                    onClick={onNext} 
                                     disabled={!isNextEnabled()}
                                     className={!isNextEnabled() ? 'disabled' : ''}
                                     aria-disabled={!isNextEnabled()}

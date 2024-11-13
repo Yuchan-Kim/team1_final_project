@@ -15,7 +15,7 @@ import CloseOutlineIcon from '@rsuite/icons/CloseOutline';
 // import { CiForkAndKnife } from "react-icons/ci";
 // import { CiBatteryCharging } from "react-icons/ci";
 
-const Step02 = () => {
+const Step02 = ({ onNext, onPrevious }) => {
 
     /*---라우터 관련-------------------------------*/
     const navigate = useNavigate();
@@ -121,10 +121,10 @@ const Step02 = () => {
                             {/* //list */}
 
                             <div className="btn">
-                                <button id="secondary" onClick={handlePrevious}>이전</button>
+                                <button id="secondary" onClick={onPrevious}>이전</button>
                                 <button 
                                     id="primary" 
-                                    onClick={handleNext} 
+                                    onClick={onNext} 
                                     disabled={!selectedCategory || !keyword.trim()}
                                     className={!selectedCategory || !keyword.trim() ? 'disabled' : ''}
                                 >

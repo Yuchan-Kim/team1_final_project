@@ -11,7 +11,7 @@ import '../../css/jy_step.css';
 
 import { StepNav } from '../include/StepNav';
 
-const Step05 = () => {
+const Step05 = ({ onNext, onPrevious }) => {
     const [value, onChange] = useState(null); // 초기값을 null로 설정
     const [selectedWeek, setSelectedWeek] = useState(null); // 선택된 주차를 추적할 상태 변수
 
@@ -119,10 +119,10 @@ const Step05 = () => {
                             {/* //list */}
 
                             <div className="btn">
-                                <button id="secondary" onClick={handlePrevious}>이전</button>
+                                <button id="secondary" onClick={onPrevious}>이전</button>
                                 <button 
                                     id="primary" 
-                                    onClick={handleNext} 
+                                    onClick={onNext} 
                                     disabled={!isNextEnabled()}
                                     className={!isNextEnabled() ? 'disabled' : ''}
                                     aria-disabled={!isNextEnabled()}

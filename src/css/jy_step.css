@@ -7,11 +7,12 @@
 }
 
 .jy_step {
-    max-width: 1440px;
+    
     width: 100vw;
     min-width: 1000px;
     margin: 0 auto;
     padding: 0 20px;
+    height:auto;
 }
 
 .jy_step .container {
@@ -19,12 +20,10 @@
 }
 
 .step {
-    min-width: 1000px;
-    min-height: 100vh;
     height: 100%;
 
     /* margin: 50px; */
-    padding: 50px;
+
     
     position: relative;
     display: flex;
@@ -74,8 +73,7 @@
 /* stepNav Bar */
 
 #stepNav {
-    padding: 25px 0;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 #stepNav ul {

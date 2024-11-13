@@ -1,8 +1,5 @@
-// Step06.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 
 import '../../css/reset.css';
 import '../../css/jy_step.css';
@@ -12,26 +9,18 @@ import { StepNav } from '../include/StepNav';
 const Step06 = () => {
     const navigate = useNavigate();
 
-    const handlePrevious = () => {
-        navigate('/genebang/step5');
+    const handleCancel = () => {
+        navigate('/genebang/step10');
     };
     const handleNext = () => {
         navigate('/genebang/step7');
     };
 
-    // 미리보기 이미지를 저장할 상태
-    const [missions, setMissions] = useState([
-        { id: 1, inputCount: 1, imagePreviews: [null] }
-    ]);
+    const [missions, setMissions] = useState([{ id: 1, inputCount: 1, imagePreviews: [null] }]);
+    const [finalGoalImages, setFinalGoalImages] = useState([null]);
+    const [isFinalGoalActive, setIsFinalGoalActive] = useState(false);
 
-    // Final Goal 활성화 상태
-    const [isFinalGoalEnabled, setIsFinalGoalEnabled] = useState(false);
-    const [finalGoal, setFinalGoal] = useState('');
-    const [finalGoalDate, setFinalGoalDate] = useState(null);
-    const [finalGoalImage, setFinalGoalImage] = useState(null);
-    const [finalGoalText, setFinalGoalText] = useState('');
-
-    // 파일 선택 시 이미지 미리보기 업데이트
+    // 미션 이미지 변경
     const handleImageChange = (missionId, index, e) => {
         const file = e.target.files[0];
         if (file) {
@@ -50,103 +39,95 @@ const Step06 = () => {
         }
     };
 
-    // 이미지 삭제 함수
+    // 미션 이미지 삭제 (배열에서 이미지 삭제 후, inputCount 조정)
     const handleImageDelete = (missionId, index) => {
         setMissions(missions.map(mission => {
             if (mission.id === missionId) {
-                const updatedImagePreviews = [...mission.imagePreviews];
-                updatedImagePreviews[index] = null;  // 해당 인덱스의 이미지를 삭제
-                return { ...mission, imagePreviews: updatedImagePreviews };
+                // 이미지 미리보기를 삭제한 후, imagePreviews 배열에서 해당 이미지를 제거
+                const updatedImagePreviews = mission.imagePreviews.filter((_, i) => i !== index);
+
+                // inputCount를 하나 감소시킴 (이미지 삭제 후)
+                const updatedInputCount = mission.inputCount - 1;
+
+                return { ...mission, imagePreviews: updatedImagePreviews, inputCount: updatedInputCount };
             }
             return mission;
         }));
     };
 
-    // "이미지 추가" 버튼 클릭 시 input 필드 하나 추가
     const handleAddImageInput = (missionId) => {
         setMissions(missions.map(mission => {
-            if (mission.id === missionId && mission.inputCount < 5) {
+            if (mission.id === missionId && mission.inputCount < 3) {
                 return { ...mission, inputCount: mission.inputCount + 1, imagePreviews: [...mission.imagePreviews, null] };
             }
             return mission;
         }));
     };
 
-    // "미션 추가" 버튼 클릭 시 새로운 미션을 추가 (최대 5개)
     const handleAddMission = () => {
         if (missions.length < 5) {
-            setMissions([
-                ...missions,
-                { id: missions.length + 1, inputCount: 1, imagePreviews: [null] } // 새 미션 추가
-            ]);
+            setMissions([ ...missions, { id: missions.length + 1, inputCount: 1, imagePreviews: [null] } ]);
         }
     };
 
-    // 미션 삭제 함수 (미션 1은 삭제되지 않도록 조건 추가)
     const handleDeleteMission = (missionId) => {
-        if (missionId !== 1) { // 미션 1은 삭제하지 않도록
+        if (missionId !== 1) {
             setMissions(missions.filter(mission => mission.id !== missionId));
         }
     };
 
-    // Final Goal Toggle
-    const toggleFinalGoal = () => {
-        setIsFinalGoalEnabled(!isFinalGoalEnabled);
-    };
-
-    // Handle Final Goal Image Change
-    const handleFinalGoalImageChange = (e) => {
+    const handleFinalGoalImageChange = (index, e) => {
         const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setFinalGoalImage(reader.result);
+                const updatedFinalGoalImages = [...finalGoalImages];
+                updatedFinalGoalImages[index] = reader.result;
+                setFinalGoalImages(updatedFinalGoalImages);
             };
             reader.readAsDataURL(file);
         }
     };
 
+    const handleAddFinalGoalImage = () => {
+        if (finalGoalImages.length < 3) {
+            setFinalGoalImages([...finalGoalImages, null]);
+        }
+    };
+
+    const toggleFinalGoalActivation = () => {
+        setIsFinalGoalActive(prevState => !prevState);
+    };
+
     return (
         <>
             <div id="jy_step" className="jy_wrap">
-
                 <div id="container">
-
                     <div className="step" id="step6">
                         <StepNav idx={6} />
-
-
                         <div id="board">
-
                             <div id="list">
-                                {/* 미션 추가 버튼 */}
-                                <div id="mission-btn">
-                                    <button onClick={handleAddMission}>미션 추가</button>
+                                <div id='mission-btn-plus'>
+                                    <div id="mission-btn">
+                                        <button onClick={handleAddMission}>미션 추가</button>
+                                    </div>
                                 </div>
+
                                 {/* 미션 리스트 */}
                                 {missions.map((mission, missionIndex) => (
                                     <div id="mission" key={mission.id}>
                                         <div className="mission-header">
                                             <div>
-                                                <h2>{`미션 ${missionIndex + 1} 생성`}</h2> {/* 미션 번호 표시 */}
+                                                <h2>{`미션 ${missionIndex + 1} 생성`}</h2>
                                                 <h4>미션은 최대 5개까지 생성할 수 있습니다.</h4>
                                             </div>
-
-                                            {/* 미션 추가/삭제 버튼 */}
                                             <div id="mission-btn-list">
-
-
-                                                {/* 미션 삭제 버튼 (미션 1은 삭제할 수 없음) */}
                                                 {mission.id !== 1 && (
                                                     <div id="mission-btn">
                                                         <button onClick={() => handleDeleteMission(mission.id)}>미션 삭제</button>
                                                     </div>
                                                 )}
-
                                             </div>
-                                            {/* //미션 추가/삭제 버튼 */}
-
-
                                         </div>
 
                                         <div className="input-button-group">
@@ -159,7 +140,6 @@ const Step06 = () => {
                                         </div>
 
                                         <div id="mission-img">
-                                            {/* 동적으로 input 필드를 렌더링 */}
                                             {[...Array(mission.inputCount)].map((_, index) => (
                                                 <div key={index} style={{ position: 'relative' }}>
                                                     <input
@@ -170,9 +150,8 @@ const Step06 = () => {
                                                         id={`imageInput-${mission.id}-${index}`}
                                                     />
                                                     <label htmlFor={`imageInput-${mission.id}-${index}`} style={{ display: 'block', cursor: 'pointer' }}>
-                                                        {/* 이미지 미리보기 */}
-                                                        {mission.imagePreviews[index] ? (
-                                                            <div style={{ position: 'relative' }}>
+                                                        <div style={{ position: 'relative' }}>
+                                                            {mission.imagePreviews[index] ? (
                                                                 <img
                                                                     src={mission.imagePreviews[index]}
                                                                     alt={`미리보기 ${index}`}
@@ -183,42 +162,42 @@ const Step06 = () => {
                                                                         borderRadius: '8px'
                                                                     }}
                                                                 />
-                                                                <button
-                                                                    onClick={(e) => {
-                                                                        e.preventDefault();
-                                                                        handleImageDelete(mission.id, index);
-                                                                    }}
-                                                                    style={{
-                                                                        position: 'absolute',
-                                                                        top: '5px',
-                                                                        right: '5px',
-                                                                        background: 'rgba(255, 0, 0, 0.5)',
-                                                                        border: 'none',
-                                                                        borderRadius: '50%',
-                                                                        color: '#fff',
-                                                                        width: '20px',
-                                                                        height: '20px',
-                                                                        fontSize: '14px',
-                                                                        cursor: 'pointer'
-                                                                    }}
-                                                                >
-                                                                    X
-                                                                </button>
-                                                            </div>
-                                                        ) : (
-                                                            <div style={{
-                                                                width: '200px',
-                                                                height: '200px',
-                                                                backgroundColor: '#f0f0f0',
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                alignItems: 'center',
-                                                                borderRadius: '8px'
-                                                            }}>
-                                                                사진
-                                                            </div>
-                                                            
-                                                        )}
+                                                            ) : (
+                                                                <div style={{
+                                                                    width: '200px',
+                                                                    height: '200px',
+                                                                    backgroundColor: '#f0f0f0',
+                                                                    display: 'flex',
+                                                                    justifyContent: 'center',
+                                                                    alignItems: 'center',
+                                                                    borderRadius: '8px'
+                                                                }}>
+                                                                    사진
+                                                                </div>
+                                                            )}
+                                                            {/* X 버튼 항상 보이기 */}
+                                                            <button
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();  // label 클릭이 전파되지 않도록
+                                                                    handleImageDelete(mission.id, index);
+                                                                }}
+                                                                style={{
+                                                                    position: 'absolute',
+                                                                    top: '5px',
+                                                                    right: '5px',
+                                                                    background: '#fff',//'rgba(255, 0, 0, 0.5)',
+                                                                    border: 'none',
+                                                                    // borderRadius: '50%',
+                                                                    color: '#000',
+                                                                    width: '20px',
+                                                                    height: '20px',
+                                                                    fontSize: '14px',
+                                                                    cursor: 'pointer'
+                                                                }}
+                                                            >
+                                                                X
+                                                            </button>
+                                                        </div>
                                                     </label>
                                                 </div>
                                             ))}
@@ -229,114 +208,104 @@ const Step06 = () => {
                                         </div>
                                     </div>
                                 ))}
-                                {/* //미션 리스트 */}
 
-                                {/* 최종 목표 설정 옵션 */}
+                                {/* 최종 목표 설정 */}
                                 <div id='mission' key="final-goal">
-                                    <div className="mission-header">
+                                    <div id='mission-head'>
+                                        <h2>최종 목표를 설정 하시겠습니까?</h2>
+                                        <h4>생성된 방에 대한 최종 목표를 설정할 수 있습니다. 그리고 최종 목표는 방장이 평가합니다.</h4>
                                         <div>
-                                            <h2>최종 목표를 설정 하시겠습니까?</h2>
-                                            <h4>생성된 방에 대한 최종 목표를 설정할 수 있습니다. 그리고 최종 목표는 방장이 평가합니다.</h4>
-                                        </div>
-                                        <div id="mission-btn">
-                                            <button onClick={toggleFinalGoal}>
-                                                {isFinalGoalEnabled ? '비활성화' : '활성화'}
+                                            <button id='finalgoal-button' onClick={toggleFinalGoalActivation}>
+                                                {isFinalGoalActive ? '최종 목표 비활성화' : '최종 목표 활성화'}
                                             </button>
                                         </div>
                                     </div>
 
-                                    {isFinalGoalEnabled && (
-                                        <>
+                                    {isFinalGoalActive && (
+                                        <div>
                                             <div className='input-button-group'>
                                                 <div>
-                                                    <div id='mission-title'>최종 목표 설정 (100자 이내)</div>
-                                                    <div id='input-box'>
-                                                        <input
-                                                            placeholder='최종 목표를 입력하세요'
-                                                            value={finalGoal}
-                                                            onChange={(e) => setFinalGoal(e.target.value)}
-                                                        />
-                                                    </div>
+                                                    <div id='mission-title '>최종 목표 설정 (100자 이내)</div>
+                                                    <div id='input-box'><input placeholder='value' /></div>
                                                 </div>
                                                 <div>
                                                     <div id='mission-title'>최종 목표 평가일</div>
-                                                    <div id='input-box'>
-                                                        <DatePicker
-                                                            selected={finalGoalDate}
-                                                            onChange={(date) => setFinalGoalDate(date)}
-                                                            dateFormat="yyyy-MM-dd"
-                                                            placeholderText="날짜를 선택하세요"
-                                                            className="datepicker-input"
-                                                        />
-                                                    </div>
+                                                    <div id='input-box'><input placeholder='value' /></div>
                                                 </div>
                                                 <div>
-                                                    <button onClick={() => document.getElementById('finalGoalImageInput').click()}>
-                                                        이미지 추가
-                                                    </button>
+                                                    <button onClick={handleAddFinalGoalImage}>이미지 추가</button>
                                                 </div>
                                             </div>
 
                                             <div id="mission-img">
-                                                {/* 이미지 미리보기 */}
-                                                {finalGoalImage ? (
-                                                    <div style={{ position: 'relative' }}>
-                                                        <img
-                                                            src={finalGoalImage}
-                                                            alt="최종 목표 이미지"
-                                                            style={{
-                                                                width: '200px',
-                                                                height: '200px',
-                                                                objectFit: 'cover',
-                                                                borderRadius: '8px'
-                                                            }}
+                                                {finalGoalImages.map((image, index) => (
+                                                    <div key={index} style={{ position: 'relative' }}>
+                                                        <input
+                                                            type="file"
+                                                            accept="image/*"
+                                                            onChange={(e) => handleFinalGoalImageChange(index, e)}
+                                                            style={{ display: 'none' }}
+                                                            id={`imageInput-final-${index}`}
                                                         />
-                                                        <button
-                                                            onClick={() => setFinalGoalImage(null)}
-                                                            style={{
-                                                                position: 'absolute',
-                                                                top: '5px',
-                                                                right: '5px',
-                                                                background: 'rgba(255, 0, 0, 0.5)',
-                                                                border: 'none',
-                                                                borderRadius: '50%',
-                                                                color: '#fff',
-                                                                width: '20px',
-                                                                height: '20px',
-                                                                fontSize: '14px',
-                                                                cursor: 'pointer'
-                                                            }}
-                                                        >
-                                                            X
-                                                        </button>
+                                                        <label htmlFor={`imageInput-final-${index}`} style={{ display: 'block', cursor: 'pointer' }}>
+                                                            <div style={{ position: 'relative' }}>
+                                                                {image ? (
+                                                                    <img
+                                                                        src={image}
+                                                                        alt={`최종 목표 미리보기 ${index}`}
+                                                                        style={{
+                                                                            width: '200px',
+                                                                            height: '200px',
+                                                                            objectFit: 'cover',
+                                                                            borderRadius: '8px'
+                                                                        }}
+                                                                    />
+                                                                ) : (
+                                                                    <div style={{
+                                                                        width: '200px',
+                                                                        height: '200px',
+                                                                        backgroundColor: '#f0f0f0',
+                                                                        display: 'flex',
+                                                                        justifyContent: 'center',
+                                                                        alignItems: 'center',
+                                                                        borderRadius: '8px'
+                                                                    }}>
+                                                                        사진
+                                                                    </div>
+                                                                )}
+                                                                <button
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        setFinalGoalImages(finalGoalImages.filter((_, i) => i !== index));
+                                                                    }}
+                                                                    style={{
+                                                                        position: 'absolute',
+                                                                        top: '5px',
+                                                                        right: '5px',
+                                                                        background: '#fff',//'rgba(255, 0, 0, 0.5)',
+                                                                        border: 'none',
+                                                                        borderRadius: '50%',
+                                                                        color: '#000',
+                                                                        width: '20px',
+                                                                        height: '20px',
+                                                                        fontSize: '14px',
+                                                                        cursor: 'pointer'
+                                                                    }}
+                                                                >
+                                                                    X
+                                                                </button>
+                                                            </div>
+                                                        </label>
                                                     </div>
-                                                ) : (
-                                                    <div style={{
-                                                        width: '200px',
-                                                        height: '200px',
-                                                        backgroundColor: '#f0f0f0',
-                                                        display: 'flex',
-                                                        justifyContent: 'center',
-                                                        alignItems: 'center',
-                                                        borderRadius: '8px'
-                                                    }}>
-                                                        사진
-                                                    </div>
-                                                )}
+                                                ))}
                                             </div>
 
                                             <div id="mission-textarea">
-                                                <textarea
-                                                    placeholder="인증 방법을 입력해주세요"
-                                                    value={finalGoalText}
-                                                    onChange={(e) => setFinalGoalText(e.target.value)}
-                                                    className="styled-textarea"
-                                                ></textarea>
+                                                <textarea placeholder="인증 방법을 입력해주세요"></textarea>
                                             </div>
-                                        </>
+                                        </div>
                                     )}
                                 </div>
-                                {/* //최종 목표 설정 옵션 */}
 
                                 {/* 미션 유의 사항 */}
                                 <div id='mission-content'>
@@ -344,19 +313,15 @@ const Step06 = () => {
                                         <h2>미션에 대한 유의사항을 적어주세요.</h2>
                                         <h4>미션 인증 방법에 대해 구체적인 추가사항을 적을 수 있습니다.</h4>
                                         <div id='mission-textarea'>
-                                            <textarea
-                                                placeholder="이곳에 입력하세요."
-                                                className="styled-textarea"
-                                            ></textarea>
+                                            <textarea>이곳에 입력하세요.</textarea>
                                         </div>
                                     </div>
                                 </div>
-                                {/* //미션 유의 사항 */}
 
                             </div>
 
                             <div className="btn">
-                                <button id="secondary" onClick={handlePrevious}>이전</button>
+                                <button id="seconday" onClick={handleCancel}>취소</button>
                                 <button id="primary" onClick={handleNext}>다음</button>
                             </div>
                         </div>
