@@ -256,7 +256,7 @@ const Mission = () => {
           )}
           {/* 추가 그래프 (막대 그래프) */}
           <div className="jm_challenge_statistics_additional-graph">
-            <h2>내 미션통계</h2>
+            <h2>내 미션 통계</h2>
               <Bar
                 data={barChartData}
                 options={barChartOptions}
