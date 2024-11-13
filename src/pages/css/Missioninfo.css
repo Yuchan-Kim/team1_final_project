@@ -216,7 +216,7 @@
 }
 /* 모달 미션제출 이미지 */
 .jm-info-modal-img img {
-  width: 70%;
+  width: 100%;
   border-radius: 10px;
 }
 .jm-modal-comment-container {
