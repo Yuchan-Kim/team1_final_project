@@ -1,7 +1,7 @@
 // src/ham_pages/ham_mypage.jsx
 
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // useNavigate 추가
 import Chart from 'chart.js/auto'; // 차트 만드는 라이브러리
 
 // Header, Sidebar, Topbar 컴포넌트 import
@@ -40,6 +40,12 @@ const challenges = {
 };
 
 const MyPage = () => {
+    const navigate = useNavigate(); // useNavigate 훅 초기화
+
+    // 챌린지카드 클릭시 cmain으로 이동(나중에는 해당 방으로 이동하는 로직으로 변경)
+    const handleCardClick = () => {
+        navigate('/cmain');
+    };
 
     // 챌린지 히스토리 탭 전환 상태값
     const [activeTab, setActiveTab] = useState('ongoing'); // 현재 활성화된 챌린지 탭 (진행 중, 시작 전, 종료)
@@ -170,8 +176,19 @@ const MyPage = () => {
 
                         <div className="hmk_challenge-list">
                             {challenges[activeTab].map((challenge) => (
-                                <div key={challenge.id} className="hmk_challenge-card">
-                                    <img src={require(`../ham_asset/images/${challenge.image}`)} alt="챌린지" className="hmk_challenge-image" />
+                                <div
+                                    key={challenge.id}
+                                    className="hmk_challenge-card"
+                                    onClick={handleCardClick} 
+                                    tabIndex="0" // 포커스 가능하게 설정
+                                    role="button" // 역할을 버튼으로 설정
+                                    style={{ cursor: 'pointer' }} // 마우스 커서를 포인터로 변경
+                                >
+                                    <img
+                                        src={require(`../ham_asset/images/${challenge.image}`)}
+                                        alt="챌린지"
+                                        className="hmk_challenge-image"
+                                    />
                                     <div className="hmk_challenge-details">
                                         <p className="hmk_challenge-date">{challenge.date}</p>
                                         <p className="hmk_challenge-title">{challenge.title}</p>
