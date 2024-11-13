@@ -14,8 +14,8 @@
 /* 메인 콘텐츠 */
 .yc_challenge_statistics_main {
   flex: 1;
-    margin-left: 100px; /* 사이드바 너비 + 좌측 padding (120px + 40px) */
-    margin-right: 100px; /* 우측 간격 */
+    margin-left: 110px; /* 사이드바 너비 + 좌측 padding (120px + 40px) */
+    margin-right: 110px; /* 우측 간격 */
     box-sizing: border-box; /* 패딩 포함하여 크기 계산 */
     padding: 0 20px; /* 추가 패딩 */
 }
