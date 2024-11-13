@@ -4,6 +4,10 @@ import { Link } from "react-router-dom";
 import "../yc_assets/yc_css/yc_css_challenge_statistics.css";
 import Sidebar from "./YC_challenge_sidebar.jsx";
 import Header from "./JMYC_challenge_header.jsx";
+import TopHeader from "../pages/include/DH_Header.jsx";
+import ChatRoom from "../yc_pages/YC_challenge_chatroom.jsx";
+
+
 import YCProfileInfo from "../yc_pages/YC_profile_info.jsx";
 import { Doughnut, Line, Bar } from "react-chartjs-2"; 
 import {
@@ -67,7 +71,163 @@ const YCChallengeStatistics = () => {
       activeChallenges: 2,
       completedChallenges: 3
     },
-    // ... 다른 사용자들
+    { 
+      id: 2, 
+      name: "박지민", 
+      progress: 80,
+      avatar: "path_to_avatar2.jpg",
+      location: "부산",
+      reliability: 4.0,
+      pointRanking: 20,
+      reportCount: 1,
+      activeChallenges: 2,
+      completedChallenges: 3
+    },
+    { 
+      id: 2, 
+      name: "박지민", 
+      progress: 80,
+      avatar: "path_to_avatar2.jpg",
+      location: "부산",
+      reliability: 4.0,
+      pointRanking: 20,
+      reportCount: 1,
+      activeChallenges: 2,
+      completedChallenges: 3
+    },
+    { 
+      id: 2, 
+      name: "박지민", 
+      progress: 80,
+      avatar: "path_to_avatar2.jpg",
+      location: "부산",
+      reliability: 4.0,
+      pointRanking: 20,
+      reportCount: 1,
+      activeChallenges: 2,
+      completedChallenges: 3
+    },
+    { 
+      id: 2, 
+      name: "박지민", 
+      progress: 80,
+      avatar: "path_to_avatar2.jpg",
+      location: "부산",
+      reliability: 4.0,
+      pointRanking: 20,
+      reportCount: 1,
+      activeChallenges: 2,
+      completedChallenges: 3
+    },
+    { 
+      id: 2, 
+      name: "박지민", 
+      progress: 80,
+      avatar: "path_to_avatar2.jpg",
+      location: "부산",
+      reliability: 4.0,
+      pointRanking: 20,
+      reportCount: 1,
+      activeChallenges: 2,
+      completedChallenges: 3
+    },
+    { 
+      id: 2, 
+      name: "박지민", 
+      progress: 80,
+      avatar: "path_to_avatar2.jpg",
+      location: "부산",
+      reliability: 4.0,
+      pointRanking: 20,
+      reportCount: 1,
+      activeChallenges: 2,
+      completedChallenges: 3
+    },
+    { 
+      id: 2, 
+      name: "박지민", 
+      progress: 80,
+      avatar: "path_to_avatar2.jpg",
+      location: "부산",
+      reliability: 4.0,
+      pointRanking: 20,
+      reportCount: 1,
+      activeChallenges: 2,
+      completedChallenges: 3
+    },
+    { 
+      id: 2, 
+      name: "박지민", 
+      progress: 80,
+      avatar: "path_to_avatar2.jpg",
+      location: "부산",
+      reliability: 4.0,
+      pointRanking: 20,
+      reportCount: 1,
+      activeChallenges: 2,
+      completedChallenges: 3
+    },
+    { 
+      id: 2, 
+      name: "박지민", 
+      progress: 80,
+      avatar: "path_to_avatar2.jpg",
+      location: "부산",
+      reliability: 4.0,
+      pointRanking: 20,
+      reportCount: 1,
+      activeChallenges: 2,
+      completedChallenges: 3
+    },
+    { 
+      id: 2, 
+      name: "박지민", 
+      progress: 80,
+      avatar: "path_to_avatar2.jpg",
+      location: "부산",
+      reliability: 4.0,
+      pointRanking: 20,
+      reportCount: 1,
+      activeChallenges: 2,
+      completedChallenges: 3
+    },
+    { 
+      id: 2, 
+      name: "박지민", 
+      progress: 80,
+      avatar: "path_to_avatar2.jpg",
+      location: "부산",
+      reliability: 4.0,
+      pointRanking: 20,
+      reportCount: 1,
+      activeChallenges: 2,
+      completedChallenges: 3
+    },
+    { 
+      id: 2, 
+      name: "박지민", 
+      progress: 80,
+      avatar: "path_to_avatar2.jpg",
+      location: "부산",
+      reliability: 4.0,
+      pointRanking: 20,
+      reportCount: 1,
+      activeChallenges: 2,
+      completedChallenges: 3
+    },
+    { 
+      id: 2, 
+      name: "박지민", 
+      progress: 80,
+      avatar: "path_to_avatar2.jpg",
+      location: "부산",
+      reliability: 4.0,
+      pointRanking: 20,
+      reportCount: 1,
+      activeChallenges: 2,
+      completedChallenges: 3
+    }
+
   ];
 
   const emojis = ['😊', '😎', '🚀', '🎉', '🏆', '🔥', '💪', '🌟', '🎯'];
@@ -340,7 +500,11 @@ const YCChallengeStatistics = () => {
   };
 
   return (
-    <div className="wrap">
+    <>
+   
+    <TopHeader/>
+    <div className="yc-statistics-wrap">
+      
       <Sidebar />
       
       <div className="yc_challenge_statistics_main">
@@ -379,6 +543,7 @@ const YCChallengeStatistics = () => {
         
         {/* 사용자 리스트 섹션 */}
         <div className="yc_challenge_statistics_user-list">
+          <h2 className="yc_challenge_statistics_title">랭킹</h2>
           {users.map((user, index) => (
             <div key={user.id} className="yc_challenge_statistics_user">
               <span className="yc_challenge_statistics_user-emoji">
@@ -468,6 +633,9 @@ const YCChallengeStatistics = () => {
         />
       </div>
     </div>
+    <ChatRoom/>
+
+    </>
   );
 };
 

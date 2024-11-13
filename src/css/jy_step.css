@@ -1,6 +1,12 @@
 @charset "UTF-8";
 
 
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+#jy_step > * {
+    box-sizing: border-box;
+    font-family: "Pretendard Variable", Pretendard, sans-serif;
+}
+
 .jy_step {
     max-width: 1440px;
     width: 100vw;
@@ -245,6 +251,8 @@
     border: 1px solid #000;
 }
 
+
+
 #step2 #list #keyword {
     display: flex;
     flex-direction: column;
@@ -390,8 +398,8 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-
-    gap: 40px;
+    
+    gap: 100px;
 }
 
 #step4 #list #box1 {
@@ -403,10 +411,54 @@
     justify-content: center;
     align-items: center;
 
-
     /* border: 1px solid #000; */
 
 }
+
+
+#step4 #list #box-double {
+    display: grid;
+    grid-template-columns: 1fr 1fr;/* 1fr 1fr;*/
+    padding: 15px 30px;
+    row-gap: 10px;
+}
+#step4 #list #box-double > div {
+    display: flex;
+    align-items: center;
+}
+#step4 #list #box-double .inputBox {
+    padding:0 30px 0 10px;
+    width: 300px;
+}
+/* #step4 #list #box-double .inputBox select , .inputBox input { */
+#step4 #list .inputBox select , .inputBox input {
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: solid 1px #d9d9d9;
+    background-color: #fff;
+    width: 250px;
+}
+/* #step4 #list #box-double .inputTT { */
+#step4 #list .inputTT {
+    width: 100px;
+    text-align: end;
+}
+/* #step4 #list #box-double input + label { */
+#step4 #list input + label {
+    display: flex;
+    align-items: center;
+    cursor: pointer ;
+}
+
+#step4 #list #box-double label {
+    width: 200px;
+}
+
+
+
+
+
+
 
 #step4 #list #box2 {
     display: flex;
@@ -417,44 +469,27 @@
 
     /* border: 1px solid #000; */
 }
-
-
-
-/* #step4 #list #box-double {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    padding: 15px 30px;
-    row-gap: 10px;
-} */
-#step4 #list #box-double > div {
+#step4 #list #input-box  {
     display: flex;
     align-items: center;
+    padding: 10px 20px;
+    gap: 10px;
+    border-radius: 10px;
+    
+    /* max-width:400px; */
+    width: 300px;
+    /* margin:0 auto; */
+
+    margin-top: 5px;
+
+    border: 1px solid #000;
 }
-#step4 #list #box-double .inputBox {
-    padding:0 30px 0 10px;
+#step4 #list #input-box input {
+    border: 0;
+    outline: 0;
+    background-color: transparent;
     width: 100%;
 }
-#step4 #list #box-double .inputBox select , .inputBox input {
-    padding: 10px 16px;
-    border-radius: 8px;
-    border: solid 1px #d9d9d9;
-    background-color: #fff;
-    width: 100%;
-}
-#step4 #list #box-double .inputTT {
-    width: 100px;
-}
-#step4 #list #box-double input + label {
-    display: flex;
-    align-items: center;
-    cursor: pointer ;
-}
-
-
-
-
-
-
 
 
 
@@ -526,24 +561,155 @@
 /* ##################################### */
 /* step6 */
 
+#step6 #board {
+    margin: 0 300px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 #step6 #list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    gap: 40px;
+}
+
+#step6 #list .mission-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#step6 #list .mission-header #mission-btn {
+    margin-left: 20px;
+    width: 50px;
+    height: 30px;
+    border-radius: 10px;
+}
+
+#step6 #list .mission-header > div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    
+}
+
+#step6 #list h2 , h4 {
+    padding-bottom: 5px;
+    text-align: left;
+}
+#step6 #list h4 {
+    padding-bottom: 5px;
+    text-align: left;
+}
+
+
+
+
+
+
+
+#step6 .input-button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+    margin: 10px;
+}
+
+#step6 .input-button-group #mission-title {
+    margin: 5px;
+    margin-left: 10px;
+}
+#step6 .input-button-group #input-box {
+    padding:0 30px 0 10px;
+    width: 300px;
+    
+    margin-bottom: 8px;
+}
+#step6 .input-button-group #input-box input {
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: solid 1px #d9d9d9;
+    background-color: #fff;
+    /* width: 250px; */
+    width: 100%;
+}
+/* #step6 .input-button-group button { */
+#step6 #list button {
+    padding: 10px 20px;
+    background-color: #5E91A7;
+    color: white;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+
+    text-align: center;
+
+    width: 130px;
+    height: 35px;
+}
+
+#step6 .input-button-group button:hover {
+    background-color: #4a78a2;   /* 호버 상태에서 배경색 변경 */
+}
+
+#step6 #list #mission #mission-textarea {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
-    gap: 40px;
+    width: 100%;
 }
 
-#step6 #list h2, h4 {
-    padding-bottom: 5px;
+#step6 #list #mission #mission-textarea textarea {
+    width: 500px;
+    height: 100px;
 }
 
-#step6 #list button {
+
+
+
+#step6 #list #mission-textarea {
+    align-items: center;
+}
+
+
+
+
+#step6 #list #mission-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+}
+#step6 #list #mission-content div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+}
+#step6 #list #mission-content textarea {
+    width: 500px;
+    height: 200px;
+}
+
+/* #step6 #list button {
     width: 130px;
     height: 30px;
 
-}
+} */
 
 #step6 #list #mission-img {
     display: flex;
@@ -552,6 +718,8 @@
     align-items: center;
 
     gap: 10px;
+
+    margin: 10px;
 
 }
 

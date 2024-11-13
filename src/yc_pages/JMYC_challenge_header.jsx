@@ -68,26 +68,29 @@ const JMYCChallengeHeader = ({ userType }) => {
                 {/* 제목과 시간을 감싸는 컨테이너 */}
                 <div className="yc-header-info">
                     <h1 className="jm-c-title">매일 500m 걷기</h1>
-                    <p className="jm-c-time">챌린지 종료: 5d 2h 30m 32s</p>
+                    <p className="jm-c-time">종료까지: 5d 2h 30m 32s</p>
                 </div>
                 
                 {/* 버튼 영역 */}
                 {userType === 'host' ? (
                     isRecruiting && !isChallengeStarted ? (
                         <button className="jm-c-start host" onClick={handleStartRecruitClick}>
-                            모집 시작
+                            <span className="emoji"></span>
+                            <span className="label">모집</span>
                         </button>
                     ) : (
                         !isChallengeStarted && (
                             <button className="jm-c-start host" onClick={handleStartChallengeClick}>
-                                챌린지 시작
+                                <span className="emoji"></span>
+                                <span className="label">챌린지 시작</span>
                             </button>
                         )
                     )
                 ) : (
                     !isJoined && (
                         <button className="jm-c-start" onClick={handleJoinClick}>
-                            참가하기
+                            <span className="emoji"></span>
+                            <span className="label">+ 참가</span>
                         </button>
                     )
                 )}
@@ -95,20 +98,20 @@ const JMYCChallengeHeader = ({ userType }) => {
 
             {/* Tags */}
             <div className="jm-tags">
-                <span className="jm-tag-box">챌린지</span>
-                <span className="jm-tag-box">운동</span>
-                <span className="jm-tag-box">걷기</span>
-                <span className="jm-tag-box">서울</span>
+                <span className="jm-tag-box">#챌린지</span>
+                <span className="jm-tag-box">#운동</span>
+                <span className="jm-tag-box">#걷기</span>
+                <span className="jm-tag-box">#서울</span>
             </div>
 
             {/* 참여자용 모달 */}
             {showJoinModal && (
-                <div className="yc-modal-overlay">
-                    <div className="yc-modal">
+                <div className="yc-modal-overlay-header">
+                    <div className="yc-modal-header">
                         <p>참여 하시겠습니까?</p>
-                        <div className="yc-modal-buttons">
-                            <button className="yc-modal-confirm" onClick={handleConfirmJoin}>확인</button>
-                            <button className="yc-modal-cancel" onClick={handleCancelJoin}>취소</button>
+                        <div className="yc-modal-buttons-header">
+                            <button className="yc-modal-confirm-header" onClick={handleConfirmJoin}>확인</button>
+                            <button className="yc-modal-cancel-header" onClick={handleCancelJoin}>취소</button>
                         </div>
                     </div>
                 </div>
@@ -116,12 +119,12 @@ const JMYCChallengeHeader = ({ userType }) => {
 
             {/* 방장용 모집 시작 모달 */}
             {showStartRecruitModal && (
-                <div className="yc-modal-overlay">
-                    <div className="yc-modal">
+                <div className="yc-modal-overlay-header">
+                    <div className="yc-modal-header">
                         <p>맴버 모집을 시작 하시겠습니까?</p>
-                        <div className="yc-modal-buttons">
-                            <button className="yc-modal-confirm" onClick={handleConfirmStartRecruit}>확인</button>
-                            <button className="yc-modal-cancel" onClick={handleCancelStartRecruit}>취소</button>
+                        <div className="yc-modal-buttons-header">
+                            <button className="yc-modal-confirm-header" onClick={handleConfirmStartRecruit}>확인</button>
+                            <button className="yc-modal-cancel-header" onClick={handleCancelStartRecruit}>취소</button>
                         </div>
                     </div>
                 </div>
@@ -129,12 +132,12 @@ const JMYCChallengeHeader = ({ userType }) => {
 
             {/* 방장용 챌린지 시작 모달 */}
             {showStartChallengeModal && (
-                <div className="yc-modal-overlay">
-                    <div className="yc-modal">
+                <div className="yc-modal-overlay-header">
+                    <div className="yc-modal-header">
                         <p>챌린지를 시작하시겠습니까?</p>
-                        <div className="yc-modal-buttons">
-                            <button className="yc-modal-confirm" onClick={handleConfirmStartChallenge}>확인</button>
-                            <button className="yc-modal-cancel" onClick={handleCancelStartChallenge}>취소</button>
+                        <div className="yc-modal-buttons-header">
+                            <button className="yc-modal-confirm-header" onClick={handleConfirmStartChallenge}>확인</button>
+                            <button className="yc-modal-cancel-header" onClick={handleCancelStartChallenge}>취소</button>
                         </div>
                     </div>
                 </div>

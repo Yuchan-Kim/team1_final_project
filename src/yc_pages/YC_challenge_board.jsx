@@ -4,6 +4,9 @@ import React, { useState } from "react";
 import "../yc_assets/yc_css/yc_css_challenge_board.css";
 import Sidebar from "../yc_pages/YC_challenge_sidebar.jsx";
 import Header from "./JMYC_challenge_header.jsx";
+import TopHeader from "../pages/include/DH_Header.jsx";
+import ChatRoom from "../yc_pages/YC_challenge_chatroom.jsx";
+
 import { FaPlus } from "react-icons/fa"; // React Icons 임포트
 
 const YcChallengeBoard = () => {
@@ -55,29 +58,27 @@ const YcChallengeBoard = () => {
     };
 
     const handleAddNotice = () => {
-        if (newNoticeContent.trim() === "" || newNoticeDate.trim() === "") {
-            alert("내용과 날짜를 모두 입력해주세요.");
-            return;
-        }
 
         const newNotice = {
             content: newNoticeContent,
             date: newNoticeDate,
-            id: Date.now(), // Unique ID based on timestamp
+            id: Date.now()
         };
 
         setNotices([newNotice, ...notices]);
         setNewNoticeContent("");
-        setNewNoticeDate("");
         setShowNewNotice(false);
     };
 
     return (
-        <div className="wrap">
-            <div> <Sidebar/> </div>
+       <>
+        
+        <TopHeader/>
+        <div className="yc-board-wrap"> {/* 오타 수정: classN ame → className, yc-boarder-wrap → yc-board-wrap */}
+            <Sidebar /> {/* 사이드바를 yc-board-wrap 내부로 이동 */}
             {/* 메인 콘텐츠 섹션 */}
-            <main className="yc_challenge_main-content">
-                <Header/>
+            <div className="yc_challenge_main-content">
+                <Header />
                 <div className="yc_challenge_content">
                     {/* 공지 / 유의사항 섹션 */}
                     <section className="yc_challenge_notice-section">
@@ -102,7 +103,7 @@ const YcChallengeBoard = () => {
                                 ></textarea>
                                 
                                 <button className="yc_challenge_add-btn" onClick={handleAddNotice}>
-                                    등록
+                                등록
                                 </button>
                             </div>
                         )}
@@ -143,7 +144,12 @@ const YcChallengeBoard = () => {
                         <div className="yc_challenge_map">
                             {/* 위치 검색 섹션 */}
                             <div className="yc_challenge_location-search">
-                                <input type="text" placeholder="강남 2번출구 동일빌딩 12-4214" />
+                                <input 
+                                    type="text" 
+                                    placeholder="강남 2번출구 동일빌딩 12-4214" 
+                                    value={newNoticeDate}
+                                    onChange={(e) => setNewNoticeDate(e.target.value)}
+                                />
                                 <button>목록</button>
                             </div>
                             {/* 지도 표시 영역 */}
@@ -156,18 +162,21 @@ const YcChallengeBoard = () => {
                 
                 {/* 삭제 확인 모달 */}
                 {showDeleteModal && (
-                    <div className="yc_modal-overlay">
-                        <div className="yc_modal">
+                    <div className="yc_modal-overlay-board">
+                        <div className="yc_modal-board">
                             <p>삭제 하시겠습니까?</p>
-                            <div className="yc_modal-buttons">
-                                <button className="yc_modal-confirm" onClick={handleConfirmDelete}>확인</button>
-                                <button className="yc_modal-cancel" onClick={handleCancelDelete}>취소</button>
+                            <div className="yc_modal-buttons-board">
+                                <button className="yc_modal-confirm-board" onClick={handleConfirmDelete}>확인</button>
+                                <button className="yc_modal-cancel-board" onClick={handleCancelDelete}>취소</button>
                             </div>
                         </div>
                     </div>
                 )}
-            </main>
+            </div>
         </div>
+        <ChatRoom/>
+
+        </>
     );
 
 };

@@ -1,14 +1,23 @@
 /* yc_css_challenge_board.css */
 
+/* yc-board-wrap: 전체 레이아웃 컨테이너 */
+.yc-board-wrap {
+    display: flex;
+    width: 80vw; /* 전체 너비를 80% 뷰포트 너비로 설정 */
+    margin: 0 auto; /* 중앙 정렬 */
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding: 20px; /* 양 옆에 간격 추가 */
+    background-color: #ffffff; /* 배경색 설정 */
+}
+
 /* 메인 콘텐츠 */
 .yc_challenge_main-content {
-    margin-left: 250px; /* 사이드바 너비만큼 왼쪽 마진 */
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-bottom: 30px;
-    
-    width: calc(100vw - 250px); /* 계산식 수정 */
+    flex: 1;
+    margin-left: 100px; /* 사이드바 너비 + 좌측 padding (120px + 40px) */
+    margin-right: 100px; /* 우측 간격 */
     box-sizing: border-box; /* 패딩 포함하여 크기 계산 */
+    padding: 0 20px; /* 추가 패딩 */
 }
 
 /* 콘텐츠 레이아웃 */
@@ -72,9 +81,15 @@
     align-items: center;
     justify-content: center;
     background-color: transparent; 
+    width: 35px;
+    height: 35px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* React Icons 사용 시 아이콘 크기 및 색상 조정 */
+.yc_challenge_announcement:hover {
+    background-color: #e0e0e0; /* 호버 시 배경색 추가 */
+}
+
 .yc_challenge_announcement svg {
     width: 15px;
     height: 15px;
@@ -173,6 +188,7 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .yc_challenge_location-search button:hover {
@@ -240,25 +256,36 @@
     color: #333333; /* 진한 회색 텍스트 */
 }
 
+/* 날짜 입력 필드 */
+.yc_challenge_date-input {
+    padding: 8px 12px;
+    border: 1px solid #ccc; /* 회색 테두리 */
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333333; /* 진한 회색 텍스트 */
+}
+
 /* 등록 버튼 */
 .yc_challenge_add-btn {
     align-self: flex-end;
-    background-color: #5E91A7;
+    background-color: #808182;
     color: white;
     border: none;
     padding: 7px 20px;
     border-radius: 4px;
     cursor: pointer;
+    text-align: center;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
+.yc_challenge_add-btn FaPlus
 
 .yc_challenge_add-btn:hover {
-    background-color: #383E47;
+    background-color: #656565;
     color: #ffffff;
 }
 
 /* 삭제 확인 모달 오버레이 */
-.yc_modal-overlay {
+.yc_modal-overlay-board {
     position: fixed;
     top: 0;
     left: 0;
@@ -280,7 +307,7 @@
 }
 
 /* 삭제 확인 모달 */
-.yc_modal {
+.yc_modal-board {
     background: #ffffff;
     padding: 20px;
     border-radius: 10px;
@@ -297,38 +324,40 @@
     }
 }
 
-.yc_modal-buttons {
+.yc_modal-buttons-board {
     margin-top: 20px;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    gap:10px;
 }
 
 /* 모달 버튼 */
-.yc_modal-confirm,
-.yc_modal-cancel {
-    padding: 10px 20px;
+.yc_modal-confirm-board,
+.yc_modal-cancel-board {
+    padding: 8px 15px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    
     font-size: 14px;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.yc_modal-confirm {
+.yc_modal-confirm-board {
     background-color: #ff1900; /* 붉은 배경 */
     color: white; /* 흰색 텍스트 */
 }
 
-.yc_modal-confirm:hover {
+.yc_modal-confirm-board:hover {
     background-color: #cc1400; /* 더 어두운 붉은색 */
 }
 
-.yc_modal-cancel {
+.yc_modal-cancel-board {
     background-color: #ccc; /* 회색 배경 */
     color: #333333; /* 진한 회색 텍스트 */
 }
 
-.yc_modal-cancel:hover {
+.yc_modal-cancel-board:hover {
     background-color: #999999; /* 어두운 회색 배경 */
     color: #ffffff; /* 흰색 텍스트 */
 }
@@ -356,7 +385,16 @@
 
     .yc_challenge_location-search button {
         width: 100%;
+    }
 
+    /* yc_challenge_main-content의 마진 조정 */
+    .yc_challenge_main-content {
+        margin-left: calc((100vw - 80vw) / 2 + 20px); /* 사이드바 너비 유지 */
+        margin-right: 20px; /* 우측 간격 축소 */
+    }
 
+    /* Sidebar 위치 조정 */
+    .yc_challenge_sidebar {
+        left: calc((100vw - 80vw) / 2 + 20px); /* yc-board-wrap의 중앙에 맞춰 좌측 위치 조정 */
     }
 }
