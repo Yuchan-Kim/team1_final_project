@@ -176,7 +176,7 @@ const Mission = () => {
     if (fileInputs.length < 3) {
       setFileInputs([...fileInputs, {}]);
     } else {
-      alert("파일은 최대 3개까지 추가할 수 있습니다."); // 사용자에게 알림
+      alert("사진은 최대 3개까지 추가할 수 있습니다."); // 사용자에게 알림
     }
   };
 

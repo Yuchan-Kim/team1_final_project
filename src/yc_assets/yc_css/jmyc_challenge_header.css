@@ -32,11 +32,11 @@
 .jm-c-start {
     flex-grow: 0; 
     flex-basis: auto;
-    padding: 5px 18px;
-    background-color: #8d8d8d;
+    padding: 5px 10px;
+    background-color: #707070;
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 5px;
     cursor: pointer;
     font-size: 13px;
     transition: background-color 0.3s ease;
