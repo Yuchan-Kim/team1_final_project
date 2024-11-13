@@ -18,8 +18,8 @@
 /* 메인 콘텐츠 */
 .yc-main-content {
   flex: 1; /* 가변 너비를 차지 */
-  margin-left: 100px; /* 사이드바 너비만큼 좌측 여백 */
-  margin-right: 100px; /* 우측 간격 */
+  margin-left: 110px; /* 사이드바 너비만큼 좌측 여백 */
+  margin-right: 110px; /* 우측 간격 */
   box-sizing: border-box; /* 패딩 포함하여 크기 계산 */
   padding: 0 20px; /* 추가 패딩 */
 }

@@ -501,7 +501,6 @@ const YCChallengeStatistics = () => {
 
   return (
     <>
-   
     <TopHeader/>
     <div className="yc-statistics-wrap">
       
@@ -510,7 +509,6 @@ const YCChallengeStatistics = () => {
       <div className="yc_challenge_statistics_main">
         <Header />
         <h2 className="yc_challenge_statistics_title">유저 현황</h2>
-         
         {/* 전체 달성율 및 내 달성율 섹션과 포인트 그래프 */}
         <div className="yc_challenge_statistics_overall-personal-container">
           {/* 그래프 섹션 */}
@@ -528,14 +526,6 @@ const YCChallengeStatistics = () => {
               <Line
                 data={personalLineChartData}
                 options={personalLineChartOptions}
-              />
-            </div>
-
-            {/* 추가 그래프 (막대 그래프) */}
-            <div className="yc_challenge_statistics_additional-graph">
-              <Bar
-                data={barChartData}
-                options={barChartOptions}
               />
             </div>
           </div>
