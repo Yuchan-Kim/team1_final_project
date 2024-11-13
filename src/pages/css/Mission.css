@@ -43,7 +43,7 @@
 .jm-sub-tatle {
   font-size: 30px;
   font-weight: bold;
-  color: rgb(103, 155, 252);
+  color: #5E91A7;
   margin-bottom: 20px;
 }
 
@@ -69,7 +69,7 @@
 
 /* 달성율 그래프바 */
 .jm-progress {
-  background: #1a6ddb;
+  background: rgb(52, 73, 94);
   height: 100%;
   border-radius: 5px;
 }
@@ -134,7 +134,8 @@
   margin-top: 5px;
   padding: 5px 10px;
   border: none;
-  background-color: #007bff;
+  background-color: #5E91A7;
+  font-size: 14px;
   color: white;
   border-radius: 4px;
   cursor: pointer;
@@ -333,6 +334,7 @@
   scroll-snap-type: x mandatory; /* 스크롤 스냅 활성화 */
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
+  z-index: 1500;
 }
 
 .jm-file-upload {
@@ -356,7 +358,7 @@
   margin-top: 5px;
   padding: 5px 10px;
   border: none;
-  background-color: #007bff;
+  background-color: #5E91A7;
   color: white;
   border-radius: 4px;
   cursor: pointer;
@@ -367,7 +369,7 @@
 }
 
 .jm-btn-save {
-  background-color: #007bff;
+  background-color: #5E91A7;
 }
 
 .jm-btn-updatimg:hover, .jm-btn-save:hover {
