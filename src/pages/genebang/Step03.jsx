@@ -1,59 +1,88 @@
-//import 라이브러리
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import React from 'react';
 
 import '../../css/reset.css';
 import '../../css/jy_step.css';
 
+
 import { StepNav } from '../include/StepNav';
-
 import CloseOutlineIcon from '@rsuite/icons/CloseOutline';
-
 
 const Step03 = () => {
 
     /*---라우터 관련-------------------------------*/
 
-    /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
+    const navigate = useNavigate();
 
-    /*---일반 변수--------------------------------*/
+    /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
+    const [thumbnail, setThumbnail] = useState(null);
 
     /*---일반 메소드 -----------------------------*/
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setThumbnail(reader.result); // 미리보기 이미지 URL로 상태 업데이트
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     /*---훅(useEffect)+이벤트(handle)메소드-------*/
 
+    const handleCancel = () => {
+        navigate('/genebang/step10');
+    };
+    const handleNext = () => {
+        navigate('/genebang/step4');
+    };
+
+
+
+
+
+
+    
     return (
-
         <>
-
             <div id="jy_step" className="jy_wrap">
-
-                {/* <Header /> */}
-                {/* //header + //nav */}
-
-
-                <div id="container" >
-
-
-                    <div id="aside">
-
-                    </div>
-                    {/* //aside */}
-
-
+                <div id="container">
                     <div className="step" id="step3">
-
                         <StepNav idx={3} />
 
                         <div id="board">
-
-
-
                             <div id="list">
-
-                                <div id='input-Thumbnail'>
+                                <div id="input-Thumbnail">
                                     <h2>대표 이미지를 설정 해주세요.</h2>
-                                    <div id='upload-Thumbnail'><div></div><img src="./public/img/banner.jpg" alt="upload-Thumbnail" /></div>
+
+                                    {/* 이미지 미리보기 부분 */}
+                                    <div id="upload-Thumbnail" onClick={() => document.getElementById('fileInput').click()} style={{ cursor: 'pointer' }}>
+                                        {thumbnail ? (
+                                            <img
+                                                src={thumbnail}
+                                                alt="upload-Thumbnail"
+                                                style={{
+                                                    width: '400px',
+                                                    height: '400px',
+                                                    objectFit: 'contain', /* contain  fill */
+                                                }}
+                                            />
+                                        ) : (
+                                            <div>이미지를 선택해주세요</div>
+                                        )}
+                                    </div>
+
+
+                                    {/* 파일 input 숨기기 */}
+                                    <input
+                                        id="fileInput"
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleImageChange}
+                                        style={{ display: 'none' }}
+                                    />
                                 </div>
 
                                 <div>
@@ -72,40 +101,20 @@ const Step03 = () => {
                                         <textarea placeholder='방에 대해 설명해 주세요.' ></textarea>
                                     </div>
                                 </div>
-
-
- 
                             </div>
-                            {/* //list */}
 
                             <div className="btn">
-
-                                <button id="seconday">취소</button>
-                                <button id="primary">다음</button>
-                            
+                                <button id="seconday" onClick={handleCancel}>취소</button>
+                                <button id="primary" onClick={handleNext}>다음</button>
                             </div>
+
+
                         </div>
-                        {/* //board */}
-
                     </div>
-                    {/* //step  */}
-
-
-
                 </div>
-                {/* //container  */}
-
-
-                {/* <Footer /> */}
-                {/* //footer */}
-
             </div>
-            {/* //wrap */}
-
         </>
-
     );
-
 }
 
 export default Step03;
