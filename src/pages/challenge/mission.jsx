@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import TopHeader from "../include/DH_Header.jsx";
+import Footert from "../include/JM-Footer.jsx";
 import ChatRoom from "../../yc_pages/YC_challenge_chatroom.jsx";
 import { Doughnut, Line, Bar } from "react-chartjs-2"; 
 import {
@@ -335,6 +336,10 @@ const Mission = () => {
       )}
     </div>
     <ChatRoom/>
+
+     {/* 푸터 */}
+      <Footert/>
+      {/* 푸터 끝 */}
     </>
   );
 };

@@ -1,10 +1,13 @@
 // ChallengePage.jsx
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+
 import '../css/JMYC_Challengemain.css';
+import '../css/Jm-Point-info.css';
 
 import Sidebar from "../../yc_pages/YC_challenge_sidebar.jsx";
 import Header from "../../yc_pages/JMYC_challenge_header.jsx";
+import Footert from "../include/JM-Footer.jsx";
 import TopHeader from "../include/DH_Header.jsx";
 import ChatRoom from "../../yc_pages/YC_challenge_chatroom.jsx";
 
@@ -231,6 +234,9 @@ const ChallengePage = () => {
           </div>
         </div>
       )}
+      {/* 푸터 */}
+      <Footert/>
+        {/* 푸터 끝 */}
     </>
   );
 }
