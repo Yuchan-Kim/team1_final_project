@@ -1,6 +1,6 @@
 import { React, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { Link } from 'react-router-dom';
 import SearchIcon from '@rsuite/icons/Search';
 import SortDescIcon from '@rsuite/icons/SortDesc';
 import SendIcon from '@rsuite/icons/Send';
@@ -36,14 +36,12 @@ const Main = () => {
             <Header />
 
             <div id="jy_wrap" className="jy_wrap">
-
-                <div id="container">
-
+                
                     <div className="jy_main" id="jy_main">
                         <div id="board">
 
                             <div id='search'>
-                                <div onClick={handleSearch}><SearchIcon /><input placeholder='Search' /></div>
+                                <div ><SearchIcon /><input placeholder='Search' /></div>
                             </div>
 
                             {/* //search */}
@@ -76,16 +74,17 @@ const Main = () => {
                             {/* //ad-bang */}
 
                             <div id='icon-bar'>
-                                <div><span>운동</span></div>
-                                <div><span>독서</span></div>
-                                <div><span>스터디</span></div>
-                                <div><span>생활루틴</span></div>
-                                <div><span>취미</span></div>
+                                <div><button className='jm-thema-button1'>운동</button></div>
+                                <div><button className='jm-thema-button2'>독서</button></div>
+                                <div><button className='jm-thema-button3'>스터디</button></div>
+                                <div><button className='jm-thema-button4'>생활루틴</button></div>
+                                <div><button className='jm-thema-button5'>취미</button></div>
                             </div> {/* //icon-bar */}
 
                             <div id="list">
                                 {Array.from({ length: 10 }).map((_, i) => (
-                                    <div className='list_bang'>
+                                    <div>
+                                    <Link to="/cmain" className='list_bang'>
                                         <div className='bang_level'>
                                             <div>챌린지 / 일반</div>
                                         </div>
@@ -94,23 +93,24 @@ const Main = () => {
                                             <img src="./img/banner.jpg" alt="bang-banner" />
                                         </div>
 
+                                        <div className='jm-main-room-tatle'>대상혁찬양방</div>
+                                        <div className='jm-main-room-date'><span>예상시작일</span> 2024-11-11</div>
+                                        <div className='jm-main-room-date'><span>기간</span> 4주</div>
                                         <div className='bang_info'>
                                             <div className='bang_info_left'>
-                                                <div><span>방제목</span> 대상혁찬양방</div>
-                                                <div><span>지역</span>월드</div>
-                                                <div><span>인원</span> 1/10000</div>
+                                                <div><span>인원</span> 1/20</div>
                                             </div>
                                             <div className='bang_info_right'>
-                                                <div><span>예상시작일</span> 2024-11-11</div>
-                                                <div><span>기간</span> 4주</div>
                                                 <div><span>포인트</span> ALL-IN pt</div>
                                             </div>
                                         </div>
 
                                         <div className='bang_sub'>
-                                            <div className="tab01">#운동</div>
-                                            <div className="tab02">#달리기</div>
+                                            <span className="tab01">#운동</span>
+                                            <span className="tab01">#달리기</span>
+                                            <span className="tab01">#전국</span>
                                         </div>
+                                    </Link>
                                     </div>
                                 ))}
                             </div>
@@ -125,9 +125,6 @@ const Main = () => {
 
                     </div>
                     {/* //main */}
-
-                </div>
-                {/* //container */}
 
             </div>
             {/* //wrap */}
