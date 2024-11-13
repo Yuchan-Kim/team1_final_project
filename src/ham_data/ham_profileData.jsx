@@ -2,7 +2,7 @@
 
 // 기본 프로필 이미지
 import DefaultProfile from '../ham_asset/images/profile-fill.png'; // 기본 프로필 이미지
-import Logo from '../ham_asset/images/3d_customer-service-area-apng.png';
+// import Logo from '../ham_asset/images/3d_customer-service-area-apng.png';
 //공용 프로필 추가 이미지가 있다면 여기 추가
 import Profile1 from '../ham_asset/images/IMG_4879.jpg';
 import Profile2 from '../ham_asset/images/IMG_4878.jpg';
@@ -15,7 +15,7 @@ import Profile8 from '../ham_asset/images/profile_demo_01.png';
 import Profile9 from '../ham_asset/images/profile_demo_02.png';
 import Profile10 from '../ham_asset/images/profile_demo_03.png';
 import Profile11 from '../ham_asset/images/profile_demo_05.png';
-
+import Logo from '../ham_asset/images/rank_donkey2.gif';
 
 
 
