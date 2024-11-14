@@ -23,25 +23,22 @@
 .dy-wrap {
     width: 80vw;
     min-width: 1000px;
-    min-height: 100vh;
     margin: 0 auto;
-    padding:0 20px;
-/* 
-    background-color: #5E91A7; */
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 
 /* em */
 
 /* 포인트 상점 메인 틀 */
-.dy-pointstoremain {
+.dy-wrap .dy-pointstoremain {
     margin-left: 110px; /* 사이드바 너비 + 좌측 padding (120px + 40px) */
     margin-right: 110px; /* 우측 간격 */
-    margin: 0 auto;
     margin-top: 70px;
+    box-sizing: border-box; /* 패딩 포함하여 크기 계산 */
     padding: 0 20px; /* 추가 패딩 */
-
-    /* background-color: antiquewhite; */
 }
 
 /* 포인트상점, 출석하기 */
@@ -76,17 +73,17 @@
 /* 광고와 필터 */
 .dy-pointstoremain .dy-pointstoremain-top {
     width: 100%;
-    height: 400px;
-    margin: 0 auto;
+    height: 380px;
     margin-bottom: 50px;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 }
 
 /* 광고 */
 .dy-pointstoremain .dy-ad {
-    width: 75%;
-    margin-right: 30px;
+    width: 73%;
+    margin-right: 20px;
 
     display: flex;
     overflow: hidden; /* 이미지가 밖으로 넘어가지 않도록 설정 */
@@ -135,18 +132,19 @@
 
 /* 필터 */
 .dy-pointstoremain .dy-filter {
-    width: 25%;
+    width: 27%;
     height: 100%;
     display: grid;  /* Grid 레이아웃 활성화 */
     grid-template-columns: repeat(2, 1fr);  /* 두 개의 칸을 가로로 배치 */
     grid-template-rows: repeat(2, auto);  /* 두 개의 행을 세로로 배치 */
     gap: 15px;
     perspective: 1000px; /* 3D 효과를 위한 관찰 거리 설정 */
+
 }
 
 .dy-pointstoremain .dy-filter .dy-filter-item {
-    width: 170px;
-    height: 170px;
+    width: 100%;
+    height: 80%;
     margin-top: 10px;
     border-radius: 50%;
     overflow: hidden;
@@ -168,8 +166,7 @@
 
 /* 세션마다 */
 .dy-pointstoremain .dy-product-sections {
-    width: 90%;
-    margin: 0 auto;
+    width: 100%;
     margin-bottom: 50px;
 }
 
@@ -208,8 +205,8 @@
 
 /* 상품사진 */
 .dy-pointstoremain .dy-product-info .dy-pointstore-pointproduct {
-    width: 230px;
-    height: 230px;
+    width: 100%;
+    height: 210px;
     text-align: center;
     margin-top: 10px;
     margin-bottom: 10px;
