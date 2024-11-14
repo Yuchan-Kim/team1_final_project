@@ -121,9 +121,24 @@
     margin-bottom: 10px;
 }
 
-.yc_challenge_notice-item-header p {
+.yc_challenge_notice-title {
+    display: flex;
+    align-items: center;
+}
+
+.yc_challenge_notice-title h3 {
     margin: 0;
-    flex: 1;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.yc_modified-badge {
+    background-color: #ffeb3b;
+    color: #333;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 10px;
 }
 
 /* 공지 날짜 */
@@ -134,102 +149,62 @@
     white-space: nowrap;
 }
 
+/* 공지 내용 */
+.yc_challenge_notice-item-content p {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: #333333;
+}
+
+.yc_challenge_notice-place {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #555555;
+}
+
+.yc_place-icon {
+    margin-right: 5px;
+    color: #5E91A7;
+}
+
 /* 공지 메타 정보 */
 .yc_challenge_notice-meta {
     display: flex;
     justify-content: flex-end;
     font-size: 12px;
     color: #999999; /* 연한 회색 텍스트 */
+    gap: 10px;
 }
 
-.yc_challenge_map_section {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    min-width: 300px; /* 최소 너비 설정 */
-    max-width: 100%; /* 부모 요소를 넘지 않도록 제한 */
-    overflow: hidden; /* 내용이 넘칠 경우 잘림 */
-    animation: fadeIn 1s ease-in-out;
-}
-
-/* 이미지 섹션 */
-.yc_challenge_image-section img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
-    transition: transform 0.3s ease;
-}
-
-.yc_challenge_image-section img:hover {
-    transform: scale(1.02); /* 확대 효과 */
-}
-
-/* 맵 검색 섹션 */
-.yc_challenge_location-search {
-    display: flex;
-    align-items: center; /* align-items: left는 유효하지 않음 */
-    margin-bottom: 10px;
-}
-
-.yc_challenge_location-search input {
-    flex: 1;
-    padding: 8px 12px;
-    border: 1px solid #ccc; /* 회색 테두리 */
-    border-radius: 4px;
-    margin-right: 10px;
-    font-size: 14px;
-    color: #333333; /* 진한 회색 텍스트 */
-}
-
-.yc_challenge_location-search button {
-    padding: 8px 20px;
-    background-color: #5E91A7;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.yc_challenge_location-search button:hover {
-    background-color: #383E47;
-}
-
-/* 지도 표시 영역 */
-.yc_challenge_map-display {
-    width: 100%;
-    height: 300px;
-    background-color: #eaeaea; /* 아주 연한 회색 배경 */
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
-    transition: transform 0.3s ease;
-}
-
-.yc_challenge_map-display:hover {
-    transform: scale(1.02); /* 확대 효과 */
-}
-
-/* 공지사항이 없을 때 */
-.yc_challenge_notice-section p {
-    color: #777777; /* 연한 회색 텍스트 */
-}
-
-/* 삭제 버튼 */
+/* Edit and Delete Buttons */
+.yc_challenge_edit-btn,
 .yc_challenge_delete-btn {
     background-color: transparent; /* 투명 배경 */
-    color: #ff1900; /* 붉은 텍스트 */
+    color: #5E91A7; /* 파란색 텍스트 */
     border: none;
     padding: 5px 10px;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.yc_challenge_edit-btn:hover {
+    background-color: #5E91A7;
+    color: #ffffff;
+}
+
+.yc_challenge_delete-btn {
+    color: #ff1900; /* 붉은 텍스트 */
 }
 
 .yc_challenge_delete-btn:hover {
-    background-color: #ff1900; /* 붉은 배경 */
-    color: #ffffff; /* 흰색 텍스트 */
+    background-color: #ff1900;
+    color: #ffffff;
 }
 
 /* New Notice Form */
@@ -246,9 +221,17 @@
     animation: fadeIn 0.5s ease-in-out;
 }
 
-.yc_challenge_new-notice-form textarea {
+.yc_challenge_new-notice-form input.yc_challenge_notice-title {
+    padding: 8px 12px;
+    border: 1px solid #ccc; /* 회색 테두리 */
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333333; /* 진한 회색 텍스트 */
+}
+
+.yc_challenge_new-notice-form textarea.yc_challenge_notice-content {
     width: 100%;
-    height: 150px;
+    height: 100px;
     padding: 10px;
     border: 1px solid #ccc; /* 회색 테두리 */
     border-radius: 4px;
@@ -258,8 +241,22 @@
     color: #333333; /* 진한 회색 텍스트 */
 }
 
-/* 날짜 입력 필드 */
-.yc_challenge_date-input {
+/* Place Option */
+.yc_challenge_place-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.yc_challenge_place-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.yc_challenge_place-input input {
+    flex: 1;
     padding: 8px 12px;
     border: 1px solid #ccc; /* 회색 테두리 */
     border-radius: 4px;
@@ -267,22 +264,40 @@
     color: #333333; /* 진한 회색 텍스트 */
 }
 
+.yc_challenge_remove-place-btn {
+    background-color: transparent;
+    border: none;
+    color: #ff1900;
+    cursor: pointer;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.yc_challenge_remove-place-btn:hover {
+    color: #cc1400;
+}
+
 /* 등록 버튼 */
 .yc_challenge_add-btn {
     align-self: flex-end;
-    background-color: #808182;
+    background-color: #5E91A7;
     color: white;
     border: none;
-    padding: 7px 20px;
+    padding: 8px 20px;
     border-radius: 4px;
     cursor: pointer;
     text-align: center;
     transition: background-color 0.3s ease, color 0.3s ease;
+    font-size: 14px;
 }
-.yc_challenge_add-btn FaPlus
 
-.yc_challenge_add-btn:hover {
-    background-color: #656565;
+.yc_challenge_add-btn:disabled {
+    background-color: #a0a0a0;
+    cursor: not-allowed;
+}
+
+.yc_challenge_add-btn:hover:not(:disabled) {
+    background-color: #383E47;
     color: #ffffff;
 }
 
@@ -370,23 +385,8 @@
         flex-direction: column;
     }
 
-    .yc_challenge_notice-section,
-    .yc_challenge_map_section {
+    .yc_challenge_notice-section {
         max-width: 100%;
-    }
-
-    .yc_challenge_location-search {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .yc_challenge_location-search input {
-        margin-right: 0;
-        margin-bottom: 10px;
-    }
-
-    .yc_challenge_location-search button {
-        width: 100%;
     }
 
     /* yc_challenge_main-content의 마진 조정 */
@@ -398,5 +398,58 @@
     /* Sidebar 위치 조정 */
     .yc_challenge_sidebar {
         left: calc((100vw - 80vw) / 2 + 20px); /* yc-board-wrap의 중앙에 맞춰 좌측 위치 조정 */
+    }
+
+    /* New Notice Form Adjustments */
+    .yc_challenge_new-notice-form {
+        padding: 10px;
+    }
+
+    .yc_challenge_new-notice-form input.yc_challenge_notice-title,
+    .yc_challenge_new-notice-form textarea.yc_challenge_notice-content {
+        font-size: 14px;
+    }
+
+    .yc_challenge_place-input input {
+        font-size: 14px;
+    }
+
+    .yc_challenge_add-btn {
+        width: 100%;
+        padding: 10px;
+    }
+
+    /* 공지 아이템 Adjustments */
+    .yc_challenge_notice-title h3 {
+        font-size: 16px;
+    }
+
+    .yc_modified-badge {
+        font-size: 10px;
+        padding: 1px 4px;
+    }
+
+    .yc_challenge_notice-date {
+        font-size: 10px;
+    }
+
+    .yc_challenge_notice-item-content p {
+        font-size: 13px;
+    }
+
+    .yc_challenge_notice-place {
+        font-size: 13px;
+    }
+
+    /* Edit and Delete Buttons Adjustments */
+    .yc_challenge_edit-btn,
+    .yc_challenge_delete-btn {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+
+    /* 삭제 확인 모달 Adjustments */
+    .yc_modal-board {
+        width: 80%;
     }
 }

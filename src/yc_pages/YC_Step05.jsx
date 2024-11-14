@@ -1,121 +1,174 @@
-// src/pages/genebang/Step05.jsx
-import React, { useState } from 'react';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
-import moment from 'moment';
+// src/pages/genebang/Step04.jsx
+
+import React, { useState, useEffect } from 'react';
 import '../css/reset.css';
-import '../css/jy_step.css';
+import '../yc_assets/yc_css/yc_step.css';
 import { YCStepNav } from '../yc_pages/YC_StepNav.jsx'; // StepNav 임포트
 
-const Step05 = ({ onSave, onPrevious }) => {
-    const [value, setValue] = useState(null); // 초기값을 null로 설정
-    const [selectedWeek, setSelectedWeek] = useState(null); // 선택된 주차를 추적할 상태 변수
+const Step04 = ({ onSave, onPrevious }) => {
+
+    /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
+    const [maxParticipants, setMaxParticipants] = useState('');
+    const [minParticipants, setMinParticipants] = useState('');
+    const [entryPoint, setEntryPoint] = useState('');
+    const [isHonestyEnabled, setIsHonestyEnabled] = useState(false);
+    const [honestyScore, setHonestyScore] = useState('');
 
     /*---버튼 활성화 조건---------------------------*/
     const isNextEnabled = () => {
-        return value && selectedWeek;
-    };
-
-    /*---날짜 제한 함수-----------------------------*/
-    const tileDisabled = ({ date, view }) => {
-        // 월별 뷰에서만 날짜 비활성화
-        if (view === 'month') {
-            const today = moment().startOf('day');
-            const minDate = moment().add(2, 'days').startOf('day');
-            return moment(date).isBefore(minDate);
+        if (!entryPoint || !maxParticipants || !minParticipants) {
+            return false;
         }
-        return false;
+        if (isHonestyEnabled && !honestyScore) {
+            return false;
+        }
+        return true;
+    };
+    const [region, setRegion] = useState('');
+
+    const handleRegionChange = (e) => {
+        setRegion(e.target.value);
     };
 
-    /*---선택된 날짜 포맷---------------------------*/
-    const formattedDate = value ? moment(value).format('YYYY-MM-DD') : '';
-
-    /*---주차 클릭 핸들러----------------------------*/
-    const handleWeekClick = (week) => {
-        setSelectedWeek(week);
-    };
-
+    /*---이벤트 핸들러 -------------------------*/
     return (
 
         <>
 
-            <div id="jy_step" className="jy_wrap">
+            <div id="yc_jy_step" className="yc_jy_wrap">
 
-                <div id="container">
+                <div className="yc_container">
 
-                    <div className="step" id="step5">
+                    <div className="yc_step" id="yc_step4">
 
-                        <YCStepNav idx={3} /> {/* StepNav 포함 */}
+                        <YCStepNav idx={2} /> {/* StepNav 포함 */}
 
-                        <div id="board">
+                        <div id="yc_board">
 
-                            <div id="stepList">
+                            <div id="yc_list">
+                                <h2>세부 설정</h2>
+                                <h4>방에 필요한 세부적인 설정을 할 수 있습니다.</h4>
 
-                                <div id='list-head'>
-                                    <h2>시간 날짜를 선택해주세요.</h2>
-                                    <h4>챌린지 시작일은 오늘로부터 최소 이틀뒤부터 설정 합니다</h4>
-                                </div>
-                                <div id='list-head'>
-                                    <h2>챌린지 기간을 설정해 주세요.</h2>
-                                    <h4>챌린지를 진행할 기간을 설정합니다</h4>
-                                </div>
-
-                            </div>
-
-                            <div id="stepList">
-
-                                <div id='list-left'>
-                                    <Calendar
-                                        tileDisabled={tileDisabled}
-                                        onChange={setValue}
-                                        value={value}
-                                        formatDay={(locale, date) => moment(date).format("DD")}
-                                    />
-                                    {formattedDate && (
-                                        <div className="selected-date">
-                                            선택된 날짜: {formattedDate}
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div id='list-left'>
-                                    <div id='week'>
-                                        {['1 주간', '2 주간', '3 주간', '4 주간'].map((week, index) => (
-                                            <div
-                                                key={index}
-                                                onClick={() => handleWeekClick(week)} // 항목 클릭 시 상태 업데이트
-                                                className={selectedWeek === week ? 'selected' : ''}
-                                            >
-                                                {week} 챌린지 진행하기
+                                <div id='yc_member_count'>
+                                    <div>
+                                        <h3>인원 설정</h3>
+                                    </div>
+                                    <div id='yc_box_double'>
+                                        <div id='yc_box1'>
+                                            <div>
+                                                <div className="yc_inputTT">
+                                                    <label htmlFor="yc_maxParticipants">최대 참여 인원</label>
+                                                </div>
+                                                <div className="yc_inputBox">
+                                                    <select
+                                                        id="yc_maxParticipants"
+                                                        value={maxParticipants}
+                                                        onChange={(e) => {
+                                                            setMaxParticipants(e.target.value);
+                                                            if (minParticipants > e.target.value) {
+                                                                setMinParticipants('');
+                                                            }
+                                                        }}
+                                                    >
+                                                        <option value="">선택</option>
+                                                        {[...Array(19)].map((_, i) => (
+                                                            <option key={i + 2} value={i + 2}>{i + 2}명</option>
+                                                        ))}
+                                                    </select>
+                                                </div>
                                             </div>
-                                        ))}
+                                        </div>
+                                        <div id='yc_box1'>
+                                            <div>
+                                                <div className="yc_inputTT">
+                                                    <label htmlFor="yc_minParticipants">최소 참여 인원</label>
+                                                </div>
+                                                <div className="yc_inputBox">
+                                                    <select
+                                                        id="yc_minParticipants"
+                                                        value={minParticipants}
+                                                        onChange={(e) => setMinParticipants(e.target.value)}
+                                                        disabled={!maxParticipants}
+                                                    >
+                                                        <option value="">선택</option>
+                                                        {maxParticipants && [...Array(maxParticipants - 1)].map((_, i) => (
+                                                            <option key={i + 2} value={i + 2}>{i + 2}명</option>
+                                                        ))}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div id='yc_box2'>
+                                    <h3>입장 포인트 설정</h3>
+                                    <h4>방에 입장하기 위해서는 일정량의 포인트가 필요합니다.</h4>
+                                    <div id='yc_input_box'>
+                                        <input 
+                                            placeholder='100,000 pt' 
+                                            value={entryPoint}
+                                            onChange={(e) => setEntryPoint(e.target.value)}
+                                        />
                                     </div>
                                 </div>
-
+                                <div>
+                                    <h3>입장 성실도 설정</h3>
+                                    <div id='yc_box1'>
+                                        <div className="yc_toggle_container">
+                                            <label>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isHonestyEnabled}
+                                                    onChange={() => setIsHonestyEnabled(!isHonestyEnabled)}
+                                                />
+                                                <span>입장 성실도 설정</span>
+                                            </label>
+                                        </div>
+                                        <div id='yc_input_box'>
+                                            <input 
+                                                placeholder='4.5' 
+                                                value={honestyScore}
+                                                onChange={(e) => setHonestyScore(e.target.value)}
+                                                disabled={!isHonestyEnabled}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id='yc_box3'>
+                                    <h3>지역 설정</h3>
+                                    <h4>모임이 필요한 챌린지를 위해 지역을 설정합니다.</h4>
+                                    <div id='yc_input_box'>
+                                        <input 
+                                            placeholder='전국' 
+                                            value={region}
+                                            onChange={handleRegionChange}
+                                        />
+                                    </div>
+                                </div>
                             </div>
-                            {/* //list */}
+                            {/* //yc_list */}
 
-                            <div className="btn">
+                            <div className="yc_btn">
                                 <button 
-                                    id="primary" 
+                                    id="yc_primary" 
                                     onClick={() => onSave()}
-
                                 >
                                     저장
                                 </button>
                             </div>
 
                         </div>
-                        {/* //board */}
+                        {/* //yc_board */}
 
                     </div>
-                    {/* //step */}
+                    {/* //yc_step4 */}
 
                 </div>
-                {/* //container */}
+                {/* //yc_container */}
 
             </div>
-            {/* //wrap */}
+            {/* //yc_jy_step */}
 
         </>
 
@@ -123,4 +176,4 @@ const Step05 = ({ onSave, onPrevious }) => {
 
 }
 
-export default Step05;
+export default Step04;
