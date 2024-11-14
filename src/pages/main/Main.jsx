@@ -5,10 +5,11 @@ import SearchIcon from '@rsuite/icons/Search';
 import SendIcon from '@rsuite/icons/Send';
 import Modal from 'react-modal';
 
-import '../../css/reset.css';
+// import '../../css/reset.css';
 import '../../css/jy_main.css';
 
 import Header from '../include/DH_Header';
+import { StepNav } from '../include/StepNav'; // StepNav 임포트
 
 // Step 컴포넌트들을 올바른 경로로 임포트
 import Step01 from '../genebang/Step01';
@@ -21,7 +22,7 @@ import Step07 from '../genebang/Step07';
 import Step08 from '../genebang/Step08';
 import Step09 from '../genebang/Step09';
 import Step10 from '../genebang/Step10';
-import Step11 from '../genebang/Step11';
+import Step11 from '../genebang/Step11'; // Step11 추가
 
 // 접근성 설정
 Modal.setAppElement('#root');
@@ -30,27 +31,54 @@ const Main = () => {
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentStep, setCurrentStep] = useState(1);
+    const [previousStep, setPreviousStep] = useState(null); // 이전 스텝 추적
+    const [selection, setSelection] = useState(null); // 'left' 또는 'right' 선택 추적
 
     const openModal = () => {
         setIsModalOpen(true);
         setCurrentStep(1);
+        setPreviousStep(null);
+        setSelection(null);
     };
 
     const closeModal = () => {
         setIsModalOpen(false);
     };
 
-    const handleNext = () => {
-        setCurrentStep((prev) => Math.min(prev + 1, 11)); // 최대 11단계
+    const handleNext = (path = null) => {
+        if (path) {
+            // 특정 경로로 네비게이션
+            closeModal();
+            navigate(path);
+        } else {
+            // 현재 스텝을 이전 스텝으로 저장
+            setPreviousStep(currentStep);
+            // 다음 스텝으로 이동 (최대 11단계)
+            setCurrentStep((prev) => {
+                if (prev === 3 && selection === 'left') {
+                    return 11; // Step03 이후에 Step11로 이동
+                } else if (prev === 11) {
+                    return 5; // Step11 이후에 Step05로 이동
+                } else {
+                    return Math.min(prev + 1, 10);
+                }
+            });
+        }
     };
 
     const handlePrevious = () => {
-        setCurrentStep((prev) => Math.max(prev - 1, 1)); // 최소 1단계
+        setCurrentStep((prev) => Math.max(prev - 1, 1)); // 최소 1단계로 이동
     };
 
-    // Step10의 취소 버튼을 위한 함수: 이전 화면으로 이동
+    // Step10의 취소 버튼을 위한 함수: 이전 스텝으로 돌아가기
     const handleStep10Cancel = () => {
-        navigate('/'); // 원하는 경로로 변경 가능
+        if (previousStep !== null) {
+            setCurrentStep(previousStep);
+            setPreviousStep(null);
+        } else {
+            // 이전 스텝이 없을 경우, 모달 닫기
+            closeModal();
+        }
     };
 
     // Step10의 버리기와 저장하기 버튼을 위한 함수: 모달 닫기
@@ -62,27 +90,39 @@ const Main = () => {
         closeModal();
     };
 
+    // Step11의 다음 버튼을 위한 함수: Step05로 이동
+    const handleStep11Next = () => {
+        setPreviousStep(currentStep);
+        setCurrentStep(5);
+    };
+
+    // Step11의 이전 버튼을 위한 함수: Step03로 돌아가기
+    const handleStep11Previous = () => {
+        setPreviousStep(currentStep);
+        setCurrentStep(3);
+    };
+
     // 현재 단계에 따라 렌더링할 컴포넌트 결정
     const renderStep = () => {
         switch (currentStep) {
             case 1:
-                return <Step01 onNext={handleNext} onCancel={closeModal} />;
+                return <Step01 onNext={() => handleNext()} onCancel={closeModal} setSelection={setSelection} />;
             case 2:
-                return <Step02 onNext={handleNext} onPrevious={handlePrevious} />;
+                return <Step02 onNext={() => handleNext()} onPrevious={handlePrevious} />;
             case 3:
-                return <Step03 onNext={handleNext} onPrevious={handlePrevious} />;
+                return <Step03 onNext={() => handleNext()} onPrevious={handlePrevious} />;
             case 4:
-                return <Step04 onNext={handleNext} onPrevious={handlePrevious} />;
+                return <Step04 onNext={() => handleNext()} onPrevious={handlePrevious} />;
             case 5:
-                return <Step05 onNext={handleNext} onPrevious={handlePrevious} />;
+                return <Step05 onNext={() => handleNext()} onPrevious={handlePrevious} />;
             case 6:
-                return <Step06 onNext={handleNext} onPrevious={handlePrevious} />;
+                return <Step06 onNext={() => handleNext()} onPrevious={handlePrevious} />;
             case 7:
-                return <Step07 onNext={handleNext} onPrevious={handlePrevious} />;
+                return <Step07 onNext={() => handleNext()} onPrevious={handlePrevious} />;
             case 8:
-                return <Step08 onNext={handleNext} onPrevious={handlePrevious} />;
+                return <Step08 onNext={() => handleNext()} onPrevious={handlePrevious} />;
             case 9:
-                return <Step09 onNext={handleNext} onPrevious={handlePrevious} />;
+                return <Step09 onNext={() => handleNext('/cmain')} onPrevious={handlePrevious} />;
             case 10:
                 return (
                     <Step10
@@ -92,7 +132,12 @@ const Main = () => {
                     />
                 );
             case 11:
-                return <Step11 onPrevious={handlePrevious} closeModal={closeModal} />;
+                return (
+                    <Step11
+                        onNext={handleStep11Next}
+                        onPrevious={handleStep11Previous}
+                    />
+                );
             default:
                 return null;
         }
@@ -228,8 +273,17 @@ const Main = () => {
                 overlayClassName="custom-overlay" // 사용자 정의 오버레이 클래스
             >
                 <div className="modal-header">
-                    {currentStep !== 10 && (
-                        <button onClick={() => setCurrentStep(10)} className="modal-close-button">닫기</button>
+                    {/* Step02부터 Step08까지 닫기 버튼 활성화 */}
+                    {((currentStep >= 2 && currentStep <= 8) || currentStep === 11) && (
+                        <button
+                            onClick={() => {
+                                setPreviousStep(currentStep); // 이전 스텝 저장
+                                setCurrentStep(10); // Step10으로 이동
+                            }}
+                            className="modal-close-button"
+                        >
+                            닫기
+                        </button>
                     )}
                 </div>
                 <div className="modal-content">
@@ -237,7 +291,8 @@ const Main = () => {
                 </div>
             </Modal>
         </>
-    )
-    };
+    );
 
-    export default Main;
+};
+
+export default Main;

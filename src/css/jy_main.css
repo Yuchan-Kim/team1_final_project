@@ -3,6 +3,12 @@
 @charset "UTF-8";
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
 
+
+#jy_wrap * {
+    box-sizing: border-box ;
+    font-family: "Pretendard Variable", Pretendard, sans-serif;
+}
+
 #jy_wrap {
     width: 80vw; /* 전체 너비를 80% 뷰포트 너비로 설정 */
     margin: 0 auto; /* 중앙 정렬 */
@@ -13,7 +19,7 @@
 }
 
 /* 공통 스타일 */
-#jy_wrap > * {
+#jy_main * {
     box-sizing: border-box;
     font-family: "Pretendard Variable", Pretendard, sans-serif;
 }

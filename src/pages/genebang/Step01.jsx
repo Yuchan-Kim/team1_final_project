@@ -1,41 +1,26 @@
-// Step01.jsx
-
+// src/pages/genebang/Step01.jsx
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
+import CheckRoundIcon from '@rsuite/icons/CheckRound';
 import '../../css/reset.css';
 import '../../css/jy_step.css';
+import { StepNav } from '../include/StepNav'; // StepNav 임포트
 
-import { StepNav } from '../include/StepNav';
-
-import CheckRoundIcon from '@rsuite/icons/CheckRound';
-
-const Step01 = ({ onNext, onCancel }) => {
-
-    /*---라우터 관련-------------------------------*/
-
-    const navigate = useNavigate();
+const Step01 = ({ onNext, onCancel, setSelection }) => {
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
 
-    //선택된 리스트 관리
+    // 선택된 리스트 관리
     const [selected, setSelected] = useState(null);
 
     /*---일반 메소드 -----------------------------*/
 
     // 리스트 클릭 이벤트 처리
     const handleClick = (listType) => {
-        setSelected(listType);  // 왼쪽(list-left) 또는 오른쪽(list-right) 선택
+        setSelected(listType);  // 'left' 또는 'right' 선택
+        setSelection(listType); // 부모 컴포넌트의 selection 상태 업데이트
     };
 
     /*---이벤트 핸들러 -------------------------*/
-
-    const handleCancel = () => {
-        navigate('/');
-    };
-    const handleNext = () => {
-        navigate('/genebang/step2');
-    };
 
     return (
 
@@ -43,25 +28,18 @@ const Step01 = ({ onNext, onCancel }) => {
 
             <div id="jy_step" className="jy_wrap">
 
-                {/* <Header /> */}
-                {/* //header + //nav */}
-
                 <div id="container" >
-
-                    {/* <div id="aside">
-
-                    </div> */}
-                    {/* //aside */}
 
                     <div className="step" id="step1">
 
-                        <StepNav idx={1} />
+                        <StepNav idx={1} /> {/* StepNav 포함 */}
 
                         <div id="board">
 
-                            <h2>챌린지 종류를 선택해 주세요.</h2>
+                            <h2>챌린지 종류를 선택 해주세요.</h2>
 
                             <div id="list">
+
                                 {/* 왼쪽 리스트 */}
                                 <div
                                     id="list-left"
@@ -117,9 +95,6 @@ const Step01 = ({ onNext, onCancel }) => {
 
                 </div>
                 {/* //container */}
-
-                {/* <Footer /> */}
-                {/* //footer */}
 
             </div>
             {/* //wrap */}

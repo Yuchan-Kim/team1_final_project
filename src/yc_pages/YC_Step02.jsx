@@ -2,11 +2,11 @@
 import React, { useState } from 'react';
 import CheckRoundIcon from '@rsuite/icons/CheckRound';
 import CloseOutlineIcon from '@rsuite/icons/CloseOutline';
-import '../../css/reset.css';
-import '../../css/jy_step.css';
-import { StepNav } from '../include/StepNav'; // StepNav 임포트
+import '../css/reset.css';
+import '../css/jy_step.css';
+import { YCStepNav } from '../yc_pages/YC_StepNav.jsx'; // StepNav 임포트
 
-const Step02 = ({ onNext, onPrevious }) => {
+const Step02 = ({ onSave , onPrevious }) => {
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
     // 선택된 카테고리를 관리
@@ -31,7 +31,7 @@ const Step02 = ({ onNext, onPrevious }) => {
 
                     <div className="step" id="step2">
 
-                        <StepNav idx={2} /> {/* StepNav 포함 */}
+                        <YCStepNav idx={0} /> {/* StepNav 포함 */}
 
                         <div id="board">
 
@@ -94,14 +94,11 @@ const Step02 = ({ onNext, onPrevious }) => {
                             {/* //list */}
 
                             <div className="btn">
-                                <button id="secondary" onClick={onPrevious}>이전</button>
                                 <button 
                                     id="primary" 
-                                    onClick={onNext} 
-                                    disabled={!selectedCategory || !keyword.trim()}
-                                    className={!selectedCategory || !keyword.trim() ? 'disabled' : ''}
+                                    onClick={() => onSave()}
                                 >
-                                    다음
+                                    저장
                                 </button>
                             </div>
 
