@@ -1,10 +1,10 @@
 // src/pages/genebang/Step06.jsx
 import React, { useState } from 'react';
-import '../../css/reset.css';
-import '../../css/jy_step.css';
-import { StepNav } from '../include/StepNav'; // StepNav 임포트
+import '../css/reset.css';
+import '../css/jy_step.css';
+import { YCStepNav } from '../yc_pages/YC_StepNav.jsx'; // StepNav 임포트
 
-const Step06 = ({ onNext, onPrevious }) => {
+const Step06 = ({ onSave, onPrevious }) => {
     const [missions, setMissions] = useState([{ id: 1, inputCount: 1, imagePreviews: [null] }]);
     const [finalGoalImages, setFinalGoalImages] = useState([null]);
     const [isFinalGoalActive, setIsFinalGoalActive] = useState(false);
@@ -99,7 +99,7 @@ const Step06 = ({ onNext, onPrevious }) => {
             <div id="jy_step" className="jy_wrap">
                 <div id="container">
                     <div className="step" id="step6">
-                        <StepNav idx={6} /> {/* StepNav 포함 */}
+                        <YCStepNav idx={4} /> {/* StepNav 포함 */}
                         <div id="board">
                             <div id="list">
                                 <div id='mission-btn-plus'>
@@ -314,15 +314,12 @@ const Step06 = ({ onNext, onPrevious }) => {
                             </div>
 
                             <div className="btn">
-                                <button id="secondary" onClick={onPrevious}>이전</button>
                                 <button 
                                     id="primary" 
-                                    onClick={onNext} 
-                                    disabled={!isNextEnabled()}
-                                    className={!isNextEnabled() ? 'disabled' : ''}
-                                    aria-disabled={!isNextEnabled()}
+                                    onClick={() => onSave()}
+
                                 >
-                                    다음
+                                    저장
                                 </button>
                             </div>
                         </div>

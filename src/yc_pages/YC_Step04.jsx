@@ -1,10 +1,10 @@
 // src/pages/genebang/Step04.jsx
 import React, { useState } from 'react';
-import '../../css/reset.css';
-import '../../css/jy_step.css';
-import { StepNav } from '../include/StepNav'; // StepNav 임포트
+import '../css/reset.css';
+import '../css/jy_step.css';
+import { YCStepNav } from '../yc_pages/YC_StepNav.jsx'; // StepNav 임포트
 
-const Step04 = ({ onNext, onPrevious }) => {
+const Step04 = ({ onSave, onPrevious }) => {
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
     const [maxParticipants, setMaxParticipants] = useState('');
@@ -40,7 +40,7 @@ const Step04 = ({ onNext, onPrevious }) => {
 
                     <div className="step" id="step4">
 
-                        <StepNav idx={4} /> {/* StepNav 포함 */}
+                        <YCStepNav idx={2} /> {/* StepNav 포함 */}
 
                         <div id="board">
 
@@ -149,15 +149,13 @@ const Step04 = ({ onNext, onPrevious }) => {
                             {/* //list */}
 
                             <div className="btn">
-                                <button id="secondary" onClick={onPrevious}>이전</button>
                                 <button 
                                     id="primary" 
-                                    onClick={onNext} 
-                                    disabled={!isNextEnabled()}
-                                    className={!isNextEnabled() ? 'disabled' : ''}
-                                    aria-disabled={!isNextEnabled()}
+                                    onClick={() => onSave()}
+
+                                   
                                 >
-                                    다음
+                                    저장
                                 </button>
                             </div>
 

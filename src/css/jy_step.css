@@ -1,30 +1,56 @@
 @charset "UTF-8";
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
 
+/* ##################################### */
+/* CSS 변수 정의 */
+/* ##################################### */
+:root {
+    /* 색상 팔레트 */
+    --color-primary: #5E91A7;
+    --color-primary-dark: #4a78a2;
+    --color-secondary: #ffffff;
+    --color-secondary-dark: #f5f5f5;
+    --color-disabled: #cacaca;
+    --color-disabled-text: #888888;
+    --color-border: #d9d9d9;
+    --color-text: #1e1e1e;
+    --color-text-light: rgba(0, 0, 0, 0.39);
+    --color-background: #fff;
+    --color-hover: #f0f0f0;
+    --color-highlight: #007BFF;
+    --color-shadow: rgba(0, 0, 0, 0.2);
+    
+    /* 폰트 */
+    --font-family: "Pretendard Variable", Pretendard, sans-serif;
+    
+    /* 기타 */
+    --transition-speed: 0.3s;
+    --border-radius: 8px;
+}
+
+/* ##################################### */
+/* 글로벌 스타일 */
+/* ##################################### */
 #jy_step > * {
     box-sizing: border-box;
-    font-family: "Pretendard Variable", Pretendard, sans-serif;
+    font-family: var(--font-family);
 }
 
 .jy_step {
-    
     width: 100vw;
     min-width: 1000px;
     margin: 0 auto;
     padding: 0 20px;
-    height:auto;
+    height: auto;
+    background-color: var(--color-background);
 }
 
-.jy_step .container {
+.container {
     border: 1px solid #000;
 }
 
 .step {
     height: 100%;
-
-    /* margin: 50px; */
-
-    
     position: relative;
     display: flex;
     flex-direction: column;
@@ -43,35 +69,36 @@
     flex: 1;
 }
 
-.step #board h2 {
+.step h2 {
     font-size: 32px;
     font-weight: 500;
-    line-height: 0.63;
+    line-height: 1;
     letter-spacing: 0.1px;
     text-align: center;
     color: #000;
     padding: 20px 0 30px;
 }
 
-.step h4, .step h3 {
-    flex-grow: 0;
+.step h3 {
+    font-size: 20px;
+    color: #000;
+    margin: 5px 0;
+    text-align: center;
+}
+
+.step h4 {
     font-size: 14px;
     font-weight: 500;
     line-height: 1.43;
     letter-spacing: 0.1px;
     text-align: center;
-    color: rgba(0, 0, 0, 0.39);
-    margin: 5px;
-}
-
-.step h3 {
-    font-size: 20px;
-    color: #000;
+    color: var(--color-text-light);
+    margin: 5px 0;
 }
 
 /* ##################################### */
-/* stepNav Bar */
-
+/* Step Navigation */
+/* ##################################### */
 #stepNav {
     margin-bottom: 10px;
 }
@@ -80,18 +107,22 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 #stepNav ul li {
     flex: 1;
     text-align: center;
-    color: rgba(60, 60, 67, 0.6);
+    color: var(--color-text-light);
     font-size: 16px;
     font-weight: 500;
     line-height: 1.31;
     letter-spacing: 0.25px;
     padding: 15px;
-    word-break: keep-all;
+    cursor:default;
+    transition: color var(--transition-speed), border-bottom var(--transition-speed);
 }
 
 #stepNav ul li.active {
@@ -100,8 +131,8 @@
 }
 
 /* ##################################### */
-/* 공통 버튼 */
-
+/* 공통 버튼 스타일 */
+/* ##################################### */
 .step .btn {
     padding: 50px 0;
     display: flex;
@@ -111,116 +142,73 @@
 }
 
 .step button {
-    width: 300px;
-    height: 48px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 25px;
-}
-
-.step .btn #secondary {
     width: 240px;
     height: 48px;
-    flex-grow: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 12px;
-    border-radius: 8px;
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    font-weight: 500;
     cursor: pointer;
-    border: solid 1px #000;
-    background-color: #fff;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
 }
 
+/* Secondary Button */
+.step .btn #secondary {
+    background-color: var(--color-secondary);
+    color:#ccc;
+    border: 1px solid #7b7b7b;
+}
+
+.step .btn #secondary:hover {
+    background-color: var(--color-secondary-dark);
+    color:#111111;
+    border: 1px solid #313131;
+
+}
+
+/* Primary Button */
 .step .btn #primary {
-    width: 240px;
-    height: 48px;
-    flex-grow: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 12px;
-    border-radius: 8px;
-    background-color: #000;
-    color: #fff;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    border: none;
+}
+
+.step .btn #primary:hover {
+    background-color: var(--color-primary-dark);
 }
 
 /* 비활성화된 "다음" 버튼 스타일 */
 .step .btn #primary.disabled {
-    background-color: #cacaca;
-    color: #888888;
+    background-color: var(--color-disabled);
+    color: var(--color-disabled-text);
     cursor: not-allowed;
 }
 
-/* 비활성화된 "다음" 버튼 호버 방지 */
 .step .btn #primary.disabled:hover {
-    background-color: #cccccc;
+    background-color: var(--color-disabled);
 }
 
 /* ##################################### */
-/* step1 */
-
+/* Step1 스타일 */
+/* ##################################### */
 #step1 #list {
     display: flex;
     gap: 30px;
     max-width: 830px;
     width: 100%;
-    margin: 0 auto;
-    margin-top: 20px;
+    margin: 20px auto 0;
 }
 
 #step1 #list > div {
     flex: 1;
     height: 570px;
-    border-radius: 8px;
-    border: solid 1px #cac4d0;
+    border-radius: var(--border-radius);
+    border: 1px solid #cac4d0;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed) ease;
     cursor: pointer;
-}
-
-#step1 #list>div h3 {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: 0.1px;
-    text-align: center;
-    color: #000;
-}
-
-#step1 #list>div li+li {
-    margin-top: 40px;
-}
-
-#step1 #list>div li {
-    font-size: 16px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.4;
-    letter-spacing: normal;
-    text-align: left;
-    color: #1e1e1e;
-}
-
-#step1 #list>div li > span {
-    margin-right: 5px;
-}
-
-/* 선택된 항목에 대해 스타일 변경 */
-#step1 #list > div.selected {
-    border-color: #000;  /* 테두리 색 강조 */
-    background-color: #f5f5f5;  /* 배경색 변경 */
 }
 
 #step1 #list > div h3 {
@@ -231,59 +219,62 @@
     font-weight: 500;
     line-height: 1;
     letter-spacing: 0.1px;
-    text-align: center;
     color: #000;
 }
 
-/* ##################################### */
-/* step2 */
+#step1 #list > div.selected {
+    border-color: #000;
+    background-color: var(--color-secondary-dark);
+}
 
+#step1 #list > div li {
+    font-size: 16px;
+    font-weight: normal;
+    color: var(--color-text);
+    margin-top: 40px;
+}
+
+#step1 #list > div li > span {
+    margin-right: 5px;
+}
+
+/* ##################################### */
+/* Step2 스타일 */
+/* ##################################### */
 #step2 #board h2 {
     padding-bottom: 10px;
 }
 
 #step2 #list #category {
-    /* height: 500px; */
     height: 100%;
-    /* margin: 20px; */
     padding: 20px;
-
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* justify-content: center; */
 }
 
 #step2 #list #category div {
     width: 450px;
-    /* height: 50px; */
     margin: 15px;
     padding: 15px;
     text-align: center;
     font-size: 20px;
-
-    border-radius: 15px;
-
-    border: 1px solid #000;
-
+    border-radius: var(--border-radius);
+    border: 1px solid #c4c4c4;
     cursor: pointer;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    transition: background-color var(--transition-speed), border-color var(--transition-speed);
 }
 
 #step2 #list #category div.selected {
-    background-color: #000;
-    color: #fff;
+    color: #000000;
     border-color: #000;
 }
 
 #step2 #list #keyword {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
-
     gap: 5px;
-
     margin: 10px;
 }
 
@@ -292,20 +283,15 @@
 }
 
 #step2 #list #keyword h4 {
-    margin: 0px;
+    margin: 0;
 }
-
-/* #step2 #list #keyword input {
-    margin: 3px;
-} */
 
 #step2 #list #keyword div {
     display: flex;
     padding: 10px 20px;
     gap: 10px;
     border-radius: 10px;
-    background-color: #f1f1f1;
-    display: flex;
+    background-color: var(--color-secondary-dark);
     align-items: center;
     max-width: 400px;
     width: 100%;
@@ -320,24 +306,19 @@
 }
 
 /* ##################################### */
-/* step3 */
-
+/* Step3 스타일 */
+/* ##################################### */
 #step3 #list {
-    /* margin-top: 20px; */
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
     gap: 50px;
-
     min-width: 1200px;
 }
 
 #step3 #list #input-Thumbnail {
-    /* border: 1px solid #000; */
     width: 450px;
     height: 450px;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -345,35 +326,33 @@
 }
 
 #step3 #list #upload-Thumbnail {
-    border: 1px solid #000;
+    border: 1px solid #ccc;
     width: 400px;
     height: 400px;
-
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f5f5f5;
+    background-color: var(--color-secondary-dark);
     position: relative;
+    border-radius: var(--border-radius);
 }
 
 #upload-Thumbnail img {
     width: 100%;
     height: 100%;
-    object-fit: cover;  /* 이미지 비율에 맞게 자르기 */
+    object-fit: cover;
+    border-radius: var(--border-radius);
 }
 
 #step3 #list #input-title {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     margin-bottom: 70px;
-
-    /* border: 1px solid #000; */
 }
 
-#step3 #list h4 {
-    margin: 0px;
+#step3 #list #input-title h4 {
+    margin: 0;
 }
 
 #step3 #list .input-title div {
@@ -381,16 +360,11 @@
     padding: 10px 20px;
     gap: 10px;
     border-radius: 10px;
-    /* background-color: #f1f1f1; */
-    display: flex;
+    border: 1px solid #ccc;
     align-items: center;
     max-width: 400px;
     width: 100%;
     margin: 0 auto;
-
-    margin-top: 5px;
-
-    border: 1px solid #000;
 }
 
 #step3 #list .input-title input {
@@ -403,14 +377,16 @@
 #step3 #list #input-title textarea {
     width: 400px;
     height: 100px;
-    margin-top: 20px;
+    border-radius: var(--border-radius);
+    border: 1px solid #ccc;
+    padding: 10px;
+    resize: vertical;
 }
 
 /* ##################################### */
-/* step4 */
-
+/* Step4 스타일 */
+/* ##################################### */
 #step4 #list {
-    /* margin-top: 100px; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -418,77 +394,45 @@
     gap: 40px;
 }
 
-#step4 #list h2 { padding-bottom: 10px; }
-
-#step4 #list #box-double {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    
-    gap: 100px;
-}
-
-#step4 #list #box1 {
-    width: 200px;
-    height: 60px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    /* border: 1px solid #000; */
+#step4 #list h2 {
+    padding-bottom: 10px;
 }
 
 #step4 #list #box-double {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* 1fr 1fr; */
+    grid-template-columns: 1fr 1fr;
     padding: 15px 30px;
     row-gap: 10px;
+    gap: 20px;
 }
 
-#step4 #list #box-double > div {
+#step4 #list #box1 {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
 }
 
-#step4 #list #box-double .inputBox {
-    padding: 0 30px 0 10px;
-    width: 300px;
+#step4 #list #box1 .inputTT {
+    width: 150px;
+    text-align: right;
+    margin-bottom: 5px;
+    font-weight: 500;
 }
 
-#step4 #list .inputBox select,
-.step4 #list .inputBox input {
-    padding: 10px 16px;
-    border-radius: 8px;
-    border: solid 1px #d9d9d9;
-    background-color: #fff;
+#step4 #list #box1 .inputBox select,
+#step4 #list #box1 .inputBox input {
+    padding: 10px;
+    border-radius: var(--border-radius);
+    border: 1px solid #ccc;
+    background-color: var(--color-background);
     width: 250px;
-}
-
-#step4 #list .inputTT {
-    width: 100px;
-    text-align: end;
-}
-
-#step4 #list input + label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-}
-
-#step4 #list #box-double label {
-    width: 200px;
 }
 
 #step4 #list #box2 {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-
-    /* border: 1px solid #000; */
 }
 
 #step4 #list #input-box {
@@ -496,15 +440,9 @@
     align-items: center;
     padding: 10px 20px;
     gap: 10px;
-    border-radius: 10px;
-    
-    /* max-width:400px; */
+    border-radius: var(--border-radius);
+    border: 1px solid #ccc;
     width: 300px;
-    /* margin:0 auto; */
-
-    margin-top: 5px;
-
-    border: 1px solid #000;
 }
 
 #step4 #list #input-box input {
@@ -515,8 +453,8 @@
 }
 
 /* ##################################### */
-/* step5 */
-
+/* Step5 스타일 */
+/* ##################################### */
 #step5 #board {
     display: flex;
     flex-direction: column;
@@ -525,11 +463,9 @@
 
 #step5 #stepList {
     display: flex;
-    flex-direction: row;
     justify-content: center;
-    
-    width: 100%;
     gap: 50px;
+    width: 100%;
 }
 
 #step5 #stepList div {
@@ -556,31 +492,30 @@
 }
 
 #step5 #list-left #week div {
-    border: 1px solid #000;
+    border: 1px solid #ccc;
     gap: 10px;
     width: 90%;
-
     margin: 15px;
     padding: 15px;
     text-align: center;
     font-size: 25px;
-
     border-radius: 15px;
+    color:#ccc;
+    cursor: pointer;
+    
 }
 
 #step5 #list-left #week div.selected {
-    background-color: #000;  /* 배경색을 검은색으로 변경 */
-    color: #fff;  /* 텍스트 색을 흰색으로 변경 */
-    border: 2px solid #fff;  /* 테두리 색을 흰색으로 변경 */
-    border-radius: 15px;  /* 둥근 테두리 적용 */
+    color: #070505;
+    border: 2px solid #282727;
+    border-radius: 15px;
 }
 
 /* ##################################### */
-/* step6 */
-
+/* Step6 스타일 */
+/* ##################################### */
 #step6 #board {
     margin: 0 300px;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -592,11 +527,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-
     gap: 40px;
 }
-
-
 
 #step6 #list .mission-header {
     display: flex;
@@ -605,27 +537,18 @@
     margin-bottom: 20px;
 }
 
-
-
 #step6 #list .mission-header #mission-btn {
     margin-left: 20px;
     width: 50px;
     height: 30px;
     border-radius: 10px;
-
-
-    
 }
 
-#step6 #list .mission-header #mission-btn button{
-    /* margin-left: 100px;
-    gap: 100px; */
+#step6 #list .mission-header #mission-btn button {
     margin-right: 10px;
-
-
 }
 
-#step6 #list #finalgoal-button{
+#step6 #list #finalgoal-button {
     width: 180px;
 }
 
@@ -633,32 +556,19 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-
-    
 }
-
-
 
 #step6 #list .mission-header #mission-btn-list {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
-
     width: 250px;
-
 }
 
-
-#step6 #list h2 , h4 {
-    padding-bottom: 5px;
-    text-align: left;
-}
+#step6 #list h2,
 #step6 #list h4 {
     padding-bottom: 5px;
     text-align: left;
 }
-
-
 
 #step6 .input-button-group {
     display: flex;
@@ -670,40 +580,40 @@
 }
 
 #step6 .input-button-group #mission-title {
-    margin: 5px;
-    margin-left: 10px;
+    margin: 5px 10px 5px 10px;
 }
+
 #step6 .input-button-group #input-box {
-    padding:0 30px 0 10px;
     width: 300px;
-    
     margin-bottom: 8px;
+    border-radius: var(--border-radius);
 }
+
 #step6 .input-button-group #input-box input {
     padding: 10px 16px;
-    border-radius: 8px;
-    border: solid 1px #d9d9d9;
-    background-color: #fff;
-    /* width: 250px; */
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-background);
     width: 100%;
 }
-/* #step6 .input-button-group button { */
-#step6 #board button {
+
+#step6 #list button {
     padding: 10px 20px;
-    background-color: #5E91A7;
-    color: white;
-    border-radius: 8px;
+    background-color: #ccc;
+    color: var(--color-secondary);
+    border-radius: var(--border-radius);
     border: none;
     cursor: pointer;
-
     text-align: center;
-
     width: 130px;
     height: 35px;
+    transition: background-color var(--transition-speed);
 }
 
-#step6 .input-button-group button:hover {
-    background-color: #4a78a2;   /* 호버 상태에서 배경색 변경 */
+#step6 #board button:hover {
+    background-color: #ccc;
+    color: #6e6e6e;
+
 }
 
 #step6 #list #mission #mission-textarea {
@@ -711,126 +621,100 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     width: 100%;
 }
 
 #step6 #list #mission #mission-textarea textarea {
     width: 500px;
     height: 100px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+    padding: 10px;
+    resize: vertical;
 }
-
-
-
-
-#step6 #list #mission-textarea {
-    align-items: center;
-}
-
-
-
 
 #step6 #list #mission-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     width: 100%;
 }
+
 #step6 #list #mission-content div {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     width: 100%;
 }
+
 #step6 #list #mission-content textarea {
     width: 500px;
     height: 200px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+    padding: 10px;
+    resize: vertical;
 }
-
-/* #step6 #list button {
-    width: 130px;
-    height: 30px;
-
-} */
 
 #step6 #list #mission-img {
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
     align-items: center;
-
     gap: 10px;
-
     margin: 10px;
-    /* margin-left: 200px; */
-
 }
 
 #step6 #list #mission-img input {
     width: 200px;
     height: 200px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    object-fit: cover;
 }
 
-
-
-
-
-
-
-
 #step6 #list #image-upload {
-    width: 100%; /* 너비를 100%로 설정하여 부모 요소에 맞게 확장 */
-    height: 200px; /* 원하는 높이로 설정 */
-    background-color: #f5f5f5; /* 배경색을 설정 */
-    border: 2px dashed #ccc; /* 테두리를 점선으로 설정 */
-    border-radius: 8px; /* 네모난 형태에 약간의 둥근 테두리 */
-    text-align: center; /* 텍스트를 가운데 정렬 */
+    width: 100%;
+    height: 200px;
+    background-color: var(--color-secondary-dark);
+    border: 2px dashed #ccc;
+    border-radius: var(--border-radius);
+    text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer; /* 마우스를 올렸을 때 클릭 가능한 느낌을 줌 */
+    cursor: pointer;
     font-size: 16px;
     color: #333;
     font-weight: 500;
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+#step6 #list #image-upload:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px var(--color-shadow);
 }
 
 #step6 #list #image-upload::-webkit-file-upload-button {
-    display: none; /* 기본 파일 업로드 버튼 숨기기 */
+    display: none;
 }
 
 #step6 #list #image-upload::before {
-    content: "파일을 선택하세요"; /* 버튼을 클릭하도록 유도하는 텍스트 */
+    content: "파일을 선택하세요";
     font-size: 16px;
     color: #555;
     font-weight: bold;
     cursor: pointer;
 }
 
-#step6 #board #mission-btn-plus {
-    /* display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start; */
-    /* padding-left: 200px; */
-    
-}
-
-
-
 /* ##################################### */
-/* step7 */
-
+/* Step7 스타일 */
+/* ##################################### */
 #step7 #list {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    /* gap: 10px; */
 }
 
 #step7 #list h2 {
@@ -839,72 +723,50 @@
 
 #step7 #list #question {
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
-
     gap: 80px;
-
     margin-bottom: 10px;
 }
 
 #step7 #list #category {
-    height: 500px;
-    /* margin: 20px; */
-    /* padding: 20px; */
-
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* justify-content: center; */
 }
 
 #step7 #list #category div {
     width: 400px;
-    /* height: 50px; */
-    margin-top: 15px;
+    margin: 10px 0;
     padding: 15px;
     text-align: center;
     font-size: 25px;
-
     border-radius: 15px;
-
-    border: 1px solid #000;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: background-color var(--transition-speed), border-color var(--transition-speed);
 }
 
-#step7 #category div.selected {
-    background-color: #000;
+#step7 #list #category div.selected {
+    background-color: #ccc;
     color: #fff;
     border: 2px solid #fff;
     border-radius: 15px;
-    cursor: pointer;
 }
 
 /* 일반 항목의 기본 스타일 */
-#step7 #category div {
-    margin: 10px 0;
-    padding: 10px;
-    cursor: pointer;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    transition: background-color 0.3s;
-}
-
 #step7 #category div:hover {
-    background-color: #f0f0f0;
+    background-color: var(--color-hover);
 }
 
 /* ##################################### */
-/* step8 */
-
+/* Step8 스타일 */
+/* ##################################### */
 #step8 #list {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    /* gap: 40px; */
-    /* border: 1px solid #000; */
 }
 
 #step8 #list h2 {
@@ -916,46 +778,36 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     margin: 20px;
-
     gap: 50px;
-
-    /* border: 1px solid #000; */
 }
 
 #step8 #list #ai-box {
     width: 700px;
     border: 1px solid #000;
-    border-radius: 10px;
-    padding: 10px 20px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: var(--border-radius);
+    padding: 20px;
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
 }
 
 #step8 #list #ai-box:hover {
     transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px var(--color-shadow);
 }
 
 #step8 #list #ai-title {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     align-items: center;
-
-    padding: 10px;
+    padding: 10px 0;
 }
 
 #step8 #list #ai-title #ai-point {
-    /* border: 1px solid #000; */
     border-radius: 5px;
-    padding: 3px;
-    margin-right: 10px;
+    padding: 3px 10px;
     width: 100px;
     text-align: center;
-    /* background-color: #5E91A7; */
-    background-color: #f0f0f0;
-    /* color: #fff; */
+    background-color: var(--color-secondary-dark);
 }
 
 #step8 #list #ai-box button {
@@ -964,35 +816,120 @@
     justify-content: center;
     align-items: center;
     margin-top: 8px;
-    cursor:pointer;
-    background-color: #5E91A7;
-    color: #fff;
+    cursor: pointer;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
     border: none;
     border-radius: 5px;
+    transition: background-color var(--transition-speed);
 }
+
+#step8 #list #ai-box button:hover {
+    background-color: var(--color-primary-dark);
+}
+
 /* Selected ai-box */
 #step8 #list #ai-box.selected {
-    border-color: #007BFF; /* Highlight border */
-    background-color: #e0f0ff; /* Highlight background */
+    border-color: var(--color-highlight);
+    background-color: #e0f0ff;
 }
 
 /* Disabled ai-box */
 #step8 #list #ai-box.disabled {
-    opacity: 0.6; /* Dim the box */
-    pointer-events: none; /* Disable interactions */
-    filter: grayscale(50%); /* Optional: Make it look inactive */
+    opacity: 0.6;
+    pointer-events: none;
+    filter: grayscale(50%);
 }
 
 /* ##################################### */
-/* step9 */
-
+/* Step9 스타일 */
+/* ##################################### */
 #step9 #board #list div {
     padding-top: 200px;
 }
 
 /* ##################################### */
-/* step10 */
-
+/* Step10 스타일 */
+/* ##################################### */
 #step10 #board #list div {
     padding-top: 200px;
+}
+
+/* ##################################### */
+/* 추가 스타일 (지역 설정 등) */
+/* ##################################### */
+/* Step11 관련 스타일은 Step11.jsx 내에 포함되어 있으므로 여기서는 제외합니다. */
+
+/* ##################################### */
+/* 반응형 디자인 개선 */
+/* ##################################### */
+@media (max-width: 1200px) {
+    .jy_step {
+        padding: 0 10px;
+    }
+
+    .step #board h2 {
+        font-size: 28px;
+    }
+
+    .step h3 {
+        font-size: 18px;
+    }
+
+    .step h4 {
+        font-size: 12px;
+    }
+
+    /* Step1 */
+    #step1 #list {
+        flex-direction: column;
+    }
+
+    #step1 #list > div {
+        width: 100%;
+    }
+
+    /* Step3 */
+    #step3 #list {
+        flex-direction: column;
+        min-width: unset;
+    }
+
+    /* Step4 */
+    #step4 #list #box-double {
+        grid-template-columns: 1fr;
+    }
+
+    /* Step5 */
+    #step5 #stepList {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #step5 #stepList div {
+        width: 100%;
+    }
+
+    /* Step6 */
+    #step6 #board {
+        margin: 0 20px;
+    }
+
+    #step6 .input-button-group {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    /* Step7 */
+    #step7 #list #question {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* Step8 */
+    #step8 #list #ai-box {
+        width: 100%;
+    }
+
+    /* 기타 반응형 조정 필요 시 추가 */
 }

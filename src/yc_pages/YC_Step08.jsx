@@ -1,8 +1,8 @@
 // src/pages/genebang/Step08.jsx
 import React, { useState } from 'react';
-import '../../css/reset.css';
-import '../../css/jy_step.css';
-import { StepNav } from '../include/StepNav'; // StepNav 임포트
+import '../css/reset.css';
+import '../css/jy_step.css';
+import { YCStepNav } from '../yc_pages/YC_StepNav.jsx'; // StepNav 임포트
 
 const Step08 = ({ onNext, onPrevious }) => {
 
@@ -30,7 +30,7 @@ const Step08 = ({ onNext, onPrevious }) => {
             <div id="jy_step" className="jy_wrap">
                 <div id="container">
                     <div className="step" id="step8">
-                        <StepNav idx={8} /> {/* StepNav 포함 */}
+                        <YCStepNav idx={6} /> {/* StepNav 포함 */}
                         <div id="board">
                             <div id="list">
                                 <h2>AI 추천 그룹 챌린지</h2>

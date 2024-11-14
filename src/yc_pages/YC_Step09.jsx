@@ -3,8 +3,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import '../../css/reset.css';
-import '../../css/jy_step.css';
+import '../css/reset.css';
+import '../css/jy_step.css';
 
 const Step09 = ({ onNext, onPrevious, onClose }) => {
 
