@@ -47,27 +47,38 @@
 
 /* 방 카드 */
 .yc-room-card {
-  background-color: #ffffff; /* 카드 배경색 */
+  background-color: rgb(244, 244, 244);
   border: 1px solid #ddd; /* 테두리 */
   border-radius: 10px; /* 둥근 모서리 */
   padding: 10px; /* 내부 여백 축소 */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
   position: relative; /* 자식 요소의 절대 위치 지정 시 기준 */
   height: 200px; /* 고정 높이 */
-  overflow-y: auto; /* 내용이 초과할 경우 스크롤 */
 }
 
 /* 방 카드 제목 */
 .yc-room-card h3 {
-  font-size: 18px; /* 제목 폰트 크기 축소 */
+  margin-left: 5px;
+  font-size: 19px; /* 제목 폰트 크기 축소 */
+  font-weight: bold;
   margin-bottom: 5px; /* 아래 여백 */
   display: flex; /* 아이콘과 텍스트를 가로로 배치 */
   align-items: center; /* 수직 정렬 */
 }
 
+.jm-room-card-contents-box {
+  background-color: #ffffff;
+  border: solid 1px #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  height: 132px; /* 고정 높이 */
+  overflow-y: auto; /* 내용이 초과할 경우 스크롤 */
+}
+
 /* 방 카드 내용 */
 .yc-room-card p {
-  font-size: 14px; /* 본문 폰트 크기 축소 */
+  font-size: 16px; /* 본문 폰트 크기 축소 */
+  color: #727272;
   line-height: 1.5; /* 줄 간격 축소 */
   padding-left:5px;
   padding-right: 5px;
@@ -80,20 +91,30 @@
 /* 참가자 정보 */
 .yc-participant-info {
   flex: 1; /* 방 정보보다 좁은 너비 차지 */
-  background-color: #ffffff; /* 배경색 */
+  justify-content: center;
+  background-color: rgb(244, 244, 244); /* 배경색 */
   border: 1px solid #ddd; /* 테두리 */
   border-radius: 10px; /* 둥근 모서리 */
-  padding: 5px; /* 내부 여백 추가 축소 */
+  padding: 10px; /* 내부 여백 추가 축소 */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
   max-height: 385px; /* 최대 높이 설정 */
-  overflow-y: auto; /* 세로 스크롤 활성화 */
 }
 
 /* 참가자 수 표시 */
 .yc-participant-info h3 {
-  font-size: 12px; /* 제목 폰트 크기 축소 */
+  font-size: 15px; /* 제목 폰트 크기 축소 */
+  font-weight: bold;
   margin-bottom: 5px; /* 아래 여백 */
   text-align: center; /* 중앙 정렬 */
+}
+
+.yc-participant-user-table {
+  background-color: #ffffff;
+  padding: 0;
+  border: solid 1px #ccc;
+  border-radius: 5px;
+  max-height: 360px; /* 최대 높이 설정 */
+  overflow-y: auto; /* 세로 스크롤 활성화 */
 }
 
 /* 참가자 테이블 */
@@ -165,7 +186,7 @@
   flex-direction: column; /* 세로 방향으로 정렬 */
   gap: 20px; /* 요소 간 간격 */
   padding: 20px; /* 내부 여백 */
-  background-color: #ffffff; /* 배경색 */
+  background-color: rgb(244, 244, 244); /* 배경색 */
   border: 1px solid #ddd; /* 테두리 */
   border-radius: 10px; /* 둥근 모서리 */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
@@ -183,13 +204,26 @@
 
 /* 개별 미션 아이템 */
 .yc-mission-item {
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #f3f3f3;
+  border: solid 1px #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
   padding: 10px;
   border-radius: 8px;
   margin-bottom: 15px;
+  text-decoration: none;
+  color: #000;
+}
+
+.yc-mission-item:hover {
+  background-color: #edf3f4;
+}
+
+.yc-mission-item h4 {
+  font-size: 18px;
+  font-weight: bold;
 }
 
 /* 미션 이미지 */
@@ -214,7 +248,7 @@
 
 /* 미션 설명 */
 .yc-mission-content p {
-  margin: 5px 0 0 0; /* 위쪽 여백만 설정 */
+  margin-block: 10px;
   font-size: 14px; /* 본문 폰트 크기 */
 }
 
@@ -222,11 +256,11 @@
   background-color: #707070;
   color: white;
   border: none;
-  padding: 6px 12px;
+  padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 

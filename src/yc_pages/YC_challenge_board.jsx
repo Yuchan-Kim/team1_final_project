@@ -4,10 +4,11 @@ import React, { useState } from "react";
 import "../yc_assets/yc_css/yc_css_challenge_board.css";
 import Sidebar from "../yc_pages/YC_challenge_sidebar.jsx";
 import Header from "./JMYC_challenge_header.jsx";
+import Footert from "../pages/include/JM-Footer.jsx";
 import TopHeader from "../pages/include/DH_Header.jsx";
 import ChatRoom from "../yc_pages/YC_challenge_chatroom.jsx";
 
-import { FaPlus } from "react-icons/fa"; // React Icons 임포트
+import { FaPlus, FaMinus } from "react-icons/fa"; // React Icons 임포트
 
 const YcChallengeBoard = () => {
     const [notices, setNotices] = useState([
@@ -84,51 +85,51 @@ const YcChallengeBoard = () => {
                     <section className="yc_challenge_notice-section">
                         <div className="yc_challenge_notice-header">
                             <h2>공지 / 유의사항</h2>
-                            <button 
-                                className="yc_challenge_announcement" 
-                                onClick={() => setShowNewNotice(!showNewNotice)}
-                                aria-label="새 공지 추가"
+                            <button
+                            className="yc_challenge_announcement"
+                            onClick={() => setShowNewNotice(!showNewNotice)}
+                            aria-label={showNewNotice ? "새 공지 닫기" : "새 공지 추가"}
                             >
-                                <FaPlus /> {/* 아이콘 추가 */}
+                            {showNewNotice ? <FaMinus /> : <FaPlus />} {/* 상태에 따라 아이콘 변경 */}
                             </button>
                         </div>
 
                         {/* New Notice Form */}
                         {showNewNotice && (
                             <div className="yc_challenge_new-notice-form">
-                                <textarea
-                                    placeholder="공지 내용을 입력하세요."
-                                    value={newNoticeContent}
-                                    onChange={(e) => setNewNoticeContent(e.target.value)}
-                                ></textarea>
-                                
-                                <button className="yc_challenge_add-btn" onClick={handleAddNotice}>
+                            <textarea
+                                placeholder="공지 내용을 입력하세요."
+                                value={newNoticeContent}
+                                onChange={(e) => setNewNoticeContent(e.target.value)}
+                            ></textarea>
+                            
+                            <button className="yc_challenge_add-btn" onClick={handleAddNotice}>
                                 등록
-                                </button>
+                            </button>
                             </div>
                         )}
 
                         <div className="yc_challenge_announcement-list">
                             {notices.length > 0 ? (
-                                notices.map((notice) => (
-                                    <div key={notice.id} className="yc_challenge_notice-item">
-                                        <div className="yc_challenge_notice-item-header">
-                                            <p>{notice.content}</p>
-                                            <span className="yc_challenge_notice-date">작성일 {notice.date}</span>
-                                        </div>
-                                        <div className="yc_challenge_notice-meta">
-                                            <button 
-                                                className="yc_challenge_delete-btn" 
-                                                onClick={() => handleDeleteClick(notice.id)}
-                                                aria-label="공지 삭제"
-                                            >
-                                                삭제
-                                            </button>
-                                        </div>
-                                    </div>
-                                ))
+                            notices.map((notice) => (
+                                <div key={notice.id} className="yc_challenge_notice-item">
+                                <div className="yc_challenge_notice-item-header">
+                                    <p>{notice.content}</p>
+                                    <span className="yc_challenge_notice-date">작성일 {notice.date}</span>
+                                </div>
+                                <div className="yc_challenge_notice-meta">
+                                    <button
+                                    className="yc_challenge_delete-btn"
+                                    onClick={() => handleDeleteClick(notice.id)}
+                                    aria-label="공지 삭제"
+                                    >
+                                    삭제
+                                    </button>
+                                </div>
+                                </div>
+                            ))
                             ) : (
-                                <p>공지사항이 없습니다.</p>
+                            <p>공지사항이 없습니다.</p>
                             )}
                         </div>
                     </section>
@@ -175,6 +176,10 @@ const YcChallengeBoard = () => {
             </div>
         </div>
         <ChatRoom/>
+
+        {/* 푸터 */}
+        <Footert/>
+        {/* 푸터 끝 */}
 
         </>
     );

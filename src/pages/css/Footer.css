@@ -1,0 +1,84 @@
+ul, ol {
+    list-style: none; /* 기본 불릿 및 번호 제거 */
+    margin: 0; /* 여백 제거 */
+    padding: 0; /* 안쪽 여백 제거 */
+}
+
+li {
+    margin: 0; /* 개별 리스트 아이템 여백 초기화 */
+    padding: 0; /* 안쪽 여백 초기화 */
+}
+
+a {
+    text-decoration: none; /* 링크 밑줄 제거 */
+    color: inherit; /* 부모 요소의 텍스트 색상 상속 */
+}
+
+.footer {
+    margin-top: 30px;
+    width: 100%;
+    height: 350px;
+    background-color: #232930;
+    z-index: 1001;
+}
+
+.footer-container {
+    margin-inline: 340px;
+    height: 100%;
+}
+
+.jm-footer-logo {
+    padding-bottom: 50px;
+}
+
+.jm-footer-logo a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: inherit; /* 텍스트 색상 상속 */
+}
+
+.jm-footer-logo span{
+    font-size: 20px;
+    color: white;
+    text-decoration: none;
+}
+
+.jm-footer-body {
+    display: flex;
+}
+
+.jm-footer-content-left {
+    flex-grow: 1;
+    flex-basis: 0;
+    color: rgb(107, 107, 107);
+    margin-top: 40px;
+}
+
+.jm-footer-content-left-top {
+    margin-bottom: 50px;
+}
+
+.jm-footer-content-li {
+    margin-bottom: 10px;
+}
+
+.jm-footer-content-right {
+    flex-grow: 1;
+    flex-basis: 0;
+    margin-top: 40px;
+}
+
+.jm-footer-content-right ul {
+    text-align: right;
+    list-style: none;
+}
+
+.jm-footer-content-right ul li {
+    text-decoration: none;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.jm-footer-content-right a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: inherit; /* 텍스트 색상 상속 */
+}

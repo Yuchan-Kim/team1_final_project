@@ -5,6 +5,7 @@ import "../yc_assets/yc_css/yc_css_challenge_statistics.css";
 import Sidebar from "./YC_challenge_sidebar.jsx";
 import Header from "./JMYC_challenge_header.jsx";
 import TopHeader from "../pages/include/DH_Header.jsx";
+import Footert from "../pages/include/JM-Footer.jsx";
 import ChatRoom from "../yc_pages/YC_challenge_chatroom.jsx";
 
 
@@ -624,6 +625,10 @@ const YCChallengeStatistics = () => {
       </div>
     </div>
     <ChatRoom/>
+
+     {/* 푸터 */}
+     <Footert/>
+        {/* 푸터 끝 */}
 
     </>
   );

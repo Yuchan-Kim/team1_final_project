@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import TopHeader from "../include/DH_Header.jsx";
+import Footert from "../include/JM-Footer.jsx";
 import ChatRoom from "../../yc_pages/YC_challenge_chatroom.jsx";
+
 import '../css/Missioninfo.css';
+import '../css/Footer.css';
 
 import Sidebar from "../../yc_pages/YC_challenge_sidebar.jsx";
 import Header from "../../yc_pages/JMYC_challenge_header.jsx";
@@ -120,6 +124,10 @@ const handleCloseModal = () => setIsModalOpen(false);
         </div>
         </div>
         <ChatRoom/>
+
+        {/* 푸터 */}
+         <Footert/>
+        {/* 푸터 끝 */}
         </>
     );
 }
