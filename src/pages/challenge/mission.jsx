@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import TopHeader from "../include/DH_Header.jsx";
+import Footert from "../include/JM-Footer.jsx";
 import ChatRoom from "../../yc_pages/YC_challenge_chatroom.jsx";
 import { Doughnut, Line, Bar } from "react-chartjs-2"; 
 import {
@@ -176,7 +177,7 @@ const Mission = () => {
     if (fileInputs.length < 3) {
       setFileInputs([...fileInputs, {}]);
     } else {
-      alert("파일은 최대 3개까지 추가할 수 있습니다."); // 사용자에게 알림
+      alert("사진은 최대 3개까지 추가할 수 있습니다."); // 사용자에게 알림
     }
   };
 
@@ -335,6 +336,10 @@ const Mission = () => {
       )}
     </div>
     <ChatRoom/>
+
+     {/* 푸터 */}
+      <Footert/>
+      {/* 푸터 끝 */}
     </>
   );
 };

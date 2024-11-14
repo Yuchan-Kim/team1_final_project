@@ -730,9 +730,11 @@
 }
 
 #step7 #list #category {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+
+    height: 610px;
+    /* margin: 20px; */
+    /* padding: 20px; */
+
 }
 
 #step7 #list #category div {

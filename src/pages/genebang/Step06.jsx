@@ -180,6 +180,7 @@ const Step06 = ({ onNext, onPrevious }) => {
                                                                     position: 'absolute',
                                                                     top: '5px',
                                                                     right: '5px',
+
                                                                     background: 'transparent',
                                                                     border: 'none',
                                                                     color: '#000',
@@ -276,7 +277,9 @@ const Step06 = ({ onNext, onPrevious }) => {
                                                                         position: 'absolute',
                                                                         top: '5px',
                                                                         right: '5px',
+
                                                                         background: 'transparent',
+
                                                                         border: 'none',
                                                                         borderRadius: '50%',
                                                                         color: '#000',

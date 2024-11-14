@@ -5,7 +5,7 @@ import SearchIcon from '@rsuite/icons/Search';
 import SendIcon from '@rsuite/icons/Send';
 import Modal from 'react-modal';
 
-import '../../css/reset.css';
+// import '../../css/reset.css';
 import '../../css/jy_main.css';
 
 import Header from '../include/DH_Header';
