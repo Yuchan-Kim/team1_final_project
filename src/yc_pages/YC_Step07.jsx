@@ -1,10 +1,10 @@
 // src/pages/genebang/Step07.jsx
 import React, { useState } from 'react';
-import '../../css/reset.css';
-import '../../css/jy_step.css';
-import { StepNav } from '../include/StepNav'; // StepNav 임포트
+import '../css/reset.css';
+import '../css/jy_step.css';
+import { YCStepNav } from '../yc_pages/YC_StepNav.jsx'; // StepNav 임포트
 
-const Step07 = ({ onNext, onPrevious }) => {
+const Step07 = ({ onSave, onPrevious }) => {
 
     /*---상태 관리-------------------------*/
     const [selectedEvaluation, setSelectedEvaluation] = useState(null);
@@ -40,7 +40,7 @@ const Step07 = ({ onNext, onPrevious }) => {
             <div id="jy_step" className="jy_wrap">
                 <div id="container">
                     <div className="step" id="step7">
-                        <StepNav idx={7} /> {/* StepNav 포함 */}
+                        <YCStepNav idx={5} /> {/* StepNav 포함 */}
                         <div id="board">
                             <div id="list">
                                 <div id='question'>
@@ -87,13 +87,10 @@ const Step07 = ({ onNext, onPrevious }) => {
                         </div>
                         {/* //board */}
                         <div className="btn">
-                            <button id="secondary" onClick={onPrevious}>이전</button>
                             <button 
                                 id="primary" 
-                                onClick={onNext} 
-                                disabled={!isNextEnabled()}
-                                className={!isNextEnabled() ? 'disabled' : ''}
-                                aria-disabled={!isNextEnabled()}
+                                onClick={() => onSave()}
+
                             >
                                 다음
                             </button>

@@ -158,11 +158,11 @@
     background-color: #497B91;
 }
 
-.yc-modal-cancel-header {
+.yc-modal-cancel {
     background-color: #ccc;
     color: black;
 }
 
-.yc-modal-cancel-header:hover {
+.yc-modal-cancel:hover {
     background-color: #999;
 }
