@@ -1,4 +1,4 @@
-
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const StepNav = ({ idx }) => {
@@ -16,9 +16,9 @@ export const StepNav = ({ idx }) => {
         { title: "8. AI 추천 미션", link: '/genebang/step8' },
     ];
 
-    const handleNavigate = (link) => {
-        navigate(link);
-    };
+    /*---클릭 비활성화---------------------------*/
+    // onClick 핸들러 제거하거나, 조건부로 활성화
+    // 여기서는 클릭을 완전히 비활성화합니다.
 
     return (
         <div id="stepNav">
@@ -26,8 +26,8 @@ export const StepNav = ({ idx }) => {
                 {steps.map((step, index) => (
                     <li
                         key={index}
-                        className={idx === index + 1 ? "active" : ""}
-                        onClick={() => handleNavigate(step.link)}
+                        className={idx === index + 1 ? "active" : "disabled"}
+                        /* onClick={() => handleNavigate(step.link)} */  /* 클릭 비활성화 */
                     >
                         {step.title}
                     </li>

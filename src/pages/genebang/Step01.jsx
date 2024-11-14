@@ -1,4 +1,4 @@
-//import 라이브러리
+// Step01.jsx
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -10,9 +10,7 @@ import { StepNav } from '../include/StepNav';
 
 import CheckRoundIcon from '@rsuite/icons/CheckRound';
 
-
-
-const Step01 = () => {
+const Step01 = ({ onNext, onCancel }) => {
 
     /*---라우터 관련-------------------------------*/
 
@@ -23,11 +21,6 @@ const Step01 = () => {
     //선택된 리스트 관리
     const [selected, setSelected] = useState(null);
 
-    //왼쪽(일반)과 오른쪽(챌린지)의 선택 항목 관리
-
-
-    /*---일반 변수--------------------------------*/
-
     /*---일반 메소드 -----------------------------*/
 
     // 리스트 클릭 이벤트 처리
@@ -35,17 +28,14 @@ const Step01 = () => {
         setSelected(listType);  // 왼쪽(list-left) 또는 오른쪽(list-right) 선택
     };
 
-
-    /*---훅(useEffect)+이벤트(handle)메소드-------*/
+    /*---이벤트 핸들러 -------------------------*/
 
     const handleCancel = () => {
-        navigate('/genebang/step10');
+        navigate('/');
     };
     const handleNext = () => {
         navigate('/genebang/step2');
     };
-
-
 
     return (
 
@@ -56,15 +46,12 @@ const Step01 = () => {
                 {/* <Header /> */}
                 {/* //header + //nav */}
 
-
                 <div id="container" >
-
 
                     {/* <div id="aside">
 
                     </div> */}
                     {/* //aside */}
-
 
                     <div className="step" id="step1">
 
@@ -111,21 +98,25 @@ const Step01 = () => {
                             {/* //list */}
 
                             <div className="btn">
-                                <button id="seconday" onClick={handleCancel}>취소</button>
-                                <button id="primary" onClick={handleNext}>다음</button>
+                                <button id="secondary" onClick={onCancel}>취소</button>
+                                <button
+                                    id="primary"
+                                    onClick={onNext}
+                                    disabled={!selected}
+                                    className={!selected ? 'disabled' : ''}
+                                >
+                                    다음
+                                </button>
                             </div>
 
                         </div>
                         {/* //board */}
 
                     </div>
-                    {/* //step  */}
-
-
+                    {/* //step */}
 
                 </div>
-                {/* //container  */}
-
+                {/* //container */}
 
                 {/* <Footer /> */}
                 {/* //footer */}

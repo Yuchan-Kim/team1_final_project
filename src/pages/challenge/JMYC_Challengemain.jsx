@@ -1,10 +1,13 @@
 // ChallengePage.jsx
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+
 import '../css/JMYC_Challengemain.css';
+import '../css/Jm-Point-info.css';
 
 import Sidebar from "../../yc_pages/YC_challenge_sidebar.jsx";
 import Header from "../../yc_pages/JMYC_challenge_header.jsx";
+import Footert from "../include/JM-Footer.jsx";
 import TopHeader from "../include/DH_Header.jsx";
 import ChatRoom from "../../yc_pages/YC_challenge_chatroom.jsx";
 
@@ -24,12 +27,12 @@ const ChallengePage = () => {
 
   // 개별 미션 리스트
   const missions = [
-    { title: "최종 미션", status: "제출", description: "그룹 인증방법 설명", image: "https://via.placeholder.com/150" },
-    { title: "스트레칭 하기", status: "제출", description: "인증방법 설명", isGroup: false, image: "https://via.placeholder.com/150" },
-    { title: "500미터 걷기", status: "제출", description: "인증방법 설명", isGroup: false, image: "https://via.placeholder.com/150" },
-    { title: "물 마시기", status: "제출", description: "인증방법 설명", isGroup: false, image: "https://via.placeholder.com/150" },
-    { title: "눈 마사지", status: "제출", description: "인증방법 설명", isGroup: false, image: "https://via.placeholder.com/150" },
-    { title: "눈 마시기", status: "제출", description: "인증방법 설명", isGroup: false, image: "https://via.placeholder.com/150" }
+    { title: "최종 미션", status: "제출", description: "그룹 인증방법 설명", image: "https://img.freepik.com/free-photo/group-people-working-out-together-outdoors_23-2149891452.jpg" },
+    { title: "스트레칭 하기", status: "제출", description: "인증방법 설명", isGroup: false, image: "https://img.freepik.com/free-photo/group-people-working-out-together-outdoors_23-2149891452.jpg" },
+    { title: "500미터 걷기", status: "제출", description: "인증방법 설명", isGroup: false, image: "https://img.freepik.com/free-photo/group-people-working-out-together-outdoors_23-2149891452.jpg" },
+    { title: "물 마시기", status: "제출", description: "인증방법 설명", isGroup: false, image: "https://img.freepik.com/free-photo/group-people-working-out-together-outdoors_23-2149891452.jpg" },
+    { title: "눈 마사지", status: "제출", description: "인증방법 설명", isGroup: false, image: "https://img.freepik.com/free-photo/group-people-working-out-together-outdoors_23-2149891452.jpg" },
+    { title: "눈 마시기", status: "제출", description: "인증방법 설명", isGroup: false, image: "https://img.freepik.com/free-photo/group-people-working-out-together-outdoors_23-2149891452.jpg" }
   ];
 
   // 참가자 리스트 (예시 데이터)
@@ -128,29 +131,33 @@ const ChallengePage = () => {
             <div className="yc-room-info">
               <div className="yc-room-card">
                 <h3>방 소개</h3>
-                <p>
-                  반갑습니다. 매일 500m 걷기 챌린지방 입니다.<br />
-                  꾸준한 걷는 습관을 만들고 싶은 분들을 모집 중입니다.<br />
-                  우리 모두 건강한 루틴을 만들었으면 좋겠습니다!
-                  반갑습니다. 매일 500m 걷기 챌린지방 입니다.<br />
-                  꾸준한 걷는 습관을 만들고 싶은 분들을 모집 중입니다.<br />
-                  우리 모두 건강한 루틴을 만들었으면 좋겠습니다!
-                  반갑습니다. 매일 500m 걷기 챌린지방 입니다.<br />
-                  꾸준한 걷는 습관을 만들고 싶은 분들을 모집 중입니다.<br />
-                  우리 모두 건강한 루틴을 만들었으면 좋겠습니다!
-                  반갑습니다. 매일 500m 걷기 챌린지방 입니다.<br />
-                  꾸준한 걷는 습관을 만들고 싶은 분들을 모집 중입니다.<br />
-                  우리 모두 건강한 루틴을 만들었으면 좋겠습니다!
-                </p>
+                <div className='jm-room-card-contents-box'>
+                  <p>
+                    반갑습니다. 매일 500m 걷기 챌린지방 입니다.<br />
+                    꾸준한 걷는 습관을 만들고 싶은 분들을 모집 중입니다.<br />
+                    우리 모두 건강한 루틴을 만들었으면 좋겠습니다!
+                    반갑습니다. 매일 500m 걷기 챌린지방 입니다.<br />
+                    꾸준한 걷는 습관을 만들고 싶은 분들을 모집 중입니다.<br />
+                    우리 모두 건강한 루틴을 만들었으면 좋겠습니다!
+                    반갑습니다. 매일 500m 걷기 챌린지방 입니다.<br />
+                    꾸준한 걷는 습관을 만들고 싶은 분들을 모집 중입니다.<br />
+                    우리 모두 건강한 루틴을 만들었으면 좋겠습니다!
+                    반갑습니다. 매일 500m 걷기 챌린지방 입니다.<br />
+                    꾸준한 걷는 습관을 만들고 싶은 분들을 모집 중입니다.<br />
+                    우리 모두 건강한 루틴을 만들었으면 좋겠습니다!
+                  </p>
+                </div>
               </div>
               <div className="yc-room-card">
                 <h3>공지 사항</h3>
-                <p>공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.
-                공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.
-                공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.
-                공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.
-                공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.
-                </p>
+                <div className='jm-room-card-contents-box'>
+                  <p>공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.
+                    공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.
+                    공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.
+                    공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.
+                    공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -158,26 +165,28 @@ const ChallengePage = () => {
             <div className="yc-participant-info">
               {/* 참가자 수 표시 */}
               <h3>유저 목록 (총 {participants.length}명)</h3>
-              <table className="yc-participant-table">
-                <thead>
-                  <tr>
-                    <th>이름</th>
-                    <th>상태</th>
-                    <th>포인트</th>
-                    <th>액션</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {participants.map((user, index) => (
-                    <tr className='yc-user-list' key={index}>
-                      <td>{user.name}</td>
-                      <td className={`yc-status-${user.status}`}>{user.status}</td>
-                      <td>{user.points}</td>
-                      <td><button className="yc-report-button">신고</button></td>
+              <div className="yc-participant-user-table">
+                <table className="yc-participant-table">
+                  <thead>
+                    <tr>
+                      <th>이름</th>
+                      <th>상태</th>
+                      <th>포인트</th>
+                      <th>액션</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {participants.map((user, index) => (
+                      <tr className='yc-user-list' key={index}>
+                        <td>{user.name}</td>
+                        <td className={`yc-status-${user.status}`}>{user.status}</td>
+                        <td>{user.points}</td>
+                        <td><button className="yc-report-button">신고</button></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </section>
 
@@ -187,7 +196,7 @@ const ChallengePage = () => {
             <div className='yc-mission-summary'>
               {sortedMissions.map((mission, index) => (
 
-                <div className='yc-mission-item' key={index}>
+                <Link to="/mission" className='yc-mission-item' key={index}>
                   <h4>{mission.title}</h4>
                   <img src={mission.image} alt={`${mission.title} 이미지`} className="yc-mission-image" />
                   <div className="yc-mission-content">
@@ -195,7 +204,7 @@ const ChallengePage = () => {
                     <p>{mission.description}</p>
                   </div>
                   <button className="yc-view-button" onClick={() => openModal(mission)}>더보기</button>
-                </div>
+                </Link>
               ))}
             </div>
           </section>
@@ -225,6 +234,9 @@ const ChallengePage = () => {
           </div>
         </div>
       )}
+      {/* 푸터 */}
+      <Footert/>
+        {/* 푸터 끝 */}
     </>
   );
 }

@@ -4,7 +4,7 @@
 .yc-floating-chat-icon {
   position: fixed;
   bottom: 30px; /* 하단으로 이동 */
-  right: 10px; /* 우측으로 이동 */
+  right: 50px; /* 우측으로 이동 */
   width: 60px;
   height: 60px;
   background-color: #9dabb7;
@@ -17,7 +17,7 @@
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   font-size: 24px;
   transition: background-color 0.3s ease, transform 0.3s ease;
-  z-index: 1000; /* 다른 요소 위에 표시 */
+  z-index: 1500; /* 다른 요소 위에 표시 */
 }
 
 .yc-floating-chat-icon:hover {
@@ -39,7 +39,7 @@
   animation: yc-slideDown 0.3s forwards;
   display: flex;
   flex-direction: column;
-  z-index: 1001; /* 채팅 아이콘보다 위 */
+  z-index: 1501; /* 채팅 아이콘보다 위 */
 }
 
 @keyframes yc-slideDown {

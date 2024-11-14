@@ -14,7 +14,7 @@ const DH_Header = () => {
 
 	/*---일반 변수 --------------------------------------------*/
 	// 로그인 전 1
-	const state = 2;	
+	const state = 1;	
 
 	/*---라우터 관련------------------------------------------*/
 
@@ -30,10 +30,9 @@ const DH_Header = () => {
 			<header className="dy-header">
 				<div className="dy-header-content">
 					<div className="dy-logo">
-						<Link to="" className="dy-link" rel="noreferrer noopener">
+						<Link to="/" className="dy-link" rel="noreferrer noopener">
 							<ol>
-								<li>DONKEY</li>
-								<li>동기 키우기</li>
+								<li>DONKEY:동기 키우기</li>
 							</ol>
 						</Link>
 					</div>
@@ -41,7 +40,7 @@ const DH_Header = () => {
 
 					<div className="dy-menu">
 						<ol>
-							<li><Link to="" className="dy-link" rel="noreferrer noopener">챌린지</Link></li>
+							<li><Link to="/" className="dy-link" rel="noreferrer noopener">챌린지</Link></li>
 							<li><Link to="" className="dy-link" rel="noreferrer noopener">커뮤니티</Link></li>
 							<li><Link to="" className="dy-link" rel="noreferrer noopener">랭킹</Link></li>
 							<li><Link to="/pointstore/pointstoremain" className="dy-link" rel="noreferrer noopener">상점</Link></li>

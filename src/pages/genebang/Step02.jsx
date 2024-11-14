@@ -1,4 +1,4 @@
-//import 라이브러리
+// Step02.jsx
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -15,39 +15,30 @@ import CloseOutlineIcon from '@rsuite/icons/CloseOutline';
 // import { CiForkAndKnife } from "react-icons/ci";
 // import { CiBatteryCharging } from "react-icons/ci";
 
-
-const Step02 = () => {
+const Step02 = ({ onNext, onPrevious }) => {
 
     /*---라우터 관련-------------------------------*/
-
     const navigate = useNavigate();
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
-
-    //선택된 카테고리를 관리
+    // 선택된 카테고리를 관리
     const [selectedCategory, setSelectedCategory] = useState(null);
-
-    /*---일반 변수--------------------------------*/
+    // 키워드 입력값을 관리
+    const [keyword, setKeyword] = useState('');
 
     /*---일반 메소드 -----------------------------*/
-
     // 카테고리 클릭 시 선택된 카테고리 설정
     const handleCategoryClick = (category) => {
         setSelectedCategory(category);
     };
 
-    /*---훅(useEffect)+이벤트(handle)메소드-------*/
-
-    const handleCancel = () => {
-        navigate('/genebang/step10');
+    /*---이벤트 핸들러 -------------------------*/
+    const handlePrevious= () => {
+        navigate('/genebang/step1'); // "이전" 버튼을 이전 단계로 변경
     };
     const handleNext = () => {
         navigate('/genebang/step3');
     };
-
-
-
-
 
     return (
 
@@ -58,15 +49,12 @@ const Step02 = () => {
                 {/* <Header /> */}
                 {/* //header + //nav */}
 
-
-                <div id="container" >
-
+                <div id="container">
 
                     {/* <div id="aside">
 
                     </div> */}
                     {/* //aside */}
-
 
                     <div className="step" id="step2">
 
@@ -118,7 +106,12 @@ const Step02 = () => {
                                 <div id="keyword">
                                     <h3>키워드</h3>
                                     <div>
-                                        <input placeholder='윗몸일으키기 ' /><CloseOutlineIcon />
+                                        <input 
+                                            placeholder='윗몸일으키기' 
+                                            value={keyword}
+                                            onChange={(e) => setKeyword(e.target.value)}
+                                        />
+                                        {keyword && <CloseOutlineIcon onClick={() => setKeyword('')} style={{ cursor: 'pointer' }} />}
                                     </div>
                                     <h4>챌린지 방만의 키워드를 만들어 보세요.</h4>
                                     <h4>인원을 모집하는데 유용합니다.</h4>
@@ -128,23 +121,25 @@ const Step02 = () => {
                             {/* //list */}
 
                             <div className="btn">
-                                <button id="seconday" onClick={handleCancel}>취소</button>
-                                <button id="primary" onClick={handleNext}>다음</button>
+                                <button id="secondary" onClick={onPrevious}>이전</button>
+                                <button 
+                                    id="primary" 
+                                    onClick={onNext} 
+                                    disabled={!selectedCategory || !keyword.trim()}
+                                    className={!selectedCategory || !keyword.trim() ? 'disabled' : ''}
+                                >
+                                    다음
+                                </button>
                             </div>
 
-
-                            
                         </div>
                         {/* //board */}
 
                     </div>
-                    {/* //step  */}
-
-
+                    {/* //step */}
 
                 </div>
-                {/* //container  */}
-
+                {/* //container */}
 
                 {/* <Footer /> */}
                 {/* //footer */}
