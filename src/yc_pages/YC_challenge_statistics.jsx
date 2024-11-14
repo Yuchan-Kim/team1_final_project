@@ -8,9 +8,9 @@ import TopHeader from "../pages/include/DH_Header.jsx";
 import Footert from "../pages/include/JM-Footer.jsx";
 import ChatRoom from "../yc_pages/YC_challenge_chatroom.jsx";
 
-
 import YCProfileInfo from "../yc_pages/YC_profile_info.jsx";
-import { Doughnut, Line, Bar } from "react-chartjs-2"; 
+import { Doughnut, Line, Bar } from "react-chartjs-2";
+
 import {
     Chart as ChartJS,
     ArcElement,
@@ -24,9 +24,9 @@ import {
     Title,
     Filler,
 } from "chart.js";
-import { FaFileAlt } from 'react-icons/fa'; // 문서 아이콘 추가
+import { FaFileAlt } from 'react-icons/fa'; // Document icon
 
-// **Chart.js 요소 등록**
+// **Register Chart.js components**
 ChartJS.register(
     ArcElement, 
     Tooltip, 
@@ -44,9 +44,10 @@ const YCChallengeStatistics = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
-  const [isProfileOpen, setProfileOpen] = useState(false); // 프로필 모달 상태 추가
+  const [isProfileOpen, setProfileOpen] = useState(false); // Profile modal state
   const [profileUser, setProfileUser] = useState(null);
 
+  // Updated users array with unique IDs and varied data
   const users = [
     { 
       id: 1, 
@@ -73,162 +74,42 @@ const YCChallengeStatistics = () => {
       completedChallenges: 3
     },
     { 
-      id: 2, 
-      name: "박지민", 
-      progress: 80,
-      avatar: "path_to_avatar2.jpg",
-      location: "부산",
-      reliability: 4.0,
-      pointRanking: 20,
-      reportCount: 1,
-      activeChallenges: 2,
+      id: 3, 
+      name: "이수진", 
+      progress: 75,
+      avatar: "path_to_avatar3.jpg",
+      location: "대구",
+      reliability: 4.2,
+      pointRanking: 15,
+      reportCount: 0,
+      activeChallenges: 4,
       completedChallenges: 3
     },
     { 
-      id: 2, 
-      name: "박지민", 
-      progress: 80,
-      avatar: "path_to_avatar2.jpg",
-      location: "부산",
-      reliability: 4.0,
-      pointRanking: 20,
-      reportCount: 1,
-      activeChallenges: 2,
-      completedChallenges: 3
+      id: 4, 
+      name: "최민호", 
+      progress: 85,
+      avatar: "path_to_avatar4.jpg",
+      location: "인천",
+      reliability: 4.7,
+      pointRanking: 8,
+      reportCount: 0,
+      activeChallenges: 5,
+      completedChallenges: 4
     },
     { 
-      id: 2, 
-      name: "박지민", 
-      progress: 80,
-      avatar: "path_to_avatar2.jpg",
-      location: "부산",
-      reliability: 4.0,
-      pointRanking: 20,
-      reportCount: 1,
-      activeChallenges: 2,
-      completedChallenges: 3
+      id: 5, 
+      name: "김하늘", 
+      progress: 90,
+      avatar: "path_to_avatar5.jpg",
+      location: "광주",
+      reliability: 4.8,
+      pointRanking: 5,
+      reportCount: 0,
+      activeChallenges: 6,
+      completedChallenges: 5
     },
-    { 
-      id: 2, 
-      name: "박지민", 
-      progress: 80,
-      avatar: "path_to_avatar2.jpg",
-      location: "부산",
-      reliability: 4.0,
-      pointRanking: 20,
-      reportCount: 1,
-      activeChallenges: 2,
-      completedChallenges: 3
-    },
-    { 
-      id: 2, 
-      name: "박지민", 
-      progress: 80,
-      avatar: "path_to_avatar2.jpg",
-      location: "부산",
-      reliability: 4.0,
-      pointRanking: 20,
-      reportCount: 1,
-      activeChallenges: 2,
-      completedChallenges: 3
-    },
-    { 
-      id: 2, 
-      name: "박지민", 
-      progress: 80,
-      avatar: "path_to_avatar2.jpg",
-      location: "부산",
-      reliability: 4.0,
-      pointRanking: 20,
-      reportCount: 1,
-      activeChallenges: 2,
-      completedChallenges: 3
-    },
-    { 
-      id: 2, 
-      name: "박지민", 
-      progress: 80,
-      avatar: "path_to_avatar2.jpg",
-      location: "부산",
-      reliability: 4.0,
-      pointRanking: 20,
-      reportCount: 1,
-      activeChallenges: 2,
-      completedChallenges: 3
-    },
-    { 
-      id: 2, 
-      name: "박지민", 
-      progress: 80,
-      avatar: "path_to_avatar2.jpg",
-      location: "부산",
-      reliability: 4.0,
-      pointRanking: 20,
-      reportCount: 1,
-      activeChallenges: 2,
-      completedChallenges: 3
-    },
-    { 
-      id: 2, 
-      name: "박지민", 
-      progress: 80,
-      avatar: "path_to_avatar2.jpg",
-      location: "부산",
-      reliability: 4.0,
-      pointRanking: 20,
-      reportCount: 1,
-      activeChallenges: 2,
-      completedChallenges: 3
-    },
-    { 
-      id: 2, 
-      name: "박지민", 
-      progress: 80,
-      avatar: "path_to_avatar2.jpg",
-      location: "부산",
-      reliability: 4.0,
-      pointRanking: 20,
-      reportCount: 1,
-      activeChallenges: 2,
-      completedChallenges: 3
-    },
-    { 
-      id: 2, 
-      name: "박지민", 
-      progress: 80,
-      avatar: "path_to_avatar2.jpg",
-      location: "부산",
-      reliability: 4.0,
-      pointRanking: 20,
-      reportCount: 1,
-      activeChallenges: 2,
-      completedChallenges: 3
-    },
-    { 
-      id: 2, 
-      name: "박지민", 
-      progress: 80,
-      avatar: "path_to_avatar2.jpg",
-      location: "부산",
-      reliability: 4.0,
-      pointRanking: 20,
-      reportCount: 1,
-      activeChallenges: 2,
-      completedChallenges: 3
-    },
-    { 
-      id: 2, 
-      name: "박지민", 
-      progress: 80,
-      avatar: "path_to_avatar2.jpg",
-      location: "부산",
-      reliability: 4.0,
-      pointRanking: 20,
-      reportCount: 1,
-      activeChallenges: 2,
-      completedChallenges: 3
-    }
-
+    // Add more users as needed
   ];
 
   const emojis = ['😊', '😎', '🚀', '🎉', '🏆', '🔥', '💪', '🌟', '🎯'];
@@ -256,7 +137,7 @@ const YCChallengeStatistics = () => {
   const [animationTriggered, setAnimationTriggered] = useState(false);
 
   useEffect(() => {
-    // 페이지 로드 시 애니메이션 트리거
+    // Trigger animation on page load
     setAnimationTriggered(true);
   }, []);
 
@@ -272,7 +153,7 @@ const YCChallengeStatistics = () => {
     ],
   } : null;
 
-  // 전체 달성률 라인 차트 데이터 (예시 데이터)
+  // Overall achievement rate line chart data (example data)
   const overallLineChartData = {
     labels: ["24-04-01", "24-04-05", "24-04-10", "24-04-15", "24-04-20", "24-04-25", "24-04-30"],
     datasets: [
@@ -340,7 +221,7 @@ const YCChallengeStatistics = () => {
     },
   };
 
-  // 개인 달성률 라인 차트 데이터 (예시 데이터)
+  // Personal achievement rate line chart data (example data)
   const personalLineChartData = {
     labels: ["24-04-01", "24-04-05", "24-04-10", "24-04-15", "24-04-20", "24-04-25", "24-04-30"],
     datasets: [
@@ -408,7 +289,7 @@ const YCChallengeStatistics = () => {
     },
   };
 
-  // 막대 그래프 데이터 (예시 데이터)
+  // Bar chart data (example data)
   const barChartData = {
     labels: ["미션 A", "미션 B", "미션 C", "미션 D", "미션 E"],
     datasets: [
@@ -493,143 +374,207 @@ const YCChallengeStatistics = () => {
       },
     },
     animation: {
-      animateRotate: true, // 회전 애니메이션 활성화
-      animateScale: false,  // 스케일 애니메이션 비활성화
-      duration: 1000, // 애니메이션 지속 시간 (밀리초) 감소
-      easing: 'easeOutQuart', // 더 자연스러운 이징 함수
+      animateRotate: true, // Enable rotation animation
+      animateScale: false,  // Disable scale animation
+      duration: 1000, // Reduce animation duration (ms)
+      easing: 'easeOutQuart', // More natural easing function
     },
   };
 
+   // Donut chart data
+   const doughnutData = {
+    labels: ['완료', '미완료'],
+    datasets: [
+      {
+        label: '달성도',
+        data: [65, 35], // Example data
+        backgroundColor: [
+          'rgba(75, 192, 192, 0.6)',
+          'rgba(255, 205, 86, 0.6)'
+        ],
+        borderColor: [
+          'rgba(75, 192, 192, 1)',
+          'rgba(255, 205, 86, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const doughnutOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom',
+      },
+      title: {
+        display: true,
+        text: '그룹 챌린지 달성도',
+      },
+    },
+  };
+
+  // Top 5 users for ranking display
+  const topUsers = users
+    .sort((a, b) => b.progress - a.progress)
+    .slice(0, 5);
+
   return (
     <>
-    <TopHeader/>
-    <div className="yc-statistics-wrap">
-      
-      <Sidebar />
-      
-      <div className="yc_challenge_statistics_main">
-        <Header />
-        <h2 className="yc_challenge_statistics_title">유저 현황</h2>
-        {/* 전체 달성율 및 내 달성율 섹션과 포인트 그래프 */}
-        <div className="yc_challenge_statistics_overall-personal-container">
-          {/* 그래프 섹션 */}
-          <div className="yc_challenge_statistics_graphs-section">
-            {/* 전체 달성률 포인트 그래프 (라인 차트) */}
-            <div className="yc_challenge_statistics_line-chart">
-              <Line
-                data={overallLineChartData}
-                options={lineChartOptions}
-              />
-            </div>
+      <TopHeader/>
 
-            {/* 내 달성률 포인트 그래프 (라인 차트) */}
-            <div className="yc_challenge_statistics_line-chart">
-              <Line
-                data={personalLineChartData}
-                options={personalLineChartOptions}
-              />
+      {/* Chart Container with Top 5 Rankings */}
+      <div className="yc-chart-container">
+          <Doughnut data={doughnutData} options={doughnutOptions} />
+          <div className="yc-achievement-rate">
+            <h4>달성률: 65%</h4>
+          </div>
+          
+          {/* Top 5 User Rankings */}
+          <div className="yc-top-rankings">
+            <h3>Top 5 랭킹</h3>
+            {topUsers.map((user, index) => (
+              <div key={user.id} className="yc-ranking-item">
+                <img 
+                  src={user.avatar} 
+                  alt={`${user.name} 프로필`} 
+                  className="yc-ranking-avatar" 
+                />
+                <div className="yc-ranking-info">
+                  <span className="yc-ranking-name">{user.name}</span>
+                  <span className="yc-ranking-progress">달성률: {user.progress}%</span>
+                </div>
+              </div>
+            ))}
+          </div>
+      </div>
+
+      <div className="yc-statistics-wrap">
+        
+        <Sidebar />
+        
+        <div className="yc_challenge_statistics_main">
+          <Header />
+          <h2 className="yc_challenge_statistics_title">유저 현황</h2>
+          {/* Overall and Personal Achievement Rates and Point Graphs */}
+          <div className="yc_challenge_statistics_overall-personal-container">
+            {/* Graph Section */}
+            <div className="yc_challenge_statistics_graphs-section">
+              {/* Overall Achievement Rate Line Chart */}
+              <div className="yc_challenge_statistics_line-chart">
+                <Line
+                  data={overallLineChartData}
+                  options={lineChartOptions}
+                />
+              </div>
+
+              {/* Personal Achievement Rate Line Chart */}
+              <div className="yc_challenge_statistics_line-chart">
+                <Line
+                  data={personalLineChartData}
+                  options={personalLineChartOptions}
+                />
+              </div>
             </div>
           </div>
-        </div>
-        
-        {/* 사용자 리스트 섹션 */}
-        <div className="yc_challenge_statistics_user-list">
-          <h2 className="yc_challenge_statistics_title">랭킹</h2>
-          {users.map((user, index) => (
-            <div key={user.id} className="yc_challenge_statistics_user">
-              <span className="yc_challenge_statistics_user-emoji">
-                {emojis[index % emojis.length]}
-              </span>
-              <div className="yc_challenge_statistics_user-info">
-                <Link
-                    to="#"
-                    className="yc_challenge_statistics_user-name"
-                    onClick={() => openProfile(user)} // 프로필 열기 
-                    >
-                    {user.name}
-                </Link>
-                <div className="yc_challenge_statistics_user-progress-bar">
-                  <div
-                    className="yc_challenge_statistics_filled"
-                    style={{ width: `${user.progress}%` }}
-                  ></div>
+          
+          {/* User List Section */}
+          <div className="yc_challenge_statistics_user-list">
+            <h2 className="yc_challenge_statistics_title">랭킹</h2>
+            {users.map((user, index) => (
+              <div key={user.id} className="yc_challenge_statistics_user">
+                <span className="yc_challenge_statistics_user-emoji">
+                  {emojis[index % emojis.length]}
+                </span>
+                <div className="yc_challenge_statistics_user-info">
+                  <Link
+                      to="#"
+                      className="yc_challenge_statistics_user-name"
+                      onClick={() => openProfile(user)} // Open profile 
+                      >
+                      {user.name}
+                  </Link>
+                  <div className="yc_challenge_statistics_user-progress-bar">
+                    <div
+                      className="yc_challenge_statistics_filled"
+                      style={{ width: `${user.progress}%` }}
+                    ></div>
+                  </div>
+                  <span className="yc_challenge_statistics_user-progress">
+                    달성율 {user.progress}%
+                  </span>
                 </div>
-                <span className="yc_challenge_statistics_user-progress">
-                  달성율 {user.progress}%
+                <span className="yc_challenge_statistics_user-details">
+                  <button
+                    className="yc_challenge_statistics_report-button"
+                    onClick={() => openModal(user)}
+                    aria-label="성적표 보기"
+                  >
+                    <FaFileAlt />
+                  </button>
                 </span>
               </div>
-              <span className="yc_challenge_statistics_user-details">
-                <button
-                  className="yc_challenge_statistics_report-button"
-                  onClick={() => openModal(user)}
-                  aria-label="성적표 보기"
-                >
-                  <FaFileAlt />
-                </button>
-              </span>
-            </div>
-          ))}
-        </div>
-
-        {/* 성적표 모달 */}
-        {isModalOpen && selectedUser && (
-          <div className="yc-modal-overlay" onClick={closeModal}>
-            <div className="yc-modal-content" onClick={(e) => e.stopPropagation()}>
-              <h2>성적표</h2>
-              <div className="yc-report-details">
-                <div className="yc-dougnut-chart">
-                  <Doughnut
-                    key={selectedUser.id} // **고유 키 추가**
-                    data={chartData}
-                    options={chartOptions}
-                  />
-                  <span className="yc-completion-rate">{selectedUser.progress}%</span>
-                </div>
-                <div className="yc-mission-details">
-                  <p>완료한 미션: 52/60</p>
-                  <p>스트레칭 하기: 26/30</p>
-                  <p>500m 걷기: 26/30</p>
-                </div>
-              </div>
-
-              {/* 그룹 챌린지 섹션 추가 */}
-              <div className="yc-group-challenge-section">
-                <h3>그룹 챌린지</h3>
-                <div className="yc-group-challenge-points">
-                  +1000 P
-                </div>
-                <ul className="yc-group-challenges">
-                  <li>줄넘기 5000번 뛰기 - 성공</li>
-                </ul>
-              </div>
-
-              <div className="yc-points-summary">
-                <p><strong>도전 보상:</strong> +120 P</p>
-                <p><strong>그룹 보상:</strong> +1500 P</p>
-                <p><strong>배팅 포인트:</strong> +600 P</p>
-                <p><strong>합계:</strong> 2220 P</p>
-              </div>
-              <button className="yc-close-button" onClick={closeModal}>
-                닫기
-              </button>
-            </div>
+            ))}
           </div>
-        )}
-        
-        {/* 프로필 정보 모달 */}
-        <YCProfileInfo
-          isOpen={isProfileOpen}
-          onClose={closeProfile}
-          user={profileUser} // 선택한 사용자 정보 전달
-        />
+
+          {/* Performance Report Modal */}
+          {isModalOpen && selectedUser && (
+            <div className="yc-modal-overlay" onClick={closeModal}>
+              <div className="yc-modal-content" onClick={(e) => e.stopPropagation()}>
+                <h2>성적표</h2>
+                <div className="yc-report-details">
+                  <div className="yc-dougnut-chart">
+                    <Doughnut
+                      key={selectedUser.id} // **Unique key added**
+                      data={chartData}
+                      options={chartOptions}
+                    />
+                    <span className="yc-completion-rate">{selectedUser.progress}%</span>
+                  </div>
+                  <div className="yc-mission-details">
+                    <p>완료한 미션: 52/60</p>
+                    <p>스트레칭 하기: 26/30</p>
+                    <p>500m 걷기: 26/30</p>
+                  </div>
+                </div>
+
+                {/* Group Challenge Section */}
+                <div className="yc-group-challenge-section">
+                  <h3>그룹 챌린지</h3>
+                  <div className="yc-group-challenge-points">
+                    +1000 P
+                  </div>
+                  <ul className="yc-group-challenges">
+                    <li>줄넘기 5000번 뛰기 - 성공</li>
+                  </ul>
+                </div>
+
+                <div className="yc-points-summary">
+                  <p><strong>도전 보상:</strong> +120 P</p>
+                  <p><strong>그룹 보상:</strong> +1500 P</p>
+                  <p><strong>배팅 포인트:</strong> +600 P</p>
+                  <p><strong>합계:</strong> 2220 P</p>
+                </div>
+                <button className="yc-close-button" onClick={closeModal}>
+                  닫기
+                </button>
+              </div>
+            </div>
+          )}
+          
+          {/* Profile Info Modal */}
+          <YCProfileInfo
+            isOpen={isProfileOpen}
+            onClose={closeProfile}
+            user={profileUser} // Pass selected user info
+          />
+        </div>
       </div>
-    </div>
-    <ChatRoom/>
+      <ChatRoom/>
 
-     {/* 푸터 */}
-     <Footert/>
-        {/* 푸터 끝 */}
-
+       {/* Footer */}
+       <Footert/>
+          {/* Footer End */}
     </>
   );
 };

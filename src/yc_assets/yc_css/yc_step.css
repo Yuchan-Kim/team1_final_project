@@ -5,15 +5,16 @@
 /* CSS 변수 정의 */
 /* ##################################### */
 
+
 /* ##################################### */
 /* 글로벌 스타일 */
 /* ##################################### */
-#jy_step > * {
+#yc_jy_step > * {
     box-sizing: border-box;
     font-family: var(--font-family);
 }
 
-.jy_step {
+.yc_jy_step {
     width: 100vw;
     min-width: 1000px;
     margin: 0 auto;
@@ -22,18 +23,18 @@
     background-color: var(--color-background);
 }
 
-.container {
+.yc_container {
     border: 1px solid #000;
 }
 
-.step {
+.yc_step {
     height: 100%;
     position: relative;
     display: flex;
     flex-direction: column;
 }
 
-.step.fade-in {
+.yc_step.fade-in {
     animation: fadeIn 1s ease-in-out;
 }
 
@@ -42,11 +43,11 @@
     to { opacity: 1; }
 }
 
-.step #board {
+.yc_step #yc_board {
     flex: 1;
 }
 
-.step h2 {
+.yc_step h2 {
     font-size: 32px;
     font-weight: 500;
     line-height: 1;
@@ -56,14 +57,14 @@
     padding: 20px 0 30px;
 }
 
-.step h3 {
+.yc_step h3 {
     font-size: 20px;
     color: #000;
     margin: 5px 0;
     text-align: center;
 }
 
-.step h4 {
+.yc_step h4 {
     font-size: 14px;
     font-weight: 500;
     line-height: 1.43;
@@ -75,12 +76,11 @@
 
 /* ##################################### */
 /* Step Navigation */
-/* ##################################### */
-#stepNav {
+#yc_stepNav {
     margin-bottom: 10px;
 }
 
-#stepNav ul {
+#yc_stepNav ul {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -89,7 +89,7 @@
     margin: 0;
 }
 
-#stepNav ul li {
+#yc_stepNav ul li {
     flex: 1;
     text-align: center;
     color: var(--color-text-light);
@@ -98,19 +98,18 @@
     line-height: 1.31;
     letter-spacing: 0.25px;
     padding: 15px;
-    cursor:default;
+    cursor: pointer;
     transition: color var(--transition-speed), border-bottom var(--transition-speed);
 }
 
-#stepNav ul li.active {
+#yc_stepNav ul li.active {
     color: #000;
     border-bottom: 2px solid #000;
 }
 
 /* ##################################### */
 /* 공통 버튼 스타일 */
-/* ##################################### */
-.step .btn {
+.yc_step .yc_btn {
     padding: 50px 0;
     display: flex;
     gap: 20px;
@@ -118,7 +117,7 @@
     align-items: center;
 }
 
-.step button {
+.yc_step button {
     width: 240px;
     height: 48px;
     border-radius: var(--border-radius);
@@ -129,45 +128,43 @@
 }
 
 /* Secondary Button */
-.step .btn #secondary {
+.yc_step .yc_btn #yc_secondary {
     background-color: var(--color-secondary);
-    color:#ccc;
+    color: #ccc;
     border: 1px solid #7b7b7b;
 }
 
-.step .btn #secondary:hover {
+.yc_step .yc_btn #yc_secondary:hover {
     background-color: var(--color-secondary-dark);
-    color:#111111;
+    color: #111111;
     border: 1px solid #313131;
-
 }
 
 /* Primary Button */
-.step .btn #primary {
+.yc_step .yc_btn #yc_primary {
     background-color: var(--color-primary);
     color: var(--color-secondary);
     border: none;
 }
 
-.step .btn #primary:hover {
+.yc_step .yc_btn #yc_primary:hover {
     background-color: var(--color-primary-dark);
 }
 
 /* 비활성화된 "다음" 버튼 스타일 */
-.step .btn #primary.disabled {
+.yc_step .yc_btn #yc_primary.disabled {
     background-color: var(--color-disabled);
     color: var(--color-disabled-text);
     cursor: not-allowed;
 }
 
-.step .btn #primary.disabled:hover {
+.yc_step .yc_btn #yc_primary.disabled:hover {
     background-color: var(--color-disabled);
 }
 
 /* ##################################### */
 /* Step1 스타일 */
-/* ##################################### */
-#step1 #list {
+#yc_step1 #yc_list {
     display: flex;
     gap: 30px;
     max-width: 830px;
@@ -175,7 +172,7 @@
     margin: 20px auto 0;
 }
 
-#step1 #list > div {
+#yc_step1 #yc_list > div {
     flex: 1;
     height: 570px;
     border-radius: var(--border-radius);
@@ -188,7 +185,7 @@
     cursor: pointer;
 }
 
-#step1 #list > div h3 {
+#yc_step1 #yc_list > div yc_step3 #list > div yc_step3 #yc_list > div yc_step1 #yc_list > div h3 {
     position: absolute;
     top: 20px;
     left: 20px;
@@ -199,30 +196,29 @@
     color: #000;
 }
 
-#step1 #list > div.selected {
+#yc_step1 #yc_list > div.selected {
     border-color: #000;
     background-color: var(--color-secondary-dark);
 }
 
-#step1 #list > div li {
+#yc_step1 #yc_list > div yc_step1 #yc_list > div li {
     font-size: 16px;
     font-weight: normal;
     color: var(--color-text);
     margin-top: 40px;
 }
 
-#step1 #list > div li > span {
+#yc_step1 #yc_list > div yc_step1 #yc_list > div li > span {
     margin-right: 5px;
 }
 
 /* ##################################### */
 /* Step2 스타일 */
-/* ##################################### */
-#step2 #board h2 {
+#yc_step2 #yc_board h2 {
     padding-bottom: 10px;
 }
 
-#step2 #list #category {
+#yc_step2 #yc_list #yc_category {
     height: 100%;
     padding: 20px;
     display: flex;
@@ -230,7 +226,7 @@
     align-items: center;
 }
 
-#step2 #list #category div {
+#yc_step2 #yc_list #yc_category div {
     width: 450px;
     margin: 15px;
     padding: 15px;
@@ -242,12 +238,12 @@
     transition: background-color var(--transition-speed), border-color var(--transition-speed);
 }
 
-#step2 #list #category div.selected {
+#yc_step2 #yc_list #yc_category div.selected {
     color: #000000;
     border-color: #000;
 }
 
-#step2 #list #keyword {
+#yc_step2 #yc_list #yc_keyword {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -255,15 +251,15 @@
     margin: 10px;
 }
 
-#step2 #list #keyword h3 {
+#yc_step2 #yc_list #yc_keyword h3 {
     font-size: 20px;
 }
 
-#step2 #list #keyword h4 {
+#yc_step2 #yc_list #yc_keyword h4 {
     margin: 0;
 }
 
-#step2 #list #keyword div {
+#yc_step2 #yc_list #yc_keyword div {
     display: flex;
     padding: 10px 20px;
     gap: 10px;
@@ -275,7 +271,7 @@
     margin: 0 auto;
 }
 
-#step2 #list #keyword input {
+#yc_step2 #yc_list #yc_keyword input {
     border: 0;
     outline: 0;
     background-color: transparent;
@@ -284,86 +280,57 @@
 
 /* ##################################### */
 /* Step3 스타일 */
-/* ##################################### */
-#step3 #list {
+#yc_step3 #yc_list {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 50px;
-    min-width: 1200px;
+    gap: 30px;
+    max-width: 830px;
+    width: 100%;
+    margin: 20px auto 0;
 }
 
-#step3 #list #input-Thumbnail {
-    width: 450px;
-    height: 450px;
+#yc_step3 #yc_list > div {
+    flex: 1;
+    height: 570px;
+    border-radius: var(--border-radius);
+    border: 1px solid #cac4d0;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-}
-
-#step3 #list #upload-Thumbnail {
-    border: 1px solid #ccc;
-    width: 400px;
-    height: 400px;
-    display: flex;
     justify-content: center;
-    align-items: center;
-    background-color: var(--color-secondary-dark);
     position: relative;
-    border-radius: var(--border-radius);
+    transition: all var(--transition-speed) ease;
+    cursor: pointer;
 }
 
-#upload-Thumbnail img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: var(--border-radius);
+#yc_step3 #yc_list > div h3 {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.1px;
+    color: #000;
 }
 
-#step3 #list #input-title {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 70px;
+#yc_step3 #yc_list > div.selected {
+    border-color: #000;
+    background-color: var(--color-secondary-dark);
 }
 
-#step3 #list #input-title h4 {
-    margin: 0;
+#yc_step3 #yc_list > div li {
+    font-size: 16px;
+    font-weight: normal;
+    color: var(--color-text);
+    margin-top: 40px;
 }
 
-#step3 #list .input-title div {
-    display: flex;
-    padding: 10px 20px;
-    gap: 10px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    align-items: center;
-    max-width: 400px;
-    width: 100%;
-    margin: 0 auto;
-}
-
-#step3 #list .input-title input {
-    border: 0;
-    outline: 0;
-    background-color: transparent;
-    width: 100%;
-}
-
-#step3 #list #input-title textarea {
-    width: 400px;
-    height: 100px;
-    border-radius: var(--border-radius);
-    border: 1px solid #ccc;
-    padding: 10px;
-    resize: vertical;
+#yc_step3 #yc_list > div li > span {
+    margin-right: 5px;
 }
 
 /* ##################################### */
 /* Step4 스타일 */
-/* ##################################### */
-#step4 #list {
+#yc_step4 #yc_list {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -371,11 +338,7 @@
     gap: 40px;
 }
 
-#step4 #list h2 {
-    padding-bottom: 10px;
-}
-
-#step4 #list #box-double {
+#yc_step4 #yc_list #yc_box_double {
     display: grid;
     grid-template-columns: 1fr 1fr;
     padding: 15px 30px;
@@ -383,22 +346,22 @@
     gap: 20px;
 }
 
-#step4 #list #box1 {
+#yc_step4 #yc_list #yc_box1 {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     width: 100%;
 }
 
-#step4 #list #box1 .inputTT {
+#yc_step4 #yc_list #yc_box1 .yc_inputTT {
     width: 150px;
     text-align: right;
     margin-bottom: 5px;
     font-weight: 500;
 }
 
-#step4 #list #box1 .inputBox select,
-#step4 #list #box1 .inputBox input {
+#yc_step4 #yc_list #yc_box1 .yc_inputBox select,
+#yc_step4 #yc_list #yc_box1 .yc_inputBox input {
     padding: 10px;
     border-radius: var(--border-radius);
     border: 1px solid #ccc;
@@ -406,13 +369,13 @@
     width: 250px;
 }
 
-#step4 #list #box2 {
+#yc_step4 #yc_list #yc_box2 {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-#step4 #list #input-box {
+#yc_step4 #yc_list #yc_input_box {
     display: flex;
     align-items: center;
     padding: 10px 20px;
@@ -422,7 +385,7 @@
     width: 300px;
 }
 
-#step4 #list #input-box input {
+#yc_step4 #yc_list #yc_input_box input {
     border: 0;
     outline: 0;
     background-color: transparent;
@@ -431,67 +394,11 @@
 
 /* ##################################### */
 /* Step5 스타일 */
-/* ##################################### */
-#step5 #board {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-#step5 #stepList {
-    display: flex;
-    justify-content: center;
-    gap: 50px;
-    width: 100%;
-}
-
-#step5 #stepList div {
-    width: 500px;
-}
-
-#step5 #stepList #list-left {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    padding: 20px;
-}
-
-#step5 #board #stepList #list-head {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-#step5 #board #stepList #list-head h2 {
-    padding-bottom: 10px;
-}
-
-#step5 #list-left #week div {
-    border: 1px solid #ccc;
-    gap: 10px;
-    width: 90%;
-    margin: 15px;
-    padding: 15px;
-    text-align: center;
-    font-size: 25px;
-    border-radius: 15px;
-    color:#ccc;
-    cursor: pointer;
-    
-}
-
-#step5 #list-left #week div.selected {
-    color: #070505;
-    border: 2px solid #282727;
-    border-radius: 15px;
-}
+/* (Step05.jsx 파일은 제공되지 않았으므로 생략) */
 
 /* ##################################### */
 /* Step6 스타일 */
-/* ##################################### */
-#step6 #board {
+#yc_step6 #yc_board {
     margin: 0 300px;
     display: flex;
     flex-direction: column;
@@ -499,7 +406,7 @@
     align-items: center;
 }
 
-#step6 #list {
+#yc_step6 #yc_list {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -507,47 +414,47 @@
     gap: 40px;
 }
 
-#step6 #list .mission-header {
+#yc_step6 #yc_list .yc_mission_header {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     margin-bottom: 20px;
 }
 
-#step6 #list .mission-header #mission-btn {
+#yc_step6 #yc_list .yc_mission_header #yc_mission_btn {
     margin-left: 20px;
     width: 50px;
     height: 30px;
     border-radius: 10px;
 }
 
-#step6 #list .mission-header #mission-btn button {
+#yc_step6 #yc_list .yc_mission_header #yc_mission_btn button {
     margin-right: 10px;
 }
 
-#step6 #list #finalgoal-button {
+#yc_step6 #yc_list #yc_finalgoal_button {
     width: 180px;
 }
 
-#step6 #list .mission-header > div {
+#yc_step6 #yc_list .yc_mission_header > div {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-#step6 #list .mission-header #mission-btn-list {
+#yc_step6 #yc_list .yc_mission_header #yc_mission_btn_list {
     display: flex;
     justify-content: space-between;
     width: 250px;
 }
 
-#step6 #list h2,
-#step6 #list h4 {
+#yc_step6 #yc_list h2,
+#yc_step6 #yc_list h4 {
     padding-bottom: 5px;
     text-align: left;
 }
 
-#step6 .input-button-group {
+#yc_step6 .yc_input_button_group {
     display: flex;
     justify-content: space-between;
     gap: 10px;
@@ -556,17 +463,17 @@
     width: 1000px;
 }
 
-#step6 .input-button-group #mission-title {
+#yc_step6 .yc_input_button_group #yc_mission_title {
     margin: 5px 10px 5px 10px;
 }
 
-#step6 .input-button-group #input-box {
+#yc_step6 .yc_input_button_group #yc_input_box {
     width: 300px;
     margin-bottom: 8px;
     border-radius: var(--border-radius);
 }
 
-#step6 .input-button-group #input-box input {
+#yc_step6 .yc_input_button_group #yc_input_box input {
     padding: 10px 16px;
     border-radius: var(--border-radius);
     border: 1px solid var(--color-border);
@@ -574,7 +481,7 @@
     width: 100%;
 }
 
-#step6 #list button {
+#yc_step6 #yc_list button {
     padding: 10px 20px;
     background-color: #ccc;
     color: var(--color-secondary);
@@ -587,13 +494,12 @@
     transition: background-color var(--transition-speed);
 }
 
-#step6 #board button:hover {
+#yc_step6 #yc_board button:hover {
     background-color: #ccc;
     color: #6e6e6e;
-
 }
 
-#step6 #list #mission #mission-textarea {
+#yc_step6 #yc_list #yc_mission_textarea {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -601,7 +507,7 @@
     width: 100%;
 }
 
-#step6 #list #mission #mission-textarea textarea {
+#yc_step6 #yc_list #yc_mission_textarea textarea {
     width: 500px;
     height: 100px;
     border-radius: var(--border-radius);
@@ -610,7 +516,7 @@
     resize: vertical;
 }
 
-#step6 #list #mission-content {
+#yc_step6 #yc_list #yc_mission_content {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -618,7 +524,7 @@
     width: 100%;
 }
 
-#step6 #list #mission-content div {
+#yc_step6 #yc_list #yc_mission_content div {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -626,7 +532,7 @@
     width: 100%;
 }
 
-#step6 #list #mission-content textarea {
+#yc_step6 #yc_list #yc_mission_content textarea {
     width: 500px;
     height: 200px;
     border-radius: var(--border-radius);
@@ -635,14 +541,14 @@
     resize: vertical;
 }
 
-#step6 #list #mission-img {
+#yc_step6 #yc_list #yc_mission_img {
     display: flex;
     align-items: center;
     gap: 10px;
     margin: 10px;
 }
 
-#step6 #list #mission-img input {
+#yc_step6 #yc_list #yc_mission_img input {
     width: 200px;
     height: 200px;
     border: 1px solid var(--color-border);
@@ -650,7 +556,7 @@
     object-fit: cover;
 }
 
-#step6 #list #image-upload {
+#yc_step6 #yc_list #yc_image_upload {
     width: 100%;
     height: 200px;
     background-color: var(--color-secondary-dark);
@@ -667,16 +573,16 @@
     transition: transform var(--transition-speed), box-shadow var(--transition-speed);
 }
 
-#step6 #list #image-upload:hover {
+#yc_step6 #yc_list #yc_image_upload:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 8px var(--color-shadow);
 }
 
-#step6 #list #image-upload::-webkit-file-upload-button {
+#yc_step6 #yc_list #yc_image_upload::-webkit-file-upload-button {
     display: none;
 }
 
-#step6 #list #image-upload::before {
+#yc_step6 #yc_list #yc_image_upload::before {
     content: "파일을 선택하세요";
     font-size: 16px;
     color: #555;
@@ -686,19 +592,18 @@
 
 /* ##################################### */
 /* Step7 스타일 */
-/* ##################################### */
-#step7 #list {
+#yc_step7 #yc_list {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-#step7 #list h2 {
+#yc_step7 #yc_list h2 {
     padding-bottom: 5px;
 }
 
-#step7 #list #question {
+#yc_step7 #yc_list #yc_question {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -706,15 +611,11 @@
     margin-bottom: 10px;
 }
 
-#step7 #list #category {
-
+#yc_step7 #yc_list #yc_category {
     height: 610px;
-    /* margin: 20px; */
-    /* padding: 20px; */
-
 }
 
-#step7 #list #category div {
+#yc_step7 #yc_list #yc_category div {
     width: 400px;
     margin: 10px 0;
     padding: 15px;
@@ -726,7 +627,7 @@
     transition: background-color var(--transition-speed), border-color var(--transition-speed);
 }
 
-#step7 #list #category div.selected {
+#yc_step7 #yc_list #yc_category div.selected {
     background-color: #ccc;
     color: #fff;
     border: 2px solid #fff;
@@ -734,179 +635,193 @@
 }
 
 /* 일반 항목의 기본 스타일 */
-#step7 #category div:hover {
+#yc_step7 #yc_category div:hover {
     background-color: var(--color-hover);
 }
 
 /* ##################################### */
-/* Step8 스타일 */
+/* Step10 스타일 */
+#yc_step10 #yc_board #yc_list div {
+    padding-top: 200px;
+}
+
 /* ##################################### */
-#step8 #list {
+/* Step11 스타일 */
+#yc_step11 #yc_board {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
 }
 
-#step8 #list h2 {
+#yc_step11 #yc_list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+}
+
+#yc_step11 #yc_list h2,
+#yc_step11 #yc_list h4 {
     padding-bottom: 5px;
+    text-align: left;
 }
 
-#step8 #list #ai-select {
+#yc_step11 #yc_list #yc_member_count {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    margin: 20px;
-    gap: 50px;
+    gap: 20px;
 }
 
-#step8 #list #ai-box {
-    width: 700px;
-    border: 1px solid #000;
+#yc_step11 #yc_list #yc_box_double {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 15px 30px;
+    row-gap: 10px;
+    gap: 20px;
+}
+
+#yc_step11 #yc_list #yc_box1 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
+}
+
+#yc_step11 #yc_list #yc_box1 .yc_inputTT {
+    width: 150px;
+    text-align: right;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+#yc_step11 #yc_list #yc_box1 .yc_inputBox select,
+#yc_step11 #yc_list #yc_box1 .yc_inputBox input {
+    padding: 10px;
     border-radius: var(--border-radius);
-    padding: 20px;
-    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    border: 1px solid #ccc;
+    background-color: var(--color-background);
+    width: 250px;
 }
 
-#step8 #list #ai-box:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px var(--color-shadow);
+#yc_step11 #yc_list #yc_box2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-#step8 #list #ai-title {
+#yc_step11 #yc_list #yc_input_box {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 10px;
+    border-radius: var(--border-radius);
+    border: 1px solid #ccc;
+    width: 300px;
+}
+
+#yc_step11 #yc_list #yc_input_box input {
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+    width: 100%;
+}
+
+#yc_step11 .yc_btn {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
+    gap: 10px;
 }
 
-#step8 #list #ai-title #ai-point {
-    border-radius: 5px;
-    padding: 3px 10px;
-    width: 100px;
-    text-align: center;
+#yc_step11 .yc_btn #yc_secondary {
+    background-color: var(--color-secondary);
+    color: #ccc;
+    border: 1px solid #7b7b7b;
+}
+
+#yc_step11 .yc_btn #yc_secondary:hover {
     background-color: var(--color-secondary-dark);
+    color: #111111;
+    border: 1px solid #313131;
 }
 
-#step8 #list #ai-box button {
-    width: 100px;
-    height: 25px;
-    justify-content: center;
-    align-items: center;
-    margin-top: 8px;
-    cursor: pointer;
+#yc_step11 .yc_btn #yc_primary {
     background-color: var(--color-primary);
     color: var(--color-secondary);
     border: none;
-    border-radius: 5px;
-    transition: background-color var(--transition-speed);
 }
 
-#step8 #list #ai-box button:hover {
+#yc_step11 .yc_btn #yc_primary:hover {
     background-color: var(--color-primary-dark);
 }
 
-/* Selected ai-box */
-#step8 #list #ai-box.selected {
-    border-color: var(--color-highlight);
-    background-color: #e0f0ff;
+.yc_step button:disabled {
+    background-color: var(--color-disabled);
+    color: var(--color-disabled-text);
+    cursor: not-allowed;
 }
-
-/* Disabled ai-box */
-#step8 #list #ai-box.disabled {
-    opacity: 0.6;
-    pointer-events: none;
-    filter: grayscale(50%);
-}
-
-/* ##################################### */
-/* Step9 스타일 */
-/* ##################################### */
-#step9 #board #list div {
-    padding-top: 200px;
-}
-
-/* ##################################### */
-/* Step10 스타일 */
-/* ##################################### */
-#step10 #board #list div {
-    padding-top: 200px;
-}
-
-/* ##################################### */
-/* 추가 스타일 (지역 설정 등) */
-/* ##################################### */
-/* Step11 관련 스타일은 Step11.jsx 내에 포함되어 있으므로 여기서는 제외합니다. */
 
 /* ##################################### */
 /* 반응형 디자인 개선 */
-/* ##################################### */
 @media (max-width: 1200px) {
-    .jy_step {
+    .yc_jy_step {
         padding: 0 10px;
     }
 
-    .step #board h2 {
+    .yc_step #yc_board h2 {
         font-size: 28px;
     }
 
-    .step h3 {
+    .yc_step h3 {
         font-size: 18px;
     }
 
-    .step h4 {
+    .yc_step h4 {
         font-size: 12px;
     }
 
     /* Step1 */
-    #step1 #list {
+    #yc_step1 #yc_list {
         flex-direction: column;
     }
 
-    #step1 #list > div {
+    #yc_step1 #yc_list > div {
         width: 100%;
     }
 
     /* Step3 */
-    #step3 #list {
+    #yc_step3 #yc_list {
         flex-direction: column;
         min-width: unset;
     }
 
     /* Step4 */
-    #step4 #list #box-double {
+    #yc_step4 #yc_list #yc_box_double {
         grid-template-columns: 1fr;
     }
 
     /* Step5 */
-    #step5 #stepList {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    #step5 #stepList div {
-        width: 100%;
-    }
+    /* Step5.jsx 파일이 제공되지 않아 생략 */
 
     /* Step6 */
-    #step6 #board {
+    #yc_step6 #yc_board {
         margin: 0 20px;
     }
 
-    #step6 .input-button-group {
+    #yc_step6 .yc_input_button_group {
         flex-direction: column;
         width: 100%;
     }
 
     /* Step7 */
-    #step7 #list #question {
+    #yc_step7 #yc_list #yc_question {
         flex-direction: column;
         gap: 20px;
     }
 
     /* Step8 */
-    #step8 #list #ai-box {
+    #yc_step8 #yc_list #yc_ai_box {
         width: 100%;
     }
 

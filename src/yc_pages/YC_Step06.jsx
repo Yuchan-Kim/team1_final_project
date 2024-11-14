@@ -1,7 +1,8 @@
 // src/pages/genebang/Step06.jsx
+
 import React, { useState } from 'react';
 import '../css/reset.css';
-import '../css/jy_step.css';
+import '../yc_assets/yc_css/yc_step.css';
 import { YCStepNav } from '../yc_pages/YC_StepNav.jsx'; // StepNav 임포트
 
 const Step06 = ({ onSave, onPrevious }) => {
@@ -96,37 +97,37 @@ const Step06 = ({ onSave, onPrevious }) => {
 
     return (
         <>
-            <div id="jy_step" className="jy_wrap">
-                <div id="container">
-                    <div className="step" id="step6">
+            <div id="yc_jy_step" className="yc_jy_wrap">
+                <div className="yc_container">
+                    <div className="yc_step" id="yc_step6">
                         <YCStepNav idx={4} /> {/* StepNav 포함 */}
-                        <div id="board">
-                            <div id="list">
-                                <div id='mission-btn-plus'>
-                                    <div id="mission-btn">
+                        <div id="yc_board">
+                            <div id="yc_list">
+                                <div id='yc_mission_btn_plus'>
+                                    <div id="yc_mission_btn">
                                         <button onClick={handleAddMission}>미션 추가</button>
                                     </div>
                                 </div>
 
                                 {/* 미션 리스트 */}
                                 {missions.map((mission, missionIndex) => (
-                                    <div id="mission" key={mission.id}>
-                                        <div className="mission-header">
+                                    <div id="yc_mission" key={mission.id}>
+                                        <div className="yc_mission_header">
                                             <div>
                                                 <h2>{`미션 ${missionIndex + 1} 생성`}</h2>
                                                 <h4>미션은 최대 5개까지 생성할 수 있습니다.</h4>
                                             </div>
-                                            <div id="mission-btn-list">
+                                            <div id="yc_mission_btn_list">
                                                 {mission.id !== 1 && (
-                                                    <div id="mission-btn">
+                                                    <div id="yc_mission_btn">
                                                         <button onClick={() => handleDeleteMission(mission.id)}>미션 삭제</button>
                                                     </div>
                                                 )}
                                             </div>
                                         </div>
 
-                                        <div className="input-button-group">
-                                            <div id="input-box">
+                                        <div className="yc_input_button_group">
+                                            <div id="yc_input_box">
                                                 <input placeholder="AI 추천 미션" />
                                             </div>
                                             <div>
@@ -134,7 +135,7 @@ const Step06 = ({ onSave, onPrevious }) => {
                                             </div>
                                         </div>
 
-                                        <div id="mission-img">
+                                        <div id="yc_mission_img">
                                             {[...Array(mission.inputCount)].map((_, index) => (
                                                 <div key={index} style={{ position: 'relative' }}>
                                                     <input
@@ -142,9 +143,9 @@ const Step06 = ({ onSave, onPrevious }) => {
                                                         accept="image/*"
                                                         onChange={(e) => handleImageChange(mission.id, index, e)}
                                                         style={{ display: 'none' }}
-                                                        id={`imageInput-${mission.id}-${index}`}
+                                                        id={`yc_imageInput-${mission.id}-${index}`}
                                                     />
-                                                    <label htmlFor={`imageInput-${mission.id}-${index}`} style={{ display: 'block', cursor: 'pointer' }}>
+                                                    <label htmlFor={`yc_imageInput-${mission.id}-${index}`} style={{ display: 'block', cursor: 'pointer' }}>
                                                         <div style={{ position: 'relative' }}>
                                                             {mission.imagePreviews[index] ? (
                                                                 <img
@@ -197,19 +198,19 @@ const Step06 = ({ onSave, onPrevious }) => {
                                             ))}
                                         </div>
 
-                                        <div id="mission-textarea">
+                                        <div id="yc_mission_textarea">
                                             <textarea placeholder="인증 방법을 입력해주세요"></textarea>
                                         </div>
                                     </div>
                                 ))}
 
                                 {/* 최종 목표 설정 */}
-                                <div id='mission' key="final-goal">
-                                    <div id='mission-head'>
+                                <div id='yc_mission' key="final-goal">
+                                    <div id='yc_mission_head'>
                                         <h2>최종 목표를 설정 하시겠습니까?</h2>
                                         <h4>생성된 방에 대한 최종 목표를 설정할 수 있습니다. 그리고 최종 목표는 방장이 평가합니다.</h4>
                                         <div>
-                                            <button id='finalgoal-button' onClick={toggleFinalGoalActivation}>
+                                            <button id='yc_finalgoal_button' onClick={toggleFinalGoalActivation}>
                                                 {isFinalGoalActive ? '최종 목표 비활성화' : '최종 목표 활성화'}
                                             </button>
                                         </div>
@@ -217,21 +218,21 @@ const Step06 = ({ onSave, onPrevious }) => {
 
                                     {isFinalGoalActive && (
                                         <div>
-                                            <div className='input-button-group'>
+                                            <div className='yc_input_button_group'>
                                                 <div>
-                                                    <div id='mission-title '>최종 목표 설정 (100자 이내)</div>
-                                                    <div id='input-box'><input placeholder='최종 목표를 입력하세요' /></div>
+                                                    <div id='yc_mission_title'>최종 목표 설정 (100자 이내)</div>
+                                                    <div id='yc_input_box'><input placeholder='최종 목표를 입력하세요' /></div>
                                                 </div>
                                                 <div>
-                                                    <div id='mission-title'>최종 목표 평가일</div>
-                                                    <div id='input-box'><input placeholder='YYYY-MM-DD' /></div>
+                                                    <div id='yc_mission_title'>최종 목표 평가일</div>
+                                                    <div id='yc_input_box'><input placeholder='YYYY-MM-DD' /></div>
                                                 </div>
                                                 <div>
                                                     <button onClick={handleAddFinalGoalImage}>이미지 추가</button>
                                                 </div>
                                             </div>
 
-                                            <div id="mission-img">
+                                            <div id="yc_mission_img">
                                                 {finalGoalImages.map((image, index) => (
                                                     <div key={index} style={{ position: 'relative' }}>
                                                         <input
@@ -239,9 +240,9 @@ const Step06 = ({ onSave, onPrevious }) => {
                                                             accept="image/*"
                                                             onChange={(e) => handleFinalGoalImageChange(index, e)}
                                                             style={{ display: 'none' }}
-                                                            id={`imageInput-final-${index}`}
+                                                            id={`yc_imageInput-final-${index}`}
                                                         />
-                                                        <label htmlFor={`imageInput-final-${index}`} style={{ display: 'block', cursor: 'pointer' }}>
+                                                        <label htmlFor={`yc_imageInput-final-${index}`} style={{ display: 'block', cursor: 'pointer' }}>
                                                             <div style={{ position: 'relative' }}>
                                                                 {image ? (
                                                                     <img
@@ -294,7 +295,7 @@ const Step06 = ({ onSave, onPrevious }) => {
                                                 ))}
                                             </div>
 
-                                            <div id="mission-textarea">
+                                            <div id="yc_mission_textarea">
                                                 <textarea placeholder="인증 방법을 입력해주세요"></textarea>
                                             </div>
                                         </div>
@@ -302,36 +303,37 @@ const Step06 = ({ onSave, onPrevious }) => {
                                 </div>
 
                                 {/* 미션 유의 사항 */}
-                                <div id='mission-content'>
+                                <div id='yc_mission_content'>
                                     <div>
                                         <h2>미션에 대한 유의사항을 적어주세요.</h2>
                                         <h4>미션 인증 방법에 대해 구체적인 추가사항을 적을 수 있습니다.</h4>
-                                        <div id='mission-textarea'>
+                                        <div id='yc_mission_textarea'>
                                             <textarea>이곳에 입력하세요.</textarea>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            {/* //yc_list */}
 
-                            <div className="btn">
+                            <div className="yc_btn">
                                 <button 
-                                    id="primary" 
+                                    id="yc_primary" 
                                     onClick={() => onSave()}
-
                                 >
                                     저장
                                 </button>
                             </div>
                         </div>
-                        {/* //board */}
+                        {/* //yc_board */}
                     </div>
-                    {/* //step */}
+                    {/* //yc_step6 */}
                 </div>
-                {/* //container */}
+                {/* //yc_container */}
             </div>
-            {/* //wrap */}
+            {/* //yc_jy_step */}
         </>
     );
+
 };
 
 export default Step06;
