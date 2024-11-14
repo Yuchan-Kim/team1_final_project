@@ -1,7 +1,8 @@
 // src/pages/genebang/Step07.jsx
+
 import React, { useState } from 'react';
 import '../css/reset.css';
-import '../css/jy_step.css';
+import '../yc_assets/yc_css/yc_step.css';
 import { YCStepNav } from '../yc_pages/YC_StepNav.jsx'; // StepNav 임포트
 
 const Step07 = ({ onSave, onPrevious }) => {
@@ -37,13 +38,13 @@ const Step07 = ({ onSave, onPrevious }) => {
 
     return (
         <>
-            <div id="jy_step" className="jy_wrap">
-                <div id="container">
-                    <div className="step" id="step7">
+            <div id="yc_jy_step" className="yc_jy_wrap">
+                <div className="yc_container">
+                    <div className="yc_step" id="yc_step7">
                         <YCStepNav idx={5} /> {/* StepNav 포함 */}
-                        <div id="board">
-                            <div id="list">
-                                <div id='question'>
+                        <div id="yc_board">
+                            <div id="yc_list">
+                                <div id='yc_question'>
                                     <div>
                                         <h2>평가 방법을 선택해주세요.</h2>
                                         <h4>미션 평가 방법을 선택할 수 있습니다.</h4>
@@ -54,8 +55,8 @@ const Step07 = ({ onSave, onPrevious }) => {
                                     </div>
                                 </div>
 
-                                <div id='question'>
-                                    <div id='category'>
+                                <div id='yc_question'>
+                                    <div id='yc_category'>
                                         <div
                                             onClick={() => handleEvaluationClick('방장 평가')}
                                             className={selectedEvaluation === '방장 평가' ? 'selected' : ''}
@@ -69,7 +70,7 @@ const Step07 = ({ onSave, onPrevious }) => {
                                             전체 평가
                                         </div>
                                     </div>
-                                    <div id='category'>
+                                    <div id='yc_category'>
                                         {['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'].map((day) => (
                                             <div
                                                 key={day}
@@ -82,25 +83,24 @@ const Step07 = ({ onSave, onPrevious }) => {
                                     </div>
                                 </div>
                             </div>
-                            {/* //list */}
+                            {/* //yc_list */}
 
                         </div>
-                        {/* //board */}
-                        <div className="btn">
+                        {/* //yc_board */}
+                        <div className="yc_btn">
                             <button 
-                                id="primary" 
+                                id="yc_primary" 
                                 onClick={() => onSave()}
-
                             >
                                 다음
                             </button>
                         </div>
                     </div>
-                    {/* //step */}
+                    {/* //yc_step7 */}
                 </div>
-                {/* //container */}
+                {/* //yc_container */}
             </div>
-            {/* //wrap */}
+            {/* //yc_jy_step */}
         </>
     );
 

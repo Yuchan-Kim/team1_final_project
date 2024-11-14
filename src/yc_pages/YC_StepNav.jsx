@@ -4,7 +4,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import '../css/reset.css';
-import '../css/jy_step.css';
+import '../yc_assets/yc_css/yc_step.css';
 
 // StepNav 컴포넌트
 export const YCStepNav = ({ idx }) => {
@@ -26,7 +26,7 @@ export const YCStepNav = ({ idx }) => {
     };
 
     return (
-        <div id="stepNav">
+        <div id="yc_stepNav">
             <ul>
                 {steps.map((step, index) => (
                     <li
@@ -34,7 +34,7 @@ export const YCStepNav = ({ idx }) => {
                         className={idx === index ? "active" : ""}
                         onClick={() => handleNavigate(step.link)}
                         style={{ cursor: 'pointer' }} // 클릭 가능함을 시각적으로 표시
-                        aria-current={idx === index + 1 ? "step" : undefined} // 접근성 개선
+                        aria-current={idx === index ? "step" : undefined} // 접근성 개선
                         role="button" // 접근성 개선
                         tabIndex={0} // 키보드 접근성 개선
                         onKeyPress={(e) => {

@@ -1,7 +1,8 @@
 // src/pages/genebang/Step04.jsx
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import '../css/reset.css';
-import '../css/jy_step.css';
+import '../yc_assets/yc_css/yc_step.css';
 import { YCStepNav } from '../yc_pages/YC_StepNav.jsx'; // StepNav 임포트
 
 const Step04 = ({ onSave, onPrevious }) => {
@@ -34,33 +35,33 @@ const Step04 = ({ onSave, onPrevious }) => {
 
         <>
 
-            <div id="jy_step" className="jy_wrap">
+            <div id="yc_jy_step" className="yc_jy_wrap">
 
-                <div id="container">
+                <div className="yc_container">
 
-                    <div className="step" id="step4">
+                    <div className="yc_step" id="yc_step4">
 
                         <YCStepNav idx={2} /> {/* StepNav 포함 */}
 
-                        <div id="board">
+                        <div id="yc_board">
 
-                            <div id="list">
+                            <div id="yc_list">
                                 <h2>세부 설정</h2>
                                 <h4>방에 필요한 세부적인 설정을 할 수 있습니다.</h4>
 
-                                <div id='member-count'>
+                                <div id='yc_member_count'>
                                     <div>
                                         <h3>인원 설정</h3>
                                     </div>
-                                    <div id='box-double'>
-                                        <div id='box1'>
+                                    <div id='yc_box_double'>
+                                        <div id='yc_box1'>
                                             <div>
-                                                <div className="inputTT">
-                                                    <label htmlFor="maxParticipants">최대 참여 인원</label>
+                                                <div className="yc_inputTT">
+                                                    <label htmlFor="yc_maxParticipants">최대 참여 인원</label>
                                                 </div>
-                                                <div className="inputBox">
+                                                <div className="yc_inputBox">
                                                     <select
-                                                        id="maxParticipants"
+                                                        id="yc_maxParticipants"
                                                         value={maxParticipants}
                                                         onChange={(e) => {
                                                             setMaxParticipants(e.target.value);
@@ -77,14 +78,14 @@ const Step04 = ({ onSave, onPrevious }) => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id='box1'>
+                                        <div id='yc_box1'>
                                             <div>
-                                                <div className="inputTT">
-                                                    <label htmlFor="minParticipants">최소 참여 인원</label>
+                                                <div className="yc_inputTT">
+                                                    <label htmlFor="yc_minParticipants">최소 참여 인원</label>
                                                 </div>
-                                                <div className="inputBox">
+                                                <div className="yc_inputBox">
                                                     <select
-                                                        id="minParticipants"
+                                                        id="yc_minParticipants"
                                                         value={minParticipants}
                                                         onChange={(e) => setMinParticipants(e.target.value)}
                                                         disabled={!maxParticipants}
@@ -100,10 +101,10 @@ const Step04 = ({ onSave, onPrevious }) => {
                                     </div>
 
                                 </div>
-                                <div id='box2'>
+                                <div id='yc_box2'>
                                     <h3>입장 포인트 설정</h3>
                                     <h4>방에 입장하기 위해서는 일정량의 포인트가 필요합니다.</h4>
-                                    <div id='input-box'>
+                                    <div id='yc_input_box'>
                                         <input 
                                             placeholder='100,000 pt' 
                                             value={entryPoint}
@@ -113,8 +114,8 @@ const Step04 = ({ onSave, onPrevious }) => {
                                 </div>
                                 <div>
                                     <h3>입장 성실도 설정</h3>
-                                    <div id='box1'>
-                                        <div className="toggle-container">
+                                    <div id='yc_box1'>
+                                        <div className="yc_toggle_container">
                                             <label>
                                                 <input
                                                     type="checkbox"
@@ -124,7 +125,7 @@ const Step04 = ({ onSave, onPrevious }) => {
                                                 <span>입장 성실도 설정</span>
                                             </label>
                                         </div>
-                                        <div id='input-box'>
+                                        <div id='yc_input_box'>
                                             <input 
                                                 placeholder='4.5' 
                                                 value={honestyScore}
@@ -134,10 +135,10 @@ const Step04 = ({ onSave, onPrevious }) => {
                                         </div>
                                     </div>
                                 </div>
-                                <div id='box3'>
+                                <div id='yc_box3'>
                                     <h3>지역 설정</h3>
                                     <h4>모임이 필요한 챌린지를 위해 지역을 설정합니다.</h4>
-                                    <div id='input-box'>
+                                    <div id='yc_input_box'>
                                         <input 
                                             placeholder='전국' 
                                             value={region}
@@ -146,30 +147,28 @@ const Step04 = ({ onSave, onPrevious }) => {
                                     </div>
                                 </div>
                             </div>
-                            {/* //list */}
+                            {/* //yc_list */}
 
-                            <div className="btn">
+                            <div className="yc_btn">
                                 <button 
-                                    id="primary" 
+                                    id="yc_primary" 
                                     onClick={() => onSave()}
-
-                                   
                                 >
                                     저장
                                 </button>
                             </div>
 
                         </div>
-                        {/* //board */}
+                        {/* //yc_board */}
 
                     </div>
-                    {/* //step */}
+                    {/* //yc_step4 */}
 
                 </div>
-                {/* //container */}
+                {/* //yc_container */}
 
             </div>
-            {/* //wrap */}
+            {/* //yc_jy_step */}
 
         </>
 

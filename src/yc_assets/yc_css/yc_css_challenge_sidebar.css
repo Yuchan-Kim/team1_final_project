@@ -1,23 +1,33 @@
-/* Sidebar 전체 */
+/* Sidebar 스크롤이 Footer와 겹치지 않도록 조정 */
 .yc_challenge_sidebar {
     position: fixed;
-    top: 20px; /* yc-board-wrap의 padding과 맞추기 */
-    left: calc((100vw - 80vw) / 2); /* yc-board-wrap의 중앙에 맞춰 좌측 위치 조정 */
-    width: 120px; /* 사이드바 너비 */
-    height: calc(100vh - 350px); /* 상하 padding 고려 */
+    top: 20px;
+    left: calc((100vw - 80vw) / 2);
+    width: 120px;
+    max-height: calc(100vh - 350px); /* 최대 높이 설정하여 Footer와 겹치지 않도록 */
+    height: auto;
     display: flex;
     flex-direction: column;
-    padding: 20px 10px; /* 좌우 패딩 조정 */
-    background-color: #f4f4f4; /* 배경색 */
+    padding: 20px 10px;
+    background-color: #f4f4f4;
     box-sizing: border-box;
-    overflow-y: auto; /* 스크롤 추가 */
-    z-index: 1000; /* 다른 요소 위에 표시 */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* 그림자 */
-    transition: background-color 0.3s ease; /* 전환 효과 */
-    border-radius: 8px; /* 둥근 테두리 */
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+    border-radius: 8px;
     margin-top: 70px;
     margin-bottom: 65px;
-  }
+}
+
+
+/* Footer와 겹치지 않게 Sidebar 하단 여백 추가 */
+.yc_challenge_sidebar::after {
+    content: "";
+    display: block;
+    height: 50px; /* Footer와 겹치지 않기 위해 추가적인 공간 확보 */
+}
+
 
 /* 메뉴 섹션 */
 .yc_challenge_menu {
