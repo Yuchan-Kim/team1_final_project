@@ -21,23 +21,32 @@
 
 /* wrap 크기 설정 */
 .dy-wrap {
-    max-width: 1600px;
-    width: 100vw;
+    width: 80vw;
     min-width: 1000px;
+    min-height: 100vh;
     margin: 0 auto;
     padding:0 20px;
+/* 
+    background-color: #5E91A7; */
 }
+
+
+/* em */
 
 /* 포인트 상점 메인 틀 */
 .dy-pointstoremain {
-    width: 100%;
+    margin-left: 110px; /* 사이드바 너비 + 좌측 padding (120px + 40px) */
+    margin-right: 110px; /* 우측 간격 */
     margin: 0 auto;
     margin-top: 70px;
+    padding: 0 20px; /* 추가 패딩 */
+
+    /* background-color: antiquewhite; */
 }
 
 /* 포인트상점, 출석하기 */
 .dy-pointstoremain .dy-pointstoremain-header {
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -66,7 +75,7 @@
 
 /* 광고와 필터 */
 .dy-pointstoremain .dy-pointstoremain-top {
-    width: 90%;
+    width: 100%;
     height: 400px;
     margin: 0 auto;
     margin-bottom: 50px;
@@ -142,13 +151,13 @@
     border-radius: 50%;
     overflow: hidden;
     cursor: pointer;
-    transition: transform 0.7s ease; /* 부드러운 회전 애니메이션 */
-    transform-style: preserve-3d; /* 자식 요소들이 3D로 보이게 함 */
+    /*transition: transform 0.7s ease;  부드러운 회전 애니메이션 */
+    /*transform-style: preserve-3d;  자식 요소들이 3D로 보이게 함 */
 }
 
-.dy-pointstoremain .dy-filter .dy-filter-item:hover {
+/* .dy-pointstoremain .dy-filter .dy-filter-item:hover {
     transform: rotateY(360deg);
-}
+} */
 
 .dy-pointstoremain .dy-filter .dy-filter-item .dy-Logo-image {
     width: 100%;
