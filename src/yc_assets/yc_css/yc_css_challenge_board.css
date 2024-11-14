@@ -14,8 +14,8 @@
 /* 메인 콘텐츠 */
 .yc_challenge_main-content {
     flex: 1;
-    margin-left: 100px; /* 사이드바 너비 + 좌측 padding (120px + 40px) */
-    margin-right: 100px; /* 우측 간격 */
+    margin-left: 110px; /* 사이드바 너비 + 좌측 padding (120px + 40px) */
+    margin-right: 110px; /* 우측 간격 */
     box-sizing: border-box; /* 패딩 포함하여 크기 계산 */
     padding: 0 20px; /* 추가 패딩 */
 }
@@ -42,14 +42,14 @@
 
 /* 공지 섹션 */
 .yc_challenge_notice-section {
+    background-color: rgb(244, 244, 244);
     flex: 3;
     min-width: 300px; /* 최소 너비 보장 */
     max-width: 100%; /* 부모 요소를 넘지 않도록 제한 */
-    background-color: #ffffff; /* 흰색 배경 */
     border: 1px solid #ddd; /* 회색 테두리 */
     border-radius: 8px; /* 둥근 테두리 */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
-    padding: 20px;
+    padding: 10px;
     box-sizing: border-box;
     animation: fadeIn 1s ease-in-out;
 }
@@ -64,6 +64,8 @@
 
 .yc_challenge_notice-header h2 {
     margin-top: 0px;
+    font-size: 19px;
+    font-weight: bold;
 }
 
 .c_challenge_notice-header h2{

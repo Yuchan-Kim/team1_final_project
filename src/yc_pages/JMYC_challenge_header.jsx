@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import '../yc_assets/yc_css/jmyc_challenge_header.css'; 
 
+import { FaExclamationCircle } from 'react-icons/fa'; // 느낌표 아이콘
+
 const JMYCChallengeHeader = ({ userType }) => {
     // 참여자 상태 (참여 여부)
     const [isJoined, setIsJoined] = useState(false);
@@ -17,6 +19,9 @@ const JMYCChallengeHeader = ({ userType }) => {
     const [showJoinModal, setShowJoinModal] = useState(false);
     const [showStartRecruitModal, setShowStartRecruitModal] = useState(false);
     const [showStartChallengeModal, setShowStartChallengeModal] = useState(false);
+
+    // 포인트 지급안내
+    const [showPointInfo, setShowPointInfo] = useState(false);
 
     const handleJoinClick = () => {
         setShowJoinModal(true);
@@ -60,6 +65,11 @@ const JMYCChallengeHeader = ({ userType }) => {
     const handleCancelStartChallenge = () => {
         setShowStartChallengeModal(false);
     };
+      
+    // 포인트 지급안내 // 
+    const togglePointInfo = () => {
+        setShowPointInfo(!showPointInfo);
+    };
 
     return (
         <div className="jm-challenge-header">
@@ -96,12 +106,41 @@ const JMYCChallengeHeader = ({ userType }) => {
                 )}
             </div>
 
+            <div className='jm-room-header-bottom'>
             {/* Tags */}
             <div className="jm-tags">
                 <span className="jm-tag-box">#챌린지</span>
                 <span className="jm-tag-box">#운동</span>
                 <span className="jm-tag-box">#걷기</span>
                 <span className="jm-tag-box">#서울</span>
+            </div>
+
+            {/* 포인트 지급 안내 버튼 */}
+            <div>
+                {/* 포인트 지급 안내 버튼 */}
+                <button className="jm-hd-point-info-btn" onClick={togglePointInfo}>
+                    <p>포인트 지급 안내</p>
+                    <FaExclamationCircle className="jm-info-icon" />
+                </button>
+
+                {/* 포인트 지급 정보 */}
+                {showPointInfo && (
+                    <div className="jm-challenge-point-info">
+                    <h2>포인트 지급</h2>
+                    <div className="jm-challenge-point">
+                        <p>
+                        <span>내 달성율 100% 배팅포인트의 120% 지급</span>
+                        </p>
+                        <p>
+                        <span>내 달성율 85% 이상 배팅포인트의 100% 지급</span>
+                        </p>
+                        <p>
+                        <span>내 달성율 85% 미만 배팅포인트 %삭감</span>
+                        </p>
+                    </div>
+                    </div>
+                )}
+            </div>
             </div>
 
             {/* 참여자용 모달 */}

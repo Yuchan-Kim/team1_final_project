@@ -32,11 +32,11 @@
 .jm-c-start {
     flex-grow: 0; 
     flex-basis: auto;
-    padding: 5px 18px;
-    background-color: #8d8d8d;
+    padding: 5px 10px;
+    background-color: #707070;
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 5px;
     cursor: pointer;
     font-size: 13px;
     transition: background-color 0.3s ease;
@@ -57,8 +57,35 @@
     background-color: #218838;
 }
 
+.jm-room-header-bottom {
+    display: flex;
+}
+
+/* 포인트 안내 버튼 */
+.jm-hd-point-info-btn {
+    display: flex;
+    align-items: center;
+    gap: 3px; /* 텍스트와 아이콘 간 간격 */
+    background: none;
+    border: none;
+    color: #007bff;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .jm-info-icon {
+    font-size: 13px; /* 아이콘 크기 조정 */
+    color: #007bff;
+    margin-bottom: 3px;
+  }
+  
+  .jm-hd-point-info-btn:hover {
+    text-decoration: underline;
+  }
+
 /* 태그 박스 */
 .jm-tags {
+    flex-grow: 1;
     margin-bottom: 30px;    
 }
 
@@ -131,11 +158,11 @@
     background-color: #497B91;
 }
 
-.yc-modal-cancel-header {
+.yc-modal-cancel {
     background-color: #ccc;
     color: black;
 }
 
-.yc-modal-cancel-header:hover {
+.yc-modal-cancel:hover {
     background-color: #999;
 }

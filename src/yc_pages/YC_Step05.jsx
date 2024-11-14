@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import moment from 'moment';
-import '../../css/reset.css';
-import '../../css/jy_step.css';
-import { StepNav } from '../include/StepNav'; // StepNav 임포트
+import '../css/reset.css';
+import '../css/jy_step.css';
+import { YCStepNav } from '../yc_pages/YC_StepNav.jsx'; // StepNav 임포트
 
-const Step05 = ({ onNext, onPrevious }) => {
+const Step05 = ({ onSave, onPrevious }) => {
     const [value, setValue] = useState(null); // 초기값을 null로 설정
     const [selectedWeek, setSelectedWeek] = useState(null); // 선택된 주차를 추적할 상태 변수
 
@@ -45,7 +45,7 @@ const Step05 = ({ onNext, onPrevious }) => {
 
                     <div className="step" id="step5">
 
-                        <StepNav idx={5} /> {/* StepNav 포함 */}
+                        <YCStepNav idx={3} /> {/* StepNav 포함 */}
 
                         <div id="board">
 
@@ -96,16 +96,12 @@ const Step05 = ({ onNext, onPrevious }) => {
                             {/* //list */}
 
                             <div className="btn">
-                                <button id="secondary" onClick={onPrevious}>이전</button>
                                 <button 
                                     id="primary" 
-                                    onClick={onNext} 
-                                    disabled={!isNextEnabled()}
-                                    className={!isNextEnabled() ? 'disabled' : ''}
-                                    aria-disabled={!isNextEnabled()}
-                                    title={!isNextEnabled() ? '날짜와 주차를 모두 선택해주세요.' : ''}
+                                    onClick={() => onSave()}
+
                                 >
-                                    다음
+                                    저장
                                 </button>
                             </div>
 

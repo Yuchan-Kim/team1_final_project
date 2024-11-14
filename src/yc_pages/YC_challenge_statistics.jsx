@@ -5,6 +5,7 @@ import "../yc_assets/yc_css/yc_css_challenge_statistics.css";
 import Sidebar from "./YC_challenge_sidebar.jsx";
 import Header from "./JMYC_challenge_header.jsx";
 import TopHeader from "../pages/include/DH_Header.jsx";
+import Footert from "../pages/include/JM-Footer.jsx";
 import ChatRoom from "../yc_pages/YC_challenge_chatroom.jsx";
 
 
@@ -501,7 +502,6 @@ const YCChallengeStatistics = () => {
 
   return (
     <>
-   
     <TopHeader/>
     <div className="yc-statistics-wrap">
       
@@ -510,7 +510,6 @@ const YCChallengeStatistics = () => {
       <div className="yc_challenge_statistics_main">
         <Header />
         <h2 className="yc_challenge_statistics_title">유저 현황</h2>
-         
         {/* 전체 달성율 및 내 달성율 섹션과 포인트 그래프 */}
         <div className="yc_challenge_statistics_overall-personal-container">
           {/* 그래프 섹션 */}
@@ -528,14 +527,6 @@ const YCChallengeStatistics = () => {
               <Line
                 data={personalLineChartData}
                 options={personalLineChartOptions}
-              />
-            </div>
-
-            {/* 추가 그래프 (막대 그래프) */}
-            <div className="yc_challenge_statistics_additional-graph">
-              <Bar
-                data={barChartData}
-                options={barChartOptions}
               />
             </div>
           </div>
@@ -634,6 +625,10 @@ const YCChallengeStatistics = () => {
       </div>
     </div>
     <ChatRoom/>
+
+     {/* 푸터 */}
+     <Footert/>
+        {/* 푸터 끝 */}
 
     </>
   );

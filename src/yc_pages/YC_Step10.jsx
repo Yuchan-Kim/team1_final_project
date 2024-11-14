@@ -1,8 +1,8 @@
 // src/pages/genebang/Step10.jsx
 import React from 'react';
-import '../../css/reset.css';
-import '../../css/jy_step.css';
-import { StepNav } from '../include/StepNav'; // StepNav 임포트
+import '../css/reset.css';
+import '../css/jy_step.css';
+import { YCStepNav } from '../yc_pages/YC_StepNav.jsx'; // StepNav 임포트
 
 const Step10 = ({ onCancel, onDiscard, onSave }) => {
     return (
@@ -21,8 +21,6 @@ const Step10 = ({ onCancel, onDiscard, onSave }) => {
                             <div className="btn">
                                 {/* 취소 버튼: 이전 스텝으로 돌아가기 */}
                                 <button id="secondary" onClick={onCancel}>취소</button>
-                                {/* 버리기 버튼: 모달 닫기 */}
-                                <button id="secondary" onClick={onDiscard}>버리기</button>
                                 {/* 저장하기 버튼: 모달 닫기 */}
                                 <button id="primary" onClick={onSave}>저장하기</button>
                             </div>
