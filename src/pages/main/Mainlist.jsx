@@ -28,8 +28,8 @@ const Mainlist = () => {
 
         <>
             <Header />
+            <div id="jy_wrap" className="jy_wrap">
 
-            <div id="jy_wrap" className="wrap">
 
                 
                 {/* //header + //nav */}

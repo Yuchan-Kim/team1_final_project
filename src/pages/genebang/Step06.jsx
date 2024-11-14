@@ -185,6 +185,7 @@ const Step06 = () => {
                                                                     position: 'absolute',
                                                                     top: '5px',
                                                                     right: '5px',
+
                                                                     background: 'transparent',
                                                                     border: 'none',
                                                                     // borderRadius: '50%',
@@ -282,7 +283,9 @@ const Step06 = () => {
                                                                         position: 'absolute',
                                                                         top: '5px',
                                                                         right: '5px',
+
                                                                         background: 'transparent',
+
                                                                         border: 'none',
                                                                         borderRadius: '50%',
                                                                         color: '#000',
