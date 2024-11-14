@@ -2,7 +2,7 @@
 /************************* < 상단바 스타일 > **************************/
 
 .wrap .hmk_main-container .hmk_main {
-    margin-left: 230px;
+    margin-left: 200px;
     width: calc(100vw - 200px);
     flex-grow: 1;
     padding: 20px;
