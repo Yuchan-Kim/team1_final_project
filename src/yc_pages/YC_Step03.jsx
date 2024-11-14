@@ -1,11 +1,11 @@
 // src/pages/genebang/Step03.jsx
 import React, { useState } from 'react';
 import CloseOutlineIcon from '@rsuite/icons/CloseOutline';
-import '../../css/reset.css';
-import '../../css/jy_step.css';
-import { StepNav } from '../include/StepNav'; // StepNav 임포트
+import '../css/reset.css';
+import '../css/jy_step.css';
+import { YCStepNav } from '../yc_pages/YC_StepNav.jsx'; // StepNav 임포트
 
-const Step03 = ({ onNext, onPrevious }) => {
+const Step03 = ({ onSave, onPrevious }) => {
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
     const [thumbnail, setThumbnail] = useState(null);
@@ -35,7 +35,7 @@ const Step03 = ({ onNext, onPrevious }) => {
 
                     <div className="step" id="step3">
 
-                        <StepNav idx={3} /> {/* StepNav 포함 */}
+                        <YCStepNav idx={1} /> {/* StepNav 포함 */}
 
                         <div id="board">
 
@@ -99,15 +99,12 @@ const Step03 = ({ onNext, onPrevious }) => {
                             {/* //list */}
 
                             <div className="btn">
-                                <button id="secondary" onClick={onPrevious}>이전</button>
                                 <button
                                     id="primary"
-                                    onClick={onNext}
-                                    disabled={!title.trim() || !description.trim()}
-                                    className={!title.trim() || !description.trim() ? 'disabled' : ''}
-                                    aria-disabled={!title.trim() || !description.trim()}
+                                    onClick={() => onSave()}
+
                                 >
-                                    다음
+                                    저장
                                 </button>
                             </div>
 

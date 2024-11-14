@@ -1,6 +1,18 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import YCChallengeStatistics from './yc_pages/YC_challenge_statistics';
 import YcChallengeBoard from './yc_pages/YC_challenge_board';
+import YCStep02 from './yc_pages/YC_Step02.jsx';
+import YCStep03 from './yc_pages/YC_Step03.jsx';
+import YCStep04 from './yc_pages/YC_Step04.jsx';
+import YCStep05 from './yc_pages/YC_Step05.jsx';
+import YCStep06 from './yc_pages/YC_Step06.jsx';
+import YCStep07 from './yc_pages/YC_Step07.jsx';
+import YCStep08 from './yc_pages/YC_Step08.jsx';
+import YCStep09 from './yc_pages/YC_Step09.jsx';
+import YCStep10 from './yc_pages/YC_Step10.jsx';
+import YCStep11 from './yc_pages/YC_Step11.jsx';
+
+
 import MissionInfo from './pages/challenge/Missioninfo.jsx';
 import Challengemain from './pages/challenge/JMYC_Challengemain.jsx';
 import Mission from './pages/challenge/mission.jsx';
@@ -32,19 +44,29 @@ import Main from './pages/main/Main';
 import Mainlist from './pages/main/Mainlist';
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter> 
         <Routes>
+          <Route path='/ycstep02' element = {<YCStep02/>} />
+          <Route path='/ycstep03' element = {<YCStep03/>} />
+          <Route path='/ycstep04' element = {<YCStep04/>} />
+          <Route path='/ycstep05' element = {<YCStep05/>} />
+          <Route path='/ycstep06' element = {<YCStep06/>} />
+          <Route path='/ycstep07' element = {<YCStep07/>} />
+          <Route path='/ycstep08' element = {<YCStep08/>} />
+          <Route path='/ycstep09' element = {<YCStep09/>} />
+          <Route path='/ycstep10' element = {<YCStep10/>} />
+          <Route path='/ycstep11' element = {<YCStep11/>} />
+
           <Route path='/stat' element={<YCChallengeStatistics/>} />
           <Route path='/board' element={<YcChallengeBoard/>} />
           <Route path='/mission' element={<Mission />} />
           <Route path='/missioninfo' element={<MissionInfo />} />
           <Route path='/cmain' element={<Challengemain />} />
-            <Route path='/user/mypage' element={<Mypage />} />
+          <Route path='/user/mypage' element={<Mypage />} />
           <Route path='/user/mypoint' element={<Pointpage />} />
           <Route path='/user/cargo' element={<Cargo />} />
           <Route path='/user/rank' element={<Rank />} />
-            <Route path='/genebang/genebang01' element={<Step0 />} />
-
+          <Route path='/genebang/genebang01' element={<Step0 />} />
           <Route path='/genebang/step1' element={<Step1 />} />
           <Route path='/genebang/step2' element={<Step2 />} />
           <Route path='/genebang/step3' element={<Step3 />} />
@@ -60,11 +82,9 @@ function App() {
 					<Route path='/user/joinform' element={<DHJoinForm/>} />
 					<Route path='/user/pwsearch' element={<DHPwSearch/>} />
 					<Route path='/user/pwalter' element={<DHPwAlter/>} />
-
 					<Route path='/pointstore/pointstoremain' element={<DHPointStoreMain />} />
           <Route path='/' element={<Main />} />
           <Route path='/mainlist' element={<Mainlist />} />
-
         </Routes>
     </BrowserRouter>
 
