@@ -111,7 +111,6 @@ const Pointpage = () => {
         <>
             {/* Header 컴포넌트 */}
             <Header onLogout={handleLogout} />
-
             <div className="wrap ham_wrap">
 
                 {/* 메인 컨테이너 */}

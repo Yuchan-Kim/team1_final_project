@@ -44,7 +44,6 @@ const Cargo = () => {
             <Header onLogout={handleLogout} />
             <div className="wrap ham_wrap">
 
-
                 {/* 메인 컨테이너 */}
                 <div className="hmk_main-container">
                     {/* Sidebar 컴포넌트 */}
