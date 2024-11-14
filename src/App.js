@@ -7,8 +7,6 @@ import YCStep04 from './yc_pages/YC_Step04.jsx';
 import YCStep05 from './yc_pages/YC_Step05.jsx';
 import YCStep06 from './yc_pages/YC_Step06.jsx';
 import YCStep07 from './yc_pages/YC_Step07.jsx';
-import YCStep08 from './yc_pages/YC_Step08.jsx';
-import YCStep09 from './yc_pages/YC_Step09.jsx';
 import YCStep10 from './yc_pages/YC_Step10.jsx';
 import YCStep11 from './yc_pages/YC_Step11.jsx';
 
@@ -52,8 +50,6 @@ function App() {
           <Route path='/ycstep05' element = {<YCStep05/>} />
           <Route path='/ycstep06' element = {<YCStep06/>} />
           <Route path='/ycstep07' element = {<YCStep07/>} />
-          <Route path='/ycstep08' element = {<YCStep08/>} />
-          <Route path='/ycstep09' element = {<YCStep09/>} />
           <Route path='/ycstep10' element = {<YCStep10/>} />
           <Route path='/ycstep11' element = {<YCStep11/>} />
 

@@ -1,12 +1,13 @@
 // src/pages/genebang/Step02.jsx
+
 import React, { useState } from 'react';
 import CheckRoundIcon from '@rsuite/icons/CheckRound';
 import CloseOutlineIcon from '@rsuite/icons/CloseOutline';
 import '../css/reset.css';
-import '../css/jy_step.css';
+import '../yc_assets/yc_css/yc_step.css';
 import { YCStepNav } from '../yc_pages/YC_StepNav.jsx'; // StepNav 임포트
 
-const Step02 = ({ onSave , onPrevious }) => {
+const Step02 = ({ onSave, onPrevious }) => {
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
     // 선택된 카테고리를 관리
@@ -25,23 +26,23 @@ const Step02 = ({ onSave , onPrevious }) => {
 
         <>
 
-            <div id="jy_step" className="jy_wrap">
+            <div id="yc_jy_step" className="yc_jy_wrap">
 
-                <div id="container">
+                <div className="yc_container">
 
-                    <div className="step" id="step2">
+                    <div className="yc_step" id="yc_step2">
 
                         <YCStepNav idx={0} /> {/* StepNav 포함 */}
 
-                        <div id="board">
+                        <div id="yc_board">
 
                             <h2>카테고리를 선택 해주세요.</h2>
                             <h4>방의 카테고리를 설정합니다.</h4>
 
-                            <div id="list">
+                            <div id="yc_list">
 
                                 <div>
-                                    <div id="category">
+                                    <div id="yc_category">
                                         {/* 각 카테고리 div에 클릭 이벤트와 선택 상태 반영 */}
                                         <div 
                                             onClick={() => handleCategoryClick('운동')} 
@@ -76,7 +77,7 @@ const Step02 = ({ onSave , onPrevious }) => {
                                     </div>
                                 </div>
 
-                                <div id="keyword">
+                                <div id="yc_keyword">
                                     <h3>키워드</h3>
                                     <div>
                                         <input 
@@ -91,11 +92,11 @@ const Step02 = ({ onSave , onPrevious }) => {
                                 </div>
 
                             </div>
-                            {/* //list */}
+                            {/* //yc_list */}
 
-                            <div className="btn">
+                            <div className="yc_btn">
                                 <button 
-                                    id="primary" 
+                                    id="yc_primary" 
                                     onClick={() => onSave()}
                                 >
                                     저장
@@ -103,16 +104,16 @@ const Step02 = ({ onSave , onPrevious }) => {
                             </div>
 
                         </div>
-                        {/* //board */}
+                        {/* //yc_board */}
 
                     </div>
-                    {/* //step */}
+                    {/* //yc_step2 */}
 
                 </div>
-                {/* //container */}
+                {/* //yc_container */}
 
             </div>
-            {/* //wrap */}
+            {/* //yc_jy_step */}
 
         </>
 

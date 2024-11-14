@@ -1,23 +1,23 @@
 /* yc_css_challenge_statistics.css */
 
-/* yc-board-wrap: 전체 레이아웃 컨테이너 */
+/* yc-statistics-wrap: 전체 레이아웃 컨테이너 */
 .yc-statistics-wrap {
   display: flex;
-    width: 80vw; /* 전체 너비를 80% 뷰포트 너비로 설정 */
-    margin: 0 auto; /* 중앙 정렬 */
-    min-height: 100vh;
-    box-sizing: border-box;
-    padding: 20px; /* 양 옆에 간격 추가 */
-    background-color: #ffffff; /* 배경색 설정 */
+  width: 80vw; /* 전체 너비를 80% 뷰포트 너비로 설정 */
+  margin: 0 auto; /* 중앙 정렬 */
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 20px; /* 양 옆에 간격 추가 */
+  background-color: #ffffff; /* 배경색 설정 */
 }
 
 /* 메인 콘텐츠 */
 .yc_challenge_statistics_main {
   flex: 1;
-    margin-left: 110px; /* 사이드바 너비 + 좌측 padding (120px + 40px) */
-    margin-right: 110px; /* 우측 간격 */
-    box-sizing: border-box; /* 패딩 포함하여 크기 계산 */
-    padding: 0 20px; /* 추가 패딩 */
+  margin-left: 110px; /* 사이드바 너비 + 좌측 padding (120px + 40px) */
+  margin-right: 110px; /* 우측 간격 */
+  box-sizing: border-box; /* 패딩 포함하여 크기 계산 */
+  padding: 0 20px; /* 추가 패딩 */
 }
 .yc_challenge_statistics_title{
   margin-bottom: 20px;
@@ -433,5 +433,155 @@
 
   .yc-close-button {
       width: 100%;
+  }
+
+  /* Adjust chart container for mobile */
+  .yc-chart-container {
+    top: 60px; /* Adjust based on TopHeader height for smaller screens */
+    right: 10px; /* Reduce right margin */
+    width: 140px; /* Slightly smaller width */
+    padding: 8px; /* Reduced padding */
+  }
+
+  .yc-chart-container .yc-achievement-rate h4 {
+    font-size: 16px; /* Smaller font size */
+  }
+
+  .yc-top-rankings h3 {
+    font-size: 18px; /* Smaller heading */
+  }
+
+  .yc-ranking-item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .yc-ranking-avatar {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 5px;
+  }
+
+  .yc-ranking-info {
+    width: 100%;
+  }
+
+  .yc-ranking-name, .yc-ranking-progress {
+    font-size: 14px;
+  }
+}
+
+/* Chart Container */
+.yc-chart-container {
+  position: fixed; /* Fixed position */
+  top: 80px; /* Adjust based on TopHeader height */
+  right: 50px; /* Right margin */
+  width: 200px; /* Increased width to accommodate rankings */
+  background-color: #ffffff; /* Background color */
+  border: 1px solid #ddd; /* Border */
+  border-radius: 10px; /* Rounded corners */
+  padding: 15px; /* Internal padding */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  z-index: 1000; /* Display above other elements */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Achievement Rate Display */
+.yc-achievement-rate {
+  margin-top: 10px;
+}
+
+/* Top Rankings Section */
+.yc-top-rankings {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.yc-top-rankings h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #34495e;
+}
+
+/* Ranking Item */
+.yc-ranking-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.yc-ranking-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.yc-ranking-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.yc-ranking-name {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.yc-ranking-progress {
+  font-size: 14px;
+  color: #777;
+}
+
+/* Scrollbar for Rankings if needed */
+.yc-top-rankings {
+  max-height: 300px; /* Adjust as needed */
+  overflow-y: auto;
+}
+
+.yc-top-rankings::-webkit-scrollbar {
+  width: 6px;
+}
+
+.yc-top-rankings::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+/* Responsive Adjustments for Top Rankings */
+@media screen and (max-width: 768px) {
+  .yc-chart-container {
+    width: 140px; /* Smaller width for mobile */
+    right: 10px; /* Reduced right margin */
+    padding: 10px; /* Reduced padding */
+  }
+
+  .yc-top-rankings h3 {
+    font-size: 16px;
+  }
+
+  .yc-ranking-item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .yc-ranking-avatar {
+    width: 35px;
+    height: 35px;
+    margin-right: 0;
+    margin-bottom: 5px;
+  }
+
+  .yc-ranking-info {
+    align-items: center;
+  }
+
+  .yc-ranking-name, .yc-ranking-progress {
+    font-size: 12px;
   }
 }
