@@ -363,7 +363,7 @@
 
 /* 마이 랭킹 테이블 기본 설정*/
 .hmk_rank_my_rank_number {
-    background: linear-gradient(to left, #f59cfac7, #8616dcc2);
+    background: linear-gradient(to top, #f4f4f4c7, #323232c2);
     /*테이블 색*/
     color: white;
     /*글자색*/
