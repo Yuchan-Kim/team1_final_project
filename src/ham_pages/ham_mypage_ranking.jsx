@@ -52,38 +52,40 @@ const Rank = () => {
                             <div className="hmk_rank_head_container">
                                 <img src={win} className="hmk_ranker_welcome" alt="Hall Of Fame" />
                             </div>
-                            <div className="hmk_rank_podium">
-                                {/* 2등 */}
-                                <div key={rankData[1].id} className="hmk_podium_rank hmk_rank2">
-                                    <div className='hmk_podium_profile'>
-                                        <img src={require(`../ham_asset/images/${rankData[1].image}`)} alt="rank2_profile" className='hmk_ranker_profile_no2' />
-                                        <div className="hmk_podium_medal">🥈</div>
+                            <div className='hmk_ranker_podiumframe'>
+                                <div className="hmk_rank_podium">
+                                    {/* 2등 */}
+                                    <div key={rankData[1].id} className="hmk_podium_rank hmk_rank2">
+                                        <div className='hmk_podium_profile hmk_silver_frame'>
+                                            <img src={require(`../ham_asset/images/${rankData[1].image}`)} alt="rank2_profile" className='hmk_ranker_profile_no2' />
+                                            <div className="hmk_podium_medal">🥈</div>
+                                        </div>
+                                        <div className="hmk_podium_base silver">
+                                            <p>{rankData[1].nickname}</p>
+                                            <p>{rankData[1].points.toLocaleString()}</p>
+                                        </div>
                                     </div>
-                                    <div className="hmk_podium_base silver">
-                                        <p>{rankData[1].nickname}</p>
-                                        <p>{rankData[1].points.toLocaleString()}</p>
+                                    {/* 1등 */}
+                                    <div key={rankData[0].id} className="hmk_podium_rank hmk_rank1">
+                                        <div className='hmk_podium_profile hmk_gold_frame'>
+                                            <img src={require(`../ham_asset/images/${rankData[0].image}`)} alt="rank1_profile" className='hmk_ranker_profile_no1' />
+                                            <div className="hmk_podium_medal">🥇</div>
+                                        </div>
+                                        <div className="hmk_podium_base gold">
+                                            <p>{rankData[0].nickname}</p>
+                                            <p>{rankData[0].points.toLocaleString()}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                {/* 1등 */}
-                                <div key={rankData[0].id} className="hmk_podium_rank hmk_rank1">
-                                    <div className='hmk_podium_profile'>
-                                        <img src={require(`../ham_asset/images/${rankData[0].image}`)} alt="rank1_profile" className='hmk_ranker_profile_no1' />
-                                        <div className="hmk_podium_medal">🥇</div>
-                                    </div>
-                                    <div className="hmk_podium_base gold">
-                                        <p>{rankData[0].nickname}</p>
-                                        <p>{rankData[0].points.toLocaleString()}</p>
-                                    </div>
-                                </div>
-                                {/* 3등 */}
-                                <div key={rankData[2].id} className="hmk_podium_rank hmk_rank3">
-                                    <div className='hmk_podium_profile'>
-                                        <img src={require(`../ham_asset/images/${rankData[2].image}`)} alt="rank3_profile" className='hmk_ranker_profile_no3' />
-                                        <div className="hmk_podium_medal">🥉</div>
-                                    </div>
-                                    <div className="hmk_podium_base bronze">
-                                        <p>{rankData[2].nickname}</p>
-                                        <p>{rankData[2].points.toLocaleString()}</p>
+                                    {/* 3등 */}
+                                    <div key={rankData[2].id} className="hmk_podium_rank hmk_rank3">
+                                        <div className='hmk_podium_profile hmk_bronze_frame'>
+                                            <img src={require(`../ham_asset/images/${rankData[2].image}`)} alt="rank3_profile" className='hmk_ranker_profile_no3' />
+                                            <div className="hmk_podium_medal">🥉</div>
+                                        </div>
+                                        <div className="hmk_podium_base bronze">
+                                            <p>{rankData[2].nickname}</p>
+                                            <p>{rankData[2].points.toLocaleString()}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -144,7 +144,6 @@
     background-image: url('../images/rank_backcrown.png');
     /* 블러 처리된 배경 이미지 경로 */
     background-size: cover;
-    background-position: center;
     filter: blur(2px);
     /* 배경 이미지 블러 효과 */
     opacity: 1;
@@ -160,34 +159,38 @@
     margin-top: -150px;
 }
 
-.hmk_rank_head_container img {
-    width: 500px;
+/* 화면 중앙 포디엄 카드 프레임 */
+.hmk_ranker_podiumframe {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-
-/* 화면 중앙 포디엄 카드 프레임 */
-.hmk_rank_main .hmk_rank_head .hmk_rank_podium {
-    width: 50vw;
-    height: 22vw;
+/* 화면 중앙 포디엄 카드 공통 */
+.hmk_ranker_podiumframe 
+.hmk_rank_podium {
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    gap: 10px;
-    margin: 40px 0;
+    gap: 1px;
 
 }
 
 /* 포디엄 카드 스타일 */
-.hmk_rank_main .hmk_rank_head .hmk_rank_podium .hmk_podium_rank {
+.hmk_ranker_podiumframe 
+.hmk_rank_podium 
+.hmk_podium_rank {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     padding: 20px 20px 0 20px;
-    /* 카드 내부 여백 */
     margin: 10px;
-    /* 카드 간 여백 */
     text-align: center;
     transition: transform 0.3s ease-in-out;
-    /* 마우스 호버 시 확대 효과 */
-    width: 100%;
-
+    align-items: center;
 }
 
 .hmk_rank_podium .hmk_rank1 {
@@ -218,31 +221,81 @@
 
 /* 포디엄 카드 내 프로필 이미지 테두리 */
 .hmk_podium_rank .hmk_podium_profile {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    align-items: center;
+    text-align: center;
     position: relative;
-    margin-bottom: 10px;
+    margin-bottom: 25px;
+}
+.hmk_gold_frame {
+    background-image: url('../images/rank_prof_frame4.png');
+    /* 상대 경로 */
+    width: 230px; /* 프레임 크기 */
+    height: 230px;
+    background-size: 100%;
+    background-position: bottom;
+    background-repeat: no-repeat;
+}
+.hmk_silver_frame {
+    background-image: url('../images/rank_prof_frame3.png');
+    width: 170px; 
+    height: 170px;
+    background-size: 100%;
+    background-position: bottom;
+    background-repeat: no-repeat;
 }
 
-/* 포디엄 카드 내 프로필 이미지 스타일 */
-.hmk_podium_profile .hmk_ranker_profile_no1,
-.hmk_podium_profile .hmk_ranker_profile_no2,
-.hmk_podium_profile .hmk_ranker_profile_no3 {
-    width: 100px;
-    /* 이미지 크기 */
-    height: 100px;
-    border-radius: 50%;
-    border: 1px solid #4A148C;
-    /* 기본 테두리 색상 */
-    box-shadow: 0 8px 16px rgba(74, 20, 140, 0.5);
-    margin-bottom: 10px;
-    /* 이미지와 텍스트 사이의 간격 */
+.hmk_bronze_frame {
+    background-image: url('../images/rank_prof_frame5.png');
+    width: 150px; 
+    height: 150px;
+    background-size: 100%;
+    background-position: bottom;
+    background-repeat: no-repeat;
 }
+
+
+/* 포디엄 카드 내 프로필 이미지 스타일 */
+.hmk_podium_profile .hmk_ranker_profile_no1 {
+    padding-top: 68px; /* 프레임 안에 프로필 넣는 위치 */
+    padding-left: 8px ;
+    width: 95px; /* 이미지 크기 */
+    height: 95px;
+    border-radius: 50%;
+    margin-bottom: 60px;
+    /* 프로필과 메달 사이의 간격 */
+    z-index: -1;
+}
+
+
+.hmk_podium_profile .hmk_ranker_profile_no2 {
+    padding-top: 40px; /* 프레임 안에 프로필 넣는 위치 */
+    padding-left: 15px ;
+    width: 90px; /* 이미지 크기 */
+    height: 90px;
+    border-radius: 50%;
+    margin-bottom: 30px;
+    /* 이미지와 텍스트 사이의 간격 */
+    z-index: -1;
+}
+
+.hmk_podium_profile .hmk_ranker_profile_no3 {
+    padding-top: 33px; /* 프레임 안에 프로필 넣는 위치 */
+    padding-left: 15px ;
+    width: 85px; /* 이미지 크기 */
+    height: 85px;
+    border-radius: 50%;
+    margin-bottom: 25px;
+    /* 이미지와 텍스트 사이의 간격 */
+    z-index: -1;
+}
+
 
 /* 포디엄 카드 내 메달 스타일 */
 .hmk_podium_medal {
-    position: absolute;
     font-size: 40px;
-    margin-top: -20px;
-    margin-left: 100px;
 }
 
 /* 포디엄 카드 내 시상대와 닉네임 공통 스타일 */
@@ -266,13 +319,13 @@
 
 /* 1등 시상대 스타일 */
 .hmk_rank1 .hmk_podium_base {
-    height: 200px;
-    width: 100%;
+    height: 250px;
+    width: 250px;
     background-color: #FFD700;
     /* 금메달 색상 */
     background-image: url('../images/rank_spincup.gif');
     /* 상대 경로 */
-    background-size: 30%;
+    background-size: 40%;
     background-position: bottom;
     background-repeat: no-repeat;
 }
