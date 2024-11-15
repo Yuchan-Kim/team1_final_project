@@ -19,6 +19,7 @@
 // src/ham_pages/ham_common/ham_topbar.jsx
 
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Modal from './ham_modal';
 import '../../ham_asset/css/ham_topbar.css'; // 상단 바 전용 CSS
 import '../../ham_asset/css/ham_modal.css'; // 모달 전용 CSS
@@ -30,6 +31,7 @@ import storeIcon from '../../ham_asset/images/shopfront.png';
 
 
 const Topbar = () => {
+    const navigate = useNavigate();
     // 모달 초기 상태값 세팅
     const [modalState, setModalState] = useState({
         profile: false,
@@ -111,10 +113,7 @@ const Topbar = () => {
 
     // 포인트 상점 이동 함수 (예시)
     const handlePointShopRedirect = () => {
-        // 포인트 상점 페이지로 이동하는 로직 추가
-        // 예를 들어, React Router를 사용하는 경우:
-        // navigate('/point-shop');
-        console.log("포인트 상점으로 이동");
+        navigate('/pointstore/pointstoremain'); // 상점 페이지로 이동
     };
 
     // 닉네임 중복 체크 함수 (백엔드 API 연동)
