@@ -53,8 +53,8 @@ function App() {
           <Route path='/ycstep10' element = {<YCStep10/>} />
           <Route path='/ycstep11' element = {<YCStep11/>} />
 
-          <Route path='/stat' element={<YCChallengeStatistics/>} />
-          <Route path='/board' element={<YcChallengeBoard/>} />
+          <Route path='/stat/:roomNum' element={<YCChallengeStatistics/>} />
+          <Route path='/board/:roomNum' element={<YcChallengeBoard/>} />
           <Route path='/mission' element={<Mission />} />
           <Route path='/missioninfo' element={<MissionInfo />} />
           <Route path='/cmain' element={<Challengemain />} />
