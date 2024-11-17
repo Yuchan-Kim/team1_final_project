@@ -19,16 +19,24 @@ const DH_JoinForm = () => {
 	/*---라우터 관련------------------------------------------*/
 
 	/*---상태관리 변수들(값이 변화면 화면 랜더링) ----------*/
-    const [userEmail, setUserEmail] = useState('');
-    const [userPw, setUserPw] = useState('');
-    const [userName, setUserName] = useState('');
+    const [userEmail, setUserEmail] = useState("");
+    const [isEmail, setIsEmail] = useState(false);    // fakse는 중복아님
+
+    const [userName, setUserName] = useState("");
+    const [isName, setIsName] = useState(false);    // fakse는 중복아님
+
+    const [userPw, setUserPw] = useState("");
+    const [userPw2, setUserPw2] = useState("");
+    const [pwMatch, setPwMatch] = useState(true); // 비밀번호 일치 여부 상태 추가 true 일치
+    const pwRegex = /^(?=.*[a-zA-Z])(?=.*[0-9!@#&*?]).{10,}$/;
+    const [isPwValid, setIsPwValid] = useState(true);   // 비밀번호 조건에 맞는지 true 부합
 
     const navigate = useNavigate();
 
 	/*---일반 메소드 -----------------------------------------*/
 
 	/*---생명주기 + 이벤트 관련 메소드 ----------------------*/
-    // 아이디
+    // 이메일
     const handleEmail =(e)=> {
         setUserEmail(e.target.value);
     }
@@ -36,16 +44,106 @@ const DH_JoinForm = () => {
     // 비밀번호
     const handlePw =(e)=> {
         setUserPw(e.target.value);
+        checkPw(e.target.value, userPw2)    // 일치여부 체크
+
+        // 비밀번호 유효성 검사
+        const isValid = pwRegex.test(e.target.value);
+        setIsPwValid(isValid); // 상태 업데이트
     }
+    // 비밀번호2
+    const handlePw2 =(e)=> {
+        setUserPw2(e.target.value);
+        checkPw(userPw, e.target.value)    // 일치여부 체크
+    }
+    // 비밀번호 일치 여부 체크
+    const checkPw = (userPw, setUserPw2) => {
+        setPwMatch(userPw === setUserPw2);
+    };
 
     // 이름
     const handleName =(e)=> {
         setUserName(e.target.value);
     }
+    
+
+    // 이메일 중복체크 클릭했을때
+    const handleEmailCheck = ()=> {
+
+        const userVo= {
+            userEmail: userEmail
+        }
+        console.log(userVo);
+
+         // 서버로 데이터 전송
+        axios({
+            method: 'post',         // 저장 (등록)
+            url: `${process.env.REACT_APP_API_URL}/api/users/email/${userEmail}`,
+
+            headers: { "Content-Type": "application/json; charset=utf-8" }, 	// post put 보낼때
+
+            data: userVo, // put, post, JSON(자동변환됨)
+
+            responseType: 'json' //수신타입 받을때
+        }).then(response => {
+            console.log(response.data); //수신데이타
+
+            if (response.data.result ==='success') {
+                setIsEmail(false); // 중복 아님
+            
+            }else {
+                setIsEmail(true); // 중복됨
+            }
+
+        }).catch(error => {
+            console.log(error);
+        });
+
+    }
+
+    // 닉네임 중복체크 클릭했을때
+    const handleNameCheck = ()=> {
+
+        const userVo= {
+            userName: userName
+        }
+        console.log(userVo);
+
+         // 서버로 데이터 전송
+        axios({
+            method: 'post',         // 저장 (등록)
+            url: `${process.env.REACT_APP_API_URL}/api/users/name/${userName}`,
+
+            headers: { "Content-Type": "application/json; charset=utf-8" }, 	// post put 보낼때
+
+            data: userVo, // put, post, JSON(자동변환됨)
+
+            responseType: 'json' //수신타입 받을때
+        }).then(response => {
+            console.log(response.data); //수신데이타
+
+            if (response.data.result ==='success') {
+                setIsName(false); // 중복 아님
+            
+            }else {
+                setIsName(true); // 중복됨
+            }
+
+        }).catch(error => {
+            console.log(error);
+        });
+
+    }
+
 
     // 회원가입버튼 클릭했을때
     const handleJoin = (e)=> {
         e.preventDefault(); 
+
+        // 비밀번호 유효성 검사
+        if (!pwRegex.test(userPw)) {
+            alert("비밀번호가 조건에 부합하지 않습니다. 조건을 확인하세요.");
+            return;
+        }
 
         const userVo= {
             userEmail: userEmail,
@@ -95,31 +193,49 @@ const DH_JoinForm = () => {
                         <form action='' method='' onSubmit={handleJoin}> 
                             <div className="dy-joinform-join">
                                 <div className="dy-join-word">이메일</div>
-                                <input className="dy-join-input" value={userEmail} onChange={handleEmail}></input>
-                                <div className="dy-message">&nbsp; &#8226; 이미 가입된 아이디입니다.</div>
-                            </div>
-                            <div className="dy-joinform-join">
-                                <div className="dy-join-word">비밀번호</div>
-                                <input className="dy-join-input" value={userPw} onChange={handlePw}></input>
-                                <div className="dy-message">
-                                    <div>비밀번호에는 다음 문자가 반드시 포함되어야 합니다.</div>
-                                    <ol>
-                                        <li>&nbsp; &#8226; &nbsp; 문자 1개</li>
-                                        <li>&nbsp; &#8226; &nbsp; 숫자 또는 특수 문자 1개 (예: # ? ! &)</li>
-                                        <li>&nbsp; &#8226; &nbsp; 10자 이상</li>
-                                    </ol>
+                                <div className="dy-join-two">
+                                    <input type="text" className="dy-join-input" value={userEmail} onChange={handleEmail} />
+                                    <button type="button" className="dy-emailcheck" onClick={handleEmailCheck}>중복체크</button> 
                                 </div>
-                            </div>
-                            <div className="dy-joinform-join">
-                                <div className="dy-join-word">비밀번호 재입력</div>
-                                <input className="dy-join-input"></input>
-                                <div className="dy-message">&nbsp; &#8226; 비밀번호가 일치하지 않습니다.</div>
+                                {isEmail && (
+                                    <div className="dy-message">&nbsp; &#8226; 이미 가입된 이메일입니다.</div>
+                                )}
                             </div>
                             <div className="dy-joinform-join">
                                 <div className="dy-join-word">닉네임</div>
-                                <input className="dy-join-input" value={userName} onChange={handleName}></input>
-                                <div className="dy-message">&nbsp; &#8226; 이미 가입된 닉네임입니다.</div>
+                                <div className="dy-join-two">
+                                    <input type="text" className="dy-join-input" value={userName} onChange={handleName}></input>
+                                    <button type="button" className="dy-namecheck" onClick={handleNameCheck}>중복체크</button> 
+                                </div>
+                                {isName && (
+                                    <div className="dy-message">&nbsp; &#8226; 이미 가입된 닉네임입니다.</div>
+                                )}
                             </div>
+                            <div className="dy-joinform-join">
+                                <div className="dy-join-word">비밀번호</div>
+                                <input type="password" className="dy-join-input" value={userPw} onChange={handlePw} />
+                                {!isPwValid && (
+                                    <div className="dy-message">
+                                        <div>비밀번호에는 다음 문자가 반드시 포함되어야 합니다.</div>
+                                        <ol>
+                                            <li>&nbsp; &#8226; &nbsp; 문자 1개</li>
+                                            <li>&nbsp; &#8226; &nbsp; 숫자 또는 특수 문자 1개 (예: # ? ! &)</li>
+                                            <li>&nbsp; &#8226; &nbsp; 10자 이상</li>
+                                        </ol>
+                                    </div>
+                                )}
+                            </div>
+                            <div className="dy-joinform-join">
+                                <div className="dy-join-word">비밀번호 재입력</div>
+                                <input type="password" className="dy-join-input" value={userPw2} onChange={handlePw2} />
+                                {!pwMatch && userPw2 && (
+                                    <div className="dy-message">&nbsp; &#8226; 비밀번호가 일치하지 않습니다.</div>
+                                )}
+                                {pwMatch && userPw2 && (
+                                    <div></div>
+                                )}
+                            </div>
+                            
 
                             <button type="submit" className="dy-submit-btn">가입하기</button>
                             <div>─────────── 또는 ───────────</div>
