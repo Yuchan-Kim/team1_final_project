@@ -47,6 +47,7 @@ const MyPage = () => {
                     const userData = userResponse.data.apiData;
                     if (userData.challenges) {
                         setChallenges(userData.challenges);
+                        console.log("챌린지데이따: ", userData.challenges);
                     }
                 }
             } catch (err) {
@@ -95,8 +96,8 @@ const MyPage = () => {
                     <div className="hmk_main">
                         <Topbar userNum={userNum} />
                         <div className="hmk_stat-container">
-                            {chartData.map((chart) => (
-                                <div key={chart.id} className="hmk_stat-card" style={{ position: 'relative' }}>
+                            {chartData.map((chart, index) => (
+                                <div key={chart.id || index} className="hmk_stat-card" style={{ position: 'relative' }}>
                                     <div className="hmk_chart">
                                         <ChartComponent chart={chart} />
                                     </div>
@@ -134,10 +135,10 @@ const MyPage = () => {
                         <div className="hmk_challenge-list">
                             {activeChallenges.map((challenge) => (
                                 <div
-                                    key={challenge.id}
+                                    key={challenge.id || challenge.roomNum} // 고유한 key 속성 추가
                                     className="hmk_challenge-card"
                                     onClick={handleCardClick}
-                                    onKeyPress={(e) => {
+                                    deprecated={(e) => {
                                         if (e.key === 'Enter') handleCardClick();
                                     }}
                                     tabIndex="0"
@@ -150,8 +151,12 @@ const MyPage = () => {
                                         className="hmk_challenge-image"
                                     />
                                     <div className="hmk_challenge-details">
-                                        <p className="hmk_challenge-date">{challenge.date}</p>
-                                        <p className="hmk_challenge-title">{challenge.title}</p>
+                                        <div className="hmk_challenge-datebox">
+                                            <p className="hmk_challenge-startdate">{challenge.roomStartDate}</p>
+                                            <p>~</p>
+                                            <p className="hmk_challenge-enddate">{challenge.endDate}</p>
+                                        </div>
+                                        <p className="hmk_challenge-title">{challenge.roomTitle}</p>
                                     </div>
                                 </div>
                             ))}

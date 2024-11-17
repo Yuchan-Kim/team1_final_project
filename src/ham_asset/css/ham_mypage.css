@@ -328,6 +328,19 @@
     flex: 1;
 }
 
+.wrap .hmk_main-container 
+.hmk_main 
+.hmk_challenge-list 
+.hmk_challenge-card 
+.hmk_challenge-details
+.hmk_challenge-datebox {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
 /* 챌린지 실행 기간 텍스트 스타일 */
 .wrap .hmk_main-container 
 .hmk_main 
