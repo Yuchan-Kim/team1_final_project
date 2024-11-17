@@ -138,7 +138,6 @@
     border-right: 1px solid #ccc;
 }
 
-
 /* 데이터 폰트 스타일 및 구분선  */
 .wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics td {
     font-size: 20px;
@@ -147,19 +146,8 @@
     border-right: 1px solid #ccc;
 }
 
-.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics th:first-child {
-    min-width: 103px;
-}
-.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics th:nth-child(2) {
-    min-width: 108px;
-}
-
-.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics th:nth-child(3) {
-    min-width: 76px;
-}
-
-.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics th:last-child {
-    min-width: 51px;
+.wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics th {
+    min-width: 100px;
 }
 
 .wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics th:last-child,
@@ -173,11 +161,38 @@
 .hmk_nickname-error {
     color: red;
     font-size: 0.9em;
-    margin-top: 5px;
+    padding-bottom: 10px;
+}
+
+.hmk_small-text {
+    font-size: 0.5em;
+    color: #c64719;
 }
 
 /* 닉네임 변경 확인 버튼 비활성화 시 스타일 */
 .hmk_nickname-actions button[disabled] {
     background-color: #ccc;
     cursor: not-allowed;
+}
+
+/* 지역 변경 자동완성 목록 스타일 */
+.hmk_address-field .suggestions-list {
+    position: absolute;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-height: 150px;
+    overflow-y: auto;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 398px;
+}
+.hmk_address-field .suggestions-list li {
+    padding: 8px;
+    cursor: pointer;
+}
+.hmk_address-field .suggestions-list li:hover {
+    background-color: #f0f0f0;
 }

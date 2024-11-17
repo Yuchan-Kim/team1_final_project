@@ -155,7 +155,7 @@
 /* 포디엄 상단 그래픽 이펙트 */
 .hmk_rank_head_container {
     display: flex;
-    margin-bottom: -100px;
+    margin-bottom: -150px;
     margin-top: -150px;
 }
 
