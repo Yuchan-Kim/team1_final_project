@@ -14,9 +14,57 @@ const Topbar = () => {
     const navigate = useNavigate();
     const [suggestions, setSuggestions] = useState([]); // 자동완성 목록 상태
     const [ownedProfileImages, setOwnedProfileImages] = useState([]); // 소유한 프로필 이미지 목록 상태
-
-
-    // 자동완성 데이터 요청 함수
+    // 모달 상태
+    const [modalState, setModalState] = useState({
+        profile: false,
+        password: false,
+        address: false,
+        nickname: false,
+    });
+    // 모달 입력 상태
+    const [currentPassword, setCurrentPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [isPasswordValid, setIsPasswordValid] = useState(false);
+    const [selectedProfileImage, setSelectedProfileImage] = useState(null);
+    const [newAddress, setNewAddress] = useState('');
+    const [newNickname, setNewNickname] = useState('');
+    const [isCheckingNickname, setIsCheckingNickname] = useState(false);
+    const [nicknameError, setNicknameError] = useState('');
+    // 사용자 정보 상태
+    const [userInfo, setUserInfo] = useState({
+        nickname: profileStore.getNickname(),
+        region: profileStore.getRegion(),
+        profileImage: profileStore.getProfileImage(),
+        ownedProfileImages: profileStore.getOwnedProfileImages(),
+        challengesSummary: profileStore.getChallengesSummary(),
+        participationScore: profileStore.getChallengesSummary().participationScore
+    });
+    // 비밀번호 강도 상태 (선택 사항)
+    const [passwordValidity, setPasswordValidity] = useState({
+        hasLetter: false,
+        hasNumberOrSpecial: false,
+        isLongEnough: false
+    });
+    // 비밀번호 생성 규칙 함수
+    const validatePassword = (password) => {
+        const hasLetter = /[A-Za-z]/.test(password);
+        const hasNumberOrSpecial = /[0-9#?!&]/.test(password);
+        const isLongEnough = password.length >= 10;
+        return hasLetter && hasNumberOrSpecial && isLongEnough;
+    };
+    // 비밀번호 입력 필드 변경 시 실시간 검증 함수
+    const handleNewPasswordChange = (e) => {
+        const pwd = e.target.value;
+        setNewPassword(pwd);
+        setPasswordValidity({
+            hasLetter: /[A-Za-z]/.test(pwd),
+            hasNumberOrSpecial: /[0-9#?!&]/.test(pwd),
+            isLongEnough: pwd.length >= 10
+        });
+    };
+    // 지역 변경용 자동완성 데이터 요청 함수
     const fetchRegionSuggestions = async (input) => {
         try {
             const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
@@ -28,8 +76,7 @@ const Topbar = () => {
             console.error("자동완성 데이터 요청 실패:", error);
         }
     };
-
-    // 사용자 입력이 변경될 때 자동완성 목록 가져오기
+    // 사용자 입력이 변경될 때 자동완성 목록 가져오는 함수
     const handleAddressChange = (e) => {
         const input = e.target.value;
         setNewAddress(input); // 입력 상태 설정
@@ -39,78 +86,10 @@ const Topbar = () => {
             setSuggestions([]); // 입력값이 없을 때는 목록 초기화
         }
     };
-
-    // 모달 상태
-    const [modalState, setModalState] = useState({
-        profile: false,
-        password: false,
-        address: false,
-        nickname: false,
-    });
-
-    // 모달 입력 상태
-    const [selectedProfileImage, setSelectedProfileImage] = useState(null);
-    const [currentPassword, setCurrentPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [newAddress, setNewAddress] = useState('');
-    const [newNickname, setNewNickname] = useState('');
-    const [isCheckingNickname, setIsCheckingNickname] = useState(false);
-    const [nicknameError, setNicknameError] = useState('');
-
-    // 사용자 정보 상태
-    const [userInfo, setUserInfo] = useState({
-        nickname: profileStore.getNickname(),
-        region: profileStore.getRegion(),
-        profileImage: profileStore.getProfileImage(),
-        ownedProfileImages: profileStore.getOwnedProfileImages(),
-        challengesSummary: profileStore.getChallengesSummary(),
-        participationScore: profileStore.getChallengesSummary().participationScore
-    });
-
-    // profileStore 구독
-    useEffect(() => {
-        const getProfileData = () => ({
-            profileImage: profileStore.getProfileImage(),
-            ownedProfileImages: profileStore.getOwnedProfileImages() || [], // 배열 보장
-            nickname: profileStore.getNickname(),
-            region: profileStore.getRegion(),
-            challengesSummary: profileStore.getChallengesSummary(),
-            participationScore: profileStore.getChallengesSummary().participationScore
-        });
-
-        const handleProfileChange = (updatedProfile) => {
-
-            console.log("ProfileStore updated:", updatedProfile);
-
-            const safeProfile = {
-                ...updatedProfile,
-                ownedProfileImages: updatedProfile.ownedProfileImages || [] // 배열 보장
-            };
-
-            console.log("Updated ownedProfileImages:", safeProfile.ownedProfileImages);
-
-            setUserInfo(prev => ({
-                ...prev,
-                ...safeProfile
-            }));
-            setOwnedProfileImages(safeProfile.ownedProfileImages);
-        };
-        // 초기 데이터 설정
-        handleProfileChange(getProfileData());
-        // 구독 추가
-        profileStore.subscribe(handleProfileChange);
-        // 컴포넌트 언마운트 시 구독 해제
-        return () => {
-            profileStore.unsubscribe(handleProfileChange);
-        };
-    }, []);
-
     // 모달 제어 함수
     const openModal = (type) => {
         setModalState(prev => ({ ...prev, [type]: true }));
     };
-
     const closeModal = (type) => {
         setModalState(prev => ({ ...prev, [type]: false }));
         // 모달 상태 초기화
@@ -139,25 +118,21 @@ const Topbar = () => {
     const handleProfileSelect = (src) => {
         setSelectedProfileImage(src);
     };
-
     const handleProfileConfirm = async () => {
         const userNum = profileStore.getUserNum();
         if (!userNum) {
             alert("사용자 번호가 설정되지 않았습니다.");
             return;
         }
-
         if (!selectedProfileImage) {
             alert("프로필 이미지를 선택해주세요.");
             return;
         }
-
         try {
             const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
             const response = await axios.put(`${apiUrl}/api/user/${userNum}/update-profile`, {
                 profileImage: selectedProfileImage
             });
-
             if (response.data.result === 'success') {
                 profileStore.setProfileImage(selectedProfileImage);
                 closeModal('profile');
@@ -168,7 +143,7 @@ const Topbar = () => {
         }
     };
 
-    // 정보 변경 처리
+    // 정보 변경 처리 함수
     const handleChange = async (type) => {
         console.log(`${type} 변경 함수 호출됨`); // 함수 호출 확인
         const userNum = profileStore.getUserNum();
@@ -177,9 +152,7 @@ const Topbar = () => {
             return;
         }
         const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
-
         console.log(`API 요청 시작: /api/user/${userNum}/update${type === 'nickname' ? 'Nickname' : type.charAt(0).toUpperCase() + type.slice(1)}`, type === 'address' ? newAddress : '');
-
         try {
             let response;
             switch (type) {
@@ -205,7 +178,6 @@ const Topbar = () => {
                     response = await axios.put(`${apiUrl}/api/user/${userNum}/updateNickname`, {
                         nickname: newNickname.trim()
                     });
-
                     if (response?.data.result === 'success') {
                         // profileStore 업데이트
                         profileStore.setNickname(newNickname.trim());
@@ -217,17 +189,14 @@ const Topbar = () => {
                         closeModal('nickname');
                     }
                     break;
-
                 case 'address':
                     if (!newAddress.trim()) {
                         alert("주소를 입력해주세요.");
                         return;
                     }
-
                     response = await axios.put(`${apiUrl}/api/user/${userNum}/updateAddress`, {
                         region: newAddress.trim()
                     }, { headers: { 'Content-Type': 'application/json' } });
-
                     if (response?.data.result === 'success') {
                         // profileStore에 지역 정보 업데이트
                         profileStore.setRegion(newAddress.trim());
@@ -239,27 +208,45 @@ const Topbar = () => {
                         closeModal('address');
                     }
                     break;
-
                 case 'password':
+                    // 비밀번호 변경 로직 통합
+                    if (!currentPassword) {
+                        setPasswordError("현재 비밀번호를 입력해주세요.");
+                        return;
+                    }
                     if (!newPassword) {
-                        alert("새 비밀번호를 입력해주세요.");
+                        setPasswordError("새 비밀번호를 입력해주세요.");
                         return;
                     }
                     if (newPassword !== confirmPassword) {
-                        alert("비밀번호가 일치하지 않습니다.");
+                        setPasswordError("비밀번호가 일치하지 않습니다.");
                         return;
                     }
-
+                    if (!validatePassword(newPassword)) {
+                        setPasswordError("비밀번호는 최소 10자 이상이어야 하며, 문자 1개 이상과 숫자 또는 특수 문자(#?!&)를 포함해야 합니다.");
+                        return;
+                    }
+                    // 모든 검증을 통과했을 경우 비밀번호 변경 요청
                     response = await axios.put(`${apiUrl}/api/user/${userNum}/updatePassword`, {
                         currentPassword,
                         newPassword
                     });
+                    if (response?.data.result === 'success') {
+                        alert("비밀번호가 성공적으로 변경되었습니다.");
+                        // 비밀번호 변경 후 상태 초기화
+                        setCurrentPassword('');
+                        setNewPassword('');
+                        setConfirmPassword('');
+                        setPasswordError('');
+                        closeModal('password');
+                    } else {
+                        // 백엔드에서 전달된 에러 메시지 처리
+                        setPasswordError(response.data.message || "비밀번호 변경에 실패했습니다.");
+                    }
                     break;
-
                 default:
                     break;
             }
-
             if (response?.data.result === 'success') {
                 switch (type) {
                     case 'nickname':
@@ -270,12 +257,10 @@ const Topbar = () => {
                         setUserInfo(prev => ({ ...prev, region: newAddress.trim() }));
                         break;
                     case 'password':
-                        alert("비밀번호가 성공적으로 변경되었습니다.");
                         break;
                     default:
                         break;
                 }
-                closeModal(type);
             }
         } catch (error) {
             console.error(`${type} 변경 중 오류 발생:`, error);
@@ -287,6 +272,39 @@ const Topbar = () => {
             }
         }
     };
+
+    // profileStore 구독
+    useEffect(() => {
+        const getProfileData = () => ({
+            profileImage: profileStore.getProfileImage(),
+            ownedProfileImages: profileStore.getOwnedProfileImages() || [], // 배열 보장
+            nickname: profileStore.getNickname(),
+            region: profileStore.getRegion(),
+            challengesSummary: profileStore.getChallengesSummary(),
+            participationScore: profileStore.getChallengesSummary().participationScore
+        });
+        const handleProfileChange = (updatedProfile) => {
+            const safeProfile = {
+                ...updatedProfile,
+                ownedProfileImages: updatedProfile.ownedProfileImages || [] // 배열 보장
+            };
+            console.log("Updated ownedProfileImages:", safeProfile.ownedProfileImages);
+            setUserInfo(prev => ({
+                ...prev,
+                ...safeProfile
+            }));
+            setOwnedProfileImages(safeProfile.ownedProfileImages);
+        };
+        // 초기 데이터 설정
+        handleProfileChange(getProfileData());
+        // 구독 추가
+        profileStore.subscribe(handleProfileChange);
+        // 컴포넌트 언마운트 시 구독 해제
+        return () => {
+            profileStore.unsubscribe(handleProfileChange);
+        };
+    }, []);
+
 
     return (
         <div className="hmk_topbar">
@@ -461,10 +479,22 @@ const Topbar = () => {
                             name="newPassword"
                             placeholder="새 비밀번호 입력"
                             value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)}
+                            onChange={handleNewPasswordChange}
                             autoComplete="new-password"
                             required
                         />
+                        {/* 비밀번호 규칙 피드백 (선택 사항) */}
+                        <ul className="password-rules">
+                            <li style={{ color: passwordValidity.hasLetter ? 'green' : 'red' }}>
+                                문자 1개 이상
+                            </li>
+                            <li style={{ color: passwordValidity.hasNumberOrSpecial ? 'green' : 'red' }}>
+                                숫자 또는 특수 문자 1개 (#?!&)
+                            </li>
+                            <li style={{ color: passwordValidity.isLongEnough ? 'green' : 'red' }}>
+                                10글자 이상
+                            </li>
+                        </ul>
                     </div>
                     <div className="hmk_password-field">
                         <label htmlFor="confirm-password">비밀번호 확인</label>
@@ -479,6 +509,7 @@ const Topbar = () => {
                             required
                         />
                     </div>
+                    {passwordError && <div className="hmk_password-error">{passwordError}</div>}
                     <div className="hmk_password-actions">
                         <button type="submit">확인</button>
                         <button type="button" onClick={() => closeModal('password')}>취소</button>
