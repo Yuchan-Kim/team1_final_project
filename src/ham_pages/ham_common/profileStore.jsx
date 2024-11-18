@@ -4,25 +4,11 @@ class ProfileStore {
     constructor() {
         // localStorage에서 사용자 정보 불러오기 (변경 없음)
         this.profileImage = localStorage.getItem('profileImage') || defaultProfile;
-        this.nickname = localStorage.getItem('nickname') || "사용자";
-        this.userNum = parseInt(localStorage.getItem('userNum')) || 1;
-        this.region = localStorage.getItem('region') || "";
+        this.nickname = localStorage.getItem('nickname') || "비회원";
+        this.userNum = parseInt(localStorage.getItem('userNum')) || this.getUserNumFromAuthUser();
+        this.region = localStorage.getItem('region') || "미설정";
         console.log('로컬스토리지에 저장된 지역명: ', this.region); // 디버깅용 로그
-   
-
-        // ownedProfileImages 초기화 로직 개선
-        /* 기존 코드
-        const storedImages = localStorage.getItem('ownedProfileImages');
-        try {
-            this.ownedProfileImages = storedImages ? JSON.parse(storedImages) : [];
-        } catch (error) {
-            console.error('Failed to parse ownedProfileImages from localStorage:', error);
-            this.ownedProfileImages = [];
-        }
-        */
         this.ownedProfileImages = this.initializeOwnedProfileImages();
-
-        // 기존 코드 유지
         this.challengesSummary = {
             ongoing: 0,
             upcoming: 0,
@@ -34,14 +20,32 @@ class ProfileStore {
             upcoming: [],
             completed: []
         };
+        this.token = localStorage.getItem('token') || null;
         this.subscribers = [];
 
+        // userNum이 authUser에서 추출되었다면 localStorage에 저장
         if (this.userNum) {
+            localStorage.setItem('userNum', String(this.userNum));
+        }
+
+        if (this.token) {
             this.loadUserData();
         }
     }
+    
+    // authUser에서 userNum 추출
+    getUserNumFromAuthUser() {
+        const authUserStr = localStorage.getItem('authUser');
+        try {
+            const authUser = JSON.parse(authUserStr);
+            return authUser?.userNum || null;
+        } catch (error) {
+            console.error('Failed to parse authUser from localStorage:', error);
+            return null;
+        }
+    }
 
-    // 새로 추가된 메소드: ownedProfileImages 초기화
+    // ownedProfileImages 초기화
     initializeOwnedProfileImages() {
         const storedImages = localStorage.getItem('ownedProfileImages');
         try {
@@ -54,17 +58,53 @@ class ProfileStore {
         }
     }
 
+    // 토큰 설정 및 사용자 데이터 로드
+    setToken(token) {
+        this.token = token;
+        if (token) {
+            localStorage.setItem('token', token);
+            // authUser에서 userNum 추출하여 설정
+            this.userNum = this.getUserNumFromAuthUser();
+            if (this.userNum) {
+                localStorage.setItem('userNum', String(this.userNum));
+                this.loadUserData();
+            } else {
+                console.error('userNum is not available from authUser');
+                this.resetUserData();
+            }
+        } else {
+            localStorage.removeItem('nickname');
+            localStorage.removeItem('ownedProfileImages');
+            localStorage.removeItem('profileImage');
+            localStorage.removeItem('region');
+            localStorage.removeItem('userNum');
+            this.resetUserData();
+        }
+    }
+
     // loadUserData 메소드 전면 수정
     async loadUserData() {
+        if (!this.userNum) {
+            console.error('유저번호가 없어 데이터를 불러올 수 없습니다.');
+            return;
+        }
+
         try {
             const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
-            const response = await fetch(`${apiUrl}/api/user/${this.userNum}`);
+            const response = await fetch(`${apiUrl}/api/user/${this.userNum}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${this.token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
             const data = await response.json();
 
             if (data.result === 'success' && data.apiData?.userInfo) {
                 const userData = data.apiData.userInfo;
                 console.log("프로필 스토어가 받은 유저 정보: ", userData);
-                // 챌린지 요약 정보 처리 개선
+
+                // 챌린지 요약 정보 처리
                 const challengesSummary = {
                     ongoing: Number(userData.ongoingChallenges) || 0,
                     upcoming: Number(userData.upcomingChallenges) || 0,
@@ -72,7 +112,7 @@ class ProfileStore {
                     participationScore: Number(userData.participationScore) || 0
                 };
                 console.log("프로필 스토어에서 받은 요약", challengesSummary);
-                // 챌린지 상세 정보 처리 개선
+                // 챌린지 상세 정보 처리 
                 const challengesDetails = {
                     ongoing: Array.isArray(data.apiData.challenges?.ongoing) ? data.apiData.challenges.ongoing : [],
                     upcoming: Array.isArray(data.apiData.challenges?.upcoming) ? data.apiData.challenges.upcoming : [],
@@ -86,19 +126,23 @@ class ProfileStore {
                 this.updateUserData({
                     profileImage: userData.profileImage || this.defaultProfile,
                     ownedProfileImages: processedProfileImages,
-                    nickname: userData.nickname || "사용자",
-                    region: userData.region || "",
+                    nickname: userData.nickname || this.nickname,
+                    region: userData.region || this.region,
+                    userNum: userData.userNum || this.userNum,
                     challengesSummary,
                     challengesDetails
                 });
+            } else {
+                console.error('Failed to fetch user data:', data.message);
+                this.resetUserData();
             }
         } catch (error) {
-            console.error('Failed to load user data:', error);
+            console.error('유저 정보를 불러오는데 실패 했습니다:', error);
             this.handleError(error);
         }
     }
 
-    // 새로 추가된 메소드: 프로필 이미지 처리
+    // 프로필 이미지 처리
     processProfileImages(images) {
         if (typeof images === 'string') {
             try {
@@ -111,7 +155,7 @@ class ProfileStore {
         return Array.isArray(images) ? images : [];
     }
 
-    // 새로 추가된 메소드: 에러 처리
+    // 에러 처리
     handleError(error) {
         this.setChallengesSummary({
             ongoing: 0,
@@ -126,52 +170,36 @@ class ProfileStore {
         });
     }
 
-    // 새로 추가된 메소드: 사용자 데이터 일괄 업데이트
+    // 사용자 데이터 일괄 업데이트
     updateUserData(data) {
         this.setProfileImage(data.profileImage);
         this.setOwnedProfileImages(data.ownedProfileImages);
         this.setNickname(data.nickname);
         this.setRegion(data.region);
+        this.setUserNum(data.userNum);
         this.setChallengesSummary(data.challengesSummary);
         this.setChallengesDetails(data.challengesDetails);
     }
 
-    // getProfileImage 메소드 (변경 없음)
+    // getProfileImage 메소드 
     getProfileImage() {
         return this.profileImage;
     }
 
-    // setProfileImage 메소드 (변경 없음)
+    // setProfileImage 메소드 
     setProfileImage(newImage) {
         this.profileImage = newImage;
         localStorage.setItem('profileImage', newImage);
         this.notifySubscribers();
     }
 
-    // getOwnedProfileImages 메소드 수정
-    /* 기존 코드
-    getOwnedProfileImages() {
-        return Array.isArray(this.ownedProfileImages) ? this.ownedProfileImages : [];
-    }
-    */
+    // getOwnedProfileImages 메소드 
     getOwnedProfileImages() {
         const images = Array.isArray(this.ownedProfileImages) ? this.ownedProfileImages : [];
         return images.filter(img => typeof img === 'string' && img.trim().length > 0);
     }
 
-    // setOwnedProfileImages 메소드 수정
-    /* 기존 코드
-    setOwnedProfileImages(ownedProfileImages) {
-        if (!Array.isArray(ownedProfileImages)) {
-            console.warn('ownedProfileImages is not an array. Converting to array.');
-            this.ownedProfileImages = [ownedProfileImages];
-        } else {
-            this.ownedProfileImages = ownedProfileImages;
-        }
-        localStorage.setItem('ownedProfileImages', JSON.stringify(this.ownedProfileImages));
-        this.notifySubscribers();
-    }
-    */
+    // setOwnedProfileImages 메소드 
     setOwnedProfileImages(images) {
         const processedImages = this.processProfileImages(images)
             .filter(img => typeof img === 'string' && img.trim().length > 0);
@@ -180,7 +208,6 @@ class ProfileStore {
         this.notifySubscribers();
     }
 
-    // 나머지 메소드들은 변경 없음
     getNickname() {
         return this.nickname;
     }
@@ -213,7 +240,7 @@ class ProfileStore {
     setUserNum(newUserNum) {
         this.userNum = newUserNum;
         localStorage.setItem('userNum', String(newUserNum));
-        this.loadUserData();
+        // this.loadUserData();
         this.notifySubscribers();
     }
 
@@ -268,6 +295,27 @@ class ProfileStore {
             challengesDetails: this.challengesDetails
         };
         this.subscribers.forEach(callback => callback(updatedProfile));
+    }
+
+    // 사용자 데이터 초기화
+    resetUserData() {
+        this.profileImage = defaultProfile;
+        this.nickname = "비회원";
+        this.userNum = null;
+        this.region = "UnKnown";
+        this.ownedProfileImages = [];
+        this.challengesSummary = {
+            ongoing: 0,
+            upcoming: 0,
+            completed: 0,
+            participationScore: 0
+        };
+        this.challengesDetails = {
+            ongoing: [],
+            upcoming: [],
+            completed: []
+        };
+        this.notifySubscribers();
     }
 }
 
