@@ -21,9 +21,13 @@ const DH_JoinForm = () => {
 	/*---상태관리 변수들(값이 변화면 화면 랜더링) ----------*/
     const [userEmail, setUserEmail] = useState("");
     const [isEmail, setIsEmail] = useState(false);    // fakse는 중복아님
+    const [isEmailAvailable, setIsEmailAvailable] = useState(true); // 이메일 중복 여부
+    const [isEmailChecked, setIsEmailChecked] = useState(false); // 이메일 중복 체크 여부
 
     const [userName, setUserName] = useState("");
     const [isName, setIsName] = useState(false);    // fakse는 중복아님
+    const [isNameAvailable, setIsNameAvailable] = useState(true); // 닉네임 중복 여부
+    const [isNameChecked, setIsNameChecked] = useState(false); // 닉네임 중복 체크 여부
 
     const [userPw, setUserPw] = useState("");
     const [userPw2, setUserPw2] = useState("");
@@ -88,10 +92,13 @@ const DH_JoinForm = () => {
             console.log(response.data); //수신데이타
 
             if (response.data.result ==='success') {
-                setIsEmail(false); // 중복 아님
+                setIsEmailAvailable(true); // 사용 가능
+                setIsEmail('사용 가능한 이메일입니다.'); // 중복 아님
+                setIsEmailChecked(true); // 이메일 중복 체크 완료
             
             }else {
-                setIsEmail(true); // 중복됨
+                setIsEmailAvailable(false); // 중복됨
+                setIsEmail('이미 가입된 이메일입니다.'); // 중복됨
             }
 
         }).catch(error => {
@@ -122,10 +129,13 @@ const DH_JoinForm = () => {
             console.log(response.data); //수신데이타
 
             if (response.data.result ==='success') {
-                setIsName(false); // 중복 아님
+                setIsNameAvailable(true); // 사용 가능
+                setIsName('사용 가능한 닉네임입니다.'); // 중복 아님
+                setIsNameChecked(true); // 닉네임 중복 체크 완료
             
             }else {
-                setIsName(true); // 중복됨
+                setIsNameAvailable(false); // 중복됨
+                setIsName('이미 가입된 닉네임입니다.'); // 중복됨
             }
 
         }).catch(error => {
@@ -142,6 +152,18 @@ const DH_JoinForm = () => {
         // 비밀번호 유효성 검사
         if (!pwRegex.test(userPw)) {
             alert("비밀번호가 조건에 부합하지 않습니다. 조건을 확인하세요.");
+            return;
+        }
+
+        // 이메일, 닉네임 중복 체크 여부 확인
+        if (!isEmailChecked || !isNameChecked) {
+            alert("이메일 또는 닉네임의 중복 체크를 완료해주세요.");
+            return;
+        }
+
+        // 이메일, 닉네임 중복 체크
+        if (!isEmailAvailable || !isNameAvailable) {
+            alert("이메일 또는 닉네임이 이미 존재합니다.");
             return;
         }
 
@@ -198,7 +220,7 @@ const DH_JoinForm = () => {
                                     <button type="button" className="dy-emailcheck" onClick={handleEmailCheck}>중복체크</button> 
                                 </div>
                                 {isEmail && (
-                                    <div className="dy-message">&nbsp; &#8226; 이미 가입된 이메일입니다.</div>
+                                    <div className="dy-message">&nbsp; &#8226; {isEmail}</div>
                                 )}
                             </div>
                             <div className="dy-joinform-join">
@@ -208,7 +230,7 @@ const DH_JoinForm = () => {
                                     <button type="button" className="dy-namecheck" onClick={handleNameCheck}>중복체크</button> 
                                 </div>
                                 {isName && (
-                                    <div className="dy-message">&nbsp; &#8226; 이미 가입된 닉네임입니다.</div>
+                                    <div className="dy-message">&nbsp; &#8226; {isName}</div>
                                 )}
                             </div>
                             <div className="dy-joinform-join">

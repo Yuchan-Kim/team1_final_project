@@ -1,7 +1,7 @@
 //import 라이브러리
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-//import { Link } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 // import { useSearchParams} from 'react-router-dom';	파라미터값사용하는 라우터
 
 //import 컴포넌트
@@ -26,7 +26,11 @@ const DH_PointStoreMain = () => {
     const [selectedItemComplete, setSelectedItemComplete] = useState(null);   // 완료 모달창
 
     const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);      // 상품 상세 모달
-    const [isPointsAvailable, setIsPointsAvailable] = useState(true); // 포인트가 있는지 없는지 (있을때 true)
+    const [isPointsAvailable, setIsPointsAvailable] = useState(0); // 유저의 포인트 상태 관리
+    const [historyPoint, setHistoryPoint] = useState(0); // 유저의 포인트 상태 관리
+    // 토큰 상태 확인 및 포인트 조회
+    const [token, setToken] = useState(localStorage.getItem('token')); 
+    const authUser = JSON.parse(localStorage.getItem('authUser'));
 
     const [isExchangeModalOpen, setIsExchangeModalOpen] = useState(false);  // 포인트 교환 모달
     const [isCompleteModalOpen, setIsCompleteModalOpen] = useState(false);  // 교환 완료 모달
@@ -35,7 +39,6 @@ const DH_PointStoreMain = () => {
     const baskinrobbinsGiftSectionRef = useRef(null); // 배스킨라빈스 기프티콘 섹션을 참조하는 ref
     const atwosomeplaceGiftSectionRef = useRef(null); // 투썸플레이스 기프티콘 섹션을 참조하는 ref
     const megacoffeeGiftSectionRef = useRef(null); // 메가커피 기프티콘 섹션을 참조하는 ref
-
 
 	/*---일반 메소드 -----------------------------------------*/
 
@@ -94,6 +97,7 @@ const DH_PointStoreMain = () => {
         }).then((response) => {
                 if (response.data.result === 'success') {
                     alert(`${today} \n출석체크가 완료되었습니다!`);
+                    window.location.reload();
                 } else {
                     alert("이미 오늘 출석체크를 완료하였습니다. \n내일 다시 출석해주세요.");
                 }
@@ -159,7 +163,34 @@ const DH_PointStoreMain = () => {
     const openExchangeModal = () => {
         setSelectedItemExchange(selectedItem); // 선택한 아이템 정보 저장
         setIsDetailModalOpen(false); // 이전 모달 닫기
-        setIsExchangeModalOpen(true); // 포인트 교환 모달 열기
+
+        axios({
+			method: 'get', // HTTP 메서드 설정 (GET 요청)
+			url: `${process.env.REACT_APP_API_URL}/api/user/points`, // API URL
+			params: { userNum: authUser.userNum }, 
+			headers: { "Authorization": `Bearer ${token}` },
+			responseType: 'json' // 서버 응답 형식
+		})
+        .then(response => {
+            if (response.data.result === "success") {
+                const userPoints = response.data.apiData;
+                setHistoryPoint(userPoints);  // 포인트 정보 저장
+
+                 // 포인트가 부족해도 교환 모달은 열어두고, 부족 메시지를 표시
+                setIsExchangeModalOpen(true);
+            }
+        })
+        .catch(error => {
+            console.error('포인트 조회 실패:', error);
+        });
+    
+    };
+    const closeExchangeModal = () => setIsExchangeModalOpen(false);
+
+    const openCompleteModal = () => {
+        setSelectedItemComplete(selectedItemExchange); // 교환할 아이템 정보 저장
+        setIsExchangeModalOpen(false); // 이전 모달 닫기
+        setIsCompleteModalOpen(true); // 교환 완료 모달 열기
 
         // 구매 처리 함수 호출
         const authUser = JSON.parse(localStorage.getItem('authUser'));
@@ -174,19 +205,21 @@ const DH_PointStoreMain = () => {
             itemNum: selectedItem.itemNum, // 선택된 상품 번호
             userNum: userNum, // 로그인한 사용자 번호
             purchasedDate: new Date().toISOString().split("T")[0], // 오늘 날짜 (YYYY-MM-DD 형식)
-            purchasedStatus: selectedItem.itemBrandName === "꾸미기" ? "꾸미기" : "사용가능"
+            purchasedStatus: selectedItem.itemBrandName === "꾸미기" ? "꾸미기" : "사용가능",
+            itemCost: selectedItem.itemCost,
+            itemBrandName: selectedItem.itemBrandName
         };
-
+        console.log(purchaseData);
         // 서버로 데이터 전송
         axios({
             method: "post",
-            url: `${process.env.REACT_APP_API_URL}/api/purchaseHistory`,
+            url: `${process.env.REACT_APP_API_URL}/api/item/exchange`,
             headers: { "Content-Type": "application/json; charset=utf-8" },
             data: purchaseData,
+            responseType: 'json'
         }).then((response) => {
                 if (response.data.result === "success") {
-                    alert("교환이 완료되었습니다!");
-                    openCompleteModal(); // 완료 모달 열기
+                    setIsCompleteModalOpen(true); // 교환 완료 모달 열기
                 } else {
                     alert("교환 처리 중 문제가 발생했습니다. 다시 시도해주세요.");
                 }
@@ -196,14 +229,10 @@ const DH_PointStoreMain = () => {
                 alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
             });
     };
-    const closeExchangeModal = () => setIsExchangeModalOpen(false);
-
-    const openCompleteModal = () => {
-        setSelectedItemComplete(selectedItemExchange); // 교환할 아이템 정보 저장
-        setIsExchangeModalOpen(false); // 이전 모달 닫기
-        setIsCompleteModalOpen(true); // 교환 완료 모달 열기
+    const closeCompleteModal = () => {
+        setIsCompleteModalOpen(false);  // 모달 닫기
+        window.location.reload();  // 페이지 리로드
     };
-    const closeCompleteModal = () => setIsCompleteModalOpen(false);
 
 
     return (
@@ -403,7 +432,7 @@ const DH_PointStoreMain = () => {
                             <h3>포인트 교환</h3>
                             
                             {/* 포인트가 있을 때와 없을 때 분기 */}
-                            {isPointsAvailable ? (
+                            {historyPoint >= selectedItemExchange.itemCost ? (
                                 <>
                                     <div className="dy-end-content">{selectedItemExchange.itemCost} 포인트를 사용하여 교환하시겠습니까?</div>
                                     <br />
@@ -443,7 +472,7 @@ const DH_PointStoreMain = () => {
                             <div className="dy-end-content">교환되었습니다.</div>
                             <br />
                             <div className="dy-end-content">{selectedItemComplete.itemCost} 포인트를 사용하였습니다.</div>
-                            <div className="dy-end-content">잔여 포인트는 32,000 포인트입니다.</div>
+                            <div className="dy-end-content">잔여 포인트는 {historyPoint  - selectedItemComplete.itemCost} 포인트입니다.</div>
                             <br />
                             <div className="dy-end-content">마이페이지를 확인해주세요.</div>
                             <div className="dy-one-btn">
