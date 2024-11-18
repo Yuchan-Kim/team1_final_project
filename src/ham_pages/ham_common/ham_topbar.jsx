@@ -6,15 +6,15 @@ import { useNavigate } from 'react-router-dom';
 import '../../ham_asset/css/ham_modal.css';
 import '../../ham_asset/css/ham_topbar.css';
 import storeIcon from '../../ham_asset/images/shopfront.png';
-// import { profileItems } from '../../ham_data/ham_profileData';
 import Modal from './ham_modal';
 import ProfileOptions from './ham_profileOptions';
 import profileStore from './profileStore';
 
-const Topbar = ({ userNum }) => {
+const Topbar = () => {
     const navigate = useNavigate();
     const [suggestions, setSuggestions] = useState([]); // 자동완성 목록 상태
     const [ownedProfileImages, setOwnedProfileImages] = useState([]); // 소유한 프로필 이미지 목록 상태
+
 
     // 자동완성 데이터 요청 함수
     const fetchRegionSuggestions = async (input) => {
@@ -40,17 +40,6 @@ const Topbar = ({ userNum }) => {
         }
     };
 
-    // 사용자 정보
-    const [userInfo, setUserInfo] = useState({
-        nickname: '',
-        region: '',
-        profileImage: '',
-        ongoingChallenges: 0,
-        upcomingChallenges: 0,
-        completedChallenges: 0,
-        participationScore: 0
-    });
-
     // 모달 상태
     const [modalState, setModalState] = useState({
         profile: false,
@@ -69,68 +58,53 @@ const Topbar = ({ userNum }) => {
     const [isCheckingNickname, setIsCheckingNickname] = useState(false);
     const [nicknameError, setNicknameError] = useState('');
 
-    // 사용자 데이터 가져오기
+    // 사용자 정보 상태
+    const [userInfo, setUserInfo] = useState({
+        nickname: profileStore.getNickname(),
+        region: profileStore.getRegion(),
+        profileImage: profileStore.getProfileImage(),
+        ownedProfileImages: profileStore.getOwnedProfileImages(),
+        challengesSummary: profileStore.getChallengesSummary(),
+        participationScore: profileStore.getChallengesSummary().participationScore
+    });
+
+    // profileStore 구독
     useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
-                const response = await axios.get(`${apiUrl}/api/user/${userNum}`);
-                if (response.data.result === 'success') {
-                    const { userInfo, challenges = { ongoing: [], upcoming: [], completed: [] } } = response.data.apiData;
-                    console.log("유저정보: ", userInfo);
-                    console.log("챌린지 요약정보: ", challenges);
-                    console.log("소유한 프로필 이미지: ", userInfo.ownedProfileImages);
+        const getProfileData = () => ({
+            profileImage: profileStore.getProfileImage(),
+            ownedProfileImages: profileStore.getOwnedProfileImages() || [], // 배열 보장
+            nickname: profileStore.getNickname(),
+            region: profileStore.getRegion(),
+            challengesSummary: profileStore.getChallengesSummary(),
+            participationScore: profileStore.getChallengesSummary().participationScore
+        });
 
-                    // userInfo가 존재하는지 확인하고 데이터 설정
-                    if (userInfo) {
-                        setUserInfo({
-                            nickname: userInfo.nickname,
-                            region: userInfo.region,
-                            profileImage: userInfo.profileImage,
-                            ongoingChallenges: userInfo.ongoingChallenges || challenges.ongoing.length,
-                            upcomingChallenges: userInfo.upcomingChallenges || challenges.upcoming.length,
-                            completedChallenges: userInfo.completedChallenges || challenges.completed.length,
-                            participationScore: userInfo.participationScore,
-                        });
-
-                        // 소유한 프로필 이미지 설정 (문자열인 경우 JSON.parse 처리)
-                        const ownedImages = typeof userInfo.ownedProfileImages === 'string'
-                            ? JSON.parse(userInfo.ownedProfileImages)
-                            : userInfo.ownedProfileImages || [];
-                        setOwnedProfileImages(ownedImages);
-                        
-                        profileStore.setUserInfo({
-                            userNum: userNum,
-                            nickname: userInfo.nickname,
-                            profileImage: userInfo.profileImage
-                        });
-                    }
-                }
-            } catch (error) {
-                console.error("사용자 정보를 불러오는 중 오류 발생:", error);
-            }
-        };
-
-        if (userNum) {
-            fetchUserData();
-        }
-
-        // profileStore 구독 설정
         const handleProfileChange = (updatedProfile) => {
+
+            console.log("ProfileStore updated:", updatedProfile);
+
+            const safeProfile = {
+                ...updatedProfile,
+                ownedProfileImages: updatedProfile.ownedProfileImages || [] // 배열 보장
+            };
+
+            console.log("Updated ownedProfileImages:", safeProfile.ownedProfileImages);
+
             setUserInfo(prev => ({
                 ...prev,
-                nickname: updatedProfile.nickname,
-                profileImage: updatedProfile.profileImage
+                ...safeProfile
             }));
+            setOwnedProfileImages(safeProfile.ownedProfileImages);
         };
-
+        // 초기 데이터 설정
+        handleProfileChange(getProfileData());
+        // 구독 추가
         profileStore.subscribe(handleProfileChange);
-
         // 컴포넌트 언마운트 시 구독 해제
         return () => {
             profileStore.unsubscribe(handleProfileChange);
         };
-    }, [userNum]);
+    }, []);
 
     // 모달 제어 함수
     const openModal = (type) => {
@@ -167,6 +141,12 @@ const Topbar = ({ userNum }) => {
     };
 
     const handleProfileConfirm = async () => {
+        const userNum = profileStore.getUserNum();
+        if (!userNum) {
+            alert("사용자 번호가 설정되지 않았습니다.");
+            return;
+        }
+
         if (!selectedProfileImage) {
             alert("프로필 이미지를 선택해주세요.");
             return;
@@ -174,8 +154,7 @@ const Topbar = ({ userNum }) => {
 
         try {
             const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
-            const response = await axios.put(`${apiUrl}/api/user/profile-image`, {
-                userNum: userNum,
+            const response = await axios.put(`${apiUrl}/api/user/${userNum}/update-profile`, {
                 profileImage: selectedProfileImage
             });
 
@@ -192,40 +171,51 @@ const Topbar = ({ userNum }) => {
     // 정보 변경 처리
     const handleChange = async (type) => {
         console.log(`${type} 변경 함수 호출됨`); // 함수 호출 확인
+        const userNum = profileStore.getUserNum();
+        if (!userNum) {
+            alert("사용자 번호가 설정되지 않았습니다.");
+            return;
+        }
         const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
-        console.log('API 요청 시작:', `${apiUrl}/api/user/${userNum}/updateAddress`, newAddress);
 
+        console.log(`API 요청 시작: /api/user/${userNum}/update${type === 'nickname' ? 'Nickname' : type.charAt(0).toUpperCase() + type.slice(1)}`, type === 'address' ? newAddress : '');
 
         try {
             let response;
-
             switch (type) {
                 case 'nickname':
                     if (!newNickname.trim()) {
                         alert("닉네임을 입력해주세요.");
                         return;
                     }
-
                     // 닉네임 중복 체크
                     setIsCheckingNickname(true);
                     const checkResponse = await axios.get(`${apiUrl}/api/user/checkNickname`, {
                         params: { nickname: newNickname.trim() }
                     });
                     setIsCheckingNickname(false);
-
                     const isAvailable = checkResponse.data.apiData;
-
                     if (!isAvailable) {
                         // 중복된 경우
                         setNicknameError("사용할 수 없는 닉네임입니다.");
                         setNewNickname(''); // 입력 창 비우기
                         return;
                     }
-
                     // 중복이 없는 경우 닉네임 업데이트 요청
                     response = await axios.put(`${apiUrl}/api/user/${userNum}/updateNickname`, {
                         nickname: newNickname.trim()
                     });
+
+                    if (response?.data.result === 'success') {
+                        // profileStore 업데이트
+                        profileStore.setNickname(newNickname.trim());
+                        // 로컬 상태도 직접 업데이트
+                        setUserInfo(prev => ({
+                            ...prev,
+                            nickname: newNickname.trim()
+                        }));
+                        closeModal('nickname');
+                    }
                     break;
 
                 case 'address':
@@ -234,10 +224,20 @@ const Topbar = ({ userNum }) => {
                         return;
                     }
 
-                    response = await axios.put(`${apiUrl}/api/user/${userNum}/updateAddress`,
-                        { region: newAddress.trim() },
-                        { headers: { 'Content-Type': 'application/json' } }
-                    );
+                    response = await axios.put(`${apiUrl}/api/user/${userNum}/updateAddress`, {
+                        region: newAddress.trim()
+                    }, { headers: { 'Content-Type': 'application/json' } });
+
+                    if (response?.data.result === 'success') {
+                        // profileStore에 지역 정보 업데이트
+                        profileStore.setRegion(newAddress.trim());
+                        // 로컬 상태 업데이트
+                        setUserInfo(prev => ({
+                            ...prev,
+                            region: newAddress.trim()
+                        }));
+                        closeModal('address');
+                    }
                     break;
 
                 case 'password':
@@ -266,6 +266,7 @@ const Topbar = ({ userNum }) => {
                         profileStore.setNickname(newNickname.trim());
                         break;
                     case 'address':
+                        // 지역 업데이트는 profileStore에 별도 로직 필요 (현재 userInfo 상태 업데이트)
                         setUserInfo(prev => ({ ...prev, region: newAddress.trim() }));
                         break;
                     case 'password':
@@ -334,9 +335,9 @@ const Topbar = ({ userNum }) => {
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{userInfo.ongoingChallenges}개</td>
-                            <td>{userInfo.upcomingChallenges}개</td>
-                            <td>{userInfo.completedChallenges}개</td>
+                            <td>{userInfo.challengesSummary.ongoing}개</td>
+                            <td>{userInfo.challengesSummary.upcoming}개</td>
+                            <td>{userInfo.challengesSummary.completed}개</td>
                             <td>
                                 {userInfo.participationScore > 0 ? (
                                     `${userInfo.participationScore}점`
@@ -486,6 +487,7 @@ const Topbar = ({ userNum }) => {
             </Modal>
         </div>
     );
+
 };
 
 export default Topbar;

@@ -10,10 +10,18 @@ import Topbar from './ham_common/ham_topbar';
 import ChartComponent from './ham_common/ham_ChartComponent';
 
 import '../ham_asset/css/ham_mypage.css';
+import profileStore from './ham_common/profileStore'; // profileStore 임포트
 
 const MyPage = () => {
     const navigate = useNavigate();
-    const userNum = 1; // 고정된 사용자 번호
+    const [userNum, setUserNum] = useState(profileStore.getUserNum());
+    const [userInfo, setUserInfo] = useState({
+        nickname: profileStore.getNickname(),
+        region: '',
+        profileImage: profileStore.getProfileImage(),
+        challengesSummary: profileStore.getChallengesSummary(),
+        participationScore: profileStore.getChallengesSummary().participationScore
+    });
 
     // 상태 관리
     const [chartData, setChartData] = useState([]);
@@ -26,46 +34,70 @@ const MyPage = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    // profileStore 구독
     useEffect(() => {
-        console.log("MyPage 마운트/업데이트됨");
-        const fetchData = async () => {
+        const handleProfileChange = (updatedProfile) => {
+            setUserNum(updatedProfile.userNum);
+            setUserInfo({
+                nickname: updatedProfile.nickname,
+                region: updatedProfile.region || '',
+                profileImage: updatedProfile.profileImage,
+                challengesSummary: updatedProfile.challengesSummary,
+                participationScore: updatedProfile.challengesSummary.participationScore
+            });
+            setChallenges({
+                ongoing: updatedProfile.challengesDetails.ongoing,
+                upcoming: updatedProfile.challengesDetails.upcoming,
+                completed: updatedProfile.challengesDetails.completed
+            });
+        };
+
+        profileStore.subscribe(handleProfileChange);
+
+        // 초기 데이터 설정
+        handleProfileChange({
+            profileImage: profileStore.getProfileImage(),
+            nickname: profileStore.getNickname(),
+            userNum: profileStore.getUserNum(),
+            challengesSummary: profileStore.getChallengesSummary(),
+            challengesDetails: profileStore.getChallengesDetails()
+        });
+
+        // 컴포넌트 언마운트 시 구독 해제
+        return () => {
+            profileStore.unsubscribe(handleProfileChange);
+        };
+    }, []);
+
+    // 챌린지 상세 데이터는 profileStore를 통해 이미 받아왔으므로 별도 API 호출 제거
+
+    // 차트 데이터 로드
+    useEffect(() => {
+        if (!userNum) {
+            console.log("userNum이 설정되지 않음. 데이터 요청하지 않음.");
+            return;
+        }
+
+        console.log("MyPage 차트 데이터 로딩 시작, userNum:", userNum);
+        const fetchChartData = async () => {
             setLoading(true);
             try {
                 const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
+                const response = await axios.get(`${apiUrl}/api/user/${userNum}/charts`);
 
-                // 병렬로 API 호출
-                const [chartResponse, userResponse] = await Promise.all([
-                    axios.get(`${apiUrl}/api/user/${userNum}/charts`),
-                    axios.get(`${apiUrl}/api/user/${userNum}`)
-                ]);
-
-                if (chartResponse.data.result === 'success') {
-                    setChartData(chartResponse.data.apiData || []);
-                }
-
-                if (userResponse.data.result === 'success') {
-                    const userData = userResponse.data.apiData;
-                    if (userData.challenges) {
-                        setChallenges(userData.challenges);
-                        console.log("챌린지데이따: ", userData.challenges);
-                    }
+                if (response.data.result === 'success') {
+                    setChartData(response.data.apiData || []);
                 }
             } catch (err) {
-                console.error("데이터를 불러오는 중 오류 발생:", err);
-                setError(err.response?.data?.message || "데이터를 불러오는 중 오류가 발생했습니다.");
+                console.error("차트 데이터를 불러오는 중 오류 발생:", err);
+                setError(err.response?.data?.message || "차트 데이터를 불러오는 중 오류가 발생했습니다.");
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchData();
-
-    }, []);
-
-    useEffect(() => {
-        console.log("현재 차트 데이터:", chartData);
-        console.log("현재 챌린지 데이터:", challenges);
-    }, [chartData, challenges]);
+        fetchChartData();
+    }, [userNum]);
 
     // 탭 클릭 핸들러
     const handleTabClick = (tab) => {
@@ -94,7 +126,7 @@ const MyPage = () => {
                 <div className="hmk_main-container">
                     <Sidebar />
                     <div className="hmk_main">
-                        <Topbar userNum={userNum} />
+                        <Topbar />
                         <div className="hmk_stat-container">
                             {chartData.map((chart, index) => (
                                 <div key={chart.id || index} className="hmk_stat-card" style={{ position: 'relative' }}>
@@ -138,7 +170,7 @@ const MyPage = () => {
                                     key={challenge.id || challenge.roomNum} // 고유한 key 속성 추가
                                     className="hmk_challenge-card"
                                     onClick={handleCardClick}
-                                    deprecated={(e) => {
+                                    onKeyDown={(e) => {
                                         if (e.key === 'Enter') handleCardClick();
                                     }}
                                     tabIndex="0"
@@ -166,6 +198,7 @@ const MyPage = () => {
             </div>
         </>
     );
+
 };
 
 export default MyPage;
