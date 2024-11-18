@@ -1,15 +1,14 @@
-// src/components/YCChat.jsx
-
+// YCChat.jsx
 import React, { useState, useRef, useEffect } from 'react';
+import axios from "axios";
+
 import '../yc_assets/yc_css/yc_css_challenge_chatroom.css';
 
 import { FaTimes } from 'react-icons/fa'; // 닫기 아이콘
 
-const YCChat = () => {
+const ChatRoom = ({ roomNum }) => { // props를 디스트럭처링하여 roomNum 받기
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { sender: 'bot', text: '안녕하세요! 무엇을 도와드릴까요?' },
-  ]);
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const chatBoxRef = useRef(null);
 
@@ -17,23 +16,61 @@ const YCChat = () => {
     setIsChatOpen(!isChatOpen);
   };
 
-  const handleSendMessage = (e) => {
+  const handleSendMessage = async (e) => {
     e.preventDefault();
     if (input.trim() === '') return;
-    setMessages([...messages, { sender: 'user', text: input }]);
-    setInput('');
+    
+    const newMessage = { 
+      roomNum, 
+      chatContent: input, 
+      chatter: 1 // 실제 사용자 번호로 대체 필요
+    };
 
-    // Simulate bot response
-    setTimeout(() => {
-      setMessages((prevMessages) => [...prevMessages, { sender: 'bot', text: '메시지를 받았습니다!' }]);
-    }, 1000);
+    try {
+      // 메시지를 백엔드로 전송
+      const response = await axios.post(`http://localhost:9000/api/chat/`, newMessage);
+      if (response.data.result === 'success') {
+        // 메시지 상태 업데이트
+        setMessages([...messages, { sender: 'user', text: input }]);
+        setInput('');
+      } else {
+        alert("메시지 전송에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("서버와의 통신에 실패했습니다.");
+    }
+  };
+
+  useEffect(() => {
+    if (roomNum) {
+      getAllMessages();
+    }
+  }, [roomNum]); // roomNum이 변경될 때마다 메시지 가져오기
+
+  // 전체 채팅 메시지 가져오기
+  const getAllMessages = async () => {
+    try {
+      const response = await axios.get(`http://localhost:9000/api/chat/${roomNum}`);
+      if (response.data.result === 'success') { 
+        setMessages(response.data.apiData.map(msg => ({
+          sender: msg.chatter === 1 ? 'user' : 'bot', // chatter에 따라 sender 설정
+          text: msg.chatContent,
+        })));
+      } else {
+        alert("채팅 메시지를 불러오는 데 문제가 있습니다.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("서버와의 통신에 실패했습니다.");
+    }
   };
 
   useEffect(() => {
     if (chatBoxRef.current) {
       chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [messages]); // 메시지가 업데이트될 때마다 스크롤 이동
 
   return (
     <>
@@ -89,4 +126,4 @@ const YCChat = () => {
   );
 };
 
-export default YCChat;
+export default ChatRoom;

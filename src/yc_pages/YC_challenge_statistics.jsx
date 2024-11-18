@@ -46,6 +46,7 @@ const YCChallengeStatistics = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
+
   // 프로필 모달 상태 관리
   const [isProfileOpen, setProfileOpen] = useState(false);
   const [profileUser, setProfileUser] = useState(null);
@@ -74,8 +75,6 @@ const YCChallengeStatistics = () => {
     setSelectedUser(null);
   };
 
-  // 프로필 모달 열기 함수
-  // 프로필 모달 열기 함수
   // 프로필 모달 열기 함수
   const openProfile = async (userNum) => {
     console.log('openProfile called with:', userNum); // 디버깅용 로그 추가
@@ -133,6 +132,7 @@ const YCChallengeStatistics = () => {
       console.error(error);
     });
   };
+
 
   // 전체 유저 목록 가져오기
   const fetchUsers = () => {
@@ -211,7 +211,7 @@ const YCChallengeStatistics = () => {
     labels: overallStats.map(stat => stat.date), // 제출 날짜 레이블
     datasets: [
       {
-        label: "전체 달성률",
+        label: "일일 달성률",
         data: overallStats.map(stat => stat.percentage), // 달성률 데이터
         fill: true,
         backgroundColor: "rgba(33, 150, 243, 0.2)",
@@ -241,7 +241,7 @@ const YCChallengeStatistics = () => {
       y: {
         title: {
           display: true,
-          text: "전체 달성률 (%)",
+          text: "일일 달성률 (%)",
           font: {
             size: 14,
             weight: 'bold',
@@ -388,15 +388,15 @@ const chartOptions = {
     ],
   } : null;
 
+
+
+
   return (
     <>
       {/* 상단 헤더 */}
       <TopHeader/>
       
-      <div className="yc-chart-container">
-          {/* 에러 메시지 표시 */}
-          {error && <div className="error-message">{error}</div>}
-          
+      <div className="yc-chart-container">          
           {/* Top 5 유저 랭킹 */}
           <div className="yc-top-rankings">
             <h3>Top 5 랭킹</h3>
@@ -568,7 +568,8 @@ const chartOptions = {
         </div>
       </div>
       {/* 채팅룸 컴포넌트 */}
-      <ChatRoom/>
+      {/* 채팅 컴포넌트 */}
+      <ChatRoom roomNum={roomNum}/>
 
        {/* 푸터 */}
        <Footert/>
