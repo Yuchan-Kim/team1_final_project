@@ -103,9 +103,9 @@ const DH_LoginForm = () => {
                     
                     <div className="dy-loginform-content">
                         <div className="dy-api-logins">
-                            <div className="dy-api-login">카카오로 가입하기</div>
-                            <div className="dy-api-login">Google로 가입하기</div>
-                            <div className="dy-api-login">네이버로 가입하기</div>
+                            <div className="dy-api-login">카카오로 계속하기</div>
+                            <div className="dy-api-login">Google로 계속하기</div>
+                            <div className="dy-api-login">네이버로 계속하기</div>
                         </div>
                         {/* /dy-api-logins */}
                         <div className="dy-middle">─────────── 또는 ───────────</div>

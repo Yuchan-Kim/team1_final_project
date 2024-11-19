@@ -3,9 +3,11 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 // import { useSearchParams} from 'react-router-dom';	파라미터값사용하는 라우터
 
 //import 컴포넌트
+import profileStore from '../../ham_pages/ham_common/profileStore'; // ProfileStore import 경로 확인 <<-- 민규 Topbar 사용-------------------------------------->>
 
 //import css
 import '../../css/dh_header.css';
@@ -14,12 +16,50 @@ import '../../css/dh_header.css';
 const DH_Header = () => {
 
 	/*---일반 변수 --------------------------------------------*/
-	// 로그인 전 1
-	// const state = 1;	
 	const [token, setToken] = useState(localStorage.getItem('token'));  // token 가져오는방법으로 초기값잡아주기
     const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem('authUser')));
 
 	const [historyPoint, setHistoryPoint] = useState(0);
+
+	// --------------------------------< 민규 Tobbar용 사용 >----------------------------------------------------------------------------------------------------
+
+	const [profile, setProfile] = useState({
+        nickname: profileStore.getNickname(),
+        profileImage: profileStore.getProfileImage(),
+        challengesSummary: profileStore.getChallengesSummary(),
+        ownedProfileImages: profileStore.getOwnedProfileImages(),
+        region: profileStore.getRegion(),
+        userNum: profileStore.getUserNum(),
+        challengesDetails: profileStore.getChallengesDetails(),
+    });
+   // ProfileStore 구독
+    useEffect(() => {
+        const handleProfileChange = (updatedProfile) => {
+            console.log("ProfileStore updated:", updatedProfile);
+            setProfile(updatedProfile);
+        };
+        profileStore.subscribe(handleProfileChange);
+        // 초기 구독자 호출
+        handleProfileChange({
+            nickname: profileStore.getNickname(),
+            profileImage: profileStore.getProfileImage(),
+            challengesSummary: profileStore.getChallengesSummary(),
+            ownedProfileImages: profileStore.getOwnedProfileImages(),
+            region: profileStore.getRegion(),
+            userNum: profileStore.getUserNum(),
+            challengesDetails: profileStore.getChallengesDetails(),
+        });
+        return () => {
+            profileStore.unsubscribe(handleProfileChange);
+        };
+    }, []);
+
+    // 로그인 시 ProfileStore에 토큰 전달
+    useEffect(() => {
+        profileStore.setToken(token);
+    }, [token]);
+
+   // --------------------------------< /민규 Tobbar용 사용 >----------------------------------------------------------------------------------------------------
 
 	const navigate = useNavigate();
 
@@ -33,6 +73,26 @@ const DH_Header = () => {
     // 유저 포인트
     const getUserPoints = () => {
 		if (!token || !authUser) return;
+
+		// JWT 토큰 만료 확인
+		const isTokenExpired = (token) => {
+			try {
+				const decoded = jwtDecode(token);
+				const currentTime = Date.now() / 1000; // 현재 시간(초 단위)
+				return decoded.exp < currentTime; // 만약 토큰이 만료되었으면 true 반환
+			} catch (error) {
+				return true; // 토큰 디코드 실패 시 만료된 것으로 처리
+			}
+		};
+
+		// 만약 토큰이 만료되었으면 로그아웃 처리
+		if (isTokenExpired(token)) {
+			localStorage.removeItem('token');
+			localStorage.removeItem('authUser');
+			navigate("/user/loginform"); // 로그아웃 후 로그인 페이지로 이동
+			alert("일정시간이 지나 로그아웃 됐습니다. 다시 로그인하고 이용해주세요.");
+			return;
+		}
 	
 		axios({
 			method: 'get', // HTTP 메서드 설정 (GET 요청)
@@ -64,6 +124,9 @@ const DH_Header = () => {
 	const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('authUser');
+		// --------------------------------< 민규 Tobbar용 사용 >--------------------------------
+		profileStore.setToken(null); // ProfileStore에 토큰 제거를 요청하여 모든 사용자 정보를 초기화합니다.
+		// --------------------------------< /민규 Tobbar용 사용 >--------------------------------
         setToken(null);
         setAuthUser(null);
 		navigate("/user/loginform");  
@@ -105,7 +168,7 @@ const DH_Header = () => {
 						):(
 							<>
 								<div className="dy-afterlogin">
-									<Link to="">
+									<Link to="/user/mypage">
 										<img src="../images/profile.png" className="dy-header-profile" alt="profile" />
 									</Link>
 									<ol className="dy-header-login-info">

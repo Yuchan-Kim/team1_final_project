@@ -1,53 +1,323 @@
-// src/ham_pages/ham_common/profileStore.jsx
+import defaultProfile from '../../ham_asset/images/profile-fill.png';
 
 class ProfileStore {
     constructor() {
-        this.profileImage = require('../../ham_asset/images/profile-fill.png'); // 기본 프로필 이미지
-        this.nickname = "씽씽이김유찬"; // 기본 닉네임
+        // localStorage에서 사용자 정보 불러오기 (변경 없음)
+        this.profileImage = localStorage.getItem('profileImage') || defaultProfile;
+        this.nickname = localStorage.getItem('nickname') || "비회원";
+        this.userNum = parseInt(localStorage.getItem('userNum')) || this.getUserNumFromAuthUser();
+        this.region = localStorage.getItem('region') || "미설정";
+        console.log('로컬스토리지에 저장된 지역명: ', this.region); // 디버깅용 로그
+        this.ownedProfileImages = this.initializeOwnedProfileImages();
+        this.challengesSummary = {
+            ongoing: 0,
+            upcoming: 0,
+            completed: 0,
+            participationScore: 0
+        };
+        this.challengesDetails = {
+            ongoing: [],
+            upcoming: [],
+            completed: []
+        };
+        this.token = localStorage.getItem('token') || null;
         this.subscribers = [];
+
+        // userNum이 authUser에서 추출되었다면 localStorage에 저장
+        if (this.userNum) {
+            localStorage.setItem('userNum', String(this.userNum));
+        }
+
+        if (this.token) {
+            this.loadUserData();
+        }
+    }
+    
+    // authUser에서 userNum 추출
+    getUserNumFromAuthUser() {
+        const authUserStr = localStorage.getItem('authUser');
+        try {
+            const authUser = JSON.parse(authUserStr);
+            return authUser?.userNum || null;
+        } catch (error) {
+            console.error('Failed to parse authUser from localStorage:', error);
+            return null;
+        }
     }
 
-    // 현재 프로필 이미지 반환
+    // ownedProfileImages 초기화
+    initializeOwnedProfileImages() {
+        const storedImages = localStorage.getItem('ownedProfileImages');
+        try {
+            if (!storedImages) return [];
+            const parsedImages = JSON.parse(storedImages);
+            return Array.isArray(parsedImages) ? parsedImages : [parsedImages];
+        } catch (error) {
+            console.error('Failed to parse ownedProfileImages from localStorage:', error);
+            return [];
+        }
+    }
+
+    // 토큰 설정 및 사용자 데이터 로드
+    setToken(token) {
+        this.token = token;
+        if (token) {
+            localStorage.setItem('token', token);
+            // authUser에서 userNum 추출하여 설정
+            this.userNum = this.getUserNumFromAuthUser();
+            if (this.userNum) {
+                localStorage.setItem('userNum', String(this.userNum));
+                this.loadUserData();
+            } else {
+                console.error('userNum is not available from authUser');
+                this.resetUserData();
+            }
+        } else {
+            localStorage.removeItem('nickname');
+            localStorage.removeItem('ownedProfileImages');
+            localStorage.removeItem('profileImage');
+            localStorage.removeItem('region');
+            localStorage.removeItem('userNum');
+            this.resetUserData();
+        }
+    }
+
+    // loadUserData 메소드 전면 수정
+    async loadUserData() {
+        if (!this.userNum) {
+            console.error('유저번호가 없어 데이터를 불러올 수 없습니다.');
+            return;
+        }
+
+        try {
+            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
+            const response = await fetch(`${apiUrl}/api/user/${this.userNum}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${this.token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            const data = await response.json();
+
+            if (data.result === 'success' && data.apiData?.userInfo) {
+                const userData = data.apiData.userInfo;
+                console.log("프로필 스토어가 받은 유저 정보: ", userData);
+
+                // 챌린지 요약 정보 처리
+                const challengesSummary = {
+                    ongoing: Number(userData.ongoingChallenges) || 0,
+                    upcoming: Number(userData.upcomingChallenges) || 0,
+                    completed: Number(userData.completedChallenges) || 0,
+                    participationScore: Number(userData.participationScore) || 0
+                };
+                console.log("프로필 스토어에서 받은 요약", challengesSummary);
+                // 챌린지 상세 정보 처리 
+                const challengesDetails = {
+                    ongoing: Array.isArray(data.apiData.challenges?.ongoing) ? data.apiData.challenges.ongoing : [],
+                    upcoming: Array.isArray(data.apiData.challenges?.upcoming) ? data.apiData.challenges.upcoming : [],
+                    completed: Array.isArray(data.apiData.challenges?.completed) ? data.apiData.challenges.completed : []
+                };
+                console.log("프로필 스토어에서 받은 챌린지 목록: ", challengesDetails);
+                // 프로필 이미지 처리 개선
+                const processedProfileImages = this.processProfileImages(userData.ownedProfileImages);
+
+                // 데이터 업데이트
+                this.updateUserData({
+                    profileImage: userData.profileImage || this.defaultProfile,
+                    ownedProfileImages: processedProfileImages,
+                    nickname: userData.nickname || this.nickname,
+                    region: userData.region || this.region,
+                    userNum: userData.userNum || this.userNum,
+                    challengesSummary,
+                    challengesDetails
+                });
+            } else {
+                console.error('Failed to fetch user data:', data.message);
+                this.resetUserData();
+            }
+        } catch (error) {
+            console.error('유저 정보를 불러오는데 실패 했습니다:', error);
+            this.handleError(error);
+        }
+    }
+
+    // 프로필 이미지 처리
+    processProfileImages(images) {
+        if (typeof images === 'string') {
+            try {
+                const parsed = JSON.parse(images);
+                return Array.isArray(parsed) ? parsed : [images];
+            } catch {
+                return [images];
+            }
+        }
+        return Array.isArray(images) ? images : [];
+    }
+
+    // 에러 처리
+    handleError(error) {
+        this.setChallengesSummary({
+            ongoing: 0,
+            upcoming: 0,
+            completed: 0,
+            participationScore: 0
+        });
+        this.setChallengesDetails({
+            ongoing: [],
+            upcoming: [],
+            completed: []
+        });
+    }
+
+    // 사용자 데이터 일괄 업데이트
+    updateUserData(data) {
+        this.setProfileImage(data.profileImage);
+        this.setOwnedProfileImages(data.ownedProfileImages);
+        this.setNickname(data.nickname);
+        this.setRegion(data.region);
+        this.setUserNum(data.userNum);
+        this.setChallengesSummary(data.challengesSummary);
+        this.setChallengesDetails(data.challengesDetails);
+    }
+
+    // getProfileImage 메소드 
     getProfileImage() {
         return this.profileImage;
     }
 
-    // 프로필 이미지 업데이트 및 구독자에게 알림
+    // setProfileImage 메소드 
     setProfileImage(newImage) {
         this.profileImage = newImage;
+        localStorage.setItem('profileImage', newImage);
         this.notifySubscribers();
     }
 
-    // 현재 닉네임 반환
+    // getOwnedProfileImages 메소드 
+    getOwnedProfileImages() {
+        const images = Array.isArray(this.ownedProfileImages) ? this.ownedProfileImages : [];
+        return images.filter(img => typeof img === 'string' && img.trim().length > 0);
+    }
+
+    // setOwnedProfileImages 메소드 
+    setOwnedProfileImages(images) {
+        const processedImages = this.processProfileImages(images)
+            .filter(img => typeof img === 'string' && img.trim().length > 0);
+        this.ownedProfileImages = processedImages;
+        localStorage.setItem('ownedProfileImages', JSON.stringify(processedImages));
+        this.notifySubscribers();
+    }
+
     getNickname() {
         return this.nickname;
     }
 
-    // 닉네임 업데이트 및 구독자에게 알림
     setNickname(newNickname) {
         this.nickname = newNickname;
+        localStorage.setItem('nickname', newNickname);
         this.notifySubscribers();
     }
 
-    // 구독자 추가
+    getRegion() {
+        return this.region;
+    }
+
+    setRegion(newRegion) {
+        if (typeof newRegion === 'string') {
+            this.region = newRegion.trim();
+            localStorage.setItem('region', this.region);
+            console.log('Region updated:', this.region); // 디버깅용 로그
+            this.notifySubscribers();
+        } else {
+            console.warn('Invalid region value:', newRegion);
+        }
+    }
+
+    getUserNum() {
+        return this.userNum;
+    }
+
+    setUserNum(newUserNum) {
+        this.userNum = newUserNum;
+        localStorage.setItem('userNum', String(newUserNum));
+        // this.loadUserData();
+        this.notifySubscribers();
+    }
+
+    getChallengesSummary() {
+        return this.challengesSummary;
+    }
+
+    setChallengesSummary(newSummary) {
+        this.challengesSummary = newSummary;
+        this.notifySubscribers();
+    }
+
+    getChallengesDetails() {
+        return this.challengesDetails;
+    }
+
+    setChallengesDetails(newDetails) {
+        this.challengesDetails = newDetails;
+        this.notifySubscribers();
+    }
+
+    setUserInfo(userInfo) {
+        this.setUserNum(userInfo.userNum);
+        this.setNickname(userInfo.nickname);
+        this.setRegion(userInfo.region);
+        this.setProfileImage(userInfo.profileImage);
+        this.setOwnedProfileImages(userInfo.ownedProfileImages);
+        this.setChallengesSummary(userInfo.challengesSummary || {
+            ongoing: 0,
+            upcoming: 0,
+            completed: 0,
+            participationScore: 0
+        });
+    }
+
     subscribe(callback) {
         this.subscribers.push(callback);
     }
 
-    // 구독자 제거
     unsubscribe(callback) {
         this.subscribers = this.subscribers.filter(sub => sub !== callback);
     }
 
-    // 구독자에게 변경 사항 알림
     notifySubscribers() {
-        this.subscribers.forEach(callback => callback({
+        const updatedProfile = {
             profileImage: this.profileImage,
-            nickname: this.nickname
-        }));
+            ownedProfileImages: this.ownedProfileImages,
+            nickname: this.nickname,
+            region: this.region,
+            userNum: this.userNum,
+            challengesSummary: this.challengesSummary,
+            challengesDetails: this.challengesDetails
+        };
+        this.subscribers.forEach(callback => callback(updatedProfile));
+    }
+
+    // 사용자 데이터 초기화
+    resetUserData() {
+        this.profileImage = defaultProfile;
+        this.nickname = "비회원";
+        this.userNum = null;
+        this.region = "UnKnown";
+        this.ownedProfileImages = [];
+        this.challengesSummary = {
+            ongoing: 0,
+            upcoming: 0,
+            completed: 0,
+            participationScore: 0
+        };
+        this.challengesDetails = {
+            ongoing: [],
+            upcoming: [],
+            completed: []
+        };
+        this.notifySubscribers();
     }
 }
 
-// 싱글톤 인스턴스 생성 및 내보내기
 const profileStore = new ProfileStore();
 export default profileStore;

@@ -286,7 +286,8 @@ const DH_PointStoreMain = () => {
                                 .filter(item => item.itemBrandName === "꾸미기")  
                                 .map(item => (
                                     <div key={item.itemNum} className="dy-product-info" onClick={() => openDetailModal(item)}>
-                                        <img src={item.itemImg} className="dy-pointstore-pointproduct" alt={item.itemName} />
+                                        <img src={`/images/${item.itemImg}`} className="dy-pointstore-pointproduct" alt={item.itemName} />
+                                        {/* src={`${process.env.REACT_APP_API_URL}/upload/${item.itemImg}`} */}
                                         <div className="dy-product-details">
                                             <h3>{item.itemName}</h3>
                                             <p>{item.itemCost} P</p>
@@ -308,7 +309,7 @@ const DH_PointStoreMain = () => {
                                 .filter(item => item.itemBrandName === '스타벅스') 
                                 .map(item => (
                                     <div key={item.itemNum} className="dy-product-info" onClick={() => openDetailModal(item)}>
-                                        <img src={item.itemImg} className="dy-pointstore-pointproduct" alt={item.itemName} />
+                                        <img src={`/images/${item.itemImg}`} className="dy-pointstore-pointproduct" alt={item.itemName} />
                                         <div className="dy-product-details">
                                             <h3>{item.itemBrandName}</h3>
                                             <h4>{item.itemName}</h4>
@@ -331,7 +332,7 @@ const DH_PointStoreMain = () => {
                                 .filter(item => item.itemBrandName === '배스킨라빈스') 
                                 .map(item => (
                                     <div key={item.itemNum} className="dy-product-info" onClick={() => openDetailModal(item)}>
-                                        <img src={item.itemImg} className="dy-pointstore-pointproduct" alt={item.itemName} />
+                                        <img src={`/images/${item.itemImg}`} className="dy-pointstore-pointproduct" alt={item.itemName} />
                                         <div className="dy-product-details">
                                             <h3>{item.itemBrandName}</h3>
                                             <h4>{item.itemName}</h4>
@@ -353,7 +354,7 @@ const DH_PointStoreMain = () => {
                                 .filter(item => item.itemBrandName === '투썸플레이스') 
                                 .map(item => (
                                     <div key={item.itemNum} className="dy-product-info" onClick={() => openDetailModal(item)}>
-                                        <img src={item.itemImg} className="dy-pointstore-pointproduct" alt={item.itemName} />
+                                        <img src={`/images/${item.itemImg}`} className="dy-pointstore-pointproduct" alt={item.itemName} />
                                         <div className="dy-product-details">
                                             <h3>{item.itemBrandName}</h3>
                                             <h4>{item.itemName}</h4>
@@ -372,10 +373,10 @@ const DH_PointStoreMain = () => {
                         <h2 className="dy-product-header">메가커피 기프티콘으로 교환</h2>
                         <div  className="dy-product-section">
                             {itemList
-                                .filter(item => item.itemBrandName === '메가커피') 
+                                .filter(item => item.itemBrandName === '메가MGC커피') 
                                 .map(item => (
                                     <div key={item.itemNum} className="dy-product-info" onClick={() => openDetailModal(item)}>
-                                        <img src={item.itemImg} className="dy-pointstore-pointproduct" alt={item.itemName} />
+                                        <img src={`/images/${item.itemImg}`} className="dy-pointstore-pointproduct" alt={item.itemName} />
                                         <div className="dy-product-details">
                                             <h3>{item.itemBrandName}</h3>
                                             <h4>{item.itemName}</h4>
@@ -402,7 +403,7 @@ const DH_PointStoreMain = () => {
                                 <button type="button" onClick={closeDetailModal} className="dy-close-btn">&times;</button>
                             </div>
                             <div className="dy-detailContent">
-                                <img src={selectedItem.itemImg} className="dy-detailContent-pointproduct" alt={selectedItem.itemName} />
+                                <img src={`/images/${selectedItem.itemImg}`} className="dy-detailContent-pointproduct" alt={selectedItem.itemName} />
                                 <div className="dy-detailContent-left">
                                     <div className="dy-product-brand">{selectedItem.itemBrandName}</div>
                                     <div className="dy-product-name">{selectedItem.itemName}</div>

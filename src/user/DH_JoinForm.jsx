@@ -167,6 +167,12 @@ const DH_JoinForm = () => {
             return;
         }
 
+        // 비밀번호와 재입력한 비밀번호 일치 여부 확인
+        if (!pwMatch) {
+            alert("비밀번호 재입력하여 비밀번호를 확인해주세요.");
+            return;
+        }
+
         const userVo= {
             userEmail: userEmail,
             userPw: userPw,
@@ -263,9 +269,9 @@ const DH_JoinForm = () => {
                             <div>─────────── 또는 ───────────</div>
 
                             <div className="dy-api-joins">
-                                <div className="dy-api-join">카카오로 계속하기</div>
-                                <div className="dy-api-join">Google로 계속하기</div>
-                                <div className="dy-api-join">네이버로 계속하기</div>
+                                <div className="dy-api-join">카카오로 가입하기</div>
+                                <div className="dy-api-join">Google로 가입하기</div>
+                                <div className="dy-api-join">네이버로 가입하기</div>
                             </div>
 
                             <div className="dy-to-loginform"><Link to="/user/loginform" className="dy-link" rel="noreferrer noopener">이미 계정이 있나요? 여기에서 로그인하세요</Link></div>
