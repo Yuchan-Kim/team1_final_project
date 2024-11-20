@@ -127,7 +127,7 @@ const DH_Header = () => {
         if (token && authUser) {
             getUserPoints();  // 로그인 상태일 때 포인트 정보 가져오기
         }
-    }, [token, authUser.userName]);
+    }, [token, authUser?.userName]);
 
    const handleLogout = () => {
         localStorage.removeItem('token');
@@ -180,7 +180,7 @@ const DH_Header = () => {
                               <img src="../images/profile.png" className="dy-header-profile" alt="profile" />
                            </Link>
                            <ol className="dy-header-login-info">
-                              <li className="dy-header-nickname">{authUser.userName}</li>
+                              <li className="dy-header-nickname">{authUser?.userName}</li>
                               <li className="dy-header-pointNlogout">
                                  <div className="dy-header-point">
                                     <img src="../images/point.png" alt="point" />
