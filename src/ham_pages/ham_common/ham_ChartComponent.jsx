@@ -12,7 +12,7 @@ const ChartComponent = ({ chart }) => {
     const displayValue = chart.displayValue || '0.0%';
 
     // 데이터 포맷팅: totalCount가 0이면 미완료만 표시
-    const data = totalCount === 0 ? [{ name: '미완료', value: 1 }] : [
+    const data = totalCount === 0 ? [{ name: '미션없음', value: 1 }] : [
         { name: '완료', value: attendedCount },
         { name: '미완료', value: totalCount - attendedCount }
     ];
@@ -41,7 +41,19 @@ const ChartComponent = ({ chart }) => {
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                     </Pie>
-                    <Tooltip />
+                    <Tooltip content={({ active, payload }) => {
+                        if (active && payload && payload.length) {
+                            if (payload[0].payload.name === '미션없음') {
+                                return null;
+                            }
+                            return (
+                                <div style={{ background: '#fff', padding: '5px', border: '1px solid #ccc' }}>
+                                    {`${payload[0].name}: ${payload[0].value}`}
+                                </div>
+                            );
+                        }
+                        return null;
+                    }} />
                 </PieChart>
             </ResponsiveContainer>
             <div

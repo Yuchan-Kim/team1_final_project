@@ -60,7 +60,7 @@ const MyPage = () => {
             return;
         }
 
-       // console.log("MyPage 차트 데이터 로딩 시작, userNum:", userNum);
+        // console.log("MyPage 차트 데이터 로딩 시작, userNum:", userNum);
         const fetchChartData = async () => {
             setLoading(true);
             try {
@@ -92,7 +92,7 @@ const MyPage = () => {
                     const formattedPerformance = performance.map(chart => ({
                         chartTitle: chart.chartTitle,
                         ratioDisplay: chart.ratioDisplay,
-                        percentage: chart.percentage, 
+                        percentage: chart.percentage,
                         attendedCount: chart.attendedCount,
                         totalCount: chart.totalCount,
                         displayValue: chart.displayValue || '0.0%',
@@ -164,7 +164,7 @@ const MyPage = () => {
                                     color: chart.color, // 일반방 파란색
                                     zeroColor: chart.zeroColor // 연한 파란색 회색
                                 };
-                               // console.log("Formatted Performance Chart:", formattedChart); // 변환된 차트 데이터 로그
+                                // console.log("Formatted Performance Chart:", formattedChart); // 변환된 차트 데이터 로그
 
                                 return (
                                     <div key={`performance-${index}`} className="hmk_stat-card" style={{ position: 'relative' }}>
@@ -188,7 +188,7 @@ const MyPage = () => {
                                     displayValue: chart.displayValue, // 중앙에 표시할 값
                                     color: '#FF5722' // 다른 색상 설정
                                 };
-                             //   console.log("Formatted Achievement Chart:", formattedChart); // 변환된 차트 데이터 로그
+                                //   console.log("Formatted Achievement Chart:", formattedChart); // 변환된 차트 데이터 로그
 
                                 return (
                                     <div key={`achievement-${index}`} className="hmk_stat-card" style={{ position: 'relative' }}>
@@ -241,9 +241,13 @@ const MyPage = () => {
                                     style={{ cursor: 'pointer' }}
                                 >
                                     <img
-                                        src={`/images/${challenge.image}`}
-                                        alt={`챌린지 ${challenge.roomTitle}`} // alt 속성 수정
+                                        src={`${process.env.REACT_APP_API_URL}${challenge.roomThumbNail}`}
+                                        alt={`챌린지 ${challenge.roomTitle}`}
                                         className="hmk_challenge-image"
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = '/images/default-thumbnail.gif'; // 기본 이미지 경로
+                                        }}
                                     />
                                     <div className="hmk_challenge-details">
                                         <div className="hmk_challenge-datebox">
