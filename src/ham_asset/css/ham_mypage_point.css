@@ -75,6 +75,7 @@
     background-color: white; /* 기본 배경색 */
     cursor: pointer; /* 마우스 커서 변경 */
     transition: background-color 0.3s; /* 배경색 전환 효과 */
+    width: max-content;
 }
 /* 좌측 버튼 스타일 (둥글게) */
 .wrap .hmk_main-container .hmk_toggle-button:first-child {
@@ -141,6 +142,7 @@
     font-size: 12px;
     align-content: center;
     flex-wrap: wrap;
+    width: max-content;
 }
 .wrap .hmk_main-container .hmk_main .hmk_point-filter .hmk_date-options .hmk_date-button {
     height: fit-content;
@@ -180,6 +182,7 @@
     border-radius: 5px; /* 모서리 둥글게 */
     cursor: pointer; /* 마우스 커서 변경 */
     transition: background-color 0.3s; /* 배경색 전환 효과 */
+    width: max-content;
 }
 /* 검색 버튼 호버 효과 */
 .wrap .hmk_main-container .hmk_main .hmk_point-filter .hmk_search-button:hover {

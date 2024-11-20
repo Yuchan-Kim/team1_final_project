@@ -132,10 +132,16 @@
     border-radius: 8px; /* 모서리 둥글게 */
 }
 
+.chart-wrapper {
+    width: 160px; /* 원하는 크기로 조정 */
+    height: 160px; /* 원하는 크기로 조정 */
+}
+
 /* 통계 카드 스타일 */
 .wrap .hmk_main .hmk_stat-container .hmk_stat-card {
     width: 300px;
     min-width: 288px;
+    height: 150px;
     padding: 15px;
     background-color: white;
     border-radius: 12px; /* 카드 모서리를 둥글게 */
@@ -150,7 +156,6 @@
 .wrap .hmk_main .hmk_stat-container .hmk_stat-card .hmk_chart {
     position: relative;
     flex-shrink: 0; /* 차트가 축소되지 않도록 */
-    margin-right: 15px; /* 차트와 정보 사이의 간격 */
 }
 
 /* 차트 중앙 텍스트 스타일 설정 */
@@ -173,6 +178,9 @@
     display: flex;
     flex-direction: column; /* 정보를 세로로 배치 */
     justify-content: center; /* 세로 중앙 정렬 */
+    overflow-wrap: break-word;
+    word-break: keep-all;
+    line-height: 1.5;
 }
 
 /* 통계 카드 타이틀 */

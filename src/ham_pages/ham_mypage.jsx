@@ -24,7 +24,8 @@ const MyPage = () => {
     });
 
     // 상태 관리
-    const [chartData, setChartData] = useState([]);
+    const [performanceCharts, setPerformanceCharts] = useState([]);
+    const [achievementCharts, setAchievementCharts] = useState([]);
     const [challenges, setChallenges] = useState({
         ongoing: [],
         upcoming: [],
@@ -69,24 +70,80 @@ const MyPage = () => {
         };
     }, []);
 
-    // 챌린지 상세 데이터는 profileStore를 통해 이미 받아왔으므로 별도 API 호출 제거
-
     // 차트 데이터 로드
     useEffect(() => {
         if (!userNum) {
-            console.log("userNum이 설정되지 않음. 데이터 요청하지 않음.");
+            //("userNum이 설정되지 않음. 데이터 요청하지 않음.");
             return;
         }
 
-        console.log("MyPage 차트 데이터 로딩 시작, userNum:", userNum);
+       // console.log("MyPage 차트 데이터 로딩 시작, userNum:", userNum);
         const fetchChartData = async () => {
             setLoading(true);
             try {
                 const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
                 const response = await axios.get(`${apiUrl}/api/user/${userNum}/charts`);
 
+                //console.log("API 응답:", response.data); // API 응답 로그 추가
+
                 if (response.data.result === 'success') {
-                    setChartData(response.data.apiData || []);
+                    const apiData = response.data.apiData || {};
+                    // performance와 achievement로 분리하여 상태 업데이트
+                    const performance = apiData.performance ? Object.values(apiData.performance) : [];
+                    const achievement = apiData.achievement ? Object.values(apiData.achievement) : [];
+
+                  //  console.log("Performance Charts:", performance); // Performance 차트 데이터 로그
+                   // console.log("Achievement Charts:", achievement); // Achievement 차트 데이터 로그
+
+                    // 원하는 차트 순서 정의
+                    const performanceOrder = [
+                        '일반방 미션 수행률',
+                        '챌린지방 미션 수행률',
+                        '전체 미션 수행률'
+                    ];
+
+                    const achievementOrder = [
+                        '일반방 미션 달성률',
+                        '챌린지방 미션 달성률',
+                        '전체 미션 달성률'
+                    ];
+
+                    // 성과 차트 정렬
+                    performance.sort((a, b) => performanceOrder.indexOf(a.chartTitle) - performanceOrder.indexOf(b.chartTitle));
+                    // 달성 차트 정렬
+                    achievement.sort((a, b) => achievementOrder.indexOf(a.chartTitle) - achievementOrder.indexOf(b.chartTitle));
+
+                 //   console.log("Sorted Performance Charts:", performance); // 정렬된 Performance 차트 데이터 로그
+                 //   console.log("Sorted Achievement Charts:", achievement); // 정렬된 Achievement 차트 데이터 로그
+
+                    // Performance 차트에 zeroColor 추가 (연한 파란색 회색)
+                    const formattedPerformance = performance.map(chart => ({
+                        chartTitle: chart.chartTitle,
+                        ratioDisplay: chart.ratioDisplay,
+                        percentage: chart.percentage, 
+                        attendedCount: chart.attendedCount,
+                        totalCount: chart.totalCount,
+                        displayValue: chart.displayValue || '0.0%',
+                        color: '#3a7afe', // 일반방 파란색
+                        zeroColor: '#b4b4b4' // 연한 파란색 회색
+                    }));
+
+                    // Achievement 차트에 zeroColor 추가 (연한 붉은색 회색)
+                    const formattedAchievement = achievement.map(chart => ({
+                        chartTitle: chart.chartTitle,
+                        ratioDisplay: chart.ratioDisplay,
+                        percentage: chart.percentage,
+                        attendedCount: chart.attendedCount,
+                        totalCount: chart.totalCount,
+                        displayValue: chart.displayValue || '0.0%',
+                        color: '#FF5722', // 챌린지방 붉은색
+                        zeroColor: '#e5e5e5' // 연한 붉은색 회색
+                    }));
+
+                    setPerformanceCharts(formattedPerformance);
+                    setAchievementCharts(formattedAchievement);
+                } else {
+                    setError("차트 데이터를 불러오는 데 실패했습니다.");
                 }
             } catch (err) {
                 console.error("차트 데이터를 불러오는 중 오류 발생:", err);
@@ -128,18 +185,55 @@ const MyPage = () => {
                     <div className="hmk_main">
                         <Topbar />
                         <div className="hmk_stat-container">
-                            {chartData.map((chart, index) => (
-                                <div key={chart.id || index} className="hmk_stat-card" style={{ position: 'relative' }}>
-                                    <div className="hmk_chart">
-                                        <ChartComponent chart={chart} />
+                            {/* Performance 차트 렌더링 */}
+                            {performanceCharts.map((chart, index) => {
+                                // ChartComponent에 전달할 데이터 구성
+                                const formattedChart = {
+                                    attendedCount: chart.attendedCount,
+                                    totalCount: chart.totalCount,
+                                    displayValue: chart.displayValue, // 중앙에 표시할 값
+                                    color: chart.color, // 일반방 파란색
+                                    zeroColor: chart.zeroColor // 연한 파란색 회색
+                                };
+                               // console.log("Formatted Performance Chart:", formattedChart); // 변환된 차트 데이터 로그
+
+                                return (
+                                    <div key={`performance-${index}`} className="hmk_stat-card" style={{ position: 'relative' }}>
+                                        <div className="hmk_chart">
+                                            {/* ChartComponent에 변환된 데이터 전달 */}
+                                            <ChartComponent chart={formattedChart} />
+                                        </div>
+                                        <div className="hmk_stat-info">
+                                            <p className="hmk_stat-title">{chart.chartTitle}</p>
+                                            <p className="hmk_stat-data">{chart.ratioDisplay} ({chart.percentage}%)</p>
+                                        </div>
                                     </div>
-                                    <div className="hmk_stat-info">
-                                        <p className="hmk_stat-title">{chart.title}</p>
-                                        <p className="hmk_stat-data">{chart.stat}</p>
-                                        <Link to="#" className="hmk_stat-link">{chart.link}</Link>
+                                );
+                            })}
+                            {/* Achievement 차트 렌더링 */}
+                            {achievementCharts.map((chart, index) => {
+                                // ChartComponent에 전달할 데이터 구성
+                                const formattedChart = {
+                                    attendedCount: chart.attendedCount,
+                                    totalCount: chart.totalCount,
+                                    displayValue: chart.displayValue, // 중앙에 표시할 값
+                                    color: '#FF5722' // 다른 색상 설정
+                                };
+                             //   console.log("Formatted Achievement Chart:", formattedChart); // 변환된 차트 데이터 로그
+
+                                return (
+                                    <div key={`achievement-${index}`} className="hmk_stat-card" style={{ position: 'relative' }}>
+                                        <div className="hmk_chart">
+                                            {/* ChartComponent에 변환된 데이터 전달 */}
+                                            <ChartComponent chart={formattedChart} />
+                                        </div>
+                                        <div className="hmk_stat-info">
+                                            <p className="hmk_stat-title">{chart.chartTitle}</p>
+                                            <p className="hmk_stat-data">{chart.ratioDisplay} ({chart.percentage}%)</p>
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                         <div className="hmk_tab-menu">
                             <button
@@ -167,7 +261,7 @@ const MyPage = () => {
                         <div className="hmk_challenge-list">
                             {activeChallenges.map((challenge) => (
                                 <div
-                                    key={challenge.id || challenge.roomNum} // 고유한 key 속성 추가
+                                    key={`challenge-${challenge.roomNum || challenge.id}`} // 고유한 key 속성 추가
                                     className="hmk_challenge-card"
                                     onClick={handleCardClick}
                                     onKeyDown={(e) => {
@@ -179,7 +273,7 @@ const MyPage = () => {
                                 >
                                     <img
                                         src={`/images/${challenge.image}`}
-                                        alt={`챌린지 ${challenge.title}`}
+                                        alt={`챌린지 ${challenge.roomTitle}`} // alt 속성 수정
                                         className="hmk_challenge-image"
                                     />
                                     <div className="hmk_challenge-details">

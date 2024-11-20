@@ -149,6 +149,9 @@
 
 .wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics th {
     min-width: 100px;
+    overflow-wrap: break-word;
+    word-break: keep-all;
+    line-height: 1.5;
 }
 
 .wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics th:last-child,
