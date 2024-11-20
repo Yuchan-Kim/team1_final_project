@@ -33,7 +33,7 @@ class ProfileStore {
             this.loadUserData();
         }
     }
-    
+
     // authUser에서 userNum 추출
     getUserNumFromAuthUser() {
         const authUserStr = localStorage.getItem('authUser');
@@ -115,7 +115,6 @@ class ProfileStore {
 
             if (data.result === 'success' && data.apiData?.userInfo) {
                 const userData = data.apiData.userInfo;
-
                 // 챌린지 요약 정보 처리
                 const challengesSummary = {
                     ongoing: Number(userData.ongoingChallenges) || 0,
@@ -131,13 +130,13 @@ class ProfileStore {
                     completed: Array.isArray(data.apiData.challenges?.completed) ? data.apiData.challenges.completed : []
                 };
 
-                // 프로필 이미지 처리 개선
-                const processedProfileImages = this.processProfileImages(userData.ownedProfileImages);
+                // 프로필 이미지 처리 개선 및 절대 URL 설정
+                const fullProfileImageUrl = this.constructAbsoluteUrl(apiUrl, userData.profileImage);
 
                 // 데이터 업데이트
                 this.updateUserData({
-                    profileImage: userData.profileImage || this.profileImage,
-                    ownedProfileImages: processedProfileImages,
+                    profileImage: fullProfileImageUrl,
+                    ownedProfileImages: this.processProfileImages(userData.ownedProfileImages),
                     nickname: userData.nickname || this.nickname,
                     region: userData.region || this.region,
                     userNum: userData.userNum || this.userNum,
@@ -152,6 +151,16 @@ class ProfileStore {
             console.error('유저 정보를 불러오는데 실패 했습니다:', error);
             this.handleError(error);
         }
+    }
+
+    // 프로필 이미지 절대 URL 구성
+    constructAbsoluteUrl(apiUrl, imagePath) {
+        if (!imagePath) return this.profileImage;
+        // Ensure there is exactly one '/' between apiUrl and imagePath
+        if (!imagePath.startsWith('/')) {
+            imagePath = `/${imagePath}`;
+        }
+        return `${apiUrl}${imagePath}`;
     }
 
     // 프로필 이미지 처리
@@ -206,9 +215,13 @@ class ProfileStore {
     }
 
     // getOwnedProfileImages 메소드 
+    // getOwnedProfileImages() {
+    //     const images = Array.isArray(this.ownedProfileImages) ? this.ownedProfileImages : [];
+    //     return images.filter(img => typeof img === 'string' && img.trim().length > 0);
+    // }
+    // 보유 프로필 이미지 반환
     getOwnedProfileImages() {
-        const images = Array.isArray(this.ownedProfileImages) ? this.ownedProfileImages : [];
-        return images.filter(img => typeof img === 'string' && img.trim().length > 0);
+        return this.ownedProfileImages.filter(img => typeof img === 'string' && img.trim().length > 0);
     }
 
     // setOwnedProfileImages 메소드 
@@ -227,7 +240,7 @@ class ProfileStore {
     setNickname(newNickname) {
         this.nickname = newNickname;
         localStorage.setItem('nickname', newNickname);
-    
+
         // 기존 'authUser' 객체 가져오기
         const authUserStr = localStorage.getItem('authUser');
         if (authUserStr) {
@@ -244,7 +257,7 @@ class ProfileStore {
             // 'authUser'가 존재하지 않으면 새 객체로 설정
             localStorage.setItem('authUser', JSON.stringify({ userName: newNickname }));
         }
-    
+
         this.notifySubscribers();
     }
 
@@ -307,7 +320,9 @@ class ProfileStore {
     }
 
     subscribe(callback) {
-        this.subscribers.push(callback);
+        if (typeof callback === 'function') {
+            this.subscribers.push(callback);
+        }
     }
 
     unsubscribe(callback) {

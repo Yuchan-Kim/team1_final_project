@@ -9,7 +9,7 @@ import storeIcon from '../../ham_asset/images/shopfront.png';
 import Modal from './ham_modal';
 import ProfileOptions from './ham_profileOptions';
 import profileStore from './profileStore';
-
+import defaultProfile from '../../ham_asset/images/profile-fill.png';
 const Topbar = () => {
     const navigate = useNavigate();
     const [suggestions, setSuggestions] = useState([]); // 자동완성 목록 상태
@@ -32,7 +32,6 @@ const Topbar = () => {
     const [newNickname, setNewNickname] = useState('');
     const [isCheckingNickname, setIsCheckingNickname] = useState(false);
     const [nicknameError, setNicknameError] = useState('');
-    // 사용자 정보 상태
     const [userInfo, setUserInfo] = useState({
         nickname: profileStore.getNickname(),
         region: profileStore.getRegion(),
@@ -115,9 +114,10 @@ const Topbar = () => {
     };
 
     // 프로필 이미지 관련 함수
-    const handleProfileSelect = (src) => {
-        setSelectedProfileImage(src);
+    const handleProfileSelect = (relativePath) => {
+        setSelectedProfileImage(relativePath);
     };
+
     const handleProfileConfirm = async () => {
         const userNum = profileStore.getUserNum();
         if (!userNum) {
@@ -131,17 +131,29 @@ const Topbar = () => {
         try {
             const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
             const response = await axios.put(`${apiUrl}/api/user/${userNum}/update-profile`, {
-                profileImage: selectedProfileImage
+                profileImage: selectedProfileImage // 상대 경로 전송
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
+
             if (response.data.result === 'success') {
-                profileStore.setProfileImage(selectedProfileImage);
+                profileStore.setProfileImage(selectedProfileImage); // 상대 경로 저장
+                setUserInfo(prev => ({
+                    ...prev,
+                    profileImage: selectedProfileImage
+                }));
                 closeModal('profile');
+            } else {
+                alert(response.data.message || "프로필 이미지 업데이트에 실패했습니다.");
             }
         } catch (error) {
             console.error("프로필 이미지 업데이트 중 오류 발생:", error);
             alert("프로필 이미지 업데이트에 실패했습니다.");
         }
     };
+
 
     // 정보 변경 처리 함수
     const handleChange = async (type) => {
@@ -272,38 +284,63 @@ const Topbar = () => {
             }
         }
     };
-
     // profileStore 구독
     useEffect(() => {
+        const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
+
         const getProfileData = () => ({
             profileImage: profileStore.getProfileImage(),
-            ownedProfileImages: profileStore.getOwnedProfileImages() || [], // 배열 보장
+            ownedProfileImages: profileStore.getOwnedProfileImages() || [], // 상대 경로 배열
             nickname: profileStore.getNickname(),
             region: profileStore.getRegion(),
             challengesSummary: profileStore.getChallengesSummary(),
             participationScore: profileStore.getChallengesSummary().participationScore
         });
+
         const handleProfileChange = (updatedProfile) => {
+            console.log("탑바가 구독한 프로필의 데이터: ", updatedProfile);
+
             const safeProfile = {
                 ...updatedProfile,
-                ownedProfileImages: updatedProfile.ownedProfileImages || [] // 배열 보장
+                ownedProfileImages: Array.isArray(updatedProfile.ownedProfileImages) ? updatedProfile.ownedProfileImages : []
             };
-            console.log("Updated ownedProfileImages:", safeProfile.ownedProfileImages);
+
+            // 상대 경로를 절대 경로로 변환하여 설정
+            const ownedPfimg = safeProfile.ownedProfileImages.map(image => {
+                if (image.startsWith('http')) {
+                    return image; // 이미 절대 경로인 경우 그대로 사용
+                }
+                return `${apiUrl}${image}`; // 상대 경로인 경우 절대 경로로 변환
+            });
+
+            console.log("소유한 프로필 이미지:", ownedPfimg);
+
             setUserInfo(prev => ({
                 ...prev,
                 ...safeProfile
             }));
-            setOwnedProfileImages(safeProfile.ownedProfileImages);
+
+            setOwnedProfileImages(ownedPfimg);
         };
+
         // 초기 데이터 설정
         handleProfileChange(getProfileData());
+
         // 구독 추가
         profileStore.subscribe(handleProfileChange);
+
         // 컴포넌트 언마운트 시 구독 해제
         return () => {
             profileStore.unsubscribe(handleProfileChange);
         };
     }, []);
+
+    // Helper 함수: 절대 경로 생성
+    const getFullImagePath = (path) => {
+        const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
+        return path.startsWith('http') ? path : `${apiUrl}${path}`;
+    };
+
 
 
     return (
@@ -312,7 +349,14 @@ const Topbar = () => {
             <div className="hmk_Profile">
                 <div className="hmk_profile-container">
                     <div className="hmk_profile-image">
-                        <img src={userInfo.profileImage} alt="Profile" />
+                        <img
+                            src={getFullImagePath(userInfo.profileImage)}
+                            alt="Profile"
+                            onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = defaultProfile;
+                            }}
+                        />
                         <button className="hmk_edit-profile" onClick={() => openModal('profile')} aria-label="프로필 편집">
                             <span className="hmk_edit-pficon">✎</span>
                         </button>
@@ -373,21 +417,26 @@ const Topbar = () => {
                 <h2>프로필 변경</h2>
                 <p>자신의 프로필을 꾸며보세요</p>
                 <div className="hmk_profile-store">
-                    <button className="hmk_tooltip-button" onClick={() => navigate('/pointstore/pointstoremain')}>
-                        <span className="hmk_store-icon"><img src={storeIcon} alt='store' /></span>
+                    <button
+                        className="hmk_tooltip-button"
+                        onClick={() => navigate('/pointstore/pointstoremain')}
+                        aria-label="상점으로 이동"
+                    >
+                        <span className="hmk_store-icon">
+                            <img src={storeIcon} alt='store' />
+                        </span>
                         <span className="hmk_tooltip-text">상점으로 이동</span>
                     </button>
                 </div>
                 <ProfileOptions
-                    profiles={ownedProfileImages} // 소유한 프로필 이미지 목록 전달
+                    profiles={ownedProfileImages}
                     selectedProfile={selectedProfileImage}
                     onSelect={handleProfileSelect}
+                    onConfirm={handleProfileConfirm}
+                    onCancel={() => closeModal('profile')}
                 />
-                <div className="hmk_profile-actions">
-                    <button onClick={handleProfileConfirm}>확인</button>
-                    <button onClick={() => closeModal('profile')}>취소</button>
-                </div>
             </Modal>
+
 
             {/* 닉네임 변경 모달 */}
             <Modal type="nickname" isOpen={modalState.nickname} onClose={() => closeModal('nickname')}>

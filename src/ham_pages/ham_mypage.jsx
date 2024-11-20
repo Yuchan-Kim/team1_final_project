@@ -15,13 +15,6 @@ import profileStore from './ham_common/profileStore'; // profileStore 임포트
 const MyPage = () => {
     const navigate = useNavigate();
     const [userNum, setUserNum] = useState(profileStore.getUserNum());
-    const [userInfo, setUserInfo] = useState({
-        nickname: profileStore.getNickname(),
-        region: '',
-        profileImage: profileStore.getProfileImage(),
-        challengesSummary: profileStore.getChallengesSummary(),
-        participationScore: profileStore.getChallengesSummary().participationScore
-    });
 
     // 상태 관리
     const [performanceCharts, setPerformanceCharts] = useState([]);
@@ -39,26 +32,16 @@ const MyPage = () => {
     useEffect(() => {
         const handleProfileChange = (updatedProfile) => {
             setUserNum(updatedProfile.userNum);
-            setUserInfo({
-                nickname: updatedProfile.nickname,
-                region: updatedProfile.region || '',
-                profileImage: updatedProfile.profileImage,
-                challengesSummary: updatedProfile.challengesSummary,
-                participationScore: updatedProfile.challengesSummary.participationScore
-            });
             setChallenges({
                 ongoing: updatedProfile.challengesDetails.ongoing,
                 upcoming: updatedProfile.challengesDetails.upcoming,
                 completed: updatedProfile.challengesDetails.completed
             });
         };
-
         profileStore.subscribe(handleProfileChange);
 
         // 초기 데이터 설정
         handleProfileChange({
-            profileImage: profileStore.getProfileImage(),
-            nickname: profileStore.getNickname(),
             userNum: profileStore.getUserNum(),
             challengesSummary: profileStore.getChallengesSummary(),
             challengesDetails: profileStore.getChallengesDetails()
@@ -84,16 +67,11 @@ const MyPage = () => {
                 const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
                 const response = await axios.get(`${apiUrl}/api/user/${userNum}/charts`);
 
-                //console.log("API 응답:", response.data); // API 응답 로그 추가
-
                 if (response.data.result === 'success') {
                     const apiData = response.data.apiData || {};
                     // performance와 achievement로 분리하여 상태 업데이트
                     const performance = apiData.performance ? Object.values(apiData.performance) : [];
                     const achievement = apiData.achievement ? Object.values(apiData.achievement) : [];
-
-                  //  console.log("Performance Charts:", performance); // Performance 차트 데이터 로그
-                   // console.log("Achievement Charts:", achievement); // Achievement 차트 데이터 로그
 
                     // 원하는 차트 순서 정의
                     const performanceOrder = [
@@ -101,21 +79,15 @@ const MyPage = () => {
                         '챌린지방 미션 수행률',
                         '전체 미션 수행률'
                     ];
-
                     const achievementOrder = [
                         '일반방 미션 달성률',
                         '챌린지방 미션 달성률',
                         '전체 미션 달성률'
                     ];
-
                     // 성과 차트 정렬
                     performance.sort((a, b) => performanceOrder.indexOf(a.chartTitle) - performanceOrder.indexOf(b.chartTitle));
                     // 달성 차트 정렬
                     achievement.sort((a, b) => achievementOrder.indexOf(a.chartTitle) - achievementOrder.indexOf(b.chartTitle));
-
-                 //   console.log("Sorted Performance Charts:", performance); // 정렬된 Performance 차트 데이터 로그
-                 //   console.log("Sorted Achievement Charts:", achievement); // 정렬된 Achievement 차트 데이터 로그
-
                     // Performance 차트에 zeroColor 추가 (연한 파란색 회색)
                     const formattedPerformance = performance.map(chart => ({
                         chartTitle: chart.chartTitle,
@@ -127,7 +99,6 @@ const MyPage = () => {
                         color: '#3a7afe', // 일반방 파란색
                         zeroColor: '#b4b4b4' // 연한 파란색 회색
                     }));
-
                     // Achievement 차트에 zeroColor 추가 (연한 붉은색 회색)
                     const formattedAchievement = achievement.map(chart => ({
                         chartTitle: chart.chartTitle,
@@ -139,7 +110,6 @@ const MyPage = () => {
                         color: '#FF5722', // 챌린지방 붉은색
                         zeroColor: '#e5e5e5' // 연한 붉은색 회색
                     }));
-
                     setPerformanceCharts(formattedPerformance);
                     setAchievementCharts(formattedAchievement);
                 } else {
@@ -152,7 +122,6 @@ const MyPage = () => {
                 setLoading(false);
             }
         };
-
         fetchChartData();
     }, [userNum]);
 

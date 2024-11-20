@@ -10,6 +10,7 @@ import Topbar from './ham_common/ham_topbar';
 import Modal from './ham_common/ham_modal';
 import profileStore from './ham_common/profileStore';
 
+
 // 보관함 페이지 스타일
 import '../ham_asset/css/ham_mypage_cargo.css';
 

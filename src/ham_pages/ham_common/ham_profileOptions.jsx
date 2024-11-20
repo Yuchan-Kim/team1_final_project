@@ -1,10 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import defaultProfile from '../../ham_asset/images/profile-fill.png'; // 기본 프로필 이미지 import
+// src/ham_pages/ham_common/ham_profileOptions.jsx
 
-const ProfileOptions = ({ profiles, selectedProfile = '', onSelect }) => {
-    // 프로필 배열 유효성 검사 및 필터링
-    const safeProfiles = React.useMemo(() => {
+import React, { useMemo, useCallback } from 'react';
+import PropTypes from 'prop-types';
+import defaultProfile from '../../ham_asset/images/profile-fill.png';
+
+const ProfileOptions = ({
+    profiles,
+    selectedProfile,
+    onSelect,
+    onConfirm,
+    onCancel
+}) => {
+    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
+
+    const safeProfiles = useMemo(() => {
         if (!Array.isArray(profiles)) {
             console.warn('Profiles prop is not an array');
             return [];
@@ -12,71 +21,67 @@ const ProfileOptions = ({ profiles, selectedProfile = '', onSelect }) => {
         return profiles.filter(src => typeof src === 'string' && src.trim().length > 0);
     }, [profiles]);
 
-    // handleProfileClick 함수를 useCallback으로 메모이제이션
-    const handleProfileClick = React.useCallback((src) => {
+    const handleProfileClick = useCallback((src) => {
         if (typeof src === 'string' && src.trim().length > 0) {
-            onSelect(src);
+            const relativePath = src.startsWith(apiUrl) ? src.replace(apiUrl, '') : src;
+            onSelect(relativePath);
         }
-    }, [onSelect]);
+    }, [onSelect, apiUrl]);
 
-    // 프로필 이미지가 없을 때의 처리
-    if (safeProfiles.length === 0) {
-        return (
-            <div className="hmk_profile-options-container">
-                <div className="hmk_profile-options">
-                    <div className="hmk_profile-option-item">
-                        <img
-                            src={defaultProfile}
-                            alt="기본 프로필"
-                            title='프로필이 없어요'
-                            className="hmk_profile-image"
-                        />
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    // 수정: 기존 렌더링 로직 개선
     return (
         <div className="hmk_profile-options-container">
             <div className="hmk_profile-options">
-                {safeProfiles.map((src, index) => (
-                    <div
-                        key={`profile-${index}-${src}`} // 수정: 더 안정적인 key 값 사용
-                        className="hmk_profile-option-item"
-                    >
-                        <img
-                            src={src}
-                            alt={`프로필 선택 ${index + 1}`}
-                            onClick={() => handleProfileClick(src)}
-                            className={`hmk_profile-image ${selectedProfile === src ? "hmk_selected-profile" : ""}`}
-                            style={{ 
-                                cursor: 'pointer', 
-                                margin: '5px', 
-                                borderRadius: '50%', 
-                                width: '50px', 
-                                height: '50px' 
-                            }}
-                            // 새로 추가: 이미지 로드 실패 시 기본 이미지로 대체
-                            onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.src = defaultProfile;
-                            }}
-                        />
+                {safeProfiles.length > 0 ? (
+                    safeProfiles.map((src, index) => (
+                        <div key={`profile-${index}-${src}`} className="hmk_profile-option-item">
+                            <img
+                                src={src.startsWith('http') ? src : `${apiUrl}${src}`}
+                                alt={`프로필 선택 ${index + 1}`}
+                                onClick={() => handleProfileClick(src)}
+                                className={`hmk_profile-image ${selectedProfile === src.replace(apiUrl, '') ? "hmk_selected-profile" : ""}`}
+                                onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src = defaultProfile;
+                                }}
+                            />
+                        </div>
+                    ))
+                ) : (
+                    <div className="hmk_profile-option-item">
+                        <p>구매한 프로필 이미지가 없습니다. 상점에서 새로운 프로필 이미지를 구매하세요.</p>
+                        <img src={defaultProfile} alt="기본 프로필" className="hmk_profile-image" />
                     </div>
-                ))}
+                )}
+            </div>
+            <div className="hmk_profile-actions">
+                <button
+                    onClick={onConfirm}
+                    className="hmk_modal-confirm-button"
+                    disabled={!selectedProfile}
+                >
+                    확인
+                </button>
+                <button
+                    onClick={onCancel}
+                    className="hmk_modal-cancel-button"
+                >
+                    취소
+                </button>
             </div>
         </div>
     );
 };
 
-// PropTypes 수정: 더 상세한 타입 검사 추가
 ProfileOptions.propTypes = {
     profiles: PropTypes.arrayOf(PropTypes.string).isRequired,
     selectedProfile: PropTypes.string,
     onSelect: PropTypes.func.isRequired,
+    onConfirm: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired
 };
 
+// 컴포넌트 이름 지정
+ProfileOptions.displayName = 'ProfileOptions';
 
-export default React.memo(ProfileOptions); // 수정: 성능 최적화를 위한 메모이제이션 추가
+// default export 추가
+export default ProfileOptions;
