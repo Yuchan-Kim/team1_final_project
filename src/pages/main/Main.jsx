@@ -28,6 +28,9 @@ import Step11 from '../genebang/Step11'; // Step11 추가
 Modal.setAppElement('#root');
 
 const Main = () => {
+
+
+
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentStep, setCurrentStep] = useState(1);
@@ -157,17 +160,17 @@ const Main = () => {
                 <div className="jy_main" id="jy_main">
                     <div id="board">
 
-                        <div id='search'>
-                            <div><SearchIcon /><input placeholder='Search' /></div>
-                        </div>
-                        {/* //search */}
-
                         <div id='ad-banner'>
                             <img src="/img/banner.jpg" alt="banner" />
                         </div>
                         {/* //ad-banner */}
 
+                        <div id='ad-bang-title'>
+                            <h2>완료된 챌린지</h2>
+                        </div>
+                        
                         <div id='ad-bang'>
+                            
                             {score.map((item, idx) => (
                                 <div className='ad-bang-list' key={idx}>
 
@@ -188,6 +191,11 @@ const Main = () => {
                             ))}
                         </div>
                         {/* //ad-bang */}
+
+                        <div id='search'>
+                            <div><SearchIcon /><input placeholder='Search' /></div>
+                        </div>
+                        {/* //search */}
 
                         <div id='icon-bar'>
                             <div>
