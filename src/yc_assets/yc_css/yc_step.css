@@ -1,0 +1,829 @@
+@charset "UTF-8";
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+/* ##################################### */
+/* CSS 변수 정의 */
+/* ##################################### */
+
+
+/* ##################################### */
+/* 글로벌 스타일 */
+/* ##################################### */
+#yc_jy_step > * {
+    box-sizing: border-box;
+    font-family: var(--font-family);
+}
+
+.yc_jy_step {
+    width: 100vw;
+    min-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+    height: auto;
+    background-color: var(--color-background);
+}
+
+.yc_container {
+    border: 1px solid #000;
+}
+
+.yc_step {
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.yc_step.fade-in {
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.yc_step #yc_board {
+    flex: 1;
+}
+
+.yc_step h2 {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.1px;
+    text-align: center;
+    color: #000;
+    padding: 20px 0 30px;
+}
+
+.yc_step h3 {
+    font-size: 20px;
+    color: #000;
+    margin: 5px 0;
+    text-align: center;
+}
+
+.yc_step h4 {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.43;
+    letter-spacing: 0.1px;
+    text-align: center;
+    color: var(--color-text-light);
+    margin: 5px 0;
+}
+
+/* ##################################### */
+/* Step Navigation */
+#yc_stepNav {
+    margin-bottom: 10px;
+}
+
+#yc_stepNav ul {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#yc_stepNav ul li {
+    flex: 1;
+    text-align: center;
+    color: var(--color-text-light);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.31;
+    letter-spacing: 0.25px;
+    padding: 15px;
+    cursor: pointer;
+    transition: color var(--transition-speed), border-bottom var(--transition-speed);
+}
+
+#yc_stepNav ul li.active {
+    color: #000;
+    border-bottom: 2px solid #000;
+}
+
+/* ##################################### */
+/* 공통 버튼 스타일 */
+.yc_step .yc_btn {
+    padding: 50px 0;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.yc_step button {
+    width: 240px;
+    height: 48px;
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+/* Secondary Button */
+.yc_step .yc_btn #yc_secondary {
+    background-color: var(--color-secondary);
+    color: #ccc;
+    border: 1px solid #7b7b7b;
+}
+
+.yc_step .yc_btn #yc_secondary:hover {
+    background-color: var(--color-secondary-dark);
+    color: #111111;
+    border: 1px solid #313131;
+}
+
+/* Primary Button */
+.yc_step .yc_btn #yc_primary {
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    border: none;
+}
+
+.yc_step .yc_btn #yc_primary:hover {
+    background-color: var(--color-primary-dark);
+}
+
+/* 비활성화된 "다음" 버튼 스타일 */
+.yc_step .yc_btn #yc_primary.disabled {
+    background-color: var(--color-disabled);
+    color: var(--color-disabled-text);
+    cursor: not-allowed;
+}
+
+.yc_step .yc_btn #yc_primary.disabled:hover {
+    background-color: var(--color-disabled);
+}
+
+/* ##################################### */
+/* Step1 스타일 */
+#yc_step1 #yc_list {
+    display: flex;
+    gap: 30px;
+    max-width: 830px;
+    width: 100%;
+    margin: 20px auto 0;
+}
+
+#yc_step1 #yc_list > div {
+    flex: 1;
+    height: 570px;
+    border-radius: var(--border-radius);
+    border: 1px solid #cac4d0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all var(--transition-speed) ease;
+    cursor: pointer;
+}
+
+#yc_step1 #yc_list > div yc_step3 #list > div yc_step3 #yc_list > div yc_step1 #yc_list > div h3 {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.1px;
+    color: #000;
+}
+
+#yc_step1 #yc_list > div.selected {
+    border-color: #000;
+    background-color: var(--color-secondary-dark);
+}
+
+#yc_step1 #yc_list > div yc_step1 #yc_list > div li {
+    font-size: 16px;
+    font-weight: normal;
+    color: var(--color-text);
+    margin-top: 40px;
+}
+
+#yc_step1 #yc_list > div yc_step1 #yc_list > div li > span {
+    margin-right: 5px;
+}
+
+/* ##################################### */
+/* Step2 스타일 */
+#yc_step2 #yc_board h2 {
+    padding-bottom: 10px;
+}
+
+#yc_step2 #yc_list #yc_category {
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#yc_step2 #yc_list #yc_category div {
+    width: 450px;
+    margin: 15px;
+    padding: 15px;
+    text-align: center;
+    font-size: 20px;
+    border-radius: var(--border-radius);
+    border: 1px solid #c4c4c4;
+    cursor: pointer;
+    transition: background-color var(--transition-speed), border-color var(--transition-speed);
+}
+
+#yc_step2 #yc_list #yc_category div.selected {
+    color: #000000;
+    border-color: #000;
+}
+
+#yc_step2 #yc_list #yc_keyword {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    margin: 10px;
+}
+
+#yc_step2 #yc_list #yc_keyword h3 {
+    font-size: 20px;
+}
+
+#yc_step2 #yc_list #yc_keyword h4 {
+    margin: 0;
+}
+
+#yc_step2 #yc_list #yc_keyword div {
+    display: flex;
+    padding: 10px 20px;
+    gap: 10px;
+    border-radius: 10px;
+    background-color: var(--color-secondary-dark);
+    align-items: center;
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+#yc_step2 #yc_list #yc_keyword input {
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+    width: 100%;
+}
+
+/* ##################################### */
+/* Step3 스타일 */
+#yc_step3 #yc_list {
+    display: flex;
+    gap: 30px;
+    max-width: 830px;
+    width: 100%;
+    margin: 20px auto 0;
+}
+
+#yc_step3 #yc_list > div {
+    flex: 1;
+    height: 570px;
+    border-radius: var(--border-radius);
+    border: 1px solid #cac4d0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all var(--transition-speed) ease;
+    cursor: pointer;
+}
+
+#yc_step3 #yc_list > div h3 {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.1px;
+    color: #000;
+}
+
+#yc_step3 #yc_list > div.selected {
+    border-color: #000;
+    background-color: var(--color-secondary-dark);
+}
+
+#yc_step3 #yc_list > div li {
+    font-size: 16px;
+    font-weight: normal;
+    color: var(--color-text);
+    margin-top: 40px;
+}
+
+#yc_step3 #yc_list > div li > span {
+    margin-right: 5px;
+}
+
+/* ##################################### */
+/* Step4 스타일 */
+#yc_step4 #yc_list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+#yc_step4 #yc_list #yc_box_double {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 15px 30px;
+    row-gap: 10px;
+    gap: 20px;
+}
+
+#yc_step4 #yc_list #yc_box1 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
+}
+
+#yc_step4 #yc_list #yc_box1 .yc_inputTT {
+    width: 150px;
+    text-align: right;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+#yc_step4 #yc_list #yc_box1 .yc_inputBox select,
+#yc_step4 #yc_list #yc_box1 .yc_inputBox input {
+    padding: 10px;
+    border-radius: var(--border-radius);
+    border: 1px solid #ccc;
+    background-color: var(--color-background);
+    width: 250px;
+}
+
+#yc_step4 #yc_list #yc_box2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#yc_step4 #yc_list #yc_input_box {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 10px;
+    border-radius: var(--border-radius);
+    border: 1px solid #ccc;
+    width: 300px;
+}
+
+#yc_step4 #yc_list #yc_input_box input {
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+    width: 100%;
+}
+
+/* ##################################### */
+/* Step5 스타일 */
+/* (Step05.jsx 파일은 제공되지 않았으므로 생략) */
+
+/* ##################################### */
+/* Step6 스타일 */
+#yc_step6 #yc_board {
+    margin: 0 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#yc_step6 #yc_list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+}
+
+#yc_step6 #yc_list .yc_mission_header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#yc_step6 #yc_list .yc_mission_header #yc_mission_btn {
+    margin-left: 20px;
+    width: 50px;
+    height: 30px;
+    border-radius: 10px;
+}
+
+#yc_step6 #yc_list .yc_mission_header #yc_mission_btn button {
+    margin-right: 10px;
+}
+
+#yc_step6 #yc_list #yc_finalgoal_button {
+    width: 180px;
+}
+
+#yc_step6 #yc_list .yc_mission_header > div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#yc_step6 #yc_list .yc_mission_header #yc_mission_btn_list {
+    display: flex;
+    justify-content: space-between;
+    width: 250px;
+}
+
+#yc_step6 #yc_list h2,
+#yc_step6 #yc_list h4 {
+    padding-bottom: 5px;
+    text-align: left;
+}
+
+#yc_step6 .yc_input_button_group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+    margin: 10px;
+    width: 1000px;
+}
+
+#yc_step6 .yc_input_button_group #yc_mission_title {
+    margin: 5px 10px 5px 10px;
+}
+
+#yc_step6 .yc_input_button_group #yc_input_box {
+    width: 300px;
+    margin-bottom: 8px;
+    border-radius: var(--border-radius);
+}
+
+#yc_step6 .yc_input_button_group #yc_input_box input {
+    padding: 10px 16px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-background);
+    width: 100%;
+}
+
+#yc_step6 #yc_list button {
+    padding: 10px 20px;
+    background-color: #ccc;
+    color: var(--color-secondary);
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    width: 130px;
+    height: 35px;
+    transition: background-color var(--transition-speed);
+}
+
+#yc_step6 #yc_board button:hover {
+    background-color: #ccc;
+    color: #6e6e6e;
+}
+
+#yc_step6 #yc_list #yc_mission_textarea {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+#yc_step6 #yc_list #yc_mission_textarea textarea {
+    width: 500px;
+    height: 100px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+    padding: 10px;
+    resize: vertical;
+}
+
+#yc_step6 #yc_list #yc_mission_content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+#yc_step6 #yc_list #yc_mission_content div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+#yc_step6 #yc_list #yc_mission_content textarea {
+    width: 500px;
+    height: 200px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+    padding: 10px;
+    resize: vertical;
+}
+
+#yc_step6 #yc_list #yc_mission_img {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px;
+}
+
+#yc_step6 #yc_list #yc_mission_img input {
+    width: 200px;
+    height: 200px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    object-fit: cover;
+}
+
+#yc_step6 #yc_list #yc_image_upload {
+    width: 100%;
+    height: 200px;
+    background-color: var(--color-secondary-dark);
+    border: 2px dashed #ccc;
+    border-radius: var(--border-radius);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+#yc_step6 #yc_list #yc_image_upload:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px var(--color-shadow);
+}
+
+#yc_step6 #yc_list #yc_image_upload::-webkit-file-upload-button {
+    display: none;
+}
+
+#yc_step6 #yc_list #yc_image_upload::before {
+    content: "파일을 선택하세요";
+    font-size: 16px;
+    color: #555;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* ##################################### */
+/* Step7 스타일 */
+#yc_step7 #yc_list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#yc_step7 #yc_list h2 {
+    padding-bottom: 5px;
+}
+
+#yc_step7 #yc_list #yc_question {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 80px;
+    margin-bottom: 10px;
+}
+
+#yc_step7 #yc_list #yc_category {
+    height: 610px;
+}
+
+#yc_step7 #yc_list #yc_category div {
+    width: 400px;
+    margin: 10px 0;
+    padding: 15px;
+    text-align: center;
+    font-size: 25px;
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: background-color var(--transition-speed), border-color var(--transition-speed);
+}
+
+#yc_step7 #yc_list #yc_category div.selected {
+    background-color: #ccc;
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 15px;
+}
+
+/* 일반 항목의 기본 스타일 */
+#yc_step7 #yc_category div:hover {
+    background-color: var(--color-hover);
+}
+
+/* ##################################### */
+/* Step10 스타일 */
+#yc_step10 #yc_board #yc_list div {
+    padding-top: 200px;
+}
+
+/* ##################################### */
+/* Step11 스타일 */
+#yc_step11 #yc_board {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#yc_step11 #yc_list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+}
+
+#yc_step11 #yc_list h2,
+#yc_step11 #yc_list h4 {
+    padding-bottom: 5px;
+    text-align: left;
+}
+
+#yc_step11 #yc_list #yc_member_count {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+#yc_step11 #yc_list #yc_box_double {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 15px 30px;
+    row-gap: 10px;
+    gap: 20px;
+}
+
+#yc_step11 #yc_list #yc_box1 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
+}
+
+#yc_step11 #yc_list #yc_box1 .yc_inputTT {
+    width: 150px;
+    text-align: right;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+#yc_step11 #yc_list #yc_box1 .yc_inputBox select,
+#yc_step11 #yc_list #yc_box1 .yc_inputBox input {
+    padding: 10px;
+    border-radius: var(--border-radius);
+    border: 1px solid #ccc;
+    background-color: var(--color-background);
+    width: 250px;
+}
+
+#yc_step11 #yc_list #yc_box2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#yc_step11 #yc_list #yc_input_box {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 10px;
+    border-radius: var(--border-radius);
+    border: 1px solid #ccc;
+    width: 300px;
+}
+
+#yc_step11 #yc_list #yc_input_box input {
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+    width: 100%;
+}
+
+#yc_step11 .yc_btn {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+#yc_step11 .yc_btn #yc_secondary {
+    background-color: var(--color-secondary);
+    color: #ccc;
+    border: 1px solid #7b7b7b;
+}
+
+#yc_step11 .yc_btn #yc_secondary:hover {
+    background-color: var(--color-secondary-dark);
+    color: #111111;
+    border: 1px solid #313131;
+}
+
+#yc_step11 .yc_btn #yc_primary {
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    border: none;
+}
+
+#yc_step11 .yc_btn #yc_primary:hover {
+    background-color: var(--color-primary-dark);
+}
+
+.yc_step button:disabled {
+    background-color: var(--color-disabled);
+    color: var(--color-disabled-text);
+    cursor: not-allowed;
+}
+
+/* ##################################### */
+/* 반응형 디자인 개선 */
+@media (max-width: 1200px) {
+    .yc_jy_step {
+        padding: 0 10px;
+    }
+
+    .yc_step #yc_board h2 {
+        font-size: 28px;
+    }
+
+    .yc_step h3 {
+        font-size: 18px;
+    }
+
+    .yc_step h4 {
+        font-size: 12px;
+    }
+
+    /* Step1 */
+    #yc_step1 #yc_list {
+        flex-direction: column;
+    }
+
+    #yc_step1 #yc_list > div {
+        width: 100%;
+    }
+
+    /* Step3 */
+    #yc_step3 #yc_list {
+        flex-direction: column;
+        min-width: unset;
+    }
+
+    /* Step4 */
+    #yc_step4 #yc_list #yc_box_double {
+        grid-template-columns: 1fr;
+    }
+
+    /* Step5 */
+    /* Step5.jsx 파일이 제공되지 않아 생략 */
+
+    /* Step6 */
+    #yc_step6 #yc_board {
+        margin: 0 20px;
+    }
+
+    #yc_step6 .yc_input_button_group {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    /* Step7 */
+    #yc_step7 #yc_list #yc_question {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* Step8 */
+    #yc_step8 #yc_list #yc_ai_box {
+        width: 100%;
+    }
+
+    /* 기타 반응형 조정 필요 시 추가 */
+}

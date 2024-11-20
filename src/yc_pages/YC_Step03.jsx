@@ -1,8 +1,9 @@
 // src/pages/genebang/Step03.jsx
+
 import React, { useState } from 'react';
 import CloseOutlineIcon from '@rsuite/icons/CloseOutline';
 import '../css/reset.css';
-import '../css/jy_step.css';
+import '../yc_assets/yc_css/yc_step.css';
 import { YCStepNav } from '../yc_pages/YC_StepNav.jsx'; // StepNav 임포트
 
 const Step03 = ({ onSave, onPrevious }) => {
@@ -29,26 +30,26 @@ const Step03 = ({ onSave, onPrevious }) => {
 
         <>
 
-            <div id="jy_step" className="jy_wrap">
+            <div id="yc_jy_step" className="yc_jy_wrap">
 
-                <div id="container">
+                <div className="yc_container">
 
-                    <div className="step" id="step3">
+                    <div className="yc_step" id="yc_step3">
 
                         <YCStepNav idx={1} /> {/* StepNav 포함 */}
 
-                        <div id="board">
+                        <div id="yc_board">
 
-                            <div id="list">
-                                <div id="input-Thumbnail">
+                            <div id="yc_list">
+                                <div id="yc_input_thumbnail">
                                     <h2>대표 이미지를 설정 해주세요.</h2>
 
                                     {/* 이미지 미리보기 부분 */}
-                                    <div id="upload-Thumbnail" onClick={() => document.getElementById('fileInput').click()} style={{ cursor: 'pointer' }}>
+                                    <div id="yc_upload_thumbnail" onClick={() => document.getElementById('yc_fileInput').click()} style={{ cursor: 'pointer' }}>
                                         {thumbnail ? (
                                             <img
                                                 src={thumbnail}
-                                                alt="upload-Thumbnail"
+                                                alt="upload-thumbnail"
                                                 style={{
                                                     width: '400px',
                                                     height: '400px',
@@ -62,7 +63,7 @@ const Step03 = ({ onSave, onPrevious }) => {
 
                                     {/* 파일 input 숨기기 */}
                                     <input
-                                        id="fileInput"
+                                        id="yc_fileInput"
                                         type="file"
                                         accept="image/*"
                                         onChange={handleImageChange}
@@ -71,7 +72,7 @@ const Step03 = ({ onSave, onPrevious }) => {
                                 </div>
 
                                 <div>
-                                    <div id='input-title' className='input-title'>
+                                    <div id='yc_input_title' className='yc_input_title'>
                                         <h2>제목을 지어주세요.</h2>
                                         <h4>챌린지의 목표가 포함된 제목을 지어주세요.</h4>
                                         <h4>참가자가 혼동할 수 있습니다.</h4>
@@ -85,7 +86,7 @@ const Step03 = ({ onSave, onPrevious }) => {
                                         </div>
                                     </div>
 
-                                    <div id='input-title'>
+                                    <div id='yc_input_title'>
                                         <h2>다른 참가자에게 챌린지를 설명해주세요.</h2>
                                         <div>설명(50자 이내)</div>
                                         <textarea 
@@ -96,29 +97,28 @@ const Step03 = ({ onSave, onPrevious }) => {
                                     </div>
                                 </div>
                             </div>
-                            {/* //list */}
+                            {/* //yc_list */}
 
-                            <div className="btn">
-                                <button
-                                    id="primary"
+                            <div className="yc_btn">
+                                <button 
+                                    id="yc_primary" 
                                     onClick={() => onSave()}
-
                                 >
                                     저장
                                 </button>
                             </div>
 
                         </div>
-                        {/* //board */}
+                        {/* //yc_board */}
 
                     </div>
-                    {/* //step */}
+                    {/* //yc_step3 */}
 
                 </div>
-                {/* //container */}
+                {/* //yc_container */}
 
             </div>
-            {/* //wrap */}
+            {/* //yc_jy_step */}
 
         </>
 

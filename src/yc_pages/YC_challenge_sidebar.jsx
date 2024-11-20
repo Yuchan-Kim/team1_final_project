@@ -13,8 +13,6 @@ import YCStep04 from '../yc_pages/YC_Step04';
 import YCStep05 from '../yc_pages/YC_Step05';
 import YCStep06 from '../yc_pages/YC_Step06';
 import YCStep07 from '../yc_pages/YC_Step07';
-import YCStep08 from '../yc_pages/YC_Step08';
-import YCStep09 from '../yc_pages/YC_Step09';
 import YCStep10 from '../yc_pages/YC_Step10';
 import YCStep11 from '../yc_pages/YC_Step11'; 
 // Step11은 우선 무시
@@ -92,10 +90,7 @@ const YCChallengeSidebar = () => {
                 return <YCStep06 onSave ={handleStep10Save} onPrevious={handleStep10Discard} />;
             case 7:
                 return <YCStep07 onSave ={handleStep10Save} onPrevious={handleStep10Discard} />;
-            case 8:
-                return <YCStep08 onSave ={handleStep10Save} onPrevious={handleStep10Discard} />;
-            case 9:
-                return <YCStep09 onNext={handleNext} onPrevious={handlePrevious} />;
+            
             case 10:
                 return (
                     <YCStep10
