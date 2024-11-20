@@ -1,23 +1,23 @@
 @charset "UTF-8";
 
 /* 웹킷 기반 브라우저 (Chrome, Safari 등) */
-::-webkit-scrollbar {
+.ham_wrap::-webkit-scrollbar {
     width: 10px; /* 스크롤바 너비 */
     height: 10px; /* 가로 스크롤바 높이 */
 }
 
-::-webkit-scrollbar-track {
+.ham_wrap::-webkit-scrollbar-track {
     background: #fff; /* 트랙 배경색 */
     border-radius: 10px; /* 모서리 둥글게 */
 }
 
-::-webkit-scrollbar-thumb {
+.ham_wrap::-webkit-scrollbar-thumb {
     background: #f2f8f9; /* 슬라이더 색상 */
     border-radius: 10px; /* 모서리 둥글게 */
     border: 3px solid #fff; /* 트랙과 슬라이더 사이의 여백 */
 }
 
-::-webkit-scrollbar-thumb:hover {
+.ham_wrap::-webkit-scrollbar-thumb:hover {
     background: #e0e0e0; /* 호버 시 슬라이더 색상 변경 */
 }
 
@@ -105,6 +105,7 @@
     margin: 0; /* 기본적인 여백 제거 */
     padding: 0;
     width: 80vw;
+    min-height: 100vh;
     margin-left: 187px;
     box-sizing: border-box; /* 패딩을 포함한 크기 계산 */
     scrollbar-width: thin; /* 얇은 스크롤바 */
@@ -131,10 +132,16 @@
     border-radius: 8px; /* 모서리 둥글게 */
 }
 
+.chart-wrapper {
+    width: 160px; /* 원하는 크기로 조정 */
+    height: 160px; /* 원하는 크기로 조정 */
+}
+
 /* 통계 카드 스타일 */
 .wrap .hmk_main .hmk_stat-container .hmk_stat-card {
     width: 300px;
     min-width: 288px;
+    height: 150px;
     padding: 15px;
     background-color: white;
     border-radius: 12px; /* 카드 모서리를 둥글게 */
@@ -149,7 +156,6 @@
 .wrap .hmk_main .hmk_stat-container .hmk_stat-card .hmk_chart {
     position: relative;
     flex-shrink: 0; /* 차트가 축소되지 않도록 */
-    margin-right: 15px; /* 차트와 정보 사이의 간격 */
 }
 
 /* 차트 중앙 텍스트 스타일 설정 */
@@ -172,6 +178,9 @@
     display: flex;
     flex-direction: column; /* 정보를 세로로 배치 */
     justify-content: center; /* 세로 중앙 정렬 */
+    overflow-wrap: break-word;
+    word-break: keep-all;
+    line-height: 1.5;
 }
 
 /* 통계 카드 타이틀 */
@@ -325,6 +334,19 @@
 .hmk_challenge-details {
     padding: 10px 0; /* 텍스트 상하 여백 */
     flex: 1;
+}
+
+.wrap .hmk_main-container 
+.hmk_main 
+.hmk_challenge-list 
+.hmk_challenge-card 
+.hmk_challenge-details
+.hmk_challenge-datebox {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: #666;
+    margin-bottom: 8px;
 }
 
 /* 챌린지 실행 기간 텍스트 스타일 */

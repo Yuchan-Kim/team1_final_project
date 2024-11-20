@@ -1,0 +1,314 @@
+/* 상단 배너 스타일 */
+.hmk_rank_title_banner {
+    background: linear-gradient(to right, #4CAF50, #81C784);
+    /* 배경 그라데이션 */
+    padding: 40px;
+    /* 배너 내부 여백 */
+    text-align: center;
+    /* 중앙 정렬 */
+    color: white;
+    /* 텍스트 색상 */
+    font-size: 2rem;
+    /* 텍스트 크기 */
+    font-weight: bold;
+    /* 텍스트 굵기 */
+}
+
+/* 화면 중앙 랭커 카드 */
+.hmk_rank_podium {
+    display: flex;
+    justify-content: center;
+}
+
+/* 포디엄 랭크 스타일 */
+.hmk_podium_rank {
+    background-color: #f9f9f9; /* 카드 배경색 */
+    border-radius: 16px; /* 둥근 모서리 */
+    padding: 20px; /* 카드 내부 여백 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 */
+    margin: 10px; /* 카드 간 여백 */
+    text-align: center; /* 텍스트 정렬 */
+    transition: transform 0.3s ease-in-out; /* 마우스 호버 시 확대 효과 */
+    width: 180px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.hmk_podium_rank:hover {
+    transform: translateY(-10px);
+    /* 호버 시 카드 살짝 상승 */
+}
+
+/* 1, 2, 3등 포디엄 구분 스타일 */
+.hmk_rank1 {
+    background: linear-gradient(to right, #ffd700, #ffdd00);
+    /* 황금색 배경 그라데이션 */
+}
+
+.hmk_rank2 {
+    background: linear-gradient(to right, #c0c0c0, #d3d3d3);
+    /* 은색 배경 그라데이션 */
+}
+
+.hmk_rank3 {
+    background: linear-gradient(to right, #cd7f32, #e5a472);
+    /* 동색 배경 그라데이션 */
+}
+
+/* 프로필 이미지 스타일 */
+.hmk_ranker_profile_no1,
+.hmk_ranker_profile_no2,
+.hmk_ranker_profile_no3 {
+    border-radius: 50%;
+    /* 둥근 프로필 이미지 */
+    width: 100px;
+    /* 이미지 크기 */
+    height: 100px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    /* 그림자 */
+    margin-bottom: 10px;
+    /* 이미지와 텍스트 사이의 간격 */
+}
+
+/* 메달 스타일 */
+.hmk_podium_medal {
+    font-size: 1.5rem;
+    /* 메달 이모지 크기 */
+    margin-top: -10px;
+    /* 메달과 이미지 간격 */
+}
+
+.medal_1 {
+    color: #ffd700;
+    /* 황금색 */
+}
+
+.medal_2 {
+    color: #c0c0c0;
+    /* 은색 */
+}
+
+.medal_3 {
+    color: #cd7f32;
+    /* 동색 */
+}
+
+/* 포인트 텍스트 강조 */
+.hmk_podium_base p:last-child {
+    font-size: 1.2rem; /* 포인트 텍스트 크기 */
+    font-weight: bold; /* 텍스트 굵기 */
+    color: #344767; /* 텍스트 색상 */
+    margin-top: 5px; /* 포인트 텍스트와 이름 텍스트 간격 */
+}
+
+/* 포디엄 하단 꾸미기 효과 */
+.hmk_rank_body_effects {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.hmk_rank_body_podium_bottom_dffect {
+    width: 100px;
+    opacity: 0.5;
+}
+
+/* 전체 사용자 랭크 테이블 스타일 개선 */
+.hmk_rank_list {
+    width: 100%; /* 테이블 너비 */
+    border-collapse: separate; /* 테두리가 겹치지 않도록 설정 */
+    border-spacing: 0 10px; /* 각 행 간의 간격을 줌 */
+    margin-top: 20px; /* 테이블과 상단 요소 간의 여백 */
+    font-size: 0.9rem; /* 텍스트 크기 */
+    color: #333;
+}
+
+.hmk_rank_list th, .hmk_rank_list td {
+    padding: 15px; /* 셀 여백 */
+    text-align: center; /* 텍스트 왼쪽 정렬 */
+    border-bottom: 1px solid #e0e0e0; /* 테이블 하단 테두리 */
+}
+
+.hmk_rank_list tr:nth-child(even) {
+    background-color: #f9f9f9; /* 짝수 행 배경색 */
+}
+
+/* 테이블의 각 행에 대한 스타일 */
+.hmk_rank_list tbody tr {
+    background-color: #ffffff; /* 행 배경색 */
+    border-radius: 12px; /* 행 모서리 둥글게 처리 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    transition: transform 0.2s ease-in-out; /* 마우스 호버 시 효과 */
+}
+
+/* 1등, 2등, 3등에 대한 강조 스타일 */
+.hmk_rank_list tbody tr:nth-child(1) {
+    background-color:  #ffd700; /* 1등 - 금색 강조 테두리 */
+}
+
+.hmk_rank_list tbody tr:nth-child(2) {
+    background-color:  #c0c0c0; /* 2등 - 은색 강조 테두리 */
+}
+
+.hmk_rank_list tbody tr:nth-child(3) {
+    background-color:  #cd7f32; /* 3등 - 동색 강조 테두리 */
+}
+
+.hmk_rank_list tr:nth-child(even) {
+    background-color: #f9f9f9;
+    /* 짝수 행 배경색 */
+}
+
+/* 각 행의 오른쪽 끝에 화살표 모양 추가 */
+.hmk_rank_list tbody tr td:last-child {
+    text-align: center;
+    /* 오른쪽 정렬 */
+    padding-right: 20px;
+    /* 여백을 주어 화살표와 텍스트 간의 간격 설정 */
+}
+
+
+/* 테두리 내부에 텍스트와 아이콘을 가운데로 정렬 */
+.hmk_rank_list tbody tr td {
+    vertical-align: middle;
+    /* 가운데 정렬 */
+}
+
+/* 마우스 호버 시 확대 효과 */
+.hmk_rank_list tbody tr:hover {
+    transform: translateY(-5px);
+    /* 살짝 위로 이동 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    /* 확대된 그림자 */
+}
+
+/* 테이블 내 프로필 이미지 스타일 */
+.hmk_ranker_profile_no {
+    width: 40px;
+    /* 프로필 이미지 크기 */
+    height: 40px;
+    border-radius: 50%;
+    /* 둥근 모서리 */
+    object-fit: cover;
+    /* 이미지 크기 조정 */
+}
+
+/* 차트 영역 스타일 */
+.hmk_rank_chart {
+    position: relative;
+    width: 400px;
+    height: 200px;
+    margin: 0 auto;
+    /* 중앙 정렬 */
+}
+
+.hmk_rank_chart_center-text {
+    position: absolute;
+    /* 절대 위치 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* 중앙 정렬 */
+    font-size: 1.5rem;
+    /* 텍스트 크기 */
+    font-weight: bold;
+    color: #4CAF50;
+    /* 텍스트 색상 */
+}
+
+/* 상단 요약 정보 스타일 */
+.hmk_rank_totaluser,
+.hmk_rank_totaltask,
+.hmk_rank_totalpoint {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    margin: 10px;
+}
+
+.hmk_rank_icons img {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 10px;
+}
+
+/* 포디엄 하단 꾸미기 효과 */
+.hmk_rank_body_effects img{
+    text-align: center;
+    z-index: -1;
+}
+
+.hmk_rank_body_podium_bottom_dffect {
+    width: 100px;
+    opacity: 0.5;
+}
+
+/* 하단 배너 스타일 */
+.hmk_rank_banner_bottom {
+    background-color: #f5f5f5;
+    padding: 40px;
+    text-align: center;
+    color: #333;
+    margin-top: 40px;
+}
+
+.hmk_rank_page_title h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #4CAF50;
+    margin: 20px 0;
+}
+
+/* 프로필 카드 스타일링 개선 */
+.hmk_profile_card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    margin: 20px;
+    width: 220px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.hmk_profile_card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.hmk_profile_card img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hmk_profile_card .hmk_card_rank {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.hmk_profile_card .hmk_card_points {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #344767;
+}
+
+.hmk_profile_card .hmk_card_action {
+    margin-top: 15px;
+    background: #f0f0f0;
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.hmk_profile_card .hmk_card_action:hover {
+    background: #4CAF50;
+    color: #fff;
+}

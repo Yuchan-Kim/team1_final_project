@@ -1,0 +1,411 @@
+/* src/ham_asset/css/ham_mypage_ranking.css */
+@charset "UTF-8";
+
+/* 배너 컨테이너 스타일 */
+.hmk_rank_title_banner {
+    position: relative;
+    width: 100%;
+    height: 100px;
+    overflow: hidden;
+    background-color: #f0f0f0;
+}
+
+/* 이미지를 감싸는 내부 컨테이너 */
+.hmk_rank_banner_image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    display: flex;
+    animation: slideImages 20s linear infinite;
+}
+
+/* 개별 배너 이미지 컨테이너 */
+.hmk_rank_banner_image::before,
+.hmk_rank_banner_image::after {
+    content: '';
+    position: relative;
+    width: 150px; /* 각 이미지의 고정 너비 */
+    height: 100%;
+    margin-right: 20px; /* 이미지 사이 간격 */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    flex-shrink: 0; /* 이미지가 축소되지 않도록 설정 */
+}
+
+/* 순차적 이미지 설정 */
+.hmk_rank_banner_image::before {
+    background-image: url('../images/giphy.gif');
+    animation: changeImage 20s steps(1) infinite;
+}
+
+@keyframes changeImage {
+    0%, 25% {
+        background-image: url('../images/giphy.gif');
+    }
+    25%, 50% {
+        background-image: url('../images/giphy\ \(1\).gif');
+    }
+    50%, 75% {
+        background-image: url('../images/giphy\ \(2\).gif');
+    }
+    75%, 100% {
+        background-image: url('../images/giphy\ \(3\).gif');
+    }
+}
+
+/* 슬라이드 애니메이션 */
+@keyframes slideImages {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+/* 텍스트 컨테이너 */
+.hmk_rank_page_title {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* 제목 스타일 */
+.hmk_rank_title_banner h2 {
+    font-family: 'Cinzel', serif;
+    color: #FFD700;
+    font-size: 36px;
+    font-weight: 700;
+    text-shadow: 
+        2px 2px 0 #000,
+        -2px -2px 0 #000,
+        2px -2px 0 #000,
+        -2px 2px 0 #000;
+    letter-spacing: 2px;
+    transition: font-size 0.3s ease;
+}
+
+/* 하단 배너도 동일한 효과 적용하되 반대 방향으로 이동 */
+.hmk_rank_banner_bottom {
+    composes: hmk_rank_title_banner;
+    margin-top: 40px;
+}
+
+.hmk_rank_banner_bottom .hmk_rank_banner_image {
+    animation: slideImages 20s linear infinite reverse;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .hmk_rank_title_banner h2 {
+        font-size: 28px;
+    }
+    .hmk_rank_banner_image::before,
+    .hmk_rank_banner_image::after {
+        width: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hmk_rank_title_banner h2 {
+        font-size: 22px;
+    }
+    .hmk_rank_banner_image::before,
+    .hmk_rank_banner_image::after {
+        width: 100px;
+    }
+}
+
+.hmk_rank_main {
+    width: 65vw;
+    margin: 0 auto;
+    padding: 40px;
+    background-color: #ffffff;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+}
+
+.hmk_rank_main h2 {
+    font-size: 32px;
+    color: #4A148C; /* 보라색으로 강조 */
+    margin-bottom: 20px;
+}
+
+
+.hmk_rank_head {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 40px;
+    align-items: center;
+}
+
+.hmk_rank_head_container {
+    display: flex;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+.hmk_rank_totaluser,
+.hmk_rank_totaltask,
+.hmk_rank_totalpoint {
+    text-align: center;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    width: 10vw;
+}
+
+.hmk_rank_totaluser p,
+.hmk_rank_totaltask p,
+.hmk_rank_totalpoint p {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 5px 0;
+}
+
+.hmk_rank_totaluser p:nth-child(3),
+.hmk_rank_totaltask p:nth-child(3),
+.hmk_rank_totalpoint p:nth-child(3) {
+    color: #D32F2F; /* 변화율은 빨간색으로 표시 */
+    font-weight: bold;
+}
+
+
+.hmk_rank_chart {
+    position: relative;
+    width: 15vw;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hmk_rank_chart_center-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.hmk_rank_chart_mission-info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.hmk_rank_chart_mission-info .hmk_rank_text_left {
+    flex: 1;
+    text-align: left;
+}
+
+.hmk_rank_chart_mission-info .hmk_rank_text_right {
+    flex: 1;
+    text-align: right;
+}
+
+.hmk_rank_completed,
+.hmk_rank_total {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.hmk_rank_completed_value,
+.hmk_rank_total_value {
+    font-size: 18px;
+    font-weight: bold;
+    color: #4A148C; /* 보라색 강조 */
+}
+
+
+.hmk_rank_body {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.hmk_rank_body_left {
+    /* 추가 스타일이 필요하다면 여기에 작성 */
+}
+
+.hmk_rank_body_left_top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hmk_rank_podium {
+    width: 40vw;
+    height: 20vw;
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    margin: 40px 0;
+}
+
+.hmk_rank_podium .hmk_rank1,
+.hmk_rank_podium .hmk_rank2,
+.hmk_rank_podium .hmk_rank3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hmk_podium_profile {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.hmk_podium_profile .hmk_ranker_profile_no2,
+.hmk_podium_profile .hmk_ranker_profile_no3 {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 1px solid #4A148C; /* 기본 테두리 색상 */
+    box-shadow: 0 8px 16px rgba(74, 20, 140, 0.5);
+    margin-bottom: 10px;
+}
+
+.hmk_gold {
+    width: 130px;
+    height: 130px;
+    position: relative;
+    background-image: url('../images/rank_fireworks01.gif'); /* 상대 경로 */
+    border-radius: 50%;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.hmk_gold .hmk_ranker_profile_no1 {
+    padding-top: 4px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
+
+.hmk_podium_medal {
+    position: absolute;
+    top: 120px;
+    right: 35px;
+    font-size: 40px;
+}
+
+.hmk_rank1 .hmk_podium_base,
+.hmk_rank2 .hmk_podium_base,
+.hmk_rank3 .hmk_podium_base {
+    text-align: center;
+    padding: 15px 0;
+    border-radius: 10px 10px 0 0;
+    font-weight: bold;
+    color: white;
+    margin-top: 10px;
+}
+
+.hmk_rank1 .hmk_podium_base {
+    height: 200px;
+    width: 13vw;
+    background-color: #FFD700; /* 금메달 색상 */
+    background-image: url('../images/rank_spincup.gif'); /* 상대 경로 */
+    background-size: 35%;
+    background-position: bottom;
+    background-repeat: no-repeat;
+}
+
+.hmk_rank2 .hmk_podium_base {
+    height: 150px;
+    width: 10vw;
+    background-color: #C0C0C0; /* 은메달 색상 */
+}
+
+.hmk_rank3 .hmk_podium_base {
+    height: 100px;
+    width: 9vw;
+    background-color: #CD7F32; /* 동메달 색상 */
+}
+
+.hmk_podium_base p {
+    margin: 5px 0;
+    font-size: 18px;
+}
+
+.hmk_podium_base p:nth-child(2) {
+    font-size: 20px;
+    color: #333;
+}
+
+
+.hmk_rank_body_left_bottom {
+    /* 포디엄 하단 효과 꾸미기 */
+}
+
+.hmk_rank_body_effects .hmk_rank_body_podium_bottom_dffect {
+    /* 사용 중인 스타일이 있다면 여기에 추가 */
+    /* 예시:
+    width: 100px;
+    height: 100px;
+    */
+}
+
+
+.hmk_rank_top10 {
+    width: 40vw;
+    margin-top: 40px;
+}
+
+.hmk_rank_list {
+    width: 100%;
+    height: fit-content;
+    border-collapse: collapse;
+    margin: 0 auto;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.hmk_rank_list th,
+.hmk_rank_list td {
+    border-bottom: 1px solid #ddd;
+    padding: 15px;
+    text-align: center;
+    font-size: 16px;
+    height: fit-content;
+}
+
+.hmk_rank_list th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+.hmk_rank_list td {
+    padding: 0 15px;
+}
+
+.hmk_rank_list td img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.hmk_rank_list tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.hmk_rank_list tr:hover {
+    background-color: #e8f5e9;
+}
+
