@@ -55,8 +55,8 @@ function App() {
 
           <Route path='/stat/:roomNum' element={<YCChallengeStatistics/>} />
           <Route path='/board/:roomNum' element={<YcChallengeBoard/>} />
-          <Route path='/mission' element={<Mission />} />
-          <Route path='/missioninfo' element={<MissionInfo />} />
+          <Route path='/mission/:roomNum' element={<Mission />} />
+          <Route path='/missioninfo/:roomNum' element={<MissionInfo />} />
           <Route path='/cmain/:roomNum' element={<Challengemain />} />
 
 
