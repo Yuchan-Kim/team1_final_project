@@ -1,10 +1,12 @@
-// ChallengePage.jsx
-import React, { useState } from 'react';
+import React, { useEffect,useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
+// import css
 import '../css/JMYC_Challengemain.css';
 import '../css/Jm-Point-info.css';
 
+// import
 import Sidebar from "../../yc_pages/YC_challenge_sidebar.jsx";
 import Header from "../../yc_pages/JMYC_challenge_header.jsx";
 import Footert from "../include/JM-Footer.jsx";
@@ -25,37 +27,6 @@ const ChallengePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedMission, setSelectedMission] = useState(null);
 
-  // 개별 미션 리스트
-  const missions = [
-    { title: "최종 미션", status: "제출", description: "그룹 인증방법 설명", image: "https://img.freepik.com/free-photo/group-people-working-out-together-outdoors_23-2149891452.jpg" },
-    { title: "스트레칭 하기", status: "제출", description: "인증방법 설명", isGroup: false, image: "https://img.freepik.com/free-photo/group-people-working-out-together-outdoors_23-2149891452.jpg" },
-    { title: "500미터 걷기", status: "제출", description: "인증방법 설명", isGroup: false, image: "https://img.freepik.com/free-photo/group-people-working-out-together-outdoors_23-2149891452.jpg" },
-    { title: "물 마시기", status: "제출", description: "인증방법 설명", isGroup: false, image: "https://img.freepik.com/free-photo/group-people-working-out-together-outdoors_23-2149891452.jpg" },
-    { title: "눈 마사지", status: "제출", description: "인증방법 설명", isGroup: false, image: "https://img.freepik.com/free-photo/group-people-working-out-together-outdoors_23-2149891452.jpg" },
-    { title: "눈 마시기", status: "제출", description: "인증방법 설명", isGroup: false, image: "https://img.freepik.com/free-photo/group-people-working-out-together-outdoors_23-2149891452.jpg" }
-  ];
-
-  // 참가자 리스트 (예시 데이터)
-  const participants = [
-    { name: "황유찬", status: "online", points: 600 },
-    { name: "김민수", status: "offline", points: 450 },
-    { name: "이서연", status: "online", points: 750 },
-    { name: "박지훈", status: "online", points: 500 },
-    { name: "최수빈", status: "offline", points: 300 },
-    { name: "정민재", status: "online", points: 650 },
-    { name: "한지민", status: "offline", points: 400 },
-    { name: "오승윤", status: "online", points: 700 },
-    { name: "유재석", status: "offline", points: 350 },
-    { name: "강호동", status: "online", points: 800 },
-    { name: "이영자", status: "offline", points: 200 },
-    { name: "홍길동", status: "online", points: 550 },
-    { name: "김태희", status: "offline", points: 250 },
-    { name: "손흥민", status: "online", points: 900 },
-    { name: "류현진", status: "offline", points: 150 },
-  ];
-
-  // 개별 미션 정렬 (그룹 미션 제외)
-  const sortedMissions = missions.sort((a, b) => (b.isGroup === undefined ? 0 : b.isGroup - a.isGroup));
 
   // 도넛 차트 데이터 설정
   const doughnutData = {
@@ -89,6 +60,39 @@ const ChallengePage = () => {
       },
     },
   };
+
+  // 방정보 가져오기
+  const [roomInfo, setRoomInfo] = useState(null); // 방 설명
+  const [roomAnnoun, setRoomAnnoun] = useState(null); // 공지 사항
+  const [userList, setUserList] = useState([]); // 참가자 리스트
+  const [missionList, setMissionList] = useState([]); // 미션 리스트
+
+  // 방정보 가져오기
+  const getRoomInfo = () => {
+
+    axios({
+      method: 'get',
+      url: "http://localhost:9000/api/roomMain",
+  
+      responseType: 'json'
+    }).then(response => {
+      const { userList, missionList, roomInfo, roomAnnoun } = response.data.apiData;
+
+      setUserList(userList || []);
+      setMissionList(missionList || []);
+      setRoomInfo(roomInfo || {});
+      setRoomAnnoun(roomAnnoun || {});
+
+    }).catch(error => {
+      console.log(error);
+    });
+  };
+
+  useEffect(() => {
+    getRoomInfo();
+    console.log(setRoomInfo);
+  }, []); 
+
 
   // 모달 열기 함수
   const openModal = (mission) => {
@@ -132,31 +136,13 @@ const ChallengePage = () => {
               <div className="yc-room-card">
                 <h3>방 소개</h3>
                 <div className='jm-room-card-contents-box'>
-                  <p>
-                    반갑습니다. 매일 500m 걷기 챌린지방 입니다.<br />
-                    꾸준한 걷는 습관을 만들고 싶은 분들을 모집 중입니다.<br />
-                    우리 모두 건강한 루틴을 만들었으면 좋겠습니다!
-                    반갑습니다. 매일 500m 걷기 챌린지방 입니다.<br />
-                    꾸준한 걷는 습관을 만들고 싶은 분들을 모집 중입니다.<br />
-                    우리 모두 건강한 루틴을 만들었으면 좋겠습니다!
-                    반갑습니다. 매일 500m 걷기 챌린지방 입니다.<br />
-                    꾸준한 걷는 습관을 만들고 싶은 분들을 모집 중입니다.<br />
-                    우리 모두 건강한 루틴을 만들었으면 좋겠습니다!
-                    반갑습니다. 매일 500m 걷기 챌린지방 입니다.<br />
-                    꾸준한 걷는 습관을 만들고 싶은 분들을 모집 중입니다.<br />
-                    우리 모두 건강한 루틴을 만들었으면 좋겠습니다!
-                  </p>
+                  <p>{roomInfo?.roomInfo || "방 소개 없음"}</p>
                 </div>
               </div>
               <div className="yc-room-card">
                 <h3>공지 사항</h3>
                 <div className='jm-room-card-contents-box'>
-                  <p>공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.
-                    공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.
-                    공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.
-                    공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.
-                    공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.공지 내용을 여기에 입력합니다.
-                  </p>
+                  <p>{roomAnnoun?.announcement || "방 공지 없음"}</p>
                 </div>
               </div>
             </div>
@@ -164,7 +150,7 @@ const ChallengePage = () => {
             {/* 참가자 정보 */}
             <div className="yc-participant-info">
               {/* 참가자 수 표시 */}
-              <h3>유저 목록 (총 {participants.length}명)</h3>
+              <h3>유저 목록 (총 {userList.length}명)</h3>
               <div className="yc-participant-user-table">
                 <table className="yc-participant-table">
                   <thead>
@@ -176,11 +162,11 @@ const ChallengePage = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {participants.map((user, index) => (
+                    {userList.map((user, index) => (
                       <tr className='yc-user-list' key={index}>
-                        <td>{user.name}</td>
-                        <td className={`yc-status-${user.status}`}>{user.status}</td>
-                        <td>{user.points}</td>
+                        <td>{user.userName}</td>
+                        <td className={`yc-status-${user.userStatus}`}>{user.userStatus}</td>
+                        <td>points</td>
                         <td><button className="yc-report-button">신고</button></td>
                       </tr>
                     ))}
@@ -194,17 +180,31 @@ const ChallengePage = () => {
           <section className='yc-main-bottom'>
             {/* 개별 미션 요약 */}
             <div className='yc-mission-summary'>
-              {sortedMissions.map((mission, index) => (
+              {missionList.map((mission, index) => (
 
-                <Link to="/mission" className='yc-mission-item' key={index}>
-                  <h4>{mission.title}</h4>
-                  <img src={mission.image} alt={`${mission.title} 이미지`} className="yc-mission-image" />
-                  <div className="yc-mission-content">
-                    
-                    <p>{mission.description}</p>
-                  </div>
-                  <button className="yc-view-button" onClick={() => openModal(mission)}>더보기</button>
-                </Link>
+              <Link 
+                to="/mission" 
+                className='yc-mission-item' 
+                key={index}
+                >
+                <h4>{mission.missionName}</h4>
+                <img src="" alt={`${mission.missionName} 이미지`} className="yc-mission-image" />
+                <div className="yc-mission-content">
+                  <p>{mission.missionMethod}</p>
+                </div>
+
+                {/* 더보기 버튼: 모달 열기 */}
+                <button 
+                  className="yc-view-button" 
+                  onClick={(e) => {
+                    e.stopPropagation(); // 부모 Link 클릭 이벤트 전파 방지
+                    e.preventDefault();  // Link의 기본 동작 방지
+                    openModal(mission);  // 모달 열기
+                  }}
+                >
+                  더보기
+                </button>
+              </Link>
               ))}
             </div>
           </section>
@@ -224,10 +224,10 @@ const ChallengePage = () => {
             </button>
             {/* 모달 내용 */}
             <div className="yc-modal-content_roomMain">
-              <img src={selectedMission.image} alt={`${selectedMission.title} 상세 이미지`} className="yc-modal-image_roomMain" />
+              <img src={selectedMission.image || "default-image-path.jpg"} alt={`${selectedMission.title} 상세 이미지`} className="yc-modal-image_roomMain" />
               <div className="yc-modal-description_roomMain">
-                <h2 id="modal-title">{selectedMission.title}</h2>
-                <p>{selectedMission.description}</p>
+                <h2 id="modal-title">{selectedMission.missionName}</h2>
+                <p>{selectedMission.missionMethod}</p>
                 {/* 추가 정보가 있다면 여기에 추가 */}
               </div>
             </div>

@@ -133,10 +133,49 @@
 }
 /* 미션제출 이미지 */
 .jm-task-img {
-  border-radius: 5px;
-  margin-top: 10px;
   width: 100%;
-  background-color: #ccc;
+    max-width: 300px; /* 적당한 크기로 설정 */
+    height: auto;
+    aspect-ratio: 1/1; /* 정사각형 유지 */
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.jm-image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.jm-slider-buttons {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+}
+
+.jm-slider-btn {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 5px 7px;
+  cursor: pointer;
+  font-size: 10px;
+  border-radius: 50%;
+  margin: 0 10px;
+}
+
+.jm-slider-btn:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.jm-slider-btn.prev {
+  left: 10px;
+}
+
+.jm-slider-btn.next {
+  right: 10px;
 }
 
 .jm-task-comment-container {
@@ -211,15 +250,30 @@
   color: #383E47;
   margin-bottom: 10px;
 }
+
+.jm-modal-task-images {
+  position: relative;
+  width: 100%;
+  max-width: 400px; /* 이미지 컨테이너의 최대 너비 설정 */
+  margin: 0 auto; /* 중앙 정렬 */
+  overflow: hidden; /* 넘치는 이미지를 숨김 */
+}
+
 /* 모달 미션제출 이미지 컨테이너 */
 .jm-info-modal-img {
   text-align: center;
 }
-/* 모달 미션제출 이미지 */
-.jm-info-modal-img img {
-  width: 100%;
-  border-radius: 10px;
+
+/* 미션제출 이미지 */
+.jm-modal-task-img {
+    width: 100%;
+    max-width: 400px; /* 적당한 크기로 설정 */
+    height: auto;
+    aspect-ratio: 1/1; /* 정사각형 유지 */
+    object-fit: cover;
+    border-radius: 8px;
 }
+
 .jm-modal-comment-container {
   border: solid 1px #ccc;
   border-radius: 5px;
@@ -248,5 +302,44 @@
   border-radius: 5px;
   color: white;
   margin-right: 10px;
+}
+
+/* 슬라이더 버튼 */
+.jm-modal-slider-buttons {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.jm-modal-slider-btn {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  pointer-events: all;
+  transition: background-color 0.3s ease;
+}
+
+.jm-modal-slider-btn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.jm-modal-slider-btn.prev {
+  left: 10px;
+}
+
+.jm-modal-slider-btn.next {
+  right: 10px;
 }
 
