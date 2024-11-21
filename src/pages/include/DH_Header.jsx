@@ -4,13 +4,14 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-// import { useSearchParams} from 'react-router-dom';	파라미터값사용하는 라우터
 
 //import 컴포넌트
 import profileStore from '../../ham_pages/ham_common/profileStore'; // ProfileStore import 경로 확인 <<-- 민규 Topbar 사용-------------------------------------->>
 
 //import css
 import '../../css/dh_header.css';
+
+import defaultProfile from '../../ham_asset/images/profile-fill.png'; // import default profileImage << -- 프로필 이미지 기본 값 -------------------------------------->>
 
 
 const DH_Header = () => {
@@ -22,6 +23,11 @@ const DH_Header = () => {
 	const [historyPoint, setHistoryPoint] = useState(0);
 
 	// --------------------------------< 민규 Tobbar용 사용 >----------------------------------------------------------------------------------------------------
+	// Helper 함수 추가 -- 프로필 변경 시 헤더에도 적용되게 하는 것을 도와주는 함수
+	const getFullImagePath = (path) => {
+		const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
+		return path.startsWith('http') ? path : `${apiUrl}${path}`;
+	};
 
 	const [profile, setProfile] = useState({
         nickname: profileStore.getNickname(),
@@ -168,8 +174,16 @@ const DH_Header = () => {
 						):(
 							<>
 								<div className="dy-afterlogin">
-									<Link to="/user/mypage">
-										<img src="../images/profile.png" className="dy-header-profile" alt="profile" />
+									<Link to="/my/mypage">
+										<img
+											src={getFullImagePath(profile.profileImage)}  // profile.profileImage 사용
+											className="dy-header-profile"
+											alt="profile"
+											onError={(e) => {
+												e.target.onerror = null;
+												e.target.src = defaultProfile;
+											}}
+										/>
 									</Link>
 									<ol className="dy-header-login-info">
 										<li className="dy-header-nickname">{authUser.userName}</li>

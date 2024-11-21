@@ -108,25 +108,6 @@
 }
 
 
-/* 다른플랫폼으로 회원가입 모두 */
-.dy-joinform .dy-api-joins {
-    margin-top: 30px;
-}
-
-/* 다른플랫폼으로 회원가입 하나씩 */
-.dy-joinform .dy-api-join {
-    width: 100%;
-    height: 35px;
-    display: flex; 
-    justify-content: center;
-    align-items: center;
-    
-    border: 1px solid black;
-    border-radius: 15px;
-    margin-bottom: 10px;
-    
-}
-
 /* 로그인 */
 .dy-joinform-content .dy-to-loginform {
     margin-top: 30px;

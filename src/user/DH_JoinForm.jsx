@@ -3,7 +3,6 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-// import { useSearchParams} from 'react-router-dom';	파라미터값사용하는 라우터
 
 //import 컴포넌트
 import Header from '../pages/include/DH_Header';
@@ -149,6 +148,12 @@ const DH_JoinForm = () => {
     const handleJoin = (e)=> {
         e.preventDefault(); 
 
+        // 비밀번호가 입력되지 않은 경우
+        if (!userPw || !userPw2) {
+            alert("비밀번호를 입력해주세요.");
+            return;
+        }
+
         // 비밀번호 유효성 검사
         if (!pwRegex.test(userPw)) {
             alert("비밀번호가 조건에 부합하지 않습니다. 조건을 확인하세요.");
@@ -264,16 +269,8 @@ const DH_JoinForm = () => {
                                 )}
                             </div>
                             
-
                             <button type="submit" className="dy-submit-btn">가입하기</button>
-                            <div>─────────── 또는 ───────────</div>
-
-                            <div className="dy-api-joins">
-                                <div className="dy-api-join">카카오로 가입하기</div>
-                                <div className="dy-api-join">Google로 가입하기</div>
-                                <div className="dy-api-join">네이버로 가입하기</div>
-                            </div>
-
+                            
                             <div className="dy-to-loginform"><Link to="/user/loginform" className="dy-link" rel="noreferrer noopener">이미 계정이 있나요? 여기에서 로그인하세요</Link></div>
                         </form>
                     </div>

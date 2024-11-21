@@ -42,6 +42,9 @@ import DHPointStoreMain from './pointstore/DH_PointStoreMain.jsx';
 
 import Main from './pages/main/Main';
 import Mainlist from './pages/main/Mainlist';
+
+import Uk from './user/UserKakaoLogin.jsx';
+
 function App() {
   return (
     <BrowserRouter> 
@@ -62,10 +65,10 @@ function App() {
           <Route path='/mission' element={<Mission />} />
           <Route path='/missioninfo' element={<MissionInfo />} />
           <Route path='/cmain' element={<Challengemain />} />
-          <Route path='/user/mypage' element={<Mypage />} />
-          <Route path='/user/mypoint' element={<Pointpage />} />
-          <Route path='/user/cargo' element={<Cargo />} />
-          <Route path='/user/rank' element={<Rank />} />
+          <Route path='/my/mypage' element={<Mypage />} />
+          <Route path='/my/mypoint' element={<Pointpage />} />
+          <Route path='/my/cargo' element={<Cargo />} />
+          <Route path='/my/rank' element={<Rank />} />
           <Route path='/genebang/genebang01' element={<Step0 />} />
           <Route path='/genebang/step1' element={<Step1 />} />
           <Route path='/genebang/step2' element={<Step2 />} />
@@ -85,6 +88,8 @@ function App() {
 					<Route path='/pointstore/pointstoremain' element={<DHPointStoreMain />} />
           <Route path='/' element={<Main />} />
           <Route path='/mainlist' element={<Mainlist />} />
+
+          <Route path='/user/uk' element={<Uk />} />
         </Routes>
     </BrowserRouter>
 
