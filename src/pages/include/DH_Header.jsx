@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode'; //추가
 // import { useSearchParams} from 'react-router-dom';   파라미터값사용하는 라우터
 
 //import 컴포넌트
@@ -11,7 +12,7 @@ import profileStore from '../../ham_pages/ham_common/profileStore'; // ProfileSt
 //import css
 import '../../css/dh_header.css';
 
-
+import defaultProfile from '../../ham_asset/images/profile-fill.png'; // import default profileImage << -- 프로필 이미지 기본 값 -------------------------------------->>
 const DH_Header = () => {
 
    /*---일반 변수 --------------------------------------------*/
@@ -35,40 +36,12 @@ const DH_Header = () => {
       region: profileStore.getRegion(),
       userNum: profileStore.getUserNum(),
       challengesDetails: profileStore.getChallengesDetails(),
-      token: profileStore.getToken()
    });
    // ProfileStore 구독
    useEffect(() => {
       const handleProfileChange = (updatedProfile) => {
          console.log("ProfileStore updated:", updatedProfile);
-         setProfile({
-            userNum: updatedProfile.userNum,
-            nickname: updatedProfile.nickname,
-            profileImage: updatedProfile.profileImage,
-            challengesSummary: updatedProfile.challengesSummary,
-            ownedProfileImages: updatedProfile.ownedProfileImages,
-            region: updatedProfile.region,
-            challengesDetails: updatedProfile.challengesDetails,
-            token: updatedProfile.token
-         });
-
-         // 'authUser'를 업데이트하여 헤더에서 사용
-         const authUserStr = localStorage.getItem('authUser');
-         if (authUserStr) {
-            try {
-               const authUser = JSON.parse(authUserStr);
-               authUser.userName = updatedProfile.nickname;
-               localStorage.setItem('authUser', JSON.stringify(authUser));
-               setAuthUser(authUser);
-            } catch (error) {
-               console.error('Failed to parse authUser from localStorage:', error);
-            }
-         } else {
-            // 'authUser'가 없으면 생성
-            const newAuthUser = { userName: updatedProfile.nickname };
-            localStorage.setItem('authUser', JSON.stringify(newAuthUser));
-            setAuthUser(newAuthUser);
-         }
+         setProfile(updatedProfile);
       };
       profileStore.subscribe(handleProfileChange);
       // 초기 구독자 호출
@@ -80,7 +53,6 @@ const DH_Header = () => {
          region: profileStore.getRegion(),
          userNum: profileStore.getUserNum(),
          challengesDetails: profileStore.getChallengesDetails(),
-         token: profileStore.getToken()
       });
       return () => {
          profileStore.unsubscribe(handleProfileChange);
@@ -107,6 +79,26 @@ const DH_Header = () => {
    const getUserPoints = () => {
       if (!token || !authUser) return;
 
+      // JWT 토큰 만료 확인
+      const isTokenExpired = (token) => {
+         try {
+            const decoded = jwtDecode(token);
+            const currentTime = Date.now() / 1000; // 현재 시간(초 단위)
+            return decoded.exp < currentTime; // 만약 토큰이 만료되었으면 true 반환
+         } catch (error) {
+            return true; // 토큰 디코드 실패 시 만료된 것으로 처리
+         }
+      };
+
+      // 만약 토큰이 만료되었으면 로그아웃 처리
+      if (isTokenExpired(token)) {
+         localStorage.removeItem('token');
+         localStorage.removeItem('authUser');
+         navigate("/user/loginform"); // 로그아웃 후 로그인 페이지로 이동
+         alert("일정시간이 지나 로그아웃 됐습니다. 다시 로그인하고 이용해주세요.");
+         return;
+      }
+
       axios({
          method: 'get', // HTTP 메서드 설정 (GET 요청)
          url: `${process.env.REACT_APP_API_URL}/api/user/points`, // API URL
@@ -132,11 +124,28 @@ const DH_Header = () => {
       if (token && authUser) {
          getUserPoints();  // 로그인 상태일 때 포인트 정보 가져오기
       }
-   }, [token, authUser?.userName]);
+   }, [token, authUser]);
 
-   const handleLogout = () => {
-      localStorage.removeItem('token');
-      localStorage.removeItem('authUser');
+   const handleLogout = async () => {
+      //------------------------------------------ < 네이버 로그아웃 >-----------------------------------------
+      if (authUser?.socialLogin === 'naver') {
+         try {
+            await axios.get(`https://nid.naver.com/oauth2.0/token`, {
+               params: {
+                  grant_type: 'delete',
+                  client_id: process.env.REACT_APP_NAVER_CLIENT_ID,
+                  client_secret: process.env.REACT_APP_NAVER_CLIENT_SECRET,
+                  access_token: localStorage.getItem('naverAccessToken'),
+                  service_provider: 'NAVER'
+               }
+            });
+            localStorage.removeItem('naverAccessToken');
+         } catch (error) {
+            console.error('네이버 로그아웃 실패:', error);
+         }
+      }
+      localStorage.clear();
+      //------------------------------------------ < 네이버 로그아웃 >-----------------------------------------
       // --------------------------------< 민규 Tobbar용 사용 >--------------------------------
       profileStore.setToken(null); // ProfileStore에 토큰 제거를 요청하여 모든 사용자 정보를 초기화합니다.
       // --------------------------------< /민규 Tobbar용 사용 >--------------------------------
@@ -181,7 +190,7 @@ const DH_Header = () => {
                   ) : (
                      <>
                         <div className="dy-afterlogin">
-                           <Link to="/user/mypage">
+                           <Link to="/my/mypage">
                               <img
                                  src={getFullImagePath(profile.profileImage)}  // profile.profileImage 사용
                                  className="dy-header-profile"

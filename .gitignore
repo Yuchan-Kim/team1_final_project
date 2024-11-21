@@ -24,3 +24,6 @@ yarn-error.log*
 
 # img files
 /ham_asset/images
+
+# 로칼 환경 변수
+.env

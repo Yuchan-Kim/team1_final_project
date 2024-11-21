@@ -67,7 +67,7 @@ const Topbar = () => {
     const fetchRegionSuggestions = async (input) => {
         try {
             const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
-            const response = await axios.get(`${apiUrl}/api/user/updateAddress`, {
+            const response = await axios.get(`${apiUrl}/api/my/updateAddress`, {
                 params: { query: input }
             });
             setSuggestions(response.data.apiData || []); // 자동완성 결과를 상태에 설정
@@ -130,7 +130,7 @@ const Topbar = () => {
         }
         try {
             const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
-            const response = await axios.put(`${apiUrl}/api/user/${userNum}/update-profile`, {
+            const response = await axios.put(`${apiUrl}/api/my/${userNum}/update-profile`, {
                 profileImage: selectedProfileImage // 상대 경로 전송
             }, {
                 headers: {
@@ -164,7 +164,7 @@ const Topbar = () => {
             return;
         }
         const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
-        console.log(`API 요청 시작: /api/user/${userNum}/update${type === 'nickname' ? 'Nickname' : type.charAt(0).toUpperCase() + type.slice(1)}`, type === 'address' ? newAddress : '');
+        console.log(`API 요청 시작: /api/my/${userNum}/update${type === 'nickname' ? 'Nickname' : type.charAt(0).toUpperCase() + type.slice(1)}`, type === 'address' ? newAddress : '');
         try {
             let response;
             switch (type) {
@@ -175,7 +175,7 @@ const Topbar = () => {
                     }
                     // 닉네임 중복 체크
                     setIsCheckingNickname(true);
-                    const checkResponse = await axios.get(`${apiUrl}/api/user/checkNickname`, {
+                    const checkResponse = await axios.get(`${apiUrl}/api/my/checkNickname`, {
                         params: { nickname: newNickname.trim() }
                     });
                     setIsCheckingNickname(false);
@@ -187,7 +187,7 @@ const Topbar = () => {
                         return;
                     }
                     // 중복이 없는 경우 닉네임 업데이트 요청
-                    response = await axios.put(`${apiUrl}/api/user/${userNum}/updateNickname`, {
+                    response = await axios.put(`${apiUrl}/api/my/${userNum}/updateNickname`, {
                         nickname: newNickname.trim()
                     });
                     if (response?.data.result === 'success') {
@@ -206,7 +206,7 @@ const Topbar = () => {
                         alert("주소를 입력해주세요.");
                         return;
                     }
-                    response = await axios.put(`${apiUrl}/api/user/${userNum}/updateAddress`, {
+                    response = await axios.put(`${apiUrl}/api/my/${userNum}/updateAddress`, {
                         region: newAddress.trim()
                     }, { headers: { 'Content-Type': 'application/json' } });
                     if (response?.data.result === 'success') {
@@ -239,7 +239,7 @@ const Topbar = () => {
                         return;
                     }
                     // 모든 검증을 통과했을 경우 비밀번호 변경 요청
-                    response = await axios.put(`${apiUrl}/api/user/${userNum}/updatePassword`, {
+                    response = await axios.put(`${apiUrl}/api/my/${userNum}/updatePassword`, {
                         currentPassword,
                         newPassword
                     });

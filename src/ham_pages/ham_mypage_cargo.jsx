@@ -62,7 +62,7 @@ const Cargo = () => {
             setLoading(true);
             try {
                 const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
-                const response = await axios.get(`${apiUrl}/api/user/${userNum}/giftcards`);
+                const response = await axios.get(`${apiUrl}/api/my/${userNum}/giftcards`);
                 if (response.data.result === 'success') {
                     setGiftCards(response.data.apiData || []);
                 }

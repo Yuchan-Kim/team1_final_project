@@ -8,6 +8,8 @@ import Mypage from './ham_pages/ham_mypage';
 import Pointpage from './ham_pages/ham_mypage_point';
 import Cargo from './ham_pages/ham_mypage_cargo';
 // import Rank from './ham_pages/ham_mypage_ranking';
+import NaverLogin from './ham_pages/NaverLogin.jsx';
+import NaverLoginCallback  from './ham_pages/NaverLogin_callback';
 
 import Step0 from './pages/genebang/Genebang01';
 import Step1 from './pages/genebang/Step01';
@@ -39,10 +41,12 @@ function App() {
           <Route path='/mission' element={<Mission />} />
           <Route path='/missioninfo' element={<MissionInfo />} />
           <Route path='/cmain' element={<Challengemain />} />
-            <Route path='/user/mypage' element={<Mypage />} />
-          <Route path='/user/mypoint' element={<Pointpage />} />
-          <Route path='/user/cargo' element={<Cargo />} />
+            <Route path='/my/mypage' element={<Mypage />} />
+          <Route path='/my/mypoint' element={<Pointpage />} />
+          <Route path='/my/cargo' element={<Cargo />} />
           {/* <Route path='/user/rank' element={<Rank />} /> */}
+          <Route path="/naver/login" element={<NaverLogin />} />
+          <Route path="/naver/callback" element={<NaverLoginCallback  />} />
             <Route path='/genebang/genebang01' element={<Step0 />} />
 
           <Route path='/genebang/step1' element={<Step1 />} />

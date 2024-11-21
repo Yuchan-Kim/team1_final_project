@@ -128,11 +128,11 @@ const Pointpage = () => {
             };
 
             const [historyResponse, summaryResponse] = await Promise.all([
-                axios.get(`${apiUrl}/api/user/${userNum}/pointHistory`, {
+                axios.get(`${apiUrl}/api/my/${userNum}/pointHistory`, {
                     params,
                     headers: { 'Authorization': `Bearer ${token}` }
                 }),
-                axios.get(`${apiUrl}/api/user/${userNum}/pointSummary`, {
+                axios.get(`${apiUrl}/api/my/${userNum}/pointSummary`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 })
             ]);

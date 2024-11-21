@@ -100,7 +100,7 @@ class ProfileStore {
 
         try {
             const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
-            const response = await fetch(`${apiUrl}/api/user/${this.userNum}`, {
+            const response = await fetch(`${apiUrl}/api/my/${this.userNum}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${this.token}`,

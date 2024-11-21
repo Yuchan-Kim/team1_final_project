@@ -1,0 +1,9 @@
+.naver-login-container {
+    display: block !important;
+    margin: 10px 0;
+    min-height: 40px;
+}
+
+#naver_id_login * {
+    display: block !important;
+}

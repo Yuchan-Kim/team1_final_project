@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 //import 컴포넌트
 import Header from '../pages/include/DH_Header';
-
+import NaverLogin from '../ham_pages/NaverLogin';
 //import css
 import '../css/dh_joinform.css';
 
@@ -265,7 +265,7 @@ const DH_JoinForm = () => {
                             <div className="dy-api-joins">
                                 <div className="dy-api-join">카카오로 계속하기</div>
                                 <div className="dy-api-join">Google로 계속하기</div>
-                                <div className="dy-api-join">네이버로 계속하기</div>
+                                <NaverLogin />
                             </div>
 
                             <div className="dy-to-loginform"><Link to="/user/loginform" className="dy-link" rel="noreferrer noopener">이미 계정이 있나요? 여기에서 로그인하세요</Link></div>

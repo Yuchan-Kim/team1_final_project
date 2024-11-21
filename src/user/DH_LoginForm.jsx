@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 //import 컴포넌트
 import Header from '../pages/include/DH_Header';
-
+import NaverLogin from '../ham_pages/NaverLogin';
 //import css
 import '../css/dh_loginform.css';
 
@@ -105,7 +105,7 @@ const DH_LoginForm = () => {
                         <div className="dy-api-logins">
                             <div className="dy-api-login">카카오로 가입하기</div>
                             <div className="dy-api-login">Google로 가입하기</div>
-                            <div className="dy-api-login">네이버로 가입하기</div>
+                            <NaverLogin  />
                         </div>
                         {/* /dy-api-logins */}
                         <div className="dy-middle">─────────── 또는 ───────────</div>
