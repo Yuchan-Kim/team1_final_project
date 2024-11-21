@@ -1,9 +1,9 @@
 // src/components/YCChallengeSidebar.jsx
 
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 import Modal from 'react-modal';
-import SendIcon from '@rsuite/icons/Send';
 
 import '../yc_assets/yc_css/yc_css_challenge_sidebar.css';
 
@@ -14,23 +14,25 @@ import YCStep05 from '../yc_pages/YC_Step05';
 import YCStep06 from '../yc_pages/YC_Step06';
 import YCStep07 from '../yc_pages/YC_Step07';
 import YCStep10 from '../yc_pages/YC_Step10';
-// Step11은 우선 무시
 
 import { FaHome, FaBullhorn, FaTasks, FaUpload, FaUserFriends, FaCogs } from 'react-icons/fa';
 
 import { YCStepNav } from '../yc_pages/YC_StepNav.jsx';
 
-Modal.setAppElement('#root'); // 접근성 설정
+Modal.setAppElement('#root');
 
 const YCChallengeSidebar = () => {
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [currentStep, setCurrentStep] = useState(2); // Step02부터 시작
-    const [previousStep, setPreviousStep] = useState(null); // 이전 스텝 추적
+    const [currentStep, setCurrentStep] = useState(2);
+    const [previousStep, setPreviousStep] = useState(null);
+    const [isExitModalOpen, setIsExitModalOpen] = useState(false);
+    const [exitModalMessage, setExitModalMessage] = useState('');
+    const [exitModalType, setExitModalType] = useState('');
 
     const openModal = () => {
         setIsModalOpen(true);
-        setCurrentStep(2); // 모달 열 때 Step02로 설정
+        setCurrentStep(2);
         setPreviousStep(null);
     };
 
@@ -38,36 +40,70 @@ const YCChallengeSidebar = () => {
         setIsModalOpen(false);
     };
 
+    const { roomNum } = useParams();
+
+    const [roomStatusNum, setRoomStatusNum] = useState(null);
+    const [enteredUserAuth, setEnteredUserAuth] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const token = localStorage.getItem('token');
+            try {
+                // roomStatusNum 가져오기
+                const roomInfoResponse = await axios.get(`http://localhost:9000/api/challenge/header/${roomNum}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                if (roomInfoResponse.data.result === 'success') {
+                    setRoomStatusNum(roomInfoResponse.data.apiData.roomStatusNum);
+                } else {
+                    console.error('Failed to get room info:', roomInfoResponse.data.message);
+                }
+
+                // enteredUserAuth 가져오기
+                const userAuthResponse = await axios.get(`http://localhost:9000/api/challenge/user/${roomNum}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                if (userAuthResponse.data.result === 'success') {
+                    setEnteredUserAuth(userAuthResponse.data.apiData);
+                } else {
+                    console.error('Failed to get user auth:', userAuthResponse.data.message);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, [roomNum]);
+
     const handleNext = (path = null) => {
         if (path) {
-            // 특정 경로로 네비게이션 (예: Step09의 '/cmain')
             closeModal();
             navigate(path);
         } else {
-            // 이전 스텝을 저장
             setPreviousStep(currentStep);
-            // 다음 스텝으로 이동
-            setCurrentStep((prev) => Math.min(prev + 1, 10)); // 최대 Step10까지
+            setCurrentStep((prev) => Math.min(prev + 1, 10));
         }
     };
 
     const handlePrevious = () => {
-        if (currentStep === 2) return; // Step02에서는 이전 단계로 가지 않음
-        setCurrentStep((prev) => Math.max(prev - 1, 2)); // 최소 Step02로
+        if (currentStep === 2) return;
+        setCurrentStep((prev) => Math.max(prev - 1, 2));
     };
 
-    // Step10의 취소 버튼을 위한 함수: 이전 스텝으로 돌아가기
     const handleStep10Cancel = () => {
         if (previousStep) {
             setCurrentStep(previousStep);
             setPreviousStep(null);
         } else {
-            // 이전 스텝이 없을 경우, 모달 닫기
             closeModal();
         }
     };
 
-    // Step10의 버리기와 저장하기 버튼을 위한 함수: 모달 닫기
     const handleStep10Discard = () => {
         closeModal();
     };
@@ -76,12 +112,10 @@ const YCChallengeSidebar = () => {
         navigate('/ycstep10');
     };
 
-    // YCStepNav에서 호출할 스텝 변경 핸들러
     const handleStepChange = (step) => {
         setCurrentStep(step);
     };
 
-    // 현재 단계에 따라 렌더링할 컴포넌트 결정
     const renderStep = () => {
         switch (currentStep) {
             case 2:
@@ -109,78 +143,205 @@ const YCChallengeSidebar = () => {
         }
     };
 
+    // 특정 링크 클릭 시 이벤트 핸들러
+    const handleLinkClick = (e) => {
+        if ((roomStatusNum === 1 || roomStatusNum === 2) && enteredUserAuth === 2) {
+            e.preventDefault();
+        }
+    };
+
+    // 관리 메뉴 클릭 시 이벤트 핸들러
+    const handleManageClick = (e) => {
+        if (!(enteredUserAuth === 1 && (roomStatusNum === 1 || roomStatusNum === 2))) {
+            e.preventDefault();
+        } else {
+            openModal();
+        }
+    };
+
+    // "나가기" 버튼 클릭 핸들러 추가
+    const handleExitClick = () => {
+        if (roomStatusNum === 1) {
+            // 방이 삭제됨
+            setExitModalMessage('방을 나가시겠습니까? 방이 삭제됩니다.');
+            setExitModalType('delete');
+        } else if (roomStatusNum === 2) {
+            // 챌린지를 그만둠
+            setExitModalMessage('챌린지를 그만 두시겠습니까?');
+            setExitModalType('leave');
+        } else if (roomStatusNum === 3) {
+            // 챌린지를 그만두면 페널티
+            setExitModalMessage('챌린지를 그만 두시겠습니까? 도중에 그만두게 되면 페널티를 얻습니다. (달성률 관한 포인트 적립 불가)');
+            setExitModalType('penalty');
+        } else {
+            // 다른 상태 처리 (필요시)
+            return;
+        }
+        setIsExitModalOpen(true);
+    };
+    // 모달의 확인 버튼 클릭 핸들러 추가
+const handleExitConfirm = async () => {
+    const token = localStorage.getItem('token');
+    try {
+        if (exitModalType === 'delete') {
+            // 방 삭제 API 호출
+            const response = await axios.delete(`http://localhost:9000/api/challenge/delete-room/${roomNum}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (response.data.result === 'success') {
+                alert('방이 삭제되었습니다.');
+                navigate('/'); // 메인 페이지로 이동
+            } else {
+                alert('방 삭제에 실패했습니다.');
+            }
+        } else if (exitModalType === 'leave' || exitModalType === 'penalty') {
+            // 방 나가기 API 호출
+            const response = await axios.put(`http://localhost:9000/api/challenge/leave-room/${roomNum}`, null, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (response.data.result === 'success') {
+                alert('챌린지를 나갔습니다.');
+                navigate('/'); // 메인 페이지로 이동
+            } else {
+                alert('챌린지 나가기에 실패했습니다.');
+            }
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('서버와의 통신에 실패했습니다.');
+    } finally {
+        setIsExitModalOpen(false);
+    }
+};
+
+// 모달 닫기 핸들러
+const closeExitModal = () => {
+    setIsExitModalOpen(false);
+};
+
+    // 상태 변수 정의
+    const isDisabled = (roomStatusNum === 1 || roomStatusNum === 2) && enteredUserAuth === 2;
+
     return (
         <aside className="yc_challenge_sidebar">
-            {/* 메뉴 섹션 */}
             <nav className="yc_challenge_menu">
                 <ul>
                     <li className="yc_challenge_sidebar_home">
-                        <Link to="/cmain" aria-label="홈">
+                        <Link to={`/cmain/${roomNum}`} aria-label="홈">
                             <FaHome size={24} />
                             <span className="menu-text">홈</span>
                         </Link>
                     </li>
                     <li className="yc_challenge_sidebar_notice">
-                        <Link to="/board" aria-label="공지/유의 사항">
+                        <Link to={`/board/${roomNum}`} aria-label="공지/유의 사항">
                             <FaBullhorn size={24} />
                             <span className="menu-text">공지사항</span>
                         </Link>
                     </li>
-                    <li className="yc_challenge_sidebar_mission-detail">
-                        <Link to="/missioninfo" aria-label="미션 상세">
+                    <li className={`yc_challenge_sidebar_mission-detail ${isDisabled ? 'disabled' : ''}`}>
+                        <Link
+                            to={`/missioninfo/${roomNum}`}
+                            aria-label="미션 상세"
+                            onClick={handleLinkClick}
+                            className={isDisabled ? 'disabled-link' : ''}
+                        >
                             <FaTasks size={24} />
-                            <span className="menu-text">미션 히스토리 / 체점</span>
+                            <span className="menu-text">미션 히스토리 / 채점</span>
                         </Link>
                     </li>
-                    <li className="yc_challenge_sidebar_submission-status">
-                        <Link to="/mission" aria-label="제출 현황">
+                    <li className={`yc_challenge_sidebar_submission-status ${isDisabled ? 'disabled' : ''}`}>
+                        <Link
+                            to={`/mission/${roomNum}`}
+                            aria-label="제출 현황"
+                            onClick={handleLinkClick}
+                            className={isDisabled ? 'disabled-link' : ''}
+                        >
                             <FaUpload size={24} />
                             <span className="menu-text">미션 제출</span>
                         </Link>
                     </li>
-                    <li className="yc_challenge_sidebar_user-status">
-                        <Link to="/stat" aria-label="유저 현황">
+                    <li className={`yc_challenge_sidebar_user-status ${isDisabled ? 'disabled' : ''}`}>
+                        <Link
+                            to={`/stat/${roomNum}`}
+                            aria-label="유저 현황"
+                            onClick={handleLinkClick}
+                            className={isDisabled ? 'disabled-link' : ''}
+                        >
                             <FaUserFriends size={24} />
                             <span className="menu-text">유저 현황</span>
                         </Link>
                     </li>
-                    <li className="yc_challenge_sidebar_manage">
-                        {/* "관리" 버튼을 클릭하면 모달 열기 */}
-                        <Link onClick={openModal} aria-label="관리" className="manage-button">
-                            <FaCogs size={24} />
-                            <span className="menu-text">관리</span>
-                        </Link>
-                    </li>
+
+                    {/* 관리 메뉴 */}
+                    {(enteredUserAuth === 1 && (roomStatusNum === 1 || roomStatusNum === 2)) && (
+                        <li className="yc_challenge_sidebar_manage">
+                            <Link
+                                onClick={handleManageClick}
+                                aria-label="관리"
+                                className="manage-button"
+                            >
+                                <FaCogs size={24} />
+                                <span className="menu-text">관리</span>
+                            </Link>
+                        </li>
+                    )}
                 </ul>
             </nav>
 
-            {/* 모달 구현 */}
             <Modal
                 isOpen={isModalOpen}
                 onRequestClose={closeModal}
                 contentLabel="관리 및 방 생성 모달"
-                className="custom-modal" // 사용자 정의 클래스
-                overlayClassName="custom-overlay" // 사용자 정의 오버레이 클래스
+                className="custom-modal"
+                overlayClassName="custom-overlay"
             >
                 <div className="modal-content">
-                    {/* YCStepNav 컴포넌트 추가 */}
                     <YCStepNav currentStep={currentStep} onStepChange={handleStepChange} />
                     {renderStep()}
                 </div>
             </Modal>
 
-            {/* 푸터 버튼 섹션 */}
+            <Modal
+                isOpen={isExitModalOpen}
+                onRequestClose={closeExitModal}
+                contentLabel="나가기 확인 모달"
+                className="custom-modal"
+                overlayClassName="custom-overlay"
+            >
+                <div className="modal-content">
+                    <p>{exitModalMessage}</p>
+                    <div className="modal-buttons">
+                        {exitModalType === 'delete' ? (
+                            <>
+                                <button onClick={handleExitConfirm}>삭제</button>
+                                <button onClick={closeExitModal}>취소</button>
+                            </>
+                        ) : (
+                            <>
+                                <button onClick={handleExitConfirm}>확인</button>
+                                <button onClick={closeExitModal}>취소</button>
+                            </>
+                        )}
+                    </div>
+                </div>
+            </Modal>
+
             <div className="yc_challenge_footer-buttons">
                 <button className="yc_challenge_report-btn" title="신고">
                     신고
                 </button>
-                <button className="yc_challenge_exit-btn" title="나가기">
+                <button className="yc_challenge_exit-btn" title="나가기" onClick={handleExitClick}>
                     나가기
                 </button>
             </div>
         </aside>
-    );
 
+        
+    );
 };
 
 export default YCChallengeSidebar;

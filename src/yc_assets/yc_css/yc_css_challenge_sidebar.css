@@ -99,12 +99,13 @@
 }
 
 /* 메뉴 아이템 호버 및 활성화 스타일 */
-.yc_challenge_menu li.active,
-.yc_challenge_menu li:hover {
+.yc_challenge_menu li:not(.disabled):hover,
+.yc_challenge_menu li.active:not(.disabled) {
     background-color: #34495e;
     color: white;
     transform: translateY(-1px);
 }
+
 
 /* 푸터 버튼 섹션 */
 .yc_challenge_footer-buttons {
@@ -153,4 +154,32 @@
 .yc_challenge_exit-btn:hover {
     color: #2c2f33;
     transform: translateY(-2px);
+}
+
+/* 비활성화된 링크 및 아이콘 스타일 */
+.disabled-link {
+    pointer-events: none; /* 클릭 방지 */
+    color: gray;
+    cursor: default;
+}
+
+.disabled-link .menu-text,
+.disabled-link svg {
+    color: gray;
+}
+
+/* 부모 li에 대한 스타일 */
+.yc_challenge_menu li.disabled {
+    cursor: default;
+}
+
+.yc_challenge_menu li.disabled:hover {
+    background-color: transparent; /* 배경색 변화 없음 */
+    color: gray; /* 텍스트 색상 유지 */
+    transform: none; /* 이동 효과 제거 */
+}
+
+/* 아이콘 색상 유지 */
+.yc_challenge_menu li.disabled svg {
+    color: gray;
 }

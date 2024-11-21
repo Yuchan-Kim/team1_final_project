@@ -147,3 +147,17 @@
   background-color: #f1f8e9;
   text-align: left;
 }
+/* 채팅 시간 */
+.yc-chat-time {
+  font-size: 12px;
+  color: #888;
+  text-align: right; /* 오른쪽 정렬 */
+  margin-top: 3px;
+}
+
+/* 메시지 발신자 이름 */
+.yc-user-msg span:first-child,
+.yc-bot-msg span:first-child {
+  font-weight: bold;
+  margin-right: 5px;
+}
