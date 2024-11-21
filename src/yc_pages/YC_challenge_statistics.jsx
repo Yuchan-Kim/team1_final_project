@@ -1,15 +1,17 @@
-// YCChallengeStatistics.jsx
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useParams, Link } from 'react-router-dom';
+import axios from "axios";
+
 import "../yc_assets/yc_css/yc_css_challenge_statistics.css";
 import Sidebar from "./YC_challenge_sidebar.jsx";
 import Header from "./JMYC_challenge_header.jsx";
 import TopHeader from "../pages/include/DH_Header.jsx";
 import Footert from "../pages/include/JM-Footer.jsx";
 import ChatRoom from "../yc_pages/YC_challenge_chatroom.jsx";
-
 import YCProfileInfo from "../yc_pages/YC_profile_info.jsx";
-import { Doughnut, Line, Bar } from "react-chartjs-2";
+
+import { FaFileAlt } from 'react-icons/fa';
+import { Doughnut, Line, Bar } from "react-chartjs-2"; // Bar 차트 추가
 
 import {
     Chart as ChartJS,
@@ -24,9 +26,8 @@ import {
     Title,
     Filler,
 } from "chart.js";
-import { FaFileAlt } from 'react-icons/fa'; // Document icon
 
-// **Register Chart.js components**
+// Chart.js 컴포넌트 등록
 ChartJS.register(
     ArcElement, 
     Tooltip, 
@@ -41,125 +42,235 @@ ChartJS.register(
 );
 
 const YCChallengeStatistics = () => {
+  // 모달 상태 관리
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
-  const [isProfileOpen, setProfileOpen] = useState(false); // Profile modal state
+  
+
+
+  // 프로필 모달 상태 관리
+  const [isProfileOpen, setProfileOpen] = useState(false);
   const [profileUser, setProfileUser] = useState(null);
 
-  // Updated users array with unique IDs and varied data
-  const users = [
-    { 
-      id: 1, 
-      name: "함민규", 
-      progress: 92,
-      avatar: "path_to_avatar1.jpg",
-      location: "서울",
-      reliability: 4.5,
-      pointRanking: 10,
-      reportCount: 0,
-      activeChallenges: 3,
-      completedChallenges: 2
-    },
-    { 
-      id: 2, 
-      name: "박지민", 
-      progress: 80,
-      avatar: "path_to_avatar2.jpg",
-      location: "부산",
-      reliability: 4.0,
-      pointRanking: 20,
-      reportCount: 1,
-      activeChallenges: 2,
-      completedChallenges: 3
-    },
-    { 
-      id: 3, 
-      name: "이수진", 
-      progress: 75,
-      avatar: "path_to_avatar3.jpg",
-      location: "대구",
-      reliability: 4.2,
-      pointRanking: 15,
-      reportCount: 0,
-      activeChallenges: 4,
-      completedChallenges: 3
-    },
-    { 
-      id: 4, 
-      name: "최민호", 
-      progress: 85,
-      avatar: "path_to_avatar4.jpg",
-      location: "인천",
-      reliability: 4.7,
-      pointRanking: 8,
-      reportCount: 0,
-      activeChallenges: 5,
-      completedChallenges: 4
-    },
-    { 
-      id: 5, 
-      name: "김하늘", 
-      progress: 90,
-      avatar: "path_to_avatar5.jpg",
-      location: "광주",
-      reliability: 4.8,
-      pointRanking: 5,
-      reportCount: 0,
-      activeChallenges: 6,
-      completedChallenges: 5
-    },
-    // Add more users as needed
-  ];
+  // 데이터 상태 관리
+  const [topUsers, setTopUsers] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [overallStats, setOverallStats] = useState([]); // 전체 달성률 통계
+  const [missionApprovals, setMissionApprovals] = useState([]); // 미션 승인 횟수 통계
+  const [missionAchievements, setMissionAchievements] = useState([]);
+  const [userDetails, setUserDetails] = useState({});
+  const roomEnterPoint = userDetails.roomEnterPoint || 0;
+const achievementRate = userDetails.userAchievementRate || 0;
+const challengeRewardPoints = userDetails.challengeRewardEligible ? roomEnterPoint : 0;
 
-  const emojis = ['😊', '😎', '🚀', '🎉', '🏆', '🔥', '💪', '🌟', '🎯'];
 
-  const openModal = (user) => {
+let bettingPoints = 0;
+if (achievementRate < 85) {
+    bettingPoints = roomEnterPoint * (achievementRate / 100);
+} else if (achievementRate >= 85 && achievementRate < 100) {
+    bettingPoints = roomEnterPoint;
+} else if (achievementRate === 100) {
+    bettingPoints = roomEnterPoint + (roomEnterPoint * 0.20);
+}
+
+
+
+  // 에러 메시지 상태 관리
+  const [error, setError] = useState(null);
+
+  // URL에서 roomNum 파라미터 가져오기
+  const { roomNum } = useParams();
+
+  // 모달 열기 함수
+  const openModal = async (user) => {
     setSelectedUser(user);
     setModalOpen(true);
-  };
+    setUserDetails({}); // 이전 데이터 초기화
 
+    try {
+        const response = await axios.get(`http://localhost:9000/api/rates/userDetails/${roomNum}/${user.userNum}`);
+        console.log('User Details Response:', response.data);
+        if (response.data.result === 'success') {
+            setUserDetails(response.data.apiData);
+        } else {
+            setError("사용자 정보를 불러오는 데 실패했습니다.");
+        }
+    } catch (error) {
+        setError("서버와의 통신에 실패했습니다.");
+        console.error(error);
+    }
+};
+
+
+  // 모달 닫기 함수
   const closeModal = () => {
     setModalOpen(false);
     setSelectedUser(null);
   };
 
-  const openProfile = (user) => {
-    setProfileUser(user);
-    setProfileOpen(true);
-  };
+  // 프로필 모달 열기 함수
+  const openProfile = async (userNum) => {
+    console.log('openProfile called with:', userNum); // 디버깅용 로그 추가
+    try {
+        const response = await axios.get(`http://localhost:9000/api/rates/profile/${userNum}`);
+        console.log('Profile Response:', response.data);
+        if (response.data.result === 'success') {
+            setProfileUser(response.data.apiData);
+            setProfileOpen(true);
+        } else {
+            setError("프로필 정보를 불러오는 데 실패했습니다.");
+        }
+    } catch (error) {
+        setError("서버와의 통신에 실패했습니다.");
+        console.error(error);
+    }
+};
 
+
+
+  // 프로필 모달 닫기 함수
   const closeProfile = () => {
     setProfileOpen(false);
     setProfileUser(null);
   };
 
-  const [animationTriggered, setAnimationTriggered] = useState(false);
-
+  // 컴포넌트가 마운트될 때 API 호출
   useEffect(() => {
-    // Trigger animation on page load
-    setAnimationTriggered(true);
-  }, []);
+    if (roomNum) {
+      fetchTopUsers();
+      fetchUsers();
+      fetchOverallStats();
+      fetchMissionApprovals();
+      fetchMissionAchievements(); // 새로운 함수 호출
+    } else {
+      setError("roomNum이 정의되지 않았습니다.");
+    }
+  }, [roomNum]);
+  
+  // 미션 달성률 데이터를 가져오는 함수
+  const fetchMissionAchievements = () => {
+    axios({
+      method: 'get',
+      url: `http://localhost:9000/api/rates/achievement/${roomNum}`,
+      responseType: 'json'
+    })
+    .then(response =>{
+      console.log('Mission Achievements Response:', response.data);
+      if (response.data.result === 'success') {
+        setMissionAchievements(response.data.apiData);
+      } else {
+        setError("미션 달성률을 불러오는 데 실패했습니다.");
+      }
+    })
+    .catch(error => {
+      setError("서버와의 통신에 실패했습니다.");
+      console.error(error);
+    });
+  };
+  
 
-  const chartData = selectedUser ? {
-    labels: ["완료", "미완료"],
-    datasets: [
-      {
-        data: [selectedUser.progress, 100 - selectedUser.progress],
-        backgroundColor: ["#4CAF50", "#E0E0E0"],
-        hoverBackgroundColor: ["#66BB6A", "#BDBDBD"],
-        borderWidth: 0
-      },
-    ],
-  } : null;
+  // Top 5 유저 가져오기
+  const fetchTopUsers = () => {
+    axios({
+        method: 'get',
+        url: `http://localhost:9000/api/rates/topusers/${roomNum}`, 
+        responseType: 'json'
+    })
+    .then(response =>{
+      console.log('Top Users Response:', response.data);
+      if (response.data.result === 'success') { 
+        setTopUsers(response.data.apiData); 
+      } else {
+        setError("Top 5 User를 불러오는 데 실패했습니다.");
+      }
+    })
+    .catch(error => {
+      setError("서버와의 통신에 실패했습니다.");
+      console.error(error);
+    });
+  };
 
-  // Overall achievement rate line chart data (example data)
+
+  // 전체 유저 목록 가져오기
+  const fetchUsers = () => {
+    axios({
+      method: 'get',
+      url: `http://localhost:9000/api/rates/users/${roomNum}`, 
+      responseType: 'json'
+  })
+  .then(response => {
+    console.log('Users Response:', response.data);
+    if (response.data.result === 'success') {
+      if (response.data.apiData && Array.isArray(response.data.apiData)) {
+        setUsers(response.data.apiData);
+      } else {
+        setError("Unexpected data format for users.");
+      }
+    } else {
+      setError("유저 목록을 불러오는 데 실패했습니다.");
+    }
+  })
+  .catch(error => {
+    setError("서버와의 통신에 실패했습니다.");
+    console.error(error);
+  });
+  };
+
+  // 전체 달성률 통계 가져오기
+  const fetchOverallStats = () => {
+    axios({
+        method: 'get',
+        url: `http://localhost:9000/api/rates/overall/${roomNum}`, 
+        responseType: 'json'
+    })
+    .then(response =>{
+      console.log('Overall Stats Response:', response.data);
+      if (response.data.result === 'success') { 
+        setOverallStats(response.data.apiData); 
+      } else {
+        setError("전체 달성률 통계를 불러오는 데 실패했습니다.");
+      }
+    })
+    .catch(error => {
+      setError("서버와의 통신에 실패했습니다.");
+      console.error(error);
+    });
+  };
+
+  // 전체 유저의 미션 승인 횟수 통계 가져오기
+  const fetchMissionApprovals = () => {
+    axios({
+        method: 'get',
+        url: `http://localhost:9000/api/rates/approvals/${roomNum}`, // 새로운 API 엔드포인트 필요
+        responseType: 'json'
+    })
+    .then(response =>{
+      console.log('Mission Approvals Response:', response.data);
+      if (response.data.result === 'success') { 
+        setMissionApprovals(response.data.apiData); 
+      } else {
+        setError("미션 승인 횟수를 불러오는 데 실패했습니다.");
+      }
+    })
+    .catch(error => {
+      setError("서버와의 통신에 실패했습니다.");
+      console.error(error);
+    });
+  };
+
+  // 이모지 배열
+  const emojis = ['😊', '😎', '🚀', '🎉', '🏆', '🔥', '💪', '🌟', '🎯'];
+
+  
+
+  // 전체 달성률 라인 차트 데이터 (백엔드에서 가져온 데이터로 설정)
   const overallLineChartData = {
-    labels: ["24-04-01", "24-04-05", "24-04-10", "24-04-15", "24-04-20", "24-04-25", "24-04-30"],
+    labels: overallStats.map(stat => stat.date), // 제출 날짜 레이블
     datasets: [
       {
-        label: "전체 달성률",
-        data: [50, 55, 60, 65, 70, 75, 80],
+        label: "일일 달성률",
+        data: overallStats.map(stat => stat.percentage), // 달성률 데이터
         fill: true,
         backgroundColor: "rgba(33, 150, 243, 0.2)",
         borderColor: "#2196f3",
@@ -169,6 +280,8 @@ const YCChallengeStatistics = () => {
     ],
   };
 
+
+  // 전체 달성률 라인 차트 옵션
   const lineChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -186,7 +299,7 @@ const YCChallengeStatistics = () => {
       y: {
         title: {
           display: true,
-          text: "전체 달성률 (%)",
+          text: "일일 달성률 (%)",
           font: {
             size: 14,
             weight: 'bold',
@@ -221,91 +334,25 @@ const YCChallengeStatistics = () => {
     },
   };
 
-  // Personal achievement rate line chart data (example data)
-  const personalLineChartData = {
-    labels: ["24-04-01", "24-04-05", "24-04-10", "24-04-15", "24-04-20", "24-04-25", "24-04-30"],
+
+  // 미션 승인 횟수 바 차트 데이터 (백엔드에서 가져온 데이터로 설정)
+  const missionApprovalBarChartData = {
+    labels: missionApprovals.map(mission => mission.missionName), // 미션 이름 레이블
     datasets: [
       {
-        label: "내 달성률",
-        data: [85, 88, 90, 92, 94, 96, 92],
-        fill: true,
-        backgroundColor: "rgba(255, 159, 64, 0.2)",
-        borderColor: "#ff9f40",
-        tension: 0.4,
-        pointBackgroundColor: "#ff9f40",
-      },
-    ],
-  };
-
-  const personalLineChartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: "날짜",
-          font: {
-            size: 14,
-            weight: 'bold',
-          },
-        },
-      },
-      y: {
-        title: {
-          display: true,
-          text: "내 달성률 (%)",
-          font: {
-            size: 14,
-            weight: 'bold',
-          },
-        },
-        beginAtZero: true,
-        max: 100,
-      },
-    },
-    plugins: {
-      legend: {
-        display: false,
-      },
-      tooltip: {
-        enabled: true,
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-        titleFont: {
-          size: 14,
-          weight: 'bold',
-        },
-        bodyFont: {
-          size: 12,
-        },
-      },
-      title: {
-        display: false,
-      },
-    },
-    animation: {
-      duration: 1000,
-      easing: 'easeOutQuart',
-    },
-  };
-
-  // Bar chart data (example data)
-  const barChartData = {
-    labels: ["미션 A", "미션 B", "미션 C", "미션 D", "미션 E"],
-    datasets: [
-      {
-        label: "완료된 내 미션 수",
-        data: [12, 19, 3, 5, 2],
-        backgroundColor: "rgba(255, 99, 132, 0.6)",
-        borderColor: "#ff6384",
+        label: "미션 승인 횟수",
+        data: missionApprovals.map(mission => mission.approvalCount), // 승인 횟수 데이터
+        backgroundColor: "rgba(75, 192, 192, 0.6)",
+        borderColor: "rgba(75, 192, 192, 1)",
         borderWidth: 1,
       },
     ],
   };
 
-  const barChartOptions = {
+  // 미션 승인 횟수 바 차트 옵션
+  const missionApprovalBarChartOptions = {
     responsive: true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: true,
     scales: {
       x: {
         title: {
@@ -320,18 +367,20 @@ const YCChallengeStatistics = () => {
       y: {
         title: {
           display: true,
-          text: "완료 수",
+          text: "승인 횟수",
           font: {
             size: 14,
             weight: 'bold',
           },
         },
         beginAtZero: true,
+        precision: 0, // 정수 표시
       },
     },
     plugins: {
       legend: {
-        display: false,
+        display: true,
+        position: 'top',
       },
       tooltip: {
         enabled: true,
@@ -351,55 +400,77 @@ const YCChallengeStatistics = () => {
     animation: {
       duration: 1000,
       easing: 'easeOutQuart',
-    },
+    }
+    
   };
 
-  const chartOptions = {
-    maintainAspectRatio: false,
-    cutout: '70%', // Donut chart
-    plugins: {
-      legend: {
-        display: false,
-      },
-      tooltip: {
-        enabled: true,
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-        titleFont: {
-          size: 14,
-          weight: 'bold',
-        },
-        bodyFont: {
-          size: 12,
-        },
-      },
-    },
-    animation: {
-      animateRotate: true, // Enable rotation animation
-      animateScale: false,  // Disable scale animation
-      duration: 1000, // Reduce animation duration (ms)
-      easing: 'easeOutQuart', // More natural easing function
-    },
-  };
+  // 바 차트 데이터가 존재하는지 확인
+  const isBarChartDataAvailable = missionApprovals && missionApprovals.length > 0;
 
-   // Donut chart data
-   const doughnutData = {
-    labels: ['완료', '미완료'],
+  // 도넛 차트 옵션 정의
+const chartOptions = {
+  maintainAspectRatio: false,
+  cutout: '70%', // Donut chart
+  plugins: {
+    legend: {
+      display: false,
+    },
+    tooltip: {
+      enabled: true,
+      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+      titleFont: {
+        size: 14,
+        weight: 'bold',
+      },
+      bodyFont: {
+        size: 12,
+      },
+    },
+  },
+  animation: {
+    animateRotate: true, // 회전 애니메이션 활성화
+    animateScale: false,  // 스케일 애니메이션 비활성화
+    duration: 1000, // 애니메이션 지속 시간 (ms)
+    easing: 'easeOutQuart', // 자연스러운 이징 함수
+  },
+};
+
+// 성적표용 도넛 차트 데이터
+  const chartData = selectedUser ? {
+    labels: ["완료", "미완료"],
     datasets: [
       {
-        label: '달성도',
-        data: [65, 35], // Example data
-        backgroundColor: [
-          'rgba(75, 192, 192, 0.6)',
-          'rgba(255, 205, 86, 0.6)'
-        ],
-        borderColor: [
-          'rgba(75, 192, 192, 1)',
-          'rgba(255, 205, 86, 1)',
-        ],
-        borderWidth: 1,
+        data: [selectedUser.achievementRate, 100 - selectedUser.achievementRate],
+        backgroundColor: ["#4CAF50", "#E0E0E0"],
+        hoverBackgroundColor: ["#66BB6A", "#BDBDBD"],
+        borderWidth: 0
       },
     ],
-  };
+  } : null;
+
+  // 첫 번째 미션 선택
+const firstMission = missionAchievements.length > 0 ? missionAchievements[0] : null;
+
+// 도넛 차트 데이터 설정
+const doughnutData = firstMission ? {
+  labels: ['완료', '미완료'],
+  datasets: [
+    {
+      label: firstMission.missionName,
+      data: [firstMission.achievementRate, 100 - firstMission.achievementRate],
+      backgroundColor: [
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(255, 205, 86, 0.6)'
+      ],
+      borderColor: [
+        'rgba(75, 192, 192, 1)',
+        'rgba(255, 205, 86, 1)',
+      ],
+      borderWidth: 1,
+    },
+  ],
+} : null;
+
 
   const doughnutOptions = {
     responsive: true,
@@ -414,53 +485,60 @@ const YCChallengeStatistics = () => {
     },
   };
 
-  // Top 5 users for ranking display
-  const topUsers = users
-    .sort((a, b) => b.progress - a.progress)
-    .slice(0, 5);
+  
+
+
+
 
   return (
     <>
+      {/* 상단 헤더 */}
       <TopHeader/>
-
-      {/* Chart Container with Top 5 Rankings */}
-      <div className="yc-chart-container">
-          <Doughnut data={doughnutData} options={doughnutOptions} />
-          <div className="yc-achievement-rate">
-            <h4>달성률: 65%</h4>
-          </div>
+      
+      <div className="yc-chart-container"> 
           
-          {/* Top 5 User Rankings */}
+       
+          {/* Top 5 유저 랭킹 */}
           <div className="yc-top-rankings">
+            {/* 도넛 차트와 달성률 표시 */}
+            {doughnutData && (
+              <> <Doughnut data={doughnutData} options={doughnutOptions} />
+                <h4>{firstMission.missionName} 달성률: {firstMission.achievementRate.toFixed(2)}%</h4></>
+            )}
             <h3>Top 5 랭킹</h3>
-            {topUsers.map((user, index) => (
-              <div key={user.id} className="yc-ranking-item">
+            {topUsers.map((user) => (
+              <div key={user.userNum} className="yc-ranking-item">
                 <img 
-                  src={user.avatar} 
-                  alt={`${user.name} 프로필`} 
+                  src={user.usingProfilePic} 
+                  alt={`${user.userName} 프로필`} 
                   className="yc-ranking-avatar" 
                 />
                 <div className="yc-ranking-info">
-                  <span className="yc-ranking-name">{user.name}</span>
-                  <span className="yc-ranking-progress">달성률: {user.progress}%</span>
+                  <span className="yc-ranking-name">{user.userName}</span>
+                  <span className="yc-ranking-progress">달성률: {user.achievementRate}%</span>
                 </div>
               </div>
             ))}
+            
           </div>
       </div>
 
       <div className="yc-statistics-wrap">
-        
+        {/* 사이드바 */}
         <Sidebar />
         
         <div className="yc_challenge_statistics_main">
+          {/* 헤더 */}
           <Header />
+          
+          {/* 유저 현황 제목 */}
           <h2 className="yc_challenge_statistics_title">유저 현황</h2>
-          {/* Overall and Personal Achievement Rates and Point Graphs */}
+          
+          {/* 전체 및 개인 달성률 그래프 섹션 */}
           <div className="yc_challenge_statistics_overall-personal-container">
-            {/* Graph Section */}
             <div className="yc_challenge_statistics_graphs-section">
-              {/* Overall Achievement Rate Line Chart */}
+
+              {/* 전체 달성률 라인 차트 */}
               <div className="yc_challenge_statistics_line-chart">
                 <Line
                   data={overallLineChartData}
@@ -468,42 +546,63 @@ const YCChallengeStatistics = () => {
                 />
               </div>
 
-              {/* Personal Achievement Rate Line Chart */}
-              <div className="yc_challenge_statistics_line-chart">
-                <Line
-                  data={personalLineChartData}
-                  options={personalLineChartOptions}
-                />
-              </div>
+             
+
             </div>
           </div>
+
+          {/* 미션 승인 횟수 바 차트 섹션 */}
+          <div className="yc_challenge_statistics_bar-chart-section">
+              <h2 className="yc_challenge_statistics_title">미션 승인 횟수</h2>
+              {isBarChartDataAvailable ? (
+                <div className="yc_challenge_statistics_bar-chart">
+                  <Bar
+                    data={missionApprovalBarChartData}
+                    options={missionApprovalBarChartOptions}
+                  />
+                </div>
+              ) : (
+                <p>미션 승인 데이터가 없습니다.</p>
+              )}
+            </div>
           
-          {/* User List Section */}
+          
+          
+          {/* 유저 목록 섹션 */}
           <div className="yc_challenge_statistics_user-list">
             <h2 className="yc_challenge_statistics_title">랭킹</h2>
             {users.map((user, index) => (
-              <div key={user.id} className="yc_challenge_statistics_user">
-                <span className="yc_challenge_statistics_user-emoji">
-                  {emojis[index % emojis.length]}
-                </span>
+              <div key={user.userNum} className="yc_challenge_statistics_user">
+                {/* 이모지 표시 */}
+                <image className="yc_challenge_statistics_user-emoji" alt ="사용자 이미지">
+                  {user.usingProfilePic}
+                </image>
+                
+                {/* 유저 정보 */}
                 <div className="yc_challenge_statistics_user-info">
-                  <Link
-                      to="#"
-                      className="yc_challenge_statistics_user-name"
-                      onClick={() => openProfile(user)} // Open profile 
-                      >
-                      {user.name}
-                  </Link>
+                <Link
+                  to="#"
+                  className="yc_challenge_statistics_user-name"
+                  onClick={() => openProfile(user.userNum)} // user 객체 대신 userNum을 전달합니다.
+                >
+                  {user.userName}
+                </Link>
+
+                  {/* 달성률 프로그레스 바 */}
                   <div className="yc_challenge_statistics_user-progress-bar">
                     <div
                       className="yc_challenge_statistics_filled"
-                      style={{ width: `${user.progress}%` }}
+                      style={{ width: `${user.achievementRate}%` }}
                     ></div>
                   </div>
+
+                  {/* 달성률 퍼센트 표시 */}
                   <span className="yc_challenge_statistics_user-progress">
-                    달성율 {user.progress}%
+                    달성율 {user.achievementRate}%
                   </span>
                 </div>
+
+                {/* 성적표 보기 버튼 */}
                 <span className="yc_challenge_statistics_user-details">
                   <button
                     className="yc_challenge_statistics_report-button"
@@ -513,70 +612,92 @@ const YCChallengeStatistics = () => {
                     <FaFileAlt />
                   </button>
                 </span>
+                
               </div>
-            ))}
-          </div>
+            ))} 
+              
+          </div> 
 
-          {/* Performance Report Modal */}
-          {isModalOpen && selectedUser && (
-            <div className="yc-modal-overlay" onClick={closeModal}>
+          {/* 성적표 모달 */}
+          
+          {isModalOpen && selectedUser && userDetails && (
+              <div className="yc-modal-overlay" onClick={closeModal}>
               <div className="yc-modal-content" onClick={(e) => e.stopPropagation()}>
-                <h2>성적표</h2>
-                <div className="yc-report-details">
-                  <div className="yc-dougnut-chart">
-                    <Doughnut
-                      key={selectedUser.id} // **Unique key added**
-                      data={chartData}
-                      options={chartOptions}
-                    />
-                    <span className="yc-completion-rate">{selectedUser.progress}%</span>
+                  <h2>성적표</h2>
+                  <div className="yc-report-details">
+                      {/* 도넛 차트 */}
+                      <div className="yc-dougnut-chart">
+                          <Doughnut
+                              key={selectedUser.userNum}
+                              data={chartData}
+                              options={chartOptions}
+                          />
+                          <span className="yc-completion-rate">{selectedUser.achievementRate}%</span>
+                      </div>
+      
+                      {/* 미션 상세 정보 */}
+                      <div className="yc-mission-details">
+                          <p>완료한 미션: {userDetails?.totalMissions?.completedCount}/{userDetails?.totalMissions?.totalAssigned}</p>
+                          {userDetails?.missionDetails?.map((mission) => (
+                              <p key={mission.missionName}>
+                                  {mission.missionName}: {mission.completedCount}/{mission.totalAssigned}
+                              </p>
+                          ))}
+                      </div>
+      
+                      {/* 그룹 챌린지 섹션 */}
+                      <div className="yc-group-challenge-section">
+                          <h3>그룹 챌린지</h3>
+                          <div className="yc-group-challenge-points">
+                              +{userDetails?.roomEnterPoint || 0} P
+                          </div>
+                          <ul className="yc-group-challenges">
+                              {userDetails?.groupChallenges?.map((challenge) => (
+                                  <li key={challenge.missionName}>
+                                      {challenge.missionName} - {challenge.achievementRate === 100 ? '성공' : '실패'}
+                                  </li>
+                              ))}
+                          </ul>
+                      </div>
+      
+                      {/* 포인트 요약 */}
+                      <div className="yc-points-summary">
+                          {userDetails?.challengeRewardEligible && (
+                              <p><strong>도전 보상:</strong> +{challengeRewardPoints} P</p>
+                          )}
+                          <p><strong>그룹 보상:</strong> +{userDetails?.roomEnterPoint || 0} P</p>
+                          <p><strong>배팅 포인트:</strong> +{Math.round(bettingPoints)} P</p>
+                          <p><strong>합계:</strong> {Math.round(challengeRewardPoints + (userDetails?.roomEnterPoint || 0) + bettingPoints)} P</p>
+                      </div>
+      
+                      <button className="yc-close-button" onClick={closeModal}>
+                          닫기
+                      </button>
                   </div>
-                  <div className="yc-mission-details">
-                    <p>완료한 미션: 52/60</p>
-                    <p>스트레칭 하기: 26/30</p>
-                    <p>500m 걷기: 26/30</p>
-                  </div>
-                </div>
-
-                {/* Group Challenge Section */}
-                <div className="yc-group-challenge-section">
-                  <h3>그룹 챌린지</h3>
-                  <div className="yc-group-challenge-points">
-                    +1000 P
-                  </div>
-                  <ul className="yc-group-challenges">
-                    <li>줄넘기 5000번 뛰기 - 성공</li>
-                  </ul>
-                </div>
-
-                <div className="yc-points-summary">
-                  <p><strong>도전 보상:</strong> +120 P</p>
-                  <p><strong>그룹 보상:</strong> +1500 P</p>
-                  <p><strong>배팅 포인트:</strong> +600 P</p>
-                  <p><strong>합계:</strong> 2220 P</p>
-                </div>
-                <button className="yc-close-button" onClick={closeModal}>
-                  닫기
-                </button>
               </div>
-            </div>
+              </div>
+
           )}
           
-          {/* Profile Info Modal */}
+          {/* 프로필 정보 모달 */}
           <YCProfileInfo
             isOpen={isProfileOpen}
             onClose={closeProfile}
-            user={profileUser} // Pass selected user info
+            user={profileUser} // 선택된 유저 정보 전달
           />
         </div>
       </div>
-      <ChatRoom/>
+      {/* 채팅룸 컴포넌트 */}
+      {/* 채팅 컴포넌트 */}
+      <ChatRoom roomNum={roomNum}/>
 
-       {/* Footer */}
+       {/* 푸터 */}
        <Footert/>
-          {/* Footer End */}
+          {/* 푸터 끝 */}
     </>
   );
 };
+
+
 
 export default YCChallengeStatistics;

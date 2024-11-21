@@ -2,16 +2,11 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
 
 /* ##################################### */
-/* CSS 변수 정의 */
-/* ##################################### */
-
-
-/* ##################################### */
 /* 글로벌 스타일 */
 /* ##################################### */
 #yc_jy_step > * {
     box-sizing: border-box;
-    font-family: var(--font-family);
+    font-family: 'Pretendard', sans-serif;
 }
 
 .yc_jy_step {
@@ -20,7 +15,7 @@
     margin: 0 auto;
     padding: 0 20px;
     height: auto;
-    background-color: var(--color-background);
+    background-color: #f9f9f9;
 }
 
 .yc_container {
@@ -70,7 +65,7 @@
     line-height: 1.43;
     letter-spacing: 0.1px;
     text-align: center;
-    color: var(--color-text-light);
+    color: #7f8c8d;
     margin: 5px 0;
 }
 
@@ -92,14 +87,14 @@
 #yc_stepNav ul li {
     flex: 1;
     text-align: center;
-    color: var(--color-text-light);
+    color: #7f8c8d;
     font-size: 16px;
     font-weight: 500;
     line-height: 1.31;
     letter-spacing: 0.25px;
     padding: 15px;
     cursor: pointer;
-    transition: color var(--transition-speed), border-bottom var(--transition-speed);
+    transition: color 0.3s, border-bottom 0.3s;
 }
 
 #yc_stepNav ul li.active {
@@ -120,46 +115,46 @@
 .yc_step button {
     width: 240px;
     height: 48px;
-    border-radius: var(--border-radius);
+    border-radius: 8px;
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
-    transition: background-color var(--transition-speed), color var(--transition-speed);
+    transition: background-color 0.3s, color 0.3s;
 }
 
 /* Secondary Button */
 .yc_step .yc_btn #yc_secondary {
-    background-color: var(--color-secondary);
+    background-color: #ecf0f1;
     color: #ccc;
     border: 1px solid #7b7b7b;
 }
 
 .yc_step .yc_btn #yc_secondary:hover {
-    background-color: var(--color-secondary-dark);
+    background-color: #bdc3c7;
     color: #111111;
     border: 1px solid #313131;
 }
 
 /* Primary Button */
 .yc_step .yc_btn #yc_primary {
-    background-color: var(--color-primary);
-    color: var(--color-secondary);
+    background-color: #2c3e50;
+    color: #ecf0f1;
     border: none;
 }
 
 .yc_step .yc_btn #yc_primary:hover {
-    background-color: var(--color-primary-dark);
+    background-color: #1a252f;
 }
 
 /* 비활성화된 "다음" 버튼 스타일 */
 .yc_step .yc_btn #yc_primary.disabled {
-    background-color: var(--color-disabled);
-    color: var(--color-disabled-text);
+    background-color: #b2bec3;
+    color: #636e72;
     cursor: not-allowed;
 }
 
 .yc_step .yc_btn #yc_primary.disabled:hover {
-    background-color: var(--color-disabled);
+    background-color: #b2bec3;
 }
 
 /* ##################################### */
@@ -175,17 +170,17 @@
 #yc_step1 #yc_list > div {
     flex: 1;
     height: 570px;
-    border-radius: var(--border-radius);
+    border-radius: 8px;
     border: 1px solid #cac4d0;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    transition: all var(--transition-speed) ease;
+    transition: all 0.3s ease;
     cursor: pointer;
 }
 
-#yc_step1 #yc_list > div yc_step3 #list > div yc_step3 #yc_list > div yc_step1 #yc_list > div h3 {
+#yc_step1 #yc_list > div h3 {
     position: absolute;
     top: 20px;
     left: 20px;
@@ -198,17 +193,17 @@
 
 #yc_step1 #yc_list > div.selected {
     border-color: #000;
-    background-color: var(--color-secondary-dark);
+    background-color: #bdc3c7;
 }
 
-#yc_step1 #yc_list > div yc_step1 #yc_list > div li {
+#yc_step1 #yc_list > div li {
     font-size: 16px;
     font-weight: normal;
-    color: var(--color-text);
+    color: #333333;
     margin-top: 40px;
 }
 
-#yc_step1 #yc_list > div yc_step1 #yc_list > div li > span {
+#yc_step1 #yc_list > div li > span {
     margin-right: 5px;
 }
 
@@ -232,10 +227,10 @@
     padding: 15px;
     text-align: center;
     font-size: 20px;
-    border-radius: var(--border-radius);
+    border-radius: 8px;
     border: 1px solid #c4c4c4;
     cursor: pointer;
-    transition: background-color var(--transition-speed), border-color var(--transition-speed);
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
 #yc_step2 #yc_list #yc_category div.selected {
@@ -264,7 +259,7 @@
     padding: 10px 20px;
     gap: 10px;
     border-radius: 10px;
-    background-color: var(--color-secondary-dark);
+    background-color: #bdc3c7;
     align-items: center;
     max-width: 400px;
     width: 100%;
@@ -291,13 +286,13 @@
 #yc_step3 #yc_list > div {
     flex: 1;
     height: 570px;
-    border-radius: var(--border-radius);
+    border-radius: 8px;
     border: 1px solid #cac4d0;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    transition: all var(--transition-speed) ease;
+    transition: all 0.3s ease;
     cursor: pointer;
 }
 
@@ -314,13 +309,13 @@
 
 #yc_step3 #yc_list > div.selected {
     border-color: #000;
-    background-color: var(--color-secondary-dark);
+    background-color: #bdc3c7;
 }
 
 #yc_step3 #yc_list > div li {
     font-size: 16px;
     font-weight: normal;
-    color: var(--color-text);
+    color: #333333;
     margin-top: 40px;
 }
 
@@ -363,9 +358,9 @@
 #yc_step4 #yc_list #yc_box1 .yc_inputBox select,
 #yc_step4 #yc_list #yc_box1 .yc_inputBox input {
     padding: 10px;
-    border-radius: var(--border-radius);
+    border-radius: 8px;
     border: 1px solid #ccc;
-    background-color: var(--color-background);
+    background-color: #f9f9f9;
     width: 250px;
 }
 
@@ -380,7 +375,7 @@
     align-items: center;
     padding: 10px 20px;
     gap: 10px;
-    border-radius: var(--border-radius);
+    border-radius: 8px;
     border: 1px solid #ccc;
     width: 300px;
 }
@@ -454,7 +449,7 @@
     text-align: left;
 }
 
-#yc_step6 .yc_input_button_group {
+.yc_step6 .yc_input_button_group {
     display: flex;
     justify-content: space-between;
     gap: 10px;
@@ -463,35 +458,35 @@
     width: 1000px;
 }
 
-#yc_step6 .yc_input_button_group #yc_mission_title {
+.yc_step6 .yc_input_button_group #yc_mission_title {
     margin: 5px 10px 5px 10px;
 }
 
-#yc_step6 .yc_input_button_group #yc_input_box {
+.yc_step6 .yc_input_button_group #yc_input_box {
     width: 300px;
     margin-bottom: 8px;
-    border-radius: var(--border-radius);
+    border-radius: 8px;
 }
 
-#yc_step6 .yc_input_button_group #yc_input_box input {
+.yc_step6 .yc_input_button_group #yc_input_box input {
     padding: 10px 16px;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--color-border);
-    background-color: var(--color-background);
+    border-radius: 8px;
+    border: 1px solid #bdc3c7;
+    background-color: #f9f9f9;
     width: 100%;
 }
 
 #yc_step6 #yc_list button {
     padding: 10px 20px;
     background-color: #ccc;
-    color: var(--color-secondary);
-    border-radius: var(--border-radius);
+    color: #ecf0f1;
+    border-radius: 8px;
     border: none;
     cursor: pointer;
     text-align: center;
     width: 130px;
     height: 35px;
-    transition: background-color var(--transition-speed);
+    transition: background-color 0.3s;
 }
 
 #yc_step6 #yc_board button:hover {
@@ -510,8 +505,8 @@
 #yc_step6 #yc_list #yc_mission_textarea textarea {
     width: 500px;
     height: 100px;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    border: 1px solid #bdc3c7;
     padding: 10px;
     resize: vertical;
 }
@@ -535,8 +530,8 @@
 #yc_step6 #yc_list #yc_mission_content textarea {
     width: 500px;
     height: 200px;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    border: 1px solid #bdc3c7;
     padding: 10px;
     resize: vertical;
 }
@@ -551,17 +546,17 @@
 #yc_step6 #yc_list #yc_mission_img input {
     width: 200px;
     height: 200px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius);
+    border: 1px solid #bdc3c7;
+    border-radius: 8px;
     object-fit: cover;
 }
 
 #yc_step6 #yc_list #yc_image_upload {
     width: 100%;
     height: 200px;
-    background-color: var(--color-secondary-dark);
+    background-color: #bdc3c7;
     border: 2px dashed #ccc;
-    border-radius: var(--border-radius);
+    border-radius: 8px;
     text-align: center;
     display: flex;
     justify-content: center;
@@ -570,12 +565,12 @@
     font-size: 16px;
     color: #333;
     font-weight: 500;
-    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
 #yc_step6 #yc_list #yc_image_upload:hover {
     transform: scale(1.05);
-    box-shadow: 0 4px 8px var(--color-shadow);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 #yc_step6 #yc_list #yc_image_upload::-webkit-file-upload-button {
@@ -624,7 +619,7 @@
     border-radius: 15px;
     border: 1px solid #ccc;
     cursor: pointer;
-    transition: background-color var(--transition-speed), border-color var(--transition-speed);
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
 #yc_step7 #yc_list #yc_category div.selected {
@@ -636,7 +631,7 @@
 
 /* 일반 항목의 기본 스타일 */
 #yc_step7 #yc_category div:hover {
-    background-color: var(--color-hover);
+    background-color: #dfe6e9;
 }
 
 /* ##################################### */
@@ -699,9 +694,9 @@
 #yc_step11 #yc_list #yc_box1 .yc_inputBox select,
 #yc_step11 #yc_list #yc_box1 .yc_inputBox input {
     padding: 10px;
-    border-radius: var(--border-radius);
+    border-radius: 8px;
     border: 1px solid #ccc;
-    background-color: var(--color-background);
+    background-color: #f9f9f9;
     width: 250px;
 }
 
@@ -716,7 +711,7 @@
     align-items: center;
     padding: 10px 20px;
     gap: 10px;
-    border-radius: var(--border-radius);
+    border-radius: 8px;
     border: 1px solid #ccc;
     width: 300px;
 }
@@ -735,30 +730,30 @@
 }
 
 #yc_step11 .yc_btn #yc_secondary {
-    background-color: var(--color-secondary);
+    background-color: #ecf0f1;
     color: #ccc;
     border: 1px solid #7b7b7b;
 }
 
 #yc_step11 .yc_btn #yc_secondary:hover {
-    background-color: var(--color-secondary-dark);
+    background-color: #bdc3c7;
     color: #111111;
     border: 1px solid #313131;
 }
 
 #yc_step11 .yc_btn #yc_primary {
-    background-color: var(--color-primary);
-    color: var(--color-secondary);
+    background-color: #2c3e50;
+    color: #ecf0f1;
     border: none;
 }
 
 #yc_step11 .yc_btn #yc_primary:hover {
-    background-color: var(--color-primary-dark);
+    background-color: #1a252f;
 }
 
 .yc_step button:disabled {
-    background-color: var(--color-disabled);
-    color: var(--color-disabled-text);
+    background-color: #b2bec3;
+    color: #636e72;
     cursor: not-allowed;
 }
 
@@ -802,14 +797,14 @@
     }
 
     /* Step5 */
-    /* Step5.jsx 파일이 제공되지 않아 생략 */
+    /* Step05.jsx 파일이 제공되지 않아 생략 */
 
     /* Step6 */
     #yc_step6 #yc_board {
         margin: 0 20px;
     }
 
-    #yc_step6 .yc_input_button_group {
+    .yc_step6 .yc_input_button_group {
         flex-direction: column;
         width: 100%;
     }

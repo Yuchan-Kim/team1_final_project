@@ -53,15 +53,19 @@ function App() {
           <Route path='/ycstep10' element = {<YCStep10/>} />
           <Route path='/ycstep11' element = {<YCStep11/>} />
 
-          <Route path='/stat' element={<YCChallengeStatistics/>} />
-          <Route path='/board' element={<YcChallengeBoard/>} />
+          <Route path='/stat/:roomNum' element={<YCChallengeStatistics/>} />
+          <Route path='/board/:roomNum' element={<YcChallengeBoard/>} />
           <Route path='/mission' element={<Mission />} />
           <Route path='/missioninfo' element={<MissionInfo />} />
-          <Route path='/cmain' element={<Challengemain />} />
+          <Route path='/cmain/:roomNum' element={<Challengemain />} />
+
+
           <Route path='/user/mypage' element={<Mypage />} />
           <Route path='/user/mypoint' element={<Pointpage />} />
           <Route path='/user/cargo' element={<Cargo />} />
           <Route path='/user/rank' element={<Rank />} />
+
+          
           <Route path='/genebang/genebang01' element={<Step0 />} />
           <Route path='/genebang/step1' element={<Step1 />} />
           <Route path='/genebang/step2' element={<Step2 />} />
