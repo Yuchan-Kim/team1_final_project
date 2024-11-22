@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import TopHeader from "../include/DH_Header.jsx";
 import Footert from "../include/JM-Footer.jsx";
@@ -20,12 +21,12 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 const Mission = () => {
   // 토큰 가져오기
   const token = localStorage.getItem('token'); // 로컬 스토리지에서 토큰을 가져옴
-
+  const {roomNum} = useParams(); // 방넘버 저장
+  const [userAuth, setUserAuth] = useState(null); // 유저 권한 저장
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditingRule, setIsEditingRule] = useState(false); // 룰셋 수정 모드 상태
   const [ruleText, setRuleText] = useState(); // 초기 룰셋 텍스트
   const [selectedMission, setSelectedMission] = useState(null);
-  
   const [selectedMissionIndex, setSelectedMissionIndex] = useState(null); // 선택된 항목 인덱스
   const [selectedMissionTitle, setSelectedMissionTitle] = useState(''); // 선택된 미션 제목 상태 추가
   const [selectedMissionNumber, setSelectedMissionNumber] = useState(null); // 선택된 미션 넘버 상태
@@ -167,11 +168,49 @@ const Mission = () => {
     setRuleText(event.target.value);
   };
 
+  // 유저권한 정보 가져와서 저장
+  const getUserAuth = () => {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      console.log("토큰이 없습니다. 로그인하세요.");
+      return; // 토큰이 없으면 요청을 보내지 않음
+    } 
+
+    axios({
+      method: 'get',
+      url: `http://localhost:9000/api/UserAuth/${roomNum}`,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    })
+      .then(response => {
+        console.log('API Response:', response.data); // 전체 응답 출력
+        const userAuth = response.data?.apiData;
+        if (userAuth !== undefined && userAuth !== null) {
+          setUserAuth(userAuth); // 상태 업데이트
+        } else {
+          console.error('UserAuth is missing in the response.');
+        }
+      })
+      .catch(error => {
+        console.error('Error occurred while fetching user auth:', error);
+      });
+    
+  };
+  
+
   // 유의사항 수정, 등록
   const handleSaveRule = () => {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      console.log("토큰이 없습니다. 로그인하세요.");
+      return; // 토큰이 없으면 요청을 보내지 않음
+    }
 
     axios
-      .post("http://localhost:9000/api/rules", {
+      .post(`http://localhost:9000/api/rules/${roomNum}`, {
         ruleText: ruleText, // 유의사항 텍스트를 보냄
       })
       .then((response) => {
@@ -190,7 +229,7 @@ const Mission = () => {
   
     axios({
       method: 'get',
-      url: "http://localhost:9000/api/getRule",   
+      url: `http://localhost:9000/api/getRule/${roomNum}`,   
   
       responseType: 'json' 
     }).then(response => {
@@ -207,7 +246,7 @@ const Mission = () => {
   const getMissionList = () => {
     axios({
       method: 'get',
-      url: "http://localhost:9000/api/missionList",
+      url: `http://localhost:9000/api/missionList/${roomNum}`,
       headers: {
         'Authorization': `Bearer ${token}`, // 토큰을 Authorization 헤더에 추가
         'Content-Type': 'application/json'
@@ -281,11 +320,15 @@ const Mission = () => {
     });
   };
   
+  useEffect(() => {
+    console.log('Updated userAuth state:', userAuth);
+  }, [userAuth]);
   
 
   useEffect(() => {
-    getMissionList();
-    getRules();
+    getMissionList(); // 미션리스트 가져오기
+    getRules(); // 유의사항 1개 가져오기
+    getUserAuth(); // 유저 권한정보 가져오기
     console.log(setMissionList);
   }, []);
 
@@ -332,11 +375,14 @@ const Mission = () => {
               <div className='jm-roolset-contents-box'>
               <h3>유의 사항</h3>
               <span>{getRule?.missionInstruction || "방 소개 없음"}</span>
+              {/* enteredUserAuth가 1인 사용자에게만 수정 버튼 노출 */}
+              {userAuth === 1 && (
               <div className="jm-btn-updatimg">
                 <button onClick={handleEditRule}>
                   수정
                 </button>
               </div>
+              )}
               </div>
               </div>
           )}
