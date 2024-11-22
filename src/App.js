@@ -43,9 +43,7 @@ import Mainlist from './pages/main/Mainlist';
 import Uk from './user/UserKakaoLogin.jsx';
 import NaverLogin from './ham_pages/NaverLogin.jsx';
 import NaverLoginCallback from './ham_pages/NaverLogin_callback';
-import GoogleLogin from './ham_pages/GoogleLogin';
-import Privacy from './ham_pages/Privacy.jsx';
-import Terms from './ham_pages/Terms.jsx';
+
 function App() {
   return (
     <BrowserRouter> 
@@ -95,9 +93,7 @@ function App() {
           <Route path='/user/uk' element={<Uk />} />
           <Route path="/naver/login" element={<NaverLogin />} />
           <Route path="/naver/callback" element={<NaverLoginCallback  />} />
-          <Route path="/google/login" element={<GoogleLogin />} />
-          <Route path="/privacy" element={<Privacy />} />
-        <Route path="/terms" element={<Terms />} />
+    
         </Routes>
     </BrowserRouter>
 
