@@ -80,7 +80,7 @@ const Missioninfo = () => {
 
     axios({
       method: 'get',
-      url: `http://localhost:9000/api/roomEvalType/${roomNum}`,
+      url: `${process.env.REACT_APP_API_URL}/api/roomEvalType/${roomNum}`,
       headers: {
         'Authorization': `Bearer ${token}`,
       },
@@ -108,7 +108,7 @@ const Missioninfo = () => {
 
     axios({
       method: 'get',
-      url: `http://localhost:9000/api/UserAuth/${roomNum}`,
+      url: `${process.env.REACT_APP_API_URL}/api/UserAuth/${roomNum}`,
       headers: {
         'Authorization': `Bearer ${token}`,
       },
@@ -131,7 +131,7 @@ const Missioninfo = () => {
 
     // 참가자 리스트 가져오기
     const getUserList = () => {
-        axios.get(`http://localhost:9000/api/roomMain/${roomNum}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/api/roomMain/${roomNum}`)
             .then(response => {
                 const { userList } = response.data.apiData;
                 setUserList(userList || []);
@@ -156,7 +156,7 @@ const Missioninfo = () => {
     // 미션 히스토리 리스트 가져오기 수정
     const getHistoryList = (sortOrder = order) => {
         console.log("Fetching history list with order:", sortOrder); // 호출 시점과 전달된 값 확인
-        axios.get(`http://localhost:9000/api/historyList/${roomNum}`, {
+        axios.get(`${process.env.REACT_APP_API_URL}/api/historyList/${roomNum}`, {
             params: {
                 order: sortOrder, // 선택된 정렬 순서를 서버로 전달
             }
@@ -173,7 +173,7 @@ const Missioninfo = () => {
 
     // 평가 업데이트 요청
     const handleEvalUpdate = (evalNum, evalType) => {
-        axios.post('http://localhost:9000/api/updateEvaluation', null, {
+        axios.post(`${process.env.REACT_APP_API_URL}/api/updateEvaluation`, null, {
             params: {
                 evalNum: evalNum,
                 evalType: evalType
@@ -345,7 +345,7 @@ const filteredHistories = useMemo(() => {
                                                                 <img
                                                                     key={`img-${currentImgIndex}`}
                                                                     className="jm-task-img"
-                                                                    src={`http://localhost:9000/upload/${imgNames[currentImgIndex].trim()}`}
+                                                                    src={`${process.env.REACT_APP_API_URL}/upload/${imgNames[currentImgIndex].trim()}`}
                                                                     alt={`제출된 이미지 ${currentImgIndex + 1}`}
                                                                 />
                                                                 {imgNames.length > 1 && (
@@ -404,7 +404,7 @@ const filteredHistories = useMemo(() => {
                                             <div className="jm-modal-image-container">
                                                 <img
                                                     className="jm-modal-task-img"
-                                                    src={`http://localhost:9000/upload/${selectedMission.evalImgName.split(',')[modalImgIndex].trim()}`}
+                                                    src={`${process.env.REACT_APP_API_URL}/upload/${selectedMission.evalImgName.split(',')[modalImgIndex].trim()}`}
                                                     alt={`이미지 ${modalImgIndex + 1}`}
                                                 />
                                                 {selectedMission.evalImgName.split(',').length > 1 && (

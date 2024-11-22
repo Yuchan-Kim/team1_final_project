@@ -4,6 +4,7 @@ import axios from 'axios';
 import TopHeader from "../include/DH_Header.jsx";
 import Footert from "../include/JM-Footer.jsx";
 import ChatRoom from "../../yc_pages/YC_challenge_chatroom.jsx";
+import Calendar from "../../pages/challenge/JM-calendar.jsx";
 import { Bar } from "react-chartjs-2"; 
 
 
@@ -19,7 +20,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const Mission = () => {
-  // 토큰 가져오기
   const token = localStorage.getItem('token'); // 로컬 스토리지에서 토큰을 가져옴
   const {roomNum} = useParams(); // 방넘버 저장
   const [userAuth, setUserAuth] = useState(null); // 유저 권한 저장
@@ -30,72 +30,14 @@ const Mission = () => {
   const [selectedMissionIndex, setSelectedMissionIndex] = useState(null); // 선택된 항목 인덱스
   const [selectedMissionTitle, setSelectedMissionTitle] = useState(''); // 선택된 미션 제목 상태 추가
   const [selectedMissionNumber, setSelectedMissionNumber] = useState(null); // 선택된 미션 넘버 상태
+  const [getRule, setGetRule] = useState([]); // 유의사항 1개 가져오기
+  const [missionList, setMissionList] = useState([]) // 미션리스트 가져오기
+  const [calendarEvents, setCalendarEvents] = useState([]); // 캘린더 이벤트 추가
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [fileInputs, setFileInputs] = useState([{}]); // 사진 업로드
+  const [previews, setPreviews] = useState([]); // 사진 프리뷰
 
-  const handleSelectMission = (index, mission) => {
-    if (mission.isSubmitted) {
-      alert("이미 제출된 미션입니다.");
-      return; // 이미 제출된 미션은 선택 불가
-    }
-
-    setSelectedMissionIndex(index);
-    setSelectedMissionTitle(mission.missionName); // 미션 제목 업데이트
-    setSelectedMissionNumber(mission.missionNum); // 미션 넘버 업데이트
-  };
-
-
-  // 유의사항 1개 가져오기
-  const [getRule, setGetRule] = useState([]);
-
-  // 사진 업로드 함수
-  const [fileInputs, setFileInputs] = useState([{}]);
-  const [previews, setPreviews] = useState([]);
-
-  // 모달 닫기 함수
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setFileInputs([{}]);
-    setPreviews([]);
-  };
-
-  const handleOpenModal = () => setIsModalOpen(true);
-
-  // 모달 열기 함수
-  const openModal = (mission) => {
-    setSelectedMission(mission);
-    setIsModalOpen(true);
-  };
-
-  const handleAddFileInput = () => {
-    if (fileInputs.length < 3) {
-      setFileInputs([...fileInputs, {}]);
-    } else {
-      alert("사진은 최대 3개까지 추가할 수 있습니다."); // 사용자에게 알림
-    }
-  };
-
-  // 사진 업로드 함수
-  const handleRemoveFileInput = (index) => {
-    setFileInputs(fileInputs.filter((_, i) => i !== index));
-    setPreviews(previews.filter((_, i) => i !== index));
-  };
-
-  const handleFileChange = (event, index) => {
-    const files = [...fileInputs];
-    files[index] = event.target.files[0];
-    setFileInputs(files);
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const newPreviews = [...previews];
-      newPreviews[index] = reader.result;
-      setPreviews(newPreviews);
-    };
-    if (event.target.files[0]) {
-      reader.readAsDataURL(event.target.files[0]);
-    }
-  };
-  
-
+  // 미션 차트
   const barChartData = {
     labels: ["미션 A", "미션 B", "미션 C", "미션 D", "미션 E"],
     datasets: [
@@ -160,10 +102,66 @@ const Mission = () => {
     },
   };
 
+  // 제출 미션 선택 핸들러
+  const handleSelectMission = (index, mission) => {
+    if (mission.isSubmitted) {
+      alert("이미 제출된 미션입니다.");
+      return; // 이미 제출된 미션은 선택 불가
+    }
+    setSelectedMissionIndex(index);
+    setSelectedMissionTitle(mission.missionName); // 미션 제목 업데이트
+    setSelectedMissionNumber(mission.missionNum); // 미션 넘버 업데이트
+  };
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  // 모달 열기 함수
+  const openModal = (mission) => {
+    setSelectedMission(mission);
+    setIsModalOpen(true);
+  };
+  // 모달 닫기 함수
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setFileInputs([{}]);
+    setPreviews([]);
+  };
+
+  // 파일 추가 핸들러
+  const handleAddFileInput = () => {
+    if (fileInputs.length < 3) {
+      setFileInputs([...fileInputs, {}]);
+    } else {
+      alert("사진은 최대 3개까지 추가할 수 있습니다."); // 사용자에게 알림
+    }
+  };
+
+  // 사진 업로드 함수
+  const handleRemoveFileInput = (index) => {
+    setFileInputs(fileInputs.filter((_, i) => i !== index));
+    setPreviews(previews.filter((_, i) => i !== index));
+  };
+
+  const handleFileChange = (event, index) => {
+    const files = [...fileInputs];
+    files[index] = event.target.files[0];
+    setFileInputs(files);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const newPreviews = [...previews];
+      newPreviews[index] = reader.result;
+      setPreviews(newPreviews);
+    };
+    if (event.target.files[0]) {
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  };
+
+  // 유의사항 수정버튼 핸들러
   const handleEditRule = () => {
     setIsEditingRule(true);
   };
-
+  // 새유의사항 저장 핸들러
   const handleRuleChange = (event) => {
     setRuleText(event.target.value);
   };
@@ -171,15 +169,13 @@ const Mission = () => {
   // 유저권한 정보 가져와서 저장
   const getUserAuth = () => {
     const token = localStorage.getItem('token');
-
     if (!token) {
       console.log("토큰이 없습니다. 로그인하세요.");
       return; // 토큰이 없으면 요청을 보내지 않음
     } 
-
     axios({
       method: 'get',
-      url: `http://localhost:9000/api/UserAuth/${roomNum}`,
+      url: `${process.env.REACT_APP_API_URL}/api/UserAuth/${roomNum}`,
       headers: {
         'Authorization': `Bearer ${token}`,
       },
@@ -196,21 +192,17 @@ const Mission = () => {
       .catch(error => {
         console.error('Error occurred while fetching user auth:', error);
       });
-    
   };
   
-
   // 유의사항 수정, 등록
   const handleSaveRule = () => {
     const token = localStorage.getItem('token');
-
     if (!token) {
       console.log("토큰이 없습니다. 로그인하세요.");
       return; // 토큰이 없으면 요청을 보내지 않음
     }
-
     axios
-      .post(`http://localhost:9000/api/rules/${roomNum}`, {
+      .post(`${process.env.REACT_APP_API_URL}/api/rules/${roomNum}`, {
         ruleText: ruleText, // 유의사항 텍스트를 보냄
       })
       .then((response) => {
@@ -226,27 +218,28 @@ const Mission = () => {
 
   // 유의사항 1개 가져오기
   const getRules = () => {
-  
     axios({
       method: 'get',
-      url: `http://localhost:9000/api/getRule/${roomNum}`,   
-  
+      url: `${process.env.REACT_APP_API_URL}/api/getRule/${roomNum}`,   
       responseType: 'json' 
     }).then(response => {
       setGetRule(response.data.apiData || []);
-          
     }).catch(error => {
       console.error("Failed to fetch mission list:", error);
     });
   };
 
-  // 미션 리스트
-  const [missionList, setMissionList] = useState([])
+  // 캘린더에서 이벤트 클릭 시 동작
+  const handleEventClick = (event) => {
+    setSelectedEvent(event);
+    alert(`미션: ${event.title}\n설명: ${event.extendedProps.description}`);
+  };
 
+  // 미션 리스트 가져오기
   const getMissionList = () => {
     axios({
       method: 'get',
-      url: `http://localhost:9000/api/missionList/${roomNum}`,
+      url: `${process.env.REACT_APP_API_URL}/api/missionList/${roomNum}`,
       headers: {
         'Authorization': `Bearer ${token}`, // 토큰을 Authorization 헤더에 추가
         'Content-Type': 'application/json'
@@ -275,31 +268,25 @@ const Mission = () => {
   // 미션 제출
   const handleSubmitMission = () => {
     const token = localStorage.getItem('token');
-
     if (!token) {
       console.log("토큰이 없습니다. 로그인하세요.");
-      
       return;  // 오류가 있으면 함수 중단
     }
-
     if (!selectedMissionNumber) {
       alert("미션을 선택하세요.");
       return;
     }
-  
     const comment = document.querySelector('.jm-add-comment-box').value;
-  
     const formData = new FormData();
     formData.append('missionNumber', selectedMissionNumber); // 미션 넘버 추가
     formData.append('comment', comment || "기본 코멘트");
-  
+
     fileInputs.forEach((file) => {
       if (file) {
         formData.append('files', file);
       }
     });
-  
-    axios.post("http://localhost:9000/api/submitMissionWithFiles", formData, {
+    axios.post(`${process.env.REACT_APP_API_URL}/api/submitMissionWithFiles`, formData, {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'multipart/form-data',
@@ -347,14 +334,14 @@ const Mission = () => {
 
         <h2 className="jm-sub-tatle">미션 제출</h2>
 
+        <div className="jm-mission-container-top">
+        <div className="jm-mission-progress-bar-container">
         {/* Progress Bar */}
         <span className="jm-my-count">내 달성율 79%</span>
         <div className="jm-progress-bar">
           <div className="jm-progress" style={{ width: '75%' }}></div>
         </div>
-
         {/* 룰셋 수정 가능 */}
-        <div className='jm-roolset'>
           {isEditingRule ? (
             <div className="jm-roolset-contents-box">
               <h3>유의 사항</h3>
@@ -394,6 +381,11 @@ const Mission = () => {
                 options={barChartOptions}
               />
             </div>
+        </div>
+
+        <div className="jm-calendar-container">
+          <Calendar className="jm-calendar"/>
+        </div>
         </div>
         
         <h2 className="jm-todo">할일</h2>
