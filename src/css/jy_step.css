@@ -5,10 +5,35 @@
 /* CSS 변수 정의 */
 /* ##################################### */
 
+:root {
+    /* 색상 팔레트 */
+    --color-primary: #5E91A7;
+    --color-primary-dark: #4a78a2;
+    --color-secondary: #ffffff;
+    --color-secondary-dark: #f5f5f5;
+    --color-disabled: #cacaca;
+    --color-disabled-text: #888888;
+    --color-border: #d9d9d9;
+    --color-text: #1e1e1e;
+    --color-text-light: rgba(0, 0, 0, 0.39);
+    --color-background: #fff;
+    --color-hover: #f0f0f0;
+    --color-highlight: #007BFF;
+    --color-shadow: rgba(0, 0, 0, 0.2);
+    
+    /* 폰트 */
+    --font-family: "Pretendard Variable", Pretendard, sans-serif;
+    
+    /* 기타 */
+    --transition-speed: 0.3s;
+    --border-radius: 8px;
+}
+
+
 /* ##################################### */
 /* 글로벌 스타일 */
 /* ##################################### */
-#jy_step > * {
+#jy_step * {
     box-sizing: border-box;
     font-family: var(--font-family);
 }
@@ -44,6 +69,13 @@
 
 .step #board {
     flex: 1;
+    
+}
+.step form {min-height: calc(100vh - 53px);
+    display: flex;  
+    align-items: center;
+    justify-content: center;
+
 }
 
 .step h2 {
@@ -177,7 +209,7 @@
 
 #step1 #list > div {
     flex: 1;
-    height: 570px;
+    height: 500px;
     border-radius: var(--border-radius);
     border: 1px solid #cac4d0;
     display: flex;
@@ -325,7 +357,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 70px;
+}
+#step3 #list #input-title + #input-title {
+    margin-top: 70px;
 }
 
 #step3 #list #input-title h4 {
@@ -412,7 +446,7 @@
     align-items: center;
 }
 
-#step4 #list #input-box {
+#step4 #list #input-box , .input-box {
     display: flex;
     align-items: center;
     padding: 10px 20px;
@@ -432,6 +466,11 @@
 /* ##################################### */
 /* Step5 스타일 */
 /* ##################################### */
+
+/* #step5 * {
+    box-sizing: content-box;
+} */
+
 #step5 #board {
     display: flex;
     flex-direction: column;
@@ -445,10 +484,12 @@
     width: 100%;
 }
 
-#step5 #stepList div {
+#step5 #stepList > div {
     width: 500px;
 }
-
+.react-calendar {
+    width: 100% !important;
+}
 #step5 #stepList #list-left {
     display: flex;
     flex-direction: column;
@@ -456,6 +497,7 @@
     align-items: center;
     gap: 8px;
     padding: 20px;
+    
 }
 
 #step5 #board #stepList #list-head {
@@ -481,11 +523,21 @@
     cursor: pointer;
     
 }
-
+#list-left > div {
+    width: 100%;
+}
 #step5 #list-left #week div.selected {
     color: #070505;
     border: 2px solid #282727;
     border-radius: 15px;
+}
+.react-datepicker h2{
+    font-size:16px
+}
+.selected-date {
+    text-align: center;
+    font-size:16px;
+    margin-top: 10px;
 }
 
 /* ##################################### */
@@ -566,6 +618,7 @@
     border-radius: var(--border-radius);
 }
 
+
 #step6 .input-button-group #input-box input {
     padding: 10px 16px;
     border-radius: var(--border-radius);
@@ -576,15 +629,34 @@
 
 #step6 #list button {
     padding: 10px 20px;
-    background-color: #ccc;
-    color: var(--color-secondary);
+    background-color: #eee;
+    color: #333;
     border-radius: var(--border-radius);
     border: none;
     cursor: pointer;
     text-align: center;
-    width: 130px;
-    height: 35px;
+    width: 200px;
     transition: background-color var(--transition-speed);
+}
+#step6 #list button.jm-view-button {
+    width:50px;
+    padding: 10px 0;
+}
+#step6 #list button.closeBtn {
+    background: #333;
+    color:#fff;
+    width:50px;
+    padding: 10px 0;
+}
+.jm-view-button-container 
+{
+    display: flex;
+    align-items: center;
+    gap:5px
+
+}
+.jm-view-button-container button {
+    padding: 10px 0;
 }
 
 #step6 #board button:hover {
@@ -627,7 +699,7 @@
 }
 
 #step6 #list #mission-content textarea {
-    width: 500px;
+    width: 100%;
     height: 200px;
     border-radius: var(--border-radius);
     border: 1px solid var(--color-border);
@@ -683,6 +755,230 @@
     font-weight: bold;
     cursor: pointer;
 }
+
+
+/* ################### */
+
+#step6 #mission-input {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#step6 #mission-input #mission-textarea {
+    margin-top: 10px;
+}
+
+#step6 .jm-todo-user-add-form {
+/* display: flex; */
+margin-top: 20px;
+width: 100%;
+}
+.jm-mission-items_tit {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.jm-mission-items_tit input 
+{width: 100%;}
+    
+#step6 .jm-mission-add-list {
+    min-width: 600px;
+}
+#step6 .jm-mission-add-list .jm-mission-add-item {
+    border: solid 1px #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    padding-inline-start: 10px;
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+
+#step6 .jm-mission-items {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding-top: 5px;
+border: solid 1px #ccc;
+border-radius: 3px;
+margin-block: 5px;
+padding:15px;
+cursor: pointer; /* 클릭 가능 표시 */
+transition: background-color 0.3s ease;
+}
+.jm-mission-items input {
+    border:0;
+    padding: 10px;
+    background: transparent;
+    width: 100%;
+    font-size: 14px;
+}
+
+
+#step6 .jm-mission-items:hover {
+background-color: #e9e9e9; /* 호버 시 색상 변경 */
+}
+
+#step6 .jm-mission-items.selected {
+background-color: #d1e7ff; /* 선택된 항목의 색상 */
+border-color: #007bff; /* 선택 시 테두리 강조 */
+}
+
+
+#step6 .jm-view-button-container {
+    text-align: right;
+    padding-left: 20px;
+}
+
+#step6 .jm-view-button {
+border: none;
+background-color: #555;
+border-radius: 3px;
+padding: 3px 6px;
+font-size: 12px;
+color: white;
+}
+#step6 .jm-file-upload {
+margin: 0px;
+width: 200px;
+}
+#step6 .jm-file-upload + .jm-file-upload {
+    margin-left: 10px;
+}
+#step6 .jm-file-upload button {
+    margin-top: 10px;
+}
+
+#step6 .jm-file-upload-name {
+background-color: #727272;
+border-radius: 5px;
+width: 200px;
+height: 200px;
+white-space: nowrap; /* 한 줄로 표시 */
+overflow: hidden; /* 넘치는 텍스트 숨김 */
+text-overflow: ellipsis; /* 잘릴 경우 ... 표시 */
+
+}
+
+#step6 .jm-hidden-file-input {
+display: none; /* 파일 인풋 숨김 */
+width: 100%;
+height: 100%;
+}
+
+#step6 .jm-file-label {
+display: flex;
+justify-content: center;
+align-items: center;
+width: 100%;
+height: 100%;
+border: 2px dashed #ccc;
+border-radius: 8px;
+cursor: pointer;
+overflow: hidden;
+background-color: #f9f9f9;
+}
+
+#step6 .jm-add-mission-img-form {
+display: flex;
+height: 200px;
+}
+
+#step6 .jm-image-preview {
+width: 100%;
+height: 100%;
+object-fit: cover;
+border-radius: 8px;
+margin-top: 0;
+}
+
+#step6 .jm-image-preview img {
+width: 100%;
+}
+
+#step6 .jm-placeholder-text {
+font-size: 14px;
+color: #aaa;
+}
+
+#step6 .jm-add-file-button {
+display: block;
+background: #383E47;
+color: white;
+font-size: 15px;
+border: none;
+padding: 5px 17px; 
+margin-top: 10px;
+cursor: pointer;
+border-radius: 4px;
+}
+
+#step6 .jm-add-file-button:hover {
+background-color: #5c5c5c;
+}
+
+#step6 .jm-comment-add-btn-container {
+display: flex;
+margin-top: 10px;
+align-items: flex-end; /* 버튼을 박스 하단에 정렬 */
+}
+
+#step6 .jm-add-comment-box {
+width: 400px;
+padding: 8px;
+font-size: 14px;
+line-height: 1.5;
+border: 1px solid #ccc;
+border-radius: 5px;
+height: 100px; /* 박스 크기를 늘려서 텍스트가 상단에 붙어 보이게 함 */
+resize: none; /* 크기 조정 방지 */
+box-sizing: border-box;
+text-align: left; /* 텍스트 왼쪽 정렬 */
+vertical-align: top; /* 텍스트 상단 정렬 */
+}
+
+#step6 .jm-add-comment-box::placeholder {
+text-align: left;
+vertical-align: top; /* 상단 정렬 */
+color: #aaa;
+}
+
+#step6 .jm-add-user-mission-btn {
+display: block;
+background: #383E47;
+border: none;
+border-radius: 4px;
+color: white;
+font-size: 15px;
+padding: 5px 17px; 
+height: 30px;
+cursor: pointer;
+margin-left: 10px;
+}
+
+#step6 .jm-add-user-mission-btn:hover {
+background-color: #5c5c5c;
+}
+
+#step6 #list textarea {
+    width: 100%;
+    height: 100px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+    padding: 10px;
+    resize: vertical;
+    box-sizing: border-box;
+    resize: none;
+}
+
+.jm-user-mission-add-fom {
+    margin-bottom: 10px;
+}
+
+
+
+
 
 /* ##################################### */
 /* Step7 스타일 */
