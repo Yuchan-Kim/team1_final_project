@@ -1,0 +1,345 @@
+.jm-missioninfo-body {
+    width: 80vw; /* 전체 너비를 80% 뷰포트 너비로 설정 */
+    margin: 0 auto; /* 중앙 정렬 */
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding: 20px; /* 양 옆에 간격 추가 */
+    background-color: #ffffff; /* 배경색 설정 */
+}
+
+.jm-missionsinfo {
+  margin-left: 110px; /* 사이드바 너비 + 좌측 padding (120px + 40px) */
+  margin-right: 110px; /* 우측 간격 */
+  box-sizing: border-box; /* 패딩 포함하여 크기 계산 */
+  padding: 0 20px; /* 추가 패딩 */
+}
+
+/* 히스토리 상단 타이틀,셀렉트 컨테이너 */
+.jm-mission-history {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.jm-history-tatle {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.jm-calender-api {
+  text-align: left;
+  margin-top: 20px;
+  margin-left: 20px;
+  height: 30px;
+}
+
+/* 셀렉트 컨테이너 */
+.jm-option-box {
+  text-align: right;
+  flex-grow: 2;
+  margin-top: 20px;
+}
+/* 셀렉트 박스 */
+.jm-challenge-select {
+  margin-left: 10px;
+  padding: 5px;
+  border-radius: 5px;
+}
+/* 서브타이틀,셀렉트 끝 */
+
+/* 미션정보 카드 */
+.jm-submission-card {
+  
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.jm-approval-button {
+  float: right;
+  color: #7e7d7d;
+  border: none;
+  border-radius: 5px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.jm-user-profile-img-card {
+    flex-shrink: 0; /* 크기 고정 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 15px; /* 사진과 정보 간 간격 추가 */
+}
+
+/* 유저정보 컨테이너 */
+.jm-user-profile-container {
+  display: flex;
+  margin-block: 15px;
+}
+/* 유저 프로필 이지미*/
+.jm-user-profile-img-card img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+/* 유저이름 컨테이너 */
+.jm-user-profile-name {
+  padding-top: 16px;
+}
+/* 유저이름 */
+.jm-submission-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* 미션 리스트 컨테이너 */
+.jm-task-list {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-bottom: 10px;
+}
+/* 미션 컨테이너 */
+.jm-task-card {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  text-align: center;
+}
+/* 미션이름 */
+.jm-task-title {
+  float: left;
+  margin-top: 5px;
+  font-size: 16px;
+  font-weight: bold;
+}
+/* 미션 승인버튼 */
+.jm-btn-primary {
+  background-color: white;
+  color: #5E91A7;
+  border: none;
+  padding: 5px;
+  font-size: 12px;
+  border-radius: 3px;
+  float: right;
+}
+.jm-btn-primary:hover {
+  background-color: #383E47;
+  color: white;
+}
+/* 미션제출 이미지 */
+.jm-task-img {
+  width: 100%;
+    max-width: 300px; /* 적당한 크기로 설정 */
+    height: auto;
+    aspect-ratio: 1/1; /* 정사각형 유지 */
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.jm-image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.jm-slider-buttons {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+}
+
+.jm-slider-btn {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 5px 7px;
+  cursor: pointer;
+  font-size: 10px;
+  border-radius: 50%;
+  margin: 0 10px;
+}
+
+.jm-slider-btn:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.jm-slider-btn.prev {
+  left: 10px;
+}
+
+.jm-slider-btn.next {
+  right: 10px;
+}
+
+.jm-task-comment-container {
+  border: solid 1px #ccc;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+/* 미션제출 코멘트 */
+.jm-task-comment {
+  font-size: 14px;
+  margin-block: 10px;
+}
+
+/* 모달창 백그라운드 */
+.jm-info-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+/* 모달창 컨테이너 */
+.jm-modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+/* 유저정보 컨테이너 */
+.jm-modal-user-profile-container {
+  display: flex;
+}
+/* 유저 프로필 이지미*/
+.jm-modal-user-profile-img-card img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+/* 유저이름 컨테이너 */
+.jm-modal-user-profile-name {
+  padding-top: 16px;
+  margin-left: 10px;
+}
+/* 유저이름 */
+.jm-modal-submission-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+/* 모달 종료버튼 */
+.jm-close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+/* 모달 미션제목 */
+.jm-modal-mission-tatle {
+  text-align: left;
+  font-size: 25px;
+  font-weight: bold;
+  color: #383E47;
+  margin-bottom: 10px;
+}
+
+.jm-modal-task-images {
+  position: relative;
+  width: 100%;
+  max-width: 400px; /* 이미지 컨테이너의 최대 너비 설정 */
+  margin: 0 auto; /* 중앙 정렬 */
+  overflow: hidden; /* 넘치는 이미지를 숨김 */
+}
+
+/* 모달 미션제출 이미지 컨테이너 */
+.jm-info-modal-img {
+  text-align: center;
+}
+
+/* 미션제출 이미지 */
+.jm-modal-task-img {
+    width: 100%;
+    max-width: 400px; /* 적당한 크기로 설정 */
+    height: auto;
+    aspect-ratio: 1/1; /* 정사각형 유지 */
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.jm-modal-comment-container {
+  border: solid 1px #ccc;
+  border-radius: 5px;
+  margin-top: 10px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+/* 모달 버튼 컨테이너 */
+.jm-info-modal-button {
+  text-align: center;
+}
+/* 모달 승인버튼 */
+.jm-info-modal-button-ok {
+  background-color: #5E91A7;
+  border: none;
+  padding: 5px 15px;
+  border-radius: 5px;
+  color: white;
+  margin-right: 10px;
+}
+/* 모달 거절버튼 */
+.jm-info-modal-button-no {
+  background-color: #383E47;
+  border: none;
+  padding: 5px 15px;
+  border-radius: 5px;
+  color: white;
+  margin-right: 10px;
+}
+
+/* 슬라이더 버튼 */
+.jm-modal-slider-buttons {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.jm-modal-slider-btn {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  pointer-events: all;
+  transition: background-color 0.3s ease;
+}
+
+.jm-modal-slider-btn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.jm-modal-slider-btn.prev {
+  left: 10px;
+}
+
+.jm-modal-slider-btn.next {
+  right: 10px;
+}
+

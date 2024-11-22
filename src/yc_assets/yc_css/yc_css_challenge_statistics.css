@@ -1,0 +1,587 @@
+/* yc_css_challenge_statistics.css */
+
+/* yc-statistics-wrap: 전체 레이아웃 컨테이너 */
+.yc-statistics-wrap {
+  display: flex;
+  width: 80vw; /* 전체 너비를 80% 뷰포트 너비로 설정 */
+  margin: 0 auto; /* 중앙 정렬 */
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 20px; /* 양 옆에 간격 추가 */
+  background-color: #ffffff; /* 배경색 설정 */
+}
+
+/* 메인 콘텐츠 */
+.yc_challenge_statistics_main {
+  flex: 1;
+  margin-left: 110px; /* 사이드바 너비 + 좌측 padding (120px + 40px) */
+  margin-right: 110px; /* 우측 간격 */
+  box-sizing: border-box; /* 패딩 포함하여 크기 계산 */
+  padding: 0 20px; /* 추가 패딩 */
+}
+.yc_challenge_statistics_title{
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 28px;
+}
+/* 콘텐츠 레이아웃 */
+.yc_challenge_statistics_overall-personal-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 30px;
+  gap: 20px; /* 섹션 간 간격 추가 */
+}
+
+/* 그래프 섹션 */
+.yc_challenge_statistics_graphs-section {
+  display: flex;
+  flex-direction: row; /* 가로 정렬 */
+  gap: 20px; /* 그래프 간 간격 */
+  width: 100%;
+  flex-wrap: wrap; /* 필요시 줄 바꿈 */
+}
+
+/* 라인 차트 공통 스타일 */
+.yc_challenge_statistics_line-chart {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  height: 250px; /* 차트 높이 지정 */
+  flex: 1 1 30%; /* 유연한 너비, 한 줄에 세 개 */
+  min-width: 280px; /* 최소 너비 설정 */
+  animation: fadeIn 0.5s ease;
+}
+
+/* 추가 그래프 (막대 그래프) */
+.yc_challenge_statistics_additional-graph {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  height: 250px; /* 차트 높이 지정 */
+  flex: 1 1 30%; /* 유연한 너비, 한 줄에 세 개 */
+  min-width: 280px; /* 최소 너비 설정 */
+  animation: fadeIn 0.5s ease;
+}
+
+/* 사용자 리스트 */
+.yc_challenge_statistics_user-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* 사용자 간 간격 증가 */
+}
+
+/* 사용자 카드 */
+.yc_challenge_statistics_user {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px; /* 모서리 더 둥글게 */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* 그림자 강화 */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* 부드러운 hover 효과 */
+}
+
+.yc_challenge_statistics_user:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* 사용자 이모티콘 */
+.yc_challenge_statistics_user-emoji {
+  font-size: 32px; /* 이모지 크기 증가 */
+  margin-right: 20px;
+  flex-shrink: 0;
+}
+
+/* 사용자 정보 섹션 */
+.yc_challenge_statistics_user-info {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+/* 사용자 이름 - 링크 스타일 */
+.yc_challenge_statistics_user-name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  width: 150px; /* 고정 너비 */
+  flex-shrink: 0;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.yc_challenge_statistics_user-name:hover {
+  text-decoration: underline;
+}
+
+/* 사용자별 진행 바 */
+.yc_challenge_statistics_user-progress-bar {
+  width: 50%; /* 고정 너비 증가 */
+  height: 10px;
+  background-color: #e0e0e0;
+  border-radius: 7.5px;
+  margin-left: 15px;
+  overflow: hidden;
+}
+
+.yc_challenge_statistics_user-progress-bar .yc_challenge_statistics_filled {
+  background: linear-gradient(90deg, #2196f3, #42a5f5); /* 사용자 진행도 그라디언트 */
+  height: 100%;
+  transition: width 0.5s ease-in-out; /* 부드러운 애니메이션 */
+}
+
+/* 사용자 달성율 */
+.yc_challenge_statistics_user-progress {
+  color: #777;
+  margin-left: 20px;
+  width: 100px; /* 고정 너비 */
+  font-size: 16px;
+  text-align: right;
+}
+
+/* 사용자 세부 사항 */
+.yc_challenge_statistics_user-details {
+  color: #777;
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+
+/* 성적표 버튼 */
+.yc_challenge_statistics_report-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  background-color: #34495e;
+  color: #fff;
+  border: none;
+  border-radius: 50%; /* 원형 버튼 */
+  cursor: pointer;
+  margin-left: 10px;
+  width: 40px; /* 고정 너비 및 높이 */
+  height: 40px;
+  font-size: 18px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.yc_challenge_statistics_report-button:hover {
+  background-color: #2c3e50;
+  transform: scale(1.1);
+}
+
+/* 모달 오버레이 */
+.yc-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  animation: modalFadeIn 0.3s forwards; /* 모달 페이드 인 애니메이션 */
+}
+
+@keyframes modalFadeIn {
+  to {
+      opacity: 1;
+  }
+}
+
+/* 모달 콘텐츠 */
+.yc-modal-content {
+  background: white;
+  border-radius: 16px;
+  padding: 40px 30px;
+  width: 500px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+  animation: slideDown 0.6s ease-out;
+}
+
+/* 보고서 상세 섹션 */
+.yc-report-details {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+/* 도넛 차트 */
+.yc-dougnut-chart {
+  width: 150px;
+  height: 150px;
+  position: relative;
+  margin-right: 20px;
+  opacity: 0;
+  animation: fadeInChart 0.8s forwards; /* 차트 페이드 인 애니메이션 추가 */
+}
+
+/* 완료율 표시 */
+.yc-completion-rate {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  font-weight: bold;
+  color: #34495e;
+}
+
+/* 미션 상세 섹션 위치 수정 */
+.yc-mission-details {
+  text-align: left;
+  font-size: 18px; 
+  color: #333;
+  margin-top: 10px;
+}
+
+/* 그룹 챌린지 섹션 */
+.yc-group-challenge-section {
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.yc-group-challenge-section h3 {
+  margin-bottom: 15px;
+  margin-top: 0px;
+  color: #34495e;
+  text-align: left;
+}
+
+/* 그룹 챌린지 리스트 */
+.yc-group-challenges {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.yc-group-challenges li {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #555;
+}
+
+/* 그룹 챌린지 포인트 색상 변경 */
+.yc-group-challenge-points {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #2196f3; /* 그래프 색상과 일치 */
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* 포인트 요약 섹션 */
+.yc-points-summary {
+  text-align: left;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 20px;
+  margin-left: 200px;
+}
+
+.yc-points-summary p {
+  margin: 8px 0;
+}
+
+/* 닫기 버튼 */
+.yc-close-button {
+  background-color: #34495e;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.yc-close-button:hover {
+  background-color: #2c3e50;
+  transform: scale(1.05);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeInChart {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* 반응형 디자인 */
+@media screen and (max-width: 768px) {
+  .yc_challenge_statistics_main {
+      padding-left: 20px;
+      padding-right: 20px;
+      width: calc(100vw - 100px); /* 작은 화면에서 너비 조정 */
+  }
+
+  .yc_challenge_statistics_overall-personal-container {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .yc_challenge_statistics_graphs-section {
+      flex-direction: row; /* 기본은 row로 설정 */
+      flex-wrap: wrap; /* 필요시 줄 바꿈 */
+      justify-content: center;
+  }
+
+  .yc_challenge_statistics_line-chart,
+  .yc_challenge_statistics_additional-graph {
+      flex: 1 1 100%; /* 모바일에서는 100% 너비 */
+      max-width: 100%;
+      height: 200px; /* 차트 높이 지정 */
+  }
+
+  .yc_challenge_statistics_user-list {
+      flex-direction: column;
+  }
+
+  .yc_challenge_statistics_user {
+      flex-direction: column;
+      align-items: flex-start;
+  }
+
+  .yc_challenge_statistics_user-info {
+      margin-top: 10px;
+  }
+
+  .yc_challenge_statistics_user-progress-bar {
+      width: 100%; /* 진행 바 너비 조정 */
+      margin-left: 0;
+      margin-top: 10px;
+  }
+
+  .yc_challenge_statistics_user-progress {
+      margin-left: 0;
+      margin-top: 10px;
+      text-align: left;
+  }
+
+  .yc_challenge_statistics_user-details {
+      margin-left: 0;
+      margin-top: 10px;
+      flex-direction: column;
+      align-items: flex-start;
+  }
+
+  .yc_challenge_statistics_report-button {
+      margin-left: 0;
+      margin-top: 10px;
+  }
+
+  .yc-modal-content {
+      width: 90%;
+      padding: 20px;
+  }
+
+  .yc-report-details {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .yc-dougnut-chart {
+      margin-right: 0;
+      margin-bottom: 20px;
+  }
+
+  .yc-group-challenge-section {
+      padding: 15px;
+  }
+
+  .yc-group-challenge-points {
+      top: 15px;
+      right: 15px;
+  }
+
+  .yc-points-summary {
+      font-size: 14px;
+      margin-left: 0;
+  }
+
+  .yc-close-button {
+      width: 100%;
+  }
+
+  /* Adjust chart container for mobile */
+  .yc-chart-container {
+    top: 60px; /* Adjust based on TopHeader height for smaller screens */
+    right: 10px; /* Reduce right margin */
+    width: 140px; /* Slightly smaller width */
+    padding: 8px; /* Reduced padding */
+  }
+
+  .yc-chart-container .yc-achievement-rate h4 {
+    font-size: 16px; /* Smaller font size */
+  }
+
+  .yc-top-rankings h3 {
+    font-size: 18px; /* Smaller heading */
+  }
+
+  .yc-ranking-item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .yc-ranking-avatar {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 5px;
+  }
+
+  .yc-ranking-info {
+    width: 100%;
+  }
+
+  .yc-ranking-name, .yc-ranking-progress {
+    font-size: 14px;
+  }
+}
+
+/* Chart Container */
+.yc-chart-container {
+  position: fixed; /* Fixed position */
+  top: 80px; /* Adjust based on TopHeader height */
+  right: 50px; /* Right margin */
+  width: 200px; /* Increased width to accommodate rankings */
+  background-color: #ffffff; /* Background color */
+  border: 1px solid #ddd; /* Border */
+  border-radius: 10px; /* Rounded corners */
+  padding: 15px; /* Internal padding */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  z-index: 1000; /* Display above other elements */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Achievement Rate Display */
+.yc-achievement-rate {
+  margin-top: 10px;
+}
+
+/* Top Rankings Section */
+.yc-top-rankings {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.yc-top-rankings h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #34495e;
+}
+
+/* Ranking Item */
+.yc-ranking-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.yc-ranking-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.yc-ranking-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.yc-ranking-name {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.yc-ranking-progress {
+  font-size: 14px;
+  color: #777;
+}
+
+/* Scrollbar for Rankings if needed */
+.yc-top-rankings {
+  max-height: 300px; /* Adjust as needed */
+  overflow-y: auto;
+}
+
+.yc-top-rankings::-webkit-scrollbar {
+  width: 6px;
+}
+
+.yc-top-rankings::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+/* Responsive Adjustments for Top Rankings */
+@media screen and (max-width: 768px) {
+  .yc-chart-container {
+    width: 140px; /* Smaller width for mobile */
+    right: 10px; /* Reduced right margin */
+    padding: 10px; /* Reduced padding */
+  }
+
+  .yc-top-rankings h3 {
+    font-size: 16px;
+  }
+
+  .yc-ranking-item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .yc-ranking-avatar {
+    width: 35px;
+    height: 35px;
+    margin-right: 0;
+    margin-bottom: 5px;
+  }
+
+  .yc-ranking-info {
+    align-items: center;
+  }
+
+  .yc-ranking-name, .yc-ranking-progress {
+    font-size: 12px;
+  }
+}

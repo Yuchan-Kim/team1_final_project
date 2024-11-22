@@ -1,0 +1,357 @@
+@charset "UTF-8";
+
+/* 웹킷 기반 브라우저 (Chrome, Safari 등) */
+::-webkit-scrollbar {
+    width: 10px; /* 스크롤바 너비 */
+    height: 10px; /* 가로 스크롤바 높이 */
+}
+
+::-webkit-scrollbar-track {
+    background: #fff; /* 트랙 배경색 */
+    border-radius: 10px; /* 모서리 둥글게 */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #f2f8f9; /* 슬라이더 색상 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    border: 3px solid #fff; /* 트랙과 슬라이더 사이의 여백 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #e0e0e0; /* 호버 시 슬라이더 색상 변경 */
+}
+
+
+/**************************************< 헤더 >***********************************/
+.wrap .hmk_header {
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    background-color: #f8f9fa;
+    position: relative;
+    padding: 0 20px;
+}
+
+/* 헤더 로고 스타일 */
+.wrap .hmk_header .hmk_logo {
+    position: absolute;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    /* background-color: gray; */
+}
+
+/* 헤더 메뉴 스타일 */
+.wrap .hmk_header .hmk_menu {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+}
+
+.hmk_header .hmk_menu ul {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+}
+
+.wrap .hmk_header .hmk_menu li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+}
+
+/* 오른쪽 헤더 메뉴 및 프로필 이미지 스타일 */
+.wrap .hmk_header .hmk_menu2 {
+    position: absolute;
+    right: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.wrap .hmk_header .hmk_menu2 ul {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    list-style: none;
+}
+
+.wrap .hmk_header .hmk_menu2 img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.wrap .hmk_header .hmk_menu2 p {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.wrap .hmk_header .hmk_menu2 span {
+    font-size: 14px;
+    color: #666;
+}
+/**************************************< /헤더 >***********************************/
+.ham_wrap {
+    box-sizing: border-box;
+    font-family: "Pretendard Variable", Pretendard, sans-serif;
+    overflow-x: hidden; /* 가로 스크롤 바 제거 */
+    margin: 0; /* 기본적인 여백 제거 */
+    padding: 0;
+    width: 80vw;
+    margin-left: 187px;
+    box-sizing: border-box; /* 패딩을 포함한 크기 계산 */
+    scrollbar-width: thin; /* 얇은 스크롤바 */
+    scrollbar-color: #e0e0e0 #f0f0f0; /* 슬라이더 색상과 트랙 색상 설정 */
+}
+
+/************************* < 메인 컨테이너 > *********************/
+.wrap .hmk_main-container {
+
+    display: flex;
+    margin-top: 10px;
+    background-color: #fff;
+}
+/************************* < /메인 컨테이너 > *********************/
+
+/******************** 메인 콘텐츠 : 통계 카드 컨테이너 스타일 ********************/
+.wrap .hmk_main .hmk_stat-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* 카드 사이의 간격 */
+    justify-content: center; /* 카드들을 중앙에 정렬 */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px; /* 모서리 둥글게 */
+}
+
+/* 통계 카드 스타일 */
+.wrap .hmk_main .hmk_stat-container .hmk_stat-card {
+    width: 300px;
+    min-width: 288px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 12px; /* 카드 모서리를 둥글게 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 카드에 그림자 추가 */
+    display: flex;
+    flex-direction: row; /* 내부 요소들을 가로로 배치 */
+    align-items: center; /* 수직 중앙 정렬 */
+    text-align: left; /* 텍스트를 왼쪽으로 정렬 */
+}
+
+/* 통계 차트 스타일 */
+.wrap .hmk_main .hmk_stat-container .hmk_stat-card .hmk_chart {
+    position: relative;
+    flex-shrink: 0; /* 차트가 축소되지 않도록 */
+    margin-right: 15px; /* 차트와 정보 사이의 간격 */
+}
+
+/* 차트 중앙 텍스트 스타일 설정 */
+.wrap .hmk_main .hmk_stat-container .hmk_stat-card .hmk_stat-card_chart-center-text {
+    /* 텍스트가 차트 중앙에 오도록 설정 */
+    position: absolute;
+    top: 40%;
+    left: 33%;
+    /* 텍스트가 차트 가운데 오는거 어렵다... */
+    font-size: 12px;
+    color: #333;
+    text-align: center;
+    /* 텍스트 중앙 정렬 */
+    font-weight: bold;
+    /* 텍스트 굵게 설정 */
+}
+
+/* 통계 정보 스타일 */
+.wrap .hmk_main .hmk_stat-container .hmk_stat-card .hmk_stat-info {
+    display: flex;
+    flex-direction: column; /* 정보를 세로로 배치 */
+    justify-content: center; /* 세로 중앙 정렬 */
+}
+
+/* 통계 카드 타이틀 */
+.wrap .hmk_main .hmk_stat-container .hmk_stat-card .hmk_stat-title {
+    font-size: 16px; /* 가독성을 위해 폰트 크기 증가 */
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 5px 0;
+}
+
+/* 통계 카드 데이터 */
+.wrap .hmk_main .hmk_stat-container .hmk_stat-card .hmk_stat-data {
+    font-size: 14px; /* 가독성을 위해 폰트 크기 증가 */
+    color: #666;
+    margin: 0 0 10px 0;
+}
+
+/* 링크 */
+.wrap .hmk_main .hmk_stat-container .hmk_stat-card .hmk_stat-link {
+    font-size: 14px; /* 가독성을 위해 폰트 크기 증가 */
+    color: #3a7afe;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* 반응형 디자인 (선택 사항) */
+@media (max-width: 1024px) {
+    .wrap .hmk_main .hmk_stat-container .hmk_stat-card {
+        width: 45%; /* 화면이 좁아지면 두 개씩 배치 */
+    }
+}
+
+@media (max-width: 600px) {
+    .wrap .hmk_main .hmk_stat-container .hmk_stat-card {
+        width: 100%; /* 모바일에서는 한 줄에 하나씩 배치 */
+    }
+}
+
+/* 탭 메뉴 전체 컨테이너 스타일 */
+.wrap .hmk_main-container .hmk_main .hmk_tab-menu {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* 개별 탭 버튼 스타일 */
+.wrap .hmk_main-container .hmk_main .hmk_tab-menu .hmk_tab-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #666;
+    background-color: #f1f1f1;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* 탭 버튼 호버 효과 */
+.wrap .hmk_main-container .hmk_main .hmk_tab-menu .hmk_tab-button:hover {
+    background-color: #e0e0e0;
+}
+
+/* 활성화된 탭 버튼 스타일 */
+.wrap .hmk_main-container .hmk_main .hmk_tab-menu .hmk_tab-button.hmk_active {
+    background-color: #3a7afe;
+    color: #ffffff;
+}
+
+/* 활성화된 탭 버튼 스타일 */
+.wrap .hmk_main-container .hmk_main .hmk_tab-menu .hmk_tab-button.hmk_active:hover {
+    background-color: #3065d0;
+    color: #ffffff;
+}
+
+/* 챌린지 카드 전체 컨테이너 */
+.wrap .hmk_main-container .hmk_main .hmk_challenge-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* 챌린지 카드 */
+.wrap .hmk_main-container 
+.hmk_main 
+.hmk_challenge-list 
+.hmk_challenge-card {
+    display: flex;
+    flex-direction: row;
+    width: 45%;
+    max-width: 500px;
+    min-width: 395px;
+    background-color: #ffffff;
+    border-radius: 10px; /* 카드 전체 모서리를 둥글게 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s;
+    padding: 10px; /* 카드 안쪽 여백 추가 */
+
+}
+
+/* 반응형 디자인 (선택 사항) */
+@media (max-width: 1024px) {
+.wrap .hmk_main-container 
+.hmk_main 
+.hmk_challenge-list 
+.hmk_challenge-card {
+        width: 25%; /* 화면이 좁아지면 두 개씩 배치 */
+    }
+}
+
+@media (max-width: 600px) {
+.wrap .hmk_main-container 
+.hmk_main 
+.hmk_challenge-list 
+.hmk_challenge-card {
+        width: 80%; /* 모바일에서는 한 줄에 하나씩 배치 */
+    }
+}
+
+.wrap .hmk_main-container 
+.hmk_main 
+.hmk_challenge-list 
+.hmk_challenge-card:hover {
+    transform: translateY(-5px); /* 마우스 오버 시 카드가 살짝 올라오는 효과 */
+}
+
+/* 챌린지 카드 내 이미지 스타일 */
+.wrap .hmk_main-container 
+.hmk_main 
+.hmk_challenge-list 
+.hmk_challenge-card 
+.hmk_challenge-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 15px; /* 이미지와 텍스트 사이 간격 */
+    border-radius: 8px; /* 이미지 모서리를 둥글게 */
+    flex-shrink: 0; /* 이미지 크기가 카드 크기에 따라 줄어들지 않도록 설정 */
+}
+
+/* 챌린지 카드 내용 컨테이너 */
+.wrap .hmk_main-container 
+.hmk_main 
+.hmk_challenge-list 
+.hmk_challenge-card 
+.hmk_challenge-details {
+    padding: 10px 0; /* 텍스트 상하 여백 */
+    flex: 1;
+}
+
+/* 챌린지 실행 기간 텍스트 스타일 */
+.wrap .hmk_main-container 
+.hmk_main 
+.hmk_challenge-list 
+.hmk_challenge-card 
+.hmk_challenge-details
+.hmk_challenge-date {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+/* 챌린지 타이틀 텍스트 스타일 */
+.wrap .hmk_main-container 
+.hmk_main 
+.hmk_challenge-list 
+.hmk_challenge-card 
+.hmk_challenge-details
+.hmk_challenge-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 4px;
+    line-height: 1.4;
+}
+
+

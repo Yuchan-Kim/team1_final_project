@@ -1,0 +1,380 @@
+/* 전체 컨테이너 */
+.jm-bady {
+  display: flex;
+  width: 80vw; /* 전체 너비를 80% 뷰포트 너비로 설정 */
+  margin: 0 auto; /* 중앙 정렬 */
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 20px; /* 양 옆에 간격 추가 */
+  background-color: #ffffff; /* 배경색 설정 */
+}
+
+
+/* 미션컨텐츠 컨테이너 */
+.jm-mission-body {
+  flex: 1;
+  margin-left: 110px; /* 사이드바 너비 + 좌측 padding (120px + 40px) */
+  margin-right: 110px; /* 우측 간격 */
+  box-sizing: border-box; /* 패딩 포함하여 크기 계산 */
+  padding: 0 20px; /* 추가 패딩 */
+}
+
+/* Header */
+.jm-room-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.jm-c-tatle-box {
+  flex-grow: 1; 
+}
+
+.jm-c-tatle {
+  text-align: left;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+/* 서브 타이틀 */
+.jm-sub-tatle {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.jm-mission-container-top {
+  display: flex;
+}
+
+.jm-mission-progress-bar-container {
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
+.jm-calendar-container {
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
+.jm-calendar {
+}
+
+/* 달성율  퍼센트 */
+.jm-my-count {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* 달성율 그래프바 컨테이너 */
+.jm-progress-bar {
+  width: 95%;
+  background: #ccc;
+  height: 10px;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+/* 달성율 그래프바 */
+.jm-progress {
+  background: rgb(52, 73, 94);
+  height: 100%;
+  border-radius: 5px;
+}
+
+/* 유의사항 컨테이너 */
+.jm-roolset {
+  padding-block: 20px;
+}
+
+.jm-roolset-update-contents-box {
+  width: 92%;
+  
+}
+
+.jm-roolset-contents-box {
+  width: 100%;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-right: 20px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  display: flex;
+  min-width: 200px; /* 최소 너비 설정 */
+  height: 150px;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.jm-roolset-contents-box span {
+  background-color: white;
+  color: #727272;
+  width: 100%;
+  height: 150px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Prevent overflow */
+    
+}
+
+.jm-roolset-contents-box textarea {
+  background-color: white;
+  color: #727272;
+  width: 100%;
+  height: 150px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px; /* Prevent overflow */
+}
+
+.jm-roolset-contents-box h3 {
+  text-align: left;
+  margin: 0px;
+  font-size: 19px;
+  font-weight: bold;
+  color: black;
+}
+/* 유의사항 등록,수정 버튼 */
+.jm-btn-updatimg button{
+  float: right;
+  margin-top: 5px;
+  padding: 5px 10px;
+  border: none;
+  background-color: #5E91A7;
+  font-size: 14px;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+/* 내 미션 그래프 */
+.jm_challenge_statistics_additional-graph {
+  width: 90%;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  height: 200px; /* 차트 높이 지정 */
+  min-width: 200px; /* 최소 너비 설정 */
+  animation: fadeIn 0.5s ease;
+}
+
+.jm_challenge_statistics_additional-graph h2 {
+  margin: 0px;
+  font-size: 19px;
+  font-weight: bold;
+  color: black;
+}
+
+.jm-rule-input {
+  width: 100%;
+  padding-block: 10px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+
+/* =================================================================*/
+.jm-todo {
+  display: flex;
+  margin: 0px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.jm-todo-user-add-form {
+  display: flex;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.jm-mission-add-list {
+  flex-grow: 1;
+  border: solid 1px #ccc;
+  border-radius: 5px;
+  padding-block: 5px;
+  padding-inline: 10px;
+  margin-right: 20px;
+}
+
+.jm-mission-items {
+  display: flex;
+  border: solid 1px #ccc;
+  border-radius: 3px;
+  margin-block: 5px;
+  padding: 10px;
+  cursor: pointer; /* 클릭 가능 표시 */
+  transition: background-color 0.3s ease;
+}
+
+
+.jm-mission-items:hover {
+  background-color: #e9e9e9; /* 호버 시 색상 변경 */
+}
+
+.jm-mission-items.selected {
+  background-color: #d1e7ff; /* 선택된 항목의 색상 */
+  border-color: #007bff; /* 선택 시 테두리 강조 */
+}
+
+.jm-mission-items h2 {
+  flex-grow: 1;
+  font-size: 14px;
+  font-weight: bold;
+  margin-right: 20px;
+}
+
+.jm-view-button-container {
+  text-align: right;
+}
+
+.jm-view-button {
+  border: none;
+  background-color: #555;
+  border-radius: 3px;
+  padding: 3px 6px;
+  font-size: 12px;
+  color: white;
+}
+
+.jm-file-upload {
+  margin: 0px;
+  width: 200px;
+  margin-right: 10px;
+}
+
+.jm-file-upload-name {
+  background-color: #727272;
+  border-radius: 5px;
+  width: 200px;
+  height: 200px;
+  white-space: nowrap; /* 한 줄로 표시 */
+  overflow: hidden; /* 넘치는 텍스트 숨김 */
+  text-overflow: ellipsis; /* 잘릴 경우 ... 표시 */
+
+}
+
+.jm-hidden-file-input {
+  display: none; /* 파일 인풋 숨김 */
+  width: 100%;
+  height: 100%;
+}
+
+.jm-file-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  overflow: hidden;
+  background-color: #f9f9f9;
+}
+
+.jm-add-mission-img-form {
+  display: flex;
+  height: 200px;
+}
+
+.jm-image-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.jm-image-preview img {
+  width: 100%;
+}
+
+.jm-placeholder-text {
+  font-size: 14px;
+  color: #aaa;
+}
+
+.jm-add-file-button {
+  display: block;
+  background: #383E47;
+  color: white;
+  font-size: 15px;
+  border: none;
+  padding: 5px 17px; 
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.jm-add-file-button:hover {
+  background-color: #5c5c5c;
+}
+
+.jm-comment-add-btn-container {
+  display: flex;
+  margin-top: 10px;
+  align-items: flex-end; /* 버튼을 박스 하단에 정렬 */
+}
+
+.jm-add-comment-box {
+  width: 400px;
+  padding: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  height: 100px; /* 박스 크기를 늘려서 텍스트가 상단에 붙어 보이게 함 */
+  resize: none; /* 크기 조정 방지 */
+  box-sizing: border-box;
+  text-align: left; /* 텍스트 왼쪽 정렬 */
+  vertical-align: top; /* 텍스트 상단 정렬 */
+}
+
+.jm-add-comment-box::placeholder {
+  text-align: left;
+  vertical-align: top; /* 상단 정렬 */
+  color: #aaa;
+}
+
+.jm-add-user-mission-btn {
+  display: block;
+  background: #383E47;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 15px;
+  padding: 5px 17px; 
+  height: 30px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.jm-add-user-mission-btn:hover {
+  background-color: #5c5c5c;
+}
+
+.jm-mission-items {
+  transition: opacity 0.3s ease;
+}
+
+.jm-mission-items.selected {
+  border: 2px solid #007bff;
+}
+
+.jm-mission-items .submitted-label {
+  color: red;
+  font-weight: bold;
+}
+
+.jm-mission-items[style*="pointer-events: none"] {
+  cursor: not-allowed;
+}
+
+

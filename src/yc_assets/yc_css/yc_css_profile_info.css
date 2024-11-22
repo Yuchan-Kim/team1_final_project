@@ -1,0 +1,203 @@
+/* yc_css_profile_info.css */
+
+/* 모달 배경 */
+.yc_profile_info {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* 모달 콘텐츠 */
+.yc_profile_content {
+    background: #fff;
+    border-radius: 16px;
+    padding: 40px 30px;
+    width: 360px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    animation: slideDown 0.6s ease-out;
+}
+
+/* 닫기 버튼 */
+.yc_profile_close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    color: #878787;
+    transition: color 0.3s ease;
+}
+
+.yc_profile_close:hover {
+    color: #b3b3b3;
+}
+
+/* 프로필 섹션 */
+.yc_profile {
+    margin-bottom: 25px;
+}
+
+.yc_profile-avatar {
+    width: 100px;
+    height: 100px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    color: #d9d9d9;
+    border: 2px solid #ddd;
+}
+
+.yc_profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 닉네임 섹션 */
+.yc_profile_nickname {
+    margin: 15px 0 10px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.yc_add_friend_button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #cacaca; /* 버튼 색상 */
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.yc_add_friend_button svg {
+    margin-right: 5px;
+}
+
+.yc_add_friend_button:hover {
+    background-color: #b3b3b3; /* 호버 시 색상 변경 */
+    transform: scale(1.05);
+}
+
+/* 위치 정보 */
+.yc_profile_location {
+    font-size: 16px;
+    color: #777;
+    margin-top: 5px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* 구분선이 있는 통계 섹션 */
+.yc_profile_stats, .yc_profile_challenge_info {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    padding-bottom: 15px;
+    border-top: 1px solid #ccc;
+}
+
+.yc_profile_challenge_info {
+    padding-top: 15px;
+}
+
+.yc_profile_stats div, .yc_profile_challenge_info div {
+    text-align: center;
+    flex: 1;
+}
+
+.yc_profile_stats p, .yc_profile_challenge_info p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.yc_profile_stats div p:first-child, 
+.yc_profile_challenge_info div p:first-child {
+    font-weight: 600;
+    font-size: 14px;
+    color: #888;
+}
+
+.yc_profile_stats div p:nth-child(2),
+.yc_profile_challenge_info div p:nth-child(2) {
+    font-size: 18px;
+    color: #000000;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* 반응형 디자인 */
+@media screen and (max-width: 480px) {
+    .yc_profile_content {
+        width: 90%;
+        padding: 25px 20px;
+    }
+
+    .yc_profile_nickname {
+        font-size: 20px;
+    }
+
+    .yc_add_friend_button {
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+
+    .yc_profile-avatar {
+        width: 80px;
+        height: 80px;
+        font-size: 40px;
+    }
+
+    .yc_profile_stats, .yc_profile_challenge_info {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .yc_profile_stats div, .yc_profile_challenge_info div {
+        margin-bottom: 10px;
+    }
+
+    .yc_profile_stats div p:first-child, 
+    .yc_profile_challenge_info div p:first-child {
+        font-size: 14px;
+    }
+
+    .yc_profile_stats div p:nth-child(2),
+    .yc_profile_challenge_info div p:nth-child(2) {
+        font-size: 16px;
+    }
+}
