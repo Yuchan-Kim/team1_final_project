@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 //import 컴포넌트
 import Header from '../pages/include/DH_Header';
 import NaverLogin from '../ham_pages/NaverLogin';
+import GoogleLoginComponent from '../ham_pages/GoogleLogin';
 //import css
 import '../css/dh_loginform.css';
 
@@ -104,8 +105,12 @@ const DH_LoginForm = () => {
                     <div className="dy-loginform-content">
                         <div className="dy-api-logins">
                             <div className="dy-api-login">카카오로 가입하기</div>
-                            <div className="dy-api-login">Google로 가입하기</div>
-                            <NaverLogin  />
+                            <div className="dy-api-login">
+                                <GoogleLoginComponent />
+                            </div>
+                            <div className="dy-api-login">
+                                <NaverLogin />
+                            </div>
                         </div>
                         {/* /dy-api-logins */}
                         <div className="dy-middle">─────────── 또는 ───────────</div>
