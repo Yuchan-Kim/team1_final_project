@@ -42,7 +42,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "postbuild": "cp -r build/* /Users/yuchan/workspace-boot/API_team1_final_project/src/main/resources/static/"
+    "postbuild": "cp -r build/* /Users/yuchan/git/API_team1_final_project/src/main/resources/static/"
   },
   "eslintConfig": {
     "extends": [
