@@ -66,10 +66,10 @@ function App() {
           <Route path='/cmain/:roomNum' element={<Challengemain />} />
 
 
-          <Route path='/user/mypage' element={<Mypage />} />
-          <Route path='/user/mypoint' element={<Pointpage />} />
-          <Route path='/user/cargo' element={<Cargo />} />
-          <Route path='/user/rank' element={<Rank />} />
+          <Route path='/my/mypage' element={<Mypage />} />
+          <Route path='/my/mypoint' element={<Pointpage />} />
+          <Route path='/my/cargo' element={<Cargo />} />
+          <Route path='/my/rank' element={<Rank />} />
 
           
           <Route path='/genebang/genebang01' element={<Step0 />} />
