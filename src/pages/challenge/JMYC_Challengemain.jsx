@@ -1,5 +1,5 @@
 import React, { useEffect,useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 // import css
@@ -23,7 +23,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const ChallengePage = () => {
-
+  const {roomNum} = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedMission, setSelectedMission] = useState(null);
 
@@ -72,7 +72,7 @@ const ChallengePage = () => {
 
     axios({
       method: 'get',
-      url: "http://localhost:9000/api/roomMain",
+      url: `http://localhost:9000/api/roomMain/${roomNum}`,
   
       responseType: 'json'
     }).then(response => {

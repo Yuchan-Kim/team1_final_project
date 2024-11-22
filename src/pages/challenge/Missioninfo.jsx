@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useMemo } from 'react';
 import axios from 'axios';
 import TopHeader from "../include/DH_Header.jsx";
@@ -14,8 +15,11 @@ import Sidebar from "../../yc_pages/YC_challenge_sidebar.jsx";
 import Header from "../../yc_pages/JMYC_challenge_header.jsx";
 
 const Missioninfo = () => {
+    const {roomNum} = useParams();
     const token = localStorage.getItem('token'); 
     const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem('authUser'))); 
+    const [userAuth, setUserAuth] = useState(null); // 유저 권한 저장
+    const [roomEvalType, setRoomEvalType] = useState(null); // 방 평가타입 저장
     const currentUserNum = authUser?.userNum || null; 
     const [currentImgIndexes, setCurrentImgIndexes] = useState({}); // 모든 항목에 대한 이미지 인덱스 상태
     const [modalImgIndex, setModalImgIndex] = useState(0); // 모달창 이미지 인덱스
@@ -65,9 +69,69 @@ const Missioninfo = () => {
         setSelectedMission(null);
     };
 
+      // 방 평가 타입 가져와서 저장
+  const getRoomEvalType = () => {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      console.log("토큰이 없습니다. 로그인하세요.");
+      return; // 토큰이 없으면 요청을 보내지 않음
+    } 
+
+    axios({
+      method: 'get',
+      url: `http://localhost:9000/api/roomEvalType/${roomNum}`,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    })
+      .then(response => {
+        console.log('API Response:', response.data); // 전체 응답 출력
+        const roomEvalType = response.data?.apiData;
+        setRoomEvalType(roomEvalType); // 평가타입 업데이트
+        console.log('Room Eval Type:', roomEvalType);
+      })
+      .catch(error => {
+        console.error('Error occurred while fetching user auth:', error);
+      });
+    
+  };
+
+    // 유저권한 정보 가져와서 저장
+  const getUserAuth = () => {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      console.log("토큰이 없습니다. 로그인하세요.");
+      return; // 토큰이 없으면 요청을 보내지 않음
+    } 
+
+    axios({
+      method: 'get',
+      url: `http://localhost:9000/api/UserAuth/${roomNum}`,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    })
+      .then(response => {
+        console.log('API Response:', response.data); // 전체 응답 출력
+        const userAuth = response.data?.apiData;
+        if (userAuth !== undefined && userAuth !== null) {
+          setUserAuth(userAuth); // 상태 업데이트
+          console.log('user Auth:', userAuth);
+        } else {
+          console.error('UserAuth is missing in the response.');
+        }
+      })
+      .catch(error => {
+        console.error('Error occurred while fetching user auth:', error);
+      });
+    
+  };
+
     // 참가자 리스트 가져오기
     const getUserList = () => {
-        axios.get("http://localhost:9000/api/roomMain")
+        axios.get(`http://localhost:9000/api/roomMain/${roomNum}`)
             .then(response => {
                 const { userList } = response.data.apiData;
                 setUserList(userList || []);
@@ -92,7 +156,7 @@ const Missioninfo = () => {
     // 미션 히스토리 리스트 가져오기 수정
     const getHistoryList = (sortOrder = order) => {
         console.log("Fetching history list with order:", sortOrder); // 호출 시점과 전달된 값 확인
-        axios.get("http://localhost:9000/api/historyList", {
+        axios.get(`http://localhost:9000/api/historyList/${roomNum}`, {
             params: {
                 order: sortOrder, // 선택된 정렬 순서를 서버로 전달
             }
@@ -129,6 +193,8 @@ const Missioninfo = () => {
 
     useEffect(() => {
         getUserList();
+        getUserAuth(); // 유저 권한정보 가져오기
+        getRoomEvalType(); // 방 평가타입 가져오기
         getHistoryList();
     }, []);
 
@@ -261,7 +327,9 @@ const filteredHistories = useMemo(() => {
                                                 <div key={`history-${history.evalNum}-${index}`} className="jm-task-card">
                                                     <span className="jm-task-title">{history.missionName}</span>
 
-                                                    {history.evalType === "승인대기" && history.userNum !== currentUserNum ? (
+                                                    {history.evalType === "승인대기" && 
+                                                    (roomEvalType === 1 || history.userNum !== currentUserNum) && 
+                                                    userAuth === roomEvalType ? (
                                                         <button className="jm-btn-primary" onClick={() => handleOpenModal(history)}>
                                                             승인대기
                                                         </button>
@@ -370,7 +438,9 @@ const filteredHistories = useMemo(() => {
                         </div>
 
                         {/* 승인 및 거절 버튼 */}
-                        {selectedMission.evalType === '승인대기' && selectedMission.userNum !== currentUserNum && (
+                        {userAuth === roomEvalType &&
+                        selectedMission.evalType === '승인대기' &&
+                        (roomEvalType === 1 || selectedMission.userNum !== currentUserNum) && (
                             <div className="jm-info-modal-button">
                                 <button
                                     className="jm-info-modal-button-ok"
