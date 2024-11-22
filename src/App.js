@@ -35,7 +35,6 @@ import DHLoginForm from './user/DH_LoginForm.jsx';
 import DHJoinForm from './user/DH_JoinForm.jsx';
 import DHPwSearch from './user/DH_PwSearch.jsx';
 import DHPwAlter from './user/DH_PwAlter.jsx';
-
 import DHPointStoreMain from './pointstore/DH_PointStoreMain.jsx';
 
 import Main from './pages/main/Main';
@@ -62,6 +61,7 @@ function App() {
           <Route path='/user/mypoint' element={<Pointpage />} />
           <Route path='/user/cargo' element={<Cargo />} />
           <Route path='/user/rank' element={<Rank />} />
+
           <Route path='/genebang/genebang01' element={<Step0 />} />
           <Route path='/genebang/step1' element={<Step1 />} />
           <Route path='/genebang/step2' element={<Step2 />} />
@@ -78,6 +78,7 @@ function App() {
 					<Route path='/user/joinform' element={<DHJoinForm/>} />
 					<Route path='/user/pwsearch' element={<DHPwSearch/>} />
 					<Route path='/user/pwalter' element={<DHPwAlter/>} />
+
 					<Route path='/pointstore/pointstoremain' element={<DHPointStoreMain />} />
           <Route path='/' element={<Main />} />
           <Route path='/mainlist' element={<Mainlist />} />

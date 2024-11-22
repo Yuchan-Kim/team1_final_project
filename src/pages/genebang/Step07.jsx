@@ -66,7 +66,24 @@ const Step07 = ({ onNext, onPrevious }) => {
 
         formData.append('roomNum', roomNum);
         formData.append('evaluationType', evaluationType); //
-        formData.append('roomDayNum', selectedDays); //방요일 넘버
+        
+
+        const dayMapping = {
+            "월요일": 1,
+            "화요일": 2,
+            "수요일": 3,
+            "목요일": 4,
+            "금요일": 5,
+            "토요일": 6,
+            "일요일": 7
+        };
+        
+        // roomDayNum 배열의 각 요일을 숫자로 변환
+        const roomDayNumInt = selectedDays.map(day => dayMapping[day]);
+
+        console.log(roomDayNumInt);
+
+        formData.append('roomDayNum', roomDayNumInt); //방요일 넘버
 
 
         axios.post(`${process.env.REACT_APP_API_URL}/api/genebang/step7`, formData, {

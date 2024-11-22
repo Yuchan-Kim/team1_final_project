@@ -162,6 +162,7 @@ const Main = () => {
 
                         <div id='ad-banner'>
                             <img src="/img/banner.jpg" alt="banner" />
+                            {/* <img src="https://jiny-ddonkey-2024.s3.ap-northeast-2.amazonaws.com/1731985655450_penguins.jpg" alt="banner" /> */}
                         </div>
                         {/* //ad-banner */}
 

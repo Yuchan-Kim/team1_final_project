@@ -5,10 +5,35 @@
 /* CSS 변수 정의 */
 /* ##################################### */
 
+:root {
+    /* 색상 팔레트 */
+    --color-primary: #5E91A7;
+    --color-primary-dark: #4a78a2;
+    --color-secondary: #ffffff;
+    --color-secondary-dark: #f5f5f5;
+    --color-disabled: #cacaca;
+    --color-disabled-text: #888888;
+    --color-border: #d9d9d9;
+    --color-text: #1e1e1e;
+    --color-text-light: rgba(0, 0, 0, 0.39);
+    --color-background: #fff;
+    --color-hover: #f0f0f0;
+    --color-highlight: #007BFF;
+    --color-shadow: rgba(0, 0, 0, 0.2);
+    
+    /* 폰트 */
+    --font-family: "Pretendard Variable", Pretendard, sans-serif;
+    
+    /* 기타 */
+    --transition-speed: 0.3s;
+    --border-radius: 8px;
+}
+
+
 /* ##################################### */
 /* 글로벌 스타일 */
 /* ##################################### */
-#jy_step  * {
+#jy_step * {
     box-sizing: border-box;
     font-family: var(--font-family);
 }
@@ -459,10 +484,12 @@
     width: 100%;
 }
 
-#step5 #stepList div {
+#step5 #stepList > div {
     width: 500px;
 }
-
+.react-calendar {
+    width: 100% !important;
+}
 #step5 #stepList #list-left {
     display: flex;
     flex-direction: column;
@@ -496,11 +523,21 @@
     cursor: pointer;
     
 }
-
+#list-left > div {
+    width: 100%;
+}
 #step5 #list-left #week div.selected {
     color: #070505;
     border: 2px solid #282727;
     border-radius: 15px;
+}
+.react-datepicker h2{
+    font-size:16px
+}
+.selected-date {
+    text-align: center;
+    font-size:16px;
+    margin-top: 10px;
 }
 
 /* ##################################### */
@@ -662,7 +699,7 @@
 }
 
 #step6 #list #mission-content textarea {
-    width: 500px;
+    width: 100%;
     height: 200px;
     border-radius: var(--border-radius);
     border: 1px solid var(--color-border);

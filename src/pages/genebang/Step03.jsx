@@ -38,7 +38,7 @@ const Step03 = ({ onNext, onPrevious }) => {
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            setThumbnail(file); // 파일 객체를 상태에 저장
+            setThumbnail(URL.createObjectURL(file)); // 파일 객체를 상태에 저장
         }
     };
 
@@ -126,11 +126,6 @@ const Step03 = ({ onNext, onPrevious }) => {
                                                 <img
                                                     src={thumbnail}
                                                     alt="upload-Thumbnail"
-                                                    style={{
-                                                        width: '400px',
-                                                        height: '400px',
-                                                        objectFit: 'contain', /* contain  fill */
-                                                    }}
                                                 />
                                             ) : (
                                                 <div>이미지를 선택해주세요</div>

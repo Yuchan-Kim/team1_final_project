@@ -5,12 +5,15 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-
-
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import moment from 'moment';
+import TimePicker from 'react-time-picker';
+
+
 import '../../css/reset.css';
 import '../../css/jy_step.css';
 import { StepNav } from '../include/StepNav'; // StepNav 임포트
@@ -25,7 +28,7 @@ const Step05 = ({ onNext, onPrevious }) => {
     const [roomNum, setRoomNum] = useState();
 
 
-    const [value, setValue] = useState(null); // 초기값을 null로 설정
+    const [value, setValue] = useState(new Date());
     const [selectedWeek, setSelectedWeek] = useState(null); // 선택된 주차를 추적할 상태 변수
 
     /*---버튼 활성화 조건---------------------------*/
@@ -44,9 +47,6 @@ const Step05 = ({ onNext, onPrevious }) => {
         return false;
     };
 
-    /*---선택된 날짜 포맷---------------------------*/
-    const formattedDate = value ? moment(value).format('YYYY-MM-DD') : '';
-
     /*---주차 클릭 핸들러----------------------------*/
     const handleWeekClick = (week) => {
         setSelectedWeek(week);
@@ -60,7 +60,7 @@ const Step05 = ({ onNext, onPrevious }) => {
         const formData = new FormData();
 
         formData.append('roomNum', roomNum);
-        formData.append('roomStartDate', formattedDate); //시작 날짜
+        formData.append('roomStartDate', value.toISOString()); //시작 날짜
 
         const weekNumber = parseInt(selectedWeek.charAt(0));
         formData.append('periodNum', weekNumber); //기간
@@ -78,7 +78,6 @@ const Step05 = ({ onNext, onPrevious }) => {
                 alert('생성 중 오류가 발생했습니다.');
             });
 
-
     };
 
 
@@ -86,7 +85,6 @@ const Step05 = ({ onNext, onPrevious }) => {
     useEffect( ()=>{
 
         axios({
-
             method: 'get',
             url: `${process.env.REACT_APP_API_URL}/api/genebang/checkroom/${authUserNum}`,
 
@@ -100,9 +98,7 @@ const Step05 = ({ onNext, onPrevious }) => {
             console.log(error);
             alert('생성 중인 방이 없습니다')
             navigate('/');
-
         });
-
 
     }, [] );
 
@@ -110,9 +106,7 @@ const Step05 = ({ onNext, onPrevious }) => {
 
 
     return (
-
         <>
-
             <div id="jy_step" className="jy_wrap">
 
                 <div id="container">
@@ -141,7 +135,7 @@ const Step05 = ({ onNext, onPrevious }) => {
                                 <div id="stepList">
 
                                     <div id='list-left'>
-                                        <Calendar
+                                        {/* <Calendar
                                             tileDisabled={tileDisabled}
                                             onChange={setValue}
                                             value={value}
@@ -149,10 +143,19 @@ const Step05 = ({ onNext, onPrevious }) => {
                                             locale="ko-KR"
                                             weekStartsOn={0}
                                             calendarType = "gregory"
+                                        /> */}
+                                        <DatePicker 
+                                            selected={value}
+                                            onChange={(date) => setValue(date)}
+                                            showTimeSelect
+                                            timeIntervals={15}
+                                            dateFormat="yyyy-MM-dd HH:mm"
+                                            inline
+                                            minDate={new Date()} 
                                         />
-                                        {formattedDate && (
+                                        {value && (
                                             <div className="selected-date">
-                                                선택된 날짜: {formattedDate}
+                                                선택된 날짜: {moment(value).format('YYYY-MM-DD HH:mm')}
                                             </div>
                                         )}
                                     </div>
@@ -172,7 +175,6 @@ const Step05 = ({ onNext, onPrevious }) => {
                                     </div>
 
                                 </div>
-                                {/* //list */}
 
                                 <div className="btn">
                                     <button id="secondary" onClick={onPrevious}>이전</button>
@@ -190,18 +192,14 @@ const Step05 = ({ onNext, onPrevious }) => {
                                 </div>
 
                             </div>
-                            {/* //board */}
 
                         </form>
 
                     </div>
-                    {/* //step */}
 
                 </div>
-                {/* //container */}
 
             </div>
-            {/* //wrap */}
 
         </>
 
