@@ -80,7 +80,7 @@ const Missioninfo = () => {
 
     axios({
       method: 'get',
-      url: `http://localhost:9000/api/roomEvalType/${roomNum}`,
+      url: `${process.env.REACT_APP_API_URL}/api/roomEvalType/${roomNum}`,
       headers: {
         'Authorization': `Bearer ${token}`,
       },
@@ -108,7 +108,7 @@ const Missioninfo = () => {
 
     axios({
       method: 'get',
-      url: `http://localhost:9000/api/UserAuth/${roomNum}`,
+      url: `${process.env.REACT_APP_API_URL}/api/UserAuth/${roomNum}`,
       headers: {
         'Authorization': `Bearer ${token}`,
       },
@@ -131,7 +131,7 @@ const Missioninfo = () => {
 
     // 참가자 리스트 가져오기
     const getUserList = () => {
-        axios.get(`http://localhost:9000/api/roomMain/${roomNum}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/api/roomMain/${roomNum}`)
             .then(response => {
                 const { userList } = response.data.apiData;
                 setUserList(userList || []);
@@ -156,7 +156,7 @@ const Missioninfo = () => {
     // 미션 히스토리 리스트 가져오기 수정
     const getHistoryList = (sortOrder = order) => {
         console.log("Fetching history list with order:", sortOrder); // 호출 시점과 전달된 값 확인
-        axios.get(`http://localhost:9000/api/historyList/${roomNum}`, {
+        axios.get(`${process.env.REACT_APP_API_URL}/api/historyList/${roomNum}`, {
             params: {
                 order: sortOrder, // 선택된 정렬 순서를 서버로 전달
             }
@@ -173,7 +173,7 @@ const Missioninfo = () => {
 
     // 평가 업데이트 요청
     const handleEvalUpdate = (evalNum, evalType) => {
-        axios.post('http://localhost:9000/api/updateEvaluation', null, {
+        axios.post(`${process.env.REACT_APP_API_URL}/api/updateEvaluation`, null, {
             params: {
                 evalNum: evalNum,
                 evalType: evalType
@@ -222,11 +222,11 @@ const filteredHistories = useMemo(() => {
         return order === 'DESC' ? dateB - dateA : dateA - dateB;
     });
 
-    // 유저 기준 그룹화
+    // 유저와 날짜 기준으로 그룹화
     const grouped = sortedHistories.reduce((acc, history) => {
-        const userNum = history.userNum;
-        if (!acc[userNum]) acc[userNum] = [];
-        acc[userNum].push(history);
+        const userDateKey = `${history.userNum}_${new Date(history.submitDate).toISOString().split('T')[0]}`;
+        if (!acc[userDateKey]) acc[userDateKey] = [];
+        acc[userDateKey].push(history);
         return acc;
     }, {});
 
@@ -298,8 +298,8 @@ const filteredHistories = useMemo(() => {
                             const dateB = new Date(historiesB[0].submitDate);
                             return order === 'DESC' ? dateB - dateA : dateA - dateB;
                         })
-                        .map(([userNum, userHistories]) => (
-                            <div key={`user-${userNum}`} className="jm-submission-card">
+                        .map(([userDateKey, userHistories]) => (
+                            <div key={`group-${userDateKey}`} className="jm-submission-card">
                                 <div className="jm-userinfo-container">
                                     {userHistories.length > 0 && (
                                         <>
@@ -327,8 +327,8 @@ const filteredHistories = useMemo(() => {
                                                 <div key={`history-${history.evalNum}-${index}`} className="jm-task-card">
                                                     <span className="jm-task-title">{history.missionName}</span>
 
-                                                    {history.evalType === "승인대기" && 
-                                                    (roomEvalType === 1 || history.userNum !== currentUserNum) && 
+                                                    {history.evalType === "승인대기" &&
+                                                    (roomEvalType === 1 || history.userNum !== currentUserNum) &&
                                                     userAuth === roomEvalType ? (
                                                         <button className="jm-btn-primary" onClick={() => handleOpenModal(history)}>
                                                             승인대기
@@ -345,7 +345,7 @@ const filteredHistories = useMemo(() => {
                                                                 <img
                                                                     key={`img-${currentImgIndex}`}
                                                                     className="jm-task-img"
-                                                                    src={`http://localhost:9000/upload/${imgNames[currentImgIndex].trim()}`}
+                                                                    src={`${process.env.REACT_APP_API_URL}/upload/${imgNames[currentImgIndex].trim()}`}
                                                                     alt={`제출된 이미지 ${currentImgIndex + 1}`}
                                                                 />
                                                                 {imgNames.length > 1 && (
@@ -380,85 +380,84 @@ const filteredHistories = useMemo(() => {
                         ))}
 
 
-
                     {/* Modal 컨테이너 */}
-            {isModalOpen && selectedMission && (
-                <div className="jm-info-modal-overlay">
-                    <div className="jm-modal-content">
-                        <div className='jm-modal-user-profile-container'>
-                            <button className="jm-close-button" onClick={handleCloseModal}>
-                                &times;
-                            </button>
-                            <div className="jm-modal-user-profile-img-card">
-                                <img src="https://via.placeholder.com/100" className="yc_challenge_profile-pic" alt="Profile Pic" />
-                            </div>
-                            <div className='jm-modal-user-profile-name'>
-                                <span className="jm-modal-submission-title">{selectedMission.userName}</span>
-                            </div>
-                        </div>
-                        <h3 className='jm-modal-mission-tatle'>{selectedMission.missionName}</h3>
-
-                        {/* 이미지 슬라이더 */}
-                        <div className="jm-info-modal-img">
-                            {selectedMission.evalImgName && (
-                                <div className="jm-modal-task-images">
-                                    <div className="jm-modal-image-container">
-                                        <img
-                                            className="jm-modal-task-img"
-                                            src={`http://localhost:9000/upload/${selectedMission.evalImgName.split(',')[modalImgIndex].trim()}`}
-                                            alt={`이미지 ${modalImgIndex + 1}`}
-                                        />
-                                        {selectedMission.evalImgName.split(',').length > 1 && (
-                                            <div className="jm-modal-slider-buttons">
-                                                <button
-                                                    className="jm-modal-slider-btn prev"
-                                                    onClick={() =>
-                                                        handleModalPrevImage(selectedMission.evalImgName.split(',').length)
-                                                    }
-                                                >
-                                                    ◀
-                                                </button>
-                                                <button
-                                                    className="jm-modal-slider-btn next"
-                                                    onClick={() =>
-                                                        handleModalNextImage(selectedMission.evalImgName.split(',').length)
-                                                    }
-                                                >
-                                                    ▶
-                                                </button>
-                                                
-                                            </div>
-                                        )}
+                    {isModalOpen && selectedMission && (
+                        <div className="jm-info-modal-overlay">
+                            <div className="jm-modal-content">
+                                <div className='jm-modal-user-profile-container'>
+                                    <button className="jm-close-button" onClick={handleCloseModal}>
+                                        &times;
+                                    </button>
+                                    <div className="jm-modal-user-profile-img-card">
+                                        <img src="https://via.placeholder.com/100" className="yc_challenge_profile-pic" alt="Profile Pic" />
                                     </div>
-                                    <div className='jm-modal-comment-container'>
-                                        <p>{selectedMission.submitComment}</p>
+                                    <div className='jm-modal-user-profile-name'>
+                                        <span className="jm-modal-submission-title">{selectedMission.userName}</span>
                                     </div>
                                 </div>
-                            )}
-                        </div>
+                                <h3 className='jm-modal-mission-tatle'>{selectedMission.missionName}</h3>
 
-                        {/* 승인 및 거절 버튼 */}
-                        {userAuth === roomEvalType &&
-                        selectedMission.evalType === '승인대기' &&
-                        (roomEvalType === 1 || selectedMission.userNum !== currentUserNum) && (
-                            <div className="jm-info-modal-button">
-                                <button
-                                    className="jm-info-modal-button-ok"
-                                    onClick={() => handleEvalUpdate(selectedMission.evalNum, '승인완료')}
-                                >
-                                    승인
-                                </button>
-                                <button
-                                    className="jm-info-modal-button-no"
-                                    onClick={() => handleEvalUpdate(selectedMission.evalNum, '미승인')}
-                                >
-                                    거절
-                                </button>
+                                {/* 이미지 슬라이더 */}
+                                <div className="jm-info-modal-img">
+                                    {selectedMission.evalImgName && (
+                                        <div className="jm-modal-task-images">
+                                            <div className="jm-modal-image-container">
+                                                <img
+                                                    className="jm-modal-task-img"
+                                                    src={`${process.env.REACT_APP_API_URL}/upload/${selectedMission.evalImgName.split(',')[modalImgIndex].trim()}`}
+                                                    alt={`이미지 ${modalImgIndex + 1}`}
+                                                />
+                                                {selectedMission.evalImgName.split(',').length > 1 && (
+                                                    <div className="jm-modal-slider-buttons">
+                                                        <button
+                                                            className="jm-modal-slider-btn prev"
+                                                            onClick={() =>
+                                                                handleModalPrevImage(selectedMission.evalImgName.split(',').length)
+                                                            }
+                                                        >
+                                                            ◀
+                                                        </button>
+                                                        <button
+                                                            className="jm-modal-slider-btn next"
+                                                            onClick={() =>
+                                                                handleModalNextImage(selectedMission.evalImgName.split(',').length)
+                                                            }
+                                                        >
+                                                            ▶
+                                                        </button>
+                                                        
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div className='jm-modal-comment-container'>
+                                                <p>{selectedMission.submitComment}</p>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* 승인 및 거절 버튼 */}
+                                {userAuth === roomEvalType &&
+                                selectedMission.evalType === '승인대기' &&
+                                (roomEvalType === 1 || selectedMission.userNum !== currentUserNum) && (
+                                    <div className="jm-info-modal-button">
+                                        <button
+                                            className="jm-info-modal-button-ok"
+                                            onClick={() => handleEvalUpdate(selectedMission.evalNum, '승인완료')}
+                                        >
+                                            승인
+                                        </button>
+                                        <button
+                                            className="jm-info-modal-button-no"
+                                            onClick={() => handleEvalUpdate(selectedMission.evalNum, '미승인')}
+                                        >
+                                            거절
+                                        </button>
+                                    </div>
+                                )}
                             </div>
-                        )}
-                    </div>
-                </div>
-            )}
+                        </div>
+                    )}
                     {/* Modal 컨테이너 끝 */}
 
                 </div>
