@@ -42,7 +42,8 @@ import Mainlist from './pages/main/Mainlist';
 
 import Uk from './user/UserKakaoLogin.jsx';
 import NaverLogin from './ham_pages/NaverLogin.jsx';
-import NaverLoginCallback  from './ham_pages/NaverLoginCallback.jsx';
+import NaverLoginCallback from './ham_pages/NaverLoginCallback.jsx';
+
 function App() {
   return (
     <BrowserRouter> 
@@ -63,10 +64,10 @@ function App() {
           <Route path='/cmain/:roomNum' element={<Challengemain />} />
 
 
-          <Route path='/user/mypage' element={<Mypage />} />
-          <Route path='/user/mypoint' element={<Pointpage />} />
-          <Route path='/user/cargo' element={<Cargo />} />
-          <Route path='/user/rank' element={<Rank />} />
+          <Route path='/my/mypage' element={<Mypage />} />
+          <Route path='/my/mypoint' element={<Pointpage />} />
+          <Route path='/my/cargo' element={<Cargo />} />
+          <Route path='/my/rank' element={<Rank />} />
 
           
           <Route path='/genebang/genebang01' element={<Step0 />} />
@@ -92,6 +93,7 @@ function App() {
           <Route path='/user/uk' element={<Uk />} />
           <Route path="/naver/login" element={<NaverLogin />} />
           <Route path="/naver/callback" element={<NaverLoginCallback  />} />
+    
         </Routes>
     </BrowserRouter>
 

@@ -33,6 +33,7 @@
 /* 검색 영역 */
 .jy_main #search {
     padding: 35px;
+    margin-top: 50px;
 }
 
 .jy_main #search div {
@@ -106,6 +107,25 @@
 }
 
 /* Ad-Bang */
+.jy_main #ad-bang-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.jy_main #ad-bang-title h2 {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.1px;
+    text-align: center;
+    color: #000;
+    /* padding: 20px 0 30px; */
+    margin-top: 30px;
+}
+
 .jy_main #ad-bang {
     display: grid;
     gap: 15px;
