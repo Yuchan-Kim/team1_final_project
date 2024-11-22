@@ -10,7 +10,6 @@ import YCStep07 from './yc_pages/YC_Step07.jsx';
 import YCStep10 from './yc_pages/YC_Step10.jsx';
 import YCStep11 from './yc_pages/YC_Step11.jsx';
 
-
 import MissionInfo from './pages/challenge/Missioninfo.jsx';
 import Challengemain from './pages/challenge/JMYC_Challengemain.jsx';
 import Mission from './pages/challenge/mission.jsx';

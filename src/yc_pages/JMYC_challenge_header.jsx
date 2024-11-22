@@ -351,7 +351,7 @@ const JMYCChallengeHeader = () => {
 
         try {
             // ISO 형식 유지
-            const updatedStartDate = selectedDate.toISOString();
+            const updatedStartDate = selectedDate.toISOString().slice(0, 19).replace('T', ' ');
 
             const response = await axios.put(`http://localhost:9000/api/challenge/header/${roomNum}`, {
                 roomStartDate: updatedStartDate
@@ -481,7 +481,7 @@ const JMYCChallengeHeader = () => {
         const updateTimer = () => {
             let difference = 0;
             if (roomData.roomStatusNum === 3 && roomData.roomStartDate) { // 챌린지 진행 중
-                const endDate = new Date(roomData.roomStartDate.setHours(0,0,0,0) + roomData.periodType * 24 * 60 * 60 * 1000);
+                const endDate = new Date(roomData.roomStartDate.getTime() + roomData.periodType * 24 * 60 * 60 * 1000);
                 difference = calculateTimeDifference(endDate);
             } else if (roomData.roomStartDate) { // 챌린지 시작 전
                 difference = calculateTimeDifference(roomData.roomStartDate);
@@ -639,7 +639,7 @@ const JMYCChallengeHeader = () => {
                                                     roomData.roomStartDate &&
                                                     (
                                                         roomData.roomStatusNum === 3
-                                                            ? calculateTimeDifference(new Date(roomData.roomStartDate.getTime().setHours(0,0,0,0) + roomData.periodType * 24 * 60 * 60 * 1000)) <= 0
+                                                            ? calculateTimeDifference(new Date(roomData.roomStartDate.getTime() + roomData.periodType * 24 * 60 * 60 * 1000)) <= 0
                                                             : calculateTimeDifference(roomData.roomStartDate) <= 0
                                                     )
                                                 }
@@ -647,7 +647,7 @@ const JMYCChallengeHeader = () => {
                                                     roomData.roomStartDate &&
                                                     (
                                                         roomData.roomStatusNum === 3
-                                                            ? calculateTimeDifference(new Date(roomData.roomStartDate.getTime().setHours(0,0,0,0) + roomData.periodType * 24 * 60 * 60 * 1000)) <= 0
+                                                            ? calculateTimeDifference(new Date(roomData.roomStartDate.getTime()+ roomData.periodType * 24 * 60 * 60 * 1000)) <= 0
                                                             : calculateTimeDifference(roomData.roomStartDate) <= 0
                                                     )
                                                         ? "남은 시간이 없어 연장할 수 없습니다."
@@ -679,7 +679,7 @@ const JMYCChallengeHeader = () => {
                                         roomData.roomStartDate &&
                                         (
                                             roomData.roomStatusNum === 3
-                                                ? calculateTimeDifference(new Date(roomData.roomStartDate.getTime().setHours(0,0,0,0) + roomData.periodType * 24 * 60 * 60 * 1000)) <= 0
+                                                ? calculateTimeDifference(new Date(roomData.roomStartDate.getTime() + roomData.periodType * 24 * 60 * 60 * 1000)) <= 0
                                                 : calculateTimeDifference(roomData.roomStartDate) <= 0
                                         )
                                     }
@@ -687,7 +687,7 @@ const JMYCChallengeHeader = () => {
                                         roomData.roomStartDate &&
                                         (
                                             roomData.roomStatusNum === 3
-                                                ? calculateTimeDifference(new Date(roomData.roomStartDate.getTime().setHours(0,0,0,0) + roomData.periodType * 24 * 60 * 60 * 1000)) <= 0
+                                                ? calculateTimeDifference(new Date(roomData.roomStartDate.getTime() + roomData.periodType * 24 * 60 * 60 * 1000)) <= 0
                                                 : calculateTimeDifference(roomData.roomStartDate) <= 0
                                         )
                                             ? "남은 시간이 없어 모집을 시작할 수 없습니다."
@@ -705,7 +705,7 @@ const JMYCChallengeHeader = () => {
                                         roomData.roomStartDate &&
                                         (
                                             roomData.roomStatusNum === 3
-                                                ? calculateTimeDifference(new Date(roomData.roomStartDate.getTime().setHours(0,0,0,0) + roomData.periodType * 24 * 60 * 60 * 1000)) <= 0
+                                                ? calculateTimeDifference(new Date(roomData.roomStartDate.getTime() + roomData.periodType * 24 * 60 * 60 * 1000)) <= 0
                                                 : calculateTimeDifference(roomData.roomStartDate) <= 0
                                         )
                                     }
@@ -713,7 +713,7 @@ const JMYCChallengeHeader = () => {
                                         roomData.roomStartDate &&
                                         (
                                             roomData.roomStatusNum === 3
-                                                ? calculateTimeDifference(new Date(roomData.roomStartDate.getTime().setHours(0,0,0,0) + roomData.periodType * 24 * 60 * 60 * 1000)) <= 0
+                                                ? calculateTimeDifference(new Date(roomData.roomStartDate.getTime() + roomData.periodType * 24 * 60 * 60 * 1000)) <= 0
                                                 : calculateTimeDifference(roomData.roomStartDate) <= 0
                                         )
                                             ? "남은 시간이 없어 챌린지를 시작할 수 없습니다."

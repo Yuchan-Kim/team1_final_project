@@ -1,16 +1,14 @@
-// src/pages/YcChallengeBoard.jsx
+// YcChallengeBoard.jsx
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from "axios";
-import { FaPlus, FaMinus, FaEdit, FaTrash, FaMapMarkerAlt } from "react-icons/fa";
+import { FaPlus, FaMinus, FaEdit, FaTrash, FaMapMarkerAlt, FaSearch } from "react-icons/fa";
 import "../yc_assets/yc_css/yc_css_challenge_board.css";
 import Sidebar from "../yc_pages/YC_challenge_sidebar.jsx";
 import Header from "./JMYC_challenge_header.jsx";
 import Footert from "../pages/include/JM-Footer.jsx";
 import TopHeader from "../pages/include/DH_Header.jsx";
 import ChatRoom from "../yc_pages/YC_challenge_chatroom.jsx";
-import PlaceAutosuggest from "../yc_pages/YC_challenge_board_autosuggest.jsx";
-import NaverMap from "../yc_pages/YC_challenge_board_NaverMap.jsx"; // 지도 컴포넌트
 
 const YcChallengeBoard = () => {
     const { roomNum } = useParams();
@@ -34,6 +32,12 @@ const YcChallengeBoard = () => {
     const [noticeToDelete, setNoticeToDelete] = useState(null);
 
     const [selectedPlace, setSelectedPlace] = useState(null); // 선택된 장소 정보
+    const [mapPlaces, setMapPlaces] = useState([]); // 지도에 표시할 모든 장소
+
+    const [searchQuery, setSearchQuery] = useState(""); // 검색어
+    const [searchResults, setSearchResults] = useState([]); // 검색 결과
+    const [searchLoading, setSearchLoading] = useState(false);
+    const [searchError, setSearchError] = useState(null);
 
     const token = localStorage.getItem('token');
     console.log(token);
@@ -109,6 +113,7 @@ const YcChallengeBoard = () => {
         .then(response => {
             if (response.data.result === 'success') {
                 setNotices(response.data.apiData);
+                setMapPlaces(response.data.apiData.filter(notice => notice.latitude && notice.longitude));
                 setLoading(false);
             } else {
                 setError("공지사항을 불러오는 데 실패했습니다.");
@@ -137,25 +142,20 @@ const YcChallengeBoard = () => {
             .then(response => {
                 if (response.data.result === 'success') {
                     setNotices(notices.filter(notice => notice.announceNum !== noticeToDelete));
+                    setMapPlaces(mapPlaces.filter(place => place.announceNum !== noticeToDelete));
                     setNoticeToDelete(null);
                     setShowDeleteModal(false);
-                    fetchNotices();
-                    // window.location.reload(); // 페이지 전체 새로 고침 제거
+                    // fetchNotices(); // 필요 시 호출
                 } else {
                     setError("공지사항 삭제에 실패했습니다.");
                 }
             })
             .catch(error => {
                 setError("공지사항 삭제 중 오류가 발생했습니다.");
+                setLoading(false);
                 console.error(error);
             });
         }
-    };
-
-    // 장소 선택 핸들러
-    const handlePlaceSelect = (place) => {
-        setSelectedPlace(place);
-        setNewNoticePlace(place.name); // 입력 필드에 장소 이름 설정
     };
 
     const handleAddOrEditNotice = async () => {
@@ -189,6 +189,15 @@ const YcChallengeBoard = () => {
                         }
                         return notice;
                     }));
+                    setMapPlaces(mapPlaces.map(place => {
+                        if (place.announceNum === editingNoticeId) {
+                            return {
+                                ...place,
+                                ...updatedNotice,
+                            };
+                        }
+                        return place;
+                    }));
 
                     setIsEditing(false);
                     setEditingNoticeId(null);
@@ -198,13 +207,14 @@ const YcChallengeBoard = () => {
                     setShowPlaceOption(false);
                     setShowNewNotice(false);
                     setSelectedPlace(null); // 선택된 장소 초기화
-                    fetchNotices();
+                    // fetchNotices(); // 필요 시 호출
                 } else {
                     setError("공지사항 수정에 실패했습니다.");
                 }
             })
             .catch(error => {
                 setError("공지사항 수정 중 오류가 발생했습니다.");
+                setLoading(false);
                 console.error(error);
             });
         } else {
@@ -229,13 +239,16 @@ const YcChallengeBoard = () => {
             .then(response => {
                 if (response.data.result === 'success') {
                     setNotices([response.data.apiData, ...notices]);
+                    if (response.data.apiData.latitude && response.data.apiData.longitude) {
+                        setMapPlaces([response.data.apiData, ...mapPlaces]);
+                    }
                     setNewNoticeTitle("");
                     setNewNoticeContent("");
                     setNewNoticePlace("");
                     setShowPlaceOption(false);
                     setShowNewNotice(false);
                     setSelectedPlace(null); // 선택된 장소 초기화
-                    fetchNotices();
+                    // fetchNotices(); // 필요 시 호출
                 }
                 else {
                     setError("공지사항 추가에 실패했습니다.");
@@ -243,6 +256,7 @@ const YcChallengeBoard = () => {
             })
             .catch(error => {
                 setError("공지사항 추가 중 오류가 발생했습니다.");
+                setLoading(false);
                 console.error(error);
             });
         }
@@ -305,6 +319,73 @@ const YcChallengeBoard = () => {
         return date.toLocaleDateString('ko-KR', options).replace(/\./g, '').replace(/ /g, ' ');
     };
 
+    // 지역 검색 함수
+    // YcChallengeBoard.jsx
+
+    const handleSearch = async () => {
+        if (!searchQuery.trim()) {
+            alert("검색어를 입력해주세요.");
+            return;
+        }
+    
+        setSearchLoading(true);
+        setSearchError(null);
+        setSearchResults([]);
+    
+        try {
+            // 백엔드 프록시 엔드포인트 호출
+            const response = await axios.get(`http://localhost:9000/api/challenge/announcement/search/local`, {
+                params: {
+                    query: searchQuery,
+                    display: 5, // 최대 5개 결과
+                },
+                headers: {
+                    // 필요한 경우 헤더 추가 (예: 인증 헤더)
+                    // 'Authorization': `Bearer ${token}`
+                }
+            });
+    
+            if (response.data.result === "success" && response.data.apiData.items.length > 0) {
+                setSearchResults(response.data.apiData.items);
+            } else if (response.data.result === "fail") {
+                setSearchError(response.data.message || "검색 결과가 없습니다.");
+            } else {
+                setSearchError("검색 결과가 없습니다.");
+            }
+        } catch (err) {
+            console.error(err);
+            setSearchError("검색 중 오류가 발생했습니다.");
+        } finally {
+            setSearchLoading(false);
+        }
+    };
+    
+    
+
+
+    const handleSelectPlace = (place) => {
+        const { naver } = window;
+        if (!naver) {
+            console.error('네이버 지도 스크립트가 로드되지 않았습니다.');
+            return;
+        }
+    
+        // TM128 좌표를 위도/경도로 변환
+        const point = new naver.maps.Point(parseFloat(place.mapx), parseFloat(place.mapy));
+        const latlng = naver.maps.TransCoord.fromTM128ToLatLng(point);
+    
+        setSelectedPlace({
+            title: place.title,
+            address: place.address,
+            latitude: latlng.lat(),
+            longitude: latlng.lng(),
+        });
+    
+        setNewNoticePlace(place.title);
+        setShowPlaceOption(true);
+    };
+    
+
     return (
        <>
         {/* 상단 헤더 컴포넌트 렌더링 */}
@@ -363,6 +444,7 @@ const YcChallengeBoard = () => {
                                                 if (showPlaceOption) {
                                                     setNewNoticePlace("");
                                                     setSelectedPlace(null);
+                                                    setSearchResults([]);
                                                 }
                                             }}
                                         />
@@ -374,14 +456,31 @@ const YcChallengeBoard = () => {
                                 {showPlaceOption && (
                                     <div className="yc_challenge_place-input">
                                         <FaMapMarkerAlt className="yc_place-icon"/>
-                                        <PlaceAutosuggest onPlaceSelect={handlePlaceSelect} />
-                                        {/* 장소 등록 취소 버튼 */}
+                                        
+                                        {/* 장소 검색 입력 필드 */}
+                                        <input
+                                            type="text"
+                                            placeholder="장소 이름을 검색하세요."
+                                            value={searchQuery}
+                                            onChange={(e) => setSearchQuery(e.target.value)}
+                                            className="yc_challenge_place-search"
+                                        />
+                                        <button
+                                            className="yc_challenge_search-btn"
+                                            onClick={handleSearch}
+                                            aria-label="장소 검색"
+                                        >
+                                            {searchLoading ? '검색중...' : <FaSearch />}
+                                        </button>
+
+                                        {/* 장소 검색 취소 버튼 */}
                                         <button
                                             className="yc_challenge_remove-place-btn"
                                             onClick={() => {
                                                 setShowPlaceOption(false);
                                                 setNewNoticePlace("");
                                                 setSelectedPlace(null);
+                                                setSearchResults([]);
                                             }}
                                             aria-label="장소 등록 취소"
                                         >
@@ -390,19 +489,33 @@ const YcChallengeBoard = () => {
                                     </div>
                                 )}
 
+                                {/* 검색 결과 표시 */}
+                                {showPlaceOption && searchResults.length > 0 && (
+                                    <div className="yc_search-results">
+                                        <h4>검색 결과:</h4>
+                                        <ul>
+                                            {searchResults.map((place, index) => (
+                                                <li key={index} onClick={() => handleSelectPlace(place)}>
+                                                    <strong>{place.title}</strong> - {place.address}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+
                                 {/* 선택된 장소 정보 및 지도 표시 */}
                                 {selectedPlace && (
                                     <div className="yc_selected-place-info">
                                         <h4>선택된 장소:</h4>
-                                        <p><strong>이름:</strong> {selectedPlace.name}</p>
+                                        <p><strong>이름:</strong> {selectedPlace.title}</p>
                                         <p><strong>주소:</strong> {selectedPlace.address}</p>
-                                        <NaverMap 
-                                            place={{
-                                                name: selectedPlace.name,
-                                                latitude: selectedPlace.latitude,
-                                                longitude: selectedPlace.longitude
-                                            }} 
-                                        />
+                                        
+                                        {/* 네이버 지도 표시 */}
+                                        <div id="map-new" className="yc_map-container"></div>
+
+                                        {/* 지도 렌더링 */}
+                                        <MapRender place={selectedPlace} mapId="map-new" />
+
                                         {/* 확인 버튼 추가 */}
                                         <button
                                             className="yc_place-confirm-btn"
@@ -445,7 +558,7 @@ const YcChallengeBoard = () => {
                                         <div className="yc_challenge_notice-item-header">
                                             <div className="yc_challenge_notice-title">
                                                 <h3>{notice.title}</h3>
-                                                {notice.modified === true && <span className="yc_modified-badge">수정됨</span>}
+                                                {notice.isModified && <span className="yc_modified-badge">수정됨</span>}
                                             </div>
                                             <span className="yc_challenge_notice-date">작성일 {formatDateTime(notice.announceTime)}</span>
                                         </div>
@@ -471,15 +584,11 @@ const YcChallengeBoard = () => {
                                         </div>
                                         )}
                                         {/* 장소가 있을 경우 지도 표시 */}
-                                        {notice.place && notice.latitude && notice.longitude && (
-                                            <NaverMap 
-                                                place={{
-                                                    name: notice.place,
-                                                    address: notice.address, // 서버에서 address 정보 제공 필요
-                                                    latitude: notice.latitude,
-                                                    longitude: notice.longitude
-                                                }} 
-                                            />
+                                        {notice.latitude && notice.longitude && (
+                                            <div className="yc_challenge_notice-map">
+                                                <div id={`map-${notice.announceNum}`} className="yc_map-container"></div>
+                                                <MapRender place={notice} mapId={`map-${notice.announceNum}`} />
+                                            </div>
                                         )}
                                     </div>
                                 ))
@@ -510,8 +619,59 @@ const YcChallengeBoard = () => {
         <Footert/>
         {/* 푸터 끝 */}
         </>
-    );
+    )};
 
-};
 
-export default YcChallengeBoard;
+    // 지도 렌더링 컴포넌트
+    const MapRender = ({ place, mapId }) => {
+        useEffect(() => {
+            if (!window.naver) {
+                console.error('네이버 지도 스크립트가 로드되지 않았습니다.');
+                return;
+            }
+    
+            const { naver } = window;
+    
+            // TM128 좌표를 위도/경도로 변환
+            const point = new naver.maps.Point(parseFloat(place.mapx), parseFloat(place.mapy));
+            const latlng = naver.maps.TransCoord.fromTM128ToLatLng(point);
+    
+            const mapOptions = {
+                center: new naver.maps.LatLng(latlng.lat(), latlng.lng()),
+                logoControl: false,
+                mapDataControl: false,
+                scaleControl: true,
+                zoom: 14,
+                zoomControl: true,
+                zoomControlOptions: { position: naver.maps.Position.TOP_RIGHT },
+            };
+    
+            const map = new naver.maps.Map(mapId, mapOptions);
+    
+            const marker = new naver.maps.Marker({
+                position: new naver.maps.LatLng(latlng.lat(), latlng.lng()),
+                map: map,
+                title: place.title,
+            });
+    
+            const infoWindow = new naver.maps.InfoWindow({
+                content: `<div style="padding:10px;">${place.title}<br/>${place.address}</div>`,
+                anchorSkew: true,
+            });
+    
+            naver.maps.Event.addListener(marker, 'click', () => {
+                infoWindow.open(map, marker);
+            });
+    
+            // 클린업
+            return () => {
+                marker.setMap(null);
+                map.destroy(); // map.setMap(null); 대신 map.destroy()를 사용합니다.
+            };
+        }, [place, mapId]);
+    
+        return null;
+    };
+    
+
+    export default YcChallengeBoard;
