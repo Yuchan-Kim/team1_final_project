@@ -31,11 +31,6 @@ const Cargo = () => {
         setSelectedGift(null); // 선택된 기프티콘 정보 초기화
     };
 
-    const handleLogout = () => {
-        // 로그아웃 로직 추가
-        console.log("로그아웃");
-    };
-
     // **액티브 탭 상태 추가**
     const [activeTab, setActiveTab] = useState('available'); // 'available' 또는 'completed'
 
@@ -136,7 +131,7 @@ const Cargo = () => {
     return (
         <>
             {/* Header 컴포넌트 */}
-            <Header onLogout={handleLogout} />
+            <Header />
             <div className="wrap ham_wrap">
 
                 {/* 메인 컨테이너 */}

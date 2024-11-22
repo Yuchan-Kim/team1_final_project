@@ -213,12 +213,6 @@ class ProfileStore {
         localStorage.setItem('profileImage', newImage);
         this.notifySubscribers();
     }
-
-    // getOwnedProfileImages 메소드 
-    // getOwnedProfileImages() {
-    //     const images = Array.isArray(this.ownedProfileImages) ? this.ownedProfileImages : [];
-    //     return images.filter(img => typeof img === 'string' && img.trim().length > 0);
-    // }
     // 보유 프로필 이미지 반환
     getOwnedProfileImages() {
         return this.ownedProfileImages.filter(img => typeof img === 'string' && img.trim().length > 0);

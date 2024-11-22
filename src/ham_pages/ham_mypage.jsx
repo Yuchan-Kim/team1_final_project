@@ -15,7 +15,6 @@ import profileStore from './ham_common/profileStore'; // profileStore 임포트
 const MyPage = () => {
     const navigate = useNavigate();
     const [userNum, setUserNum] = useState(profileStore.getUserNum());
-
     // 상태 관리
     const [performanceCharts, setPerformanceCharts] = useState([]);
     const [achievementCharts, setAchievementCharts] = useState([]);
@@ -59,7 +58,6 @@ const MyPage = () => {
             //("userNum이 설정되지 않음. 데이터 요청하지 않음.");
             return;
         }
-
         // console.log("MyPage 차트 데이터 로딩 시작, userNum:", userNum);
         const fetchChartData = async () => {
             setLoading(true);
@@ -138,7 +136,6 @@ const MyPage = () => {
     if (loading) {
         return <div>데이터를 불러오는 중...</div>;
     }
-
     if (error) {
         return <div className="error-message">{error}</div>;
     }
@@ -164,8 +161,6 @@ const MyPage = () => {
                                     color: chart.color, // 일반방 파란색
                                     zeroColor: chart.zeroColor // 연한 파란색 회색
                                 };
-                                // console.log("Formatted Performance Chart:", formattedChart); // 변환된 차트 데이터 로그
-
                                 return (
                                     <div key={`performance-${index}`} className="hmk_stat-card" style={{ position: 'relative' }}>
                                         <div className="hmk_chart">
@@ -188,8 +183,6 @@ const MyPage = () => {
                                     displayValue: chart.displayValue, // 중앙에 표시할 값
                                     color: '#FF5722' // 다른 색상 설정
                                 };
-                                //   console.log("Formatted Achievement Chart:", formattedChart); // 변환된 차트 데이터 로그
-
                                 return (
                                     <div key={`achievement-${index}`} className="hmk_stat-card" style={{ position: 'relative' }}>
                                         <div className="hmk_chart">
@@ -265,7 +258,6 @@ const MyPage = () => {
             </div>
         </>
     );
-
 };
 
 export default MyPage;

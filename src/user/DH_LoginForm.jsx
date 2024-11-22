@@ -3,12 +3,11 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-// import { useSearchParams} from 'react-router-dom';   파라미터값사용하는 라우터
 
 //import 컴포넌트
 import Header from '../pages/include/DH_Header';
 import NaverLogin from '../ham_pages/NaverLogin';
-import GoogleLoginComponent from '../ham_pages/GoogleLogin';
+import GoogleLogin from '../ham_pages/GoogleLogin';
 //import css
 import '../css/dh_loginform.css';
 
@@ -21,6 +20,17 @@ const DH_LoginForm = () => {
     const [errorMessage, setErrorMessage] = useState("");
 
     const navigate = useNavigate();
+
+    const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
+    const REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
+
+    // oauth 요청 URL
+    const kakaoURL2 = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+
+    // 카카오 동의 항목
+    const handleKakaoLogin = () => {
+        window.location.href = kakaoURL2;
+    };
 
     /*---라우터 관련------------------------------------------*/
 
@@ -104,13 +114,21 @@ const DH_LoginForm = () => {
 
                     <div className="dy-loginform-content">
                         <div className="dy-api-logins">
-                            <div className="dy-api-login">카카오로 가입하기</div>
-                            <div className="dy-api-login">
-                                <GoogleLoginComponent />
+                            <div id="kakaoIdLogin">
+                                <img className="dy-kakao-login"
+                                    src="/images/kakao_login_medium_wide.png"
+                                    alt="카카오로 계속하기"
+                                    onClick={handleKakaoLogin}
+                                />
                             </div>
-                            <div className="dy-api-login">
+                            <div className="dy-google-login">
+                                <GoogleLogin />
+                            </div>
+                            <div className="dy-naver-login">
                                 <NaverLogin />
+                                <p>네이버 로그인</p>
                             </div>
+
                         </div>
                         {/* /dy-api-logins */}
                         <div className="dy-middle">─────────── 또는 ───────────</div>

@@ -3,22 +3,32 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-// import { useSearchParams} from 'react-router-dom';   파라미터값사용하는 라우터
 
 //import 컴포넌트
 import Header from '../pages/include/DH_Header';
 import NaverLogin from '../ham_pages/NaverLogin';
+import GoogleLogin from '../ham_pages/GoogleLogin';
 //import css
 import '../css/dh_joinform.css';
 
 
 const DH_JoinForm = () => {
 
-   /*---일반 변수 --------------------------------------------*/
+	/*---일반 변수 --------------------------------------------*/
+    const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
+    const REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
 
-   /*---라우터 관련------------------------------------------*/
+    // oauth 요청 URL
+    const kakaoURL2 = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
-   /*---상태관리 변수들(값이 변화면 화면 랜더링) ----------*/
+    // 카카오 동의 항목
+    const handleKakaoLogin = () => {
+        window.location.href = kakaoURL2;
+    };
+
+	/*---라우터 관련------------------------------------------*/
+
+	/*---상태관리 변수들(값이 변화면 화면 랜더링) ----------*/
     const [userEmail, setUserEmail] = useState("");
     const [isEmail, setIsEmail] = useState(false);    // fakse는 중복아님
     const [isEmailAvailable, setIsEmailAvailable] = useState(true); // 이메일 중복 여부
@@ -37,9 +47,9 @@ const DH_JoinForm = () => {
 
     const navigate = useNavigate();
 
-   /*---일반 메소드 -----------------------------------------*/
+	/*---일반 메소드 -----------------------------------------*/
 
-   /*---생명주기 + 이벤트 관련 메소드 ----------------------*/
+	/*---생명주기 + 이벤트 관련 메소드 ----------------------*/
     // 이메일
     const handleEmail =(e)=> {
         setUserEmail(e.target.value);
@@ -83,7 +93,7 @@ const DH_JoinForm = () => {
             method: 'post',         // 저장 (등록)
             url: `${process.env.REACT_APP_API_URL}/api/users/email/${userEmail}`,
 
-            headers: { "Content-Type": "application/json; charset=utf-8" },    // post put 보낼때
+            headers: { "Content-Type": "application/json; charset=utf-8" }, 	// post put 보낼때
 
             data: userVo, // put, post, JSON(자동변환됨)
 
@@ -120,7 +130,7 @@ const DH_JoinForm = () => {
             method: 'post',         // 저장 (등록)
             url: `${process.env.REACT_APP_API_URL}/api/users/name/${userName}`,
 
-            headers: { "Content-Type": "application/json; charset=utf-8" },    // post put 보낼때
+            headers: { "Content-Type": "application/json; charset=utf-8" }, 	// post put 보낼때
 
             data: userVo, // put, post, JSON(자동변환됨)
 
@@ -149,6 +159,12 @@ const DH_JoinForm = () => {
     const handleJoin = (e)=> {
         e.preventDefault(); 
 
+        // 비밀번호가 입력되지 않은 경우
+        if (!userPw || !userPw2) {
+            alert("비밀번호를 입력해주세요.");
+            return;
+        }
+
         // 비밀번호 유효성 검사
         if (!pwRegex.test(userPw)) {
             alert("비밀번호가 조건에 부합하지 않습니다. 조건을 확인하세요.");
@@ -167,6 +183,12 @@ const DH_JoinForm = () => {
             return;
         }
 
+        // 비밀번호와 재입력한 비밀번호 일치 여부 확인
+        if (!pwMatch) {
+            alert("비밀번호 재입력하여 비밀번호를 확인해주세요.");
+            return;
+        }
+
         const userVo= {
             userEmail: userEmail,
             userPw: userPw,
@@ -179,7 +201,7 @@ const DH_JoinForm = () => {
             method: 'post',         // 저장 (등록)
             url: `${process.env.REACT_APP_API_URL}/api/users`,
 
-            headers: { "Content-Type": "application/json; charset=utf-8" },    
+            headers: { "Content-Type": "application/json; charset=utf-8" }, 	
 
             data: userVo, // put, post, JSON(자동변환됨)
 
@@ -207,7 +229,7 @@ const DH_JoinForm = () => {
             <Header />
             {/* // header */}
 
-         <div className="wrap">
+			<div className="wrap">
                 <div className="dy-joinform">
                     <h1 className="dy-joinTitle">가입하고 원하는 콘텐츠를 즐기세요</h1>
 
@@ -258,16 +280,26 @@ const DH_JoinForm = () => {
                                 )}
                             </div>
                             
-
                             <button type="submit" className="dy-submit-btn">가입하기</button>
+
                             <div>─────────── 또는 ───────────</div>
-
                             <div className="dy-api-joins">
-                                <div className="dy-api-join">카카오로 계속하기</div>
-                                <div className="dy-api-join">Google로 계속하기</div>
-                                <NaverLogin />
+                                <div id="kakaoIdLogin">
+                                    <img className="dy-api-join"
+                                    src="/images/kakao_login_medium_wide.png"
+                                    alt="카카오로 계속하기"
+                                    onClick={handleKakaoLogin}
+                                    />
+                                </div>
+                                <div className="dy-google-join">
+                                    <GoogleLogin/>
+                                    </div>
+                                <div className="dy-naver-join">
+                                    <NaverLogin />
+                                    <p>네이버 회원가입</p>
+                                </div>
                             </div>
-
+                            
                             <div className="dy-to-loginform"><Link to="/user/loginform" className="dy-link" rel="noreferrer noopener">이미 계정이 있나요? 여기에서 로그인하세요</Link></div>
                         </form>
                     </div>
