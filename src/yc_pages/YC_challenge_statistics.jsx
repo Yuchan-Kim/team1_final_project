@@ -89,7 +89,7 @@ if (achievementRate < 85) {
     setUserDetails({}); // 이전 데이터 초기화
 
     try {
-        const response = await axios.get(`http://localhost:9000/api/rates/userDetails/${roomNum}/${user.userNum}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/rates/userDetails/${roomNum}/${user.userNum}`);
         console.log('User Details Response:', response.data);
         if (response.data.result === 'success') {
             setUserDetails(response.data.apiData);
@@ -113,7 +113,7 @@ if (achievementRate < 85) {
   const openProfile = async (userNum) => {
     console.log('openProfile called with:', userNum); // 디버깅용 로그 추가
     try {
-        const response = await axios.get(`http://localhost:9000/api/rates/profile/${userNum}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/rates/profile/${userNum}`);
         console.log('Profile Response:', response.data);
         if (response.data.result === 'success') {
             setProfileUser(response.data.apiData);
@@ -152,7 +152,7 @@ if (achievementRate < 85) {
   const fetchMissionAchievements = () => {
     axios({
       method: 'get',
-      url: `http://localhost:9000/api/rates/achievement/${roomNum}`,
+      url: `${process.env.REACT_APP_API_URL}/api/rates/achievement/${roomNum}`,
       responseType: 'json'
     })
     .then(response =>{
@@ -174,7 +174,7 @@ if (achievementRate < 85) {
   const fetchTopUsers = () => {
     axios({
         method: 'get',
-        url: `http://localhost:9000/api/rates/topusers/${roomNum}`, 
+        url: `${process.env.REACT_APP_API_URL}/api/rates/topusers/${roomNum}`, 
         responseType: 'json'
     })
     .then(response =>{
@@ -196,7 +196,7 @@ if (achievementRate < 85) {
   const fetchUsers = () => {
     axios({
       method: 'get',
-      url: `http://localhost:9000/api/rates/users/${roomNum}`, 
+      url: `${process.env.REACT_APP_API_URL}5/api/rates/users/${roomNum}`, 
       responseType: 'json'
   })
   .then(response => {
@@ -221,7 +221,7 @@ if (achievementRate < 85) {
   const fetchOverallStats = () => {
     axios({
         method: 'get',
-        url: `http://localhost:9000/api/rates/overall/${roomNum}`, 
+        url: `${process.env.REACT_APP_API_URL}/api/rates/overall/${roomNum}`, 
         responseType: 'json'
     })
     .then(response =>{
@@ -242,7 +242,7 @@ if (achievementRate < 85) {
   const fetchMissionApprovals = () => {
     axios({
         method: 'get',
-        url: `http://localhost:9000/api/rates/approvals/${roomNum}`, // 새로운 API 엔드포인트 필요
+        url: ` ${process.env.REACT_APP_API_URL}/api/rates/approvals/${roomNum}`, // 새로운 API 엔드포인트 필요
         responseType: 'json'
     })
     .then(response =>{

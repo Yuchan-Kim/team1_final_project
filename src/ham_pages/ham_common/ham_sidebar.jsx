@@ -26,7 +26,7 @@ const Sidebar = () => {
                 <ul>
                     <li>
                         <img src={ChallengeIcon} alt="Challenge" className="hmk_sidebar-icon" />
-                        <Link to="/user/mypage">나의 챌린지</Link>
+                        <Link to="/my/mypage">나의 챌린지</Link>
                     </li>
                     <li>
                         <img src={FriendsIcon} alt="Friends" className="hmk_sidebar-icon" />
@@ -34,11 +34,11 @@ const Sidebar = () => {
                     </li>
                     <li>
                         <img src={PointsIcon} alt="Points" className="hmk_sidebar-icon" />
-                        <Link to="/user/mypoint">포인트 내역</Link>
+                        <Link to="/my/mypoint">포인트 내역</Link>
                     </li>
                     <li>
                         <img src={InventoryIcon} alt="Inventory" className="hmk_sidebar-icon" />
-                        <Link to="/user/cargo">보관함</Link>
+                        <Link to="/my/cargo">보관함</Link>
                     </li>
                 </ul>
             </div>
