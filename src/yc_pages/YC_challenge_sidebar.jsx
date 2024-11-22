@@ -50,7 +50,7 @@ const YCChallengeSidebar = () => {
             const token = localStorage.getItem('token');
             try {
                 // roomStatusNum 가져오기
-                const roomInfoResponse = await axios.get(`http://localhost:9000/api/challenge/header/${roomNum}`, {
+                const roomInfoResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/header/${roomNum}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -62,7 +62,7 @@ const YCChallengeSidebar = () => {
                 }
 
                 // enteredUserAuth 가져오기
-                const userAuthResponse = await axios.get(`http://localhost:9000/api/challenge/user/${roomNum}`, {
+                const userAuthResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/user/${roomNum}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -185,7 +185,7 @@ const handleExitConfirm = async () => {
     try {
         if (exitModalType === 'delete') {
             // 방 삭제 API 호출
-            const response = await axios.delete(`http://localhost:9000/api/challenge/delete-room/${roomNum}`, {
+            const response = await axios.delete(`${process.env.REACT_APP_API_URL}/api/challenge/delete-room/${roomNum}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -198,7 +198,7 @@ const handleExitConfirm = async () => {
             }
         } else if (exitModalType === 'leave' || exitModalType === 'penalty') {
             // 방 나가기 API 호출
-            const response = await axios.put(`http://localhost:9000/api/challenge/leave-room/${roomNum}`, null, {
+            const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/leave-room/${roomNum}`, null, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
