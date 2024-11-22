@@ -182,7 +182,7 @@ const JMYCChallengeHeader = () => {
 
     const handleConfirmJoin = async () => {
         try {
-            const response = await axios.post(`http://localhost:9000/api/challenge/join/${roomNum}`, {}, {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/challenge/join/${roomNum}`, {}, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -219,7 +219,7 @@ const JMYCChallengeHeader = () => {
 
     const handleConfirmStartRecruit = async () => {
         try {
-            const response = await axios.put(`http://localhost:9000/api/challenge/start-recruit/${roomNum}`, {}, {
+            const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/start-recruit/${roomNum}`, {}, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -251,7 +251,7 @@ const JMYCChallengeHeader = () => {
 
     const handleConfirmStartChallenge = async () => {
         try {
-            const response = await axios.put(`http://localhost:9000/api/challenge/start-challenge/${roomNum}`, {}, {
+            const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/start-challenge/${roomNum}`, {}, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -292,7 +292,7 @@ const JMYCChallengeHeader = () => {
     // ------ 챌린지 종료 핸들러 ------
     const handleEndChallengeClick = async () => {
         try {
-            const response = await axios.put(`http://localhost:9000/api/challenge/end-challenge/${roomNum}`, {}, {
+            const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/end-challenge/${roomNum}`, {}, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -353,7 +353,7 @@ const JMYCChallengeHeader = () => {
             // ISO 형식 유지
             const updatedStartDate = selectedDate.toISOString().slice(0, 19).replace('T', ' ');
 
-            const response = await axios.put(`http://localhost:9000/api/challenge/header/${roomNum}`, {
+            const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/header/${roomNum}`, {
                 roomStartDate: updatedStartDate
             }, {
                 headers: {
@@ -396,7 +396,7 @@ const JMYCChallengeHeader = () => {
     // ----------------------
     const getRoomHeaderInfo = async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/challenge/header/${roomNum}`, {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/header/${roomNum}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -426,7 +426,7 @@ const JMYCChallengeHeader = () => {
     // 사용자 인증 상태 조회 함수
     const checkUser = async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/challenge/user/${roomNum}`, {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/user/${roomNum}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -527,7 +527,7 @@ const JMYCChallengeHeader = () => {
     // 남은 시간이 6시간이 되었을 때 실행되는 함수
     const handleSixHoursLeft = async () => {
         try {
-            const response = await axios.delete(`http://localhost:9000/api/challenge/delete-room/${roomNum}`, {
+            const response = await axios.delete(`${process.env.REACT_APP_API_URL}/api/challenge/delete-room/${roomNum}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -549,7 +549,7 @@ const JMYCChallengeHeader = () => {
     const handleCountdownEnd = async () => {
         if (roomData.roomStatusNum === 2 && userAuthorization > 0) {
             try {
-                const response = await axios.put(`http://localhost:9000/api/challenge/end-challenge/${roomNum}`, {}, {
+                const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/end-challenge/${roomNum}`, {}, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -573,7 +573,7 @@ const JMYCChallengeHeader = () => {
     // periodType 카운트다운이 끝났을 때 실행되는 함수
     const handlePeriodCountdownEnd = async () => {
         try {
-            const response = await axios.put(`http://localhost:9000/api/challenge/complete-period/${roomNum}`, {}, {
+            const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/complete-period/${roomNum}`, {}, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

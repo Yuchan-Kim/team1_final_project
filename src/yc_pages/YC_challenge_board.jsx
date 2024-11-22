@@ -52,7 +52,7 @@ const YcChallengeBoard = () => {
             try {
                 const response = await axios({
                     method: 'get',
-                    url: `http://localhost:9000/api/challenge/announcement/${roomNum}`,
+                    url: `http://${process.env.REACT_APP_API_URL}/api/challenge/announcement/${roomNum}`,
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -62,7 +62,7 @@ const YcChallengeBoard = () => {
                     console.log('방에 참여한 유저입니다.');
                     const authResponse = await axios({
                         method: 'get',
-                        url: `http://localhost:9000/api/challenge/announcement/user/${roomNum}`,
+                        url: `${process.env.REACT_APP_API_URL}/api/challenge/announcement/user/${roomNum}`,
                         headers: {
                             'Authorization': `Bearer ${token}`
                         }
@@ -107,7 +107,7 @@ const YcChallengeBoard = () => {
     const fetchNotices = () => {
         axios({
             method: 'get',
-            url: `http://localhost:9000/api/challenge/announcement/get/${roomNum}`,
+            url: `${process.env.REACT_APP_API_URL}/api/challenge/announcement/get/${roomNum}`,
             responseType: 'json'
         })
         .then(response => {
@@ -136,7 +136,7 @@ const YcChallengeBoard = () => {
         if (noticeToDelete !== null) {
             axios({
                 method: 'delete',
-                url: `http://localhost:9000/api/challenge/announcement/delete/${noticeToDelete}`,
+                url: `${process.env.REACT_APP_API_URL}/api/challenge/announcement/delete/${noticeToDelete}`,
                 responseType: 'json'
             })
             .then(response => {
@@ -170,7 +170,7 @@ const YcChallengeBoard = () => {
 
             axios({
                 method: 'put',
-                url: `http://localhost:9000/api/challenge/announcement/edit/${editingNoticeId}`,
+                url: `${process.env.REACT_APP_API_URL}/api/challenge/announcement/edit/${editingNoticeId}`,
                 data: updatedNotice,
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -229,7 +229,7 @@ const YcChallengeBoard = () => {
 
             axios({
                 method: 'post',
-                url: `http://localhost:9000/api/challenge/announcement/addannounce`,
+                url: `${process.env.REACT_APP_API_URL}/api/challenge/announcement/addannounce`,
                 data: newNotice,
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -334,7 +334,7 @@ const YcChallengeBoard = () => {
     
         try {
             // 백엔드 프록시 엔드포인트 호출
-            const response = await axios.get(`http://localhost:9000/api/challenge/announcement/search/local`, {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/announcement/search/local`, {
                 params: {
                     query: searchQuery,
                     display: 5, // 최대 5개 결과

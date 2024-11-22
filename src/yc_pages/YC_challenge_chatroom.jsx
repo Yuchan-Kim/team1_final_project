@@ -18,7 +18,7 @@ const ChatRoom = ({ roomNum }) => { // props를 디스트럭처링하여 roomNum
     // 현재 사용자의 userNum을 가져옵니다.
     const fetchUserNum = async () => {
       try {
-        const response = await axios.get('http://localhost:9000/api/chat/info', {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/chat/info`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -46,7 +46,7 @@ const ChatRoom = ({ roomNum }) => { // props를 디스트럭처링하여 roomNum
   // 전체 채팅 메시지 가져오기
   const getAllMessages = async () => {
     try {
-      const response = await axios.get(`http://localhost:9000/api/chat/${roomNum}`, {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/chat/${roomNum}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -83,7 +83,7 @@ const ChatRoom = ({ roomNum }) => { // props를 디스트럭처링하여 roomNum
 
     try {
       // 메시지를 백엔드로 전송
-      const response = await axios.post(`http://localhost:9000/api/chat/`, newMessage, {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/chat/`, newMessage, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
