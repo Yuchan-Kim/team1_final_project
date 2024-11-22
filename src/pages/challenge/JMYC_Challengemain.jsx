@@ -72,7 +72,7 @@ const ChallengePage = () => {
 
     axios({
       method: 'get',
-      url: `http://localhost:9000/api/roomMain/${roomNum}`,
+      url: `${process.env.REACT_APP_API_URL}/api/roomMain/${roomNum}`,
   
       responseType: 'json'
     }).then(response => {
