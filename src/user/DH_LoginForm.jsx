@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 //import 컴포넌트
 import Header from '../pages/include/DH_Header';
-
+import NaverLogin from '../ham_pages/NaverLogin';
 //import css
 import '../css/dh_loginform.css';
 
@@ -120,8 +120,12 @@ const DH_LoginForm = () => {
                                 onClick={handleKakaoLogin}
                                 />
                             </div>
-                            <div className="dy-api-login">Google로 계속하기</div>
-                            <div className="dy-api-login">네이버로 계속하기</div>
+                            {/* <div className="dy-api-login">Google로 계속하기</div> */}
+                            <div className="dy-naver-login">
+                                <NaverLogin />
+                                <p>네이버 로그인</p>
+                            </div>
+                            
                         </div>
                         {/* /dy-api-logins */}
                         <div className="dy-middle">─────────── 또는 ───────────</div>

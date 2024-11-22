@@ -127,9 +127,25 @@ const DH_Header = () => {
         }
     }, [token, authUser]);
 
-	const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('authUser');
+	const handleLogout = async () => {
+		//------------------------------------------ < 네이버 로그아웃 >-----------------------------------------
+		if (authUser?.socialLogin === 'naver') {
+			try {
+				await axios.get(`https://nid.naver.com/oauth2.0/token`, {
+					params: {
+						grant_type: 'delete',
+						client_id: process.env.REACT_APP_NAVER_CLIENT_ID,
+						client_secret: process.env.REACT_APP_NAVER_CLIENT_SECRET,
+						access_token: localStorage.getItem('naverAccessToken'),
+						service_provider: 'NAVER'
+					}
+				});
+				localStorage.removeItem('naverAccessToken');
+			} catch (error) {
+				console.error('네이버 로그아웃 실패:', error);
+			}
+		}
+		localStorage.clear();
 		// --------------------------------< 민규 Tobbar용 사용 >--------------------------------
 		profileStore.setToken(null); // ProfileStore에 토큰 제거를 요청하여 모든 사용자 정보를 초기화합니다.
 		// --------------------------------< /민규 Tobbar용 사용 >--------------------------------

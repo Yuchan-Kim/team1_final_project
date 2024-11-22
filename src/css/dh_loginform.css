@@ -61,7 +61,12 @@
     border-radius: 12px;
     margin-bottom: 10px;
 }
-
+.dy-naver-login {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
 .dy-loginform .dy-loginform-content .dy-middle {
     margin-bottom: 30px;
 }

@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 //import 컴포넌트
 import Header from '../pages/include/DH_Header';
-
+import NaverLogin from '../ham_pages/NaverLogin';
 //import css
 import '../css/dh_joinform.css';
 
@@ -14,6 +14,16 @@ import '../css/dh_joinform.css';
 const DH_JoinForm = () => {
 
 	/*---일반 변수 --------------------------------------------*/
+    const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
+    const REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
+
+    // oauth 요청 URL
+    const kakaoURL2 = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+
+    // 카카오 동의 항목
+    const handleKakaoLogin = () => {
+        window.location.href = kakaoURL2;
+    };
 
 	/*---라우터 관련------------------------------------------*/
 
@@ -270,6 +280,22 @@ const DH_JoinForm = () => {
                             </div>
                             
                             <button type="submit" className="dy-submit-btn">가입하기</button>
+
+                            <div>─────────── 또는 ───────────</div>
+                            <div className="dy-api-joins">
+                                <div id="kakaoIdLogin">
+                                    <img className="dy-api-login"
+                                    src="/images/kakao_login_medium_wide.png"
+                                    alt="카카오로 계속하기"
+                                    onClick={handleKakaoLogin}
+                                    />
+                                </div>
+                                {/* <div className="dy-api-join">Google로 계속하기</div> */}
+                                <div className="dy-naver-login">
+                                    <NaverLogin />
+                                    <p>네이버 회원가입</p>
+                                </div>
+                            </div>
                             
                             <div className="dy-to-loginform"><Link to="/user/loginform" className="dy-link" rel="noreferrer noopener">이미 계정이 있나요? 여기에서 로그인하세요</Link></div>
                         </form>
