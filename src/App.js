@@ -42,7 +42,7 @@ import Mainlist from './pages/main/Mainlist';
 
 import Uk from './user/UserKakaoLogin.jsx';
 import NaverLogin from './ham_pages/NaverLogin.jsx';
-import NaverLoginCallback from './ham_pages/NaverLogin_callback';
+import NaverLoginCallback from './ham_pages/NaverLoginCallback.jsx';
 
 function App() {
   return (
