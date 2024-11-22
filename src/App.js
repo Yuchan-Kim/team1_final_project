@@ -10,7 +10,6 @@ import YCStep07 from './yc_pages/YC_Step07.jsx';
 import YCStep10 from './yc_pages/YC_Step10.jsx';
 import YCStep11 from './yc_pages/YC_Step11.jsx';
 
-
 import MissionInfo from './pages/challenge/Missioninfo.jsx';
 import Challengemain from './pages/challenge/JMYC_Challengemain.jsx';
 import Mission from './pages/challenge/mission.jsx';
@@ -53,15 +52,19 @@ function App() {
           <Route path='/ycstep10' element = {<YCStep10/>} />
           <Route path='/ycstep11' element = {<YCStep11/>} />
 
-          <Route path='/stat' element={<YCChallengeStatistics/>} />
-          <Route path='/board' element={<YcChallengeBoard/>} />
-          <Route path='/mission' element={<Mission />} />
-          <Route path='/missioninfo' element={<MissionInfo />} />
-          <Route path='/cmain' element={<Challengemain />} />
+          <Route path='/stat/:roomNum' element={<YCChallengeStatistics/>} />
+          <Route path='/board/:roomNum' element={<YcChallengeBoard/>} />
+          <Route path='/mission/:roomNum' element={<Mission />} />
+          <Route path='/missioninfo/:roomNum' element={<MissionInfo />} />
+          <Route path='/cmain/:roomNum' element={<Challengemain />} />
+
+
           <Route path='/user/mypage' element={<Mypage />} />
           <Route path='/user/mypoint' element={<Pointpage />} />
           <Route path='/user/cargo' element={<Cargo />} />
           <Route path='/user/rank' element={<Rank />} />
+
+          
           <Route path='/genebang/genebang01' element={<Step0 />} />
           <Route path='/genebang/step1' element={<Step1 />} />
           <Route path='/genebang/step2' element={<Step2 />} />

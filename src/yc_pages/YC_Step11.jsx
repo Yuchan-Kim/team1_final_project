@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import '../css/reset.css';
 import '../css/jy_step.css';
-import { YCStepNav } from '../yc_pages/YC_StepNav.jsx'; // StepNav 임포트
+import { YCStepNav } from '../yc_pages/YC_StepNav.jsx';
 
 const Step11 = ({ onNext, onPrevious }) => {
     /*---상태관리 변수들---*/
@@ -64,7 +64,6 @@ const Step11 = ({ onNext, onPrevious }) => {
                 <div id="container">
                     <div className="step" id="step4"> {/* id 수정: step4 -> step11 */}
 
-                        <YCStepNav idx={4} /> {/* StepNav 포함: idx=4로 설정 */}
 
                         <div id="board">
                             <div id="list">

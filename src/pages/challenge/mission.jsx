@@ -1,21 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import TopHeader from "../include/DH_Header.jsx";
 import Footert from "../include/JM-Footer.jsx";
 import ChatRoom from "../../yc_pages/YC_challenge_chatroom.jsx";
-import { Doughnut, Line, Bar } from "react-chartjs-2"; 
-import {
-    Chart as ChartJS,
-    ArcElement,
-    Tooltip,
-    Legend,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    BarElement,
-    Title,
-    Filler,
-} from "chart.js";
+import { Bar } from "react-chartjs-2"; 
+
 
 
 import '../css/Mission.css';
@@ -25,11 +14,86 @@ import '../css/Modal.css';
 
 import Sidebar from "../../yc_pages/YC_challenge_sidebar.jsx";
 import Header from "../../yc_pages/JMYC_challenge_header.jsx";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const Mission = () => {
+  // 토큰 가져오기
+  const token = localStorage.getItem('token'); // 로컬 스토리지에서 토큰을 가져옴
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditingRule, setIsEditingRule] = useState(false); // 룰셋 수정 모드 상태
-  const [ruleText, setRuleText] = useState("산 근처 공원에서 런닝 하실때는 야생의 김유찬을 조심하세요."); // 초기 룰셋 텍스트
+  const [ruleText, setRuleText] = useState(); // 초기 룰셋 텍스트
+  const [selectedMission, setSelectedMission] = useState(null);
+  
+  const [selectedMissionIndex, setSelectedMissionIndex] = useState(null); // 선택된 항목 인덱스
+  const [selectedMissionTitle, setSelectedMissionTitle] = useState(''); // 선택된 미션 제목 상태 추가
+  const [selectedMissionNumber, setSelectedMissionNumber] = useState(null); // 선택된 미션 넘버 상태
+
+  const handleSelectMission = (index, mission) => {
+    if (mission.isSubmitted) {
+      alert("이미 제출된 미션입니다.");
+      return; // 이미 제출된 미션은 선택 불가
+    }
+
+    setSelectedMissionIndex(index);
+    setSelectedMissionTitle(mission.missionName); // 미션 제목 업데이트
+    setSelectedMissionNumber(mission.missionNum); // 미션 넘버 업데이트
+  };
+
+
+  // 유의사항 1개 가져오기
+  const [getRule, setGetRule] = useState([]);
+
+  // 사진 업로드 함수
+  const [fileInputs, setFileInputs] = useState([{}]);
+  const [previews, setPreviews] = useState([]);
+
+  // 모달 닫기 함수
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setFileInputs([{}]);
+    setPreviews([]);
+  };
+
+  const handleOpenModal = () => setIsModalOpen(true);
+
+  // 모달 열기 함수
+  const openModal = (mission) => {
+    setSelectedMission(mission);
+    setIsModalOpen(true);
+  };
+
+  const handleAddFileInput = () => {
+    if (fileInputs.length < 3) {
+      setFileInputs([...fileInputs, {}]);
+    } else {
+      alert("사진은 최대 3개까지 추가할 수 있습니다."); // 사용자에게 알림
+    }
+  };
+
+  // 사진 업로드 함수
+  const handleRemoveFileInput = (index) => {
+    setFileInputs(fileInputs.filter((_, i) => i !== index));
+    setPreviews(previews.filter((_, i) => i !== index));
+  };
+
+  const handleFileChange = (event, index) => {
+    const files = [...fileInputs];
+    files[index] = event.target.files[0];
+    setFileInputs(files);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const newPreviews = [...previews];
+      newPreviews[index] = reader.result;
+      setPreviews(newPreviews);
+    };
+    if (event.target.files[0]) {
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  };
+  
 
   const barChartData = {
     labels: ["미션 A", "미션 B", "미션 C", "미션 D", "미션 E"],
@@ -95,118 +159,135 @@ const Mission = () => {
     },
   };
 
-  const lineChartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: "날짜",
-          font: {
-            size: 14,
-            weight: 'bold',
-          },
-        },
-      },
-      y: {
-        title: {
-          display: true,
-          text: "전체 달성률 (%)",
-          font: {
-            size: 14,
-            weight: 'bold',
-          },
-        },
-        beginAtZero: true,
-        max: 100,
-      },
-    },
-    plugins: {
-      legend: {
-        display: false,
-      },
-      tooltip: {
-        enabled: true,
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-        titleFont: {
-          size: 14,
-          weight: 'bold',
-        },
-        bodyFont: {
-          size: 12,
-        },
-      },
-      title: {
-        display: false,
-      },
-    },
-    animation: {
-      duration: 1000,
-      easing: 'easeOutQuart',
-    },
-  };
-
-  const handleOpenModal = () => setIsModalOpen(true);
-
   const handleEditRule = () => {
     setIsEditingRule(true);
-  };
-
-  const handleSaveRule = () => {
-    setIsEditingRule(false);
   };
 
   const handleRuleChange = (event) => {
     setRuleText(event.target.value);
   };
 
-  const missions = [
-    { title: "5키로 감량", status: "제출", description: "인증사진은 이렇게 넣어라 이렇게 안넣으면 승인 거절할거니까 알아서들 잘해라" },
-    { title: "스트레칭 하기", status: "제출", description: "인증사진은 이렇게 넣어라 이렇게 안넣으면 승인 거절할거니까 알아서들 잘해라" },
-    { title: "500미터 걷기", status: "제출", description: "인증방법 설명" },
-    { title: "물 마시기", status: "제출", description: "인증방법 설명" },
-    { title: "눈 마사지", status: "제출", description: "인증방법 설명" },
-    { title: "눈 마시기", status: "제출", description: "인증방법 설명" }
-  ];
+  // 유의사항 수정, 등록
+  const handleSaveRule = () => {
 
-  const [fileInputs, setFileInputs] = useState([{}]);
-  const [previews, setPreviews] = useState([]);
+    axios
+      .post("http://localhost:9000/api/rules", {
+        ruleText: ruleText, // 유의사항 텍스트를 보냄
+      })
+      .then((response) => {
+        console.log("Rule saved successfully:", response.data.apiData);
+        setIsEditingRule(false); // 저장 성공 시 수정 모드 종료
+        window.location.reload();  // 새로고침
+      })
+      .catch((error) => {
+        console.error("Failed to save rule:", error);
+        alert("유의사항 저장에 실패했습니다. 다시 시도해주세요.");
+      });
+  };
 
-  const handleAddFileInput = () => {
-    if (fileInputs.length < 3) {
-      setFileInputs([...fileInputs, {}]);
-    } else {
-      alert("사진은 최대 3개까지 추가할 수 있습니다."); // 사용자에게 알림
+  // 유의사항 1개 가져오기
+  const getRules = () => {
+  
+    axios({
+      method: 'get',
+      url: "http://localhost:9000/api/getRule",   
+  
+      responseType: 'json' 
+    }).then(response => {
+      setGetRule(response.data.apiData || []);
+          
+    }).catch(error => {
+      console.error("Failed to fetch mission list:", error);
+    });
+  };
+
+  // 미션 리스트
+  const [missionList, setMissionList] = useState([])
+
+  const getMissionList = () => {
+    axios({
+      method: 'get',
+      url: "http://localhost:9000/api/missionList",
+      headers: {
+        'Authorization': `Bearer ${token}`, // 토큰을 Authorization 헤더에 추가
+        'Content-Type': 'application/json'
+      },
+      responseType: 'json' 
+    })
+    .then(response => {
+      const missions = response.data.apiData || [];
+      
+      // 각 미션에 대해 isSubmitted 플래그 설정
+      const updatedMissions = missions.map(mission => ({
+        ...mission,
+        isSubmitted: mission.evalNum ? true : false // evalNum이 존재하면 true, 아니면 false
+      }));
+      
+      setMissionList(updatedMissions); // 미션 리스트 상태 업데이트
+    })
+    .catch(error => {
+      console.error("Failed to fetch mission list:", error);
+      alert("미션 리스트를 가져오는 데 실패했습니다.");
+    });
+  };
+  
+
+
+  // 미션 제출
+  const handleSubmitMission = () => {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      console.log("토큰이 없습니다. 로그인하세요.");
+      
+      return;  // 오류가 있으면 함수 중단
     }
-  };
 
-  const handleRemoveFileInput = (index) => {
-    setFileInputs(fileInputs.filter((_, i) => i !== index));
-    setPreviews(previews.filter((_, i) => i !== index));
-  };
-
-  const handleFileChange = (event, index) => {
-    const files = [...fileInputs];
-    files[index] = event.target.files[0];
-    setFileInputs(files);
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const newPreviews = [...previews];
-      newPreviews[index] = reader.result;
-      setPreviews(newPreviews);
-    };
-    if (event.target.files[0]) {
-      reader.readAsDataURL(event.target.files[0]);
+    if (!selectedMissionNumber) {
+      alert("미션을 선택하세요.");
+      return;
     }
+  
+    const comment = document.querySelector('.jm-add-comment-box').value;
+  
+    const formData = new FormData();
+    formData.append('missionNumber', selectedMissionNumber); // 미션 넘버 추가
+    formData.append('comment', comment || "기본 코멘트");
+  
+    fileInputs.forEach((file) => {
+      if (file) {
+        formData.append('files', file);
+      }
+    });
+  
+    axios.post("http://localhost:9000/api/submitMissionWithFiles", formData, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    .then(response => {
+      if (response.data.result === "success") {
+      console.log("Mission submitted successfully:", response.data);
+      alert("미션 제출이 완료되었습니다.");
+      getMissionList(); // 미션 리스트 갱신
+      } else {
+        console.log(response.data.message);
+    }
+    })
+    .catch(error => {
+      console.error("Failed to submit mission:", error);
+      alert("미션 제출에 실패했습니다.");
+    });
   };
+  
+  
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setFileInputs([{}]);
-    setPreviews([]);
-  };
+  useEffect(() => {
+    getMissionList();
+    getRules();
+    console.log(setMissionList);
+  }, []);
 
   return (
     <>
@@ -250,7 +331,7 @@ const Mission = () => {
             <div className='jm-roolset-update-contents-box'>
               <div className='jm-roolset-contents-box'>
               <h3>유의 사항</h3>
-              <span>{ruleText}</span>
+              <span>{getRule?.missionInstruction || "방 소개 없음"}</span>
               <div className="jm-btn-updatimg">
                 <button onClick={handleEditRule}>
                   수정
@@ -270,43 +351,53 @@ const Mission = () => {
         </div>
         
         <h2 className="jm-todo">할일</h2>
-        {/* Mission List 컨테이너 */}
-        <div className="jm-mission-list">
-          <div className="jm-missions">
-            {missions.map((mission, index) => (
-              <div key={index} className="jm-mission">
-                <div className="jm-mission-name">
-                  <h3>{mission.title}</h3>
-                  <button onClick={handleOpenModal}>{mission.status}</button>
-                </div>
-                <div className="jm-mission-img">
-                  <img src="https://img.freepik.com/free-photo/group-people-working-out-together-outdoors_23-2149891452.jpg" alt="미션 이미지" />
-                </div>
-                <div className='jm-mission-comment-container'>
-                  <p>{mission.description}</p>
+        <div className='jm-todo-user-add-form'>
+          <div className='jm-mission-add-list'>
+            {missionList.map((mission, index) => (
+              <div
+              key={index}
+              className={`jm-mission-items ${selectedMissionIndex === index ? 'selected' : ''}`}
+              onClick={() => handleSelectMission(index, mission)} // 미션 제목 전달
+              style={{
+                pointerEvents: mission.isSubmitted ? 'none' : 'auto', // 제출된 미션 비활성화
+                opacity: mission.isSubmitted ? 0.5 : 1 // 제출된 미션 희미하게 표시
+              }}
+            >
+                <h2>{mission.missionName}</h2>
+                {mission.isSubmitted && <span className="submitted-label">제출 완료</span>}
+                <div className='jm-view-button-container'>
+                  <button
+                    className="jm-view-button"
+                    onClick={(e) => {
+                      e.stopPropagation(); // 이벤트 전파 막기
+                      openModal(mission); // 모달 열기
+                    }}
+                  >
+                    더보기
+                  </button>
                 </div>
               </div>
             ))}
           </div>
-        </div>
-      </div>
 
-      {/* Modal */}
-      {isModalOpen && (
-        <div className="jm-modal-overlay">
-          <div className="jm-modal-content">
-            <button className="jm-close-button" onClick={handleCloseModal}>
-              &times;
-            </button>
-            <span>미션 제출</span>
-
-            {/* 파일 업로드 및 미리보기 */}
-            <div className="jm-file-upload-container">
+          <div className='jm-user-mission-add-fom'>
+          <h2>미션 제출하기</h2>
+          <p>선택된 미션: <strong>{selectedMissionTitle || "미션을 선택하세요"}</strong></p>
+          <p>선택된 미션넘버: <strong>{selectedMissionNumber || "미션을 선택하세요"}</strong></p>
+            <div className="jm-add-mission-img-form">
               {fileInputs.map((_, index) => (
                 <div key={index} className="jm-file-upload">
-                  <div className='jm-file-upload-name'>
+                  <label htmlFor={`file-input-${index}`} className="jm-file-label">
+                    {previews[index] ? (
+                      <img src={previews[index]} alt={`Preview ${index}`} className="jm-image-preview" />
+                    ) : (
+                      <span className="jm-placeholder-text">이미지 선택</span>
+                    )}
+                  </label>
                   <input
                     type="file"
+                    id={`file-input-${index}`}
+                    className="jm-hidden-file-input"
                     onChange={(event) => handleFileChange(event, index)}
                   />
                   {index > 0 && (
@@ -314,32 +405,49 @@ const Mission = () => {
                       &times;
                     </button>
                   )}
-                  </div>
-                  {previews[index] && (
-                    <div className="jm-image-preview">
-                      <img src={previews[index]} alt={`Preview ${index}`} />
-                    </div>
-                  )}
                 </div>
               ))}
-              </div>
-              <button className="jm-add-file-button" onClick={handleAddFileInput}>
-                +
-              </button>
-            
-            <div className='jm-modal-add-ok'>
-              <p>미션을 제출하시겠습니까?</p>
-              <button onClick={handleCloseModal}>확인</button>
+            </div>
+            <button className="jm-add-file-button" onClick={handleAddFileInput}>
+              +
+            </button>
+            <div className="jm-comment-add-btn-container">
+              <input className='jm-add-comment-box' type="text" placeholder="코멘트를 입력하세요" />
+              <button  className="jm-add-user-mission-btn" onClick={handleSubmitMission}>제출</button>
+              <button  className="jm-add-user-mission-btn" onClick={handleOpenModal}>수정</button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    {/* 모달 창 */}
+    {isModalOpen && selectedMission && (
+      <div className="yc-modal-overlay_roomMain" onClick={closeModal}>
+        <div className="yc-modal_roomMain" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="modal-title">
+          {/* 닫기 아이콘 */}
+          <button className="yc-modal-close_roomMain" onClick={closeModal} aria-label="닫기">              <FontAwesomeIcon icon={faTimes} />
+          </button>
+          {/* 모달 내용 */}
+          <div className="yc-modal-content_roomMain">
+            <img src={selectedMission.image} alt={`${selectedMission.title} 상세 이미지`} className="yc-modal-image_roomMain" />
+            <div className="yc-modal-description_roomMain">
+              <h2 id="modal-title">{selectedMission.missionName}</h2>
+              <p>{selectedMission.missionMethod}</p>
+              {/* 추가 정보가 있다면 여기에 추가 */}
             </div>
           </div>
         </div>
-      )}
-    </div>
+      </div>
+    )}
+    
     <ChatRoom/>
 
-     {/* 푸터 */}
+    {/* 푸터 */}
       <Footert/>
-      {/* 푸터 끝 */}
+    {/* 푸터 끝 */}
     </>
   );
 };
