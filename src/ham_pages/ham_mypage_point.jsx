@@ -32,12 +32,6 @@ const Pointpage = () => {
     // 사용자 프로필 상태 관리
     const [profile, setProfile] = useState({
         userNum: profileStore.getUserNum(),
-        nickname: profileStore.getNickname(),
-        profileImage: profileStore.getProfileImage(),
-        challengesSummary: profileStore.getChallengesSummary(),
-        ownedProfileImages: profileStore.getOwnedProfileImages(),
-        region: profileStore.getRegion(),
-        challengesDetails: profileStore.getChallengesDetails(),
         token: profileStore.getToken()
     });
 
@@ -46,12 +40,6 @@ const Pointpage = () => {
         const handleProfileChange = (updatedProfile) => {
             setProfile({
                 userNum: updatedProfile.userNum,
-                nickname: updatedProfile.nickname,
-                profileImage: updatedProfile.profileImage,
-                challengesSummary: updatedProfile.challengesSummary,
-                ownedProfileImages: updatedProfile.ownedProfileImages,
-                region: updatedProfile.region,
-                challengesDetails: updatedProfile.challengesDetails,
                 token: updatedProfile.token // 토큰 업데이트
             });
         };
@@ -60,12 +48,6 @@ const Pointpage = () => {
         // 초기 프로필 데이터 설정
         handleProfileChange({
             userNum: profileStore.getUserNum(),
-            nickname: profileStore.getNickname(),
-            profileImage: profileStore.getProfileImage(),
-            challengesSummary: profileStore.getChallengesSummary(),
-            ownedProfileImages: profileStore.getOwnedProfileImages(),
-            region: profileStore.getRegion(),
-            challengesDetails: profileStore.getChallengesDetails(),
             token: profileStore.getToken()
         });
 
@@ -157,6 +139,7 @@ const Pointpage = () => {
 
             // 백엔드 응답 구조에 따라 데이터를 설정
             if (historyResponse.data.result === 'success') {
+                console.log("포인트 사용 내역: ",historyResponse.data);
                 setPointData(historyResponse.data.apiData);
             } else {
                 console.error('포인트 내역 조회 실패:', historyResponse.data.message);
@@ -164,8 +147,8 @@ const Pointpage = () => {
             }
 
             if (summaryResponse.data.result === 'success') {
+                console.log("포인트 요약: ", summaryResponse.data);
                 setSummary(summaryResponse.data.apiData);
-                console.log("포인트 요약 정보: ",summaryResponse.data.apiData);
             } else {
                 console.error('포인트 요약 조회 실패:', summaryResponse.data.message);
                 setSummary({

@@ -15,14 +15,6 @@ import profileStore from './ham_common/profileStore'; // profileStore 임포트
 const MyPage = () => {
     const navigate = useNavigate();
     const [userNum, setUserNum] = useState(profileStore.getUserNum());
-    const [userInfo, setUserInfo] = useState({
-        nickname: profileStore.getNickname(),
-        region: '',
-        profileImage: profileStore.getProfileImage(),
-        challengesSummary: profileStore.getChallengesSummary(),
-        participationScore: profileStore.getChallengesSummary().participationScore
-    });
-
     // 상태 관리
     const [performanceCharts, setPerformanceCharts] = useState([]);
     const [achievementCharts, setAchievementCharts] = useState([]);
@@ -39,26 +31,16 @@ const MyPage = () => {
     useEffect(() => {
         const handleProfileChange = (updatedProfile) => {
             setUserNum(updatedProfile.userNum);
-            setUserInfo({
-                nickname: updatedProfile.nickname,
-                region: updatedProfile.region || '',
-                profileImage: updatedProfile.profileImage,
-                challengesSummary: updatedProfile.challengesSummary,
-                participationScore: updatedProfile.challengesSummary.participationScore
-            });
             setChallenges({
                 ongoing: updatedProfile.challengesDetails.ongoing,
                 upcoming: updatedProfile.challengesDetails.upcoming,
                 completed: updatedProfile.challengesDetails.completed
             });
         };
-
         profileStore.subscribe(handleProfileChange);
 
         // 초기 데이터 설정
         handleProfileChange({
-            profileImage: profileStore.getProfileImage(),
-            nickname: profileStore.getNickname(),
             userNum: profileStore.getUserNum(),
             challengesSummary: profileStore.getChallengesSummary(),
             challengesDetails: profileStore.getChallengesDetails()
@@ -76,15 +58,12 @@ const MyPage = () => {
             //("userNum이 설정되지 않음. 데이터 요청하지 않음.");
             return;
         }
-
-       // console.log("MyPage 차트 데이터 로딩 시작, userNum:", userNum);
+        // console.log("MyPage 차트 데이터 로딩 시작, userNum:", userNum);
         const fetchChartData = async () => {
             setLoading(true);
             try {
                 const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
                 const response = await axios.get(`${apiUrl}/api/my/${userNum}/charts`);
-
-                //console.log("API 응답:", response.data); // API 응답 로그 추가
 
                 if (response.data.result === 'success') {
                     const apiData = response.data.apiData || {};
@@ -92,42 +71,32 @@ const MyPage = () => {
                     const performance = apiData.performance ? Object.values(apiData.performance) : [];
                     const achievement = apiData.achievement ? Object.values(apiData.achievement) : [];
 
-                    console.log("Performance Charts:", performance); // Performance 차트 데이터 로그
-                    console.log("Achievement Charts:", achievement); // Achievement 차트 데이터 로그
-
                     // 원하는 차트 순서 정의
                     const performanceOrder = [
                         '일반방 미션 수행률',
                         '챌린지방 미션 수행률',
                         '전체 미션 수행률'
                     ];
-
                     const achievementOrder = [
                         '일반방 미션 달성률',
                         '챌린지방 미션 달성률',
                         '전체 미션 달성률'
                     ];
-
                     // 성과 차트 정렬
                     performance.sort((a, b) => performanceOrder.indexOf(a.chartTitle) - performanceOrder.indexOf(b.chartTitle));
                     // 달성 차트 정렬
                     achievement.sort((a, b) => achievementOrder.indexOf(a.chartTitle) - achievementOrder.indexOf(b.chartTitle));
-
-                 //   console.log("Sorted Performance Charts:", performance); // 정렬된 Performance 차트 데이터 로그
-                 //   console.log("Sorted Achievement Charts:", achievement); // 정렬된 Achievement 차트 데이터 로그
-
                     // Performance 차트에 zeroColor 추가 (연한 파란색 회색)
                     const formattedPerformance = performance.map(chart => ({
                         chartTitle: chart.chartTitle,
                         ratioDisplay: chart.ratioDisplay,
-                        percentage: chart.percentage, 
+                        percentage: chart.percentage,
                         attendedCount: chart.attendedCount,
                         totalCount: chart.totalCount,
                         displayValue: chart.displayValue || '0.0%',
                         color: '#3a7afe', // 일반방 파란색
                         zeroColor: '#b4b4b4' // 연한 파란색 회색
                     }));
-
                     // Achievement 차트에 zeroColor 추가 (연한 붉은색 회색)
                     const formattedAchievement = achievement.map(chart => ({
                         chartTitle: chart.chartTitle,
@@ -139,7 +108,6 @@ const MyPage = () => {
                         color: '#FF5722', // 챌린지방 붉은색
                         zeroColor: '#e5e5e5' // 연한 붉은색 회색
                     }));
-
                     setPerformanceCharts(formattedPerformance);
                     setAchievementCharts(formattedAchievement);
                 } else {
@@ -152,7 +120,6 @@ const MyPage = () => {
                 setLoading(false);
             }
         };
-
         fetchChartData();
     }, [userNum]);
 
@@ -169,7 +136,6 @@ const MyPage = () => {
     if (loading) {
         return <div>데이터를 불러오는 중...</div>;
     }
-
     if (error) {
         return <div className="error-message">{error}</div>;
     }
@@ -195,8 +161,6 @@ const MyPage = () => {
                                     color: chart.color, // 일반방 파란색
                                     zeroColor: chart.zeroColor // 연한 파란색 회색
                                 };
-                               // console.log("Formatted Performance Chart:", formattedChart); // 변환된 차트 데이터 로그
-
                                 return (
                                     <div key={`performance-${index}`} className="hmk_stat-card" style={{ position: 'relative' }}>
                                         <div className="hmk_chart">
@@ -219,8 +183,6 @@ const MyPage = () => {
                                     displayValue: chart.displayValue, // 중앙에 표시할 값
                                     color: '#FF5722' // 다른 색상 설정
                                 };
-                             //   console.log("Formatted Achievement Chart:", formattedChart); // 변환된 차트 데이터 로그
-
                                 return (
                                     <div key={`achievement-${index}`} className="hmk_stat-card" style={{ position: 'relative' }}>
                                         <div className="hmk_chart">
@@ -272,9 +234,13 @@ const MyPage = () => {
                                     style={{ cursor: 'pointer' }}
                                 >
                                     <img
-                                        src={`/images/${challenge.image}`}
-                                        alt={`챌린지 ${challenge.roomTitle}`} // alt 속성 수정
+                                        src={`${process.env.REACT_APP_API_URL}${challenge.roomThumbNail}`}
+                                        alt={`챌린지 ${challenge.roomTitle}`}
                                         className="hmk_challenge-image"
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = '/images/default-thumbnail.gif'; // 기본 이미지 경로
+                                        }}
                                     />
                                     <div className="hmk_challenge-details">
                                         <div className="hmk_challenge-datebox">
@@ -292,7 +258,6 @@ const MyPage = () => {
             </div>
         </>
     );
-
 };
 
 export default MyPage;
