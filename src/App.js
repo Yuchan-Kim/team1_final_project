@@ -1,14 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import YCChallengeStatistics from './yc_pages/YC_challenge_statistics';
 import YcChallengeBoard from './yc_pages/YC_challenge_board';
-import YCStep02 from './yc_pages/YC_Step02.jsx';
-import YCStep03 from './yc_pages/YC_Step03.jsx';
-import YCStep04 from './yc_pages/YC_Step04.jsx';
-import YCStep05 from './yc_pages/YC_Step05.jsx';
-import YCStep06 from './yc_pages/YC_Step06.jsx';
-import YCStep07 from './yc_pages/YC_Step07.jsx';
-import YCStep10 from './yc_pages/YC_Step10.jsx';
-import YCStep11 from './yc_pages/YC_Step11.jsx';
+
 
 import MissionInfo from './pages/challenge/Missioninfo.jsx';
 import Challengemain from './pages/challenge/JMYC_Challengemain.jsx';
@@ -48,14 +41,6 @@ function App() {
   return (
     <BrowserRouter> 
         <Routes>
-          <Route path='/ycstep02' element = {<YCStep02/>} />
-          <Route path='/ycstep03' element = {<YCStep03/>} />
-          <Route path='/ycstep04' element = {<YCStep04/>} />
-          <Route path='/ycstep05' element = {<YCStep05/>} />
-          <Route path='/ycstep06' element = {<YCStep06/>} />
-          <Route path='/ycstep07' element = {<YCStep07/>} />
-          <Route path='/ycstep10' element = {<YCStep10/>} />
-          <Route path='/ycstep11' element = {<YCStep11/>} />
 
           <Route path='/stat/:roomNum' element={<YCChallengeStatistics/>} />
           <Route path='/board/:roomNum' element={<YcChallengeBoard/>} />
