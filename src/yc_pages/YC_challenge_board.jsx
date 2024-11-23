@@ -443,56 +443,36 @@ const YcChallengeBoard = () => {
     
     // **2. useEffect를 사용하여 개별 지도 초기화**
     useEffect(() => {
-        if (isNaverLoaded && notices.length > 0) {
-            notices.forEach(notice => {
-                if (notice.latitude && notice.longitude && mapRefs.current[notice.announceNum]) {
-                    const { naver } = window;
+        if (selectedPlace && isNaverLoaded) {
+            if (!window.naver) {
+                console.error("네이버 지도 스크립트가 로드되지 않았습니다.");
+                return;
+            }
     
-                    if (!naver || !naver.maps) {
-                        console.error('네이버 지도 API가 로드되지 않았습니다.');
-                        // 사용자에게 오류 메시지 표시
-                        const errorDiv = document.createElement('div');
-                        errorDiv.innerHTML = '<p style="color:red;">지도를 로드하는 중 오류가 발생했습니다.</p>';
-                        mapRefs.current[notice.announceNum].appendChild(errorDiv);
-                        return;
-                    }
+            const { naver } = window;
     
-                    try {
-                        // 지도 초기화 및 마커 추가
-                        const map = new naver.maps.Map(mapRefs.current[notice.announceNum], {
-                            center: new naver.maps.LatLng(notice.latitude, notice.longitude),
-                            zoom: 14,
-                            logoControl: false,
-                            mapDataControl: false,
-                            scaleControl: true,
-                            zoomControl: true,
-                            zoomControlOptions: { position: naver.maps.Position.TOP_RIGHT },
-                        });
+            try {
+                const map = new naver.maps.Map(mapRef.current, {
+                    center: new naver.maps.LatLng(selectedPlace.latitude, selectedPlace.longitude),
+                    zoom: 14,
+                    logoControl: false,
+                    mapDataControl: false,
+                    scaleControl: true,
+                    zoomControl: true,
+                    zoomControlOptions: { position: naver.maps.Position.TOP_RIGHT },
+                });
     
-                        const marker = new naver.maps.Marker({
-                            position: new naver.maps.LatLng(notice.latitude, notice.longitude),
-                            map: map,
-                            title: notice.placeTitle,
-                        });
-    
-                        const infoWindow = new naver.maps.InfoWindow({
-                            content: `<div style="padding:10px;">${notice.placeTitle}<br/>${notice.address}</div>`,
-                            anchorSkew: true,
-                        });
-    
-                        naver.maps.Event.addListener(marker, 'click', () => {
-                            infoWindow.open(map, marker);
-                        });
-                    } catch (error) {
-                        console.error('지도 초기화 중 오류 발생:', error);
-                        const errorDiv = document.createElement('div');
-                        errorDiv.innerHTML = '<p style="color:red;">지도를 초기화하는 중 오류가 발생했습니다.</p>';
-                        mapRefs.current[notice.announceNum].appendChild(errorDiv);
-                    }
-                }
-            });
+                new naver.maps.Marker({
+                    position: new naver.maps.LatLng(selectedPlace.latitude, selectedPlace.longitude),
+                    map: map,
+                    title: selectedPlace.title,
+                });
+            } catch (error) {
+                console.error("선택된 장소의 지도 초기화 중 오류 발생:", error);
+            }
         }
-    }, [isNaverLoaded, notices]);
+    }, [selectedPlace, isNaverLoaded]);
+    
     
 
     
@@ -620,9 +600,13 @@ const YcChallengeBoard = () => {
                                         <h4>선택된 장소:</h4>
                                         <p><strong>이름:</strong> {selectedPlace.title}</p>
                                         <p><strong>주소:</strong> {selectedPlace.address}</p>
-                                        
+
                                         {/* 네이버 지도 표시 */}
-                                        <div ref={mapRef} className="yc_map-container"></div>
+                                        <div
+                                            ref={mapRef}
+                                            className="yc_map-container"
+                                            style={{ height: "200px", marginTop: "10px" }}
+                                        ></div>
 
                                         <button
                                             className="yc_place-confirm-btn"
@@ -652,54 +636,60 @@ const YcChallengeBoard = () => {
 
                         {/* 공지사항 목록 */}
                         <div className="yc_challenge_announcement-list">
-                            {loading ? (
-                                <p>공지사항을 불러오는 중입니다...</p>
-                            ) : error ? (
-                                <p>{error}</p>
-                            ) : notices.length > 0 ? (
-                                <>
-                                    {/* 메인 맵 렌더링 */}
-                                    <MapRender places={mapPlaces} />
-
-                                    {notices.map((notice) => (
-                                        <div key={notice.announceNum} className="yc_challenge_notice-item">
-                                            {/* 공지사항 헤더: 제목과 작성일 */}
-                                            <div className="yc_challenge_notice-item-header">
-                                                <div className="yc_challenge_notice-title">
-                                                    <h3>{notice.title}</h3>
-                                                    {notice.isModified && <span className="yc_modified-badge">수정됨</span>}
-                                                </div>
-                                                <span className="yc_challenge_notice-date">작성일 {formatDateTime(notice.announceTime)}</span>
-                                            </div>
-                                            {/* 공지사항 내용 */}
-                                            <div className="yc_challenge_notice-item-content">
-                                                <p>{notice.announcement}</p>
-                                                {notice.place && (
-                                                    <div className="yc_challenge_notice-place">
-                                                        <FaMapMarkerAlt className="yc_place-icon"/>
-                                                        <span>{notice.place}</span>
-                                                    </div>
-                                                )}
-                                            </div>
-                                            {/* 공지사항 메타 정보: 수정 및 삭제 버튼 */}
-                                            {userAuth === 1 && (
-                                                <div className="yc_challenge_notice-meta">
-                                                    <button onClick={() => handleEditClick(notice)} className="yc_challenge_edit-btn" aria-label="공지 수정">
-                                                        <FaEdit /> 수정
-                                                    </button>
-                                                    <button onClick={() => handleDeleteClick(notice.announceNum)} className="yc_challenge_delete-btn" aria-label="공지 삭제">
-                                                        <FaTrash /> 삭제
-                                                    </button>
-                                                </div>
-                                            )}
-                                            {/* 개별 맵 제거 */}
+                        {loading ? (
+                            <p>공지사항을 불러오는 중입니다...</p>
+                        ) : error ? (
+                            <p>{error}</p>
+                        ) : notices.length > 0 ? (
+                            notices.map((notice) => (
+                                <div key={notice.announceNum} className="yc_challenge_notice-item">
+                                    {/* 공지사항 헤더: 제목과 작성일 */}
+                                    <div className="yc_challenge_notice-item-header">
+                                        <div className="yc_challenge_notice-title">
+                                            <h3>{notice.title}</h3>
+                                            {notice.isModified && <span className="yc_modified-badge">수정됨</span>}
                                         </div>
-                                    ))}
-                                </>
-                            ) : (
-                                <p>공지사항이 없습니다.</p>
-                            )}
-                        </div>
+                                        <span className="yc_challenge_notice-date">작성일 {formatDateTime(notice.announceTime)}</span>
+                                    </div>
+                                    {/* 공지사항 내용 */}
+                                    <div className="yc_challenge_notice-item-content">
+                                        <p>{notice.announcement}</p>
+                                        {notice.placeTitle && (
+                                            <div className="yc_challenge_notice-place">
+                                                <FaMapMarkerAlt className="yc_place-icon" />
+                                                <span>{notice.placeTitle}</span>
+                                            </div>
+                                        )}
+                                        {/* 개별 맵 렌더링 */}
+                                        {notice.latitude && notice.longitude && (
+                                            <MapRender
+                                                place={{
+                                                    latitude: notice.latitude,
+                                                    longitude: notice.longitude,
+                                                    placeTitle: notice.placeTitle,
+                                                    address: notice.address,
+                                                }}
+                                            />
+                                        )}
+                                    </div>
+                                    {/* 공지사항 메타 정보: 수정 및 삭제 버튼 */}
+                                    {userAuth === 1 && (
+                                        <div className="yc_challenge_notice-meta">
+                                            <button onClick={() => handleEditClick(notice)} className="yc_challenge_edit-btn" aria-label="공지 수정">
+                                                <FaEdit /> 수정
+                                            </button>
+                                            <button onClick={() => handleDeleteClick(notice.announceNum)} className="yc_challenge_delete-btn" aria-label="공지 삭제">
+                                                <FaTrash /> 삭제
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            ))
+                        ) : (
+                            <p>공지사항이 없습니다.</p>
+                        )}
+                    </div>
+
                     </section>
                 </div>
                 
@@ -728,27 +718,20 @@ const YcChallengeBoard = () => {
 export default YcChallengeBoard;
 
 // 지도 렌더링 컴포넌트
-const MapRender = ({ places }) => {
+const MapRender = ({ place }) => {
     const mapRef = useRef(null);
 
     useEffect(() => {
-        if (!window.naver) {
-            console.error('네이버 지도 스크립트가 로드되지 않았습니다.');
+        if (!window.naver || !place) {
+            console.error('네이버 지도 스크립트가 로드되지 않았거나 장소 정보가 없습니다.');
             return;
         }
 
         const { naver } = window;
 
-        if (!places || places.length === 0) {
-            console.error('표시할 장소가 없습니다.');
-            return;
-        }
-
-        // 지도 초기화 (첫 번째 장소의 좌표를 중심으로 설정)
-        const firstPlace = places[0];
         const map = new naver.maps.Map(mapRef.current, {
-            center: new naver.maps.LatLng(firstPlace.latitude, firstPlace.longitude),
-            zoom: 10,
+            center: new naver.maps.LatLng(place.latitude, place.longitude),
+            zoom: 14,
             logoControl: false,
             mapDataControl: false,
             scaleControl: true,
@@ -756,33 +739,29 @@ const MapRender = ({ places }) => {
             zoomControlOptions: { position: naver.maps.Position.TOP_RIGHT },
         });
 
-        // 마커 추가
-        const markers = places.map(place => {
-            const marker = new naver.maps.Marker({
-                position: new naver.maps.LatLng(place.latitude, place.longitude),
-                map: map,
-                title: place.title,
-            });
+        const marker = new naver.maps.Marker({
+            position: new naver.maps.LatLng(place.latitude, place.longitude),
+            map: map,
+            title: place.placeTitle,
+        });
 
-            const infoWindow = new naver.maps.InfoWindow({
-                content: `<div style="padding:10px;">${place.title}<br/>${place.address}</div>`,
-                anchorSkew: true,
-            });
+        const infoWindow = new naver.maps.InfoWindow({
+            content: `<div style="padding:10px;">${place.placeTitle}<br/>${place.address}</div>`,
+            anchorSkew: true,
+        });
 
-            naver.maps.Event.addListener(marker, 'click', () => {
-                infoWindow.open(map, marker);
-            });
-
-            return marker;
+        naver.maps.Event.addListener(marker, 'click', () => {
+            infoWindow.open(map, marker);
         });
 
         // 클린업
         return () => {
-            markers.forEach(marker => marker.setMap(null));
+            marker.setMap(null);
             map.destroy();
         };
-    }, [places]);
+    }, [place]);
 
-    return <div ref={mapRef} className="yc_map-container"></div>;
+    return <div ref={mapRef} className="yc_map-container" style={{ height: "200px", marginTop: "10px" }}></div>;
 };
+
 
