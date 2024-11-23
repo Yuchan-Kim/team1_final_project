@@ -78,8 +78,15 @@ const Pointpage = () => {
         if (activeTab === '전체') {
             return dateFilteredPoints;
         }
-        const targetChange = activeTab === '적립' ? '+' : '-';
-        return dateFilteredPoints.filter(item => item.change === targetChange);
+        // historyInfo로 필터링 조건 변경
+        return dateFilteredPoints.filter(item => {
+            if (activeTab === '적립') {
+                return item.historyInfo === '+';
+            } else if (activeTab === '사용') {
+                return item.historyInfo === '-';
+            }
+            return true;
+        });
     }, [dateFilteredPoints, activeTab]);
 
     // 포인트 요약 정보는 백엔드에서 가져온 summary 데이터를 사용
