@@ -46,7 +46,7 @@ const Mainlist = () => {
 
     // 검색 결과 가져오기
     const fetchRoomList = (searchQuery) => {
-        axios.get('http://localhost:9000/api/roomFilter/search', { params: { query: searchQuery } })
+        axios.get(`${process.env.REACT_APP_API_URL}/api/roomFilter/search`, { params: { query: searchQuery } })
             .then((response) => {
                 if (response.data.result === 'success') {
                     setRoomList(response.data.apiData || []);
@@ -58,19 +58,19 @@ const Mainlist = () => {
 
     // 필터링 데이터 가져오기
     useEffect(() => {
-        axios.get('http://localhost:9000/api/Roomtype').then((response) => {
+        axios.get(`${process.env.REACT_APP_API_URL}/api/Roomtype`).then((response) => {
             if (response.data.result === 'success') setRoomType(response.data.apiData || []);
         });
 
-        axios.get('http://localhost:9000/api/Category').then((response) => {
+        axios.get(`${process.env.REACT_APP_API_URL}/api/Category`).then((response) => {
             if (response.data.result === 'success') setCategory(response.data.apiData || []);
         });
 
-        axios.get('http://localhost:9000/api/Period').then((response) => {
+        axios.get(`${process.env.REACT_APP_API_URL}/api/Period`).then((response) => {
             if (response.data.result === 'success') setPeriod(response.data.apiData || []);
         });
 
-        axios.get('http://localhost:9000/api/Regions').then((response) => {
+        axios.get(`${process.env.REACT_APP_API_URL}/api/Regions`).then((response) => {
             if (response.data.result === 'success') setRegions(response.data.apiData || []);
         });
     }, []);
