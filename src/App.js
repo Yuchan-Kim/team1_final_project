@@ -61,16 +61,16 @@ function App() {
           
           <Route path='/genebang/genebang01' element={<Step0 />} />
           <Route path='/genebang/step1' element={<Step1 />} />
-          <Route path='/genebang/step2' element={<Step2 />} />
-          <Route path='/genebang/step3' element={<Step3 />} />
-          <Route path='/genebang/step4' element={<Step4 />} />
-          <Route path='/genebang/step5' element={<Step5 />} />
-          <Route path='/genebang/step6' element={<Step6 />} />
-          <Route path='/genebang/step7' element={<Step7 />} />
-          <Route path='/genebang/step8' element={<Step8 />} />
-          <Route path='/genebang/step9' element={<Step9 />} />
-          <Route path='/genebang/step10' element={<Step10 />} />
-          <Route path='/genebang/step11' element={<Step11 />} />
+          <Route path='/genebang/step2/:roomNum' element={<Step2 />} />
+          <Route path='/genebang/step3/:roomNum' element={<Step3 />} />
+          <Route path='/genebang/step4/:roomNum' element={<Step4 />} />
+          <Route path='/genebang/step5/:roomNum' element={<Step5 />} />
+          <Route path='/genebang/step6/:roomNum' element={<Step6 />} />
+          <Route path='/genebang/step7/:roomNum' element={<Step7 />} />
+          <Route path='/genebang/step8/:roomNum' element={<Step8 />} />
+          <Route path='/genebang/step9/:roomNum' element={<Step9 />} />
+          <Route path='/genebang/step10/:roomNum' element={<Step10 />} />
+          <Route path='/genebang/step11/:roomNum' element={<Step11 />} />
           <Route path='/user/loginform' element={<DHLoginForm/>} />
 					<Route path='/user/joinform' element={<DHJoinForm/>} />
 					<Route path='/user/pwsearch' element={<DHPwSearch/>} />
