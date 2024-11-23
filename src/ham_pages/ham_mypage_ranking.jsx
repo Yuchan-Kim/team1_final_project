@@ -3,11 +3,11 @@ import React, { useEffect } from 'react';
 import Header from '../pages/include/DH_Header';
 import '../ham_asset/css/ham_mypage_ranking.css';
 
-import grl from '../ham_asset/images/rank_girl-runtoleft.gif';
-import dog from '../ham_asset/images/rank_dog-runtoleft.gif';
-import cat from '../ham_asset/images/rank_cat-runtoleft.gif';
-import clap from '../ham_asset/images/rank_clap.gif';
-import win from '../ham_asset/images/rank_winner.gif';
+const grl = '/images/rank_girl-runtoleft.gif';
+const dog = '/images/rank_dog-runtoleft.gif';
+const cat = '/images/rank_cat-runtoleft.gif';
+const clap = '/images/rank_clap.gif';
+const win = '/images/rank_winner.gif';
 const rankData = [
     { id: 1, nickname: '손흥민', points: 155500, image: 'IMG_4879.jpg' },
     { id: 2, nickname: '메시', points: 135500, image: 'IMG_4879.jpg' },
@@ -34,14 +34,35 @@ const Rank = () => {
                 <div className="hmk_rank_title_banner">
                     <div className="hmk_rank_banner_image">
                     </div>
-                    <div class="hmk_rank_moving_text">
-                        <span><img src={clap} alt="hmk_icon" className='hmk_rank_banner_icon' />Top3 Ranker</span>
-                        <span><img src={cat} alt="hmk_icon" className='hmk_rank_banner_icon' /></span>
-                        <span>🥇</span><img src={require(`../ham_asset/images/${rankData[0].image}`)} alt="rank1_profile" className='hmk_rank_banner_prof' /> <p>{rankData[0].nickname}</p>
-                        <span>🥈</span><img src={require(`../ham_asset/images/${rankData[1].image}`)} alt="rank2_profile" className='hmk_rank_banner_prof' /> <p>{rankData[1].nickname}</p>
-                        <span>🥉</span><img src={require(`../ham_asset/images/${rankData[2].image}`)} alt="rank3_profile" className='hmk_rank_banner_prof' /> <p>{rankData[2].nickname}</p>
-                        <span><img src={dog} alt="hmk_icon" className='hmk_rank_banner_icon' /></span>
-                        <span><img src={grl} alt="hmk_icon" className='hmk_rank_banner_icon' /></span>
+                    <div className="hmk_rank_moving_text">
+                        <span>
+                            <img src={clap} alt="clap" className='hmk_rank_banner_icon' />
+                            Top3 Ranker
+                        </span>
+                        <span>
+                            <img src={cat} alt="cat" className='hmk_rank_banner_icon' />
+                        </span>
+                        <span>
+                            🥇
+                            <img src={`/images/${rankData[0].image}`} alt="rank1_profile" className='hmk_rank_banner_prof' />
+                            <p>{rankData[0].nickname}</p>
+                        </span>
+                        <span>
+                            🥈
+                            <img src={`/images/${rankData[1].image}`} alt="rank2_profile" className='hmk_rank_banner_prof' />
+                            <p>{rankData[1].nickname}</p>
+                        </span>
+                        <span>
+                            🥉
+                            <img src={`/images/${rankData[2].image}`} alt="rank3_profile" className='hmk_rank_banner_prof' />
+                            <p>{rankData[2].nickname}</p>
+                        </span>
+                        <span>
+                            <img src={dog} alt="dog" className='hmk_rank_banner_icon' />
+                        </span>
+                        <span>
+                            <img src={grl} alt="girl" className='hmk_rank_banner_icon' />
+                        </span>
                     </div>
                 </div>
 
@@ -57,7 +78,7 @@ const Rank = () => {
                                     {/* 2등 */}
                                     <div key={rankData[1].id} className="hmk_podium_rank hmk_rank2">
                                         <div className='hmk_podium_profile hmk_silver_frame'>
-                                            <img src={require(`../ham_asset/images/${rankData[1].image}`)} alt="rank2_profile" className='hmk_ranker_profile_no2' />
+                                            <img src={`/images/${rankData[1].image}`} alt="rank2_profile" className='hmk_ranker_profile_no2' />
                                             <div className="hmk_podium_medal">🥈</div>
                                         </div>
                                         <div className="hmk_podium_base silver">
@@ -68,7 +89,7 @@ const Rank = () => {
                                     {/* 1등 */}
                                     <div key={rankData[0].id} className="hmk_podium_rank hmk_rank1">
                                         <div className='hmk_podium_profile hmk_gold_frame'>
-                                            <img src={require(`../ham_asset/images/${rankData[0].image}`)} alt="rank1_profile" className='hmk_ranker_profile_no1' />
+                                            <img src={`/images/${rankData[0].image}`} alt="rank1_profile" className='hmk_ranker_profile_no1' />
                                             <div className="hmk_podium_medal">🥇</div>
                                         </div>
                                         <div className="hmk_podium_base gold">
@@ -79,7 +100,7 @@ const Rank = () => {
                                     {/* 3등 */}
                                     <div key={rankData[2].id} className="hmk_podium_rank hmk_rank3">
                                         <div className='hmk_podium_profile hmk_bronze_frame'>
-                                            <img src={require(`../ham_asset/images/${rankData[2].image}`)} alt="rank3_profile" className='hmk_ranker_profile_no3' />
+                                            <img src={`/images/${rankData[2].image}`} alt="rank3_profile" className='hmk_ranker_profile_no3' />
                                             <div className="hmk_podium_medal">🥉</div>
                                         </div>
                                         <div className="hmk_podium_base bronze">
@@ -100,7 +121,7 @@ const Rank = () => {
                                             <td><p>나</p>{myRank ? myRank.rank : "N/A"}  </td>
                                             <td>
                                                 <img
-                                                    src={require(`../ham_asset/images/${myRank.image}`)}
+                                                    src={`/images/${myRank.image}`}
                                                     alt="my_profile"
                                                     className="hmk_ranker_profile_no"
                                                 />
@@ -132,7 +153,7 @@ const Rank = () => {
                                                     {index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : index + 1}
                                                 </td>
                                                 <td>
-                                                    <img src={require(`../ham_asset/images/${rank.image}`)} alt="profile" className='hmk_ranker_profile_no' />
+                                                    <img src={`/images/${rank.image}`} alt="profile" className='hmk_ranker_profile_no' />
                                                 </td>
                                                 <td>{rank.nickname}</td>
                                                 <td>{rank.points.toLocaleString()}</td>

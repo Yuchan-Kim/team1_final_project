@@ -13,6 +13,7 @@ import '../ham_asset/css/ham_mypage.css';
 import profileStore from './ham_common/profileStore'; // profileStore 임포트
 
 const MyPage = () => {
+    const [imgError, setImgError] = useState({}); // 이미지 에러 상태 추가
     const navigate = useNavigate();
     const [userNum, setUserNum] = useState(profileStore.getUserNum());
     // 상태 관리
@@ -221,37 +222,49 @@ const MyPage = () => {
                             </button>
                         </div>
                         <div className="hmk_challenge-list">
-                            {activeChallenges.map((challenge) => (
-                                <div
-                                    key={`challenge-${challenge.roomNum || challenge.id}`} // 고유한 key 속성 추가
-                                    className="hmk_challenge-card"
-                                    onClick={handleCardClick}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') handleCardClick();
-                                    }}
-                                    tabIndex="0"
-                                    role="button"
-                                    style={{ cursor: 'pointer' }}
-                                >
-                                    <img
-                                        src={`${process.env.REACT_APP_API_URL}${challenge.roomThumbNail}`}
-                                        alt={`챌린지 ${challenge.roomTitle}`}
-                                        className="hmk_challenge-image"
-                                        onError={(e) => {
-                                            e.target.onerror = null;
-                                            e.target.src = '/images/default-thumbnail.gif'; // 기본 이미지 경로
+                            {activeChallenges.map((challenge) => {
+                                const challengeKey = `challenge-${challenge.roomNum || challenge.id}`;
+
+                                return (
+                                    <div
+                                        key={challengeKey}
+                                        className="hmk_challenge-card"
+                                        onClick={handleCardClick}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') handleCardClick();
                                         }}
-                                    />
-                                    <div className="hmk_challenge-details">
-                                        <div className="hmk_challenge-datebox">
-                                            <p className="hmk_challenge-startdate">{challenge.roomStartDate}</p>
-                                            <p>~</p>
-                                            <p className="hmk_challenge-enddate">{challenge.endDate}</p>
+                                        tabIndex="0"
+                                        role="button"
+                                        style={{ cursor: 'pointer' }}
+                                    >
+                                        <img
+                                            src={imgError[challengeKey]
+                                                ? '/images/default-thumbnail.gif'
+                                                : `${process.env.REACT_APP_API_URL}${challenge.roomThumbNail}`
+                                            }
+                                            alt={`챌린지 ${challenge.roomTitle}`}
+                                            className="hmk_challenge-image"
+                                            onError={(e) => {
+                                                if (!imgError[challengeKey]) {
+                                                    setImgError(prev => ({
+                                                        ...prev,
+                                                        [challengeKey]: true
+                                                    }));
+                                                    e.target.src = '/images/default-thumbnail.gif';
+                                                }
+                                            }}
+                                        />
+                                        <div className="hmk_challenge-details">
+                                            <div className="hmk_challenge-datebox">
+                                                <p className="hmk_challenge-startdate">{challenge.roomStartDate}</p>
+                                                <p>~</p>
+                                                <p className="hmk_challenge-enddate">{challenge.endDate}</p>
+                                            </div>
+                                            <p className="hmk_challenge-title">{challenge.roomTitle}</p>
                                         </div>
-                                        <p className="hmk_challenge-title">{challenge.roomTitle}</p>
                                     </div>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     </div>
                 </div>

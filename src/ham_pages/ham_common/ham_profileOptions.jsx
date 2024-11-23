@@ -2,7 +2,7 @@
 
 import React, { useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import defaultProfile from '../../ham_asset/images/profile-fill.png';
+const defaultProfile = '/images/profile-fill.png';
 
 const ProfileOptions = ({
     profiles,

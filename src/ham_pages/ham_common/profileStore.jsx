@@ -1,6 +1,6 @@
 // src/ham_pages/ham_common/profileStore.js
 
-import defaultProfile from '../../ham_asset/images/profile-fill.png';
+const defaultProfile = '/images/profile-fill.png';
 
 class ProfileStore {
     constructor() {

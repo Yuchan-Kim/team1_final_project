@@ -9,10 +9,10 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import ChallengeIcon from '../../ham_asset/images/challenge.png';
-import FriendsIcon from '../../ham_asset/images/friends.png';
-import PointsIcon from '../../ham_asset/images/points.png';
-import InventoryIcon from '../../ham_asset/images/inventory.png';
+const ChallengeIcon = '/images/challenge.png';
+const FriendsIcon = '/images/friends.png';
+const PointsIcon = '/images/points.png';
+const InventoryIcon = '/images/inventory.png';
 import '../../ham_asset/css/ham_sidebar.css'; // 사이드바 전용 CSS
 
 const Sidebar = () => {

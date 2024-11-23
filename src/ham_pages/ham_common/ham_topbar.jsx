@@ -5,11 +5,11 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../ham_asset/css/ham_modal.css';
 import '../../ham_asset/css/ham_topbar.css';
-import storeIcon from '../../ham_asset/images/shopfront.png';
 import Modal from './ham_modal';
 import ProfileOptions from './ham_profileOptions';
 import profileStore from './profileStore';
-import defaultProfile from '../../ham_asset/images/profile-fill.png';
+const defaultProfile = '/images/profile-fill.png';
+const storeIcon = '/images/shopfront.png';
 const Topbar = () => {
     const navigate = useNavigate();
     const [suggestions, setSuggestions] = useState([]); // 자동완성 목록 상태

@@ -11,7 +11,7 @@ import profileStore from '../../ham_pages/ham_common/profileStore'; // ProfileSt
 //import css
 import '../../css/dh_header.css';
 
-import defaultProfile from '../../ham_asset/images/profile-fill.png'; // import default profileImage << -- 프로필 이미지 기본 값 -------------------------------------->>
+const defaultProfile = '/images/profile-fill.png'; // import default profileImage << -- 프로필 이미지 기본 값 -------------------------------------->>
 
 
 const DH_Header = () => {
