@@ -1,6 +1,7 @@
 // src/pages/main/Main.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import SearchIcon from '@rsuite/icons/Search';
 import SendIcon from '@rsuite/icons/Send';
 import Modal from 'react-modal';
@@ -33,6 +34,8 @@ const Main = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [previousStep, setPreviousStep] = useState(null); // 이전 스텝 추적
     const [selection, setSelection] = useState(null); // 'left' 또는 'right' 선택 추적
+    const [roomList, setRoomList] = useState(); // 방 리스트 가져오기
+    const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -149,6 +152,58 @@ const Main = () => {
         { item: "item3", score: 64, image: "/img/banner.jpg", title: "입니다 챌린지 3" }
     ]);
 
+    //검색어 전달 -> 페이지 이동
+    const handleSearchKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // 기본 Enter 동작 방지 (예: 폼 제출)
+            navigate(`/mainlist?query=${searchTerm}`); // 검색어를 쿼리 파라미터로 전달하며 이동
+        }
+    };
+    
+
+    // 카테고리 핸들러
+    const handleCategoryChange = (category) => {
+        axios({
+            method: 'get',
+            url: `http://localhost:9000/api/roomFilter/category`,
+            params: { category }, // 카테고리를 쿼리 파라미터로 전달
+            responseType: 'json',
+        })
+        .then((response) => {
+            if (response.data.result === 'success') {
+                setRoomList(response.data.apiData); // 필터링된 방 리스트 설정
+            } else {
+                console.log(response.data.message);
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    };
+
+    // 방 리스트 전부 가져오기
+    const getRoomList = () => {
+       
+        axios({
+          method: 'get',
+          url: `http://localhost:9000/api/roomList`,
+
+          responseType: 'json'
+        }).then(response => {
+          if (response.data.result === "success") {
+            setRoomList(response.data.apiData); 
+          } else {
+            console.log(response.data.message); 
+          }
+        }).catch(error => {
+          console.log(error);
+        });
+      };
+
+    useEffect(() => {
+        getRoomList(); // 방리스트 가져오기
+    }, []);
+
     return (
         <>
             <Header />
@@ -157,9 +212,17 @@ const Main = () => {
                 <div className="jy_main" id="jy_main">
                     <div id="board">
 
-                        <div id='search'>
-                            <div><SearchIcon /><input placeholder='Search' /></div>
+                    <div id="search">
+                        <div>
+                            <SearchIcon />
+                            <input
+                                placeholder="방 제목, 키워드, 카테고리, 방 유형 검색"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)} // 검색어 상태 업데이트
+                                onKeyDown={handleSearchKeyDown} // Enter 키 감지
+                            />
                         </div>
+                    </div>
                         {/* //search */}
 
                         <div id='ad-banner'>
@@ -191,60 +254,71 @@ const Main = () => {
 
                         <div id='icon-bar'>
                             <div>
-                                <button className='jm-thema-button1'></button>
+                                <button className='jm-thema-button1' onClick={() => handleCategoryChange('운동')}></button>
                                 <span>운동</span>
                             </div>
                             <div>
-                                <button className='jm-thema-button2'></button>
+                                <button className='jm-thema-button2' onClick={() => handleCategoryChange('독서')}></button>
                                 <span>독서</span>
                             </div>
                             <div>
-                                <button className='jm-thema-button3'></button>
+                                <button className='jm-thema-button3' onClick={() => handleCategoryChange('스터디')}></button>
                                 <span>스터디</span>
                             </div>
                             <div>
-                                <button className='jm-thema-button4'></button>
+                                <button className='jm-thema-button4' onClick={() => handleCategoryChange('생활루틴')}></button>
                                 <span>생활루틴</span>
                             </div>
                             <div>
-                                <button className='jm-thema-button5'></button>
+                                <button className='jm-thema-button5' onClick={() => handleCategoryChange('취미')}></button>
                                 <span>취미</span>
                             </div>
                         </div> {/* //icon-bar */}
 
                         <div id="list">
-                            {Array.from({ length: 10 }).map((_, i) => (
-                                <div key={i}>
-                                    <Link to="/cmain" className='list_bang'>
-                                        <div className='bang_level'>
-                                            <div>챌린지 / 일반</div>
+                        {roomList && roomList.length > 0 ? (
+                            roomList.slice(0, 9).map((room, i) => (
+                                <div key={room.roomNum}>
+                                    <Link to={`/cmain/${room.roomNum}`} className="list_bang">
+                                        <div className="bang_level">
+                                            <div>{room.roomTypeName}</div>
                                         </div>
 
-                                        <div className='bang_img'>
-                                            <img src="/img/banner.jpg" alt="bang-banner" />
+                                        <div className="bang_img">
+                                            <img
+                                                src={room.roomThumbNail || "/img/default-room.jpg"}
+                                                alt={`${room.roomTitle} 방 썸네일`}
+                                            />
                                         </div>
 
-                                        <div className='jm-main-room-tatle'>대상혁찬양방</div>
-                                        <div className='jm-main-room-date'><span>예상시작일</span> 2024-11-11</div>
-                                        <div className='jm-main-room-date'><span>기간</span> 4주</div>
-                                        <div className='bang_info'>
-                                            <div className='bang_info_left'>
-                                                <div><span>인원</span> 1/20</div>
+                                        <div className="jm-main-room-tatle">{room.roomTitle}</div>
+                                        <div className="jm-main-room-date">
+                                            <span>예상시작일</span> {room.roomStartDate}
+                                        </div>
+                                        <div className="jm-main-room-date">
+                                            <span>기간</span> {room.periodType}주
+                                        </div>
+                                        <div className="bang_info">
+                                            <div className="bang_info_left">
+                                                <div><span>인원</span> {room.roomMinNum}/{room.roomMaxNum}</div>
                                             </div>
-                                            <div className='bang_info_right'>
-                                                <div><span>포인트</span> ALL-IN pt</div>
+                                            <div className="bang_info_right">
+                                                <div><span>포인트</span> {room.roomPoint} pt</div>
                                             </div>
                                         </div>
 
-                                        <div className='bang_sub'>
-                                            <span className="tab01">#운동</span>
-                                            <span className="tab01">#달리기</span>
-                                            <span className="tab01">#전국</span>
+                                        <div className="bang_sub">
+                                            {room.roomKeyword.split(",").map((keyword, idx) => (
+                                                <span key={idx} className="tab01">#{room.categoryName} #{room.roomKeyword} #{room.regionName}</span>
+                                            ))}
                                         </div>
                                     </Link>
                                 </div>
-                            ))}
-                        </div>
+                            ))
+                        ) : (
+                            <div>등록된 방이 없습니다.</div>
+                        )}
+                    </div>
                         {/* //list */}
 
                         {/* 모달 열기 버튼 복구 */}

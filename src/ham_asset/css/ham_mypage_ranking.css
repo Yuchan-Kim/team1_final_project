@@ -1,356 +1,399 @@
 /* src/ham_asset/css/ham_mypage_ranking.css */
-
 @charset "UTF-8";
 
-/* =========================================
-   부모 클래스: .hmk_rank_title_banner
-   경로: 
-   .wrap.ham_wrap 
-     > .hmk_rank_main-out_frame 
-       > .hmk_rank_main-container 
-         > .hmk_rank_main 
-           > .hmk_rank_title_banner
-========================================= */
-.hmk_rank_title_banner {
+/* .ham_wrap .hmk_rank_main */
+
+/******************** 배너 스타일 wrap 외부 ********************/
+.hmk_rank_page .hmk_rank_title_banner {
     position: relative;
-    width: 100%;
-    height: 100px; /* 세로 높이 100px */
-    overflow: hidden; /* 넘치는 부분 숨김 */
-    background-color: #f0f0f0; /* 배경색 (선택 사항) */
-}
-
-.hmk_rank_title_banner::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0; /* 초기 위치를 배너 내부로 수정 */
-    width: 100%; /* 가상 요소의 너비를 배너와 동일하게 설정 */
-    height: 100%;
-    background-image: url('../images/giphy.gif'); /* 초기 배경 이미지 */
-    background-repeat: no-repeat; /* 이미지 반복 비활성화 */
-    background-size: contain; /* 이미지 크기 조절 */
-    animation: changeBackground 40s infinite; /* 배경 이미지 변경 애니메이션 적용 */
-    z-index: 0; /* 이미지가 텍스트 뒤에 오도록 설정 */
-    transition: background-image 1s ease-in-out; /* 배경 이미지 전환 시 부드럽게 변경 */
-}
-
-@keyframes changeBackground {
-    0% {
-        background-image: url('../images/giphy.gif');
-    }
-    25% {
-        background-image: url('../images/giphy\ \(1\).gif');
-    }
-    50% {
-        background-image: url('../images/giphy\ \(2\).gif');
-    }
-    75% {
-        background-image: url('../images/giphy\ \(3\).gif');
-    }
-    100% {
-        background-image: url('../images/giphy.gif');
-    }
-}
-
-.hmk_rank_title_banner .hmk_rank_page_title {
-    position: relative;
-    z-index: 1; /* 텍스트가 이미지 위에 오도록 설정 */
     display: flex;
     align-items: center;
     justify-content: center;
+    background-image: url(../images/rank_bgimg6.gif);
+
+    background-size: cover;
+    background-position: center;
+    opacity: 0.9;
+    color: white;
+    text-shadow:
+        2px 2px 0 #000,
+        -2px -2px 0 #000,
+        2px -2px 0 #000,
+        -2px 2px 0 #000;
+    font-size: 2rem;
+    padding: 0 20px;
+    text-align: center;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hmk_rank_page .hmk_rank_title_banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100%;
+    z-index: 1;
 }
 
-.hmk_rank_title_banner h2 {
-    font-family: 'Cinzel', serif; /* 선택한 폰트 적용 */
-    color: #FFD700; /* 금색으로 텍스트 강조 */
-    font-size: 36px; /* 폰트 크기 증가 */
-    font-weight: 700; /* 폰트 두께 증가 */
-    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3); /* 텍스트 그림자 추가로 가독성 향상 */
-    letter-spacing: 2px; /* 글자 간격 조절 */
-    transition: font-size 0.3s ease; /* 반응형 변경 시 부드러운 전환 */
+/* 배너 제목 스타일 */
+.hmk_rank_page .hmk_rank_title_banner h2 {
+    color: #FFD700;
+    font-size: 36px;
+    font-weight: 700;
+    text-shadow:
+        2px 2px 0 #000,
+        -2px -2px 0 #000,
+        2px -2px 0 #000,
+        -2px 2px 0 #000;
+    letter-spacing: 2px;
+    transition: font-size 0.3s ease;
 }
 
-@media (max-width: 768px) {
-    .hmk_rank_title_banner h2 {
-        font-size: 28px; /* 폰트 크기 축소 */
+/* 배너 움직이는 텍스트 컨테이너 */
+@keyframes moveText {
+    0% {
+        transform: translateX(150%);
+    }
+
+    100% {
+        transform: translateX(-150%);
     }
 }
 
-@media (max-width: 480px) {
-    .hmk_rank_title_banner h2 {
-        font-size: 22px; /* 더욱 축소 */
-    }
-}
-
-/* =========================================
-   부모 클래스: .hmk_rank_main
-   경로: 
-   .wrap.ham_wrap 
-     > .hmk_rank_main-out_frame 
-       > .hmk_rank_main-container 
-         > .hmk_rank_main
-========================================= */
-.hmk_rank_main {
-    width: 65vw;
-    margin: 0 auto;
-    padding: 40px;
-    background-color: #ffffff;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-}
-
-.hmk_rank_main h2 {
-    font-size: 32px;
-    color: #4A148C; /* 보라색으로 강조 */
-    margin-bottom: 20px;
-}
-
-/* =========================================
-   부모 클래스: .hmk_rank_head
-   경로: .hmk_rank_main > .hmk_rank_head
-========================================= */
-.hmk_rank_head {
+/* 텍스트 모션 */
+.hmk_rank_page .hmk_rank_title_banner .hmk_rank_moving_text {
     display: flex;
+    align-items: center;
+    animation: moveText 20s linear infinite;
+    /* 무한 루프 애니메이션 */
+    white-space: nowrap;
+    /* 텍스트가 한 줄에 유지되도록 설정 */
+}
+
+/* 배너 전후 gif 크기 */
+.hmk_rank_title_banner .hmk_rank_moving_text .hmk_rank_banner_icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 20px;
+    vertical-align: middle;
+}
+
+/* 배너 순위메달 스타일 */
+.hmk_rank_title_banner .hmk_rank_moving_text span {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 30px;
+    font-size: 2rem;
+}
+
+/* 배너 프로필 스타일 */
+.hmk_rank_title_banner .hmk_rank_moving_text .hmk_rank_banner_prof {
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    margin: 5px 10px;
+    padding-top: 5px;
+}
+
+/******************** (/배너 스타일 wrap 외부) ********************/
+
+.hmk_rank_main::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    filter: blur(5px);
+    opacity: 0.8;
+    /* 이미지 투명도 설정 */
+    z-index: -1;
+    /* 배경이 뒤에 위치하도록 설정 */
+}
+
+/********************* 화면 중앙 포디엄 스타일 *********************/
+/* 메인 1차 포장 */
+.hmk_rank_main {
+    width: 75vw;
+    margin: 0 auto;
+    padding: 40px 0;
+}
+
+/* 화면 중앙 상단 전체 틀 */
+/* 배경 이미지 추가 및 블러 효과 */
+.hmk_rank_main .hmk_rank_head {
+    display: flex;
+    flex-direction: column;
     justify-content: space-evenly;
     margin-bottom: 40px;
     align-items: center;
+    backdrop-filter: blur(2px);
+    /* 블러 효과 */
 }
 
+.hmk_rank_main .hmk_rank_head::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 75vw;
+    height: 100%;
+    background-image: url('../images/rank_bgimg6.gif');
+    /* 블러 처리된 배경 이미지 경로 */
+    background-size: cover;
+    filter: blur(2px);
+    /* 배경 이미지 블러 효과 */
+    opacity: 1;
+    /* 배경 이미지 투명도 조절 */
+    z-index: -1;
+    /* 컨텐츠 뒤에 배치 */
+}
+
+/* 포디엄 상단 그래픽 이펙트 */
 .hmk_rank_head_container {
     display: flex;
-    margin-top: 20px;
-    gap: 20px;
+    margin-bottom: -150px;
+    margin-top: -150px;
 }
 
-.hmk_rank_totaluser,
-.hmk_rank_totaltask,
-.hmk_rank_totalpoint {
-    text-align: center;
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    flex: 1;
-    width: 10vw;
-}
-
-.hmk_rank_totaluser p,
-.hmk_rank_totaltask p,
-.hmk_rank_totalpoint p {
-    font-size: 16px;
-    font-weight: 500;
-    margin: 5px 0;
-}
-
-.hmk_rank_totaluser p:nth-child(3),
-.hmk_rank_totaltask p:nth-child(3),
-.hmk_rank_totalpoint p:nth-child(3) {
-    color: #D32F2F; /* 변화율은 빨간색으로 표시 */
-    font-weight: bold;
-}
-
-/* =========================================
-   부모 클래스: .hmk_rank_chart
-   경로: .hmk_rank_main > .hmk_rank_chart
-========================================= */
-.hmk_rank_chart {
-    position: relative;
-    width: 15vw;
-    height: 200px;
+/* 화면 중앙 포디엄 카드 프레임 */
+.hmk_ranker_podiumframe {
+    width: 50%;
+    height: 100%;
     display: flex;
-    flex-direction: column;
     justify-content: center;
-}
-
-.hmk_rank_chart_center-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-}
-
-.hmk_rank_chart_mission-info {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 10px;
-    text-align: center;
-}
-
-.hmk_rank_chart_mission-info .hmk_rank_text_left {
-    flex: 1;
-    text-align: left;
-}
-
-.hmk_rank_chart_mission-info .hmk_rank_text_right {
-    flex: 1;
-    text-align: right;
-}
-
-.hmk_rank_completed,
-.hmk_rank_total {
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-}
-
-.hmk_rank_completed_value,
-.hmk_rank_total_value {
-    font-size: 18px;
-    font-weight: bold;
-    color: #4A148C; /* 보라색 강조 */
-}
-
-/* =========================================
-   부모 클래스: .hmk_rank_body
-   경로: .hmk_rank_main > .hmk_rank_body
-========================================= */
-.hmk_rank_body {
-    display: flex;
-    flex-direction: row;
     align-items: center;
 }
 
-.hmk_rank_body_left {
-    /* 추가 스타일이 필요하다면 여기에 작성 */
-}
-
-.hmk_rank_body_left_top {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
+/* 화면 중앙 포디엄 카드 공통 */
+.hmk_ranker_podiumframe 
 .hmk_rank_podium {
-    width: 40vw;
-    height: 20vw;
+    width: 100%;
     display: flex;
+    justify-content: center;
     align-items: flex-end;
-    gap: 2px;
-    margin: 40px 0;
+    gap: 1px;
+
 }
 
-.hmk_rank_podium .hmk_rank1,
-.hmk_rank_podium .hmk_rank2,
-.hmk_rank_podium .hmk_rank3 {
+/* 포디엄 카드 스타일 */
+.hmk_ranker_podiumframe 
+.hmk_rank_podium 
+.hmk_podium_rank {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    padding: 20px 20px 0 20px;
+    margin: 10px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
     align-items: center;
 }
 
-.hmk_podium_profile {
-    position: relative;
-    margin-bottom: 10px;
+.hmk_rank_podium .hmk_rank1 {
+    background: linear-gradient(to bottom, #ffffff, #FFD700);
+    /* 배경 그라데이션 */
+    border-radius: 5px;
+    opacity: 0.9;
 }
 
-.hmk_podium_profile .hmk_ranker_profile_no2,
-.hmk_podium_profile .hmk_ranker_profile_no3 {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 1px solid #4A148C; /* 기본 테두리 색상 */
-    box-shadow: 0 8px 16px rgba(74, 20, 140, 0.5);
-    margin-bottom: 10px;
+.hmk_rank_podium .hmk_rank2 {
+    background: linear-gradient(to bottom, #ffffff, #C0C0C0);
+    /* 배경 그라데이션 */
+    border-radius: 5px;
+    opacity: 0.9;
 }
 
-.hmk_gold {
-    width: 130px;
-    height: 130px;
+.hmk_rank_podium .hmk_rank3 {
+    background: linear-gradient(to bottom, #ffffff, #CD7F32);
+    /* 배경 그라데이션 */
+    border-radius: 5px;
+    opacity: 0.9;
+}
+
+.hmk_podium_rank:hover {
+    transform: scale(1.05) translateY(-10px);
+    /* 1.1배로 확대 */
+}
+
+/* 포디엄 카드 내 프로필 이미지 테두리 */
+.hmk_podium_rank .hmk_podium_profile {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    align-items: center;
+    text-align: center;
     position: relative;
-    background-image: url('../images/rank_fireworks01.gif'); /* 상대 경로 */
-    border-radius: 50%;
-    background-size: contain;
+    margin-bottom: 25px;
+}
+.hmk_gold_frame {
+    background-image: url('../images/rank_prof_frame4.png');
+    /* 상대 경로 */
+    width: 230px; /* 프레임 크기 */
+    height: 230px;
+    background-size: 100%;
+    background-position: bottom;
+    background-repeat: no-repeat;
+}
+.hmk_silver_frame {
+    background-image: url('../images/rank_prof_frame3.png');
+    width: 170px; 
+    height: 170px;
+    background-size: 100%;
+    background-position: bottom;
     background-repeat: no-repeat;
 }
 
-.hmk_gold .hmk_ranker_profile_no1 {
-    padding-top: 4px;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
+.hmk_bronze_frame {
+    background-image: url('../images/rank_prof_frame5.png');
+    width: 150px; 
+    height: 150px;
+    background-size: 100%;
+    background-position: bottom;
+    background-repeat: no-repeat;
 }
 
+
+/* 포디엄 카드 내 프로필 이미지 스타일 */
+.hmk_podium_profile .hmk_ranker_profile_no1 {
+    padding-top: 68px; /* 프레임 안에 프로필 넣는 위치 */
+    padding-left: 8px ;
+    width: 95px; /* 이미지 크기 */
+    height: 95px;
+    border-radius: 50%;
+    margin-bottom: 60px;
+    /* 프로필과 메달 사이의 간격 */
+    z-index: -1;
+}
+
+
+.hmk_podium_profile .hmk_ranker_profile_no2 {
+    padding-top: 40px; /* 프레임 안에 프로필 넣는 위치 */
+    padding-left: 15px ;
+    width: 90px; /* 이미지 크기 */
+    height: 90px;
+    border-radius: 50%;
+    margin-bottom: 30px;
+    /* 이미지와 텍스트 사이의 간격 */
+    z-index: -1;
+}
+
+.hmk_podium_profile .hmk_ranker_profile_no3 {
+    padding-top: 33px; /* 프레임 안에 프로필 넣는 위치 */
+    padding-left: 15px ;
+    width: 85px; /* 이미지 크기 */
+    height: 85px;
+    border-radius: 50%;
+    margin-bottom: 25px;
+    /* 이미지와 텍스트 사이의 간격 */
+    z-index: -1;
+}
+
+
+/* 포디엄 카드 내 메달 스타일 */
 .hmk_podium_medal {
-    position: absolute;
-    top: 120px;
-    right: 35px;
     font-size: 40px;
 }
 
-.hmk_rank1 .hmk_podium_base,
-.hmk_rank2 .hmk_podium_base,
-.hmk_rank3 .hmk_podium_base {
+/* 포디엄 카드 내 시상대와 닉네임 공통 스타일 */
+.hmk_podium_rank .hmk_podium_base {
     text-align: center;
     padding: 15px 0;
     border-radius: 10px 10px 0 0;
     font-weight: bold;
     color: white;
-    margin-top: 10px;
+    margin-top: 20px;
+    font-size: 30px;
 }
 
+/* 포디엄 카드 내 숫자 텍스트 스타일 */
+.hmk_podium_base p:last-child {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #344767;
+    margin-top: 5px;
+}
+
+/* 1등 시상대 스타일 */
 .hmk_rank1 .hmk_podium_base {
-    height: 200px;
-    width: 13vw;
-    background-color: #FFD700; /* 금메달 색상 */
-    background-image: url('../images/rank_spincup.gif'); /* 상대 경로 */
-    background-size: 35%;
+    height: 250px;
+    width: 250px;
+    background-color: #FFD700;
+    /* 금메달 색상 */
+    background-image: url('../images/rank_spincup.gif');
+    /* 상대 경로 */
+    background-size: 40%;
     background-position: bottom;
     background-repeat: no-repeat;
 }
 
+/* 2등 시상대 스타일 */
 .hmk_rank2 .hmk_podium_base {
-    height: 150px;
-    width: 10vw;
-    background-color: #C0C0C0; /* 은메달 색상 */
+    height: 160px;
+    width: 100%;
+    background-color: #C0C0C0;
+    /* 은메달 색상 */
+    background-image: url('../images/rank_goodjob.gif');
+    background-size: 30%;
+    background-position: bottom;
+    background-repeat: no-repeat;
 }
 
+/* 3등 시상대 스타일 */
 .hmk_rank3 .hmk_podium_base {
-    height: 100px;
-    width: 9vw;
-    background-color: #CD7F32; /* 동메달 색상 */
+    height: 140px;
+    width: 100%;
+    background-color: #CD7F32;
+    /* 동메달 색상 */
+    background-image: url('../images/rank_thumbsup.gif');
+    background-size: 30%;
+    background-position: bottom;
+    background-repeat: no-repeat;
 }
 
-.hmk_podium_base p {
-    margin: 5px 0;
-    font-size: 18px;
+/********************* /화면 중앙 포디엄 스타일 *********************/
+
+
+
+/********************* 랭킹 테이블 스타일 *********************/
+/* 랭킹 테이블 전체 포장*/
+.hmk_rank_main .hmk_rank_body {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
-.hmk_podium_base p:nth-child(2) {
-    font-size: 20px;
-    color: #333;
+.hmk_rank_body {
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    z-index: -1;
+    /* 콘텐츠가 배경 위에 위치하도록 설정 */
+
+
+    /* 배경 흐림 및 투명도 효과 */
+    backdrop-filter: blur(7px);
+    background-color: rgba(255, 255, 255, 0.1);
+    /* 배경에 흰색 반투명 덮개를 추가 */
 }
 
-/* =========================================
-   부모 클래스: .hmk_rank_body_left_bottom
-   경로: .hmk_rank_main > .hmk_rank_body > .hmk_rank_body_left_bottom
-========================================= */
-.hmk_rank_body_left_bottom {
-    /* 포디엄 하단 효과 꾸미기 */
-}
-
-.hmk_rank_body_effects .hmk_rank_body_podium_bottom_dffect {
-    /* 사용 중인 스타일이 있다면 여기에 추가 */
-    /* 예시:
-    width: 100px;
-    height: 100px;
-    */
-}
-
-/* =========================================
-   부모 클래스: .hmk_rank_top10
-   경로: .hmk_rank_main > .hmk_rank_top10
-========================================= */
+/* 랭킹 리스트 테이블 공통 규격 */
+.hmk_rank_my,
 .hmk_rank_top10 {
-    width: 40vw;
+    width: 90%;
     margin-top: 40px;
+    text-align: center;
 }
 
+/* 랭킹 리스트 테이블 공통 규격2 */
+.hmk_rank_my_rank,
 .hmk_rank_list {
     width: 100%;
+    table-layout: fixed;
     height: fit-content;
     border-collapse: collapse;
     margin: 0 auto;
@@ -360,13 +403,28 @@
     overflow: hidden;
 }
 
+/* 랭킹 리스트 테이블 헤더, 마이 랭킹 테이블 셀 규격  */
 .hmk_rank_list th,
-.hmk_rank_list td {
+.hmk_rank_list td .hmk_rank_my_rank th,
+.hmk_rank_my_rank tbody .hmk_rank_my_rank_number td {
     border-bottom: 1px solid #ddd;
     padding: 15px;
     text-align: center;
     font-size: 16px;
     height: fit-content;
+}
+
+/* 마이 랭킹 테이블 기본 설정*/
+.hmk_rank_my_rank_number {
+    background: linear-gradient(to top, #f4f4f4c7, #323232c2);
+    /*테이블 색*/
+    color: white;
+    /*글자색*/
+
+}
+
+.hmk_rank_my_rank_number .hmk_rank_my_rank_nickname {
+    font-size: 40px;
 }
 
 .hmk_rank_list th {
@@ -375,12 +433,13 @@
     font-weight: bold;
 }
 
-.hmk_rank_list td {
-    padding: 0 15px;
+.hmk_rank_list td:first-child {
+    font-size: 40px;
+    font-weight: 100;
 }
 
-.hmk_rank_list td img {
-    width: 50px;
+.hmk_rank_list td img,
+.hmk_rank_my_rank td img {
     height: 50px;
     border-radius: 50%;
 }
@@ -392,4 +451,3 @@
 .hmk_rank_list tr:hover {
     background-color: #e8f5e9;
 }
-
