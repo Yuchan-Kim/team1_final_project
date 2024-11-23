@@ -21,23 +21,29 @@
 
 /* wrap 크기 설정 */
 .dy-wrap {
-    max-width: 1600px;
-    width: 100vw;
+    width: 80vw;
     min-width: 1000px;
     margin: 0 auto;
-    padding:0 20px;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
+
+/* em */
+
 /* 포인트 상점 메인 틀 */
-.dy-pointstoremain {
-    width: 100%;
-    margin: 0 auto;
+.dy-wrap .dy-pointstoremain {
+    margin-left: 110px; /* 사이드바 너비 + 좌측 padding (120px + 40px) */
+    margin-right: 110px; /* 우측 간격 */
     margin-top: 70px;
+    box-sizing: border-box; /* 패딩 포함하여 크기 계산 */
+    padding: 0 20px; /* 추가 패딩 */
 }
 
 /* 포인트상점, 출석하기 */
 .dy-pointstoremain .dy-pointstoremain-header {
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -66,18 +72,18 @@
 
 /* 광고와 필터 */
 .dy-pointstoremain .dy-pointstoremain-top {
-    width: 90%;
-    height: 400px;
-    margin: 0 auto;
+    width: 100%;
+    height: 380px;
     margin-bottom: 50px;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 }
 
 /* 광고 */
 .dy-pointstoremain .dy-ad {
-    width: 75%;
-    margin-right: 30px;
+    width: 73%;
+    margin-right: 20px;
 
     display: flex;
     overflow: hidden; /* 이미지가 밖으로 넘어가지 않도록 설정 */
@@ -126,29 +132,30 @@
 
 /* 필터 */
 .dy-pointstoremain .dy-filter {
-    width: 25%;
+    width: 27%;
     height: 100%;
     display: grid;  /* Grid 레이아웃 활성화 */
     grid-template-columns: repeat(2, 1fr);  /* 두 개의 칸을 가로로 배치 */
     grid-template-rows: repeat(2, auto);  /* 두 개의 행을 세로로 배치 */
     gap: 15px;
     perspective: 1000px; /* 3D 효과를 위한 관찰 거리 설정 */
+
 }
 
 .dy-pointstoremain .dy-filter .dy-filter-item {
-    width: 170px;
-    height: 170px;
+    width: 100%;
+    height: 80%;
     margin-top: 10px;
     border-radius: 50%;
     overflow: hidden;
     cursor: pointer;
-    transition: transform 0.7s ease; /* 부드러운 회전 애니메이션 */
-    transform-style: preserve-3d; /* 자식 요소들이 3D로 보이게 함 */
+    /*transition: transform 0.7s ease;  부드러운 회전 애니메이션 */
+    /*transform-style: preserve-3d;  자식 요소들이 3D로 보이게 함 */
 }
 
-.dy-pointstoremain .dy-filter .dy-filter-item:hover {
+/* .dy-pointstoremain .dy-filter .dy-filter-item:hover {
     transform: rotateY(360deg);
-}
+} */
 
 .dy-pointstoremain .dy-filter .dy-filter-item .dy-Logo-image {
     width: 100%;
@@ -159,8 +166,7 @@
 
 /* 세션마다 */
 .dy-pointstoremain .dy-product-sections {
-    width: 90%;
-    margin: 0 auto;
+    width: 100%;
     margin-bottom: 50px;
 }
 
@@ -199,8 +205,8 @@
 
 /* 상품사진 */
 .dy-pointstoremain .dy-product-info .dy-pointstore-pointproduct {
-    width: 230px;
-    height: 230px;
+    width: 100%;
+    height: 210px;
     text-align: center;
     margin-top: 10px;
     margin-bottom: 10px;

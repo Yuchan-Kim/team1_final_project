@@ -24,7 +24,8 @@
 }
 
 .dy-header .dy-header-content {
-    width: 64%;
+    width: 75%;
+    min-width: 1000px;
     height: 60px;
     margin: 0 auto;         /* 중앙 정렬 */
     display: flex;        /* flex 부모쪽 */
