@@ -52,7 +52,7 @@ const YcChallengeBoard = () => {
             try {
                 const response = await axios({
                     method: 'get',
-                    url: `http://${process.env.REACT_APP_API_URL}/api/challenge/announcement/${roomNum}`,
+                    url: `${process.env.REACT_APP_API_URL}/api/challenge/announcement/${roomNum}`,
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
