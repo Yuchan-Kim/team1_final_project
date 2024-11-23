@@ -1,6 +1,8 @@
 // src/ham_pages/ham_common/profileStore.js
 
 import defaultProfile from '../../ham_asset/images/profile-fill.png';
+// 전역 변수 선언
+const apiUrl = process.env.REACT_APP_API_URL || 'http://13.125.216.39:9000';
 
 class ProfileStore {
     constructor() {
@@ -99,7 +101,6 @@ class ProfileStore {
         }
 
         try {
-            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
             const response = await fetch(`${apiUrl}/api/my/${this.userNum}`, {
                 method: 'GET',
                 headers: {
@@ -112,7 +113,6 @@ class ProfileStore {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
-           
 
             if (data.result === 'success' && data.apiData?.userInfo) {
                 const userData = data.apiData.userInfo;
@@ -156,26 +156,32 @@ class ProfileStore {
 
     // 프로필 이미지 절대 URL 구성
     constructAbsoluteUrl(apiUrl, imagePath) {
-        if (!imagePath) return this.profileImage;
-        // Ensure there is exactly one '/' between apiUrl and imagePath
-        if (!imagePath.startsWith('/')) {
-            imagePath = `/${imagePath}`;
-        }
-        return `${apiUrl}${imagePath}`;
+        if (!imagePath) return defaultProfile;
+        if (imagePath === defaultProfile) return defaultProfile;
+    
+        // 이미지 경로를 "/upload"와 일치시키도록 수정
+        const correctedPath = imagePath.startsWith('/img') ? `/upload${imagePath}` : imagePath;
+        return correctedPath.startsWith('/')
+            ? `${apiUrl}${correctedPath}`
+            : `${apiUrl}/${correctedPath}`;
     }
 
-    // 프로필 이미지 처리
-    processProfileImages(images) {
-        if (typeof images === 'string') {
-            try {
-                const parsed = JSON.parse(images);
-                return Array.isArray(parsed) ? parsed : [images];
-            } catch {
-                return [images];
-            }
+   // 프로필 이미지 처리 함수 수정
+processProfileImages(images) {
+    if (typeof images === 'string') {
+        try {
+            const parsed = JSON.parse(images);
+            return Array.isArray(parsed)
+                ? parsed.map((image) => (image.startsWith('/img') ? `/upload${image}` : image))
+                : [images];
+        } catch {
+            return [images.startsWith('/img') ? `/upload${images}` : images];
         }
-        return Array.isArray(images) ? images : [];
     }
+    return Array.isArray(images)
+        ? images.map((image) => (image.startsWith('/img') ? `/upload${image}` : image))
+        : [];
+}
 
     // 에러 처리
     handleError(error) {

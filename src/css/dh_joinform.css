@@ -130,15 +130,23 @@
     margin: 0 auto;
     border-radius: 10px;
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
     align-items: center;
 
-    /* background-color: #03c75a; */
-    background-color: rgb(3, 199, 90);
+    background-color: #1ec800;
     color: white;
 }
 
+.dy-google-join {
+    width: 300px;
+    height: 45px;
+    margin: 0 auto;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-bottom: 5px;
+}
 
 /* 로그인 */
 .dy-joinform-content .dy-to-loginform {

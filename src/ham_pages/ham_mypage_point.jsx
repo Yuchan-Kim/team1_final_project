@@ -75,11 +75,23 @@ const Pointpage = () => {
     }, [pointData, startDate, endDate]);
 
     const tablePoints = useMemo(() => {
+        console.log("현재 데이터:", dateFilteredPoints); // 데이터 확인
+        console.log("현재 탭:", activeTab); // 탭 확인
+
         if (activeTab === '전체') {
             return dateFilteredPoints;
         }
-        const targetChange = activeTab === '적립' ? '+' : '-';
-        return dateFilteredPoints.filter(item => item.change === targetChange);
+        return dateFilteredPoints.filter(item => {
+            // 데이터 구조 확인
+            console.log("각 아이템의 historyInfo:", item.historyInfo);
+
+            if (activeTab === '적립') {
+                return item.historyInfo === '+' || item.historyInfo === '적립';
+            } else if (activeTab === '사용') {
+                return item.historyInfo === '-' || item.historyInfo === '사용';
+            }
+            return true;
+        });
     }, [dateFilteredPoints, activeTab]);
 
     // 포인트 요약 정보는 백엔드에서 가져온 summary 데이터를 사용
@@ -139,7 +151,7 @@ const Pointpage = () => {
 
             // 백엔드 응답 구조에 따라 데이터를 설정
             if (historyResponse.data.result === 'success') {
-                console.log("포인트 사용 내역: ",historyResponse.data);
+                console.log("포인트 사용 내역: ", historyResponse.data);
                 setPointData(historyResponse.data.apiData);
             } else {
                 console.error('포인트 내역 조회 실패:', historyResponse.data.message);

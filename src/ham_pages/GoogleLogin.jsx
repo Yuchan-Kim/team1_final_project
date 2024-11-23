@@ -30,6 +30,13 @@ const GoogleLoginComponent = () => {
                 cookiePolicy={'single_host_origin'}
                 prompt="select_account"
                 ux_mode="popup"  // popup 모드 사용
+                type="standard"         // standard, icon
+                theme="outline"         // outline, filled_blue, filled_black
+                size="large"           // medium, large
+                text="continue_with"     // signin_with, signup_with, continue_with
+                shape="rectangular"    // rectangular, pill, circle, square
+                width="300px"          // 버튼 너비
+                locale="ko"            // 한국어
             />
         </GoogleOAuthProvider>
     );

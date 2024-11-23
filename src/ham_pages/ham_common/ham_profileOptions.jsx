@@ -18,15 +18,23 @@ const ProfileOptions = ({
             console.warn('Profiles prop is not an array');
             return [];
         }
-        return profiles.filter(src => typeof src === 'string' && src.trim().length > 0);
+        // 경로 정규화: 전체 URL을 상대 경로로 변환
+        return profiles.map(src => {
+            if (src.startsWith('http')) {
+                // URL에서 상대 경로 추출
+                const urlObj = new URL(src);
+                return urlObj.pathname; // /upload/IMG_4643.jpg 형식으로 변환
+            }
+            return src;
+        }).filter(src => typeof src === 'string' && src.trim().length > 0);
     }, [profiles]);
 
     const handleProfileClick = useCallback((src) => {
         if (typeof src === 'string' && src.trim().length > 0) {
-            const relativePath = src.startsWith(apiUrl) ? src.replace(apiUrl, '') : src;
-            onSelect(relativePath);
+            // 이미 상대 경로 형태이므로 그대로 사용
+            onSelect(src);
         }
-    }, [onSelect, apiUrl]);
+    }, [onSelect]);
 
     return (
         <div className="hmk_profile-options-container">
@@ -35,10 +43,10 @@ const ProfileOptions = ({
                     safeProfiles.map((src, index) => (
                         <div key={`profile-${index}-${src}`} className="hmk_profile-option-item">
                             <img
-                                src={src.startsWith('http') ? src : `${apiUrl}${src}`}
+                                src={`${apiUrl}${src}`} // 항상 전체 URL로 변환
                                 alt={`프로필 선택 ${index + 1}`}
                                 onClick={() => handleProfileClick(src)}
-                                className={`hmk_profile-image ${selectedProfile === src.replace(apiUrl, '') ? "hmk_selected-profile" : ""}`}
+                                className={`hmk_profile-image ${selectedProfile === src ? "hmk_selected-profile" : ""}`}
                                 onError={(e) => {
                                     e.target.onerror = null;
                                     e.target.src = defaultProfile;

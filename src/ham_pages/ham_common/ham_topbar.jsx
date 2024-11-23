@@ -11,6 +11,8 @@ import ProfileOptions from './ham_profileOptions';
 import profileStore from './profileStore';
 import defaultProfile from '../../ham_asset/images/profile-fill.png';
 const Topbar = () => {
+    const apiUrl = process.env.REACT_APP_API_URL || 'http://13.125.216.39:9000';
+
     const navigate = useNavigate();
     const [suggestions, setSuggestions] = useState([]); // 자동완성 목록 상태
     const [ownedProfileImages, setOwnedProfileImages] = useState([]); // 소유한 프로필 이미지 목록 상태
@@ -66,7 +68,6 @@ const Topbar = () => {
     // 지역 변경용 자동완성 데이터 요청 함수
     const fetchRegionSuggestions = async (input) => {
         try {
-            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
             const response = await axios.get(`${apiUrl}/api/my/updateAddress`, {
                 params: { query: input }
             });
@@ -129,7 +130,6 @@ const Topbar = () => {
             return;
         }
         try {
-            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
             const response = await axios.put(`${apiUrl}/api/my/${userNum}/update-profile`, {
                 profileImage: selectedProfileImage // 상대 경로 전송
             }, {
@@ -163,7 +163,6 @@ const Topbar = () => {
             alert("사용자 번호가 설정되지 않았습니다.");
             return;
         }
-        const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
         console.log(`API 요청 시작: /api/my/${userNum}/update${type === 'nickname' ? 'Nickname' : type.charAt(0).toUpperCase() + type.slice(1)}`, type === 'address' ? newAddress : '');
         try {
             let response;
@@ -286,7 +285,6 @@ const Topbar = () => {
     };
     // profileStore 구독
     useEffect(() => {
-        const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
 
         const getProfileData = () => ({
             profileImage: profileStore.getProfileImage(),
@@ -296,32 +294,28 @@ const Topbar = () => {
             challengesSummary: profileStore.getChallengesSummary(),
             participationScore: profileStore.getChallengesSummary().participationScore
         });
-        console.log("얘 닉네임이 모야?? ",getProfileData.nickname);
+        console.log("얘 닉네임이 모야?? ", getProfileData.nickname);
 
         const handleProfileChange = (updatedProfile) => {
-            console.log("탑바가 구독한 프로필의 데이터: ", updatedProfile);
-
             const safeProfile = {
                 ...updatedProfile,
-                ownedProfileImages: Array.isArray(updatedProfile.ownedProfileImages) ? updatedProfile.ownedProfileImages : []
+                ownedProfileImages: Array.isArray(updatedProfile.ownedProfileImages)
+                    ? updatedProfile.ownedProfileImages.map(image => {
+                        if (image.startsWith('http')) {
+                            const urlObj = new URL(image);
+                            return urlObj.pathname; // 상대 경로만 저장
+                        }
+                        return image;
+                    })
+                    : []
             };
-
-            // 상대 경로를 절대 경로로 변환하여 설정
-            const ownedPfimg = safeProfile.ownedProfileImages.map(image => {
-                if (image.startsWith('http')) {
-                    return image; // 이미 절대 경로인 경우 그대로 사용
-                }
-                return `${apiUrl}${image}`; // 상대 경로인 경우 절대 경로로 변환
-            });
-
-            console.log("소유한 프로필 이미지:", ownedPfimg);
 
             setUserInfo(prev => ({
                 ...prev,
                 ...safeProfile
             }));
 
-            setOwnedProfileImages(ownedPfimg);
+            setOwnedProfileImages(safeProfile.ownedProfileImages);
         };
 
         // 초기 데이터 설정
@@ -338,9 +332,16 @@ const Topbar = () => {
 
     // Helper 함수: 절대 경로 생성
     const getFullImagePath = (path) => {
-        const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
-        return path.startsWith('http') ? path : `${apiUrl}${path}`;
+        if (!path) return defaultProfile;
+        if (path === defaultProfile) return defaultProfile;
+    
+        // 서버의 실제 경로와 일치하도록 수정
+        const correctedPath = path.startsWith('/img') ? `/upload${path}` : path;
+        return correctedPath.startsWith('/')
+            ? `${apiUrl}${correctedPath}`
+            : `${apiUrl}/${correctedPath}`;
     };
+    
 
 
 

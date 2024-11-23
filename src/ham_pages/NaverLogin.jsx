@@ -15,7 +15,7 @@ const NaverLogin = () => {
                     process.env.REACT_APP_NAVER_CLIENT_ID,
                     `${process.env.REACT_APP_NAVER_CALLBACK_URL}`  // 콜백 URL
                 );
-                naver_id_login.setButton("green", 1, 40);
+                naver_id_login.setButton("white", 1, 30);
                 naver_id_login.setDomain(process.env.REACT_APP_NAVER_BASE_URL);
                 naver_id_login.init_naver_id_login();
             }

@@ -239,7 +239,7 @@ const MyPage = () => {
                                         className="hmk_challenge-image"
                                         onError={(e) => {
                                             e.target.onerror = null;
-                                            e.target.src = '/images/default-thumbnail.gif'; // 기본 이미지 경로
+                                            e.target.src = '/upload/default-thumbnail.gif'; // 기본 이미지 경로
                                         }}
                                     />
                                     <div className="hmk_challenge-details">
