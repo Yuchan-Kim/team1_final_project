@@ -9,11 +9,12 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import '../../ham_asset/css/ham_sidebar.css'; // 사이드바 전용 CSS
+
 const ChallengeIcon = '/images/challenge.png';
 const FriendsIcon = '/images/friends.png';
 const PointsIcon = '/images/points.png';
 const InventoryIcon = '/images/inventory.png';
-import '../../ham_asset/css/ham_sidebar.css'; // 사이드바 전용 CSS
 
 const Sidebar = () => {
     return (
