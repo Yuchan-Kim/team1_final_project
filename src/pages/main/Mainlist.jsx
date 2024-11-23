@@ -8,24 +8,26 @@ import Header from '../include/DH_Header';
 
 const Mainlist = () => {
     const location = useLocation();
-    const navigate = useNavigate(); // navigate 초기화
-    const [roomList, setRoomList] = useState([]); // 검색 결과 리스트
-    const [roomType, setRoomType] = useState([]); // 방 유형
-    const [category, setCategory] = useState([]); // 카테고리
-    const [period, setPeriod] = useState([]); // 기간
-    const [regions, setRegions] = useState([]); // 지역
+    const navigate = useNavigate();
+    const [roomList, setRoomList] = useState([]);
+    const [roomType, setRoomType] = useState([]);
+    const [category, setCategory] = useState([]);
+    const [period, setPeriod] = useState([]);
+    const [regions, setRegions] = useState([]);
     const [filters, setFilters] = useState({
         roomType: [],
         category: 'all',
         period: 'all',
         region: 'all',
     });
-    const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태
 
-    const [filteredRooms, setFilteredRooms] = useState([]); // 필터링된 방 리스트
-    const [query, setQuery] = useState(''); // 검색어 상태
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filteredRooms, setFilteredRooms] = useState([]);
+    const [query, setQuery] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 12;
 
-    // URL에서 쿼리 파라미터 추출
+    // 검색어와 URL 파라미터 처리
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
         const searchQuery = queryParams.get('query') || '';
@@ -36,41 +38,41 @@ const Mainlist = () => {
         }
     }, [location.search]);
 
-    //검색어 전달 -> 페이지 이동
+    // 검색 실행
     const handleSearchKeyDown = (e) => {
         if (e.key === 'Enter') {
-            e.preventDefault(); // 기본 Enter 동작 방지 (예: 폼 제출)
-            navigate(`/mainlist?query=${searchTerm}`); // 검색어를 쿼리 파라미터로 전달하며 이동
+            e.preventDefault();
+            navigate(`/mainlist?query=${searchTerm}`);
         }
     };
 
-    // 검색 결과 가져오기
+    // 데이터 가져오기
     const fetchRoomList = (searchQuery) => {
-        axios.get('http://localhost:9000/api/roomFilter/search', { params: { query: searchQuery } })
+        axios.get(`${process.env.REACT_APP_API_URL}/api/roomFilter/search`, { params: { query: searchQuery } })
             .then((response) => {
                 if (response.data.result === 'success') {
                     setRoomList(response.data.apiData || []);
-                    setFilteredRooms(response.data.apiData || []); // 초기 필터링 결과는 검색 결과와 동일
+                    setFilteredRooms(response.data.apiData || []);
                 }
             })
             .catch((error) => console.error(error));
     };
 
-    // 필터링 데이터 가져오기
+    // 필터 데이터 가져오기
     useEffect(() => {
-        axios.get('http://localhost:9000/api/Roomtype').then((response) => {
+        axios.get(`${process.env.REACT_APP_API_URL}/api/Roomtype`).then((response) => {
             if (response.data.result === 'success') setRoomType(response.data.apiData || []);
         });
 
-        axios.get('http://localhost:9000/api/Category').then((response) => {
+        axios.get(`${process.env.REACT_APP_API_URL}/api/Category`).then((response) => {
             if (response.data.result === 'success') setCategory(response.data.apiData || []);
         });
 
-        axios.get('http://localhost:9000/api/Period').then((response) => {
+        axios.get(`${process.env.REACT_APP_API_URL}/api/Period`).then((response) => {
             if (response.data.result === 'success') setPeriod(response.data.apiData || []);
         });
 
-        axios.get('http://localhost:9000/api/Regions').then((response) => {
+        axios.get(`${process.env.REACT_APP_API_URL}/api/Regions`).then((response) => {
             if (response.data.result === 'success') setRegions(response.data.apiData || []);
         });
     }, []);
@@ -91,8 +93,14 @@ const Mainlist = () => {
         });
         setFilteredRooms(filtered);
     }, [filters, roomList]);
+    
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = filteredRooms.slice(indexOfFirstItem, indexOfLastItem);
 
-    // 필터 변경 핸들러
+    const totalPages = Math.ceil(filteredRooms.length / itemsPerPage);
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
     const handleFilterChange = (e) => {
         const { name, value } = e.target;
         setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
@@ -115,13 +123,13 @@ const Mainlist = () => {
                 <div className="jy_main" id="jy_main">
                     {/* 검색창 */}
                     <div id="search">
-                    <div>
+                        <div>
                             <SearchIcon />
                             <input
-                                placeholder="방 제목, 키워드, 카테고리, 방 유형 검색"
+                                placeholder="검색어를 입력하세요"
                                 value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)} // 검색어 상태 업데이트
-                                onKeyDown={handleSearchKeyDown} // Enter 키 감지
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                onKeyDown={handleSearchKeyDown}
                             />
                         </div>
                     </div>
@@ -184,8 +192,8 @@ const Mainlist = () => {
 
                     {/* 방 리스트 */}
                     <div id="list">
-                        {filteredRooms && filteredRooms.length > 0 ? (
-                            filteredRooms.map((room) => (
+                        {currentItems.length > 0 ? (
+                            currentItems.map((room) => (
                                 <div key={room.roomNum}>
                                     <Link to={`/cmain/${room.roomNum}`} className="list_bang">
                                         <div className="bang_level">
@@ -227,6 +235,19 @@ const Mainlist = () => {
                         ) : (
                             <div>검색 결과가 없습니다.</div>
                         )}
+                    </div>
+
+                    {/* 페이지네이션 */}
+                    <div id="pagination">
+                        {Array.from({ length: totalPages }, (_, index) => (
+                            <button
+                                key={index + 1}
+                                onClick={() => paginate(index + 1)}
+                                className={index + 1 === currentPage ? 'active' : ''}
+                            >
+                                {index + 1}
+                            </button>
+                        ))}
                     </div>
                 </div>
             </div>

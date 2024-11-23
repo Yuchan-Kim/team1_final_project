@@ -165,7 +165,7 @@ const Main = () => {
     const handleCategoryChange = (category) => {
         axios({
             method: 'get',
-            url: `http://localhost:9000/api/roomFilter/category`,
+            url: `${process.env.REACT_APP_API_URL}/api/roomFilter/category`,
             params: { category }, // 카테고리를 쿼리 파라미터로 전달
             responseType: 'json',
         })
@@ -186,7 +186,7 @@ const Main = () => {
        
         axios({
           method: 'get',
-          url: `http://localhost:9000/api/roomList`,
+          url: `${process.env.REACT_APP_API_URL}/api/roomList`,
 
           responseType: 'json'
         }).then(response => {
