@@ -131,8 +131,8 @@ const MyPage = () => {
     };
 
     // 챌린지 카드 클릭 핸들러
-    const handleCardClick = () => {
-        navigate('/cmain');
+    const handleCardClick = (roomNum) => {
+        navigate(`/cmain/${roomNum}`);
     };
 
     if (loading) {
@@ -230,9 +230,9 @@ const MyPage = () => {
                                     <div
                                         key={challengeKey}
                                         className="hmk_challenge-card"
-                                        onClick={handleCardClick}
+                                        onClick={() => handleCardClick(challenge.roomNum)} // 여기를 수정
                                         onKeyDown={(e) => {
-                                            if (e.key === 'Enter') handleCardClick();
+                                            if (e.key === 'Enter') handleCardClick(challenge.roomNum); // 여기도 수정
                                         }}
                                         tabIndex="0"
                                         role="button"
