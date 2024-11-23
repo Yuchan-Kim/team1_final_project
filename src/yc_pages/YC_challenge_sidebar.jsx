@@ -7,17 +7,9 @@ import Modal from 'react-modal';
 
 import '../yc_assets/yc_css/yc_css_challenge_sidebar.css';
 
-import YCStep02 from '../yc_pages/YC_Step02';
-import YCStep03 from '../yc_pages/YC_Step03';
-import YCStep04 from '../yc_pages/YC_Step04';
-import YCStep05 from '../yc_pages/YC_Step05';
-import YCStep06 from '../yc_pages/YC_Step06';
-import YCStep07 from '../yc_pages/YC_Step07';
-import YCStep10 from '../yc_pages/YC_Step10';
 
 import { FaHome, FaBullhorn, FaTasks, FaUpload, FaUserFriends, FaCogs } from 'react-icons/fa';
 
-import { YCStepNav } from '../yc_pages/YC_StepNav.jsx';
 
 Modal.setAppElement('#root');
 
@@ -116,32 +108,7 @@ const YCChallengeSidebar = () => {
         setCurrentStep(step);
     };
 
-    const renderStep = () => {
-        switch (currentStep) {
-            case 2:
-                return <YCStep02 onSave={handleStep10Save} onPrevious={handleStep10Discard} />;
-            case 3:
-                return <YCStep03 onSave={handleStep10Save} onPrevious={handleStep10Discard} />;
-            case 4:
-                return <YCStep04 onSave={handleStep10Save} onPrevious={handleStep10Discard} />;
-            case 5:
-                return <YCStep05 onSave={handleStep10Save} onPrevious={handleStep10Discard} />;
-            case 6:
-                return <YCStep06 onSave={handleStep10Save} onPrevious={handleStep10Discard} />;
-            case 7:
-                return <YCStep07 onSave={handleStep10Save} onPrevious={handleStep10Discard} />;
-            case 10:
-                return (
-                    <YCStep10
-                        onCancel={handleStep10Cancel}
-                        onDiscard={handleStep10Discard}
-                        onSave={handleStep10Save}
-                    />
-                );
-            default:
-                return null;
-        }
-    };
+    
 
     // 특정 링크 클릭 시 이벤트 핸들러
     const handleLinkClick = (e) => {
@@ -299,10 +266,7 @@ const closeExitModal = () => {
                 className="custom-modal"
                 overlayClassName="custom-overlay"
             >
-                <div className="modal-content">
-                    <YCStepNav currentStep={currentStep} onStepChange={handleStepChange} />
-                    {renderStep()}
-                </div>
+                
             </Modal>
 
             <Modal
