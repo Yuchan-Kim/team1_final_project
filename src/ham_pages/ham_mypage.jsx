@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import Header from '../pages/include/DH_Header';
+import Footer from '../pages/include/JM-Footer';
 import Sidebar from './ham_common/ham_sidebar';
 import Topbar from './ham_common/ham_topbar';
 import ChartComponent from './ham_common/ham_ChartComponent';
@@ -239,7 +240,7 @@ const MyPage = () => {
                                     >
                                         <img
                                             src={imgError[challengeKey]
-                                                ? '/images/default-thumbnail.gif'
+                                                ? '/images/challenge1.png'
                                                 : `${process.env.REACT_APP_API_URL}${challenge.roomThumbNail}`
                                             }
                                             alt={`챌린지 ${challenge.roomTitle}`}
@@ -250,7 +251,7 @@ const MyPage = () => {
                                                         ...prev,
                                                         [challengeKey]: true
                                                     }));
-                                                    e.target.src = '/images/default-thumbnail.gif';
+                                                    e.target.src = '/images/challenge1.png';
                                                 }
                                             }}
                                         />
@@ -269,6 +270,7 @@ const MyPage = () => {
                     </div>
                 </div>
             </div>
+            <Footer />
         </>
     );
 };

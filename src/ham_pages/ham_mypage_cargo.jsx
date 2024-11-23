@@ -5,6 +5,7 @@ import axios from 'axios';
 
 // Header, Sidebar, Topbar, Modal 컴포넌트 import
 import Header from '../pages/include/DH_Header';
+import Footer from '../pages/include/JM-Footer';
 import Sidebar from './ham_common/ham_sidebar';
 import Topbar from './ham_common/ham_topbar';
 import Modal from './ham_common/ham_modal';
@@ -201,6 +202,7 @@ const Cargo = () => {
                     )}
                 </Modal>
             </div>
+            <Footer/>
         </>
     );
 

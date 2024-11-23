@@ -12,7 +12,6 @@
     border-radius: 8px; /* 모서리 둥글게 */
     position: fixed; /* 고정 위치 */
     top: 150;
-    height: 100vh; /* 전체 화면 높이 */
     overflow: auto; /* 내용이 넘칠 경우 스크롤 */
     transition: top 0.3s ease; /* 부드러운 이동 효과 */
     z-index: 1100;

@@ -1,6 +1,7 @@
 // src/ham_pages/ham_mypage_ranking.jsx
 import React, { useEffect } from 'react';
 import Header from '../pages/include/DH_Header';
+import Footer from '../pages/include/JM-Footer';
 import '../ham_asset/css/ham_mypage_ranking.css';
 
 const grl = '/images/rank_girl-runtoleft.gif';
@@ -173,6 +174,7 @@ const Rank = () => {
                     </div>
                 </div>
             </div>
+            <Footer/>
         </>
     );
 };

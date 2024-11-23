@@ -8,6 +8,7 @@ import { format } from 'date-fns'; // 날짜 포맷팅 함수 import
 
 // Header, Sidebar, Topbar 컴포넌트 import
 import Header from '../pages/include/DH_Header';
+import Footer from '../pages/include/JM-Footer';
 import Sidebar from './ham_common/ham_sidebar';
 import Topbar from './ham_common/ham_topbar';
 import profileStore from './ham_common/profileStore'; // profileStore 임포트
@@ -79,7 +80,7 @@ const Pointpage = () => {
             return dateFilteredPoints;
         }
         const targetChange = activeTab === '적립' ? '+' : '-';
-        return dateFilteredPoints.filter(item => item.change === targetChange);
+        return dateFilteredPoints.filter(item => item.historyInfo === targetChange);
     }, [dateFilteredPoints, activeTab]);
 
     // 포인트 요약 정보는 백엔드에서 가져온 summary 데이터를 사용
@@ -307,6 +308,7 @@ const Pointpage = () => {
                     </div>
                 </div>
             </div>
+            <Footer />
         </>
     );
 };
