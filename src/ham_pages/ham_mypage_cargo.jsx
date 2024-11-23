@@ -21,8 +21,9 @@ const Cargo = () => {
 
     // 기프티콘 상세 모달을 여는 함수
     const openDetailModal = (gift) => {
-        setSelectedGift(gift); // 선택된 기프티콘 정보를 state에 저장
-        setModalDetailState(true); // 상세 모달 열림
+        console.log('선택된 기프티콘 정보:', gift); // 디버깅용 로그
+        setSelectedGift(gift);
+        setModalDetailState(true);
     };
 
     // 기프티콘 상세 모달을 닫는 함수
@@ -37,6 +38,14 @@ const Cargo = () => {
     // 탭 전환 함수
     const handleTabClick = (tab) => {
         setActiveTab(tab);
+    };
+
+    // 사용 가능/완료 기프티콘 개수를 계산하는 함수
+    const getCounts = (gifts) => {
+        return {
+            available: gifts.filter(gift => gift.purchasedStatus === '사용가능').length,
+            completed: gifts.filter(gift => gift.purchasedStatus === '사용완료').length
+        };
     };
 
     // **기프티콘 데이터 상태 추가**
@@ -93,12 +102,28 @@ const Cargo = () => {
         };
     }, []);
 
+    // 이미지 경로 처리 헬퍼 함수 추가
+    const getGiftImagePath = (imagePath) => {
+        if (!imagePath) return '/images/gift-default.png'; // 기본 이미지 경로
+        if (imagePath.startsWith('http')) {
+            // http로 시작하는 경로를 /images 경로로 변환
+            const imageName = imagePath.split('/').pop();
+            return `/images/${imageName}`;
+        }
+        // /로 시작하지 않는 경우 /images/ 추가
+        if (!imagePath.startsWith('/')) {
+            return `/images/${imagePath}`;
+        }
+        // /로 시작하는 경우 /images 추가
+        return `/images${imagePath}`;
+    };
+
     // **기프티콘 데이터 필터링**
     const filteredGifts = giftCards.filter(gift => {
         if (activeTab === 'available') {
-            return !gift.isUsed;
+            return gift.purchasedStatus !== '사용완료';
         } else if (activeTab === 'completed') {
-            return gift.isUsed;
+            return gift.purchasedStatus === '사용완료';
         }
         return true;
     });
@@ -106,32 +131,80 @@ const Cargo = () => {
     // **GiftCard 컴포넌트 정의**
     const GiftCard = ({ gift, onClick }) => {
         return (
-            <div
-                className="hmk_gift-card"
-                onClick={() => onClick(gift)}
-                role="button"
-                tabIndex={0}
-                onKeyPress={(e) => { if (e.key === 'Enter') onClick(gift); }}
-            >
+            <div className="hmk_gift-card" tabIndex={0}>
                 <div className="hmk_gift-image_frame">
-                    {/* 기프티콘 이미지 표시 */}
-                    <img src={gift.image} alt={gift.name} className="hmk_gift-image" />
+                    <img
+                        src={getGiftImagePath(gift.image)}
+                        alt={gift.name}
+                        className="hmk_gift-image"
+                        onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = '/images/gift-default.png';
+                        }}
+                    />
+                    {/* 버튼을 이미지 프레임 안으로 이동 */}
+                    <button
+                        className="hmk_gift-name-button"
+                        onClick={() => onClick(gift)}
+                    >
+                        {gift.name}
+                    </button>
+                    <div className="hmk_gift-overlay"></div>
                 </div>
-                {/* 기프티콘 이름 버튼 (클릭 시 상세 모달 열림) */}
-                <button
-                    className="hmk_gift-name-button"
-                    onClick={(e) => { e.stopPropagation(); onClick(gift); }}
-                >
-                    {gift.name}
-                </button>
             </div>
         );
     };
 
+    // 기프티콘 사용 처리 함수
+    const handleUseGiftcard = async (selectedGift) => {
+        if (!selectedGift || !selectedGift.purchaseNum) {
+            alert('기프티콘 정보가 올바르지 않습니다.');
+            return;
+        }
+
+        try {
+            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
+            const response = await axios.put(
+                `${apiUrl}/api/my/giftcards/use/${selectedGift.purchaseNum}`,
+                {},
+                {
+                    headers: {
+                        'Authorization': `Bearer ${profileStore.getToken()}`
+                    }
+                }
+            );
+
+            if (response.data.result === 'success') {
+                // 기프티콘 목록 업데이트
+                setGiftCards(prevGiftCards =>
+                    prevGiftCards.map(gift =>
+                        gift.purchaseNum === selectedGift.purchaseNum
+                            ? { ...gift, purchasedStatus: '사용완료', isUsed: true }
+                            : gift
+                    )
+                );
+
+                closeDetailModal();
+                alert('기프티콘이 사용 처리되었습니다.');
+
+                if (activeTab === 'available') {
+                    setActiveTab('completed');
+                }
+            } else {
+                alert(response.data.message || '기프티콘 사용 처리에 실패했습니다.');
+            }
+        } catch (error) {
+            console.error('기프티콘 사용 처리 중 오류 발생:', error);
+            alert('기프티콘 사용 처리 중 오류가 발생했습니다.');
+        }
+    };
+
+
+
     return (
         <>
             {/* Header 컴포넌트 */}
-            <Header/>
+            <Header />
             <div className="wrap ham_wrap">
 
                 {/* 메인 컨테이너 */}
@@ -155,14 +228,14 @@ const Cargo = () => {
                                     onClick={() => handleTabClick('available')}
                                     aria-label="사용 가능 기프티콘 탭"
                                 >
-                                    사용 가능 ({giftCards.filter(gift => !gift.isUsed).length})
+                                    사용 가능 ({getCounts(giftCards).available})
                                 </button>
                                 <button
                                     className={`hmk_cargo-tab-button ${activeTab === 'completed' ? 'hmk_active-tab' : ''}`}
                                     onClick={() => handleTabClick('completed')}
                                     aria-label="사용 완료 기프티콘 탭"
                                 >
-                                    사용 완료 ({giftCards.filter(gift => gift.isUsed).length})
+                                    사용 완료 ({getCounts(giftCards).completed})
                                 </button>
                             </div>
 
@@ -188,21 +261,45 @@ const Cargo = () => {
                 <Modal type="cargo_detail" isOpen={modalDetailState} onClose={closeDetailModal}>
                     {selectedGift && (
                         <>
-                            {/* 선택된 기프티콘의 이름 표시 */}
                             <h2 className="hmk_cargo_detail-content">{selectedGift.name}</h2>
-                            {/* 선택된 기프티콘의 이미지 표시 */}
-                            <img src={selectedGift.image} alt={selectedGift.name} className="hmk_cargo_detail-image" />
-                            {/* 기프티콘 상세 설명 */}
-                            <p className="hmk_cargo_detail-content">{selectedGift.description || "상세 설명이 여기에 표시됩니다."}</p>
+                            <img
+                                src={getGiftImagePath(selectedGift.image)}
+                                alt={selectedGift.name}
+                                className="hmk_cargo_detail-image"
+                            />
+                            <p className="hmk_cargo_detail-content">
+                                {selectedGift.description || "상세 설명이 여기에 표시됩니다."}
+                            </p>
                             <div className="hmk_cargo_detail-actions">
-                                {/* 상세 모달 닫기 버튼 */}
-                                <button className="hmk_cargo_btnmodal" onClick={closeDetailModal}>확인</button>
+                                {selectedGift.purchasedStatus === '사용가능' ? (
+                                    <>
+                                        <button
+                                            className="hmk_cargo_btnmodal"
+                                            onClick={() => handleUseGiftcard(selectedGift)}
+                                        >
+                                            사용하기
+                                        </button>
+                                        <button
+                                            className="hmk_cargo_btnmodal"
+                                            onClick={closeDetailModal}
+                                        >
+                                            취소
+                                        </button>
+                                    </>
+                                ) : (
+                                    <button
+                                        className="hmk_cargo_btnmodal"
+                                        onClick={closeDetailModal}
+                                    >
+                                        확인
+                                    </button>
+                                )}
                             </div>
                         </>
                     )}
                 </Modal>
             </div>
-            <Footer/>
+            <Footer />
         </>
     );
 

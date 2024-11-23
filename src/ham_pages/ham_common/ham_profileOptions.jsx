@@ -34,43 +34,47 @@ const ProfileOptions = ({
 
     return (
         <div className="hmk_profile-options-container">
-            <div className="hmk_profile-options">
-                {safeProfiles.length > 0 ? (
-                    safeProfiles.map((src, index) => (
-                        <div key={`profile-${index}-${src}`} className="hmk_profile-option-item">
-                            <img
-                                src={src}
-                                alt={`프로필 선택 ${index + 1}`}
-                                onClick={() => handleProfileClick(src)}
-                                className={`hmk_profile-image ${selectedProfile === src.replace('/images', '') ? "hmk_selected-profile" : ""}`}
-                                onError={(e) => {
-                                    e.target.onerror = null;
-                                    e.target.src = defaultProfile;
-                                }}
-                            />
+            <div className="hmk_profile-scroll-area"> {/* 새로운 div 추가 */}
+                <div className="hmk_profile-options">
+                    {safeProfiles.length > 0 ? (
+                        safeProfiles.map((src, index) => (
+                            <div key={`profile-${index}-${src}`} className="hmk_profile-option-item">
+                                <img
+                                    src={src}
+                                    alt={`프로필 선택 ${index + 1}`}
+                                    onClick={() => handleProfileClick(src)}
+                                    className={`hmk_profile-image ${selectedProfile === src.replace('/images', '') ? "hmk_selected-profile" : ""}`}
+                                    onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = defaultProfile;
+                                    }}
+                                />
+                            </div>
+                        ))
+                    ) : (
+                        <div className="hmk_profile-option-item">
+                            <p>구매한 프로필 이미지가 없습니다. 상점에서 새로운 프로필 이미지를 구매하세요.</p>
+                            <img src={defaultProfile} alt="기본 프로필" className="hmk_profile-image" />
                         </div>
-                    ))
-                ) : (
-                    <div className="hmk_profile-option-item">
-                        <p>구매한 프로필 이미지가 없습니다. 상점에서 새로운 프로필 이미지를 구매하세요.</p>
-                        <img src={defaultProfile} alt="기본 프로필" className="hmk_profile-image" />
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
-            <div className="hmk_profile-actions">
-                <button
-                    onClick={onConfirm}
-                    className="hmk_modal-confirm-button"
-                    disabled={!selectedProfile}
-                >
-                    확인
-                </button>
-                <button
-                    onClick={onCancel}
-                    className="hmk_modal-cancel-button"
-                >
-                    취소
-                </button>
+            <div className="hmk_profile-options_btn">
+                <div className="hmk_profile-actions">
+                    <button
+                        onClick={onConfirm}
+                        className="hmk_modal-confirm-button"
+                        disabled={!selectedProfile}
+                    >
+                        확인
+                    </button>
+                    <button
+                        onClick={onCancel}
+                        className="hmk_modal-cancel-button"
+                    >
+                        취소
+                    </button>
+                </div>
             </div>
         </div>
     );

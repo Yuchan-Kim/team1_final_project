@@ -161,19 +161,22 @@
 
 /* 프로필 선택 컨테이너 스타일 */
 .hmk_profile-options-container {
-    width: 100%;
+    /* width: 100%;
     max-height: max-content;
     display: grid;
     align-items: center;
     overflow-x: scroll;
     scroll-behavior: smooth;
-    scrollbar-width: none;
+    scrollbar-width: none; */
+    display: flex;
+    flex-direction: column;
+    height: 400px; /* 전체 컨테이너 높이 설정 */
 }
 
 /* 프로필 선택 이미지 리스트 스타일 */
 .hmk_profile-options-container .hmk_profile-options {
     display: flex;
-    gap: 15px;
+    gap: 13px;
     padding: 10px;
     /* 패딩 추가하여 이미지가 잘리지 않도록 함 */
     /* 추가적인 스타일 */
@@ -215,7 +218,70 @@
     box-shadow: 0 0 8px rgba(58, 122, 254, 0.6);
     /* 선택 시 그림자 추가 */
 }
+.hmk_profile-options-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;  /* 컨테이너 높이 설정 */
+    max-height: 500px;  /* 최대 높이 설정 */
+}
 
+.hmk_profile-scroll-area {
+    flex: 1;
+    overflow: hidden;  /* 스크롤 영역 제한 */
+    margin-bottom: 20px;  /* 버튼과의 간격 */
+}
+
+.hmk_profile-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 20px;
+    height: 100%;
+    overflow-x: auto;
+    overflow-y: hidden; /* 세로 스크롤 비활성화 */
+    scrollbar-width: thin;
+    -ms-overflow-style: none; /* IE 및 Edge용 스크롤바 숨김 */
+}
+
+/* Chrome용 스크롤바 스타일링 */
+.hmk_profile-options::-webkit-scrollbar {
+    height: 8px;
+}
+
+.hmk_profile-options::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.hmk_profile-options::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.hmk_profile-options::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+/* 버튼 영역 고정 */
+.hmk_profile-options_btn {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    padding: 15px 0;
+    border-top: 1px solid #eee;
+}
+
+.hmk_profile-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* 프로필 이미지 아이템 스타일 */
+.hmk_profile-option-item {
+    flex: 0 0 auto; /* 이미지가 축소되지 않도록 설정 */
+}
 /* src/ham_pages/ham_common/ham_modal.jsx */
 
 /* 모달 버튼 바 설정 */
