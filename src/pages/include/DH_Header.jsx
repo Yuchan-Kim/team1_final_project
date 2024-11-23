@@ -1,5 +1,5 @@
 //import 라이브러리
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -18,7 +18,7 @@ const DH_Header = () => {
 
 	/*---일반 변수 --------------------------------------------*/
 	const [token, setToken] = useState(localStorage.getItem('token'));  // token 가져오는방법으로 초기값잡아주기
-    const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem('authUser')));
+	const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem('authUser')));
 
 	const [historyPoint, setHistoryPoint] = useState(0);
 
@@ -26,60 +26,68 @@ const DH_Header = () => {
 	// Helper 함수 추가 -- 프로필 변경 시 헤더에도 적용되게 하는 것을 도와주는 함수
 	const getFullImagePath = (path) => {
 		if (!path) return defaultProfile;
-		// 이미 /images로 시작하면 그대로 반환
+
+		// 이미 완전한 경로를 가진 경우
+		if (path.startsWith('http')) {
+			const imageName = path.split('/').pop();
+			return `/images/${imageName}`;
+		}
+
+		// img 폴더 내의 이미지인 경우 (/img/item3.jpg)
+		if (path.includes('img/')) {
+			return path; // 그대로 사용 (public 폴더 기준)
+		}
+
+		// images 폴더 내의 이미지인 경우
 		if (path.startsWith('/images')) {
 			return path;
 		}
-		// http로 시작하는 경로를 /images 경로로 변환
-		if (path.startsWith('http')) {
-			const imageName = path.split('/').pop(); // item2.jpg 추출
-			return `/images/${imageName}`;
-		}
-		// /item1.jpg 형식이면 /images 추가
+
+		// 단순 파일명만 있는 경우 (/item1.jpg)
 		if (path.startsWith('/')) {
 			return `/images${path}`;
 		}
-		// 그 외의 경우 /images/ 추가
+
 		return `/images/${path}`;
 	};
 
 	const [profile, setProfile] = useState({
-        nickname: profileStore.getNickname(),
-        profileImage: profileStore.getProfileImage(),
-        challengesSummary: profileStore.getChallengesSummary(),
-        ownedProfileImages: profileStore.getOwnedProfileImages(),
-        region: profileStore.getRegion(),
-        userNum: profileStore.getUserNum(),
-        challengesDetails: profileStore.getChallengesDetails(),
-    });
-   // ProfileStore 구독
-    useEffect(() => {
-        const handleProfileChange = (updatedProfile) => {
-            console.log("ProfileStore updated:", updatedProfile);
-            setProfile(updatedProfile);
-        };
-        profileStore.subscribe(handleProfileChange);
-        // 초기 구독자 호출
-        handleProfileChange({
-            nickname: profileStore.getNickname(),
-            profileImage: profileStore.getProfileImage(),
-            challengesSummary: profileStore.getChallengesSummary(),
-            ownedProfileImages: profileStore.getOwnedProfileImages(),
-            region: profileStore.getRegion(),
-            userNum: profileStore.getUserNum(),
-            challengesDetails: profileStore.getChallengesDetails(),
-        });
-        return () => {
-            profileStore.unsubscribe(handleProfileChange);
-        };
-    }, []);
+		nickname: profileStore.getNickname(),
+		profileImage: profileStore.getProfileImage(),
+		challengesSummary: profileStore.getChallengesSummary(),
+		ownedProfileImages: profileStore.getOwnedProfileImages(),
+		region: profileStore.getRegion(),
+		userNum: profileStore.getUserNum(),
+		challengesDetails: profileStore.getChallengesDetails(),
+	});
+	// ProfileStore 구독
+	useEffect(() => {
+		const handleProfileChange = (updatedProfile) => {
+			console.log("ProfileStore updated:", updatedProfile);
+			setProfile(updatedProfile);
+		};
+		profileStore.subscribe(handleProfileChange);
+		// 초기 구독자 호출
+		handleProfileChange({
+			nickname: profileStore.getNickname(),
+			profileImage: profileStore.getProfileImage(),
+			challengesSummary: profileStore.getChallengesSummary(),
+			ownedProfileImages: profileStore.getOwnedProfileImages(),
+			region: profileStore.getRegion(),
+			userNum: profileStore.getUserNum(),
+			challengesDetails: profileStore.getChallengesDetails(),
+		});
+		return () => {
+			profileStore.unsubscribe(handleProfileChange);
+		};
+	}, []);
 
-    // 로그인 시 ProfileStore에 토큰 전달
-    useEffect(() => {
-        profileStore.setToken(token);
-    }, [token]);
+	// 로그인 시 ProfileStore에 토큰 전달
+	useEffect(() => {
+		profileStore.setToken(token);
+	}, [token]);
 
-   // --------------------------------< /민규 Tobbar용 사용 >----------------------------------------------------------------------------------------------------
+	// --------------------------------< /민규 Tobbar용 사용 >----------------------------------------------------------------------------------------------------
 
 	const navigate = useNavigate();
 
@@ -90,8 +98,8 @@ const DH_Header = () => {
 	/*---일반 메소드 -----------------------------------------*/
 
 	/*---생명주기 + 이벤트 관련 메소드 ----------------------*/
-    // 유저 포인트
-    const getUserPoints = () => {
+	// 유저 포인트
+	const getUserPoints = () => {
 		if (!token || !authUser) return;
 
 		// JWT 토큰 만료 확인
@@ -113,33 +121,33 @@ const DH_Header = () => {
 			alert("일정시간이 지나 로그아웃 됐습니다. 다시 로그인하고 이용해주세요.");
 			return;
 		}
-	
+
 		axios({
 			method: 'get', // HTTP 메서드 설정 (GET 요청)
 			url: `${process.env.REACT_APP_API_URL}/api/user/points`, // API URL
-			params: { userNum: authUser.userNum }, 
+			params: { userNum: authUser.userNum },
 			headers: { "Authorization": `Bearer ${token}` },
 			responseType: 'json' // 서버 응답 형식
 		})
-		.then(response => {
-			// 응답이 성공적일 경우
-			if (response.data.result === "success") {
-				setHistoryPoint(response.data.apiData); // 포인트 정보 저장
-			}else {
-				console.error("포인트 조회 실패");
-			}
-		})
-		.catch(error => {
-			// 오류 발생 시 처리
-			console.error('Error fetching user points:', error);
-		});
+			.then(response => {
+				// 응답이 성공적일 경우
+				if (response.data.result === "success") {
+					setHistoryPoint(response.data.apiData); // 포인트 정보 저장
+				} else {
+					console.error("포인트 조회 실패");
+				}
+			})
+			.catch(error => {
+				// 오류 발생 시 처리
+				console.error('Error fetching user points:', error);
+			});
 	};
 
-    useEffect(() => {
-        if (token && authUser) {
-            getUserPoints();  // 로그인 상태일 때 포인트 정보 가져오기
-        }
-    }, [token, authUser]);
+	useEffect(() => {
+		if (token && authUser) {
+			getUserPoints();  // 로그인 상태일 때 포인트 정보 가져오기
+		}
+	}, [token, authUser]);
 
 	const handleLogout = async () => {
 		//------------------------------------------ < 네이버 로그아웃 >-----------------------------------------
@@ -175,14 +183,14 @@ const DH_Header = () => {
 		// --------------------------------< 민규 Tobbar용 사용 >--------------------------------
 		profileStore.setToken(null); // ProfileStore에 토큰 제거를 요청하여 모든 사용자 정보를 초기화합니다.
 		// --------------------------------< /민규 Tobbar용 사용 >--------------------------------
-        setToken(null);
-        setAuthUser(null);
-		navigate("/user/loginform");  
-    };
+		setToken(null);
+		setAuthUser(null);
+		navigate("/user/loginform");
+	};
 
 
-    return (
-        <>
+	return (
+		<>
 			<header className="dy-header">
 				<div className="dy-header-content">
 					<div className="dy-logo">
@@ -191,7 +199,7 @@ const DH_Header = () => {
 								<li>DONKEY:동기 키우기</li>
 							</ol>
 						</Link>
-					</div>   
+					</div>
 					{/* /dy-logo */}
 
 					<div className="dy-menu">
@@ -213,7 +221,7 @@ const DH_Header = () => {
 									<li><Link to="/user/joinform" className="dy-link" rel="noreferrer noopener">가입하기</Link></li>
 								</ol>
 							</>
-						):(
+						) : (
 							<>
 								<div className="dy-afterlogin">
 									<Link to="/my/mypage">
@@ -245,8 +253,8 @@ const DH_Header = () => {
 				</div>
 				{/* /dy-header-content */}
 			</header>
-        </>
-    );
+		</>
+	);
 }
 
 export default DH_Header;
