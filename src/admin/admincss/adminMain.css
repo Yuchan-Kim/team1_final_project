@@ -1,0 +1,260 @@
+/* clearfix */
+#contents .clearfix{*zoom:1;}
+#contents .clearfix:before, .clearfix:after {display: block; content: ""; line-height: 0;}
+#contents .clearfix:after {clear: both;}
+
+/* #admin_main 레이아웃 */
+#admin_main {
+    margin: 20px auto;
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+    margin-bottom: 100px;
+}
+
+/* aside 메뉴 */
+#admin_main #asides {
+    float: left;
+    width: 17%;
+    margin-left: 2%;
+}
+
+#admin_main #asides h2 {
+    font-size: 20px;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+#admin_main #asides a {
+    text-decoration: none;
+}
+
+#admin_main #asides a:link {
+    color: #333; 
+}
+
+#admin_main #asides a:visited {
+    color: #333; 
+}
+
+#admin_main #asides #sub_list ul {
+    padding-inline-start: 0;
+    margin: 0;
+}
+
+#admin_main #asides #sub_list ul>li {
+    padding-bottom: 10px;
+    font-size: 15px;
+    list-style-type: none; 
+}
+
+#admin_main #asides #sub_list ul>li a {
+    color: #aeaeae;
+    text-decoration: none;
+}
+
+#admin_main #asides #sub_list ul>li a:hover {
+    font-weight: bold;
+    color: #1594EB;
+}
+
+/* 스토어 */
+#admin_main .hjy-section {
+    grid-column: 1 / -1;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-height: 380px; /* 3개의 카드만 보이도록 높이 제한 */
+    overflow: hidden; /* 넘치는 부분 숨김 */
+}
+
+#admin_main .hjy-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#admin_main .hjy-header a:link {
+    color: #333;
+    text-decoration: none; 
+}
+
+#admin_main .hjy-header a:visited {
+    color: #333;
+}
+
+/* Grid 레이아웃 사용하여 상품 카드 정렬 */
+#admin_main .hjy-brief {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(3, 1fr); /* 3개의 컬럼 고정 */
+    grid-auto-rows: auto; /* 자동 높이 설정 */
+}
+
+#admin_main .hjy-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    transition: box-shadow 0.3s ease;
+}
+
+#admin_main .hjy-card:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+#admin_main .hjy-cards {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 10px 0px 0px 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    transition: box-shadow 0.3s ease;
+}
+
+#admin_main .hjy-cards:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#admin_main .hjy-cards img {
+    max-width: 220px;
+    max-height: 600px;
+    height: auto;
+    border-radius: 10px;
+}
+
+#admin_main .hjy-detail p {
+    margin: 5px 0;
+    font-size: 17px;
+    color: #666;
+}
+
+#admin_main .hjy-brief a:link {
+    text-decoration: none;
+    color: #666;
+}
+
+#admin_main .hjy-brief a:visited {
+    color: #666;
+}
+
+#admin_main .hjy-price {
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+#admin_main .hjy-purchase-type {
+    color: green;
+}
+
+/* 반응형 조정 */
+#admin_main @media (max-width: 768px) {
+    .favorite-products {
+        grid-template-columns: repeat(2, 1fr); /* 화면이 좁아지면 2개의 컬럼 */
+    }
+}
+
+
+#admin_main .hjy-list-section {
+    margin-top: 20px;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    max-height: 380px; /* Same as .section */
+    overflow: hidden; /* Consistent with .section */
+}
+
+/* Ensure .list-header aligns with .header */
+#admin_main .hjy-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px; /* Make this consistent with .header */
+}
+
+#admin_main .hjy-list-header a:link {
+    text-decoration: none;
+    color: #333;
+}
+
+#admin_main .hjy-list-header a:visited {
+    text-decoration: none;
+    color: #333;
+}
+
+
+#admin_main .hjy-list-status {
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+   background-color: #f7f7f7;
+   padding: 10px;
+   border-radius: 5px;
+   color: #555;
+}
+
+#admin_main .hjy-list-status p {
+   margin: 0;
+   font-size: 14px;
+}
+
+#admin_main .hjy-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* Creates two equal columns */
+    gap: 20px; /* Gap between the two sections */
+}
+
+#admin_main .hjy-card {
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Arrange items in a column */
+    justify-content: center; /* Center items vertically */
+    align-items: center; /* Center items horizontally */
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    transition: box-shadow 0.3s ease;
+}
+
+#admin_main .hjy-card img {
+    max-width: 250px;
+    max-height: 600px;
+    margin-bottom: 10px; /* Add some space between the image and the details */
+    padding-top: 10px; /* Add padding only to the top */
+}
+
+#admin_main .hjy-detail {
+    text-align: center; /* Center text within the hjy-detail */
+}
+
+#sotre_Img {
+    width: 200px; /* Set the desired width */
+    height: 230px; /* Set the desired height */
+    object-fit: cover; /* Ensures the image covers the area while maintaining aspect ratio */
+    border-radius: 8px; /* Optional: add rounded corners for styling */
+}
+
+#admin_main .hjy-sections {
+    grid-column: 1 / -1;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-height: 420px; /* 3개의 카드만 보이도록 높이 제한 */
+    overflow: hidden; /* 넘치는 부분 숨김 */
+}

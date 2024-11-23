@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import YCChallengeStatistics from './yc_pages/YC_challenge_statistics';
 import YcChallengeBoard from './yc_pages/YC_challenge_board';
+import AdminMain from './admin/adminpages/AdminMain.jsx';
 
 
 import MissionInfo from './pages/challenge/Missioninfo.jsx';
@@ -42,6 +43,7 @@ function App() {
     <BrowserRouter> 
         <Routes>
 
+          <Route path='/admin/main' element={<AdminMain/>} />
           <Route path='/stat/:roomNum' element={<YCChallengeStatistics/>} />
           <Route path='/board/:roomNum' element={<YcChallengeBoard/>} />
           <Route path='/mission/:roomNum' element={<Mission />} />

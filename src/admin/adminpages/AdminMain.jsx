@@ -3,10 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';  // useNavigate 추가
 import axios from 'axios';
 
 // css
-import '../css/reset.css';
-import '../css/adminMain.css';
-import Header from '../include/Header'; 
-import Footer from '../include/Footer';
+import '../../css/reset.css';
+import '../admincss/adminMain.css';
+
 
 const AdminMain = () => {
     /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
@@ -31,67 +30,7 @@ const AdminMain = () => {
     }, [authUser, navigate]);
 
     /*---일반 메소드 -----------------------------*/
-    const getStoreList = () => {
-        axios({
-            method: 'get', 
-            url: `${process.env.REACT_APP_API_URL}/api/admin/store`,
-            responseType: 'json'
-        }).then(response => {
-            const limitedData = response.data.apiData.slice(-3);
-            setStoreList(limitedData);
-        }).catch(error => {
-            console.log(error);
-        });
-    };
-
-    const getProductList = () => {
-        axios({
-            method: 'get', 
-            url: `${process.env.REACT_APP_API_URL}/api/productList3`,
-            responseType: 'json'
-        }).then(response => {
-           // const limitedData = response.data.apiData.slice(-3);
-            setProductList(response.data.apiData);
-        }).catch(error => {
-            console.log(error);
-        });
-    };
-
-    const getHistoryListData = () => {
-        axios({
-            method: 'get', 
-            url: `${process.env.REACT_APP_API_URL}/api/admin/history`,
-            responseType: 'json'
-        }).then(response => {
-            const count = response.data.apiData.length;
-            setHistoryCount(count);
-
-            const sum = response.data.apiData.reduce((acc, item) => acc + item.totalPrice, 0);
-            setTotalPriceSum(sum);
-        }).catch(error => {
-            console.log(error);
-        });
-    };
-
-    const getDelilverListData = () => {
-        axios({
-            method: 'get', 
-            url: `${process.env.REACT_APP_API_URL}/api/admin/delivery`,
-            responseType: 'json'
-        }).then(response => {
-            const filteredData1 = response.data.apiData.filter(item => item.shippingStatus === '배송 준비중');
-            setWaitingCount(filteredData1.length);
-
-            const filteredData2 = response.data.apiData.filter(item => item.shippingStatus === '배송 중');
-            setDeliveringCount(filteredData2.length);
-
-            const filteredData3 = response.data.apiData.filter(item => item.shippingStatus === '픽업');
-            setPickUpCount(filteredData3.length);
-
-        }).catch(error => {
-            console.log(error);
-        });
-    };
+    
 
     const getUserCount = () => {
         axios({
@@ -108,17 +47,11 @@ const AdminMain = () => {
 
     /*---훅(useEffect)메소드-------*/
     useEffect(() => {
-        getStoreList(); 
-        getProductList();
-        getHistoryListData();
-        getUserCount();
-        getDelilverListData();
+        
     }, []);
 
     return (
         <>
-            <Header />
-
             <div id="wrap">
                 {/* 컨텐츠 */}
                 <div id="contents" className="clearfix">
@@ -129,9 +62,9 @@ const AdminMain = () => {
                             <h2><Link to="/admin/main" rel="noreferrer noopener">관리자 페이지</Link></h2>
                             <div id="sub_list">
                                 <ul className='lists'>
-                                    <li><Link to="/admin/store" rel="noreferrer noopener">매장 관리</Link></li>
-                                    <li><Link to="/admin/product" rel="noreferrer noopener">상품 관리</Link></li>
                                     <li><Link to="/admin/user" rel="noreferrer noopener">유저 관리</Link></li>
+                                    <li><Link to="/admin/point" rel="noreferrer noopener">포인트 상품 관리</Link></li>
+                                    <li><Link to="/admin/" rel="noreferrer noopener">유저 관리</Link></li>
                                     <li><Link to="/admin/delivery" rel="noreferrer noopener">배송 관리</Link></li>
                                     <li><Link to="/admin/history" rel="noreferrer noopener">판매 관리</Link></li>
                                 </ul>
@@ -227,7 +160,7 @@ const AdminMain = () => {
                     {/* contents */}
                 </div>
             </div>
-            <Footer />
+           
         </>
     );
 };
