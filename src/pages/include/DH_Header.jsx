@@ -184,7 +184,7 @@ const DH_Header = () => {
 						<ol>
 							<li><Link to="/" className="dy-link" rel="noreferrer noopener">챌린지</Link></li>
 							<li><Link to="" className="dy-link" rel="noreferrer noopener">커뮤니티</Link></li>
-							<li><Link to="" className="dy-link" rel="noreferrer noopener">랭킹</Link></li>
+							<li><Link to="/my/rank" className="dy-link" rel="noreferrer noopener">랭킹</Link></li>
 							<li><Link to="/pointstore/pointstoremain" className="dy-link" rel="noreferrer noopener">상점</Link></li>
 							<li><Link to="" className="dy-link" rel="noreferrer noopener">고객센터</Link></li>
 						</ol>
