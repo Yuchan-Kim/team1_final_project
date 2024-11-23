@@ -25,8 +25,22 @@ const DH_Header = () => {
 	// --------------------------------< 민규 Tobbar용 사용 >----------------------------------------------------------------------------------------------------
 	// Helper 함수 추가 -- 프로필 변경 시 헤더에도 적용되게 하는 것을 도와주는 함수
 	const getFullImagePath = (path) => {
-		const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
-		return path.startsWith('http') ? path : `${apiUrl}${path}`;
+		if (!path) return defaultProfile;
+		// 이미 /images로 시작하면 그대로 반환
+		if (path.startsWith('/images')) {
+			return path;
+		}
+		// http로 시작하는 경로를 /images 경로로 변환
+		if (path.startsWith('http')) {
+			const imageName = path.split('/').pop(); // item2.jpg 추출
+			return `/images/${imageName}`;
+		}
+		// /item1.jpg 형식이면 /images 추가
+		if (path.startsWith('/')) {
+			return `/images${path}`;
+		}
+		// 그 외의 경우 /images/ 추가
+		return `/images/${path}`;
 	};
 
 	const [profile, setProfile] = useState({

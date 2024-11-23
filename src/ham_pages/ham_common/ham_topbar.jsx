@@ -131,7 +131,7 @@ const Topbar = () => {
         try {
             const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
             const response = await axios.put(`${apiUrl}/api/my/${userNum}/update-profile`, {
-                profileImage: selectedProfileImage // 상대 경로 전송
+                profileImage: selectedProfileImage // DB에 저장된 경로 그대로 전송
             }, {
                 headers: {
                     'Content-Type': 'application/json'
@@ -139,7 +139,7 @@ const Topbar = () => {
             });
 
             if (response.data.result === 'success') {
-                profileStore.setProfileImage(selectedProfileImage); // 상대 경로 저장
+                profileStore.setProfileImage(selectedProfileImage);
                 setUserInfo(prev => ({
                     ...prev,
                     profileImage: selectedProfileImage
@@ -286,18 +286,6 @@ const Topbar = () => {
     };
     // profileStore 구독
     useEffect(() => {
-        const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
-
-        const getProfileData = () => ({
-            profileImage: profileStore.getProfileImage(),
-            ownedProfileImages: profileStore.getOwnedProfileImages() || [], // 상대 경로 배열
-            nickname: profileStore.getNickname(),
-            region: profileStore.getRegion(),
-            challengesSummary: profileStore.getChallengesSummary(),
-            participationScore: profileStore.getChallengesSummary().participationScore
-        });
-        console.log("얘 닉네임이 모야?? ",getProfileData.nickname);
-
         const handleProfileChange = (updatedProfile) => {
             console.log("탑바가 구독한 프로필의 데이터: ", updatedProfile);
 
@@ -306,12 +294,10 @@ const Topbar = () => {
                 ownedProfileImages: Array.isArray(updatedProfile.ownedProfileImages) ? updatedProfile.ownedProfileImages : []
             };
 
-            // 상대 경로를 절대 경로로 변환하여 설정
+            // DB에 저장된 경로를 그대로 사용
             const ownedPfimg = safeProfile.ownedProfileImages.map(image => {
-                if (image.startsWith('http')) {
-                    return image; // 이미 절대 경로인 경우 그대로 사용
-                }
-                return `${apiUrl}${image}`; // 상대 경로인 경우 절대 경로로 변환
+                if (image.startsWith('http')) return image;
+                return image; // DB에 저장된 경로 그대로 사용 (/파일이름.jpg)
             });
 
             console.log("소유한 프로필 이미지:", ownedPfimg);
@@ -324,8 +310,8 @@ const Topbar = () => {
             setOwnedProfileImages(ownedPfimg);
         };
 
-        // 초기 데이터 설정
-        handleProfileChange(getProfileData());
+        // 초기 데이터 설정 - getProfileData() 메소드 사용
+        handleProfileChange(profileStore.getProfileData());
 
         // 구독 추가
         profileStore.subscribe(handleProfileChange);
@@ -337,9 +323,24 @@ const Topbar = () => {
     }, []);
 
     // Helper 함수: 절대 경로 생성
+    // ham_topbar.jsx
     const getFullImagePath = (path) => {
-        const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
-        return path.startsWith('http') ? path : `${apiUrl}${path}`;
+        if (!path) return defaultProfile;
+        if (path.startsWith('http')) {
+            // http로 시작하는 경로를 /images 경로로 변환
+            const imageName = path.split('/').pop(); // item2.jpg 추출
+            return `/images/${imageName}`;
+        }
+        // 이미 /images로 시작하면 그대로 반환
+        if (path.startsWith('/images')) {
+            return path;
+        }
+        // /item1.jpg 형식이면 /images 추가
+        if (path.startsWith('/')) {
+            return `/images${path}`;
+        }
+        // 그 외의 경우 /images/ 추가
+        return `/images/${path}`;
     };
 
 

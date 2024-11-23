@@ -46,6 +46,17 @@ class ProfileStore {
         }
     }
 
+    getProfileData() {
+        return {
+            profileImage: this.profileImage,
+            ownedProfileImages: this.ownedProfileImages || [],
+            nickname: this.nickname,
+            region: this.region,
+            challengesSummary: this.challengesSummary,
+            participationScore: this.challengesSummary.participationScore
+        };
+    }
+
     // ownedProfileImages 초기화
     initializeOwnedProfileImages() {
         const storedImages = localStorage.getItem('ownedProfileImages');
@@ -91,6 +102,19 @@ class ProfileStore {
         return this.token;
     }
 
+    // 프로필 이미지 절대 URL 구성
+    // profileStore.js
+    constructAbsoluteUrl(apiUrl, imagePath) {
+        if (!imagePath) return this.profileImage;
+        if (imagePath.startsWith('http')) return imagePath;
+        // DB에서 온 경로가 /로 시작하면 /images 붙여주기
+        if (imagePath.startsWith('/')) {
+            return `/images${imagePath}`;
+        }
+        return `/images/${imagePath}`;
+    }
+
+
     // loadUserData 메소드
     async loadUserData() {
         if (!this.userNum) {
@@ -112,7 +136,7 @@ class ProfileStore {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
-           
+
 
             if (data.result === 'success' && data.apiData?.userInfo) {
                 const userData = data.apiData.userInfo;
@@ -130,7 +154,7 @@ class ProfileStore {
                     upcoming: Array.isArray(data.apiData.challenges?.upcoming) ? data.apiData.challenges.upcoming : [],
                     completed: Array.isArray(data.apiData.challenges?.completed) ? data.apiData.challenges.completed : []
                 };
-                console.log("챌린지 리스트: ",challengesDetails)
+                console.log("챌린지 리스트: ", challengesDetails)
                 // 프로필 이미지 처리 개선 및 절대 URL 설정
                 const fullProfileImageUrl = this.constructAbsoluteUrl(apiUrl, userData.profileImage);
 
@@ -154,15 +178,6 @@ class ProfileStore {
         }
     }
 
-    // 프로필 이미지 절대 URL 구성
-    constructAbsoluteUrl(apiUrl, imagePath) {
-        if (!imagePath) return this.profileImage;
-        // Ensure there is exactly one '/' between apiUrl and imagePath
-        if (!imagePath.startsWith('/')) {
-            imagePath = `/${imagePath}`;
-        }
-        return `${apiUrl}${imagePath}`;
-    }
 
     // 프로필 이미지 처리
     processProfileImages(images) {
