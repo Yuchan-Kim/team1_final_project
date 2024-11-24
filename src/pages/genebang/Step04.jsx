@@ -1,33 +1,21 @@
-// src/pages/genebang/Step04.jsx
-
-
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-
-
-
-
 import '../../css/reset.css';
 import '../../css/jy_step.css';
 import { StepNav } from '../include/StepNav'; // StepNav 임포트
 
-const Step04 = ({ onNext, onPrevious }) => {
-
+const Step04 = () => {
     const navigate = useNavigate();
+    const { roomNum } = useParams(); // URL에서 roomNum 추출
 
-    // const authUser = JSON.parse(localStorage.getItem('authUser'));
-
-    const [roomNum, setRoomNum] = useState();
-
-    const [regions, setRegions] = useState([]);
-
-    /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
-    const [maxParticipants, setMaxParticipants] = useState('');
-    const [minParticipants, setMinParticipants] = useState('');
-    const [entryPoint, setEntryPoint] = useState('');
-    const [isHonestyEnabled, setIsHonestyEnabled] = useState(false);
-    const [honestyScore, setHonestyScore] = useState('');
+    const [regions, setRegions] = useState([]); // 지역 데이터
+    const [maxParticipants, setMaxParticipants] = useState(''); // 최대인원
+    const [minParticipants, setMinParticipants] = useState(''); // 최소인원
+    const [entryPoint, setEntryPoint] = useState(''); // 입장포인트
+    const [isHonestyEnabled, setIsHonestyEnabled] = useState(false); // 성실도 활성화 여부
+    const [honestyScore, setHonestyScore] = useState(''); // 입장 성실도
+    const [region, setRegion] = useState(''); // 지역 선택
 
     /*---버튼 활성화 조건---------------------------*/
     const isNextEnabled = () => {
@@ -39,302 +27,195 @@ const Step04 = ({ onNext, onPrevious }) => {
         }
         return true;
     };
-    const [region, setRegion] = useState('');
 
+    // 지역 변경 핸들러
     const handleRegionChange = (e) => {
         setRegion(e.target.value);
     };
 
-    /*---이벤트 핸들러 -------------------------*/
-
-    const handleSubmit = (e) => {
-
-        console.log(region);
-
+    const handleSubmit = async (e) => {
         e.preventDefault();
+    
+        if (!isNextEnabled()) {
+            alert("모든 필드를 입력하세요.");
+            return;
+        }
 
-        const formData = new FormData();
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
+    
+        try {
+            // Axios 요청
+            const response = await axios.post(
+                `${process.env.REACT_APP_API_URL}/api/genebang/step4`, // API URL
+                null, // POST 요청 본문 없이 쿼리 파라미터로 전송
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // 인증 헤더 추가
+                        'Content-Type': 'application/x-www-form-urlencoded', // 쿼리 파라미터 전송
+                    },
+                    params: {
+                        roomNum: parseInt(roomNum, 10), // URL에서 추출한 roomNum 사용
+                        roomMaxNum: parseInt(maxParticipants, 10), // 최대 참여 인원
+                        roomMinNum: parseInt(minParticipants, 10), // 최소 참여 인원
+                        roomEnterPoint: parseInt(entryPoint, 10), // 입장 포인트
+                        roomEnterRate: isHonestyEnabled ? parseInt(honestyScore, 10) : 0, // 성실도
+                        regionNum: parseInt(region, 10), // 지역 번호
+                    },
+                }
+            );
+    
+            // 응답 처리
+            if (response.data.result === 'success') {
+                alert("상세정보가 성공적으로 저장되었습니다.");
+                navigate(`/genebang/step5/${roomNum}`); // 다음 스텝으로 이동
+            } else {
+                alert(`오류: ${response.data.message}`);
+            }
+        } catch (error) {
+            console.error("데이터 전송 중 오류 발생:", error);
+            alert("서버와 통신 중 오류가 발생했습니다.");
+        }
+    };
+    
 
-        formData.append('roomNum', roomNum);
-        formData.append('roomMaxNum', maxParticipants);
-        formData.append('roomMinNum', minParticipants);
-        formData.append('roomEnterPoint', entryPoint); //배팅 포인트
-        formData.append('roomEnterRate', honestyScore);//성실도
-        formData.append('regionNum', region);
-
-
-        axios.post(`${process.env.REACT_APP_API_URL}/api/genebang/step4`, formData, {
-            headers: { 'Content-Type': 'multipart/form-data' },
-        })
+    // 지역 데이터 가져오기
+    const getRegions = () => {
+        axios.get(`${process.env.REACT_APP_API_URL}/api/Regions`)
             .then(response => {
-                console.log(response);
-                navigate('/genebang/step5');
+                if (response.data && Array.isArray(response.data.apiData)) {
+                    setRegions(response.data.apiData);
+                } else {
+                    console.error('지역 데이터가 올바르지 않습니다.');
+                    setRegions([]);
+                }
             })
             .catch(error => {
-                console.error(error);
-                alert('생성 중 오류가 발생했습니다.');
+                console.error('지역 데이터 가져오기 중 오류 발생:', error);
+                setRegions([]);
             });
-
-
     };
 
-
-
-    const getRegions = () => {
-        axios.get(`${process.env.REACT_APP_API_URL}/api/genebang/regions`)
-        .then(response => {
-            console.log('API Response:', response.data);
-            if (response.data && Array.isArray(response.data.apiData)) {
-                setRegions(response.data.apiData);
-            } else {
-                console.error('Error: Expected array but got', typeof response.data.apiData);
-                setRegions([]);
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching regions:', error);
-            setRegions([]);
-        });
-    }
-
-
-    // const getRoomInfoVo = ()=>{
-    //     axios({
-
-    //         method: 'get',
-    //         url: `${process.env.REACT_APP_API_URL}/api/genebang/step/${no}`,
-
-    //         responseType: 'json' //수신타입
-    //     }).then(response => {
-    //         console.log(response.data); //수신데이타
-
-            // setMaxParticipants(response.data.apiData.roomMaxNum);
-            // setMinParticipants(response.data.apiData.roomMinNum);
-            // setEntryPoint(response.data.apiData.roomEnterPoint);
-            // setHonestyScore(response.data.apiData.roomEnterRate);
-            // setRegion(response.data.apiData.regionNum);
-
-    //     }).catch(error => {
-    //         console.log(error);
-    //     });
-    // }
-
-    useEffect( ()=>{
-
-        // if (authUser.roll == 0) {
-        //     axios.get(`${process.env.REACT_APP_API_URL}/api/resions`)
-        //     .then(response => {
-        //         console.log('API Response:', response.data);
-        //         if (response.data && Array.isArray(response.data.apiData)) {
-        //             setResions(response.data.apiData);
-        //         } else {
-        //             console.error('Error: Expected array but got', typeof response.data.apiData);
-        //             setResions([]);
-        //         }
-        //     })
-        //     .catch(error => {
-        //         console.error('Error fetching resions:', error);
-        //         setResions([]);
-        //     });
-
-        // } else {
-        //     alert('접근 권한이 없습니다');
-        //     navigate('/');
-        // }
-
-        axios({
-
-            method: 'get',
-            url: `${process.env.REACT_APP_API_URL}/api/genebang/checkroom`,
-
-            responseType: 'json' //수신타입
-        }).then(response => {
-            console.log(response.data); //수신데이타
-            setRoomNum( response.data.apiData );
-            console.log(roomNum);
-
-            getRegions();
-            console.log(regions);
-
-        }).catch(error => {
-            console.log(error);
-            alert('생성 중인 방이 없습니다')
-            navigate('/');
-
-        });
-
-
-    }, [] );
-
-
-
-
+    useEffect(() => {
+        // 지역 데이터 가져오기
+        getRegions();
+    }, []);
 
     return (
+        <div id="jy_step" className="jy_wrap">
+            <div id="container">
+                <div className="step" id="step4">
+                    <StepNav idx={4} /> {/* StepNav 포함 */}
 
-        <>
+                    <form onSubmit={handleSubmit} encType="multipart/form-data">
+                        <div id="board">
+                            <div id="list">
+                                <h2>세부 설정</h2>
+                                <h4>방에 필요한 세부적인 설정을 할 수 있습니다.</h4>
 
-            <div id="jy_step" className="jy_wrap">
-
-                <div id="container">
-
-                    <div className="step" id="step4">
-
-                        <StepNav idx={4} /> {/* StepNav 포함 */}
-
-                        <form onSubmit={handleSubmit} encType="multipart/form-data">
-
-                            <div id="board">
-
-                                <div id="list">
-                                    <h2>세부 설정</h2>
-                                    <h4>방에 필요한 세부적인 설정을 할 수 있습니다.</h4>
-
-                                    <div id='member-count'>
-                                        <div>
-                                            <h3>인원 설정</h3>
-                                        </div>
-                                        <div id='box-double'>
-                                            <div id='box1'>
-                                                <div>
-                                                    <div className="inputTT">
-                                                        <label htmlFor="maxParticipants">최대 참여 인원</label>
-                                                    </div>
-                                                    <div className="inputBox">
-                                                        <select
-                                                            id="maxParticipants"
-                                                            value={maxParticipants}
-                                                            onChange={(e) => {
-                                                                setMaxParticipants(e.target.value);
-                                                                if (minParticipants > e.target.value) {
-                                                                    setMinParticipants('');
-                                                                }
-                                                            }}
-                                                        >
-                                                            <option value="">선택</option>
-                                                            {[...Array(19)].map((_, i) => (
-                                                                <option key={i + 2} value={i + 2}>{i + 2}명</option>
-                                                            ))}
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div id='box1'>
-                                                <div>
-                                                    <div className="inputTT">
-                                                        <label htmlFor="minParticipants">최소 참여 인원</label>
-                                                    </div>
-                                                    <div className="inputBox">
-                                                        <select
-                                                            id="minParticipants"
-                                                            value={minParticipants}
-                                                            onChange={(e) => {
-                                                                setMinParticipants(e.target.value);
-                                                            }}
-                                                        >
-                                                            <option value="">선택</option>
-                                                            {[...Array(5)].map((_, i) => (
-                                                                <option key={i + 1} value={i + 1}>{i + 1}명</option>
-                                                            ))}
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div id='box2'>
-                                        <h3>입장 포인트 설정</h3>
-                                        <h4>방에 입장하기 위해서는 일정량의 포인트가 필요합니다.</h4>
-                                        <div id='input-box'>
-                                            <input 
-                                                placeholder='100,000 pt' 
-                                                value={entryPoint}
-                                                onChange={(e) => setEntryPoint(e.target.value)}
-                                            />
-                                        </div>
-                                    </div>
+                                {/* 인원 설정 */}
+                                <div id='member-count'>
+                                <h3>인원 설정</h3>
+                                <div id='box-double'>
+                                    {/* 최대 참여 인원 설정 */}
                                     <div>
-                                        <h3>입장 성실도 설정</h3>
-                                        <div id='box1'>
-                                            <div className="toggle-container">
-                                                <label>
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={isHonestyEnabled}
-                                                        onChange={() => setIsHonestyEnabled(!isHonestyEnabled)}
-                                                    />
-                                                    <span>입장 성실도 설정</span>
-                                                </label>
-                                            </div>
-                                            <div id='input-box'>
-                                                <input 
-                                                    placeholder='80' 
-                                                    value={honestyScore}
-                                                    onChange={(e) => setHonestyScore(e.target.value)}
-                                                    disabled={!isHonestyEnabled}
-                                                />
-                                            </div>
-                                        </div>
+                                        <label>최대 참여 인원</label>
+                                        <select
+                                            value={maxParticipants}
+                                            onChange={(e) => {
+                                                setMaxParticipants(e.target.value);
+                                                if (parseInt(minParticipants, 10) > parseInt(e.target.value, 10)) {
+                                                    setMinParticipants(''); // 최소 참여 인원이 최대 참여 인원보다 클 경우 초기화
+                                                }
+                                            }}
+                                        >
+                                            <option value="">선택</option>
+                                            {[...Array(19)].map((_, i) => (
+                                                <option key={i + 2} value={i + 2}>
+                                                    {i + 2}명
+                                                </option>
+                                            ))}
+                                        </select>
                                     </div>
-                                    <div id='box3'>
-                                        <h3>지역 설정</h3>
-                                        <h4>모임이 필요한 챌린지를 위해 지역을 설정합니다.</h4>
-                                        <div >
-                                            {/* <input 
-                                                placeholder='전국' 
-                                                value={region}
-                                                onChange={handleRegionChange}
-                                            /> */}
-                                            <select className='input-box' id='region'
-                                                value={region} // 선택된 아티스트 이름을 상태로 설정
-                                                onChange={handleRegionChange} // 아티스트 선택 시 상태 업데이트
-                                                // required
-                                            >
-                                                <option value="">지역 선택하세요</option>
-                                                {regions.map((region) => (
-                                                    <option key={region.regions} value={region.regionNum}>
-                                                        {region.regionName}
+
+                                    {/* 최소 참여 인원 설정 */}
+                                    <div>
+                                        <label>최소 참여 인원</label>
+                                        <select
+                                            value={minParticipants}
+                                            onChange={(e) => setMinParticipants(e.target.value)}
+                                            disabled={!maxParticipants} // 최대 참여 인원이 선택되지 않으면 비활성화
+                                        >
+                                            <option value="">선택</option>
+                                            {maxParticipants &&
+                                                [...Array(parseInt(maxParticipants, 10) - 1)].map((_, i) => (
+                                                    <option key={i + 2} value={i + 2}>
+                                                        {i + 2}명
                                                     </option>
                                                 ))}
-                                            </select>
-                                        </div>
+                                        </select>
                                     </div>
                                 </div>
-                                {/* //list */}
+                            </div>
 
-                                <div className="btn">
-                                    <button id="secondary" onClick={onPrevious}>이전</button>
-                                    <button
-                                        type="submit"
-                                        id="primary" 
-                                        onClick={onNext} 
-                                        disabled={!isNextEnabled()}
-                                        className={!isNextEnabled() ? 'disabled' : ''}
-                                        aria-disabled={!isNextEnabled()}
-                                    >
-                                        다음
-                                    </button>
+
+                                {/* 입장 포인트 설정 */}
+                                <div id='box2'>
+                                    <h3>입장 포인트 설정</h3>
+                                    <input
+                                        placeholder="100,000 pt"
+                                        value={entryPoint}
+                                        onChange={(e) => setEntryPoint(e.target.value)}
+                                    />
                                 </div>
 
+                                {/* 입장 성실도 설정 */}
+                                <div>
+                                    <h3>입장 성실도 설정</h3>
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            checked={isHonestyEnabled}
+                                            onChange={() => setIsHonestyEnabled(!isHonestyEnabled)}
+                                        />
+                                        입장 성실도 활성화
+                                    </label>
+                                    <input
+                                        placeholder="80"
+                                        value={honestyScore}
+                                        onChange={(e) => setHonestyScore(e.target.value)}
+                                        disabled={!isHonestyEnabled}
+                                    />
+                                </div>
+
+                                {/* 지역 설정 */}
+                                <div id='box3'>
+                                    <h3>지역 설정</h3>
+                                    <select value={region} onChange={handleRegionChange}>
+                                        <option value="">지역 선택</option>
+                                        {regions.map(region => (
+                                            <option key={region.regionNum} value={region.regionNum}>
+                                                {region.regionName}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
                             </div>
-                            {/* //board */}
 
-                        </form>
-
-                    </div>
-                    {/* //step */}
-
+                            <div className="btn">
+                                <button type="submit" id="primary" disabled={!isNextEnabled()}>
+                                    다음
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                {/* //container */}
-
             </div>
-            {/* //wrap */}
-
-        </>
-
+        </div>
     );
-
-}
+};
 
 export default Step04;
