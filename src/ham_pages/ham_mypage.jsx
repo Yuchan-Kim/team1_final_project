@@ -23,7 +23,8 @@ const MyPage = () => {
     const [challenges, setChallenges] = useState({
         ongoing: [],
         upcoming: [],
-        completed: []
+        completed: [],
+        created: []
     });
     const [activeTab, setActiveTab] = useState('ongoing');
     const [loading, setLoading] = useState(false);
@@ -36,7 +37,8 @@ const MyPage = () => {
             setChallenges({
                 ongoing: updatedProfile.challengesDetails.ongoing,
                 upcoming: updatedProfile.challengesDetails.upcoming,
-                completed: updatedProfile.challengesDetails.completed
+                completed: updatedProfile.challengesDetails.completed,
+                created: updatedProfile.challengesDetails.created
             });
         };
         profileStore.subscribe(handleProfileChange);
@@ -200,6 +202,13 @@ const MyPage = () => {
                             })}
                         </div>
                         <div className="hmk_tab-menu">
+                            <button
+                                className={`hmk_tab-button ${activeTab === 'created' ? 'hmk_active' : ''}`}
+                                onClick={() => handleTabClick('created')}
+                                aria-label="내가 만든 방 탭"
+                            >
+                                내가 만든 방
+                            </button>
                             <button
                                 className={`hmk_tab-button ${activeTab === 'ongoing' ? 'hmk_active' : ''}`}
                                 onClick={() => handleTabClick('ongoing')}
