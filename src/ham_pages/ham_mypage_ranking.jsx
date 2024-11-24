@@ -1,40 +1,100 @@
-// src/ham_pages/ham_mypage_ranking.jsx
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Header from '../pages/include/DH_Header';
 import Footer from '../pages/include/JM-Footer';
 import '../ham_asset/css/ham_mypage_ranking.css';
 
+// 이미지 상수들
+const defaultProfile = '/images/profile-fill.png';
 const grl = '/images/rank_girl-runtoleft.gif';
 const dog = '/images/rank_dog-runtoleft.gif';
 const cat = '/images/rank_cat-runtoleft.gif';
 const clap = '/images/rank_clap.gif';
 const win = '/images/rank_winner.gif';
-const rankData = [
-    { id: 1, nickname: '손흥민', points: 155500, image: 'IMG_4879.jpg' },
-    { id: 2, nickname: '메시', points: 135500, image: 'IMG_4879.jpg' },
-    { id: 3, nickname: '호나우두', points: 125500, image: 'IMG_4879.jpg' },
-    { id: 4, nickname: '박찬호', points: 123000, image: 'IMG_4879.jpg' },
-    { id: 5, nickname: '박세리', points: 121000, image: 'IMG_4879.jpg' },
-    { id: 6, nickname: '김연아', points: 120000, image: 'IMG_4879.jpg' },
-    { id: 7, nickname: '이강인', points: 119000, image: 'IMG_4879.jpg' },
-    { id: 8, nickname: '손석구', points: 115000, image: 'IMG_4879.jpg' },
-    { id: 9, nickname: '강백호', points: 114000, image: 'IMG_4879.jpg' },
-    { id: 10, nickname: '손오공', points: 23000, image: 'IMG_4879.jpg' },
-];
+
+// axios 기본 설정
+axios.defaults.withCredentials = true; // 쿠키 포함 설정
 
 const Rank = () => {
+    const [rankData, setRankData] = useState([]);
+    const [myRank, setMyRank] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const myRank = rankData[9];
+    const currentUserNum = localStorage.getItem('userNum');
+    const getImageUrl = (imagePath) => {
+        if (!imagePath) return defaultProfile;
+        return `/images/${imagePath}`;
+    };
+    useEffect(() => {
+        const fetchRankData = async () => {
+            console.log("[React] fetchRankData 시작");
+            console.log("[React] 현재 userNum:", currentUserNum);
+
+            try {
+                console.log("[React] Top10 랭킹 데이터 요청 시작");
+                const rankResponse = await axios.get('http://localhost:9000/api/rank/top10');
+                console.log("[React] Top10 랭킹 응답 데이터:", rankResponse);
+
+                if (rankResponse.data.result === "success") {
+                    // apiData에서 데이터 가져오기
+                    console.log("[React] Top10 랭킹 데이터 설정:", rankResponse.data.apiData);
+                    setRankData(rankResponse.data.apiData); // 여기를 수정
+                } else {
+                    console.error("[React] Top10 랭킹 요청 실패:", rankResponse.data.message);
+                    throw new Error(rankResponse.data.message || "랭킹 데이터를 가져오는데 실패했습니다.");
+                }
+
+                if (currentUserNum) {
+                    console.log("[React] 사용자 랭킹 데이터 요청 시작 - userNum:", currentUserNum);
+                    const myRankResponse = await axios.get(`http://localhost:9000/api/rank/user/${currentUserNum}`);
+                    console.log("[React] 사용자 랭킹 응답 데이터:", myRankResponse);
+
+                    if (myRankResponse.data.result === "success") {
+                        // apiData에서 데이터 가져오기
+                        console.log("[React] 사용자 랭킹 데이터 설정:", myRankResponse.data.apiData);
+                        setMyRank(myRankResponse.data.apiData); // 여기를 수정
+                    } else {
+                        console.error("[React] 사용자 랭킹 요청 실패:", myRankResponse.data.message);
+                    }
+                }
+
+                setLoading(false);
+            } catch (err) {
+                console.error("[React] 데이터 fetching 에러:", err);
+                console.error("[React] 에러 상세 정보:", {
+                    message: err.message,
+                    response: err.response,
+                    stack: err.stack
+                });
+                setError(err.message || '랭킹 정보를 불러오는데 실패했습니다.');
+                setLoading(false);
+            }
+        };
+
+        fetchRankData();
+    }, [currentUserNum]);
+
+    // 데이터 상태 변경 시 로그
+    useEffect(() => {
+        console.log("[React] rankData 상태 업데이트:", rankData);
+    }, [rankData]);
+
+    useEffect(() => {
+        console.log("[React] myRank 상태 업데이트:", myRank);
+    }, [myRank]);
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>{error}</div>;
+    if (!rankData || !Array.isArray(rankData) || rankData.length === 0)
+        return <div>랭킹 정보가 없습니다.</div>;
 
     return (
         <>
-            {/* Header 컴포넌트 */}
             <Header />
-            {/* 상단 배너 */}
             <div className="hmk_rank_page">
                 <div className="hmk_rank_title_banner">
-                    <div className="hmk_rank_banner_image">
-                    </div>
+                    <div className="hmk_rank_banner_image"></div>
                     <div className="hmk_rank_moving_text">
                         <span>
                             <img src={clap} alt="clap" className='hmk_rank_banner_icon' />
@@ -43,21 +103,18 @@ const Rank = () => {
                         <span>
                             <img src={cat} alt="cat" className='hmk_rank_banner_icon' />
                         </span>
-                        <span>
-                            🥇
-                            <img src={`/images/${rankData[0].image}`} alt="rank1_profile" className='hmk_rank_banner_prof' />
-                            <p>{rankData[0].nickname}</p>
-                        </span>
-                        <span>
-                            🥈
-                            <img src={`/images/${rankData[1].image}`} alt="rank2_profile" className='hmk_rank_banner_prof' />
-                            <p>{rankData[1].nickname}</p>
-                        </span>
-                        <span>
-                            🥉
-                            <img src={`/images/${rankData[2].image}`} alt="rank3_profile" className='hmk_rank_banner_prof' />
-                            <p>{rankData[2].nickname}</p>
-                        </span>
+                        {rankData.slice(0, 3).map((user, index) => (
+                            <span key={user.userNum}>
+                                {index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}
+                                <img
+                                    src={user.profileImage ? getImageUrl(user.profileImage) : defaultProfile}
+                                    alt={`rank${index + 1}_profile`}
+                                    className='hmk_rank_banner_prof'
+                                    onError={(e) => { e.target.src = defaultProfile }}
+                                />
+                                <p>{user.nickname}</p>
+                            </span>
+                        ))}
                         <span>
                             <img src={dog} alt="dog" className='hmk_rank_banner_icon' />
                         </span>
@@ -68,7 +125,6 @@ const Rank = () => {
                 </div>
 
                 <div className="wrap ham_wrap">
-                    {/* 랭킹 페이지 아웃 프레임 */}
                     <div className="hmk_rank_main">
                         <div className="hmk_rank_head">
                             <div className="hmk_rank_head_container">
@@ -77,66 +133,88 @@ const Rank = () => {
                             <div className='hmk_ranker_podiumframe'>
                                 <div className="hmk_rank_podium">
                                     {/* 2등 */}
-                                    <div key={rankData[1].id} className="hmk_podium_rank hmk_rank2">
-                                        <div className='hmk_podium_profile hmk_silver_frame'>
-                                            <img src={`/images/${rankData[1].image}`} alt="rank2_profile" className='hmk_ranker_profile_no2' />
-                                            <div className="hmk_podium_medal">🥈</div>
+                                    {rankData[1] && (
+                                        <div key={rankData[1].userNum} className="hmk_podium_rank hmk_rank2">
+                                            <div className='hmk_podium_profile hmk_silver_frame'>
+                                                <img
+                                                    src={rankData[1].profileImage ? getImageUrl(rankData[1].profileImage) : defaultProfile}
+                                                    alt="rank2_profile"
+                                                    className='hmk_ranker_profile_no2'
+                                                    onError={(e) => { e.target.src = defaultProfile }}
+                                                />
+                                                <div className="hmk_podium_medal">🥈</div>
+                                            </div>
+                                            <div className="hmk_podium_base silver">
+                                                <p>{rankData[1].nickname}</p>
+                                                <p>{rankData[1].points.toLocaleString()}</p>
+                                            </div>
                                         </div>
-                                        <div className="hmk_podium_base silver">
-                                            <p>{rankData[1].nickname}</p>
-                                            <p>{rankData[1].points.toLocaleString()}</p>
-                                        </div>
-                                    </div>
+                                    )}
                                     {/* 1등 */}
-                                    <div key={rankData[0].id} className="hmk_podium_rank hmk_rank1">
-                                        <div className='hmk_podium_profile hmk_gold_frame'>
-                                            <img src={`/images/${rankData[0].image}`} alt="rank1_profile" className='hmk_ranker_profile_no1' />
-                                            <div className="hmk_podium_medal">🥇</div>
+                                    {rankData[0] && (
+                                        <div key={rankData[0].userNum} className="hmk_podium_rank hmk_rank1">
+                                            <div className='hmk_podium_profile hmk_gold_frame'>
+                                                <img
+                                                    src={rankData[0].profileImage ? getImageUrl(rankData[0].profileImage) : defaultProfile}
+                                                    alt="rank1_profile"
+                                                    className='hmk_ranker_profile_no1'
+                                                    onError={(e) => { e.target.src = defaultProfile }}
+                                                />
+                                                <div className="hmk_podium_medal">🥇</div>
+                                            </div>
+                                            <div className="hmk_podium_base gold">
+                                                <p>{rankData[0].nickname}</p>
+                                                <p>{rankData[0].points.toLocaleString()}</p>
+                                            </div>
                                         </div>
-                                        <div className="hmk_podium_base gold">
-                                            <p>{rankData[0].nickname}</p>
-                                            <p>{rankData[0].points.toLocaleString()}</p>
-                                        </div>
-                                    </div>
+                                    )}
                                     {/* 3등 */}
-                                    <div key={rankData[2].id} className="hmk_podium_rank hmk_rank3">
-                                        <div className='hmk_podium_profile hmk_bronze_frame'>
-                                            <img src={`/images/${rankData[2].image}`} alt="rank3_profile" className='hmk_ranker_profile_no3' />
-                                            <div className="hmk_podium_medal">🥉</div>
+                                    {rankData[2] && (
+                                        <div key={rankData[2].userNum} className="hmk_podium_rank hmk_rank3">
+                                            <div className='hmk_podium_profile hmk_bronze_frame'>
+                                                <img
+                                                    src={rankData[2].profileImage ? getImageUrl(rankData[2].profileImage) : defaultProfile}
+                                                    alt="rank3_profile"
+                                                    className='hmk_ranker_profile_no3'
+                                                    onError={(e) => { e.target.src = defaultProfile }}
+                                                />
+                                                <div className="hmk_podium_medal">🥉</div>
+                                            </div>
+                                            <div className="hmk_podium_base bronze">
+                                                <p>{rankData[2].nickname}</p>
+                                                <p>{rankData[2].points.toLocaleString()}</p>
+                                            </div>
                                         </div>
-                                        <div className="hmk_podium_base bronze">
-                                            <p>{rankData[2].nickname}</p>
-                                            <p>{rankData[2].points.toLocaleString()}</p>
-                                        </div>
-                                    </div>
+                                    )}
                                 </div>
                             </div>
                             <div className='hmk_podium_bottom'></div>
                         </div>
                         <div className='hmk_rank_body'>
-                            <div className='hmk_rank_my'>
-                                <p className='hmk_my_rank_eff'></p>
-                                <table className="hmk_rank_my_rank">
-                                    <tbody>
-                                        <tr className="hmk_rank_my_rank_number">
-                                            <td><p>나</p>{myRank ? myRank.rank : "N/A"}  </td>
-                                            <td>
-                                                <img
-                                                    src={`/images/${myRank.image}`}
-                                                    alt="my_profile"
-                                                    className="hmk_ranker_profile_no"
-                                                />
-                                            </td>
-                                            <td className="hmk_rank_my_rank_nickname">
-                                                {myRank ? myRank.nickname : "닉네임"}
-                                            </td>
-                                            <td className="hmk_rank_my_points">
-                                                {myRank ? myRank.points.toLocaleString() : "0"} 포인트
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            {/* 내 랭킹 정보 */}
+                            {myRank && (
+                                <div className='hmk_rank_my'>
+                                    <p className='hmk_my_rank_eff'></p>
+                                    <table className="hmk_rank_my_rank">
+                                        <tbody>
+                                            <tr className="hmk_rank_my_rank_number">
+                                                <td><p>나</p>{myRank.user_rank}</td>
+                                                <td>
+                                                    <img
+                                                        src={myRank.profileImage ? getImageUrl(myRank.profileImage) : defaultProfile}
+                                                        alt="my_profile"
+                                                        className="hmk_ranker_profile_no"
+                                                        onError={(e) => { e.target.src = defaultProfile }}
+                                                    />
+                                                </td>
+                                                <td className="hmk_rank_my_rank_nickname">{myRank.nickname}</td>
+                                                <td className="hmk_rank_my_points">{myRank.points.toLocaleString()} 포인트</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            )}
+                            {/* Top 10 랭킹 목록 */}
                             <div className='hmk_rank_top10'>
                                 <table className='hmk_rank_list'>
                                     <thead>
@@ -149,12 +227,17 @@ const Rank = () => {
                                     </thead>
                                     <tbody>
                                         {rankData.map((rank, index) => (
-                                            <tr key={rank.id}>
+                                            <tr key={rank.userNum}>
                                                 <td>
                                                     {index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : index + 1}
                                                 </td>
                                                 <td>
-                                                    <img src={`/images/${rank.image}`} alt="profile" className='hmk_ranker_profile_no' />
+                                                    <img
+                                                        src={rank.profileImage ? getImageUrl(rank.profileImage) : defaultProfile}
+                                                        alt="profile"
+                                                        className='hmk_ranker_profile_no'
+                                                        onError={(e) => { e.target.src = defaultProfile }}
+                                                    />
                                                 </td>
                                                 <td>{rank.nickname}</td>
                                                 <td>{rank.points.toLocaleString()}</td>
@@ -166,15 +249,13 @@ const Rank = () => {
                         </div>
                     </div>
                 </div>
-                {/* 하단 배너  */}
                 <div className="hmk_rank_banner_bottom">
                     <div className="hmk_rank_page_title">
-                        <div className="hmk_rank_body_effects">
-                        </div>
+                        <div className="hmk_rank_body_effects"></div>
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </>
     );
 };

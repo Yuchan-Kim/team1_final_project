@@ -26,7 +26,7 @@ const MyPage = () => {
         completed: [],
         created: []
     });
-    const [activeTab, setActiveTab] = useState('ongoing');
+    const [activeTab, setActiveTab] = useState('created');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
