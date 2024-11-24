@@ -29,10 +29,10 @@ const Sidebar = () => {
                         <img src={ChallengeIcon} alt="Challenge" className="hmk_sidebar-icon" />
                         <Link to="/my/mypage">나의 챌린지</Link>
                     </li>
-                    <li>
+                    {/* <li>
                         <img src={FriendsIcon} alt="Friends" className="hmk_sidebar-icon" />
                         <Link to="#">친구</Link>
-                    </li>
+                    </li> */}
                     <li>
                         <img src={PointsIcon} alt="Points" className="hmk_sidebar-icon" />
                         <Link to="/my/mypoint">포인트 내역</Link>
