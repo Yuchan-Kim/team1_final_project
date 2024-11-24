@@ -344,7 +344,7 @@ const YCChallengeSidebar = () => {
                             나가기
                         </button>
                         </div>
-                       
+                    
                     </div>
                 </>
             )}
