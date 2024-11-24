@@ -179,6 +179,12 @@
     scrollbar-color: #ffffff #f0f0f0;
 }
 
+/* 프로필 이미지가 있는 경우의 아이템 레이아웃 */
+.hmk_profile-options .hmk_profile-option-item:not(:only-child) {
+    flex-direction: row;  /* 기존 가로 배치 유지 */
+    padding: 5px; /* 기존 패딩 유지 */
+}
+
 /* 프로필 선택 이미지 기본 스타일 */
 .hmk_profile-options-container .hmk_profile-options img {
     width: 70px;
@@ -265,10 +271,22 @@
 /* 프로필 이미지 아이템 스타일 */
 .hmk_profile-option-item {
     display: flex;
-    justify-content: center;
+    flex-direction: column;  /* 세로 방향으로 배치 */
     align-items: center;
-    padding: 5px;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+    text-align: center;
 }
+
+/* 구매 안내 문구 스타일 */
+.hmk_profile-option-item p {
+    width: 100%;
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+}
+
 /* 프로필 이미지 스타일 */
 .hmk_profile-option-item .hmk_profile-image {
     width: 70px;
@@ -277,6 +295,7 @@
     cursor: pointer;
     transition: transform 0.3s ease, border 0.3s ease;
     border: 2px solid transparent;
+    margin-top: 10px;  /* 문구와의 간격 */
 }
 
 /* 모달 버튼 바 설정 */
