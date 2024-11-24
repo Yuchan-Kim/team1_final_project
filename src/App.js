@@ -65,8 +65,8 @@ function App() {
           <Route path='/genebang/step3/:roomNum' element={<Step3 />} />
           <Route path='/genebang/step4/:roomNum' element={<Step4 />} />
           <Route path='/genebang/step5/:roomNum' element={<Step5 />} />
-          <Route path='/genebang/step6/:roomNum' element={<Step6 />} />
-          <Route path='/genebang/step7/:roomNum' element={<Step7 />} />
+          <Route path='/genebang/step6/:roomNum' element={<Step7 />} />
+          <Route path='/genebang/step7/:roomNum' element={<Step6 />} />
           <Route path='/genebang/step8/:roomNum' element={<Step8 />} />
           <Route path='/genebang/step9/:roomNum' element={<Step9 />} />
           <Route path='/genebang/step10/:roomNum' element={<Step10 />} />
