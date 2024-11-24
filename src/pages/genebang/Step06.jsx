@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../../css/reset.css';
 import '../../css/jy_step.css';
+import { useParams } from 'react-router-dom'; // URL에서 roomNum 추출
 import { StepNav } from '../include/StepNav'; // StepNav 임포트
 
 const Step06 = ({ onNext, onPrevious }) => {
+    const { roomNum } = useParams(); // URL에서 roomNum 추출
     const navigate = useNavigate();
-    const authUserNum = 10;
 
-    const [roomNum, setRoomNum] = useState();
     //미션 유의사항
     const [missionInstruction, setMissionInstruction] = useState(''); 
 
@@ -204,18 +204,15 @@ const Step06 = ({ onNext, onPrevious }) => {
         axios({
 
             method: 'get',
-            url: `${process.env.REACT_APP_API_URL}/api/genebang/checkroom/${authUserNum}`,
+            url: `${process.env.REACT_APP_API_URL}/api/genebang/checkroom`,
 
             responseType: 'json' //수신타입
         }).then(response => {
             console.log(response.data); //수신데이타
-            setRoomNum( response.data.apiData );
             console.log(roomNum);
 
         }).catch(error => {
             console.log(error);
-            alert('생성 중인 방이 없습니다')
-            navigate('/');
 
         });
 

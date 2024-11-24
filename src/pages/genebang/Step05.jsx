@@ -5,10 +5,11 @@ import moment from 'moment';
 import '../../css/reset.css';
 import '../../css/jy_step.css';
 import axios from 'axios';
-import { useParams } from 'react-router-dom'; // URL에서 roomNum 추출
+import { useNavigate, useParams } from 'react-router-dom';
 import { StepNav } from '../include/StepNav'; // StepNav 임포트
 
 const Step05 = ({ onNext, onPrevious }) => {
+    const navigate = useNavigate();
     const { roomNum } = useParams(); // URL에서 roomNum 추출
     const [value, setValue] = useState(null); // 선택된 날짜
     const [selectedWeek, setSelectedWeek] = useState(null); // 선택된 주차
@@ -75,7 +76,7 @@ const Step05 = ({ onNext, onPrevious }) => {
     
             if (response.data.result === 'success') {
                 alert("챌린지 시작 정보가 저장되었습니다.");
-                onNext(); // 다음 단계로 이동
+                navigate(`/genebang/step6/${roomNum}`); // 다음 스텝으로 이동
             } else {
                 alert(`오류: ${response.data.message}`);
             }
