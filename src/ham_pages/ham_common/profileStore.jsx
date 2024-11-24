@@ -10,6 +10,7 @@ class ProfileStore {
         this.userNum = parseInt(localStorage.getItem('userNum')) || this.getUserNumFromAuthUser();
         this.region = localStorage.getItem('region') || "미설정";
         this.ownedProfileImages = this.initializeOwnedProfileImages();
+        this.socialLogin = localStorage.getItem('socialLogin') || '';
         this.challengesSummary = {
             ongoing: 0,
             upcoming: 0,
@@ -53,9 +54,25 @@ class ProfileStore {
             ownedProfileImages: this.ownedProfileImages || [],
             nickname: this.nickname,
             region: this.region,
+            socialLogin: this.socialLogin,
             challengesSummary: this.challengesSummary,
             participationScore: this.challengesSummary.participationScore
         };
+    }
+
+    getSocialLogin() {
+        return this.socialLogin;
+    }
+
+    // socialLogin setter
+    setSocialLogin(socialLogin) {
+        this.socialLogin = socialLogin;
+        if (socialLogin) {
+            localStorage.setItem('socialLogin', socialLogin);
+        } else {
+            localStorage.removeItem('socialLogin');
+        }
+        this.notifySubscribers();
     }
 
     // ownedProfileImages 초기화
@@ -141,6 +158,7 @@ class ProfileStore {
 
             if (data.result === 'success' && data.apiData?.userInfo) {
                 const userData = data.apiData.userInfo;
+                
                 // 챌린지 요약 정보 처리
                 const challengesSummary = {
                     ongoing: Number(userData.ongoingChallenges) || 0,
@@ -161,6 +179,7 @@ class ProfileStore {
                 const fullProfileImageUrl = this.constructAbsoluteUrl(apiUrl, userData.profileImage);
 
                 // 데이터 업데이트
+                this.setSocialLogin(userData.socialLogin || '');
                 this.updateUserData({
                     profileImage: fullProfileImageUrl,
                     ownedProfileImages: this.processProfileImages(userData.ownedProfileImages),
@@ -217,6 +236,7 @@ class ProfileStore {
         this.setNickname(data.nickname);
         this.setRegion(data.region);
         this.setUserNum(data.userNum);
+        this.setSocialLogin(data.socialLogin);
         this.setChallengesSummary(data.challengesSummary);
         this.setChallengesDetails(data.challengesDetails);
     }
@@ -233,12 +253,6 @@ class ProfileStore {
         this.notifySubscribers();
     }
 
-    // getOwnedProfileImages 메소드 
-    // getOwnedProfileImages() {
-    //     const images = Array.isArray(this.ownedProfileImages) ? this.ownedProfileImages : [];
-    //     return images.filter(img => typeof img === 'string' && img.trim().length > 0);
-    // }
-    // 보유 프로필 이미지 반환
     getOwnedProfileImages() {
         return this.ownedProfileImages.filter(img => typeof img === 'string' && img.trim().length > 0);
     }
@@ -355,6 +369,7 @@ class ProfileStore {
             nickname: this.nickname,
             region: this.region,
             userNum: this.userNum,
+            socialLogin: this.socialLogin,
             challengesSummary: this.challengesSummary,
             challengesDetails: this.challengesDetails,
             token: this.token // 토큰 포함
@@ -368,6 +383,8 @@ class ProfileStore {
         this.nickname = "비회원";
         this.userNum = null;
         this.region = "UnKnown";
+        this.socialLogin = '';
+        localStorage.removeItem('socialLogin');
         this.ownedProfileImages = [];
         this.challengesSummary = {
             ongoing: 0,

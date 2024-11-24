@@ -28,40 +28,29 @@ const Rank = () => {
     };
     useEffect(() => {
         const fetchRankData = async () => {
-            console.log("[React] fetchRankData 시작");
-            console.log("[React] 현재 userNum:", currentUserNum);
 
             try {
-                console.log("[React] Top10 랭킹 데이터 요청 시작");
                 const rankResponse = await axios.get('http://localhost:9000/api/rank/top10');
-                console.log("[React] Top10 랭킹 응답 데이터:", rankResponse);
 
                 if (rankResponse.data.result === "success") {
                     // apiData에서 데이터 가져오기
-                    console.log("[React] Top10 랭킹 데이터 설정:", rankResponse.data.apiData);
                     setRankData(rankResponse.data.apiData); // 여기를 수정
                 } else {
-                    console.error("[React] Top10 랭킹 요청 실패:", rankResponse.data.message);
                     throw new Error(rankResponse.data.message || "랭킹 데이터를 가져오는데 실패했습니다.");
                 }
 
                 if (currentUserNum) {
-                    console.log("[React] 사용자 랭킹 데이터 요청 시작 - userNum:", currentUserNum);
                     const myRankResponse = await axios.get(`http://localhost:9000/api/rank/user/${currentUserNum}`);
-                    console.log("[React] 사용자 랭킹 응답 데이터:", myRankResponse);
 
                     if (myRankResponse.data.result === "success") {
                         // apiData에서 데이터 가져오기
-                        console.log("[React] 사용자 랭킹 데이터 설정:", myRankResponse.data.apiData);
                         setMyRank(myRankResponse.data.apiData); // 여기를 수정
                     } else {
-                        console.error("[React] 사용자 랭킹 요청 실패:", myRankResponse.data.message);
                     }
                 }
 
                 setLoading(false);
             } catch (err) {
-                console.error("[React] 데이터 fetching 에러:", err);
                 console.error("[React] 에러 상세 정보:", {
                     message: err.message,
                     response: err.response,
@@ -77,11 +66,9 @@ const Rank = () => {
 
     // 데이터 상태 변경 시 로그
     useEffect(() => {
-        console.log("[React] rankData 상태 업데이트:", rankData);
     }, [rankData]);
 
     useEffect(() => {
-        console.log("[React] myRank 상태 업데이트:", myRank);
     }, [myRank]);
 
     if (loading) return <div>Loading...</div>;

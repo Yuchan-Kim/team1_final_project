@@ -38,7 +38,8 @@ const Topbar = () => {
         profileImage: profileStore.getProfileImage(),
         ownedProfileImages: profileStore.getOwnedProfileImages(),
         challengesSummary: profileStore.getChallengesSummary(),
-        participationScore: profileStore.getChallengesSummary().participationScore
+        participationScore: profileStore.getChallengesSummary().participationScore,
+        socialLogin: profileStore.getSocialLogin() // socialLogin 정보 추가
     });
     // 비밀번호 강도 상태 (선택 사항)
     const [passwordValidity, setPasswordValidity] = useState({
@@ -221,42 +222,60 @@ const Topbar = () => {
                     }
                     break;
                 case 'password':
-                    // 비밀번호 변경 로직 통합
-                    if (!currentPassword) {
-                        setPasswordError("현재 비밀번호를 입력해주세요.");
-                        return;
+                    // 소셜 로그인 사용자인 경우
+                    if (userInfo.socialLogin && userInfo.socialLogin !== '') {
+                        if (!newPassword) {
+                            setPasswordError("새 비밀번호를 입력해주세요.");
+                            return;
+                        }
+                        if (newPassword !== confirmPassword) {
+                            setPasswordError("비밀번호가 일치하지 않습니다.");
+                            return;
+                        }
+                        if (!validatePassword(newPassword)) {
+                            setPasswordError("비밀번호는 최소 10자 이상이어야 하며, 문자 1개 이상과 숫자 또는 특수 문자(#?!&)를 포함해야 합니다.");
+                            return;
+                        }
+                        // 소셜 로그인 사용자는 현재 비밀번호 없이 새 비밀번호만 전송
+                        response = await axios.put(`${apiUrl}/api/my/${userNum}/updatePassword`, {
+                            currentPassword: null,  // 현재 비밀번호 null로 전송
+                            newPassword,
+                            socialLogin: userInfo.socialLogin  // 소셜 로그인 정보 추가
+                        });
+                    } else {
+                        // 일반 사용자의 경우 기존 로직 유지
+                        if (!currentPassword) {
+                            setPasswordError("현재 비밀번호를 입력해주세요.");
+                            return;
+                        }
+                        if (!newPassword) {
+                            setPasswordError("새 비밀번호를 입력해주세요.");
+                            return;
+                        }
+                        if (newPassword !== confirmPassword) {
+                            setPasswordError("비밀번호가 일치하지 않습니다.");
+                            return;
+                        }
+                        if (!validatePassword(newPassword)) {
+                            setPasswordError("비밀번호는 최소 10자 이상이어야 하며, 문자 1개 이상과 숫자 또는 특수 문자(#?!&)를 포함해야 합니다.");
+                            return;
+                        }
+                        response = await axios.put(`${apiUrl}/api/my/${userNum}/updatePassword`, {
+                            currentPassword,
+                            newPassword
+                        });
                     }
-                    if (!newPassword) {
-                        setPasswordError("새 비밀번호를 입력해주세요.");
-                        return;
-                    }
-                    if (newPassword !== confirmPassword) {
-                        setPasswordError("비밀번호가 일치하지 않습니다.");
-                        return;
-                    }
-                    if (!validatePassword(newPassword)) {
-                        setPasswordError("비밀번호는 최소 10자 이상이어야 하며, 문자 1개 이상과 숫자 또는 특수 문자(#?!&)를 포함해야 합니다.");
-                        return;
-                    }
-                    // 모든 검증을 통과했을 경우 비밀번호 변경 요청
-                    response = await axios.put(`${apiUrl}/api/my/${userNum}/updatePassword`, {
-                        currentPassword,
-                        newPassword
-                    });
+
                     if (response?.data.result === 'success') {
                         alert("비밀번호가 성공적으로 변경되었습니다.");
-                        // 비밀번호 변경 후 상태 초기화
                         setCurrentPassword('');
                         setNewPassword('');
                         setConfirmPassword('');
                         setPasswordError('');
                         closeModal('password');
                     } else {
-                        // 백엔드에서 전달된 에러 메시지 처리
                         setPasswordError(response.data.message || "비밀번호 변경에 실패했습니다.");
                     }
-                    break;
-                default:
                     break;
             }
             if (response?.data.result === 'success') {
@@ -323,7 +342,6 @@ const Topbar = () => {
     }, []);
 
     // Helper 함수: 절대 경로 생성
-    // ham_topbar.jsx
     const getFullImagePath = (path) => {
         if (!path) return defaultProfile;
         if (path.startsWith('http')) {
@@ -509,19 +527,21 @@ const Topbar = () => {
             <Modal type="password" isOpen={modalState.password} onClose={() => closeModal('password')}>
                 <h2>비밀번호 변경</h2>
                 <form onSubmit={(e) => { e.preventDefault(); handleChange('password'); }}>
-                    <div className="hmk_password-field">
-                        <label htmlFor="current-password">현재 비밀번호</label>
-                        <input
-                            type="password"
-                            id="current-password"
-                            name="currentPassword"
-                            placeholder="현재 비밀번호 입력"
-                            value={currentPassword}
-                            onChange={(e) => setCurrentPassword(e.target.value)}
-                            autoComplete="current-password"
-                            required
-                        />
-                    </div>
+                    {/* 소셜 로그인이 아닌 경우에만 현재 비밀번호 입력 필드 표시 */}
+                    {(!userInfo.socialLogin || userInfo.socialLogin === '') && (
+                        <div className="hmk_password-field">
+                            <label htmlFor="current-password">현재 비밀번호</label>
+                            <input
+                                type="password"
+                                id="current-password"
+                                name="currentPassword"
+                                placeholder="현재 비밀번호 입력"
+                                value={currentPassword}
+                                onChange={(e) => setCurrentPassword(e.target.value)}
+                                autoComplete="current-password"
+                            />
+                        </div>
+                    )}
                     <div className="hmk_password-field">
                         <label htmlFor="new-password">새 비밀번호</label>
                         <input
