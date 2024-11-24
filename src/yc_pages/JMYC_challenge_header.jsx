@@ -4,12 +4,40 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 import '../yc_assets/yc_css/jmyc_challenge_header.css'; 
+import { Doughnut } from "react-chartjs-2"; // Only Doughnut needed for 성적표
 
 import { FaExclamationCircle } from 'react-icons/fa'; // 느낌표 아이콘
 
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Modal from 'react-modal';
+import {
+    Chart as ChartJS,
+    ArcElement,
+    Tooltip,
+    Legend,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    BarElement,
+    Title,
+    Filler,
+} from "chart.js";
+
+// Chart.js 컴포넌트 등록
+ChartJS.register(
+    ArcElement, 
+    Tooltip, 
+    Legend,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    BarElement,
+    Title,
+    Filler
+);
 
 // 남은 시간 계산 함수 (밀리초 단위)
 const calculateTimeDifference = (endDate) => {
@@ -55,6 +83,9 @@ const JMYCChallengeHeader = () => {
 
     const [timeLeft, setTimeLeft] = useState("");
     const [userAuthorization, setUserAuthorization] = useState(0);
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [userNum, setUserNum] = useState(null); // userNum 상태 추가
 
     const [showPointInfo, setShowPointInfo] = useState(false);
 
@@ -71,20 +102,131 @@ const JMYCChallengeHeader = () => {
     const [showChallengeStartedModal, setShowChallengeStartedModal] = useState(false);
     const [showChallengeEndModal, setShowChallengeEndModal] = useState(false);
     const [hasShownChallengeStartedModal, setHasShownChallengeStartedModal] = useState(false);
+    const [userDetails, setUserDetails] = useState({});
 
+    const roomEnterPoint = userDetails.roomEnterPoint || 0;
+    const achievementRate = userDetails.userAchievementRate || 0;
+    const challengeRewardPoints = userDetails.challengeRewardEligible ? roomEnterPoint : 0;
     // ----------------------
     // 날씨 관련 상태 변수 추가
     // ----------------------
     const [weatherData, setWeatherData] = useState(null);
     const [locationError, setLocationError] = useState(null);
 
+
+    let bettingPoints = 0;
+    if (achievementRate < 85) {
+        bettingPoints = roomEnterPoint * (achievementRate / 100);
+    } else if (achievementRate >= 85 && achievementRate < 100) {
+        bettingPoints = roomEnterPoint;
+    } else if (achievementRate === 100) {
+        bettingPoints = roomEnterPoint + (roomEnterPoint * 0.20);
+    }
+
+    // 모달 열기 함수
+    const openModal = async (user) => {
+        setSelectedUser(user);
+        setModalOpen(true);
+        setUserDetails({}); // 이전 데이터 초기화
+
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/rates/userDetails/${roomNum}/${user.userNum}`);
+            console.log('User Details Response:', response.data);
+            if (response.data.result === 'success') {
+                setUserDetails(response.data.apiData);
+            } else {
+                setError("사용자 정보를 불러오는 데 실패했습니다.");
+            }
+        } catch (error) {
+            setError("서버와의 통신에 실패했습니다.");
+            console.error(error);
+        }
+    };
+
+    // 새로운 모달 열기 함수 - 현재 사용자
+    const openReportModalForCurrentUser = async () => {
+        if (!userNum) {
+            console.error("userNum이 설정되지 않았습니다.");
+            return;
+        }
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/rates/userDetails/${roomNum}/${userNum}`);
+            console.log('Current User Details Response:', response.data);
+            if (response.data.result === 'success') {
+                setUserDetails(response.data.apiData);
+                setSelectedUser(response.data.apiData);
+                setModalOpen(true);
+            } else {
+                setError("현재 사용자 정보를 불러오는 데 실패했습니다.");
+            }
+        } catch (error) {
+            setError("서버와의 통신에 실패했습니다.");
+            console.error(error);
+        }
+    };
+
+    // 모달 닫기 함수
+    const closeModal = () => {
+        setModalOpen(false);
+        setSelectedUser(null);
+    };
+
+
+    // 도넛 차트 옵션 정의
+    const chartOptions = {
+        maintainAspectRatio: false,
+        cutout: '70%', // Donut chart
+        plugins: {
+            legend: {
+                display: false,
+            },
+            tooltip: {
+                enabled: true,
+                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                titleFont: {
+                    size: 14,
+                    weight: 'bold',
+                },
+                bodyFont: {
+                    size: 12,
+                },
+            },
+        },
+        animation: {
+            animateRotate: true, // 회전 애니메이션 활성화
+            animateScale: false,  // 스케일 애니메이션 비활성화
+            duration: 1000, // 애니메이션 지속 시간 (ms)
+            easing: 'easeOutQuart', // 자연스러운 이징 함수
+        },
+    };
+
+    // 성적표용 도넛 차트 데이터
+    const chartData = selectedUser ? {
+        labels: ["완료", "미완료"],
+        datasets: [
+            {
+                data: [selectedUser.achievementRate, 100 - selectedUser.achievementRate],
+                backgroundColor: ["#4CAF50", "#E0E0E0"],
+                hoverBackgroundColor: ["#66BB6A", "#BDBDBD"],
+                borderWidth: 0
+            },
+        ],
+    } : null;
+
+    // 그룹 챌린지 성공 여부 확인
+    const groupChallengeSuccess = userDetails.groupChallenges?.every(
+        (challenge) => challenge.achievementRate === 100
+    );
+
+    // 그룹 챌린지 포인트 계산
+    const groupChallengePoints = groupChallengeSuccess ? roomEnterPoint : 0;
     // ----------------------
     // 날씨 데이터 가져오기 함수
     // ----------------------
     const fetchWeatherData = async (latitude, longitude) => {
         try {
             const API_KEY = "d34033ce5a7c862984974f178d1598ca"; // 실제 API 키 사용 권장
-    
+
             console.log(`Fetching weather data for lat: ${latitude}, lon: ${longitude}`);
             
             const response = await axios.get(
@@ -99,7 +241,7 @@ const JMYCChallengeHeader = () => {
                     }
                 }
             );
-    
+
             console.log('Weather API Response:', response.data);
             setWeatherData(response.data);
         } catch (error) {
@@ -297,14 +439,16 @@ const JMYCChallengeHeader = () => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-
+    
             if (response.data.result === 'success') {
                 setRoomData(prevData => ({ ...prevData, roomStatusNum: 4 }));
                 setShowChallengeEndModal(false);
                 getRoomHeaderInfo();
-
+    
                 alert('챌린지가 성공적으로 종료되었습니다.');
-                // 추가: 챌린지가 완전히 종료되었으므로 필요한 후속 조치
+    
+                // Report Modal 열기
+                openReportModalForCurrentUser();
             } else {
                 alert(`챌린지 종료 실패: ${response.data.message}`);
             }
@@ -446,18 +590,14 @@ const JMYCChallengeHeader = () => {
                     setShowStartChallengePromptModal(true);
                 }
 
-                // roomStatusNum이 3이고 챌린지가 시작되었을 때, userAuthorization이 1 또는 2인 사용자에게 한 번만 알림
-                if (roomData.roomStatusNum === 3 && (userAuth === 1 || userAuth === 2) && !hasShownChallengeStartedModal) {
-                    setShowChallengeStartedModal(true);
-                    setHasShownChallengeStartedModal(true);
+                // roomStatusNum이 3이고 시간이 만료된 경우, 호스트에게 챌린지 종료 촉구 모달 표시
+                if (roomData.roomStatusNum === 3 && calculateTimeDifference(roomData.roomStartDate) <= 0 && userAuth === 1) {
+                    setShowChallengeEndModal(true);
                 }
 
-                // roomStatusNum이 3이고 시간이 만료된 경우, 호스트에게 챌린지 종료 촉구 모달 표시
-                if (roomData.roomStatusNum === 3 && roomData.roomStartDate) {
-                    const endDate = new Date(roomData.roomStartDate.getTime() + roomData.periodType * 24 * 60 * 60 * 1000);
-                    if (calculateTimeDifference(endDate) <= 0 && userAuth === 1) {
-                        setShowChallengeEndModal(true);
-                    }
+                // roomStatusNum이 4인 경우, 항상 성적표 모달 표시
+                if (roomData.roomStatusNum === 4 && (userAuth === 1 || userAuth === 2)) {
+                    openReportModalForCurrentUser();
                 }
 
             } else {
@@ -469,6 +609,24 @@ const JMYCChallengeHeader = () => {
         }
     }
 
+
+    const fetchUserNum = async () => {
+        try {
+          const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/chat/info`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          if (response.data.result === 'success') {
+            setUserNum(response.data.apiData);
+          } else {
+            alert('유저 정보를 가져오는 데 실패했습니다.');
+          }
+        } catch (error) {
+          console.error(error);
+          alert('서버와의 통신에 실패했습니다.');
+        }
+      };
     // ----------------------
     // 남은 시간 실시간 업데이트 및 조건 검사
     // ----------------------
@@ -490,7 +648,15 @@ const JMYCChallengeHeader = () => {
             }
 
             if (difference <= 0) {
-                setTimeLeft("종료됨");
+                if (roomData.roomStatusNum === 3) {
+                    setTimeLeft("종료됨");
+                    // Since the time has expired, prompt to end the challenge if user is host
+                    if (userAuthorization === 1) {
+                        setShowChallengeEndModal(true);
+                    }
+                } else {
+                    setTimeLeft("종료됨");
+                }
                 clearInterval(timerRef.current);
             } else {
                 setTimeLeft(formatTimeLeft(difference));
@@ -503,7 +669,7 @@ const JMYCChallengeHeader = () => {
         updateTimer();
 
         return () => clearInterval(timerRef.current);
-    }, [roomData.roomStartDate, roomData.roomStatusNum, roomData.periodType]);
+    }, [roomData.roomStartDate, roomData.roomStatusNum, roomData.periodType, userAuthorization]);
 
     // ----------------------
     // 데이터 가져오기 및 사용자 인증 확인
@@ -511,6 +677,7 @@ const JMYCChallengeHeader = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                await fetchUserNum(); // Fetch and set userNum first
                 await getRoomHeaderInfo();
                 await checkUser();
                 getUserLocation(); // 위치 정보 가져오기
@@ -666,9 +833,7 @@ const JMYCChallengeHeader = () => {
                             )}
                         </div>
 
-                        
-
-                        
+                       
                        {/* 버튼 영역 */}
                         {userAuthorization === 1 ? ( // 방장인 경우
                             roomData.roomStatusNum === 1 ? ( // roomStatusNum이 1일 때 모집 시작 버튼
@@ -723,9 +888,17 @@ const JMYCChallengeHeader = () => {
                                     <span className="emoji"></span>
                                     <span className="label">챌린지 시작</span>
                                 </button>
-                            )  : null // roomStatusNum이 4 이상일 때 버튼 숨김
+                            ) : roomData.roomStatusNum === 3 && timeLeft === "종료됨" ? ( // roomStatusNum이 3이고 시간이 만료되었을 때 챌린지 종료 버튼
+                                <button 
+                                    className="jm-c-end host" 
+                                    onClick={() => setShowChallengeEndModal(true)}
+                                >
+                                    <span className="emoji"></span>
+                                    <span className="label">챌린지 종료</span>
+                                </button>
+                            ) : null // roomStatusNum이 4 이상일 때 버튼 숨김
                         ) : (
-                            userAuthorization === 0 && roomData.roomStatusNum === 2 && roomData.roomStartDate && ( // 일반 사용자가 아직 참여하지 않았고 roomStatusNum이 3 미만일 때
+                            userAuthorization === 0 && roomData.roomStatusNum === 2 && roomData.roomStartDate && ( // 일반 사용자가 아직 참여하지 않았고 roomStatusNum이 2일 때
                                 <button className="jm-c-start" onClick={handleJoinClick}>
                                     <span className="emoji"></span>
                                     <span className="label">+ 참가</span>
@@ -900,6 +1073,65 @@ const JMYCChallengeHeader = () => {
                         </div>
                     </Modal>
 
+                    {/* 성적표 모달 */}
+                    {isModalOpen && selectedUser && userDetails && (
+                        <div className="yc-modal-overlay" onClick={closeModal}>
+                            <div className="yc-modal-content" onClick={(e) => e.stopPropagation()}>
+                                <h2>성적표</h2>
+                                <div className="yc-report-details">
+                                    {/* 도넛 차트 */}
+                                    <div className="yc-dougnut-chart">
+                                        <Doughnut
+                                            key={selectedUser.userNum}
+                                            data={chartData}
+                                            options={chartOptions}
+                                        />
+                                        <span className="yc-completion-rate">{selectedUser.achievementRate}%</span>
+                                    </div>
+
+                                    {/* 미션 상세 정보 */}
+                                    <div className="yc-mission-details">
+                                        <p>완료한 미션: {userDetails?.totalMissions?.completedCount}/{userDetails?.totalMissions?.totalAssigned}</p>
+                                        {userDetails?.missionDetails?.map((mission) => (
+                                            <p key={mission.missionName}>
+                                                {mission.missionName}: {mission.completedCount}/{mission.totalAssigned}
+                                            </p>
+                                        ))}
+                                    </div>
+
+                                    {/* 그룹 챌린지 섹션 */}
+                                    <div className="yc-group-challenge-section">
+                                        <h3>그룹 챌린지</h3>
+                                        <div className="yc-group-challenge-points">
+                                            +{groupChallengePoints} P
+                                        </div>
+                                        <ul className="yc-group-challenges">
+                                            {userDetails?.groupChallenges?.map((challenge) => (
+                                                <li key={challenge.missionName}>
+                                                    {challenge.missionName} - {challenge.achievementRate === 100 ? '성공' : '실패'}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+
+                                    {/* 포인트 요약 */}
+                                    <div className="yc-points-summary">
+                                        {userDetails?.challengeRewardEligible && (
+                                            <p><strong>도전 보상:</strong> +{challengeRewardPoints} P</p>
+                                        )}
+                                        <p><strong>그룹 보상:</strong> +{groupChallengePoints} P</p>
+                                        <p><strong>배팅 포인트:</strong> +{Math.round(bettingPoints)} P</p>
+                                        <p><strong>합계:</strong> {Math.round(challengeRewardPoints + groupChallengePoints + bettingPoints)} P</p>
+                                    </div>
+
+                                    <button className="yc-close-button" onClick={closeModal}>
+                                        닫기
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    
                 </>
             )}
         </div>

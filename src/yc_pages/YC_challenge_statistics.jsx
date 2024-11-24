@@ -670,7 +670,6 @@ const YCChallengeStatistics = () => {
                   </div>
               </div>
               </div>
-
           )}
           
           {/* 프로필 정보 모달 */}
