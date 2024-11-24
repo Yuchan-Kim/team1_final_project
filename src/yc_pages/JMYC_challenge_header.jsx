@@ -322,6 +322,7 @@ const JMYCChallengeHeader = () => {
         }
     };
 
+    // JMYCChallengeHeader.jsx - handleConfirmJoin 함수 수정
     const handleConfirmJoin = async () => {
         try {
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/challenge/join/${roomNum}`, {}, {
@@ -329,18 +330,17 @@ const JMYCChallengeHeader = () => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-
+    
             if (response.data.result === 'success') {
-                setUserAuthorization(2); // 참가한 상태로 설정
-                setShowJoinModal(false);
-                getRoomHeaderInfo();
-
-                alert('참가가 성공적으로 완료되었습니다.');
-                // 추가: 챌린지가 시작되었을 때 모달 표시
-                if (roomData.roomStatusNum === 3 && (userAuthorization === 1 || userAuthorization === 2) && !hasShownChallengeStartedModal) {
-                    setShowChallengeStartedModal(true);
-                    setHasShownChallengeStartedModal(true);
+                const enteredUserAuth = response.data.apiData; // 백엔드에서 enteredUserAuth를 직접 반환
+                if (enteredUserAuth !== undefined) {
+                    setUserAuthorization(enteredUserAuth);
                 }
+                setShowJoinModal(false);
+                await getRoomHeaderInfo(); // 최신 방 정보 다시 가져오기
+    
+                alert('참가가 성공적으로 완료되었습니다.');
+                // useEffect를 통해 모달 표시
             } else {
                 alert(`참가 실패: ${response.data.message}`);
             }
@@ -349,6 +349,9 @@ const JMYCChallengeHeader = () => {
             alert('참가 중 오류가 발생했습니다.');
         }
     };
+    
+
+    
 
     const handleCancelJoin = () => {
         setShowJoinModal(false);
@@ -671,6 +674,14 @@ const JMYCChallengeHeader = () => {
         return () => clearInterval(timerRef.current);
     }, [roomData.roomStartDate, roomData.roomStatusNum, roomData.periodType, userAuthorization]);
 
+
+    useEffect(() => {
+        if (roomData.roomStatusNum === 3 && (userAuthorization === 1 || userAuthorization === 2) && !hasShownChallengeStartedModal) {
+            setShowChallengeStartedModal(true);
+            setHasShownChallengeStartedModal(true);
+        }
+    }, [userAuthorization, roomData.roomStatusNum, hasShownChallengeStartedModal]);
+    
     // ----------------------
     // 데이터 가져오기 및 사용자 인증 확인
     // ----------------------
@@ -897,14 +908,13 @@ const JMYCChallengeHeader = () => {
                                     <span className="label">챌린지 종료</span>
                                 </button>
                             ) : null // roomStatusNum이 4 이상일 때 버튼 숨김
-                        ) : (
-                            userAuthorization === 0 && roomData.roomStatusNum === 2 && roomData.roomStartDate && ( // 일반 사용자가 아직 참여하지 않았고 roomStatusNum이 2일 때
-                                <button className="jm-c-start" onClick={handleJoinClick}>
-                                    <span className="emoji"></span>
-                                    <span className="label">+ 참가</span>
-                                </button>
-                            )
-                        )}
+                        ) : (userAuthorization === 0 ) && roomData.roomStatusNum === 2 && roomData.roomStartDate && ( // userAuthorization ===0 (미참여) 또는 2 (떠남)인 경우
+                            <button className="jm-c-start" onClick={handleJoinClick}>
+                                <span className="emoji"></span>
+                                <span className="label">+ 참가</span>
+                            </button>
+                        )
+                        }
 
                     </div>
 
