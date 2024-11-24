@@ -285,8 +285,8 @@ const DH_JoinForm = () => {
                             <div>─────────── 또는 ───────────</div>
                             <div className="dy-api-joins">
                                 <div id="kakaoIdLogin">
-                                    <img className="dy-api-join"
-                                        src="/images/kakao_login_medium_wide.png"
+                                    <img className="dy-kakao-join"
+                                        src="/images/kakao_join_medium_wide.png"
                                         alt="카카오로 계속하기"
                                         onClick={handleKakaoLogin}
                                     />
