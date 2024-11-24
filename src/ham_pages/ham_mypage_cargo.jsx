@@ -18,6 +18,15 @@ const Cargo = () => {
     // 기프티콘 상세 모달 관련 state
     const [modalDetailState, setModalDetailState] = useState(false); // 기프티콘 상세 모달 열림 여부
     const [selectedGift, setSelectedGift] = useState(null); // 선택된 기프티콘 정보
+    // 알림 모달 관련 state
+    const [alertModalState, setAlertModalState] = useState(false);
+    const [confirmModalState, setConfirmModalState] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
+    const [pendingGiftcard, setPendingGiftcard] = useState(null);
+    // 기프티콘 데이터 state 
+    const [giftCards, setGiftCards] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     // 기프티콘 상세 모달을 여는 함수
     const openDetailModal = (gift) => {
@@ -30,6 +39,19 @@ const Cargo = () => {
     const closeDetailModal = () => {
         setModalDetailState(false); // 상세 모달 닫힘
         setSelectedGift(null); // 선택된 기프티콘 정보 초기화
+    };
+
+    // 확인 모달 표시 함수
+    const showConfirmModal = (gift) => {
+        setPendingGiftcard(gift);
+        setModalMessage(`${gift.name} 기프티콘을 사용하시겠습니까?`);
+        setConfirmModalState(true);
+    };
+
+    // 알림 모달 표시 함수
+    const showAlertModal = (message) => {
+        setModalMessage(message);
+        setAlertModalState(true);
     };
 
     // **액티브 탭 상태 추가**
@@ -47,11 +69,6 @@ const Cargo = () => {
             completed: gifts.filter(gift => gift.purchasedStatus === '사용완료').length
         };
     };
-
-    // **기프티콘 데이터 상태 추가**
-    const [giftCards, setGiftCards] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
 
     const userNum = profileStore.getUserNum(); // 현재 사용자 번호 가져오기
 
@@ -155,17 +172,22 @@ const Cargo = () => {
         );
     };
 
-    // 기프티콘 사용 처리 함수
+    // 기프티콘 사용 처리 함수 수정
     const handleUseGiftcard = async (selectedGift) => {
         if (!selectedGift || !selectedGift.purchaseNum) {
-            alert('기프티콘 정보가 올바르지 않습니다.');
+            showAlertModal('기프티콘 정보가 올바르지 않습니다.');
             return;
         }
 
+        showConfirmModal(selectedGift);
+    };
+
+    // 실제 기프티콘 사용 처리 함수
+    const processGiftcardUse = async () => {
         try {
             const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
             const response = await axios.put(
-                `${apiUrl}/api/my/giftcards/use/${selectedGift.purchaseNum}`,
+                `${apiUrl}/api/my/giftcards/use/${pendingGiftcard.purchaseNum}`,
                 {},
                 {
                     headers: {
@@ -175,27 +197,29 @@ const Cargo = () => {
             );
 
             if (response.data.result === 'success') {
-                // 기프티콘 목록 업데이트
                 setGiftCards(prevGiftCards =>
                     prevGiftCards.map(gift =>
-                        gift.purchaseNum === selectedGift.purchaseNum
+                        gift.purchaseNum === pendingGiftcard.purchaseNum
                             ? { ...gift, purchasedStatus: '사용완료', isUsed: true }
                             : gift
                     )
                 );
 
                 closeDetailModal();
-                alert('기프티콘이 사용 처리되었습니다.');
+                showAlertModal('기프티콘이 사용 처리되었습니다.');
 
                 if (activeTab === 'available') {
                     setActiveTab('completed');
                 }
             } else {
-                alert(response.data.message || '기프티콘 사용 처리에 실패했습니다.');
+                showAlertModal(response.data.message || '기프티콘 사용 처리에 실패했습니다.');
             }
         } catch (error) {
             console.error('기프티콘 사용 처리 중 오류 발생:', error);
-            alert('기프티콘 사용 처리 중 오류가 발생했습니다.');
+            showAlertModal('기프티콘 사용 처리 중 오류가 발생했습니다.');
+        } finally {
+            setConfirmModalState(false);
+            setPendingGiftcard(null);
         }
     };
 
@@ -297,6 +321,41 @@ const Cargo = () => {
                             </div>
                         </>
                     )}
+                </Modal>
+                {/* 확인 모달 */}
+                <Modal type="confirm" isOpen={confirmModalState} onClose={() => setConfirmModalState(false)}>
+                    <div className="hmk_modal_content">
+                        <p className="hmk_modal_message">{modalMessage}</p>
+                        <div className="hmk_modal_buttons">
+                            <button
+                                className="hmk_cargo_btnmodal hmk_confirm_btn"
+                                onClick={processGiftcardUse}
+                            >
+                                확인
+                            </button>
+                            <button
+                                className="hmk_cargo_btnmodal hmk_cancel_btn"
+                                onClick={() => setConfirmModalState(false)}
+                            >
+                                취소
+                            </button>
+                        </div>
+                    </div>
+                </Modal>
+
+                {/* 알림 모달 */}
+                <Modal type="alert" isOpen={alertModalState} onClose={() => setAlertModalState(false)}>
+                    <div className="hmk_modal_content">
+                        <p className="hmk_modal_message">{modalMessage}</p>
+                        <div className="hmk_modal_buttons">
+                            <button
+                                className="hmk_cargo_btnmodal"
+                                onClick={() => setAlertModalState(false)}
+                            >
+                                확인
+                            </button>
+                        </div>
+                    </div>
                 </Modal>
             </div>
             <Footer />

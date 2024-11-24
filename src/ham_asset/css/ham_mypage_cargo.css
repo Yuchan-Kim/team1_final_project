@@ -1,4 +1,5 @@
 @charset "UTF-8";
+/* src/ham_asset/css/ham_mypage_cargo.css */
 
 /* 기프티콘 갤러리 스타일 */
 .wrap .hmk_main-container .hmk_main .hmk_cargobox {
@@ -13,14 +14,9 @@
 }
 
 .wrap .hmk_main-container .hmk_main .hmk_gift-gallery {
-    display: grid;
-    /* 그리드 레이아웃 사용 */
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    /* 반응형 컬럼 */
+    display: flex;
+    flex-direction: row;
     gap: 20px;
-    /* 아이템 간격 */
-    padding: 0 10px;
-    /* 좌우 패딩 추가 */
 
 }
 
@@ -271,23 +267,23 @@
 
 /* 모달 액션 버튼 스타일 */
 .hmk_cargo_btnmodal {
-    padding: 10px 20px;
-    /* 내부 여백 */
+    width: 30%;
+    padding: 10px;
     background-color: #3a7afe;
-    /* 버튼 배경색 */
     color: #ffffff;
-    /* 버튼 글씨 색상 */
     border: none;
-    /* 테두리 제거 */
     border-radius: 4px;
-    /* 모서리 둥글게 */
     cursor: pointer;
-    /* 마우스 커서 포인터로 변경 */
     font-size: 1em;
-    /* 글씨 크기 */
     transition: background-color 0.3s ease;
-    /* 호버 시 부드러운 전환 */
 }
+
+.hmk_cargo_btnmodal:last-child {
+    background-color: #383E47;
+    /* 취소 버튼은 회색으로 설정 */
+    color: #fff;
+}
+
 .hmk_cargo_btnmodal[disabled] {
     background-color: #cccccc;
     cursor: not-allowed;
@@ -296,6 +292,12 @@
 .hmk_cargo_btnmodal:hover {
     background-color: #3569c1;
     /* 호버 시 배경색 변경 */
+}
+
+.hmk_cargo_btnmodal:last-child:hover {
+    background-color: #a32415;
+    /* 취소 버튼은 회색으로 설정 */
+    color: #fff;
 }
 
 /* 모달 창 닫기 버튼 스타일 */
@@ -314,4 +316,98 @@
     margin: 20px;
     font-size: 20px;
     font-weight: bold;
+}
+
+/* ham_mypage_cargo.css 파일에 추가 */
+
+/* 확인/알림 모달 베이스 스타일 */
+[role="dialog"] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+}
+
+/* 모달 컨테이너 */
+.hmk_modal_content {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 320px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* 모달 메시지 */
+.hmk_modal_message {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+    word-break: keep-all;
+    padding: 0 12px;
+}
+
+/* 버튼 컨테이너 */
+.hmk_modal_buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding-top: 8px;
+}
+
+/* 공통 버튼 스타일 */
+.hmk_modal_buttons button {
+    flex: 1;
+    min-width: 100px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* 확인 버튼 */
+.hmk_confirm_btn {
+    background-color: #3a7afe;
+    color: white;
+}
+
+.hmk_confirm_btn:hover {
+    background-color: #2f65e0;
+}
+
+/* 취소 버튼 */
+.hmk_cancel_btn {
+    background-color: #f3f4f6;
+    color: #4b5563;
+}
+
+.hmk_cancel_btn:hover {
+    background-color: #e5e7eb;
+}
+
+/* 단일 버튼일 경우 (알림 모달) */
+.hmk_modal_buttons button:only-child {
+    max-width: 120px;
+}
+
+/* 모달 오버레이 */
+.hmk_modal_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1999;
 }
