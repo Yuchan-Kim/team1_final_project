@@ -44,21 +44,21 @@ const DH_PointStoreMain = () => {
 
 	/*---생명주기 + 이벤트 관련 메소드 ----------------------*/
     // 마운트됐을때
-    useEffect(()=>{
+    useEffect(() => {
         console.log("마운트 됐어요");
-
-        // 서버로 데이터 전송
+    
+        const userNum = localStorage.getItem('userNum'); // 로컬스토리지에서 userNum 가져오기
+    
         axios({
-            method: 'get', // put, post, delete
+            method: 'get',
             url: `${process.env.REACT_APP_API_URL}/api/pointstores`,
-
-            responseType: 'json' //수신타입 받을때
+            params: userNum ? { userNum: userNum } : {}, // userNum이 있으면 전달, 없으면 빈 객체
+            responseType: 'json',
         }).then(response => {
-            console.log(response); //수신데이타
-            setItemList(response.data.apiData);
-
+                console.log(response); // 수신 데이터
+                setItemList(response.data.apiData);
         }).catch(error => {
-            console.log(error);
+                console.log(error);
         });
 
         // 토큰 확인 로직
