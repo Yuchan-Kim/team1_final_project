@@ -11,11 +11,39 @@ import TopHeader from "../pages/include/DH_Header.jsx";
 import ChatRoom from "../yc_pages/YC_challenge_chatroom.jsx";
 import { convertTM128ToWGS84, convert3857ToWGS84 } from '../yc_pages/coordinateConversion.js'; // 좌표 변환 함수 임포트
 
+import { Doughnut, Line, Bar } from "react-chartjs-2"; // Bar 차트 추가
+import {
+    Chart as ChartJS,
+    ArcElement,
+    Tooltip,
+    Legend,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    BarElement,
+    Title,
+    Filler,
+} from "chart.js";
+ChartJS.register(
+    ArcElement, 
+    Tooltip, 
+    Legend,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    BarElement,
+    Title,
+    Filler
+);
+
 const YcChallengeBoard = () => {
 
     
     const { roomNum } = useParams();
     const navigate = useNavigate();
+    const [topUsers, setTopUsers] = useState([]);
 
     const [userAuth, setUserAuth] = useState(0);
     const [notices, setNotices] = useState([]);
@@ -54,6 +82,8 @@ const YcChallengeBoard = () => {
     useEffect(() => {
         console.log("마운트 완료");
         checkAuthUser();
+        fetchMissionAchievements();
+        fetchTopUsers();
 
         // 네이버 지도 스크립트 로드 확인
         const script = document.querySelector('script[src*="maps.js"]');
@@ -473,7 +503,85 @@ const YcChallengeBoard = () => {
         }
     }, [selectedPlace, isNaverLoaded]);
     
-    
+    const [missionAchievements, setMissionAchievements] = useState([]);
+
+    // 미션 달성률 데이터를 가져오는 함수
+  const fetchMissionAchievements = () => {
+    axios({
+      method: 'get',
+      url: `${process.env.REACT_APP_API_URL}/api/rates/achievement/${roomNum}`,
+      responseType: 'json'
+    })
+    .then(response =>{
+      console.log('Mission Achievements Response:', response.data);
+      if (response.data.result === 'success') {
+        setMissionAchievements(response.data.apiData);
+      } else {
+        setError("미션 달성률을 불러오는 데 실패했습니다.");
+      }
+    })
+    .catch(error => {
+      setError("서버와의 통신에 실패했습니다.");
+      console.error(error);
+    });
+  };
+    // 첫 번째 미션 선택
+  const firstMission = missionAchievements.length > 0 ? missionAchievements[0] : null;
+
+    // 도넛 차트 데이터 설정
+  const doughnutData = firstMission ? {
+    labels: ['완료', '미완료'],
+    datasets: [
+      {
+        label: firstMission.missionName,
+        data: [firstMission.achievementRate, 100 - firstMission.achievementRate],
+        backgroundColor: [
+          'rgba(75, 192, 192, 0.6)',
+          'rgba(255, 205, 86, 0.6)'
+        ],
+        borderColor: [
+          'rgba(75, 192, 192, 1)',
+          'rgba(255, 205, 86, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  } : null;
+
+  const doughnutOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom',
+      },
+      title: {
+        display: true,
+        text: '그룹 챌린지 달성도',
+      },
+    },
+  };
+
+  // Top 5 유저 가져오기
+  const fetchTopUsers = () => {
+    axios({
+        method: 'get',
+        url: `${process.env.REACT_APP_API_URL}/api/rates/topusers/${roomNum}`, 
+        responseType: 'json'
+    })
+    .then(response =>{
+      console.log('Top Users Response:', response.data);
+      if (response.data.result === 'success') { 
+        setTopUsers(response.data.apiData); 
+      } else {
+        setError("Top 5 User를 불러오는 데 실패했습니다.");
+      }
+    })
+    .catch(error => {
+      setError("서버와의 통신에 실패했습니다.");
+      console.error(error);
+    });
+  };
+
 
     
 
@@ -481,6 +589,34 @@ const YcChallengeBoard = () => {
        <>
         {/* 상단 헤더 컴포넌트 렌더링 */}
         <TopHeader/>
+
+        <div className="yc-chart-container"> 
+          
+          {/* Top 5 유저 랭킹 */}
+          <div className="yc-top-rankings">
+            {/* 도넛 차트와 달성률 표시 */}
+            {doughnutData && (
+              <>
+                <Doughnut data={doughnutData} options={doughnutOptions} />
+                <h4>{firstMission.missionName} 달성률: {firstMission.achievementRate.toFixed(2)}%</h4>
+              </>
+            )}
+            <h3>Top 5 랭킹</h3>
+          {topUsers.map((user) => (
+            <div key={user.userNum} className="yc-ranking-item">
+              <img 
+                src={user.usingProfilePic} 
+                alt={`${user.userName} 프로필`} 
+                className="yc-ranking-avatar" 
+              />
+              <div className="yc-ranking-info">
+                <span className="yc-ranking-name">{user.userName}</span>
+                <span className="yc-ranking-progress">달성률: {user.achievementRate}%</span>
+              </div>
+            </div>
+          ))}
+          </div>
+        </div>
         <div className="yc-board-wrap">
             {/* 사이드바 컴포넌트 렌더링 */}
             <Sidebar />

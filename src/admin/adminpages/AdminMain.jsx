@@ -1,168 +1,283 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from 'react-router-dom';  // useNavigate 추가
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import {
+    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+    PieChart, Pie, Cell,
+    BarChart, Bar,
+    AreaChart, Area,
+    RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar
+} from 'recharts';
 
 // css
 import '../../css/reset.css';
 import '../admincss/adminMain.css';
 
-
 const AdminMain = () => {
-    /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
-    const [storeList, setStoreList] = useState([]);
-    const [productList, setProductList] = useState([]);
-    const [historyCount, setHistoryCount] = useState(0);
-    const [totalPriceSum, setTotalPriceSum] = useState(0); // State for the total sum of totalPrice
-    const [userCount, setUserCount] = useState(0);
-    const [waitingCount, setWaitingCount] = useState(0);
-    const [deliveringCount, setDeliveringCount] = useState(0);
-    const [pickUpCount, setPickUpCount] = useState(0);
-
-    const navigate = useNavigate();  // 페이지 이동을 위한 useNavigate 추가
-    const authUser = JSON.parse(localStorage.getItem('authUser'));  // authUser 정보 가져오기
+    const navigate = useNavigate();
+    const authUser = JSON.parse(localStorage.getItem('authUser'));
 
     // 관리자인지 확인하여 관리자 아닌 경우 리다이렉트
+    // useEffect(() => {
+    //     if (!authUser || authUser.userStatus !== '관리자') {
+    //         alert("관리자만 접근할 수 있습니다.");
+    //         navigate("/");
+    //     }
+    // }, [authUser, navigate]);
+
+    // 상태 관리
+    const [userData, setUserData] = useState([]);
+    const [salesData, setSalesData] = useState([]);
+    const [categoryData, setCategoryData] = useState([]);
+    const [areaData, setAreaData] = useState([]);
+    const [radarData, setRadarData] = useState([]);
+    const [detailedData, setDetailedData] = useState([]);
+    const [recentActivities, setRecentActivities] = useState([]);
+    const [keyStats, setKeyStats] = useState({
+        totalUsers: 0,
+        totalSales: 0,
+        totalOrders: 0,
+    });
+
+    // 데이터 로드 (API 호출 예시)
     useEffect(() => {
-        // if (!authUser || authUser.userStatus !== '관리자') {
-        //     // alert("관리자만 접근할 수 있습니다.");
-        //     navigate("/");  // 메인 페이지로 리다이렉트
-        // }
-    }, [authUser, navigate]);
+        // 사용자 등록 추이 데이터 가져오기
+        axios.get('/api/admin/user-registrations')
+            .then(response => setUserData(response.data))
+            .catch(error => console.error("사용자 등록 추이 데이터를 가져오는 중 오류 발생:", error));
 
-    /*---일반 메소드 -----------------------------*/
-    
+        // 판매 데이터 가져오기
+        axios.get('/api/admin/sales')
+            .then(response => setSalesData(response.data))
+            .catch(error => console.error("판매 데이터를 가져오는 중 오류 발생:", error));
 
-    const getUserCount = () => {
-        axios({
-            method: 'get', 
-            url: `${process.env.REACT_APP_API_URL}/api/admin/user`,
-            responseType: 'json'
-        }).then(response => {
-            const count = response.data.apiData.length;
-            setUserCount(count);
-        }).catch(error => {
-            console.log(error);
-        });
-    };
+        // 카테고리 분포 데이터 가져오기
+        axios.get('/api/admin/category-distribution')
+            .then(response => setCategoryData(response.data))
+            .catch(error => console.error("카테고리 분포 데이터를 가져오는 중 오류 발생:", error));
 
-    /*---훅(useEffect)메소드-------*/
-    useEffect(() => {
-        
+        // 지역별 판매 데이터 가져오기
+        axios.get('/api/admin/sales-by-region')
+            .then(response => setAreaData(response.data))
+            .catch(error => console.error("지역별 판매 데이터를 가져오는 중 오류 발생:", error));
+
+        // 레이더 차트 데이터 가져오기
+        axios.get('/api/admin/category-performance')
+            .then(response => setRadarData(response.data))
+            .catch(error => console.error("카테고리 퍼포먼스 데이터를 가져오는 중 오류 발생:", error));
+
+        // 상세 사용자 데이터 가져오기
+        axios.get('/api/admin/user-details')
+            .then(response => setDetailedData(response.data))
+            .catch(error => console.error("사용자 상세 데이터를 가져오는 중 오류 발생:", error));
+
+        // 최근 활동 데이터 가져오기
+        axios.get('/api/admin/recent-activities')
+            .then(response => setRecentActivities(response.data))
+            .catch(error => console.error("최근 활동 데이터를 가져오는 중 오류 발생:", error));
+
+        // 주요 통계 데이터 가져오기
+        axios.get('/api/admin/key-stats')
+            .then(response => setKeyStats(response.data))
+            .catch(error => console.error("주요 통계 데이터를 가져오는 중 오류 발생:", error));
+
     }, []);
+
+    // 도넛 그래프 색상
+    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AA336A'];
 
     return (
         <>
-            <div id="wrap">
+            <div id="admin-wrap">
                 {/* 컨텐츠 */}
                 <div id="contents" className="clearfix">
-                    {/* admin_main */}
-                    <div id="admin_main">
-                        {/* aside */}
-                        <div id="asides">
+                    {/* aside */}
+                    <div id="asides-admin">
                             <h2><Link to="/admin/main" rel="noreferrer noopener">관리자 페이지</Link></h2>
                             <div id="sub_list">
                                 <ul className='lists'>
                                     <li><Link to="/admin/user" rel="noreferrer noopener">유저 관리</Link></li>
                                     <li><Link to="/admin/point" rel="noreferrer noopener">포인트 상품 관리</Link></li>
-                                    <li><Link to="/admin/" rel="noreferrer noopener">유저 관리</Link></li>
-                                    <li><Link to="/admin/delivery" rel="noreferrer noopener">배송 관리</Link></li>
-                                    <li><Link to="/admin/history" rel="noreferrer noopener">판매 관리</Link></li>
+                                    <li><Link to="/admin/delivery" rel="noreferrer noopener">챌린지 관리</Link></li>
+                                    <li><Link to="/admin/history" rel="noreferrer noopener">신고 관리</Link></li>
                                 </ul>
                             </div>
                         </div>
                         {/* //aside */}
+                    {/* admin_main */}
+                    <div id="admin_main">
+                        
                         <div className="hjy-grid-container">
-                            {/* User Management Summary */}
+                            {/* KPI 카드 섹션 */}
+                            <div className="kpi-section">
+                                <div className="kpi-card">
+                                    <h4>총 사용자 수</h4>
+                                    <p>{keyStats.totalUsers.toLocaleString()}명</p>
+                                </div>
+                                <div className="kpi-card">
+                                    <h4>총 판매 금액</h4>
+                                    <p>₩{keyStats.totalSales.toLocaleString()}</p>
+                                </div>
+                                <div className="kpi-card">
+                                    <h4>총 주문 수</h4>
+                                    <p>{keyStats.totalOrders.toLocaleString()}건</p>
+                                </div>
+                            </div>
+
+                            {/* 사용자 등록 추이 (라인 차트) */}
                             <div className="hjy-list-section">
                                 <div className="hjy-list-header">
-                                    <h3>유저 관리</h3>
+                                    <h3>사용자 등록 추이</h3>
                                     <Link to="/admin/user" rel="noreferrer noopener">더보기</Link>
                                 </div>
                                 <div className="hjy-list-status">
-                                    <p>전체: {userCount} </p>
+                                    <LineChart width={400} height={200} data={userData}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="month" />
+                                        <YAxis />
+                                        <Tooltip />
+                                        <Legend />
+                                        <Line type="monotone" dataKey="users" stroke="#8884d8" activeDot={{ r: 8 }} />
+                                    </LineChart>
                                 </div>
                             </div>
 
-                            {/* Delivery Management Summary */}
+                            {/* 월별 판매 내역 (바 차트) */}
                             <div className="hjy-list-section">
                                 <div className="hjy-list-header">
-                                    <h3>배송 관리</h3>
-                                    <Link to="/admin/delivery" rel="noreferrer noopener">더보기</Link>
-                                </div>
-                                <div className="hjy-list-status">
-                                    <p>배송 준비중: {waitingCount} &nbsp;|&nbsp;배송 중: {deliveringCount} &nbsp;|&nbsp;픽업: {pickUpCount}</p>
-                                </div>
-                            </div>
-
-                            {/* Sales History Summary */}
-                            <div className="hjy-list-section">
-                                <div className="hjy-list-header">
-                                    <h3>판매내역</h3>
+                                    <h3>월별 판매 내역</h3>
                                     <Link to="/admin/history" rel="noreferrer noopener">더보기</Link>
                                 </div>
                                 <div className="hjy-list-status">
-                                    <p>전체: {historyCount} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 총 수익: {totalPriceSum.toLocaleString()}</p>
+                                    <BarChart width={400} height={200} data={salesData}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="month" />
+                                        <YAxis />
+                                        <Tooltip />
+                                        <Legend />
+                                        <Bar dataKey="sales" fill="#82ca9d" />
+                                    </BarChart>
                                 </div>
                             </div>
 
-                            {/* Store Management Summary */}
-                            <div className="hjy-section">
-                                <div className="hjy-header">
-                                    <h3>매장 관리</h3>
-                                    <Link to="/admin/store" rel="noreferrer noopener">더보기</Link>
+                            {/* 카테고리 분포 (도넛 차트) */}
+                            <div className="hjy-list-section">
+                                <div className="hjy-list-header">
+                                    <h3>카테고리 분포</h3>
+                                    <Link to="/admin/category" rel="noreferrer noopener">더보기</Link>
                                 </div>
-                                <div className="hjy-brief">
-                                    {storeList.map((store) => {
-                                        return (
-                                            <Link
-                                                key={store.storeNum}
-                                                to={`/admin/store/modify?storeNum=${store.storeNum}`}
-                                                className="hjy-card"
-                                                rel="noreferrer noopener"
-                                            >
-                                                <img 
-                                                    id="store_Img" 
-                                                    src={`${process.env.REACT_APP_API_URL}/upload/${store.storeImage}`} 
-                                                    alt="애플스토어"
-                                                />
-                                                <div className="hjy-detail">                                                        
-                                                    <p>{store.storeName}</p>
-                                                </div>
-                                            </Link>
-                                        );
-                                    })}
+                                <div className="hjy-list-status">
+                                    <PieChart width={400} height={200}>
+                                        <Pie
+                                            data={categoryData}
+                                            cx={200}
+                                            cy={100}
+                                            innerRadius={60}
+                                            outerRadius={80}
+                                            fill="#8884d8"
+                                            paddingAngle={5}
+                                            dataKey="value"
+                                            label
+                                        >
+                                            {categoryData.map((entry, index) => (
+                                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                            ))}
+                                        </Pie>
+                                        <Tooltip />
+                                        <Legend />
+                                    </PieChart>
                                 </div>
                             </div>
 
-                            {/* Product Management Summary */}
-                            <div className="hjy-sections">
-                                <div className="hjy-header">
-                                    <h3>상품 관리</h3>
-                                    <Link to="/admin/product" rel="noreferrer noopener">더보기</Link>
+                            {/* 지역별 판매 내역 (에어리어 차트) */}
+                            <div className="hjy-list-section">
+                                <div className="hjy-list-header">
+                                    <h3>지역별 판매 내역</h3>
+                                    <Link to="/admin/sales-by-region" rel="noreferrer noopener">더보기</Link>
                                 </div>
-                                <div className="hjy-brief">
-                                    {productList.map((product, index) => {
-                                        return (
-                                            <div className="hjy-card" key={index}>
-                                                <img id="sotre_Img" src={`${process.env.REACT_APP_API_URL}/upload/${product.imageSavedName}`} alt="상품이미지" />
-                                                <div className="hjy-detail">                                                        
-                                                    <p>{product.productName}</p>
-                                                    <p>{product.storageSize}</p>
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
+                                <div className="hjy-list-status">
+                                    <AreaChart width={400} height={200} data={areaData}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="region" />
+                                        <YAxis />
+                                        <Tooltip />
+                                        <Legend />
+                                        <Area type="monotone" dataKey="sales" stroke="#8884d8" fill="#8884d8" />
+                                    </AreaChart>
                                 </div>
                             </div>
+
+                            {/* 레이더 차트 */}
+                            <div className="hjy-list-section">
+                                <div className="hjy-list-header">
+                                    <h3>카테고리별 퍼포먼스</h3>
+                                    <Link to="/admin/category-performance" rel="noreferrer noopener">더보기</Link>
+                                </div>
+                                <div className="hjy-list-status">
+                                    <RadarChart outerRadius={90} width={400} height={250} data={radarData}>
+                                        <PolarGrid />
+                                        <PolarAngleAxis dataKey="subject" />
+                                        <PolarRadiusAxis angle={30} domain={[0, 150]} />
+                                        <Radar name="A" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+                                        <Radar name="B" dataKey="B" stroke="#82ca9d" fill="#82ca9d" fillOpacity={0.6} />
+                                        <Legend />
+                                    </RadarChart>
+                                </div>
+                            </div>
+
+                            {/* 데이터 테이블 섹션 */}
+                            <div className="hjy-list-section">
+                                <div className="hjy-list-header">
+                                    <h3>사용자 상세 정보</h3>
+                                    <Link to="/admin/user-details" rel="noreferrer noopener">더보기</Link>
+                                </div>
+                                <div className="hjy-list-status">
+                                    <table className="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>이름</th>
+                                                <th>이메일</th>
+                                                <th>상태</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {detailedData.map(user => (
+                                                <tr key={user.id}>
+                                                    <td>{user.id}</td>
+                                                    <td>{user.name}</td>
+                                                    <td>{user.email}</td>
+                                                    <td>{user.status}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            {/* 최근 활동 섹션 추가 */}
+                            <div className="hjy-list-section">
+                                <div className="hjy-list-header">
+                                    <h3>최근 활동</h3>
+                                    <Link to="/admin/recent-activity" rel="noreferrer noopener">더보기</Link>
+                                </div>
+                                <div className="hjy-list-status">
+                                    <ul className="recent-activities">
+                                        {recentActivities.map((activity, index) => (
+                                            <li key={index}>{activity}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+
+                            {/* 추가적인 섹션이 필요하면 여기에 추가 */}
                         </div>
                         {/* //admin_main */}
                     </div>
-                    {/* contents */}
                 </div>
-            </div>
-           
-        </>
-    );
-};
+                </div>
+            </>
+        );
+    };
 
-export default AdminMain;
+    export default AdminMain;

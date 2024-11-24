@@ -619,11 +619,11 @@ const JMYCChallengeHeader = () => {
                         )}
 
                         {/* 위치 정보 오류 처리 */}
-                        {locationError && (
+                        {/* {locationError && (
                             <div className="location-error">
                                 위치 정보를 가져오는 데 실패했습니다. 기본 위치의 날씨 정보를 표시합니다.
                             </div>
-                        )}
+                        )} */}
                         {/* 제목과 시간을 감싸는 컨테이너 */}
                         <div className="yc-header-info">
                             <h1 className="jm-c-title">{roomData.roomTitle}</h1>
