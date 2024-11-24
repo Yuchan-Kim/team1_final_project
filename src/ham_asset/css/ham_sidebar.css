@@ -14,7 +14,7 @@
     top: 150;
     overflow: auto; /* 내용이 넘칠 경우 스크롤 */
     transition: top 0.3s ease; /* 부드러운 이동 효과 */
-    z-index: 1100;
+    z-index: 900;
 }
 /* 사이드바 제목 스타일 */
 .wrap .hmk_main-container .hmk_sidebar-container .ham_h1_title {

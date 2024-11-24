@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../ham_asset/css/ham_modal.css';
 import '../../ham_asset/css/ham_topbar.css';
 import Modal from './ham_modal';
+import Alert from './ham_alert';
 import ProfileOptions from './ham_profileOptions';
 import profileStore from './profileStore';
 const defaultProfile = '/images/profile-fill.png';
@@ -20,6 +21,11 @@ const Topbar = () => {
         password: false,
         address: false,
         nickname: false,
+    });
+    const [alertState, setAlertState] = useState({
+        isOpen: false,
+        message: '',
+        type: 'success'
     });
     // 모달 입력 상태
     const [currentPassword, setCurrentPassword] = useState('');
@@ -222,59 +228,75 @@ const Topbar = () => {
                     }
                     break;
                 case 'password':
-                    // 소셜 로그인 사용자인 경우
-                    if (userInfo.socialLogin && userInfo.socialLogin !== '') {
-                        if (!newPassword) {
-                            setPasswordError("새 비밀번호를 입력해주세요.");
-                            return;
-                        }
-                        if (newPassword !== confirmPassword) {
-                            setPasswordError("비밀번호가 일치하지 않습니다.");
-                            return;
-                        }
-                        if (!validatePassword(newPassword)) {
-                            setPasswordError("비밀번호는 최소 10자 이상이어야 하며, 문자 1개 이상과 숫자 또는 특수 문자(#?!&)를 포함해야 합니다.");
-                            return;
-                        }
-                        // 소셜 로그인 사용자는 현재 비밀번호 없이 새 비밀번호만 전송
-                        response = await axios.put(`${apiUrl}/api/my/${userNum}/updatePassword`, {
-                            currentPassword: null,  // 현재 비밀번호 null로 전송
-                            newPassword,
-                            socialLogin: userInfo.socialLogin  // 소셜 로그인 정보 추가
-                        });
-                    } else {
-                        // 일반 사용자의 경우 기존 로직 유지
-                        if (!currentPassword) {
-                            setPasswordError("현재 비밀번호를 입력해주세요.");
-                            return;
-                        }
-                        if (!newPassword) {
-                            setPasswordError("새 비밀번호를 입력해주세요.");
-                            return;
-                        }
-                        if (newPassword !== confirmPassword) {
-                            setPasswordError("비밀번호가 일치하지 않습니다.");
-                            return;
-                        }
-                        if (!validatePassword(newPassword)) {
-                            setPasswordError("비밀번호는 최소 10자 이상이어야 하며, 문자 1개 이상과 숫자 또는 특수 문자(#?!&)를 포함해야 합니다.");
-                            return;
-                        }
-                        response = await axios.put(`${apiUrl}/api/my/${userNum}/updatePassword`, {
-                            currentPassword,
-                            newPassword
-                        });
-                    }
+                    try {
+                        if (userInfo.socialLogin && userInfo.socialLogin !== '') {
+                            if (!newPassword) {
+                                setPasswordError("새 비밀번호를 입력해주세요.");
+                                return;
+                            }
+                            if (newPassword !== confirmPassword) {
+                                setPasswordError("비밀번호가 일치하지 않습니다.");
+                                return;
+                            }
+                            if (!validatePassword(newPassword)) {
+                                setPasswordError("비밀번호는 최소 10자 이상이어야 하며, 문자 1개 이상과 숫자 또는 특수 문자(#?!&)를 포함해야 합니다.");
+                                return;
+                            }
 
-                    if (response?.data.result === 'success') {
-                        alert("비밀번호가 성공적으로 변경되었습니다.");
-                        setCurrentPassword('');
-                        setNewPassword('');
-                        setConfirmPassword('');
-                        setPasswordError('');
-                        closeModal('password');
-                    } else {
-                        setPasswordError(response.data.message || "비밀번호 변경에 실패했습니다.");
+                            response = await axios.put(`${apiUrl}/api/my/${userNum}/updatePassword`, {
+                                currentPassword: null,
+                                newPassword,
+                                socialLogin: userInfo.socialLogin
+                            });
+                        } else {
+                            // 일반 사용자의 경우
+                            if (!currentPassword) {
+                                setPasswordError("현재 비밀번호를 입력해주세요.");
+                                return;
+                            }
+                            if (!newPassword) {
+                                setPasswordError("새 비밀번호를 입력해주세요.");
+                                return;
+                            }
+                            if (newPassword !== confirmPassword) {
+                                setPasswordError("비밀번호가 일치하지 않습니다.");
+                                return;
+                            }
+                            if (!validatePassword(newPassword)) {
+                                setPasswordError("비밀번호는 최소 10자 이상이어야 하며, 문자 1개 이상과 숫자 또는 특수 문자(#?!&)를 포함해야 합니다.");
+                                return;
+                            }
+
+                            response = await axios.put(`${apiUrl}/api/my/${userNum}/updatePassword`, {
+                                currentPassword,
+                                newPassword
+                            });
+                        }
+
+                        console.log('비밀번호 변경 응답:', response);  // 응답 로깅
+
+                        if (response?.data.result === 'success') {
+                            setAlertState({
+                                isOpen: true,
+                                message: "비밀번호가 성공적으로 변경되었습니다.",
+                                type: 'success'
+                            });
+                            setCurrentPassword('');
+                            setNewPassword('');
+                            setConfirmPassword('');
+                            setPasswordError('');
+                            closeModal('password');
+                        } else {
+                            throw new Error(response?.data.message || "비밀번호 변경에 실패했습니다.");
+                        }
+                    } catch (error) {
+                        console.error('비밀번호 변경 중 에러:', error);
+                        setPasswordError(error.message);
+                        setAlertState({
+                            isOpen: true,
+                            message: error.message || "비밀번호 변경에 실패했습니다.",
+                            type: 'error'
+                        });
                     }
                     break;
             }
@@ -296,11 +318,11 @@ const Topbar = () => {
         } catch (error) {
             console.error(`${type} 변경 중 오류 발생:`, error);
             const errorMessage = error.response?.data?.message || `${type} 변경에 실패했습니다.`;
-            if (type === 'nickname') {
-                setNicknameError(errorMessage);
-            } else {
-                alert(errorMessage);
-            }
+            setAlertState({
+                isOpen: true,
+                message: errorMessage,
+                type: 'error'
+            });
         }
     };
     // profileStore 구독
@@ -431,6 +453,12 @@ const Topbar = () => {
                     </tbody>
                 </table>
             </div>
+            <Alert
+                isOpen={alertState.isOpen}
+                message={alertState.message}
+                type={alertState.type}
+                onClose={() => setAlertState(prev => ({ ...prev, isOpen: false }))}
+            />
 
             {/* 프로필 변경 모달 */}
             <Modal type="profile" isOpen={modalState.profile} onClose={() => closeModal('profile')}>
