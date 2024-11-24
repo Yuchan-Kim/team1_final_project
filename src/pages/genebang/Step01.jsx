@@ -50,7 +50,7 @@ const Step01 = () => {
     
             // 응답 처리
             if (response.data.result === 'success') {
-                const roomNum = response.data.data; // 서버에서 반환된 방 번호
+                const roomNum = response.data.apiData; // 서버에서 반환된 방 번호
                 alert('챌린지 종류가 저장되었습니다.');
                 navigate(`/genebang/step2/${roomNum}`); // 방 번호로 다음 스텝 이동
             } else {

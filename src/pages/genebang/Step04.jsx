@@ -16,7 +16,6 @@ const Step04 = ({ onNext, onPrevious }) => {
 
     const navigate = useNavigate();
 
-    const authUserNum = 10;
     // const authUser = JSON.parse(localStorage.getItem('authUser'));
 
     const [roomNum, setRoomNum] = useState();
@@ -146,7 +145,7 @@ const Step04 = ({ onNext, onPrevious }) => {
         axios({
 
             method: 'get',
-            url: `${process.env.REACT_APP_API_URL}/api/genebang/checkroom/${authUserNum}`,
+            url: `${process.env.REACT_APP_API_URL}/api/genebang/checkroom`,
 
             responseType: 'json' //수신타입
         }).then(response => {
