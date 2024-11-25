@@ -1,0 +1,140 @@
+@charset "UTF-8";
+hmk_link {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.hmk_menu ol {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.hmk_info {
+    display: flex;
+    align-items: center;
+}
+
+.hmk_beforelogin ol {
+    display: flex;
+    gap: 15px;
+}
+
+.hmk_beforelogin li .hmk_link {
+    color: #555;
+}
+
+.hmk_afterlogin {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.hmk_header-profile {
+    width: 45px;
+    height: 45px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    object-fit: cover;
+}
+
+.hmk_header-profile:hover {
+    transform: scale(1.1);
+}
+
+.hmk_header-login-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-left: 10px;
+    padding: 5px 0;
+}
+
+.hmk_header-nickname {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.hmk_header-pointNlogout {
+    display: flex;
+    align-items: center;
+}
+
+.hmk_header-point {
+    display: flex;
+    align-items: center;
+}
+
+.hmk_header-point img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.hmk_logout-btn {
+    background-color: transparent;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.hmk_logout-btn:hover {
+    text-decoration: underline;
+}
+
+.hmk_profile-menu {
+    position: absolute;
+    top: 60px; /* 프로필 이미지 아래 위치 */
+    right: 78px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 150px;
+    z-index: 1000;
+    animation: hmk_slideDown 0.3s ease-out;
+}
+
+@keyframes hmk_slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hmk_profile-menu-item {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.hmk_profile-menu-item:hover {
+    background-color: #f0f0f0;
+}
+
+.hmk_logout-btn {
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    transition: background-color 0.2s;
+}
+
+.hmk_logout-btn:hover {
+    background-color: #f0f0f0;
+}

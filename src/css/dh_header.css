@@ -175,9 +175,11 @@
     font-size: 14px;
     border: none;
     background-color: white;
-
-    position: relative;  /* ::after를 위한 상대적 위치 설정 */
+    position: relative;  /*::after를 위한 상대적 위치 설정 */
+    
 }
+
+
 .dy-afterlogin .dy-header-login-info .dy-header-pointNlogout .dy-logout-btn:hover {
     cursor: pointer;
 }

@@ -1,5 +1,5 @@
 //import 라이브러리
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -7,7 +7,7 @@ import { jwtDecode } from 'jwt-decode';
 
 //import 컴포넌트
 import profileStore from '../../ham_pages/ham_common/profileStore'; // ProfileStore import 경로 확인 <<-- 민규 Topbar 사용-------------------------------------->>
-
+import Hmk_ProfileMenu from '../../ham_pages/ham_common/ham_ProfileMenu';
 //import css
 import '../../css/dh_header.css';
 
@@ -94,6 +94,8 @@ const DH_Header = () => {
 	/*---라우터 관련------------------------------------------*/
 
 	/*---상태관리 변수들(값이 변화면 화면 랜더링) ----------*/
+	const [isMenuOpen, setIsMenuOpen] = useState(false); // 슬라이드 메뉴 상태
+    const menuRef = useRef(null); // 메뉴 외부 클릭 감지
 
 	/*---일반 메소드 -----------------------------------------*/
 
@@ -189,6 +191,25 @@ const DH_Header = () => {
 	};
 
 
+	// 메뉴 외부 클릭 시 메뉴 닫기
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setIsMenuOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
+
 	return (
 		<>
 			<header className="dy-header">
@@ -223,7 +244,7 @@ const DH_Header = () => {
 							</>
 						) : (
 							<>
-								<div className="dy-afterlogin">
+								{/* <div className="dy-afterlogin">
 									<Link to="/my/mypage">
 										<img
 											src={getFullImagePath(profile.profileImage)}  // profile.profileImage 사용
@@ -243,6 +264,34 @@ const DH_Header = () => {
 												<span>{historyPoint !== null ? historyPoint : '0'}</span>
 											</div>
 											<button className="dy-logout-btn" onClick={handleLogout}>로그아웃</button>
+										</li>
+									</ol>
+								</div> */}
+								<div className="hmk_afterlogin" ref={menuRef}>
+									<img
+										src={getFullImagePath(profile.profileImage)}  // profile.profileImage 사용
+										className="hmk_header-profile"
+										alt="profile"
+										onClick={toggleMenu}
+										onError={(e) => {
+											e.target.onerror = null;
+											e.target.src = defaultProfile;
+										}}
+									/>
+									{/* 슬라이드 메뉴 컴포넌트 추가 */}
+									<Hmk_ProfileMenu
+										isMenuOpen={isMenuOpen}
+										toggleMenu={toggleMenu}
+										handleLogout={handleLogout}
+									/>
+									{/* 기존 로그인 정보 */}
+									<ol className="hmk_header-login-info">
+										<li className="hmk_header-nickname">{authUser.userName}</li>
+										<li className="hmk_header-pointNlogout">
+											<div className="hmk_header-point">
+												<img src="../images/point.png" alt="point" />
+												<span>{historyPoint !== null ? historyPoint : '0'}</span>
+											</div>
 										</li>
 									</ol>
 								</div>
