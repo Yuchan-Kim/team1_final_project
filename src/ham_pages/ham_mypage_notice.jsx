@@ -104,15 +104,15 @@ const Notice = () => {
         let filtered = noticeData;
         if (startDate && endDate) {
             filtered = filtered.filter((notice) => {
-                const noticeDate = new Date(notice.date);
+                const noticeDate = new Date(notice.createDate); // 'createDate'로 수정
                 return noticeDate >= startDate && noticeDate <= endDate;
             });
         }
 
         if (activeTab === '새 알림') {
-            return filtered.filter((notice) => !notice.isRead);
-        } else if (activeTab === '읽은 알림') {
-            return filtered.filter((notice) => notice.isRead);
+            return filtered.filter((notice) => !notice.isCheck);
+        } else if (activeTab === '읽음') {
+            return filtered.filter((notice) => notice.isCheck);
         }
 
         return filtered;
@@ -138,7 +138,7 @@ const Notice = () => {
                                     <div className="hmk_notice-value">{summary.newNotice}</div>
                                 </div>
                                 <div className="hmk_notice-box">
-                                    <p>읽은 알림</p>
+                                    <p>읽음</p>
                                     <div className="hmk_notice-value">{summary.readNotice}</div>
                                 </div>
                             </div>
@@ -157,10 +157,10 @@ const Notice = () => {
                                         새 알림
                                     </button>
                                     <button
-                                        className={`hmk_toggle-button ${activeTab === '읽은 알림' ? 'active' : ''}`}
-                                        onClick={() => setActiveTab('읽은 알림')}
+                                        className={`hmk_toggle-button ${activeTab === '읽음' ? 'active' : ''}`}
+                                        onClick={() => setActiveTab('읽음')}
                                     >
-                                        읽은 알림
+                                        읽음
                                     </button>
                                 </div>
                             </div>

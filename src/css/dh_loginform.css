@@ -76,6 +76,25 @@
     background-color: rgb(3, 199, 90);
     color: white;
 }
+#naver_id_login {
+    display: flex;
+    height: 37px;
+    padding: 0 65px 0 10px;
+}
+#naver_id_login_anchor {
+    margin-top: 4px;
+}
+
+.dy-google-login {
+    width: 300px;
+    height: 45px;
+    margin: 0 auto;
+    border-radius: 10px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
 
 .dy-loginform .dy-loginform-content .dy-middle {
     margin-bottom: 30px;

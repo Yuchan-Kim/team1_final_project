@@ -21,6 +21,8 @@ const DH_Header = () => {
 	const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem('authUser')));
 
 	const [historyPoint, setHistoryPoint] = useState(0);
+	const [notificationCount, setNotificationCount] = useState(0); // 알림 수 상태 변수 추가
+
 
 	// --------------------------------< 민규 Tobbar용 사용 >----------------------------------------------------------------------------------------------------
 	// Helper 함수 추가 -- 프로필 변경 시 헤더에도 적용되게 하는 것을 도와주는 함수
@@ -95,7 +97,7 @@ const DH_Header = () => {
 
 	/*---상태관리 변수들(값이 변화면 화면 랜더링) ----------*/
 	const [isMenuOpen, setIsMenuOpen] = useState(false); // 슬라이드 메뉴 상태
-    const menuRef = useRef(null); // 메뉴 외부 클릭 감지
+	const menuRef = useRef(null); // 메뉴 외부 클릭 감지
 
 	/*---일반 메소드 -----------------------------------------*/
 
@@ -145,11 +147,42 @@ const DH_Header = () => {
 			});
 	};
 
-	useEffect(() => {
-		if (token && authUser) {
-			getUserPoints();  // 로그인 상태일 때 포인트 정보 가져오기
+	// 알림 수 가져오기 (API를 통해 가져오기)
+	const fetchNotificationCount = async () => {
+		try {
+			const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
+			const { userNum, token } = profile;
+
+			if (!userNum || !token) {
+				console.error('인증 정보가 없습니다.');
+				return;
+			}
+
+			const summaryResponse = await axios.get(`${apiUrl}/api/my/${userNum}/noticeSummary`, {
+				headers: { Authorization: `Bearer ${token}` }
+			});
+
+			if (summaryResponse.data.result === 'success') {
+				setNotificationCount(summaryResponse.data.apiData.newNotice);
+			} else {
+				console.error('알림 요약 정보 조회 실패:', summaryResponse.data.message);
+				setNotificationCount(0);
+			}
+		} catch (error) {
+			console.error('알림 요약 정보를 가져오는 데 실패했습니다:', error);
+			setNotificationCount(0);
 		}
-	}, [token, authUser]);
+	};
+
+
+	useEffect(() => {
+		if (profile.userNum && profile.token) {
+			getUserPoints();  // 로그인 상태일 때 포인트 정보 가져오기
+			fetchNotificationCount(); // 알림 수 가져오기
+		} else {
+			console.log("Profile 상태:", profile); // 추가된 디버깅 로그
+		}
+	}, [profile.userNum, profile.token]);
 
 	const handleLogout = async () => {
 		//------------------------------------------ < 네이버 로그아웃 >-----------------------------------------
@@ -192,22 +225,22 @@ const DH_Header = () => {
 
 
 	// 메뉴 외부 클릭 시 메뉴 닫기
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (menuRef.current && !menuRef.current.contains(event.target)) {
-                setIsMenuOpen(false);
-            }
-        };
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (menuRef.current && !menuRef.current.contains(event.target)) {
+				setIsMenuOpen(false);
+			}
+		};
 
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, []);
 
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
-    };
+	const toggleMenu = () => {
+		setIsMenuOpen(!isMenuOpen);
+	};
 
 
 	return (
@@ -267,24 +300,37 @@ const DH_Header = () => {
 										</li>
 									</ol>
 								</div> */}
+								{/* --- 슬라이드 메뉴 추가 시작 --- */}
 								<div className="hmk_afterlogin" ref={menuRef}>
-									<img
-										src={getFullImagePath(profile.profileImage)}  // profile.profileImage 사용
-										className="hmk_header-profile"
-										alt="profile"
-										onClick={toggleMenu}
-										onError={(e) => {
-											e.target.onerror = null;
-											e.target.src = defaultProfile;
-										}}
-									/>
+									{/* 프로필 이미지를 클릭하면 슬라이드 메뉴가 나타남 */}
+									<div className="hmk_profile-container">
+										{/* 프로필 이미지 */}
+										<img
+											src={getFullImagePath(profile.profileImage)}  // profile.profileImage 사용
+											className="hmk_header-profile"
+											alt="profile"
+											onClick={toggleMenu}
+											onError={(e) => {
+												e.target.onerror = null;
+												e.target.src = defaultProfile;
+											}}
+										/>
+										{/* 알림 배지 (읽지 않은 알림이 있을 경우에만) */}
+										{notificationCount > 0 && (
+											<Link to="/my/notices" className="hmk_notification-link">
+												<span className="hmk_notification-badge">
+													{notificationCount}
+												</span>
+											</Link>
+										)}
+									</div>
 									{/* 슬라이드 메뉴 컴포넌트 추가 */}
 									<Hmk_ProfileMenu
 										isMenuOpen={isMenuOpen}
 										toggleMenu={toggleMenu}
 										handleLogout={handleLogout}
 									/>
-									{/* 기존 로그인 정보 */}
+									{/* 기존 로그인 정보는 슬라이드 메뉴 외부에 유지 */}
 									<ol className="hmk_header-login-info">
 										<li className="hmk_header-nickname">{authUser.userName}</li>
 										<li className="hmk_header-pointNlogout">
