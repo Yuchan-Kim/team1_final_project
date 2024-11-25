@@ -3,18 +3,23 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../../ham_asset/css/ham_modal.css';
-import '../../ham_asset/css/ham_topbar.css';
+
 import Modal from './ham_modal';
 import Alert from './ham_alert';
 import ProfileOptions from './ham_profileOptions';
 import profileStore from './profileStore';
 const defaultProfile = '/images/profile-fill.png';
 const storeIcon = '/images/shopfront.png';
+
+import '../../ham_asset/css/ham_modal.css';
+import '../../ham_asset/css/ham_topbar.css';
+
 const Topbar = () => {
     const navigate = useNavigate();
     const [suggestions, setSuggestions] = useState([]); // 자동완성 목록 상태
     const [ownedProfileImages, setOwnedProfileImages] = useState([]); // 소유한 프로필 이미지 목록 상태
+    const [hasPassword, setHasPassword] = useState(null);
+
     // 모달 상태
     const [modalState, setModalState] = useState({
         profile: false,
@@ -70,6 +75,32 @@ const Topbar = () => {
             isLongEnough: pwd.length >= 10
         });
     };
+
+    // 비밀번호 존재 여부 확인 함수
+    const checkPasswordExists = async () => {
+        try {
+            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
+            const userNum = profileStore.getUserNum();
+
+            const response = await axios.get(`${apiUrl}/api/my/${userNum}/checkPassword`);
+            console.log("비밀번호 확인 응답:", response);
+
+            if (response.data.result === 'success' && response.data.apiData) {
+                setHasPassword(response.data.apiData.passwordExists);  // apiData로 수정
+            } else {
+                setHasPassword(false);
+            }
+        } catch (error) {
+            console.error('비밀번호 상태 확인 중 에러:', error);
+            setHasPassword(false);
+        }
+    };
+    // 비밀번호 변경 모달 열 때 비밀번호 존재 여부 확인
+    const handlePasswordModalOpen = async () => {
+        await checkPasswordExists();
+        openModal('password');
+    };
+
     // 지역 변경용 자동완성 데이터 요청 함수
     const fetchRegionSuggestions = async (input) => {
         try {
@@ -227,78 +258,6 @@ const Topbar = () => {
                         closeModal('address');
                     }
                     break;
-                case 'password':
-                    try {
-                        if (userInfo.socialLogin && userInfo.socialLogin !== '') {
-                            if (!newPassword) {
-                                setPasswordError("새 비밀번호를 입력해주세요.");
-                                return;
-                            }
-                            if (newPassword !== confirmPassword) {
-                                setPasswordError("비밀번호가 일치하지 않습니다.");
-                                return;
-                            }
-                            if (!validatePassword(newPassword)) {
-                                setPasswordError("비밀번호는 최소 10자 이상이어야 하며, 문자 1개 이상과 숫자 또는 특수 문자(#?!&)를 포함해야 합니다.");
-                                return;
-                            }
-
-                            response = await axios.put(`${apiUrl}/api/my/${userNum}/updatePassword`, {
-                                currentPassword: null,
-                                newPassword,
-                                socialLogin: userInfo.socialLogin
-                            });
-                        } else {
-                            // 일반 사용자의 경우
-                            if (!currentPassword) {
-                                setPasswordError("현재 비밀번호를 입력해주세요.");
-                                return;
-                            }
-                            if (!newPassword) {
-                                setPasswordError("새 비밀번호를 입력해주세요.");
-                                return;
-                            }
-                            if (newPassword !== confirmPassword) {
-                                setPasswordError("비밀번호가 일치하지 않습니다.");
-                                return;
-                            }
-                            if (!validatePassword(newPassword)) {
-                                setPasswordError("비밀번호는 최소 10자 이상이어야 하며, 문자 1개 이상과 숫자 또는 특수 문자(#?!&)를 포함해야 합니다.");
-                                return;
-                            }
-
-                            response = await axios.put(`${apiUrl}/api/my/${userNum}/updatePassword`, {
-                                currentPassword,
-                                newPassword
-                            });
-                        }
-
-                        console.log('비밀번호 변경 응답:', response);  // 응답 로깅
-
-                        if (response?.data.result === 'success') {
-                            setAlertState({
-                                isOpen: true,
-                                message: "비밀번호가 성공적으로 변경되었습니다.",
-                                type: 'success'
-                            });
-                            setCurrentPassword('');
-                            setNewPassword('');
-                            setConfirmPassword('');
-                            setPasswordError('');
-                            closeModal('password');
-                        } else {
-                            throw new Error(response?.data.message || "비밀번호 변경에 실패했습니다.");
-                        }
-                    } catch (error) {
-                        console.error('비밀번호 변경 중 에러:', error);
-                        setPasswordError(error.message);
-                        setAlertState({
-                            isOpen: true,
-                            message: error.message || "비밀번호 변경에 실패했습니다.",
-                            type: 'error'
-                        });
-                    }
-                    break;
             }
             if (response?.data.result === 'success') {
                 switch (type) {
@@ -321,6 +280,69 @@ const Topbar = () => {
             setAlertState({
                 isOpen: true,
                 message: errorMessage,
+                type: 'error'
+            });
+        }
+    };
+
+    // 비밀번호 변경 처리 함수
+    const handlePasswordChange = async () => {
+        try {
+            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
+            const userNum = profileStore.getUserNum();
+
+            if (!userNum) {
+                alert("사용자 번호가 설정되지 않았습니다.");
+                return;
+            }
+
+            // 입력값 검증
+            if (hasPassword && !currentPassword) {
+                setPasswordError("현재 비밀번호를 입력해주세요.");
+                return;
+            }
+            if (!newPassword) {
+                setPasswordError("새 비밀번호를 입력해주세요.");
+                return;
+            }
+            if (newPassword !== confirmPassword) {
+                setPasswordError("비밀번호가 일치하지 않습니다.");
+                return;
+            }
+            if (!validatePassword(newPassword)) {
+                setPasswordError("비밀번호는 최소 10자 이상이어야 하며, 문자 1개 이상과 숫자 또는 특수 문자(#?!&)를 포함해야 합니다.");
+                return;
+            }
+
+            // API 요청 데이터 구성 - hasPassword 값에 따라 다르게 처리
+            const requestData = hasPassword
+                ? { currentPassword, newPassword }
+                : { newPassword };
+
+            const response = await axios.put(
+                `${apiUrl}/api/my/${userNum}/updatePassword`,
+                requestData
+            );
+
+            if (response?.data.result === 'success') {
+                setAlertState({
+                    isOpen: true,
+                    message: "비밀번호가 성공적으로 변경되었습니다.",
+                    type: 'success'
+                });
+                // 입력 필드 초기화
+                setCurrentPassword('');
+                setNewPassword('');
+                setConfirmPassword('');
+                setPasswordError('');
+                closeModal('password');
+            }
+        } catch (error) {
+            console.error('비밀번호 변경 중 에러:', error);
+            setPasswordError(error.response?.data?.message || error.message);
+            setAlertState({
+                isOpen: true,
+                message: error.response?.data?.message || "비밀번호 변경에 실패했습니다.",
                 type: 'error'
             });
         }
@@ -419,7 +441,11 @@ const Topbar = () => {
                     </li>
                     <li>
                         <span>비밀번호 변경</span>
-                        <button className="hmk_edit-button" onClick={() => openModal('password')} aria-label="비밀번호 변경">
+                        <button
+                            className="hmk_edit-button"
+                            onClick={handlePasswordModalOpen}  // 여기서 handlePasswordModalOpen 사용
+                            aria-label="비밀번호 변경"
+                        >
                             <span className="hmk_edit-icon">✎</span>
                         </button>
                     </li>
@@ -554,9 +580,8 @@ const Topbar = () => {
             {/* 비밀번호 변경 모달 */}
             <Modal type="password" isOpen={modalState.password} onClose={() => closeModal('password')}>
                 <h2>비밀번호 변경</h2>
-                <form onSubmit={(e) => { e.preventDefault(); handleChange('password'); }}>
-                    {/* 소셜 로그인이 아닌 경우에만 현재 비밀번호 입력 필드 표시 */}
-                    {(!userInfo.socialLogin || userInfo.socialLogin === '') && (
+                <form onSubmit={(e) => { e.preventDefault(); handlePasswordChange(); }}>
+                    {hasPassword && (  // checkPasswordExists로 설정된 상태 사용
                         <div className="hmk_password-field">
                             <label htmlFor="current-password">현재 비밀번호</label>
                             <input
@@ -582,15 +607,15 @@ const Topbar = () => {
                             autoComplete="new-password"
                             required
                         />
-                        {/* 비밀번호 규칙 피드백 (선택 사항) */}
+                        {/* 비밀번호 규칙 표시 */}
                         <ul className="password-rules">
-                            <li style={{ color: passwordValidity.hasLetter ? 'green' : 'red' }}>
+                            <li className={passwordValidity.hasLetter ? "valid" : "invalid"}>
                                 문자 1개 이상
                             </li>
-                            <li style={{ color: passwordValidity.hasNumberOrSpecial ? 'green' : 'red' }}>
+                            <li className={passwordValidity.hasNumberOrSpecial ? "valid" : "invalid"}>
                                 숫자 또는 특수 문자 1개 (#?!&)
                             </li>
-                            <li style={{ color: passwordValidity.isLongEnough ? 'green' : 'red' }}>
+                            <li className={passwordValidity.isLongEnough ? "valid" : "invalid"}>
                                 10글자 이상
                             </li>
                         </ul>
@@ -608,7 +633,11 @@ const Topbar = () => {
                             required
                         />
                     </div>
-                    {passwordError && <div className="hmk_password-error">{passwordError}</div>}
+                    {passwordError && (
+                        <div className="hmk_password-error" role="alert">
+                            {passwordError}
+                        </div>
+                    )}
                     <div className="hmk_password-actions">
                         <button type="submit">확인</button>
                         <button type="button" onClick={() => closeModal('password')}>취소</button>
