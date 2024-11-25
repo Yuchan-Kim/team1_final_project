@@ -675,12 +675,7 @@ const JMYCChallengeHeader = () => {
     }, [roomData.roomStartDate, roomData.roomStatusNum, roomData.periodType, userAuthorization]);
 
 
-    useEffect(() => {
-        if (roomData.roomStatusNum === 3 && (userAuthorization === 1 || userAuthorization === 2) && !hasShownChallengeStartedModal) {
-            setShowChallengeStartedModal(true);
-            setHasShownChallengeStartedModal(true);
-        }
-    }, [userAuthorization, roomData.roomStatusNum, hasShownChallengeStartedModal]);
+    
     
     // ----------------------
     // 데이터 가져오기 및 사용자 인증 확인
