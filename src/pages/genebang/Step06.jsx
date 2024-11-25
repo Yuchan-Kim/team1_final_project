@@ -116,7 +116,7 @@ const Step06 = ({ onNext, onPrevious }) => {
             }
 
             alert("모든 데이터가 성공적으로 저장되었습니다.");
-            navigate(`/genebang/step7/${roomNum}`);
+            navigate(`/genebang/step8/${roomNum}`);
         } catch (error) {
             console.error("데이터 전송 중 오류 발생:", error);
             alert("서버와 통신 중 오류가 발생했습니다.");
