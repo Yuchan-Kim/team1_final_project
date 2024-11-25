@@ -5,10 +5,11 @@ import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
     PieChart, Pie, Cell,
     BarChart, Bar,
-    AreaChart, Area,
     RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar
 } from 'recharts';
 
+import Header from '../../pages/include/DH_Header.jsx';
+import Footer from '../../pages/include/JM-Footer.jsx';
 // css
 import '../../css/reset.css';
 import '../admincss/adminMain.css';
@@ -18,12 +19,12 @@ const AdminMain = () => {
     const authUser = JSON.parse(localStorage.getItem('authUser'));
 
     // 관리자인지 확인하여 관리자 아닌 경우 리다이렉트
-    // useEffect(() => {
-    //     if (!authUser || authUser.userStatus !== '관리자') {
-    //         alert("관리자만 접근할 수 있습니다.");
-    //         navigate("/");
-    //     }
-    // }, [authUser, navigate]);
+    useEffect(() => {
+        // if (!authUser || authUser.userStatus !== '관리자') {
+        //     alert("관리자만 접근할 수 있습니다.");
+        //     navigate("/");
+        // }
+    }, [authUser, navigate]);
 
     // 상태 관리
     const [userData, setUserData] = useState([]);
@@ -42,44 +43,103 @@ const AdminMain = () => {
     // 데이터 로드 (API 호출 예시)
     useEffect(() => {
         // 사용자 등록 추이 데이터 가져오기
-        axios.get('/api/admin/user-registrations')
-            .then(response => setUserData(response.data))
-            .catch(error => console.error("사용자 등록 추이 데이터를 가져오는 중 오류 발생:", error));
+        axios.get(`${process.env.REACT_APP_API_URL}/api/admin/signupusersrate`)
+            .then(response => {
+                if (response.data.status === 'success') {
+                    const rawData = response.data.data;
+                    // joinDate를 월 단위로 변환
+                    const formattedData = rawData.map(item => ({
+                        month: item.month, // 이미 쿼리에서 월 형식으로 변환
+                        users: item.userCount
+                    }));
+                    setUserData(formattedData);
+                } else {
+                    console.error("사용자 등록 추이 데이터를 가져오는 중 오류 발생:", response.data.message);
+                }
+            })
+            .catch(error => {
+                console.error("사용자 등록 추이 데이터를 가져오는 중 오류 발생:", error);
+            });
+        
+        // 모든 유저 목록 가져오기 (테이블용)
+        axios.get(`${process.env.REACT_APP_API_URL}/api/admin/userlist`)
+            .then(response => {
+                if (response.data.status === 'success') {
+                    setDetailedData(response.data.data);
+                } else {
+                    console.error("유저 목록을 가져오는 중 오류 발생:", response.data.message);
+                }
+            })
+            .catch(error => {
+                console.error("유저 목록을 가져오는 중 오류 발생:", error);
+            });
 
         // 판매 데이터 가져오기
-        axios.get('/api/admin/sales')
-            .then(response => setSalesData(response.data))
-            .catch(error => console.error("판매 데이터를 가져오는 중 오류 발생:", error));
+        axios.get(`${process.env.REACT_APP_API_URL}/api/admin/sales`)
+            .then(response => {
+                if (response.data.status === 'success') {
+                    setSalesData(response.data.data);
+                } else {
+                    console.error("판매 데이터를 가져오는 중 오류 발생:", response.data.message);
+                }
+            })
+            .catch(error => {
+                console.error("판매 데이터를 가져오는 중 오류 발생:", error);
+            });
 
         // 카테고리 분포 데이터 가져오기
-        axios.get('/api/admin/category-distribution')
-            .then(response => setCategoryData(response.data))
-            .catch(error => console.error("카테고리 분포 데이터를 가져오는 중 오류 발생:", error));
-
-        // 지역별 판매 데이터 가져오기
-        axios.get('/api/admin/sales-by-region')
-            .then(response => setAreaData(response.data))
-            .catch(error => console.error("지역별 판매 데이터를 가져오는 중 오류 발생:", error));
+        axios.get(`${process.env.REACT_APP_API_URL}/api/admin/category-distribution`)
+            .then(response => {
+                if (response.data.status === 'success') {
+                    setCategoryData(response.data.data);
+                } else {
+                    console.error("카테고리 분포 데이터를 가져오는 중 오류 발생:", response.data.message);
+                }
+            })
+            .catch(error => {
+                console.error("카테고리 분포 데이터를 가져오는 중 오류 발생:", error);
+            });
 
         // 레이더 차트 데이터 가져오기
-        axios.get('/api/admin/category-performance')
-            .then(response => setRadarData(response.data))
-            .catch(error => console.error("카테고리 퍼포먼스 데이터를 가져오는 중 오류 발생:", error));
-
-        // 상세 사용자 데이터 가져오기
-        axios.get('/api/admin/user-details')
-            .then(response => setDetailedData(response.data))
-            .catch(error => console.error("사용자 상세 데이터를 가져오는 중 오류 발생:", error));
+        axios.get(`${process.env.REACT_APP_API_URL}/api/admin/category-performance`)
+            .then(response => {
+                if (response.data.status === 'success') {
+                    setRadarData(response.data.data);
+                } else {
+                    console.error("카테고리 퍼포먼스 데이터를 가져오는 중 오류 발생:", response.data.message);
+                }
+            })
+            .catch(error => {
+                console.error("카테고리 퍼포먼스 데이터를 가져오는 중 오류 발생:", error);
+            });
 
         // 최근 활동 데이터 가져오기
-        axios.get('/api/admin/recent-activities')
-            .then(response => setRecentActivities(response.data))
-            .catch(error => console.error("최근 활동 데이터를 가져오는 중 오류 발생:", error));
+        axios.get(`${process.env.REACT_APP_API_URL}/api/admin/recent-activities`)
+            .then(response => {
+                if (response.data.status === 'success') {
+                    const rawData = response.data.data;
+                    console.log('recentActivities data:', rawData); // 디버깅 로그
+                    setRecentActivities(rawData);
+                } else {
+                    console.error("최근 활동 데이터를 가져오는 중 오류 발생:", response.data.message);
+                }
+            })
+            .catch(error => {
+                console.error("최근 활동 데이터를 가져오는 중 오류 발생:", error);
+            });
 
         // 주요 통계 데이터 가져오기
-        axios.get('/api/admin/key-stats')
-            .then(response => setKeyStats(response.data))
-            .catch(error => console.error("주요 통계 데이터를 가져오는 중 오류 발생:", error));
+        axios.get(`${process.env.REACT_APP_API_URL}/api/admin/key-stats`)
+            .then(response => {
+                if (response.data.status === 'success') {
+                    setKeyStats(response.data.data);
+                } else {
+                    console.error("주요 통계 데이터를 가져오는 중 오류 발생:", response.data.message);
+                }
+            })
+            .catch(error => {
+                console.error("주요 통계 데이터를 가져오는 중 오류 발생:", error);
+            });
 
     }, []);
 
@@ -87,26 +147,26 @@ const AdminMain = () => {
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AA336A'];
 
     return (
-        <>
+        <div>
+            <Header/>
             <div id="admin-wrap">
                 {/* 컨텐츠 */}
                 <div id="contents" className="clearfix">
                     {/* aside */}
                     <div id="asides-admin">
-                            <h2><Link to="/admin/main" rel="noreferrer noopener">관리자 페이지</Link></h2>
-                            <div id="sub_list">
-                                <ul className='lists'>
-                                    <li><Link to="/admin/user" rel="noreferrer noopener">유저 관리</Link></li>
-                                    <li><Link to="/admin/point" rel="noreferrer noopener">포인트 상품 관리</Link></li>
-                                    <li><Link to="/admin/delivery" rel="noreferrer noopener">챌린지 관리</Link></li>
-                                    <li><Link to="/admin/history" rel="noreferrer noopener">신고 관리</Link></li>
-                                </ul>
-                            </div>
+                        <h2><Link to="/admin/main" rel="noreferrer noopener">관리자 페이지</Link></h2>
+                        <div id="sub_list">
+                            <ul className='lists'>
+                                <li><Link to="/admin/user" rel="noreferrer noopener">유저 관리</Link></li>
+                                <li><Link to="/admin/point" rel="noreferrer noopener">포인트 상품 관리</Link></li>
+                                <li><Link to="/admin/delivery" rel="noreferrer noopener">챌린지 관리</Link></li>
+                                <li><Link to="/admin/history" rel="noreferrer noopener">신고 관리</Link></li>
+                            </ul>
                         </div>
-                        {/* //aside */}
+                    </div>
+                    {/* //aside */}
                     {/* admin_main */}
                     <div id="admin_main">
-                        
                         <div className="hjy-grid-container">
                             {/* KPI 카드 섹션 */}
                             <div className="kpi-section">
@@ -176,7 +236,7 @@ const AdminMain = () => {
                                             outerRadius={80}
                                             fill="#8884d8"
                                             paddingAngle={5}
-                                            dataKey="value"
+                                            dataKey="roomCount" // 데이터 키 수정
                                             label
                                         >
                                             {categoryData.map((entry, index) => (
@@ -186,42 +246,6 @@ const AdminMain = () => {
                                         <Tooltip />
                                         <Legend />
                                     </PieChart>
-                                </div>
-                            </div>
-
-                            {/* 지역별 판매 내역 (에어리어 차트) */}
-                            <div className="hjy-list-section">
-                                <div className="hjy-list-header">
-                                    <h3>지역별 판매 내역</h3>
-                                    <Link to="/admin/sales-by-region" rel="noreferrer noopener">더보기</Link>
-                                </div>
-                                <div className="hjy-list-status">
-                                    <AreaChart width={400} height={200} data={areaData}>
-                                        <CartesianGrid strokeDasharray="3 3" />
-                                        <XAxis dataKey="region" />
-                                        <YAxis />
-                                        <Tooltip />
-                                        <Legend />
-                                        <Area type="monotone" dataKey="sales" stroke="#8884d8" fill="#8884d8" />
-                                    </AreaChart>
-                                </div>
-                            </div>
-
-                            {/* 레이더 차트 */}
-                            <div className="hjy-list-section">
-                                <div className="hjy-list-header">
-                                    <h3>카테고리별 퍼포먼스</h3>
-                                    <Link to="/admin/category-performance" rel="noreferrer noopener">더보기</Link>
-                                </div>
-                                <div className="hjy-list-status">
-                                    <RadarChart outerRadius={90} width={400} height={250} data={radarData}>
-                                        <PolarGrid />
-                                        <PolarAngleAxis dataKey="subject" />
-                                        <PolarRadiusAxis angle={30} domain={[0, 150]} />
-                                        <Radar name="A" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-                                        <Radar name="B" dataKey="B" stroke="#82ca9d" fill="#82ca9d" fillOpacity={0.6} />
-                                        <Legend />
-                                    </RadarChart>
                                 </div>
                             </div>
 
@@ -243,11 +267,11 @@ const AdminMain = () => {
                                         </thead>
                                         <tbody>
                                             {detailedData.map(user => (
-                                                <tr key={user.id}>
-                                                    <td>{user.id}</td>
-                                                    <td>{user.name}</td>
-                                                    <td>{user.email}</td>
-                                                    <td>{user.status}</td>
+                                                <tr key={user.userNum}>
+                                                    <td>{user.userNum}</td>
+                                                    <td>{user.userName}</td>
+                                                    <td>{user.userEmail}</td>
+                                                    <td>{user.userStatus === 1 ? '활동중' : '비활동중'}</td>
                                                 </tr>
                                             ))}
                                         </tbody>
@@ -263,9 +287,15 @@ const AdminMain = () => {
                                 </div>
                                 <div className="hjy-list-status">
                                     <ul className="recent-activities">
-                                        {recentActivities.map((activity, index) => (
-                                            <li key={index}>{activity}</li>
-                                        ))}
+                                        {Array.isArray(recentActivities) && recentActivities.length > 0 ? (
+                                            recentActivities.map((activity, index) => (
+                                                <li key={index}>
+                                                    {activity.userName} 님이 {activity.itemName}을(를) {new Date(activity.purchasedDate).toLocaleDateString()}에 구매하셨습니다.
+                                                </li>
+                                            ))
+                                        ) : (
+                                            <li>최근 활동이 없습니다.</li>
+                                        )}
                                     </ul>
                                 </div>
                             </div>
@@ -275,9 +305,10 @@ const AdminMain = () => {
                         {/* //admin_main */}
                     </div>
                 </div>
-                </div>
-            </>
-        );
-    };
+            </div>
+            <Footer/>
+        </div>
+    );
 
     export default AdminMain;
+};
