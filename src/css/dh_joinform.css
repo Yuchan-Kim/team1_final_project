@@ -74,12 +74,13 @@
 
 /* input 박스 */
 .dy-joinform-content .dy-joinform-join .dy-join-input {
-    width: 99%;
+    width: 98%;
     height: 35px;
     border-radius: 15px;
     border: 1px solid black;
     margin-top: 5px;
     margin-bottom: 5px;
+    padding-left: 5px;
 }
 
 /* 메세지 */
