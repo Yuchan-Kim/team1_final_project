@@ -179,7 +179,6 @@
     
 }
 
-
 .dy-afterlogin .dy-header-login-info .dy-header-pointNlogout .dy-logout-btn:hover {
     cursor: pointer;
 }
@@ -210,6 +209,7 @@
     right: -5px;
     text-decoration: none;
 }
+
 
 .hmk_notification-badge {
     position: absolute;

@@ -293,7 +293,7 @@ const Topbar = () => {
             const userNum = profileStore.getUserNum();
 
             if (!userNum) {
-                alert("사용자 번호가 설정되지 않았습니다.");
+                setPasswordError("사용자 정보를 찾을 수 없습니다.");
                 return;
             }
 
@@ -307,45 +307,59 @@ const Topbar = () => {
                 return;
             }
             if (newPassword !== confirmPassword) {
-                setPasswordError("비밀번호가 일치하지 않습니다.");
+                setPasswordError("새 비밀번호가 일치하지 않습니다.");
                 return;
             }
             if (!validatePassword(newPassword)) {
-                setPasswordError("비밀번호는 최소 10자 이상이어야 하며, 문자 1개 이상과 숫자 또는 특수 문자(#?!&)를 포함해야 합니다.");
+                setPasswordError("비밀번호 형식이 올바르지 않습니다.");
                 return;
             }
 
-            // API 요청 데이터 구성 - hasPassword 값에 따라 다르게 처리
-            const requestData = hasPassword
-                ? { currentPassword, newPassword }
-                : { newPassword };
+            // API 요청 데이터 구성
+            const requestData = {
+                userNum: userNum,
+                currentPassword: currentPassword,
+                newPassword: newPassword
+            };
 
             const response = await axios.put(
                 `${apiUrl}/api/my/${userNum}/updatePassword`,
                 requestData
             );
 
-            if (response?.data.result === 'success') {
+            if (response.data.result === 'success') {
                 setAlertState({
                     isOpen: true,
                     message: "비밀번호가 성공적으로 변경되었습니다.",
                     type: 'success'
                 });
-                // 입력 필드 초기화
-                setCurrentPassword('');
-                setNewPassword('');
-                setConfirmPassword('');
-                setPasswordError('');
                 closeModal('password');
+            } else {
+                // API에서 실패 응답이 왔을 때
+                setPasswordError(response.data.message || "비밀번호 변경에 실패했습니다.");
             }
         } catch (error) {
             console.error('비밀번호 변경 중 에러:', error);
-            setPasswordError(error.response?.data?.message || error.message);
+
+            // 현재 비밀번호가 맞지 않을 경우에 대한 처리
+            if (error.response?.status === 400) {
+                setPasswordError("현재 비밀번호가 일치하지 않습니다.");
+            } else {
+                setPasswordError(error.response?.data?.message || "비밀번호 변경 중 오류가 발생했습니다.");
+            }
+
             setAlertState({
                 isOpen: true,
                 message: error.response?.data?.message || "비밀번호 변경에 실패했습니다.",
                 type: 'error'
             });
+        }
+    };
+    // 비밀번호 입력필드에서 Enter 키 처리
+    const handlePasswordKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            handlePasswordChange();
         }
     };
     // profileStore 구독
@@ -582,7 +596,7 @@ const Topbar = () => {
             <Modal type="password" isOpen={modalState.password} onClose={() => closeModal('password')}>
                 <h2>비밀번호 변경</h2>
                 <form onSubmit={(e) => { e.preventDefault(); handlePasswordChange(); }}>
-                    {hasPassword && (  // checkPasswordExists로 설정된 상태 사용
+                    {hasPassword && (
                         <div className="hmk_password-field">
                             <label htmlFor="current-password">현재 비밀번호</label>
                             <input
@@ -591,9 +605,18 @@ const Topbar = () => {
                                 name="currentPassword"
                                 placeholder="현재 비밀번호 입력"
                                 value={currentPassword}
-                                onChange={(e) => setCurrentPassword(e.target.value)}
+                                onChange={(e) => {
+                                    setCurrentPassword(e.target.value);
+                                    setPasswordError(''); // 에러 메시지 초기화
+                                }}
+                                onKeyPress={handlePasswordKeyPress}
                                 autoComplete="current-password"
                             />
+                            {passwordError && passwordError.includes("현재 비밀번호") && (
+                                <div className="hmk_password-field-error">
+                                    {passwordError}
+                                </div>
+                            )}
                         </div>
                     )}
                     <div className="hmk_password-field">
@@ -608,18 +631,21 @@ const Topbar = () => {
                             autoComplete="new-password"
                             required
                         />
-                        {/* 비밀번호 규칙 표시 */}
-                        <ul className="password-rules">
-                            <li className={passwordValidity.hasLetter ? "valid" : "invalid"}>
-                                문자 1개 이상
-                            </li>
-                            <li className={passwordValidity.hasNumberOrSpecial ? "valid" : "invalid"}>
-                                숫자 또는 특수 문자 1개 (#?!&)
-                            </li>
-                            <li className={passwordValidity.isLongEnough ? "valid" : "invalid"}>
-                                10글자 이상
-                            </li>
-                        </ul>
+                        {/* 비밀번호 규칙 표시 - 스타일 추가 */}
+                        <div className="hmk_password-rules">
+                            <p>비밀번호 요구사항:</p>
+                            <ul>
+                                <li className={passwordValidity.hasLetter ? "valid" : ""}>
+                                    {passwordValidity.hasLetter ? "✓" : "○"} 문자 1개 이상 포함
+                                </li>
+                                <li className={passwordValidity.hasNumberOrSpecial ? "valid" : ""}>
+                                    {passwordValidity.hasNumberOrSpecial ? "✓" : "○"} 숫자 또는 특수문자(#?!&) 1개 이상 포함
+                                </li>
+                                <li className={passwordValidity.isLongEnough ? "valid" : ""}>
+                                    {passwordValidity.isLongEnough ? "✓" : "○"} 10글자 이상
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                     <div className="hmk_password-field">
                         <label htmlFor="confirm-password">비밀번호 확인</label>
@@ -633,14 +659,31 @@ const Topbar = () => {
                             autoComplete="new-password"
                             required
                         />
+                        {newPassword && confirmPassword && (
+                            <div className="hmk_password-match">
+                                {newPassword === confirmPassword ?
+                                    <span className="valid">✓ 비밀번호가 일치합니다</span> :
+                                    <span className="invalid">× 비밀번호가 일치하지 않습니다</span>
+                                }
+                            </div>
+                        )}
                     </div>
-                    {passwordError && (
+                    {passwordError && !passwordError.includes("현재 비밀번호") && (
                         <div className="hmk_password-error" role="alert">
                             {passwordError}
                         </div>
                     )}
                     <div className="hmk_password-actions">
-                        <button type="submit">확인</button>
+                        <button
+                            type="submit"
+                            disabled={
+                                (hasPassword && !currentPassword) ||
+                                !validatePassword(newPassword) ||
+                                newPassword !== confirmPassword
+                            }
+                        >
+                            확인
+                        </button>
                         <button type="button" onClick={() => closeModal('password')}>취소</button>
                     </div>
                 </form>

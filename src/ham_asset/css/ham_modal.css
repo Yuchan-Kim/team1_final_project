@@ -414,3 +414,124 @@
 .hmk_profile-options::-webkit-scrollbar {
     display: none;
 }
+
+/* ham_modal.css 또는 관련 CSS 파일에 추가 */
+
+.hmk_password-rules {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+
+.hmk_password-rules p {
+    margin: 0 0 5px 0;
+    font-weight: bold;
+    color: #495057;
+}
+
+.hmk_password-rules ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.hmk_password-rules li {
+    margin: 5px 0;
+    color: #6c757d;
+    transition: color 0.3s ease;
+}
+
+.hmk_password-rules li.valid {
+    color: #28a745;
+}
+
+.hmk_password-match {
+    margin-top: 5px;
+    font-size: 0.9em;
+}
+
+.hmk_password-match .valid {
+    color: #28a745;
+}
+
+.hmk_password-match .invalid {
+    color: #dc3545;
+}
+
+.hmk_password-error {
+    color: #dc3545;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #fff3f3;
+    border-radius: 4px;
+}
+
+.hmk_password-field {
+    margin-bottom: 20px;
+}
+
+.hmk_password-field input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    margin-top: 5px;
+}
+
+.hmk_password-field input:focus {
+    border-color: #80bdff;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+.hmk_password-actions button {
+    padding: 8px 16px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.hmk_password-actions button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+}
+
+.hmk_password-actions button[type="submit"]:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+.hmk_password-actions button[type="button"] {
+    background-color: #6c757d;
+    color: white;
+}
+
+/* ham_modal.css에 추가 */
+
+.hmk_password-field-error {
+    color: #dc3545;
+    font-size: 0.875em;
+    margin-top: 4px;
+    padding: 4px 8px;
+    background-color: #fff3f3;
+    border-radius: 4px;
+}
+
+.hmk_password-error {
+    color: #dc3545;
+    margin: 10px 0;
+    padding: 8px 12px;
+    background-color: #fff3f3;
+    border-radius: 4px;
+    border: 1px solid #ffcdd2;
+}
+
+.hmk_password-field input.error {
+    border-color: #dc3545;
+}
+
+.hmk_password-field input.error:focus {
+    box-shadow: 0 0 0 0.2rem rgba(220,53,69,.25);
+}

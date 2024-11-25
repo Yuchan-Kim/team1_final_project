@@ -41,10 +41,12 @@
 
 .hmk_alert_message {
     font-size: 1.1rem;
-    margin-bottom: 1.5rem;
+    margin: 10px 0;
     color: #333;
     line-height: 1.4;
+    text-align: center;
 }
+
 
 .hmk_alert_button {
     background-color: #4CAF50;
@@ -72,3 +74,46 @@
         opacity: 1;
     }
 }
+
+/* ham_alert.css에 추가 */
+
+.hmk_alert_buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.hmk_alert_button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.hmk_alert_button.confirm {
+    background-color: #1976d2;
+    color: white;
+}
+
+.hmk_alert_button.confirm:hover {
+    background-color: #1565c0;
+}
+
+.hmk_alert_button.cancel {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.hmk_alert_button.cancel:hover {
+    background-color: #d5d5d5;
+}
+
+/* Alert 컨테이너 크기 조정 */
+.hmk_alert_container {
+    min-width: 300px;
+    padding: 20px;
+}
+

@@ -9,7 +9,9 @@ const Alert = memo(({
     message = '', 
     onClose, 
     type = 'success',
-    autoClose = true
+    autoClose = true,
+    confirmButton = false,  // 확인 버튼 추가 여부
+    onConfirm = null       // 확인 버튼 클릭 핸들러
 }) => {
     useEffect(() => {
         let timeoutId;
@@ -38,13 +40,34 @@ const Alert = memo(({
                 <div className="hmk_alert_message">
                     {message}
                 </div>
-                <button 
-                    className="hmk_alert_button"
-                    onClick={onClose}
-                    aria-label="알림 닫기"
-                >
-                    확인
-                </button>
+                <div className="hmk_alert_buttons">
+                    {confirmButton ? (
+                        <>
+                            <button 
+                                className="hmk_alert_button confirm"
+                                onClick={onConfirm}
+                                aria-label="확인"
+                            >
+                                확인
+                            </button>
+                            <button 
+                                className="hmk_alert_button cancel"
+                                onClick={onClose}
+                                aria-label="취소"
+                            >
+                                취소
+                            </button>
+                        </>
+                    ) : (
+                        <button 
+                            className="hmk_alert_button"
+                            onClick={onClose}
+                            aria-label="알림 닫기"
+                        >
+                            확인
+                        </button>
+                    )}
+                </div>
             </div>
         </div>
     );
@@ -57,7 +80,9 @@ Alert.propTypes = {
     message: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired,
     type: PropTypes.oneOf(['success', 'error']),
-    autoClose: PropTypes.bool
+    autoClose: PropTypes.bool,
+    confirmButton: PropTypes.bool,
+    onConfirm: PropTypes.func
 };
 
 export default Alert;
