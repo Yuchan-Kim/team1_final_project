@@ -177,15 +177,15 @@ const Pointpage = () => {
                             <h2>포인트 내역</h2>
                             <div className="hmk_point-summary">
                                 <div className="hmk_point-box">
-                                    <p>Total Points</p>
+                                    <p>포인트 총액</p>
                                     <div className="hmk_point-value">{totalPoints}</div>
                                 </div>
                                 <div className="hmk_point-box">
-                                    <p>Points Earned</p>
+                                    <p>적립 포인트</p>
                                     <div className="hmk_point-value">{pointsEarned}</div>
                                 </div>
                                 <div className="hmk_point-box">
-                                    <p>Points Spent</p>
+                                    <p>사용 포인트</p>
                                     <div className="hmk_point-value">{pointsSpent}</div>
                                 </div>
                             </div>

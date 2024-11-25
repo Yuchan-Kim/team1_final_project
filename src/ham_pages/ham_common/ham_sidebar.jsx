@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import '../../ham_asset/css/ham_sidebar.css'; // 사이드바 전용 CSS
 
 const ChallengeIcon = '/images/challenge.png';
-const FriendsIcon = '/images/friends.png';
+const NoticeIcon = '/images/notice_ico.png';
 const PointsIcon = '/images/points.png';
 const InventoryIcon = '/images/inventory.png';
 
@@ -29,10 +29,6 @@ const Sidebar = () => {
                         <img src={ChallengeIcon} alt="Challenge" className="hmk_sidebar-icon" />
                         <Link to="/my/mypage">나의 챌린지</Link>
                     </li>
-                    {/* <li>
-                        <img src={FriendsIcon} alt="Friends" className="hmk_sidebar-icon" />
-                        <Link to="#">친구</Link>
-                    </li> */}
                     <li>
                         <img src={PointsIcon} alt="Points" className="hmk_sidebar-icon" />
                         <Link to="/my/mypoint">포인트 내역</Link>
@@ -40,6 +36,10 @@ const Sidebar = () => {
                     <li>
                         <img src={InventoryIcon} alt="Inventory" className="hmk_sidebar-icon" />
                         <Link to="/my/cargo">보관함</Link>
+                    </li>
+                    <li>
+                        <img src={NoticeIcon} alt="Notice" className="hmk_sidebar-icon" />
+                        <Link to="/my/notice">알림</Link>
                     </li>
                 </ul>
             </div>

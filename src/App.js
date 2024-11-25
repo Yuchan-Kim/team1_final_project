@@ -11,6 +11,7 @@ import Mypage from './ham_pages/ham_mypage';
 import Pointpage from './ham_pages/ham_mypage_point';
 import Cargo from './ham_pages/ham_mypage_cargo';
 import Rank from './ham_pages/ham_mypage_ranking';
+import Notice from './ham_pages/ham_mypage_notice';
 
 import Step0 from './pages/genebang/Genebang01';
 import Step1 from './pages/genebang/Step01';
@@ -58,6 +59,7 @@ function App() {
           <Route path='/my/mypoint' element={<Pointpage />} />
           <Route path='/my/cargo' element={<Cargo />} />
           <Route path='/my/rank' element={<Rank />} />
+          <Route path='/my/notice' element={<Notice />} />
 
           
           <Route path='/genebang/genebang01' element={<Step0 />} />
