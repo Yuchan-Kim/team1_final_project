@@ -374,9 +374,8 @@
     position: relative;
     width: 100%;
     padding: 20px;
-    z-index: -1;
+    /* z-index: -1; */
     /* 콘텐츠가 배경 위에 위치하도록 설정 */
-
 
     /* 배경 흐림 및 투명도 효과 */
     backdrop-filter: blur(7px);
@@ -453,4 +452,11 @@
 
 .hmk_rank_list tr:hover {
     background-color: #e8f5e9;
+}
+
+
+
+
+.hmk_rank_list span, img{
+    cursor: pointer;
 }

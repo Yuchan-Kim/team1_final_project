@@ -3,6 +3,8 @@ import axios from 'axios';
 import Header from '../pages/include/DH_Header';
 import Footer from '../pages/include/JM-Footer';
 import '../ham_asset/css/ham_mypage_ranking.css';
+import YCProfileInfo from "../yc_pages/YC_profile_info.jsx";
+import { Link } from 'react-router-dom';
 
 // 이미지 상수들
 const defaultProfile = '/images/profile-fill.png';
@@ -26,6 +28,38 @@ const Rank = () => {
         if (!imagePath) return defaultProfile;
         return `/images/${imagePath}`;
     };
+
+    // 프로필 모달 상태 관리
+    const [isProfileOpen, setProfileOpen] = useState(false);
+    const [profileUser, setProfileUser] = useState(null);
+    // const [error, setError] = useState(null);
+
+    // 프로필 모달 열기 함수
+    const openProfile = async (userNum) => {
+        console.log('openProfile called with:', userNum); // 디버깅용 로그 추가
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/rates/profile/${userNum}`);
+            console.log('Profile Response:', response.data);
+            if (response.data.result === 'success') {
+                setProfileUser(response.data.apiData);
+                setProfileOpen(true);
+            } else {
+                setError("프로필 정보를 불러오는 데 실패했습니다.");
+            }
+        } catch (error) {
+            setError("서버와의 통신에 실패했습니다.");
+            console.error(error);
+        }
+    };
+
+    // 프로필 모달 닫기 함수
+    const closeProfile = () => {
+        setProfileOpen(false);
+        setProfileUser(null);
+    };
+
+
+    
     useEffect(() => {
         const fetchRankData = async () => {
 
@@ -177,7 +211,7 @@ const Rank = () => {
                             </div>
                             <div className='hmk_podium_bottom'></div>
                         </div>
-                        <div className='hmk_rank_body'>
+                        <div className='hmk_rank_body'>{/* hmk_rank_body*/}
                             {/* 내 랭킹 정보 */}
                             {myRank && (
                                 <div className='hmk_rank_my'>
@@ -222,20 +256,27 @@ const Rank = () => {
                                                     <img
                                                         src={rank.profileImage ? getImageUrl(rank.profileImage) : defaultProfile}
                                                         alt="profile"
+                                                        onClick={() => openProfile(rank.userNum)}
                                                         className='hmk_ranker_profile_no'
                                                         onError={(e) => { e.target.src = defaultProfile }}
                                                     />
                                                 </td>
-                                                <td>{rank.nickname}</td>
+                                                <td><span onClick={() => openProfile(rank.userNum)}>{rank.nickname}</span></td>
                                                 <td>{rank.points.toLocaleString()}</td>
                                             </tr>
                                         ))}
-                                    </tbody>
+                                    </tbody>   
                                 </table>
                             </div>
                         </div>
+
                     </div>
                 </div>
+                <YCProfileInfo
+                    isOpen={isProfileOpen}
+                    onClose={closeProfile}
+                    user={profileUser}  // 선택된 유저 정보 전달
+                />
                 <div className="hmk_rank_banner_bottom">
                     <div className="hmk_rank_page_title">
                         <div className="hmk_rank_body_effects"></div>
