@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../pages/include/DH_Header';
 import NaverLogin from '../ham_pages/NaverLogin';
 import GoogleLoginComponent from '../ham_pages/GoogleLogin';
+import Footert from "../pages/include/JM-Footer.jsx";
+
 //import css
 import '../css/dh_joinform.css';
 
@@ -309,6 +311,10 @@ const DH_JoinForm = () => {
                 {/* /dy-joinform */}
             </div>
             {/* /wrap */}
+
+            {/* 푸터 */}
+            <Footert/>
+            {/* 푸터 끝 */}
         </>
     );
 }
