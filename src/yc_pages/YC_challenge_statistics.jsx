@@ -248,6 +248,25 @@ const YCChallengeStatistics = () => {
     });
   };
 
+  const checkJoinedUser = () => {
+    axios({
+        method: 'get',
+        url: `${process.env.REACT_APP_API_URL}/api/challenge/join/${roomNum}`, // 수정된 URL
+        responseType: 'json'
+    })
+    .then(response =>{
+      if (response.data.result === 'success') { 
+        setMissionApprovals(response.data.apiData); 
+      } else {
+        setError("미션 승인 횟수를 불러오는 데 실패했습니다.");
+      }
+    })
+    .catch(error => {
+      setError("서버와의 통신에 실패했습니다.");
+      console.error(error);
+    });
+  };
+
   // 이모지 배열
   const emojis = ['😊', '😎', '🚀', '🎉', '🏆', '🔥', '💪', '🌟', '🎯'];
 

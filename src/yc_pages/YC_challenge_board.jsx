@@ -897,6 +897,9 @@ const MapRender = ({ place }) => {
     }, [place]);
 
     return <div ref={mapRef} className="yc_map-container" style={{ height: "200px", marginTop: "10px" }}></div>;
+
+
+    
 };
 
 
