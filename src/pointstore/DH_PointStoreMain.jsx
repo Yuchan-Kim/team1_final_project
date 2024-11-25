@@ -6,6 +6,7 @@ import axios from 'axios';
 
 //import 컴포넌트
 import Header from '../pages/include/DH_Header';
+import Footert from "../pages/include/JM-Footer.jsx";
 
 //import css
 import '../css/dh_pointstoremain.css';
@@ -56,6 +57,7 @@ const DH_PointStoreMain = () => {
             responseType: 'json',
         }).then(response => {
                 console.log(response); // 수신 데이터
+                console.log("ㅁㅁㅁㅁㅁ",response.data.apiData);
                 setItemList(response.data.apiData);
         }).catch(error => {
                 console.log(error);
@@ -287,7 +289,12 @@ const DH_PointStoreMain = () => {
                                 .map(item => (
                                     <div key={item.itemNum} className="dy-product-info" onClick={() => openDetailModal(item)}>
                                         <img src={`/images/${item.itemImg}`} className="dy-pointstore-pointproduct" alt={item.itemName} />
-                                        {/* src={`${process.env.REACT_APP_API_URL}/upload/${item.itemImg}`} */}
+                                        
+                                        {/* 구매완료 여부 체크 */}
+                                        {item.purchaseNum ? (
+                                            <span className="dy-purchase-completed">구매완료</span>  // 이미 구매한 아이템에 '구매완료' 표시
+                                        ) : null}
+                                        
                                         <div className="dy-product-details">
                                             <h3>{item.itemName}</h3>
                                             <p>{item.itemCost} P</p>
@@ -310,6 +317,8 @@ const DH_PointStoreMain = () => {
                                 .map(item => (
                                     <div key={item.itemNum} className="dy-product-info" onClick={() => openDetailModal(item)}>
                                         <img src={`/images/${item.itemImg}`} className="dy-pointstore-pointproduct" alt={item.itemName} />
+                                        {/* src={`${process.env.REACT_APP_API_URL}/upload/${item.itemImg}`} */}
+                                        
                                         <div className="dy-product-details">
                                             <h3>{item.itemBrandName}</h3>
                                             <h4>{item.itemName}</h4>
@@ -416,7 +425,11 @@ const DH_PointStoreMain = () => {
                                     </div>
                                     <div className="dy-product-check">발송방법 : 마이페이지에서 확인</div>
                                     
+                                    {selectedItem.itemBrandName == "꾸미기" && selectedItem.purchaseNum ? (
+                                        <></>
+                                    ) : (
                                     <button type="submit" onClick={openExchangeModal} className="dy-change-btn">교환하기</button>
+                                    )}
                                 </div>
                                 {/* /dy-detailContent-left */}
                             </div> 
@@ -488,6 +501,10 @@ const DH_PointStoreMain = () => {
                 {/* /dy-pointstoremain */}
             </div>
             {/* /wrap */}
+
+            {/* 푸터 */}
+            <Footert/>
+            {/* 푸터 끝 */}
         </>
     );
 }
