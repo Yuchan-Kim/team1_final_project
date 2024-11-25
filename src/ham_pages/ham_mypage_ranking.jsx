@@ -14,7 +14,7 @@ const win = '/images/rank_winner.gif';
 
 // axios 기본 설정
 axios.defaults.withCredentials = true; // 쿠키 포함 설정
-
+const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
 const Rank = () => {
     const [rankData, setRankData] = useState([]);
     const [myRank, setMyRank] = useState(null);
@@ -30,7 +30,7 @@ const Rank = () => {
         const fetchRankData = async () => {
 
             try {
-                const rankResponse = await axios.get('http://localhost:9000/api/rank/top10');
+                const rankResponse = await axios.get(`${apiUrl}/api/rank/top10`);
 
                 if (rankResponse.data.result === "success") {
                     // apiData에서 데이터 가져오기
@@ -40,7 +40,7 @@ const Rank = () => {
                 }
 
                 if (currentUserNum) {
-                    const myRankResponse = await axios.get(`http://localhost:9000/api/rank/user/${currentUserNum}`);
+                    const myRankResponse = await axios.get(`${apiUrl}/api/rank/user/${currentUserNum}`);
 
                     if (myRankResponse.data.result === "success") {
                         // apiData에서 데이터 가져오기
