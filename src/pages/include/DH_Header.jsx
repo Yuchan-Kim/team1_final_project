@@ -317,7 +317,7 @@ const DH_Header = () => {
 										/>
 										{/* 알림 배지 (읽지 않은 알림이 있을 경우에만) */}
 										{notificationCount > 0 && (
-											<Link to="/my/notices" className="hmk_notification-link">
+											<Link to="/my/notice" className="hmk_notification-link">
 												<span className="hmk_notification-badge">
 													{notificationCount}
 												</span>

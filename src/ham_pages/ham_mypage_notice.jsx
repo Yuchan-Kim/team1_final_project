@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker'; // 날짜 선택기 import
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios'; // axios import
 import { format } from 'date-fns'; // 날짜 포맷팅 함수 import
+import { useNavigate } from 'react-router-dom'; // 방으로 이동하기 위한 navigate 사용
 
 // Header, Sidebar, Topbar 컴포넌트 import
 import Header from '../pages/include/DH_Header';
@@ -32,6 +33,33 @@ const Notice = () => {
         userNum: profileStore.getUserNum(),
         token: profileStore.getToken()
     });
+
+    // 모달 관련 상태 추가
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedNotice, setSelectedNotice] = useState(null);
+
+    const navigate = useNavigate(); // 방으로 이동하기 위한 navigate 사용
+
+    // 알림 읽음 처리 함수
+    const markNoticeAsRead = async (noticeNum) => {
+        try {
+            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
+            const response = await axios.put(
+                `${apiUrl}/api/notice/${noticeNum}/read`,
+                {},
+                {
+                    headers: { Authorization: `Bearer ${profile.token}` }
+                }
+            );
+
+            if (response.data.result === 'success') {
+                // 알림 목록 갱신
+                fetchNoticeData();
+            }
+        } catch (error) {
+            console.error('알림 읽음 처리 실패:', error);
+        }
+    };
 
     // ProfileStore 구독
     useEffect(() => {
@@ -118,6 +146,87 @@ const Notice = () => {
         return filtered;
     }, [noticeData, startDate, endDate, activeTab]);
 
+    // 테이블 행 클릭 핸들러
+    const handleRowClick = async (notice) => {
+        setSelectedNotice(notice);
+        setIsModalOpen(true);
+
+        // 읽지 않은 알림인 경우 읽음 처리
+        if (!notice.isCheck) {
+            await markNoticeAsRead(notice.noticeNum);
+        }
+    };
+
+    // 모달 닫기 핸들러
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedNotice(null);
+    };
+
+    // 알림 내용에 따른 모달 컨텐츠 생성
+    const getModalContent = (notice) => {
+        const baseContent = {
+            title: notice.noticeTitle,
+            content: notice.noticeMsg,
+            showRoomButton: notice.noticeTitle.includes('방') || notice.noticeTitle.includes('챌린지')
+        };
+
+        if (notice.noticeTitle.includes('방 생성')) {
+            baseContent.additionalContent = '새로운 챌린지의 시작을 축하드립니다!';
+        } else if (notice.noticeTitle.includes('방 참가')) {
+            baseContent.additionalContent = '새로운 도전을 응원합니다!';
+        } else if (notice.noticeTitle.includes('시작')) {
+            baseContent.additionalContent = '챌린지가 시작되었습니다. 힘내세요!';
+        } else if (notice.noticeTitle.includes('종료')) {
+            baseContent.additionalContent = '수고하셨습니다!';
+        }
+
+        return baseContent;
+    };
+
+    // 모달 컴포넌트
+    const NoticeModal = ({ notice, onClose }) => {
+        const modalContent = getModalContent(notice);
+
+        return (
+            <div className="hmk_notice_modal-overlay">
+                <div className="hmk_notice_modal-content">
+                    <h2>{modalContent.title}</h2>
+                    <hr />
+                    <div className="hmk_notice_modal-header">
+                        <span>발신자: {notice.senderNickname}</span>
+                        <span>날짜: {notice.createDate}</span>
+                    </div>
+                    <hr />
+                    <p>{modalContent.content}</p>
+                    {modalContent.additionalContent && (
+                        <>
+                            <br />
+                            <p>{modalContent.additionalContent}</p>
+                        </>
+                    )}
+                    <hr />
+                    <div className="hmk_notice_modal-buttons">
+                        {modalContent.showRoomButton && (
+                            <button
+                                onClick={() => navigate(`/cmain/${notice.roomNum}`)}
+                                className="hmk_notice_modal-button"
+                            >
+                                방으로 이동
+                            </button>
+                        )}
+                        <button
+                            onClick={onClose}
+                            className="hmk_notice_modal-button"
+                        >
+                            확인
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
     return (
         <>
             <Header />
@@ -178,7 +287,11 @@ const Notice = () => {
                                 <tbody>
                                     {filteredNotices.length > 0 ? (
                                         filteredNotices.map((notice, index) => (
-                                            <tr key={notice.noticeNum || index}>
+                                            <tr
+                                                key={notice.noticeNum}
+                                                onClick={() => handleRowClick(notice)}
+                                                className="hmk_notice-row"
+                                            >
                                                 <td>{index + 1}</td>
                                                 <td>{notice.noticeTitle}</td>
                                                 <td>{notice.senderNickname || notice.msgSender}</td>
@@ -204,6 +317,13 @@ const Notice = () => {
                 </div>
             </div>
             <Footer />
+            {/* 모달 팝업 */}
+            {isModalOpen && selectedNotice && (
+                <NoticeModal
+                    notice={selectedNotice}
+                    onClose={closeModal}
+                />
+            )}
         </>
     );
 };
