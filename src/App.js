@@ -30,6 +30,7 @@ import DHPwSearch from './user/DH_PwSearch.jsx';
 import DHPwAlter from './user/DH_PwAlter.jsx';
 
 import DHPointStoreMain from './pointstore/DH_PointStoreMain.jsx';
+import CustomerService from './pages/customer/CustomerService';
 
 import Main from './pages/main/Main';
 import Mainlist from './pages/main/Mainlist';
@@ -76,6 +77,7 @@ function App() {
 					<Route path='/user/pwsearch' element={<DHPwSearch/>} />
 					<Route path='/user/pwalter' element={<DHPwAlter/>} />
 					<Route path='/pointstore/pointstoremain' element={<DHPointStoreMain />} />
+          <Route path='/CustomerService' element={<CustomerService />} />
           <Route path='/' element={<Main />} />
           <Route path='/mainlist' element={<Mainlist />} />
 
