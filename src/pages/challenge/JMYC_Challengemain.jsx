@@ -12,6 +12,7 @@ import Header from "../../yc_pages/JMYC_challenge_header.jsx";
 import Footert from "../include/JM-Footer.jsx";
 import TopHeader from "../include/DH_Header.jsx";
 import ChatRoom from "../../yc_pages/YC_challenge_chatroom.jsx";
+import YCProfileInfo from "../../yc_pages/YC_profile_info.jsx";
 
 import { Doughnut } from 'react-chartjs-2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -51,6 +52,9 @@ const ChallengePage = () => {
   const [error, setError] = useState(null);
   const [missionAchievements, setMissionAchievements] = useState([]);
   const [topUsers, setTopUsers] = useState([]);
+  // 프로필 모달 상태 관리
+  const [isProfileOpen, setProfileOpen] = useState(false);
+  const [profileUser, setProfileUser] = useState(null);
 
   // 방정보 가져오기
   const [roomInfo, setRoomInfo] = useState(null); // 방 설명
@@ -97,6 +101,30 @@ const ChallengePage = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedMission(null);
+  };
+
+   // 프로필 모달 열기 함수
+   const openProfile = async (userNum) => {
+    console.log('openProfile called with:', userNum); // 디버깅용 로그 추가
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/rates/profile/${userNum}`);
+        console.log('Profile Response:', response.data);
+        if (response.data.result === 'success') {
+            setProfileUser(response.data.apiData);
+            setProfileOpen(true);
+        } else {
+            setError("프로필 정보를 불러오는 데 실패했습니다.");
+        }
+    } catch (error) {
+        setError("서버와의 통신에 실패했습니다.");
+        console.error(error);
+    }
+  };
+
+  // 프로필 모달 닫기 함수
+  const closeProfile = () => {
+    setProfileOpen(false);
+    setProfileUser(null);
   };
 
   // 미션 달성률 데이터를 가져오는 함수
@@ -206,7 +234,13 @@ const ChallengePage = () => {
                 className="yc-ranking-avatar" 
               />
               <div className="yc-ranking-info">
-                <span className="yc-ranking-name">{user.userName}</span>
+                        <Link
+                          to="#"
+                          className="yc_challenge_statistics_top5User"
+                          onClick={() => openProfile(user.userNum)} // user 객체 대신 userNum을 전달합니다.
+                        >
+                          {user.userName}
+                        </Link>
                 <span className="yc-ranking-progress">달성률: {user.achievementRate}%</span>
               </div>
             </div>
@@ -259,7 +293,13 @@ const ChallengePage = () => {
                   <tbody>
                     {userList.map((user, index) => (
                       <tr className='yc-user-list' key={user.userNum}>
-                        <td>{user.userName}</td>
+                        <td><Link
+                          to="#"
+                          className="yc_challenge_statistics_enteredUser"
+                          onClick={() => openProfile(user.userNum)} // user 객체 대신 userNum을 전달합니다.
+                        >
+                          {user.userName}
+                        </Link></td>
                         <td className={`yc-status-${user.userStatus}`}>{user.userStatus}</td>
                         <td>{user.points || 0}</td>
                         <td><button className="yc-report-button">신고</button></td>
@@ -267,6 +307,8 @@ const ChallengePage = () => {
                     ))}
                   </tbody>
                 </table>
+                {/* 프로필 정보 모달 */}
+          
               </div>
             </div>
           </section>
@@ -340,6 +382,12 @@ const ChallengePage = () => {
           </div>
         </div>
       )}
+
+      <YCProfileInfo
+            isOpen={isProfileOpen}
+            onClose={closeProfile}
+            user={profileUser} // 선택된 유저 정보 전달
+      />
 
       {/* 푸터 */}
       <Footert/>

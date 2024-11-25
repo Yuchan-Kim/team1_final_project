@@ -1,24 +1,48 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link,useParams } from 'react-router-dom';
 import axios from 'axios';
 import TopHeader from "../include/DH_Header.jsx";
 import Footert from "../include/JM-Footer.jsx";
 import ChatRoom from "../../yc_pages/YC_challenge_chatroom.jsx";
 import Calendar from "../../pages/challenge/JM-calendar.jsx";
 import { Bar } from "react-chartjs-2"; 
-
-
+import YCProfileInfo from "../../yc_pages/YC_profile_info.jsx";
+import { Doughnut, Line } from "react-chartjs-2"; // Bar 차트 추가
 
 import '../css/Mission.css';
 import '../css/Modal.css';
-
-
 
 import Sidebar from "../../yc_pages/YC_challenge_sidebar.jsx";
 import Header from "../../yc_pages/JMYC_challenge_header.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Filler,
+} from "chart.js";
 
+// Chart.js 컴포넌트 등록
+ChartJS.register(
+  ArcElement, 
+  Tooltip, 
+  Legend,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Filler
+);
 const Mission = () => {
   const token = localStorage.getItem('token'); // 로컬 스토리지에서 토큰을 가져옴
   const {roomNum} = useParams(); // 방넘버 저장
@@ -36,24 +60,58 @@ const Mission = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [fileInputs, setFileInputs] = useState([{}]); // 사진 업로드
   const [previews, setPreviews] = useState([]); // 사진 프리뷰
+  const [missionApprovals, setMissionApprovals] = useState([]); // 미션 승인 횟수 통계
+  const [missionAchievements, setMissionAchievements] = useState([]);
+  const [error, setError] = useState(null);
+  const [topUsers, setTopUsers] = useState([]);
 
-  // 미션 차트
-  const barChartData = {
-    labels: ["미션 A", "미션 B", "미션 C", "미션 D", "미션 E"],
+   // 프로필 모달 상태 관리
+   const [isProfileOpen, setProfileOpen] = useState(false);
+   const [profileUser, setProfileUser] = useState(null);
+
+  // 유저의 미션 승인 횟수 통계 가져오기
+  const fetchMissionApprovals = () => {
+    axios({
+        method: 'get',
+        url: `${process.env.REACT_APP_API_URL}/api/rates/myapprovals/${roomNum}`, // 수정된 URL
+        headers: {
+          
+          'Authorization': `Bearer ${token}`
+      },
+        responseType: 'json'
+    })
+    .then(response =>{
+      console.log('Mission Approvals Response:', response.data);
+      if (response.data.result === 'success') { 
+        setMissionApprovals(response.data.apiData); 
+      } else {
+        setError("미션 승인 횟수를 불러오는 데 실패했습니다.");
+      }
+    })
+    .catch(error => {
+      setError("서버와의 통신에 실패했습니다.");
+      console.error(error);
+    });
+  };
+
+  // 미션 승인 횟수 바 차트 데이터 (백엔드에서 가져온 데이터로 설정)
+  const missionApprovalBarChartData = {
+    labels: missionApprovals.map(mission => mission.missionName), // 미션 이름 레이블
     datasets: [
       {
-        label: "완료된 내 미션 수",
-        data: [12, 19, 3, 5, 2],
-        backgroundColor: "rgba(255, 99, 132, 0.6)",
-        borderColor: "#ff6384",
+        label: "미션 승인 횟수",
+        data: missionApprovals.map(mission => mission.approvalCount), // 승인 횟수 데이터
+        backgroundColor: "rgba(75, 192, 192, 0.6)",
+        borderColor: "rgba(75, 192, 192, 1)",
         borderWidth: 1,
       },
     ],
   };
 
-  const barChartOptions = {
+  // 미션 승인 횟수 바 차트 옵션
+  const missionApprovalBarChartOptions = {
     responsive: true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: true,
     scales: {
       x: {
         title: {
@@ -68,18 +126,22 @@ const Mission = () => {
       y: {
         title: {
           display: true,
-          text: "완료 수",
+          text: "승인 횟수",
           font: {
             size: 14,
             weight: 'bold',
           },
         },
         beginAtZero: true,
+        ticks: {
+          precision: 0, // 정수 표시
+        },
       },
     },
     plugins: {
       legend: {
-        display: false,
+        display: true,
+        position: 'top',
       },
       tooltip: {
         enabled: true,
@@ -99,9 +161,11 @@ const Mission = () => {
     animation: {
       duration: 1000,
       easing: 'easeOutQuart',
-    },
+    }
+    
   };
 
+  
   // 제출 미션 선택 핸들러
   const handleSelectMission = (index, mission) => {
     if (mission.isSubmitted) {
@@ -316,12 +380,132 @@ const Mission = () => {
     getMissionList(); // 미션리스트 가져오기
     getRules(); // 유의사항 1개 가져오기
     getUserAuth(); // 유저 권한정보 가져오기
+    fetchMissionApprovals();
     console.log(setMissionList);
   }, []);
+
+  // 첫 번째 미션 선택
+  const firstMission = missionAchievements.length > 0 ? missionAchievements[0] : null;
+
+
+  // 도넛 차트 데이터 설정
+  const doughnutData = firstMission ? {
+    labels: ['완료', '미완료'],
+    datasets: [
+      {
+        label: firstMission.missionName,
+        data: [firstMission.achievementRate, 100 - firstMission.achievementRate],
+        backgroundColor: [
+          'rgba(75, 192, 192, 0.6)',
+          'rgba(255, 205, 86, 0.6)'
+        ],
+        borderColor: [
+          'rgba(75, 192, 192, 1)',
+          'rgba(255, 205, 86, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  } : null;
+
+  const doughnutOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom',
+      },
+      title: {
+        display: true,
+        text: '그룹 챌린지 달성도',
+      },
+    },
+  };
+
+  // Top 5 유저 가져오기
+  const fetchTopUsers = () => {
+    axios({
+        method: 'get',
+        url: `${process.env.REACT_APP_API_URL}/api/rates/topusers/${roomNum}`, 
+        responseType: 'json'
+    })
+    .then(response =>{
+      console.log('Top Users Response:', response.data);
+      if (response.data.result === 'success') { 
+        setTopUsers(response.data.apiData); 
+      } else {
+        setError("Top 5 User를 불러오는 데 실패했습니다.");
+      }
+    })
+    .catch(error => {
+      setError("서버와의 통신에 실패했습니다.");
+      console.error(error);
+    });
+  };
+
+   // 프로필 모달 열기 함수
+   const openProfile = async (userNum) => {
+    console.log('openProfile called with:', userNum); // 디버깅용 로그 추가
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/rates/profile/${userNum}`);
+        console.log('Profile Response:', response.data);
+        if (response.data.result === 'success') {
+            setProfileUser(response.data.apiData);
+            setProfileOpen(true);
+        } else {
+            setError("프로필 정보를 불러오는 데 실패했습니다.");
+        }
+    } catch (error) {
+        setError("서버와의 통신에 실패했습니다.");
+        console.error(error);
+    }
+  };
+
+  // 프로필 모달 닫기 함수
+  const closeProfile = () => {
+    setProfileOpen(false);
+    setProfileUser(null);
+  };
+
+
 
   return (
     <>
       <TopHeader/>
+
+      <div className="yc-chart-container"> 
+          
+        {/* Top 5 유저 랭킹 */}
+        <div className="yc-top-rankings">
+          {/* 도넛 차트와 달성률 표시 */}
+          {doughnutData && (
+            <>
+              <Doughnut data={doughnutData} options={doughnutOptions} />
+              <h4>{firstMission.missionName} 달성률: {firstMission.achievementRate.toFixed(2)}%</h4>
+            </>
+          )}
+          <h3>Top 5 랭킹</h3>
+          {topUsers.map((user) => (
+            <div key={user.userNum} className="yc-ranking-item">
+              <img 
+                src={user.usingProfilePic} 
+                alt={`${user.userName} 프로필`} 
+                className="yc-ranking-avatar" 
+              />
+              <div className="yc-ranking-info">
+                        <Link
+                          to="#"
+                          className="yc_challenge_statistics_top5User"
+                          onClick={() => openProfile(user.userNum)} // user 객체 대신 userNum을 전달합니다.
+                        >
+                          {user.userName}
+                        </Link>
+                <span className="yc-ranking-progress">달성률: {user.achievementRate}%</span>
+              </div>
+            </div>
+          ))}
+          
+        </div>
+      </div>
     <div className="jm-bady">
       {/* Sidebar */}
 
@@ -377,8 +561,8 @@ const Mission = () => {
           <div className="jm_challenge_statistics_additional-graph">
             <h2>내 미션 통계</h2>
               <Bar
-                data={barChartData}
-                options={barChartOptions}
+                data={missionApprovalBarChartData}
+                options={missionApprovalBarChartOptions}
               />
             </div>
         </div>

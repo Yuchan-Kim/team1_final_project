@@ -523,7 +523,13 @@ const YCChallengeStatistics = () => {
                 className="yc-ranking-avatar" 
               />
               <div className="yc-ranking-info">
-                <span className="yc-ranking-name">{user.userName}</span>
+                        <Link
+                          to="#"
+                          className="yc_challenge_statistics_top5User"
+                          onClick={() => openProfile(user.userNum)} // user 객체 대신 userNum을 전달합니다.
+                        >
+                          {user.userName}
+                        </Link>
                 <span className="yc-ranking-progress">달성률: {user.achievementRate}%</span>
               </div>
             </div>

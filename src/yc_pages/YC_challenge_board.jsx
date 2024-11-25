@@ -1,6 +1,6 @@
 // src/components/YcChallengeBoard.jsx
 import React, { useState, useEffect, useRef } from "react";
-import { useParams, useNavigate } from 'react-router-dom';
+import {  Link,useParams, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { FaPlus, FaMinus, FaEdit, FaTrash, FaMapMarkerAlt, FaSearch } from "react-icons/fa";
 import "../yc_assets/yc_css/yc_css_challenge_board.css";
@@ -9,6 +9,8 @@ import Header from "./JMYC_challenge_header.jsx";
 import Footert from "../pages/include/JM-Footer.jsx";
 import TopHeader from "../pages/include/DH_Header.jsx";
 import ChatRoom from "../yc_pages/YC_challenge_chatroom.jsx";
+import YCProfileInfo from "../yc_pages/YC_profile_info.jsx";
+
 import { convertTM128ToWGS84, convert3857ToWGS84 } from '../yc_pages/coordinateConversion.js'; // 좌표 변환 함수 임포트
 
 import { Doughnut, Line, Bar } from "react-chartjs-2"; // Bar 차트 추가
@@ -71,6 +73,10 @@ const YcChallengeBoard = () => {
     const [searchError, setSearchError] = useState(null);
 
     const [isNaverLoaded, setIsNaverLoaded] = useState(false);
+
+     // 프로필 모달 상태 관리
+    const [isProfileOpen, setProfileOpen] = useState(false);
+    const [profileUser, setProfileUser] = useState(null);
 
     const token = localStorage.getItem('token');
     console.log(token);
@@ -154,6 +160,30 @@ const YcChallengeBoard = () => {
             fetchNotices();
         }
     };
+
+    // 프로필 모달 열기 함수
+   const openProfile = async (userNum) => {
+    console.log('openProfile called with:', userNum); // 디버깅용 로그 추가
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/rates/profile/${userNum}`);
+        console.log('Profile Response:', response.data);
+        if (response.data.result === 'success') {
+            setProfileUser(response.data.apiData);
+            setProfileOpen(true);
+        } else {
+            setError("프로필 정보를 불러오는 데 실패했습니다.");
+        }
+    } catch (error) {
+        setError("서버와의 통신에 실패했습니다.");
+        console.error(error);
+    }
+  };
+
+  // 프로필 모달 닫기 함수
+  const closeProfile = () => {
+    setProfileOpen(false);
+    setProfileUser(null);
+  };
 
     const fetchNotices = () => {
         axios({
@@ -609,7 +639,13 @@ const YcChallengeBoard = () => {
                 className="yc-ranking-avatar" 
               />
               <div className="yc-ranking-info">
-                <span className="yc-ranking-name">{user.userName}</span>
+                        <Link
+                          to="#"
+                          className="yc_challenge_statistics_top5User"
+                          onClick={() => openProfile(user.userNum)} // user 객체 대신 userNum을 전달합니다.
+                        >
+                          {user.userName}
+                        </Link>
                 <span className="yc-ranking-progress">달성률: {user.achievementRate}%</span>
               </div>
             </div>
@@ -842,6 +878,11 @@ const YcChallengeBoard = () => {
                 )}
             </div>
         </div>
+        <YCProfileInfo
+            isOpen={isProfileOpen}
+            onClose={closeProfile}
+            user={profileUser} // 선택된 유저 정보 전달
+      />
         {/* 채팅룸 컴포넌트 렌더링 */}
         <ChatRoom roomNum={roomNum}/>
         {/* 푸터 컴포넌트 렌더링 */}
