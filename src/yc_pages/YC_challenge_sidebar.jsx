@@ -199,7 +199,7 @@ const YCChallengeSidebar = () => {
                 } else {
                     alert('방 삭제에 실패했습니다.');
                 }
-            } else if (exitModalType === 'leave' || exitModalType === 'penalty') {
+            }else if (exitModalType === 'leave' || exitModalType === 'penalty') {
                 // 방 나가기 API 호출
                 const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/leave-room/${roomNum}`, null, {
                     headers: {
