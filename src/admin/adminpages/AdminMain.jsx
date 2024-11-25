@@ -309,6 +309,7 @@ const AdminMain = () => {
             <Footer/>
         </div>
     );
-
-    export default AdminMain;
 };
+
+// 컴포넌트 함수 외부에 export 구문 위치
+export default AdminMain;
