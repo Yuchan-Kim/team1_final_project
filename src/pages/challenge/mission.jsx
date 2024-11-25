@@ -727,7 +727,7 @@
               onClose={closeProfile}
               user={profileUser} // 선택된 유저 정보 전달
         />
-      <ChatRoom/>
+      <ChatRoom roomNum={roomNum}/>
 
       {/* 푸터 */}
         <Footert/>

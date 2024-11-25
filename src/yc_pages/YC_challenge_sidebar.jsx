@@ -373,7 +373,7 @@ const YCChallengeSidebar = () => {
                                 aria-label="방 나가기"
                                 disabled={isExitDisabled}
                             >
-                                나가기
+                                방 탈퇴
                             </button>
                         </div>
                     </div>

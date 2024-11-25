@@ -132,7 +132,6 @@ const YCChallengeStatistics = () => {
       fetchTopUsers();
       fetchUsers();
       fetchOverallStats();
-      fetchMissionApprovals();
       fetchMissionAchievements(); // 새로운 함수 호출
     } else {
       setError("roomNum이 정의되지 않았습니다.");
@@ -227,26 +226,7 @@ const YCChallengeStatistics = () => {
     });
   };
 
-  // 전체 유저의 미션 승인 횟수 통계 가져오기
-  const fetchMissionApprovals = () => {
-    axios({
-        method: 'get',
-        url: `${process.env.REACT_APP_API_URL}/api/rates/approvals/${roomNum}`, // 수정된 URL
-        responseType: 'json'
-    })
-    .then(response =>{
-      console.log('Mission Approvals Response:', response.data);
-      if (response.data.result === 'success') { 
-        setMissionApprovals(response.data.apiData); 
-      } else {
-        setError("미션 승인 횟수를 불러오는 데 실패했습니다.");
-      }
-    })
-    .catch(error => {
-      setError("서버와의 통신에 실패했습니다.");
-      console.error(error);
-    });
-  };
+ 
 
   const checkJoinedUser = () => {
     axios({
@@ -339,79 +319,8 @@ const YCChallengeStatistics = () => {
     },
   };
 
-  // 미션 승인 횟수 바 차트 데이터 (백엔드에서 가져온 데이터로 설정)
-  const missionApprovalBarChartData = {
-    labels: missionApprovals.map(mission => mission.missionName), // 미션 이름 레이블
-    datasets: [
-      {
-        label: "미션 승인 횟수",
-        data: missionApprovals.map(mission => mission.approvalCount), // 승인 횟수 데이터
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
-        borderColor: "rgba(75, 192, 192, 1)",
-        borderWidth: 1,
-      },
-    ],
-  };
+  
 
-  // 미션 승인 횟수 바 차트 옵션
-  const missionApprovalBarChartOptions = {
-    responsive: true,
-    maintainAspectRatio: true,
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: "미션",
-          font: {
-            size: 14,
-            weight: 'bold',
-          },
-        },
-      },
-      y: {
-        title: {
-          display: true,
-          text: "승인 횟수",
-          font: {
-            size: 14,
-            weight: 'bold',
-          },
-        },
-        beginAtZero: true,
-        ticks: {
-          precision: 0, // 정수 표시
-        },
-      },
-    },
-    plugins: {
-      legend: {
-        display: true,
-        position: 'top',
-      },
-      tooltip: {
-        enabled: true,
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-        titleFont: {
-          size: 14,
-          weight: 'bold',
-        },
-        bodyFont: {
-          size: 12,
-        },
-      },
-      title: {
-        display: false,
-      },
-    },
-    animation: {
-      duration: 1000,
-      easing: 'easeOutQuart',
-    }
-    
-  };
-
-  // 바 차트 데이터가 존재하는지 확인
-  const isBarChartDataAvailable = missionApprovals && missionApprovals.length > 0;
 
   // 도넛 차트 옵션 정의
   const chartOptions = {
@@ -563,21 +472,6 @@ const YCChallengeStatistics = () => {
 
             </div>
           </div>
-
-          {/* 미션 승인 횟수 바 차트 섹션 */}
-          <div className="yc_challenge_statistics_bar-chart-section">
-              <h2 className="yc_challenge_statistics_title">미션 승인 횟수</h2>
-              {isBarChartDataAvailable ? (
-                <div className="yc_challenge_statistics_bar-chart">
-                  <Bar
-                    data={missionApprovalBarChartData}
-                    options={missionApprovalBarChartOptions}
-                  />
-                </div>
-              ) : (
-                <p>미션 승인 데이터가 없습니다.</p>
-              )}
-            </div>
           
           
           
