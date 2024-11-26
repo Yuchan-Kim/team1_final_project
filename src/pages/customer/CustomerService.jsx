@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import '../../css/reset.css';
 
-const Genebang01 = () => {
+const CustomerService = () => {
 
     /*---라우터 관련-------------------------------*/
 
@@ -63,4 +63,4 @@ const Genebang01 = () => {
 
 }
 
-export default Genebang01;
+export default CustomerService;

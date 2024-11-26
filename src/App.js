@@ -79,7 +79,7 @@ function App() {
 					<Route path='/user/pwsearch' element={<DHPwSearch/>} />
 					<Route path='/user/pwalter' element={<DHPwAlter/>} />
 					<Route path='/pointstore/pointstoremain' element={<DHPointStoreMain />} />
-          <Route path='/CustomerService' element={<CustomerService />} />
+          <Route path='/customerservice' element={<CustomerService />} />
           <Route path='/' element={<Main />} />
           <Route path='/mainlist' element={<Mainlist />} />
 
