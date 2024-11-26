@@ -76,24 +76,54 @@
     background-color: rgb(3, 199, 90);
     color: white;
 }
-#naver_id_login {
-    display: flex;
-    height: 37px;
-    padding: 0 65px 0 10px;
-}
-#naver_id_login_anchor {
-    margin-top: 4px;
-}
-
-.dy-google-login {
+/* 공통 스타일: 소셜 로그인 버튼 */
+.dy-social-login {
     width: 300px;
     height: 45px;
-    margin: 0 auto;
+    margin: 10px auto;
     border-radius: 10px;
-    border: none;
     display: flex;
     justify-content: center;
-    margin-bottom: 10px;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+}
+
+/* 각 플랫폼 별 색상 */
+.dy-social-login.kakao {
+    background-color: #fee500;
+    color: #3c1e1e;
+    border: 1px solid #e6b800;
+    margin-bottom: 0;
+}
+
+.dy-social-login.google {
+    background-color: #ffffff;
+    color: white;
+    border: none;
+    margin-top: 0;
+}
+
+.dy-social-login.naver {
+    background-color: #03c75a;
+    color: white;
+    border: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 3px 0 0 6px;
+    gap: 70px;
+    margin-top: 12px;
+
+
+}
+
+/* hover 효과 */
+.dy-social-login:hover {
+    opacity: 0.9;
 }
 
 .dy-loginform .dy-loginform-content .dy-middle {

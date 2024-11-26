@@ -123,10 +123,10 @@ const DH_LoginForm = () => {
                                 onClick={handleKakaoLogin}
                                 />
                             </div>
-                            <div className="dy-google-login">
+                            <div className="dy-social-login google">
                                 <GoogleLoginComponent />
                             </div>
-                            <div className="dy-naver-login">
+                            <div className="dy-social-login naver">
                                 <NaverLogin />
                                 <p>네이버 로그인</p>
                             </div>
