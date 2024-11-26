@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import DatePicker from 'react-datepicker'; // 날짜 선택기 import
-import ReactPaginate from 'react-paginate';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios'; // axios import
 import { format } from 'date-fns'; // 날짜 포맷팅 함수 import
@@ -24,6 +24,11 @@ const Pointpage = () => {
         pointsSpent: 0,
         totalPoints: 0
     });
+    const [page, setPage] = useState(0);
+    const [hasMore, setHasMore] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [totalElements, setTotalElements] = useState(0); // 전체 데이터 수 추가
+    const PAGE_SIZE = 10;
     // 탭 전환 상태값
     const [activeTab, setActiveTab] = useState('전체'); // 기본 상태로 '전체' 설정
 
@@ -63,26 +68,33 @@ const Pointpage = () => {
         if (profile.userNum && profile.token) {
             fetchPointData();
         }
-    }, [startDate, endDate, profile.userNum, profile.token]);
+    }, [profile.userNum, profile.token]);
 
-    const dateFilteredPoints = useMemo(() => {
-        let filtered = pointData;
+    // 필터링된 데이터 계산
+    const filteredData = useMemo(() => {
+        if (!Array.isArray(pointData)) {
+            console.error('pointData is not an array:', pointData);
+            return [];
+        }
+
+        let filtered = [...pointData];
+
         if (startDate && endDate) {
             filtered = filtered.filter(item => {
                 const itemDate = new Date(item.date);
                 return itemDate >= startDate && itemDate <= endDate;
             });
         }
-        return filtered;
-    }, [pointData, startDate, endDate]);
 
-    const tablePoints = useMemo(() => {
-        if (activeTab === '전체') {
-            return dateFilteredPoints;
+        switch (activeTab) {
+            case '적립':
+                return filtered.filter(item => item.historyInfo === '+');
+            case '사용':
+                return filtered.filter(item => item.historyInfo === '-');
+            default:
+                return filtered;
         }
-        const targetChange = activeTab === '적립' ? '+' : '-';
-        return dateFilteredPoints.filter(item => item.historyInfo === targetChange);
-    }, [dateFilteredPoints, activeTab]);
+    }, [pointData, startDate, endDate, activeTab]);
 
     // 포인트 요약 정보는 백엔드에서 가져온 summary 데이터를 사용
     const totalPoints = summary.totalPoints.toLocaleString();
@@ -104,27 +116,22 @@ const Pointpage = () => {
         // 날짜 필터링은 useMemo를 통해 자동으로 반영됩니다.
     };
 
-    // 필터 초기화 핸들러
-    const handleResetFilters = () => {
-        setStartDate(null);
-        setEndDate(null);
-    };
+    const fetchPointData = async (pageNum = 0, isLoadMore = false) => {
+        if (loading) return; // 로딩 중복 방지
 
-    const fetchPointData = async () => {
         try {
+            setLoading(true);
             const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
             const { userNum, token } = profile;
-            if (!userNum) {
-                console.error('사용자 번호가 없습니다.');
-                return;
-            }
-            if (!token) {
-                console.error('Authorization 토큰이 없습니다.');
-                alert('인증 토큰이 없습니다. 다시 로그인해주세요.');
+
+            if (!userNum || !token) {
+                alert('인증 정보가 없습니다. 다시 로그인해주세요.');
                 return;
             }
 
             const params = {
+                page: pageNum,
+                size: PAGE_SIZE,
                 startDate: startDate ? format(startDate, 'yyyy-MM-dd') : null,
                 endDate: endDate ? format(endDate, 'yyyy-MM-dd') : null
             };
@@ -132,38 +139,56 @@ const Pointpage = () => {
             const [historyResponse, summaryResponse] = await Promise.all([
                 axios.get(`${apiUrl}/api/my/${userNum}/pointHistory`, {
                     params,
-                    headers: { 'Authorization': `Bearer ${token}` }
+                    headers: { Authorization: `Bearer ${token}` }
                 }),
-                axios.get(`${apiUrl}/api/my/${userNum}/pointSummary`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                })
+                !isLoadMore ? axios.get(`${apiUrl}/api/my/${userNum}/pointSummary`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                }) : Promise.resolve({ data: { result: 'success', apiData: summary } })
             ]);
 
-            // 백엔드 응답 구조에 따라 데이터를 설정
             if (historyResponse.data.result === 'success') {
-                // console.log("포인트 사용 내역: ",historyResponse.data);
-                setPointData(historyResponse.data.apiData);
-            } else {
-                console.error('포인트 내역 조회 실패:', historyResponse.data.message);
-                setPointData([]);
+                const newData = historyResponse.data.apiData; // 직접 apiData 배열 사용
+
+                if (!Array.isArray(newData)) {
+                    console.error('pointHistory data is not an array:', newData);
+                    setPointData([]);
+                } else {
+                    if (isLoadMore) {
+                        setPointData(prev => [...prev, ...newData]);
+                    } else {
+                        setPointData(newData);
+                    }
+
+                    setHasMore(newData.length === PAGE_SIZE); // 받아온 데이터 길이로 판단
+                    setPage(pageNum);
+                    setTotalElements(newData.length);
+                }
             }
 
-            if (summaryResponse.data.result === 'success') {
-                // console.log("포인트 요약: ", summaryResponse.data);
+            if (!isLoadMore && summaryResponse.data.result === 'success') {
                 setSummary(summaryResponse.data.apiData);
-            } else {
-                console.error('포인트 요약 조회 실패:', summaryResponse.data.message);
-                setSummary({
-                    pointsEarned: 0,
-                    pointsSpent: 0,
-                    totalPoints: 0
-                });
             }
         } catch (error) {
             console.error('포인트 데이터 로딩 실패:', error);
-            alert('포인트 데이터를 불러오는 데 실패했습니다. 나중에 다시 시도해주세요.');
+        } finally {
+            setLoading(false);
         }
     };
+
+    // 추가 데이터 로드
+    const fetchMoreData = () => {
+        if (!loading && hasMore) {
+            fetchPointData(page + 1, true);
+        }
+    };
+
+    // 필터 변경 시 데이터 초기화 및 재조회를 위한 useEffect 추가
+    useEffect(() => {
+        setPointData([]);
+        setPage(0);
+        setHasMore(true);
+        fetchPointData(0, false);
+    }, [activeTab, startDate, endDate]);
 
     return (
         <>
@@ -243,7 +268,7 @@ const Pointpage = () => {
                                                 <DatePicker
                                                     selected={startDate}
                                                     onChange={date => setStartDate(date)}
-                                                    placeholderText="yyyy-MM-dd         📅"
+                                                    placeholderText="yyyy-MM-dd 📅"
                                                     className="hmk_date-input"
                                                     dateFormat="yyyy-MM-dd"
                                                 />
@@ -256,7 +281,7 @@ const Pointpage = () => {
                                                 <DatePicker
                                                     selected={endDate}
                                                     onChange={date => setEndDate(date)}
-                                                    placeholderText="yyyy-MM-dd         📅"
+                                                    placeholderText="yyyy-MM-dd 📅"
                                                     className="hmk_date-input"
                                                     dateFormat="yyyy-MM-dd"
                                                 />
@@ -269,42 +294,56 @@ const Pointpage = () => {
                             </div>
 
                             {/* 포인트 내역 테이블 */}
-                            <table className="hmk_point-table">
-                                <thead>
-                                    <tr>
-                                        <th>날짜</th>
-                                        <th>설명</th>
-                                        <th>변동</th>
-                                        <th>잔액</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {tablePoints.length > 0 ? (
-                                        tablePoints.map((item, index) => (
-                                            <tr key={index}>
-                                                <td>{item.date}</td>
-                                                <td>{item.purposeName}</td>
-                                                <td>
-                                                    {item.historyInfo === '+' ? (
-                                                        <span className="earned">
-                                                            {item.historyPoint.toLocaleString()}
-                                                        </span>
-                                                    ) : (
-                                                        <span className="spent">
-                                                            - {Math.abs(item.historyPoint).toLocaleString()}
-                                                        </span>
-                                                    )}
-                                                </td>
-                                                <td>{item.total.toLocaleString()}</td>
-                                            </tr>
-                                        ))
-                                    ) : (
+                            <InfiniteScroll
+                                dataLength={filteredData.length}
+                                next={fetchMoreData}
+                                hasMore={hasMore}
+                                loader={
+                                    <div className="hmk_loading">
+                                        <div className="hmk_loading-spinner"></div>
+                                        데이터를 불러오는 중...
+                                    </div>
+                                }
+                                endMessage={
+                                    <div className="hmk_end-message">
+                                        {filteredData.length > 0 ? "모든 내역을 불러왔습니다." : "해당하는 내역이 없습니다."}
+                                    </div>
+                                }
+                                style={{ overflow: 'visible' }}
+                            >
+                                <table className="hmk_point-table">
+                                    <thead>
                                         <tr>
-                                            <td colSpan="4">해당 조건에 맞는 데이터가 없습니다.</td>
+                                            <th>날짜</th>
+                                            <th>설명</th>
+                                            <th>변동</th>
+                                            <th>잔액</th>
                                         </tr>
-                                    )}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {filteredData.length > 0 ? (
+                                            filteredData.map((item) => (
+                                                <tr key={item.historyNum}> {/* historyNum을 키로 사용 */}
+                                                    <td>{item.date}</td>
+                                                    <td>{item.purposeName}</td>
+                                                    <td>
+                                                        <span className={item.historyInfo === '+' ? 'earned' : 'spent'}>
+                                                            {item.historyInfo === '+' ?
+                                                                item.historyPoint.toLocaleString() :
+                                                                `- ${Math.abs(item.historyPoint).toLocaleString()}`}
+                                                        </span>
+                                                    </td>
+                                                    <td>{item.total.toLocaleString()}</td>
+                                                </tr>
+                                            ))
+                                        ) : !loading && (
+                                            <tr>
+                                                <td colSpan="4">해당 조건에 맞는 데이터가 없습니다.</td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                            </InfiniteScroll>
                         </div>
                     </div>
                 </div>
