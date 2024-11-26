@@ -1,23 +1,66 @@
-/* 기존 스타일에 'yc-' 접두사 추가 */
 
 #yc-admin-wrap {
-    background-color: var(--background-color);
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    max-width: 1000px;
-    margin: 0 auto;
+    display: flex;
+    width: 80vw; /* 전체 너비를 80% 뷰포트 너비로 설정 */
+    margin: 0 auto; /* 중앙 정렬 */
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding: 20px; /* 양 옆에 간격 추가 */
+    background-color: #ffffff; /* 배경색 설정 */
 }
 
 .yc-admin_main{
-    background-color: var(--background-color);
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    max-width: 1000px;
-    margin: 0 auto;
+    flex: 1;
+    margin-left: 110px; /* 사이드바 너비 + 좌측 padding (120px + 40px) */
+    margin-right: 110px; /* 우측 간격 */
+    box-sizing: border-box; /* 패딩 포함하여 크기 계산 */
+    padding: 0 20px; /* 추가 패딩 */
+}
+/* aside 메뉴 */
+#yc-asides-admin {
+    float: left;
+    width: 17%;
+    margin-left: 2%;
 }
 
+#yc-asides-admin h2 {
+    font-size: 20px;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+#yc-asides-admin a {
+    text-decoration: none;
+}
+
+#yc-asides-admin a:link {
+    color: #333; 
+}
+
+#yc-asides-admin a:visited {
+    color: #333; 
+}
+
+#yc-asides-admin #yc-sub_list ul {
+    padding-inline-start: 0;
+    margin: 0;
+}
+
+#yc-asides-admin #yc-sub_list ul > li {
+    padding-bottom: 10px;
+    font-size: 15px;
+    list-style-type: none; 
+}
+
+#yc-asides-admin #yc-sub_list ul > li a {
+    color: #aeaeae;
+    text-decoration: none;
+}
+
+#yc-asides-admin #yc-sub_list ul > li a:hover {
+    font-weight: bold;
+    color: #1594EB;
+}
 .yc-view-items-container h2 {
     text-align: center;
     margin-bottom: 30px;

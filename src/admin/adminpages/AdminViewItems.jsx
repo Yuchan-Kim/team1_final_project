@@ -87,19 +87,19 @@ const ViewItems = () => {
         <>
             <Header />
             <div id="yc-admin-wrap">
-
-                {/* aside */}
-                <div id="yc-asides-admin">
-                    <h2><Link to="/admin/main" rel="noreferrer noopener">관리자 페이지</Link></h2>
-                    <div id="yc-sub_list">
-                        <ul className='yc-lists'>
-                            <li><Link to="/admin/user" rel="noreferrer noopener">유저 관리</Link></li>
-                            <li><Link to="/admin/point" rel="noreferrer noopener">포인트 상품 관리</Link></li>
-                            <li><Link to="/admin/delivery" rel="noreferrer noopener">챌린지 관리</Link></li>
-                        </ul>
+                
+                    {/* aside */}
+                    <div id="yc-asides-admin">
+                        <h2><Link to="/admin/main" rel="noreferrer noopener">관리자 페이지</Link></h2>
+                        <div id="yc-sub_list">
+                            <ul className='yc-lists'>
+                                <li><Link to="/admin/user" rel="noreferrer noopener">유저 관리</Link></li>
+                                <li><Link to="/admin/point" rel="noreferrer noopener">포인트 상품 관리</Link></li>
+                                <li><Link to="/admin/delivery" rel="noreferrer noopener">챌린지 관리</Link></li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                {/* //aside */}
+                    {/* //aside */}
 
                 <div className="yc-admin_main">
                     <h2>모든 상품 보기</h2>
@@ -188,6 +188,7 @@ const ViewItems = () => {
                         <p>검색 결과가 없습니다.</p>
                     )}
                 </div>
+                
             </div>
             <Footer />
         </>

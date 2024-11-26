@@ -1,11 +1,11 @@
 /* clearfix */
-#contents .clearfix{*zoom:1;}
-#contents .clearfix:before, .clearfix:after {display: block; content: ""; line-height: 0;}
-#contents .clearfix:after {clear: both;}
+#yc-contents .yc-clearfix { *zoom:1; }
+#yc-contents .yc-clearfix:before, .yc-clearfix:after { display: block; content: ""; line-height: 0; }
+#yc-contents .yc-clearfix:after { clear: both; }
 
-/* #admin_main 레이아웃 */
+/* #yc-admin_main 레이아웃 */
 
-#admin-wrap {
+#yc-admin-wrap {
     display: flex;
     width: 80vw; /* 전체 너비를 80% 뷰포트 너비로 설정 */
     margin: 0 auto; /* 중앙 정렬 */
@@ -14,7 +14,7 @@
     padding: 20px; /* 양 옆에 간격 추가 */
     background-color: #ffffff; /* 배경색 설정 */
 }
-#admin_main {
+#yc-admin_main {
     flex: 1;
     margin-left: 110px; /* 사이드바 너비 + 좌측 padding (120px + 40px) */
     margin-right: 110px; /* 우측 간격 */
@@ -23,53 +23,53 @@
 }
 
 /* aside 메뉴 */
-#asides-admin {
+#yc-asides-admin {
     float: left;
     width: 17%;
     margin-left: 2%;
 }
 
-#asides-admin h2 {
+#yc-asides-admin h2 {
     font-size: 20px;
     font-weight: bold;
     padding-bottom: 5px;
 }
 
-#asides-admin a {
+#yc-asides-admin a {
     text-decoration: none;
 }
 
-#asides-admin a:link {
+#yc-asides-admin a:link {
     color: #333; 
 }
 
-#asides-admin a:visited {
+#yc-asides-admin a:visited {
     color: #333; 
 }
 
-#asides-admin #sub_list ul {
+#yc-asides-admin #yc-sub_list ul {
     padding-inline-start: 0;
     margin: 0;
 }
 
-#asides-admin #sub_list ul>li {
+#yc-asides-admin #yc-sub_list ul > li {
     padding-bottom: 10px;
     font-size: 15px;
     list-style-type: none; 
 }
 
-#asides-admin #sub_list ul>li a {
+#yc-asides-admin #yc-sub_list ul > li a {
     color: #aeaeae;
     text-decoration: none;
 }
 
-#asides-admin #sub_list ul>li a:hover {
+#yc-asides-admin #yc-sub_list ul > li a:hover {
     font-weight: bold;
     color: #1594EB;
 }
 
 /* 스토어 */
-#admin_main .hjy-section {
+#yc-admin_main .yc-hjy-section {
     grid-column: 1 / -1;
     background-color: white;
     padding: 20px;
@@ -82,31 +82,31 @@
     overflow: hidden; /* 넘치는 부분 숨김 */
 }
 
-#admin_main .hjy-header {
+#yc-admin_main .yc-hjy-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
 }
 
-#admin_main .hjy-header a:link {
+#yc-admin_main .yc-hjy-header a:link {
     color: #333;
     text-decoration: none; 
 }
 
-#admin_main .hjy-header a:visited {
+#yc-admin_main .yc-hjy-header a:visited {
     color: #333;
 }
 
 /* Grid 레이아웃 사용하여 상품 카드 정렬 */
-#admin_main .hjy-brief {
+#yc-admin_main .yc-hjy-brief {
     display: grid;
     gap: 20px;
     grid-template-columns: repeat(3, 1fr); /* 3개의 컬럼 고정 */
     grid-auto-rows: auto; /* 자동 높이 설정 */
 }
 
-#admin_main .hjy-card {
+#yc-admin_main .yc-hjy-card {
     border: 1px solid #e0e0e0;
     border-radius: 10px;
     padding: 10px;
@@ -115,12 +115,12 @@
     transition: box-shadow 0.3s ease;
 }
 
-#admin_main .hjy-card:hover {
+#yc-admin_main .yc-hjy-card:hover {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 
-#admin_main .hjy-cards {
+#yc-admin_main .yc-hjy-cards {
     border: 1px solid #e0e0e0;
     border-radius: 10px;
     padding: 10px 0px 0px 10px;
@@ -129,50 +129,50 @@
     transition: box-shadow 0.3s ease;
 }
 
-#admin_main .hjy-cards:hover {
+#yc-admin_main .yc-hjy-cards:hover {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-#admin_main .hjy-cards img {
+#yc-admin_main .yc-hjy-cards img {
     max-width: 220px;
     max-height: 600px;
     height: auto;
     border-radius: 10px;
 }
 
-#admin_main .hjy-detail p {
+#yc-admin_main .yc-hjy-detail p {
     margin: 5px 0;
     font-size: 17px;
     color: #666;
 }
 
-#admin_main .hjy-brief a:link {
+#yc-admin_main .yc-hjy-brief a:link {
     text-decoration: none;
     color: #666;
 }
 
-#admin_main .hjy-brief a:visited {
+#yc-admin_main .yc-hjy-brief a:visited {
     color: #666;
 }
 
-#admin_main .hjy-price {
+#yc-admin_main .yc-hjy-price {
     font-weight: bold;
     margin: 5px 0;
 }
 
-#admin_main .hjy-purchase-type {
+#yc-admin_main .yc-hjy-purchase-type {
     color: green;
 }
 
 /* 반응형 조정 */
-#admin_main @media (max-width: 768px) {
-    .favorite-products {
+#yc-admin_main @media (max-width: 768px) {
+    .yc-favorite-products {
         grid-template-columns: repeat(2, 1fr); /* 화면이 좁아지면 2개의 컬럼 */
     }
 }
 
 
-#admin_main .hjy-list-section {
+#yc-admin_main .yc-hjy-list-section {
     margin-top: 20px;
     background-color: white;
     padding: 20px;
@@ -185,26 +185,26 @@
     overflow: hidden; /* Consistent with .section */
 }
 
-/* Ensure .list-header aligns with .header */
-#admin_main .hjy-list-header {
+/* Ensure .yc-hjy-list-header aligns with .yc-hjy-header */
+#yc-admin_main .yc-hjy-list-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px; /* Make this consistent with .header */
+    margin-bottom: 20px; /* Make this consistent with .yc-hjy-header */
 }
 
-#admin_main .hjy-list-header a:link {
+#yc-admin_main .yc-hjy-list-header a:link {
     text-decoration: none;
     color: #333;
 }
 
-#admin_main .hjy-list-header a:visited {
+#yc-admin_main .yc-hjy-list-header a:visited {
     text-decoration: none;
     color: #333;
 }
 
 
-#admin_main .hjy-list-status {
+#yc-admin_main .yc-hjy-list-status {
     display: flex; /* Use flexbox */
     justify-content: center; /* Center items horizontally */
     align-items: center; /* Center items vertically */
@@ -214,18 +214,18 @@
    color: #555;
 }
 
-#admin_main .hjy-list-status p {
+#yc-admin_main .yc-hjy-list-status p {
    margin: 0;
    font-size: 14px;
 }
 
-#admin_main .hjy-grid-container {
+#yc-admin_main .yc-hjy-grid-container {
     display: grid;
     grid-template-columns: 1fr 1fr; /* Creates two equal columns */
     gap: 20px; /* Gap between the two sections */
 }
 
-#admin_main .hjy-card {
+#yc-admin_main .yc-hjy-card {
     display: flex; /* Use flexbox */
     flex-direction: column; /* Arrange items in a column */
     justify-content: center; /* Center items vertically */
@@ -238,25 +238,25 @@
     transition: box-shadow 0.3s ease;
 }
 
-#admin_main .hjy-card img {
+#yc-admin_main .yc-hjy-card img {
     max-width: 250px;
     max-height: 600px;
     margin-bottom: 10px; /* Add some space between the image and the details */
     padding-top: 10px; /* Add padding only to the top */
 }
 
-#admin_main .hjy-detail {
-    text-align: center; /* Center text within the hjy-detail */
+#yc-admin_main .yc-hjy-detail {
+    text-align: center; /* Center text within the yc-hjy-detail */
 }
 
-#sotre_Img {
+#yc-admin_main #yc-sotre_Img {
     width: 200px; /* Set the desired width */
     height: 230px; /* Set the desired height */
     object-fit: cover; /* Ensures the image covers the area while maintaining aspect ratio */
     border-radius: 8px; /* Optional: add rounded corners for styling */
 }
 
-#admin_main .hjy-sections {
+#yc-admin_main .yc-hjy-sections {
     grid-column: 1 / -1;
     background-color: white;
     padding: 20px;
@@ -272,21 +272,21 @@
 /* 기존 스타일 유지 */
 
 /* KPI 카드 섹션 */
-.kpi-section {
+.yc-kpi-section {
     margin-top: 20px;
     background-color: white;
     padding: 20px;
     border: 1px solid #e0e0e0;
     margin-bottom: 20px;
     border-radius: 10px;
-    display:flex;
+    display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.kpi-card {
+.yc-kpi-card {
     background-color: #f9f9f9;
     border: 1px solid #e0e0e0;
     border-radius: 10px;
@@ -296,57 +296,57 @@
     text-align: center;
 }
 
-.kpi-card h4 {
+.yc-kpi-card h4 {
     font-size: 16px;
     color: #333;
     margin-bottom: 10px;
 }
 
-.kpi-card p {
+.yc-kpi-card p {
     font-size: 24px;
     font-weight: bold;
     color: #1594EB;
 }
 
 /* 데이터 테이블 스타일 */
-.data-table {
+.yc-data-table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.data-table th, .data-table td {
+.yc-data-table th, .yc-data-table td {
     border: 1px solid #e0e0e0;
     padding: 10px;
     text-align: left;
 }
 
-.data-table th {
+.yc-data-table th {
     background-color: #f0f0f0;
     color: #333;
 }
 
-.data-table tr:nth-child(even) {
+.yc-data-table tr:nth-child(even) {
     background-color: #fafafa;
 }
 
-.data-table tr:hover {
+.yc-data-table tr:hover {
     background-color: #f1f1f1;
 }
 
 /* 최근 활동 스타일 */
-.recent-activities {
+.yc-recent-activities {
     list-style-type: disc;
     padding-left: 20px;
 }
 
-.recent-activities li {
+.yc-recent-activities li {
     margin-bottom: 10px;
     font-size: 14px;
     color: #555;
 }
 
 /* 추가적인 섹션 스타일링 */
-.hjy-list-section {
+.yc-hjy-list-section {
     margin-top: 20px;
     background-color: white;
     padding: 20px;
@@ -356,30 +356,30 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.hjy-list-header {
+.yc-hjy-list-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.hjy-list-header h3 {
+.yc-hjy-list-header h3 {
     margin: 0;
     font-size: 18px;
     color: #333;
 }
 
-.hjy-list-header a {
+.yc-hjy-list-header a {
     text-decoration: none;
     color: #1594EB;
     font-size: 14px;
 }
 
-.hjy-list-header a:hover {
+.yc-hjy-list-header a:hover {
     text-decoration: underline;
 }
 
-.hjy-list-status {
+.yc-hjy-list-status {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -389,48 +389,48 @@
     color: #555;
 }
 
-.hjy-list-status p {
+.yc-hjy-list-status p {
     margin: 0;
     font-size: 14px;
 }
 
 /* 반응형 조정 */
 @media (max-width: 1200px) {
-    .kpi-section {
+    .yc-kpi-section {
         flex-direction: column;
         align-items: center;
     }
 
-    .kpi-card {
+    .yc-kpi-card {
         width: 80%;
         margin-bottom: 20px;
     }
 
-    .hjy-list-status {
+    .yc-hjy-list-status {
         flex-direction: column;
     }
 
-    .hjy-list-section {
+    .yc-hjy-list-section {
         width: 100%;
         overflow-x: auto;
     }
 }
 
 @media (max-width: 768px) {
-    .hjy-grid-container {
+    .yc-hjy-grid-container {
         grid-template-columns: 1fr;
     }
 
-    .hjy-list-section, .hjy-section, .hjy-sections {
+    .yc-hjy-list-section, .yc-hjy-section, .yc-hjy-sections {
         max-width: 100%;
         overflow-x: auto;
     }
 
-    .kpi-section {
+    .yc-kpi-section {
         flex-direction: column;
     }
 
-    .kpi-card {
+    .yc-kpi-card {
         width: 90%;
     }
 }

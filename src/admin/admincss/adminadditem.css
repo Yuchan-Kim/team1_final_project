@@ -1,3 +1,4 @@
+
 /* 기존 스타일에 'yc-' 접두사 추가 */
 #yc-admin-wrap {
     display: flex;
@@ -15,7 +16,51 @@
     box-sizing: border-box; /* 패딩 포함하여 크기 계산 */
     padding: 0 20px; /* 추가 패딩 */
 }
+/* aside 메뉴 */
+#yc-asides-admin {
+    float: left;
+    width: 17%;
+    margin-left: 2%;
+}
 
+#yc-asides-admin h2 {
+    font-size: 20px;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+#yc-asides-admin a {
+    text-decoration: none;
+}
+
+#yc-asides-admin a:link {
+    color: #333; 
+}
+
+#yc-asides-admin a:visited {
+    color: #333; 
+}
+
+#yc-asides-admin #yc-sub_list ul {
+    padding-inline-start: 0;
+    margin: 0;
+}
+
+#yc-asides-admin #yc-sub_list ul > li {
+    padding-bottom: 10px;
+    font-size: 15px;
+    list-style-type: none; 
+}
+
+#yc-asides-admin #yc-sub_list ul > li a {
+    color: #aeaeae;
+    text-decoration: none;
+}
+
+#yc-asides-admin #yc-sub_list ul > li a:hover {
+    font-weight: bold;
+    color: #1594EB;
+}
 .yc-add-item-container h2 {
     text-align: center;
     margin-bottom: 30px;
@@ -74,4 +119,35 @@
 .yc-submit-button:disabled {
     background-color: #a0c4ff;
     cursor: not-allowed;
+}
+
+
+/* 아이템 브랜드 선택 섹션 */
+.yc-category-select {
+    display: flex;
+    align-items: center;
+}
+
+.yc-category-select select {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.yc-add-brand-button {
+    margin-left: 10px;
+    padding: 8px 12px;
+    background-color: #1594EB;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.yc-add-brand-button:hover {
+    background-color: #0b6ac9;
 }
