@@ -1,21 +1,42 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
-import '../admincss/adminadditem.css';
+// AddItem.jsx
 
-import Header from '../../pages/include/DH_Header.jsx';
-import Footer from '../../pages/include/JM-Footer.jsx';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import AdminLayout from '../adminpages/AdminLayout'; // 공통 레이아웃 임포트
+import AddItemBrand from '../adminpages/AdminAddItemBrand'; // 새 컴포넌트 임포트
+import '../admincss/adminadditem.css';
 
 const AddItem = () => {
     const navigate = useNavigate();
 
     const [itemName, setItemName] = useState('');
-    const [description, setDescription] = useState('');
-    const [price, setPrice] = useState('');
-    const [category, setCategory] = useState('');
+    const [itemCost, setPrice] = useState('');
+    const [itemBrandNum, setItemBrandNum] = useState('');
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+
+    const [itemBrands, setItemBrands] = useState([]);
+    const [showAddBrand, setShowAddBrand] = useState(false);
+
+    useEffect(() => {
+        // 아이템 브랜드 목록 가져오기
+        const fetchItemBrands = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/admin/itembrands`);
+                if (response.data.result === 'success') {
+                    setItemBrands(response.data.apiData);
+                } else {
+                    console.error(response.data.message || '아이템 브랜드 목록을 불러오는 중 오류 발생');
+                }
+            } catch (err) {
+                console.error('아이템 브랜드 목록을 불러오는 중 오류 발생:', err);
+            }
+        };
+
+        fetchItemBrands();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,39 +44,22 @@ const AddItem = () => {
         setError('');
 
         // 유효성 검사
-        if (!itemName || !description || !price || !category) {
+        if (!itemName || !itemCost || !itemBrandNum) {
             setError('모든 필드를 입력해주세요.');
             setLoading(false);
             return;
         }
 
-        if (price <= 0) {
+        if (itemCost <= 0) {
             setError('가격은 0보다 커야 합니다.');
             setLoading(false);
             return;
         }
 
-        if (image) {
-            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-            if (!allowedTypes.includes(image.type)) {
-                setError('허용되지 않은 이미지 형식입니다.');
-                setLoading(false);
-                return;
-            }
-
-            const maxSize = 5 * 1024 * 1024; // 5MB
-            if (image.size > maxSize) {
-                setError('이미지 크기는 5MB를 초과할 수 없습니다.');
-                setLoading(false);
-                return;
-            }
-        }
-
         const formData = new FormData();
         formData.append('itemName', itemName);
-        formData.append('description', description);
-        formData.append('price', price);
-        formData.append('category', category);
+        formData.append('price', itemCost);
+        formData.append('category', itemBrandNum); // 'category'가 itemBrandNum에 해당
         if (image) {
             formData.append('image', image);
         }
@@ -74,93 +78,100 @@ const AddItem = () => {
                 setError(response.data.message || '상품 추가에 실패했습니다.');
             }
         } catch (err) {
-            console.error("상품 추가 중 오류 발생:", err);
+            console.error('상품 추가 중 오류 발생:', err);
             setError('상품 추가 중 오류가 발생했습니다.');
         } finally {
             setLoading(false);
         }
     };
 
+    const handleAddBrandSuccess = () => {
+        // 새로운 아이템 브랜드 추가 후 목록 갱신
+        const fetchItemBrands = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/admin/itembrands`);
+                if (response.data.result === 'success') {
+                    setItemBrands(response.data.apiData);
+                } else {
+                    console.error(response.data.message || '아이템 브랜드 목록을 불러오는 중 오류 발생');
+                }
+            } catch (err) {
+                console.error('아이템 브랜드 목록을 불러오는 중 오류 발생:', err);
+            }
+        };
+
+        fetchItemBrands();
+        setShowAddBrand(false);
+    };
+
     return (
-        <>
-            <Header />
-            <div id="yc-admin-wrap">
-                <div className="yc-add-item-container">
-                    {/* aside */}
-                    <div id="yc-asides-admin">
-                        <h2><Link to="/admin/main" rel="noreferrer noopener">관리자 페이지</Link></h2>
-                        <div id="yc-sub_list">
-                            <ul className='yc-lists'>
-                                <li><Link to="/admin/user" rel="noreferrer noopener">유저 관리</Link></li>
-                                <li><Link to="/admin/point" rel="noreferrer noopener">포인트 상품 관리</Link></li>
-                                <li><Link to="/admin/delivery" rel="noreferrer noopener">챌린지 관리</Link></li>
-                            </ul>
+        <AdminLayout>
+            <div className="yc-add-item-container">
+                <h2>새 상품 추가</h2>
+                <form onSubmit={handleSubmit} className="yc-add-item-form">
+                    <div className="yc-form-group">
+                        <label htmlFor="yc-itemName">상품 이름</label>
+                        <input
+                            type="text"
+                            id="yc-itemName"
+                            value={itemName}
+                            onChange={(e) => setItemName(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="yc-form-group">
+                        <label htmlFor="yc-price">가격</label>
+                        <input
+                            type="number"
+                            id="yc-price"
+                            value={itemCost}
+                            onChange={(e) => setPrice(e.target.value)}
+                            required
+                            min="0"
+                            step="0.01"
+                        />
+                    </div>
+                    <div className="yc-form-group">
+                        <label htmlFor="yc-category">아이템 브랜드</label>
+                        <div className="yc-category-select">
+                            <select
+                                id="yc-category"
+                                value={itemBrandNum}
+                                onChange={(e) => setItemBrandNum(e.target.value)}
+                                required
+                            >
+                                <option value="">-- 선택 --</option>
+                                {itemBrands.map((brand) => (
+                                    <option key={brand.itemBrandNum} value={brand.itemBrandNum}>
+                                        {brand.itemBrandName}
+                                    </option>
+                                ))}
+                            </select>
+                            <button type="button" className="yc-add-brand-button" onClick={() => setShowAddBrand(true)}>
+                                + 추가
+                            </button>
                         </div>
                     </div>
-                    {/* //aside */}
-                    <div id="yc-admin-main">
-                        <h2>새 상품 추가</h2>
-                        <form onSubmit={handleSubmit} className="yc-add-item-form">
-                            <div className="yc-form-group">
-                                <label htmlFor="yc-itemName">상품 이름</label>
-                                <input
-                                    type="text"
-                                    id="yc-itemName"
-                                    value={itemName}
-                                    onChange={(e) => setItemName(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className="yc-form-group">
-                                <label htmlFor="yc-description">설명</label>
-                                <textarea
-                                    id="yc-description"
-                                    value={description}
-                                    onChange={(e) => setDescription(e.target.value)}
-                                    required
-                                ></textarea>
-                            </div>
-                            <div className="yc-form-group">
-                                <label htmlFor="yc-price">가격</label>
-                                <input
-                                    type="number"
-                                    id="yc-price"
-                                    value={price}
-                                    onChange={(e) => setPrice(e.target.value)}
-                                    required
-                                    min="0"
-                                    step="0.01"
-                                />
-                            </div>
-                            <div className="yc-form-group">
-                                <label htmlFor="yc-category">카테고리</label>
-                                <input
-                                    type="text"
-                                    id="yc-category"
-                                    value={category}
-                                    onChange={(e) => setCategory(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className="yc-form-group">
-                                <label htmlFor="yc-image">이미지 업로드</label>
-                                <input
-                                    type="file"
-                                    id="yc-image"
-                                    accept="image/*"
-                                    onChange={(e) => setImage(e.target.files[0])}
-                                />
-                            </div>
-                            {error && <p className="yc-error-message">{error}</p>}
-                            <button type="submit" className="yc-submit-button" disabled={loading}>
-                                {loading ? '추가 중...' : '상품 추가'}
-                            </button>
-                        </form>
+                    <div className="yc-form-group">
+                        <label htmlFor="yc-image">이미지 업로드</label>
+                        <input
+                            type="file"
+                            id="yc-image"
+                            accept="image/*"
+                            onChange={(e) => setImage(e.target.files[0])}
+                        />
                     </div>
-                </div>
+                    {error && <p className="yc-error-message">{error}</p>}
+                    <button type="submit" className="yc-submit-button" disabled={loading}>
+                        {loading ? '추가 중...' : '상품 추가'}
+                    </button>
+                </form>
+
+                {showAddBrand && (
+                    <AddItemBrand onSuccess={handleAddBrandSuccess} onClose={() => setShowAddBrand(false)} />
+                )}
             </div>
-            <Footer />
-        </>
+        </AdminLayout>
     );
 };
 

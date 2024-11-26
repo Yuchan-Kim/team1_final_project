@@ -1,0 +1,92 @@
+/* adminLayout.css */
+
+/* clearfix */
+#yc-admin-wrap::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* #yc-admin-wrap 레이아웃 */
+#yc-admin-wrap {
+    display: flex;
+    width: 80vw; /* 전체 너비를 80% 뷰포트 너비로 설정 */
+    margin: 0 auto; /* 중앙 정렬 */
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding: 20px; /* 양 옆에 간격 추가 */
+    background-color: #ffffff; /* 배경색 설정 */
+}
+
+/* 사이드바 */
+#yc-asides-admin {
+    width: 17%;
+    margin-right: 2%;
+    float: left;
+}
+
+#yc-asides-admin h2 {
+    font-size: 20px;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+#yc-asides-admin a {
+    text-decoration: none;
+}
+
+#yc-asides-admin a:link,
+#yc-asides-admin a:visited {
+    color: #333;
+}
+
+#yc-asides-admin #yc-sub_list ul {
+    padding-inline-start: 0;
+    margin: 0;
+}
+
+#yc-asides-admin #yc-sub_list ul > li {
+    padding-bottom: 10px;
+    font-size: 15px;
+    list-style-type: none; 
+}
+
+#yc-asides-admin #yc-sub_list ul > li a {
+    color: #aeaeae;
+    text-decoration: none;
+}
+
+#yc-asides-admin #yc-sub_list ul > li a:hover {
+    font-weight: bold;
+    color: #1594EB;
+}
+
+/* 메인 컨텐츠 */
+#yc-admin_main {
+    flex: 1;
+    box-sizing: border-box;
+    padding: 0 20px; /* 추가 패딩 */
+}
+
+/* 반응형 조정 */
+@media (max-width: 1200px) {
+    #yc-asides-admin {
+        width: 20%;
+    }
+}
+
+@media (max-width: 768px) {
+    #yc-admin-wrap {
+        flex-direction: column;
+    }
+
+    #yc-asides-admin {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    #yc-admin_main {
+        padding: 0;
+    }
+}
