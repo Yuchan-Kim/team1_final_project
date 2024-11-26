@@ -36,6 +36,7 @@ import DHPwAlter from './user/DH_PwAlter.jsx';
 
 import DHPointStoreMain from './pointstore/DH_PointStoreMain.jsx';
 import CustomerService from './pages/customer/CustomerService';
+import CSchatbot from './pages/customer/CSchatbot.jsx';
 
 import Main from './pages/main/Main';
 import Mainlist from './pages/main/Mainlist';
@@ -89,6 +90,7 @@ function App() {
 					<Route path='/user/pwalter' element={<DHPwAlter/>} />
 					<Route path='/pointstore/pointstoremain' element={<DHPointStoreMain />} />
           <Route path='/customerservice' element={<CustomerService />} />
+          <Route path='/cschatbot' element={<CSchatbot />} />
           <Route path='/' element={<Main />} />
           <Route path='/mainlist' element={<Mainlist />} />
 
