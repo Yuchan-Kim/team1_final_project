@@ -67,6 +67,13 @@ const CustomerService = () => {
         }
     };
 
+    // 줄바꿈을 <br />로 변환하는 함수
+    const LineBreaks = (text) => {
+        return text.split('\n').map((item, index) => {
+            return <span key={index}>{item}<br /></span>;
+        });
+    };
+
 
     return (
 
@@ -87,7 +94,7 @@ const CustomerService = () => {
                             {faqs.map((faq, index) => (
                                 <div key={index} className="faq-item">
                                     <div className="faq-question" onClick={() => toggleAnswer(index)}>
-                                        <h3>Q. {faq.faqTitle}</h3>
+                                        <h3>Q. {LineBreaks(faq.faqTitle)}</h3>
                                         <div className="faq-arrow">
                                             {openIndex === index ? <ArrowUpLineIcon /> : <ArrowDownLineIcon />}
                                         </div>
@@ -95,7 +102,7 @@ const CustomerService = () => {
                                     {/* 답변이 열려있을 때만 보이게 */}
                                     {openIndex === index && (
                                         <div className="faq-answer">
-                                            <p>A. {faq.faqContent}</p>
+                                            <p>A. {LineBreaks(faq.faqContent)}</p>
                                         </div>
                                     )}
                                 </div>
