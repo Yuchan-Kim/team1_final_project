@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Header from '../pages/include/DH_Header';
 import Footer from '../pages/include/JM-Footer';
 import '../ham_asset/css/ham_mypage_ranking.css';
 import YCProfileInfo from "../yc_pages/YC_profile_info.jsx";
 import { Link } from 'react-router-dom';
+import BackgroundMusic from './ham_common/BackgroundMusic';
 
 // 이미지 상수들
 const defaultProfile = '/images/profile-fill.png';
@@ -32,8 +33,6 @@ const Rank = () => {
     // 프로필 모달 상태 관리
     const [isProfileOpen, setProfileOpen] = useState(false);
     const [profileUser, setProfileUser] = useState(null);
-    // const [error, setError] = useState(null);
-
     // 프로필 모달 열기 함수
     const openProfile = async (userNum) => {
         console.log('openProfile called with:', userNum); // 디버깅용 로그 추가
@@ -59,7 +58,7 @@ const Rank = () => {
     };
 
 
-    
+
     useEffect(() => {
         const fetchRankData = async () => {
 
@@ -67,8 +66,7 @@ const Rank = () => {
                 const rankResponse = await axios.get(`${apiUrl}/api/rank/top10`);
 
                 if (rankResponse.data.result === "success") {
-                    // apiData에서 데이터 가져오기
-                    setRankData(rankResponse.data.apiData); // 여기를 수정
+                    setRankData(rankResponse.data.apiData); 
                 } else {
                     throw new Error(rankResponse.data.message || "랭킹 데이터를 가져오는데 실패했습니다.");
                 }
@@ -77,8 +75,7 @@ const Rank = () => {
                     const myRankResponse = await axios.get(`${apiUrl}/api/rank/user/${currentUserNum}`);
 
                     if (myRankResponse.data.result === "success") {
-                        // apiData에서 데이터 가져오기
-                        setMyRank(myRankResponse.data.apiData); // 여기를 수정
+                        setMyRank(myRankResponse.data.apiData); 
                     } else {
                     }
                 }
@@ -113,6 +110,14 @@ const Rank = () => {
     return (
         <>
             <Header />
+            {/* 배경음악 컴포넌트 추가 */}
+            {/* 배경음악 컴포넌트 추가 */}
+            <BackgroundMusic
+                src="/audio/01-BoysLikeGirls-TheGreatEscape.mp3" // 배경음악 파일 경로 (확인 필요)
+                autoPlay={false} // 자동 재생 여부 (false로 설정하여 사용자의 상호작용 필요)
+                loop={true} // 반복 재생 여부
+                volume={0.5} // 볼륨 (0 ~ 1)
+            />
             <div className="hmk_rank_page">
                 <div className="hmk_rank_title_banner">
                     <div className="hmk_rank_banner_image"></div>
@@ -265,7 +270,7 @@ const Rank = () => {
                                                 <td>{rank.points.toLocaleString()}</td>
                                             </tr>
                                         ))}
-                                    </tbody>   
+                                    </tbody>
                                 </table>
                             </div>
                         </div>

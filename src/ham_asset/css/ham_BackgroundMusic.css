@@ -1,0 +1,37 @@
+/* src/ham_asset/css/BackgroundMusic.css */
+
+.background-music-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 1000; /* 다른 요소보다 위에 표시되도록 설정 */
+}
+
+.music-control-btn {
+    background-color: rgba(0, 0, 0, 0.6);
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s;
+}
+
+.music-control-btn:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+@media (max-width: 768px) {
+    .background-music-container {
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .music-control-btn {
+        padding: 8px;
+        font-size: 16px;
+    }
+}

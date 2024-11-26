@@ -101,8 +101,6 @@ const Cargo = () => {
     // **profileStore 구독**
     useEffect(() => {
         const handleProfileChange = (updatedProfile) => {
-            // 필요 시 상태 업데이트 (예: setUserNum(updatedProfile.userNum);)
-            // 현재 예시에서는 userNum이 profileStore에서 직접 가져오기 때문에 필요 없음
         };
 
         profileStore.subscribe(handleProfileChange);
@@ -110,7 +108,6 @@ const Cargo = () => {
         // 초기 데이터 설정
         handleProfileChange({
             userNum: profileStore.getUserNum(),
-            // 필요한 다른 필드 추가
         });
 
         // 컴포넌트 언마운트 시 구독 해제
