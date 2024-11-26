@@ -365,7 +365,6 @@ const Topbar = () => {
     // profileStore 구독
     useEffect(() => {
         const handleProfileChange = (updatedProfile) => {
-            console.log("탑바가 구독한 프로필의 데이터: ", updatedProfile);
 
             const safeProfile = {
                 ...updatedProfile,
@@ -377,8 +376,6 @@ const Topbar = () => {
                 if (image.startsWith('http')) return image;
                 return image; // DB에 저장된 경로 그대로 사용 (/파일이름.jpg)
             });
-
-            console.log("소유한 프로필 이미지:", ownedPfimg);
 
             setUserInfo(prev => ({
                 ...prev,

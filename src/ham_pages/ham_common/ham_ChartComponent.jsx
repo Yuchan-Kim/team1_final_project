@@ -4,7 +4,7 @@ import React from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 
 const ChartComponent = ({ chart }) => {
-    console.log("ChartComponent에 전달된 데이터:", chart);
+    // console.log("ChartComponent에 전달된 데이터:", chart);
 
     // attendedCount와 totalCount 추출 및 유효성 검사
     const attendedCount = typeof chart.attendedCount === 'number' ? chart.attendedCount : 0;

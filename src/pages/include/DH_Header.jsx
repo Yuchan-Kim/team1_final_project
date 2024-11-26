@@ -65,7 +65,6 @@ const DH_Header = () => {
 	// ProfileStore 구독
 	useEffect(() => {
 		const handleProfileChange = (updatedProfile) => {
-			console.log("ProfileStore updated:", updatedProfile);
 			setProfile(updatedProfile);
 		};
 		profileStore.subscribe(handleProfileChange);
@@ -180,7 +179,7 @@ const DH_Header = () => {
 			getUserPoints();  // 로그인 상태일 때 포인트 정보 가져오기
 			fetchNotificationCount(); // 알림 수 가져오기
 		} else {
-			console.log("Profile 상태:", profile); // 추가된 디버깅 로그
+			// console.log("Profile 상태:", profile); // 추가된 디버깅 로그
 		}
 	}, [profile.userNum, profile.token]);
 

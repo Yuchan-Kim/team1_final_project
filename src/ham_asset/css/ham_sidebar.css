@@ -81,3 +81,39 @@
     height: 24px;
     margin-right: 10px;
 }
+
+.hmk_sidebar-notice-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.hmk_sidebar-notice-badge {
+    position: absolute;
+    top: 4px;
+    right: -1px;
+    background-color: #ff4b4b;
+    color: white;
+    font-size: 12px;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.hmk_sidebar li {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.hmk_sidebar-notice-container a {
+    flex-grow: 1;
+    margin-right: 30px; /* 뱃지를 위한 공간 확보 */
+}

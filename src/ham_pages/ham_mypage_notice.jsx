@@ -98,11 +98,13 @@ const Notice = () => {
             };
 
             const [noticeResponse, summaryResponse] = await Promise.all([
-                axios.get(`${apiUrl}/api/my/${userNum}/notices`, {
+                // URL 경로 수정
+                axios.get(`${apiUrl}/api/notice/user/${userNum}`, {
                     params,
                     headers: { Authorization: `Bearer ${token}` }
                 }),
-                axios.get(`${apiUrl}/api/my/${userNum}/noticeSummary`, {
+                // URL 경로 수정
+                axios.get(`${apiUrl}/api/notice/user/${userNum}/summary`, {
                     headers: { Authorization: `Bearer ${token}` }
                 })
             ]);
@@ -165,11 +167,27 @@ const Notice = () => {
 
     // 알림 내용에 따른 모달 컨텐츠 생성
     const getModalContent = (notice) => {
+        console.log("현재 알림 데이터:", notice); // 디버깅용
+
+        // 알림 메시지에서 방 번호 추출하는 로직 추가
+        const extractRoomNumber = (msg) => {
+            const match = msg.match(/(\d+)번 방/);
+            return match ? parseInt(match[1]) : null;
+        };
+
+        const roomNum = notice.roomNum || extractRoomNumber(notice.noticeMsg);
+
         const baseContent = {
             title: notice.noticeTitle,
             content: notice.noticeMsg,
-            showRoomButton: notice.noticeTitle.includes('방') || notice.noticeTitle.includes('챌린지')
+            showRoomButton: roomNum &&
+                roomNum > 0 &&
+                (notice.noticeTitle.includes('방') ||
+                    notice.noticeTitle.includes('챌린지')),
+            roomNum: roomNum // 방 번호 저장
         };
+
+        console.log("생성된 모달 컨텐츠:", baseContent); // 디버깅용
 
         if (notice.noticeTitle.includes('방 생성')) {
             baseContent.additionalContent = '새로운 챌린지의 시작을 축하드립니다!';
@@ -187,6 +205,17 @@ const Notice = () => {
     // 모달 컴포넌트
     const NoticeModal = ({ notice, onClose }) => {
         const modalContent = getModalContent(notice);
+        const navigate = useNavigate();
+
+        const handleRoomMove = () => {
+            const roomNum = notice.roomNum || modalContent.roomNum;
+            if (roomNum && roomNum > 0) {
+                navigate(`/cmain/${roomNum}`);
+            } else {
+                alert('해당 방을 찾을 수 없습니다.');
+                onClose();
+            }
+        };
 
         return (
             <div className="hmk_notice_modal-overlay">
@@ -209,7 +238,7 @@ const Notice = () => {
                     <div className="hmk_notice_modal-buttons">
                         {modalContent.showRoomButton && (
                             <button
-                                onClick={() => navigate(`/cmain/${notice.roomNum}`)}
+                                onClick={handleRoomMove}
                                 className="hmk_notice_modal-button"
                             >
                                 방으로 이동

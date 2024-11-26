@@ -140,7 +140,7 @@ const Pointpage = () => {
 
             // 백엔드 응답 구조에 따라 데이터를 설정
             if (historyResponse.data.result === 'success') {
-                console.log("포인트 사용 내역: ",historyResponse.data);
+                // console.log("포인트 사용 내역: ",historyResponse.data);
                 setPointData(historyResponse.data.apiData);
             } else {
                 console.error('포인트 내역 조회 실패:', historyResponse.data.message);
@@ -148,7 +148,7 @@ const Pointpage = () => {
             }
 
             if (summaryResponse.data.result === 'success') {
-                console.log("포인트 요약: ", summaryResponse.data);
+                // console.log("포인트 요약: ", summaryResponse.data);
                 setSummary(summaryResponse.data.apiData);
             } else {
                 console.error('포인트 요약 조회 실패:', summaryResponse.data.message);
@@ -242,7 +242,7 @@ const Pointpage = () => {
                                                 <DatePicker
                                                     selected={startDate}
                                                     onChange={date => setStartDate(date)}
-                                                    placeholderText="yyyy-MM-dd 📅"
+                                                    placeholderText="yyyy-MM-dd         📅"
                                                     className="hmk_date-input"
                                                     dateFormat="yyyy-MM-dd"
                                                 />
@@ -255,7 +255,7 @@ const Pointpage = () => {
                                                 <DatePicker
                                                     selected={endDate}
                                                     onChange={date => setEndDate(date)}
-                                                    placeholderText="yyyy-MM-dd 📅"
+                                                    placeholderText="yyyy-MM-dd         📅"
                                                     className="hmk_date-input"
                                                     dateFormat="yyyy-MM-dd"
                                                 />

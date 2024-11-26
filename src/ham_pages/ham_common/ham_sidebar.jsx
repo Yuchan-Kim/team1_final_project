@@ -1,15 +1,8 @@
-// src/ham_pages/ham_common/ham_sidebar.jsx
-
-/**
- * Sidebar 컴포넌트
- * 사이트의 좌측 사이드바를 구성합니다.
- * - 나의 정보 제목
- * - 사이드바 메뉴 항목들 (나의 챌린지, 친구, 포인트 내역, 보관함)
- */
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import '../../ham_asset/css/ham_sidebar.css'; // 사이드바 전용 CSS
+import axios from 'axios';
+import profileStore from './profileStore';
+import '../../ham_asset/css/ham_sidebar.css';
 
 const ChallengeIcon = '/images/challenge.png';
 const NoticeIcon = '/images/notice_ico.png';
@@ -17,9 +10,58 @@ const PointsIcon = '/images/points.png';
 const InventoryIcon = '/images/inventory.png';
 
 const Sidebar = () => {
+    const [newNoticeCount, setNewNoticeCount] = useState(0);
+    const [profile, setProfile] = useState({
+        userNum: profileStore.getUserNum(),
+        token: profileStore.getToken()
+    });
+
+    // 알림 개수 조회
+    const fetchNoticeCount = async () => {
+        try {
+            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
+            const response = await axios.get(
+                `${apiUrl}/api/notice/user/${profile.userNum}/summary`,
+                {
+                    headers: { Authorization: `Bearer ${profile.token}` }
+                }
+            );
+
+            if (response.data.result === 'success') {
+                setNewNoticeCount(response.data.apiData.newNotice || 0);
+            }
+        } catch (error) {
+            console.error('알림 개수 조회 실패:', error);
+        }
+    };
+
+    // ProfileStore 구독
+    useEffect(() => {
+        const handleProfileChange = (updatedProfile) => {
+            setProfile({
+                userNum: updatedProfile.userNum,
+                token: updatedProfile.token
+            });
+        };
+        profileStore.subscribe(handleProfileChange);
+
+        return () => {
+            profileStore.unsubscribe(handleProfileChange);
+        };
+    }, []);
+
+    // 프로필 정보가 있을 때 알림 개수 조회
+    useEffect(() => {
+        if (profile.userNum && profile.token) {
+            fetchNoticeCount();
+            // 주기적으로 알림 개수 업데이트 (1분마다)
+            const interval = setInterval(fetchNoticeCount, 60000);
+            return () => clearInterval(interval);
+        }
+    }, [profile.userNum, profile.token]);
+
     return (
         <aside className="hmk_sidebar-container">
-
             <div className="hmk_sidebar">
                 <div className='ham_h1_title'>
                     <h1>나의 정보</h1>
@@ -38,8 +80,13 @@ const Sidebar = () => {
                         <Link to="/my/cargo">보관함</Link>
                     </li>
                     <li>
-                        <img src={NoticeIcon} alt="Notice" className="hmk_sidebar-icon" />
-                        <Link to="/my/notice">알림</Link>
+                        <div className="hmk_sidebar-notice-container">
+                            <img src={NoticeIcon} alt="Notice" className="hmk_sidebar-icon" />
+                            <Link to="/my/notice">알림</Link>
+                            {newNoticeCount > 0 && (
+                                <span className="hmk_sidebar-notice-badge">{newNoticeCount}</span>
+                            )}
+                        </div>
                     </li>
                 </ul>
             </div>

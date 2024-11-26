@@ -262,7 +262,7 @@ class ProfileStore {
                     completed: Array.isArray(data.apiData.challenges?.completed) ? data.apiData.challenges.completed : [],
                     created: Array.isArray(data.apiData.challenges?.created) ? data.apiData.challenges.created : []  // created 배열 추가
                 };
-                console.log("챌린지 리스트: ", challengesDetails)
+                // console.log("챌린지 리스트: ", challengesDetails)
                 // 프로필 이미지 처리 개선 및 절대 URL 설정
                 const fullProfileImageUrl = this.constructAbsoluteUrl(apiUrl, userData.profileImage);
                 // 데이터 업데이트
