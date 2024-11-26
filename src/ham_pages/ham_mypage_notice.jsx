@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import DatePicker from 'react-datepicker'; // 날짜 선택기 import
+import ReactPaginate from 'react-paginate';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios'; // axios import
 import { format } from 'date-fns'; // 날짜 포맷팅 함수 import
@@ -18,27 +19,127 @@ import profileStore from './ham_common/profileStore'; // profileStore 임포트
 import '../ham_asset/css/ham_mypage_notice.css';
 
 const Notice = () => {
+    // 1. State 선언
     const [noticeData, setNoticeData] = useState([]);
     const [summary, setSummary] = useState({
         readNotice: 0,
         newNotice: 0,
         totalNotice: 0
     });
-
-    const [activeTab, setActiveTab] = useState('새 알림'); // 탭 상태
+    const [currentPage, setCurrentPage] = useState(0);
+    const [noticesPerPage] = useState(10);
+    const [activeTab, setActiveTab] = useState('새 알림');
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedNotice, setSelectedNotice] = useState(null);
     const [profile, setProfile] = useState({
         userNum: profileStore.getUserNum(),
         token: profileStore.getToken()
     });
 
-    // 모달 관련 상태 추가
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedNotice, setSelectedNotice] = useState(null);
-
     const navigate = useNavigate(); // 방으로 이동하기 위한 navigate 사용
+
+    // 2. 필터링된 알림 계산
+    const filteredNotices = useMemo(() => {
+        let filtered = [...noticeData];
+
+        if (startDate && endDate) {
+            filtered = filtered.filter((notice) => {
+                const noticeDate = new Date(notice.createDate);
+                return noticeDate >= startDate && noticeDate <= endDate;
+            });
+        }
+
+        switch (activeTab) {
+            case '새 알림':
+                return filtered.filter(notice => !notice.isCheck);
+            case '읽음':
+                return filtered.filter(notice => notice.isCheck);
+            default:
+                return filtered;
+        }
+    }, [noticeData, startDate, endDate, activeTab]);
+
+    // 3. 현재 페이지의 알림들 계산
+    const currentNotices = useMemo(() => {
+        const begin = currentPage * noticesPerPage;
+        const end = begin + noticesPerPage;
+        return filteredNotices.slice(begin, end);
+    }, [filteredNotices, currentPage, noticesPerPage]);
+
+    // 4. API 호출 함수
+    const fetchNoticeData = async () => {
+        try {
+            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
+            const { userNum, token } = profile;
+
+            if (!userNum || !token) {
+                alert('인증 정보가 없습니다. 다시 로그인해주세요.');
+                return;
+            }
+
+            const params = {
+                page: currentPage,
+                size: noticesPerPage,
+                startDate: startDate ? format(startDate, 'yyyy-MM-dd') : null,
+                endDate: endDate ? format(endDate, 'yyyy-MM-dd') : null
+            };
+
+            const [noticeResponse, summaryResponse] = await Promise.all([
+                axios.get(`${apiUrl}/api/notice/user/${userNum}`, {
+                    params,
+                    headers: { Authorization: `Bearer ${token}` }
+                }),
+                axios.get(`${apiUrl}/api/notice/user/${userNum}/summary`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                })
+            ]);
+
+            if (noticeResponse.data.result === 'success') {
+                setNoticeData(noticeResponse.data.apiData);
+            } else {
+                setNoticeData([]);
+            }
+
+            if (summaryResponse.data.result === 'success') {
+                setSummary(summaryResponse.data.apiData);
+            }
+        } catch (error) {
+            console.error('알림 데이터를 가져오는 데 실패했습니다:', error);
+        }
+    };
+
+    // 5. 이벤트 핸들러
+    const handlePageClick = ({ selected }) => {
+        setCurrentPage(selected);
+    };
+
+    const handleRowClick = async (notice) => {
+        setSelectedNotice(notice);
+        setIsModalOpen(true);
+
+        if (!notice.isCheck) {
+            try {
+                const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
+                await axios.put(
+                    `${apiUrl}/api/notice/${notice.noticeNum}/read`,
+                    {},
+                    { headers: { Authorization: `Bearer ${profile.token}` } }
+                );
+                fetchNoticeData();
+            } catch (error) {
+                console.error('알림 읽음 처리 실패:', error);
+            }
+        }
+    };
+
+    // 6. Effects
+    useEffect(() => {
+        if (profile.userNum && profile.token) {
+            fetchNoticeData();
+        }
+    }, [profile.userNum, profile.token, currentPage]);
 
     // 알림 읽음 처리 함수
     const markNoticeAsRead = async (noticeNum) => {
@@ -82,82 +183,10 @@ const Notice = () => {
         }
     }, [startDate, endDate, profile.userNum, profile.token]);
 
-    const fetchNoticeData = async () => {
-        try {
-            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
-            const { userNum, token } = profile;
 
-            if (!userNum || !token) {
-                alert('인증 정보가 없습니다. 다시 로그인해주세요.');
-                return;
-            }
+    // 필터링된 알림에 대한 페이지 수 계산
+    const pageCount = Math.ceil(summary.totalNotice / noticesPerPage);
 
-            const params = {
-                startDate: startDate ? format(startDate, 'yyyy-MM-dd') : null,
-                endDate: endDate ? format(endDate, 'yyyy-MM-dd') : null
-            };
-
-            const [noticeResponse, summaryResponse] = await Promise.all([
-                // URL 경로 수정
-                axios.get(`${apiUrl}/api/notice/user/${userNum}`, {
-                    params,
-                    headers: { Authorization: `Bearer ${token}` }
-                }),
-                // URL 경로 수정
-                axios.get(`${apiUrl}/api/notice/user/${userNum}/summary`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                })
-            ]);
-
-            if (noticeResponse.data.result === 'success') {
-                setNoticeData(noticeResponse.data.apiData);
-            } else {
-                console.error('알림 데이터 조회 실패:', noticeResponse.data.message);
-                setNoticeData([]);
-            }
-
-            if (summaryResponse.data.result === 'success') {
-                setSummary(summaryResponse.data.apiData);
-            } else {
-                setSummary({
-                    readNotice: 0,
-                    newNotice: 0,
-                    totalNotice: 0
-                });
-            }
-        } catch (error) {
-            console.error('알림 데이터를 가져오는 데 실패했습니다:', error);
-        }
-    };
-
-    const filteredNotices = useMemo(() => {
-        let filtered = noticeData;
-        if (startDate && endDate) {
-            filtered = filtered.filter((notice) => {
-                const noticeDate = new Date(notice.createDate); // 'createDate'로 수정
-                return noticeDate >= startDate && noticeDate <= endDate;
-            });
-        }
-
-        if (activeTab === '새 알림') {
-            return filtered.filter((notice) => !notice.isCheck);
-        } else if (activeTab === '읽음') {
-            return filtered.filter((notice) => notice.isCheck);
-        }
-
-        return filtered;
-    }, [noticeData, startDate, endDate, activeTab]);
-
-    // 테이블 행 클릭 핸들러
-    const handleRowClick = async (notice) => {
-        setSelectedNotice(notice);
-        setIsModalOpen(true);
-
-        // 읽지 않은 알림인 경우 읽음 처리
-        if (!notice.isCheck) {
-            await markNoticeAsRead(notice.noticeNum);
-        }
-    };
 
     // 모달 닫기 핸들러
     const closeModal = () => {
@@ -314,14 +343,14 @@ const Notice = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {filteredNotices.length > 0 ? (
-                                        filteredNotices.map((notice, index) => (
+                                    {currentNotices.length > 0 ? (
+                                        currentNotices.map((notice, index) => (
                                             <tr
                                                 key={notice.noticeNum}
                                                 onClick={() => handleRowClick(notice)}
                                                 className="hmk_notice-row"
                                             >
-                                                <td>{index + 1}</td>
+                                                <td>{currentPage * noticesPerPage + index + 1}</td>
                                                 <td>{notice.noticeTitle}</td>
                                                 <td>{notice.senderNickname || notice.msgSender}</td>
                                                 <td>{notice.createDate}</td>
@@ -341,6 +370,23 @@ const Notice = () => {
                                     )}
                                 </tbody>
                             </table>
+                            {filteredNotices.length > 0 && (
+                                <ReactPaginate
+                                    previousLabel={"이전"}
+                                    nextLabel={"다음"}
+                                    breakLabel={"..."}
+                                    pageCount={Math.ceil(filteredNotices.length / noticesPerPage)}
+                                    marginPagesDisplayed={2}
+                                    pageRangeDisplayed={5}
+                                    onPageChange={handlePageClick}
+                                    containerClassName={"hmk_pagination"}
+                                    activeClassName={"hmk_active"}
+                                    previousLinkClassName={"hmk_pagination-link"}
+                                    nextLinkClassName={"hmk_pagination-link"}
+                                    disabledClassName={"hmk_pagination-disabled"}
+                                    activeLinkClassName={"hmk_pagination-active-link"}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>

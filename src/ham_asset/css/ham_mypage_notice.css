@@ -448,3 +448,54 @@ hmk_date-filter {
 .hmk_notice_modal-button:hover {
     background-color: #1565c0;
 }
+
+/* ham_mypage_notice.css에 추가 */
+
+.hmk_pagination {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    list-style: none;
+    gap: 5px;
+}
+
+.hmk_pagination li {
+    display: inline-block;
+}
+
+.hmk_pagination li a {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    border-radius: 4px;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.hmk_pagination li.hmk_active a {
+    background-color: #1976d2;
+    color: white;
+    border-color: #1976d2;
+}
+
+.hmk_pagination li a:hover {
+    background-color: #f5f5f5;
+}
+
+.hmk_pagination li.hmk_pagination-disabled a {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.hmk_pagination li.hmk_pagination-disabled a:hover {
+    background-color: transparent;
+}
+
+.hmk_pagination-link {
+    font-weight: bold;
+}
+
+.hmk_notice-table {
+    margin-bottom: 20px;
+}

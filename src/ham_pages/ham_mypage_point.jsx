@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import DatePicker from 'react-datepicker'; // 날짜 선택기 import
+import ReactPaginate from 'react-paginate';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios'; // axios import
 import { format } from 'date-fns'; // 날짜 포맷팅 함수 import
