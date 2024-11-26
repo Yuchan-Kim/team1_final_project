@@ -15,6 +15,7 @@ const Step08 = ({ onNext, onPrevious }) => {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
+    // 추천 AI 챌린지 생성
     useEffect(() => {
         const fetchDataAndGenerateChallenges = async () => {
             try {
@@ -61,46 +62,49 @@ const Step08 = ({ onNext, onPrevious }) => {
         return match ? match[1] : '기타';
     };
 
+    // 선택한 미션 데이터 제출
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         if (selectedBox === null) {
             alert('챌린지를 선택해주세요.');
             return;
         }
-
+    
+        // 선택된 챌린지 찾기
         const selectedChallenge = aiChallenges.find((ch) => ch.id === selectedBox);
         if (!selectedChallenge) {
             alert('선택한 챌린지를 찾을 수 없습니다.');
             return;
         }
-
-        const evaluationType = extractEvaluationType(selectedChallenge.aiMission);
-
-        const selectedData = {
-            evaluationType: evaluationType,
-            selectedChallengeId: selectedChallenge.id, // 고유 ID로 전달
-        };
-
+    
         try {
+            // 백엔드로 데이터 전송
             const response = await axios.post(
-                `${process.env.REACT_APP_API_URL}/api/genebang/saveOpenAiMission`,
-                selectedData,
+                `${process.env.REACT_APP_API_URL}/api/genebang/saveOpenAiMission/${roomNum}`,
+                null, // Request body는 없으므로 null 전달
                 {
+                    params: {
+                        AiMission: selectedChallenge.aiMission, // AI가 생성한 미션 이름
+                        Count: selectedChallenge.count,   // 반복 횟수
+                        MissionName: selectedChallenge.missionName, // 사용자 정의 또는 미션 이름
+                    },
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
-                    }
+                    },
                 }
             );
-
+    
             console.log('저장 응답: ', response);
-            navigate('/genebang/step9');
+            navigate(`/genebang/step9/${roomNum}`); // 성공 시 다음 단계로 이동
         } catch (error) {
             console.error('챌린지 저장 중 오류: ', error);
             alert('챌린지 저장 중 오류가 발생했습니다.');
         }
     };
+    
+    
 
     if (loading) {
         return (
