@@ -2,15 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate, userParams } from 'react-router-dom';
+import { useNavigate, useParams} from 'react-router-dom';
 import AdminLayout from '../adminpages/AdminLayout'; // 공통 레이아웃 임포트
 import AddItemBrand from '../adminpages/AdminAddItemBrand'; // 새 컴포넌트 임포트
 import '../admincss/adminadditem.css';
 
 const AdminEditItem = () => {
     const navigate = useNavigate();
-    const {itemNum} = userParams();
-
+    const {itemNum} = useParams();
     const [itemName, setItemName] = useState('');
     const [itemCost, setPrice] = useState('');
     const [itemBrandNum, setItemBrandNum] = useState('');
@@ -22,9 +21,40 @@ const AdminEditItem = () => {
     const [showAddBrand, setShowAddBrand] = useState(false);
 
     useEffect(() => {
+        // 아이템 브랜드 목록 가져오기
+        const fetchItemBrands = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/admin/itembrands`);
+                if (response.data.result === 'success') {
+                    setItemBrands(response.data.apiData);
+                } else {
+                    console.error(response.data.message || '아이템 브랜드 목록을 불러오는 중 오류 발생');
+                }
+            } catch (err) {
+                console.error('아이템 브랜드 목록을 불러오는 중 오류 발생:', err);
+            }
+        }; 
 
+        //아이템 정보 가져오기
+        const getItemInfo = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/admin/iteminfo/${itemNum}`);
+                    if (response.data.result === 'success') {
+                        setItemBrands(response.data.apiData.itemBrandName);
+                        setItemName(response.data.apiData.itemName);
+                        setImage(response.data.apiData.itemImg);
+                        setPrice(response.data.apiData.itemCost);
+                    } else {
+                        console.error(response.data.message || '아이템 브랜드 목록을 불러오는 중 오류 발생');
+                    }
+            }catch (err){
+                console.error("아이템 정보 불러오기 실패");
+            }
+        };
+
+        fetchItemBrands();
+        getItemInfo();
     }, []);
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -47,27 +77,27 @@ const AdminEditItem = () => {
         const formData = new FormData();
         formData.append('itemName', itemName);
         formData.append('price', itemCost);
-        formData.append('category', itemBrandNum); // 'category'가 itemBrandNum에 해당
+        formData.append('category', itemBrandNum); 
         if (image) {
             formData.append('image', image);
         }
 
         try {
-            const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/admin/additems`, formData, {
+            const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/admin/editItems/${itemNum}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
 
             if (response.data.result === 'success') {
-                alert('상품이 성공적으로 추가되었습니다!');
+                alert('상품이 성공적으로 변경되었습니다!');
                 navigate('/admin/viewitems');
             } else {
-                setError(response.data.message || '상품 추가에 실패했습니다.');
+                setError(response.data.message || '상품 변경에 실패했습니다.');
             }
         } catch (err) {
-            console.error('상품 추가 중 오류 발생:', err);
-            setError('상품 추가 중 오류가 발생했습니다.');
+            console.error('상품 변경 중 오류 발생:', err);
+            setError('상품 변경 중 오류가 발생했습니다.');
         } finally {
             setLoading(false);
         }
@@ -95,7 +125,7 @@ const AdminEditItem = () => {
     return (
         <AdminLayout>
             <div className="yc-add-item-container">
-                <h2>새 상품 추가</h2>
+                <h2>상품 변경</h2>
                 <form onSubmit={handleSubmit} className="yc-add-item-form">
                     <div className="yc-form-group">
                         <label htmlFor="yc-itemName">상품 이름</label>
@@ -116,7 +146,7 @@ const AdminEditItem = () => {
                             onChange={(e) => setPrice(e.target.value)}
                             required
                             min="0"
-                            step="1"
+                            step="0.01"
                         />
                     </div>
                     <div className="yc-form-group">
@@ -145,6 +175,7 @@ const AdminEditItem = () => {
                         <input
                             type="file"
                             id="yc-image"
+                            value={image}
                             accept="image/*"
                             onChange={(e) => setImage(e.target.files[0])}
                         />

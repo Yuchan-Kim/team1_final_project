@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import YCChallengeStatistics from './yc_pages/YC_challenge_statistics';
 import YcChallengeBoard from './yc_pages/YC_challenge_board';
 import AdminMain from './admin/adminpages/AdminMain.jsx';
+import AdminEditItem from './admin/adminpages/AdminEditItem.jsx';
 
 import AdminUsers from './admin/adminpages/AdminUsers.jsx';
 import AddItem from './admin/adminpages/AdminAddItem.jsx';
@@ -60,6 +61,8 @@ function App() {
           <Route path='/admin/user' element={<AdminUsers/>} />
           <Route path='/admin/additems' element={<AddItem/>} />
           <Route path='/admin/viewitems' element={<ViewItems/>} />
+          <Route path='/admin/editItem/:itemNum' element={<AdminEditItem/>} />
+
 
           <Route path='/my/mypage' element={<Mypage />} />
           <Route path='/my/mypoint' element={<Pointpage />} />
