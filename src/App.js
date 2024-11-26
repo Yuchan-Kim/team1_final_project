@@ -57,7 +57,7 @@ function App() {
           <Route path='/missioninfo/:roomNum' element={<MissionInfo />} />
           <Route path='/cmain/:roomNum' element={<Challengemain />} />
 
-          <Route path='/admin/users' element={<AdminUsers/>} />
+          <Route path='/admin/user' element={<AdminUsers/>} />
           <Route path='/admin/additems' element={<AddItem/>} />
           <Route path='/admin/viewitems' element={<ViewItems/>} />
 

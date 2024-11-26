@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import '../../css/reset.css';
 import '../admincss/adminUsers.css';
+import AdminLayout from '../adminpages/AdminLayout'; // 공통 레이아웃 임포트
 import Header from '../../pages/include/DH_Header.jsx';
 import Footer from '../../pages/include/JM-Footer.jsx';
 const AdminUsers = () => {
@@ -52,28 +53,7 @@ const AdminUsers = () => {
     
     return (
         <>
-            <Header/>
-
-            <div id="wrap">
-
-                {/* 컨텐츠 */}
-                <div id="contents">
-                    {/* user */}
-                    <div id="hjy-user" className="clearfix">
-                        {/* aside */}
-                        <div id="asides">
-                            <h2><Link to="/admin/main" rel="noreferrer noopener">관리자 페이지</Link></h2>
-                            <div id="sub_list"> 
-                                <ul>
-                                    <li><Link to="/admin/store" rel="noreferrer noopener">매장 관리</Link></li>
-                                    <li><Link to="/admin/product" rel="noreferrer noopener">상품 관리</Link></li>
-                                    <li><Link to="/admin/user" rel="noreferrer noopener">유저 관리</Link></li>
-                                    <li><Link to="/admin/delivery" rel="noreferrer noopener">배송 관리</Link></li>
-                                    <li><Link to="/admin/history" rel="noreferrer noopener">판매 관리</Link></li>
-                                </ul>
-                            </div>
-                        </div>
-                    {/* //aside */}
+            <AdminLayout>
 
                     {/* 매장 리스트관련 내용 */}
                     <div id="user_area">
@@ -107,14 +87,8 @@ const AdminUsers = () => {
                     </div>
                     {/* user_area */}
 
-                    </div>
-                    {/* //user */}
-                    
-                </div>
-                {/* contents */}
-
-            </div>
-            <Footer/>
+                
+                </AdminLayout>
         </>
     );
 }

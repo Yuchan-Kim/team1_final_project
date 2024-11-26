@@ -2,13 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, userParams } from 'react-router-dom';
 import AdminLayout from '../adminpages/AdminLayout'; // 공통 레이아웃 임포트
 import AddItemBrand from '../adminpages/AdminAddItemBrand'; // 새 컴포넌트 임포트
 import '../admincss/adminadditem.css';
 
-const AddItem = () => {
+const AdminEditItem = () => {
     const navigate = useNavigate();
+    const {itemNum} = userParams();
 
     const [itemName, setItemName] = useState('');
     const [itemCost, setPrice] = useState('');
@@ -21,22 +22,9 @@ const AddItem = () => {
     const [showAddBrand, setShowAddBrand] = useState(false);
 
     useEffect(() => {
-        // 아이템 브랜드 목록 가져오기
-        const fetchItemBrands = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/admin/itembrands`);
-                if (response.data.result === 'success') {
-                    setItemBrands(response.data.apiData);
-                } else {
-                    console.error(response.data.message || '아이템 브랜드 목록을 불러오는 중 오류 발생');
-                }
-            } catch (err) {
-                console.error('아이템 브랜드 목록을 불러오는 중 오류 발생:', err);
-            }
-        }; 
 
-        fetchItemBrands();
     }, []);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -65,7 +53,7 @@ const AddItem = () => {
         }
 
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/admin/additems`, formData, {
+            const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/admin/additems`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -128,7 +116,7 @@ const AddItem = () => {
                             onChange={(e) => setPrice(e.target.value)}
                             required
                             min="0"
-                            step="0.01"
+                            step="1"
                         />
                     </div>
                     <div className="yc-form-group">
@@ -175,4 +163,4 @@ const AddItem = () => {
     );
 };
 
-export default AddItem;
+export default AdminEditItem;

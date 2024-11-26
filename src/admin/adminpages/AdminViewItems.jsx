@@ -136,7 +136,6 @@ const ViewItems = () => {
                                         <th>이미지</th>
                                         <th>이름</th>
                                         <th>브랜드</th>
-                                        <th>설명</th>
                                         <th>가격</th>
                                         <th>관리</th>
                                     </tr>
@@ -154,7 +153,6 @@ const ViewItems = () => {
                                             </td>
                                             <td>{item.itemName}</td>
                                             <td>{item.itemBrandName}</td>
-                                            <td>{item.description}</td>
                                             <td>₩{item.itemCost.toLocaleString()}</td>
                                             <td>
                                                 <button className="yc-edit-button" onClick={() => handleEdit(item.itemNum)}>
