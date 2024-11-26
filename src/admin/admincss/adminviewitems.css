@@ -1,4 +1,6 @@
-.view-items-container {
+/* 기존 스타일에 'yc-' 접두사 추가 */
+
+#yc-admin-wrap {
     background-color: var(--background-color);
     padding: 40px;
     border-radius: 12px;
@@ -7,18 +9,34 @@
     margin: 0 auto;
 }
 
-.view-items-container h2 {
+.yc-admin_main{
+    background-color: var(--background-color);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.yc-view-items-container h2 {
     text-align: center;
     margin-bottom: 30px;
     color: var(--text-secondary-color);
 }
 
-.search-bar {
-    margin-bottom: 20px;
-    text-align: right;
+.yc-search_insertsection{
+    display:flex;
 }
 
-.search-bar input {
+.yc-search-bar {
+    margin-bottom: 20px;
+    text-align: left;
+}
+.yc_insertItem_btn{
+    align-self: flex-end;
+}
+
+.yc-search-bar input {
     width: 250px;
     padding: 8px 12px;
     border: 1px solid #ccc;
@@ -26,44 +44,44 @@
     font-size: 16px;
 }
 
-.items-table {
+.yc-items-table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.items-table th, .items-table td {
+.yc-items-table th, .yc-items-table td {
     border: 1px solid #e0e0e0;
     padding: 12px;
     text-align: center;
     vertical-align: middle;
 }
 
-.items-table th {
+.yc-items-table th {
     background-color: #f0f0f0;
     color: #333333;
 }
 
-.items-table tr:nth-child(even) {
+.yc-items-table tr:nth-child(even) {
     background-color: #fafafa;
 }
 
-.items-table tr:hover {
+.yc-items-table tr:hover {
     background-color: #f1f1f1;
 }
 
-.item-image {
+.yc-item-image {
     width: 80px;
     height: 80px;
     object-fit: cover;
     border-radius: 8px;
 }
 
-.error-message {
+.yc-error-message {
     color: red;
     text-align: center;
 }
 
-.loading-spinner {
+.yc-loading-spinner {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -71,7 +89,7 @@
 }
 
 /* 버튼 스타일 */
-.edit-button, .delete-button {
+.yc-edit-button, .yc-delete-button {
     padding: 6px 8px;
     border: none;
     border-radius: 5px;
@@ -81,35 +99,35 @@
     font-size: 14px;
 }
 
-.edit-button {
+.yc-edit-button {
     background-color: #4CAF50; /* Green */
 }
 
-.delete-button {
+.yc-delete-button {
     background-color: #f44336; /* Red */
 }
 
-.edit-button:hover {
+.yc-edit-button:hover {
     background-color: #45a049;
 }
 
-.delete-button:hover {
+.yc-delete-button:hover {
     background-color: #e53935;
 }
 
 /* 페이징 스타일 */
-.pagination {
+.yc-pagination {
     display: flex;
     justify-content: center;
     padding: 20px 0;
     list-style: none;
 }
 
-.pagination li {
+.yc-pagination li {
     margin: 0 5px;
 }
 
-.pagination li a {
+.yc-pagination li a {
     padding: 8px 12px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -119,24 +137,26 @@
     transition: background-color 0.3s, color 0.3s;
 }
 
-.pagination li a:hover {
+.yc-pagination li a:hover {
     background-color: var(--primary-color);
     color: #fff;
 }
 
-.pagination li.active a {
+.yc-pagination li.active a {
     background-color: var(--primary-color);
     color: #fff;
     border: 1px solid var(--primary-color);
 }
 
-.pagination-disabled a {
+.yc-pagination-disabled a {
     color: #ccc;
     cursor: not-allowed;
 }
 
-.pagination-active-link {
+.yc-pagination-active-link {
     background-color: var(--primary-color);
     color: #fff;
     border: 1px solid var(--primary-color);
 }
+
+

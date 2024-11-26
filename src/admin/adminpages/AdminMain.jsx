@@ -146,9 +146,12 @@ const AdminMain = () => {
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AA336A'];
 
     return (
-        <div>
+        <>
             <Header/>
+           
             <div id="admin-wrap">
+
+                
                 {/* 컨텐츠 */}
                 <div id="contents" className="clearfix">
                     {/* aside */}
@@ -324,7 +327,7 @@ const AdminMain = () => {
                 </div>
             </div>
             <Footer/>
-        </div>
+        </>
     );
 };
 

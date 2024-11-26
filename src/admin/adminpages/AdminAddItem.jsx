@@ -83,86 +83,84 @@ const AddItem = () => {
 
     return (
         <>
-       <Header/>
-        <div id="admin-wrap">
-            <div className="add-item-container">
-                {/* aside */}
-                <div id="asides-admin">
-                            <h2><Link to="/admin/main" rel="noreferrer noopener">관리자 페이지</Link></h2>
-                            <div id="sub_list">
-                                <ul className='lists'>
-                                    <li><Link to="/admin/user" rel="noreferrer noopener">유저 관리</Link></li>
-                                    <li><Link to="/admin/point" rel="noreferrer noopener">포인트 상품 관리</Link></li>
-                                    <li><Link to="/admin/delivery" rel="noreferrer noopener">챌린지 관리</Link></li>
-                                </ul>
-                            </div>
+            <Header />
+            <div id="yc-admin-wrap">
+                <div className="yc-add-item-container">
+                    {/* aside */}
+                    <div id="yc-asides-admin">
+                        <h2><Link to="/admin/main" rel="noreferrer noopener">관리자 페이지</Link></h2>
+                        <div id="yc-sub_list">
+                            <ul className='yc-lists'>
+                                <li><Link to="/admin/user" rel="noreferrer noopener">유저 관리</Link></li>
+                                <li><Link to="/admin/point" rel="noreferrer noopener">포인트 상품 관리</Link></li>
+                                <li><Link to="/admin/delivery" rel="noreferrer noopener">챌린지 관리</Link></li>
+                            </ul>
                         </div>
-                        {/* //aside */}
-                <div id ="admin-main">
-                <h2>새 상품 추가</h2>
-                <form onSubmit={handleSubmit} className="add-item-form">
-                    <div className="form-group">
-                        <label htmlFor="itemName">상품 이름</label>
-                        <input
-                            type="text"
-                            id="itemName"
-                            value={itemName}
-                            onChange={(e) => setItemName(e.target.value)}
-                            required
-                        />
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="description">설명</label>
-                        <textarea
-                            id="description"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            required
-                        ></textarea>
+                    {/* //aside */}
+                    <div id="yc-admin-main">
+                        <h2>새 상품 추가</h2>
+                        <form onSubmit={handleSubmit} className="yc-add-item-form">
+                            <div className="yc-form-group">
+                                <label htmlFor="yc-itemName">상품 이름</label>
+                                <input
+                                    type="text"
+                                    id="yc-itemName"
+                                    value={itemName}
+                                    onChange={(e) => setItemName(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="yc-form-group">
+                                <label htmlFor="yc-description">설명</label>
+                                <textarea
+                                    id="yc-description"
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                    required
+                                ></textarea>
+                            </div>
+                            <div className="yc-form-group">
+                                <label htmlFor="yc-price">가격</label>
+                                <input
+                                    type="number"
+                                    id="yc-price"
+                                    value={price}
+                                    onChange={(e) => setPrice(e.target.value)}
+                                    required
+                                    min="0"
+                                    step="0.01"
+                                />
+                            </div>
+                            <div className="yc-form-group">
+                                <label htmlFor="yc-category">카테고리</label>
+                                <input
+                                    type="text"
+                                    id="yc-category"
+                                    value={category}
+                                    onChange={(e) => setCategory(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="yc-form-group">
+                                <label htmlFor="yc-image">이미지 업로드</label>
+                                <input
+                                    type="file"
+                                    id="yc-image"
+                                    accept="image/*"
+                                    onChange={(e) => setImage(e.target.files[0])}
+                                />
+                            </div>
+                            {error && <p className="yc-error-message">{error}</p>}
+                            <button type="submit" className="yc-submit-button" disabled={loading}>
+                                {loading ? '추가 중...' : '상품 추가'}
+                            </button>
+                        </form>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="price">가격</label>
-                        <input
-                            type="number"
-                            id="price"
-                            value={price}
-                            onChange={(e) => setPrice(e.target.value)}
-                            required
-                            min="0"
-                            step="0.01"
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="category">카테고리</label>
-                        <input
-                            type="text"
-                            id="category"
-                            value={category}
-                            onChange={(e) => setCategory(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="image">이미지 업로드</label>
-                        <input
-                            type="file"
-                            id="image"
-                            accept="image/*"
-                            onChange={(e) => setImage(e.target.files[0])}
-                        />
-                    </div>
-                    {error && <p className="error-message">{error}</p>}
-                    <button type="submit" className="submit-button" disabled={loading}>
-                        {loading ? '추가 중...' : '상품 추가'}
-                    </button>
-                </form>
                 </div>
-                
             </div>
-    </div>
-    <Footer/>
-    </>
-             
+            <Footer />
+        </>
     );
 };
 

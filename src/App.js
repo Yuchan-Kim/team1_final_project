@@ -58,7 +58,7 @@ function App() {
           <Route path='/cmain/:roomNum' element={<Challengemain />} />
 
           <Route path='/admin/users' element={<AdminUsers/>} />
-          <Route path='/admin/item/additem' element={<AddItem/>} />
+          <Route path='/admin/additems' element={<AddItem/>} />
           <Route path='/admin/viewitems' element={<ViewItems/>} />
 
           <Route path='/my/mypage' element={<Mypage />} />
