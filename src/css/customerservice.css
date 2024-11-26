@@ -1,0 +1,158 @@
+/* customerservice.css */
+
+@charset "UTF-8";
+
+/* 링크 */
+/* .dy-link {
+    color: black; 
+    text-decoration: none; 
+}
+
+.dy-link:visited {
+    color: black; 
+}
+
+.dy-link:hover {
+    text-decoration: none; 
+} */
+
+/* wrap 크기 설정 */
+.dy-wrap {
+    width: 80vw;
+    min-width: 1000px;
+    margin: 0 auto;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+
+/* 고객센터 메인 틀 */
+.dy-wrap .dy-customerservice {
+    margin-left: 110px; /* 사이드바 너비 + 좌측 padding (120px + 40px) */
+    margin-right: 110px; /* 우측 간격 */
+    margin-top: 70px;
+    box-sizing: border-box; /* 패딩 포함하여 크기 계산 */
+    padding: 0 20px; /* 추가 패딩 */
+    
+    /* border: 1px solid black; */
+}
+
+/* 고객센터, 배너 */
+.dy-customerservice .dy-customerservice-header {
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 50px;
+}
+
+/* 제목 (고객센터) */
+.dy-customerservice .dy-customerserviceTitle {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 50px;
+}
+
+
+/* 광고 */
+.dy-customerservice-header .dy-faq-img {
+    width: 100%;
+}
+
+/* 내용 */
+.dy-customerservice .dy-customerservice-content {
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 50px;
+
+    /* background-color: antiquewhite; */
+}
+
+
+/* 질문 전체  */
+.dy-customerservice .dy-customerservice-content .customerservice-faq-list {
+    font-size: 16px;
+}
+
+/* 질문 답변 한줄씩 */
+.dy-customerservice-content .customerservice-faq-list .faq-item {
+    cursor: pointer;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgb(230, 230, 230);
+}
+
+/* 질문 */
+.dy-customerservice-content .customerservice-faq-list .faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+} 
+
+.faq-item .faq-question .faq-arrow {
+    padding-right: 15px;
+    font-size: 20px;
+}
+
+/* 답변 */
+.dy-customerservice-content .customerservice-faq-list .faq-answer {
+    padding: 15px;
+    background-color: rgb(230, 230, 230);
+}
+
+/* 챗봇 버튼 */
+.dy-customerservice .dy-customerservice-btn {
+    position: fixed;
+    right: 120px;
+    bottom: 20px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100; /* 모달보다 높은 z-index 설정 */
+}
+
+/* 챗봇 버튼 */
+.dy-customerservice-btn .customerservice-btn {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: rgb(13, 110, 253);
+    color: #fff;
+    font-size: 20px;
+    position: relative;
+    animation: dung 1s infinite linear;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+/* 챗봇 버튼 */
+.customerservice-btn span {
+    position: relative;
+    /* font-size: 13px; */
+    z-index: 1;
+}
+
+/* 챗봇 버튼 */
+.dy-customerservice-btn .customerservice-btn:after {
+    content: "";
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: rgba(13, 110, 253, 0.4);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+}
+
+/* 챗봇 버튼 */
+.dy-customerservice-btn .customerservice-btn:hover:after {
+    animation: scale 2s infinite linear;
+}
