@@ -280,7 +280,7 @@ const Pointpage = () => {
                                                 <DatePicker
                                                     selected={startDate}
                                                     onChange={date => setStartDate(date)}
-                                                    placeholderText="yyyy-MM-dd 📅"
+                                                    placeholderText="yyyy-MM-dd         📅"
                                                     className="hmk_date-input"
                                                     dateFormat="yyyy-MM-dd"
                                                 />
@@ -293,7 +293,7 @@ const Pointpage = () => {
                                                 <DatePicker
                                                     selected={endDate}
                                                     onChange={date => setEndDate(date)}
-                                                    placeholderText="yyyy-MM-dd 📅"
+                                                    placeholderText="yyyy-MM-dd         📅"
                                                     className="hmk_date-input"
                                                     dateFormat="yyyy-MM-dd"
                                                 />
@@ -332,28 +332,27 @@ const Pointpage = () => {
                                             <th>잔액</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        {filteredData.length > 0 ? (
-                                            filteredData.map((item) => (
-                                                <tr key={item.historyNum}> {/* historyNum을 키로 사용 */}
-                                                    <td>{item.date}</td>
-                                                    <td>{item.purposeName}</td>
-                                                    <td>
-                                                        <span className={item.historyInfo === '+' ? 'earned' : 'spent'}>
-                                                            {item.historyInfo === '+' ?
-                                                                item.historyPoint.toLocaleString() :
-                                                                `- ${Math.abs(item.historyPoint).toLocaleString()}`}
-                                                        </span>
-                                                    </td>
-                                                    <td>{item.total.toLocaleString()}</td>
-                                                </tr>
-                                            ))
-                                        ) : !loading && (
+                                    <tbody>{filteredData.length > 0 ?
+                                        filteredData.map((item) => (
+                                            <tr key={item.historyNum}>
+                                                <td>{item.date}</td>
+                                                <td>{item.purposeName}</td>
+                                                <td>
+                                                    <span className={item.historyInfo === '+' ? 'earned' : 'spent'}>
+                                                        {item.historyInfo === '+' ?
+                                                            item.historyPoint.toLocaleString() :
+                                                            `- ${Math.abs(item.historyPoint).toLocaleString()}`}
+                                                    </span>
+                                                </td>
+                                                <td>{item.total.toLocaleString()}</td>
+                                            </tr>
+                                        )) :
+                                        !loading && (
                                             <tr>
                                                 <td colSpan="4">해당 조건에 맞는 데이터가 없습니다.</td>
                                             </tr>
-                                        )}
-                                    </tbody>
+                                        )
+                                    }</tbody>
                                 </table>
                             </InfiniteScroll>
                         </div>
