@@ -113,11 +113,19 @@ const Pointpage = () => {
             alert("시작일과 종료일을 모두 선택해주세요.");
             return;
         }
-        // 날짜 필터링은 useMemo를 통해 자동으로 반영됩니다.
+        setPage(0);         // 페이지 초기화
+        setPointData([]);   // 기존 데이터 초기화
+        fetchPointData(0, false); // 새로운 조건으로 데이터 로드
+    };
+    // 추가 데이터 로드 함수
+    const fetchMoreData = () => {
+        if (!loading && hasMore) {
+            fetchPointData(page + 1, true);
+        }
     };
 
     const fetchPointData = async (pageNum = 0, isLoadMore = false) => {
-        if (loading) return; // 로딩 중복 방지
+        if (loading) return;
 
         try {
             setLoading(true);
@@ -147,21 +155,21 @@ const Pointpage = () => {
             ]);
 
             if (historyResponse.data.result === 'success') {
-                const newData = historyResponse.data.apiData; // 직접 apiData 배열 사용
+                const { content, totalElements, hasMore: serverHasMore } = historyResponse.data.apiData;
 
-                if (!Array.isArray(newData)) {
-                    console.error('pointHistory data is not an array:', newData);
-                    setPointData([]);
-                } else {
+                if (Array.isArray(content)) {
                     if (isLoadMore) {
-                        setPointData(prev => [...prev, ...newData]);
+                        setPointData(prev => [...prev, ...content]);
                     } else {
-                        setPointData(newData);
+                        setPointData(content);
                     }
 
-                    setHasMore(newData.length === PAGE_SIZE); // 받아온 데이터 길이로 판단
+                    setTotalElements(totalElements);
+                    setHasMore(serverHasMore);
                     setPage(pageNum);
-                    setTotalElements(newData.length);
+                } else {
+                    console.error('Content is not an array:', content);
+                    setPointData([]);
                 }
             }
 
@@ -175,11 +183,15 @@ const Pointpage = () => {
         }
     };
 
-    // 추가 데이터 로드
-    const fetchMoreData = () => {
-        if (!loading && hasMore) {
-            fetchPointData(page + 1, true);
-        }
+    // 필터 초기화 핸들러 추가
+    const handleResetFilters = () => {
+        setActiveTab('전체');  // 탭을 '전체'로 초기화
+        setStartDate(null);    // 시작일 초기화
+        setEndDate(null);      // 종료일 초기화
+        setPage(0);           // 페이지 초기화
+        setPointData([]);      // 데이터 초기화
+        setHasMore(true);      // hasMore 초기화
+        fetchPointData(0, false); // 데이터 다시 로드
     };
 
     // 필터 변경 시 데이터 초기화 및 재조회를 위한 useEffect 추가
