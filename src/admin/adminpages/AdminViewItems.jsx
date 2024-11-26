@@ -60,22 +60,23 @@ const ViewItems = () => {
     const handleDelete = async (itemNum) => {
         if (window.confirm('정말로 이 상품을 삭제하시겠습니까?')) {
             try {
-                const response = await axios.delete(`${process.env.REACT_APP_API_URL}/api/admin/items/${itemNum}`);
+                const response = await axios.delete(`${process.env.REACT_APP_API_URL}/api/admin/deleteItem/${itemNum}`);
                 if (response.data.result === 'success') {
-                    alert('상품이 성공적으로 삭제되었습니다.');
-                    setItems(items.filter(item => item.itemNum !== itemNum));
+                    alert('상품이 성공적으로 삭제되었습니다!');
+                    navigate('/admin/viewitems'); // 삭제 후 상품 목록으로 이동
                 } else {
                     alert(response.data.message || '상품 삭제에 실패했습니다.');
                 }
             } catch (err) {
-                console.error("상품 삭제 중 오류 발생:", err);
+                console.error('상품 삭제 중 오류 발생:', err);
                 alert('상품 삭제 중 오류가 발생했습니다.');
             }
         }
     };
+    
 
     const handleEdit = (itemNum) => {
-        navigate(`/admin/edit-item/${itemNum}`);
+        navigate(`/admin/edititem/${itemNum}`);
     };
 
     // 페이징 처리
