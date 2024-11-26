@@ -3,6 +3,9 @@ import YCChallengeStatistics from './yc_pages/YC_challenge_statistics';
 import YcChallengeBoard from './yc_pages/YC_challenge_board';
 import AdminMain from './admin/adminpages/AdminMain.jsx';
 
+import AdminUsers from './admin/adminpages/AdminUsers.jsx';
+import AddItem from './admin/adminpages/AdminAddItem.jsx';
+import ViewItems from './admin/adminpages/AdminViewItems.jsx';
 
 import MissionInfo from './pages/challenge/Missioninfo.jsx';
 import Challengemain from './pages/challenge/JMYC_Challengemain.jsx';
@@ -54,6 +57,9 @@ function App() {
           <Route path='/missioninfo/:roomNum' element={<MissionInfo />} />
           <Route path='/cmain/:roomNum' element={<Challengemain />} />
 
+          <Route path='/admin/users' element={<AdminUsers/>} />
+          <Route path='/admin/item/additem' element={<AddItem/>} />
+          <Route path='/admin/viewitems' element={<ViewItems/>} />
 
           <Route path='/my/mypage' element={<Mypage />} />
           <Route path='/my/mypoint' element={<Pointpage />} />

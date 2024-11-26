@@ -1,0 +1,142 @@
+.view-items-container {
+    background-color: var(--background-color);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.view-items-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--text-secondary-color);
+}
+
+.search-bar {
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.search-bar input {
+    width: 250px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.items-table th, .items-table td {
+    border: 1px solid #e0e0e0;
+    padding: 12px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.items-table th {
+    background-color: #f0f0f0;
+    color: #333333;
+}
+
+.items-table tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.items-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.item-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+}
+
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+}
+
+/* 버튼 스타일 */
+.edit-button, .delete-button {
+    padding: 6px 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
+    margin: 0 2px;
+    font-size: 14px;
+}
+
+.edit-button {
+    background-color: #4CAF50; /* Green */
+}
+
+.delete-button {
+    background-color: #f44336; /* Red */
+}
+
+.edit-button:hover {
+    background-color: #45a049;
+}
+
+.delete-button:hover {
+    background-color: #e53935;
+}
+
+/* 페이징 스타일 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    list-style: none;
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination li a {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    color: var(--primary-color);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination li a:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.pagination li.active a {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: 1px solid var(--primary-color);
+}
+
+.pagination-disabled a {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.pagination-active-link {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: 1px solid var(--primary-color);
+}
