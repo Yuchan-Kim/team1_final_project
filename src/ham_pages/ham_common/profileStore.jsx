@@ -4,6 +4,7 @@ const defaultProfile = '/images/profile-fill.png';
 
 class ProfileStore {
     constructor() {
+        this.noticeCount = 0;  // 새 알림 개수 추가
         // localStorage에서 사용자 정보 불러오기
         this.profileImage = localStorage.getItem('profileImage') || defaultProfile;
         this.nickname = localStorage.getItem('nickname') || "비회원";
@@ -34,6 +35,30 @@ class ProfileStore {
         if (this.token) {
             this.loadUserData();
         }
+    }
+    // 알림 개수 업데이트 메서드 추가
+    updateNoticeCount(count) {
+        this.noticeCount = count;
+        this.notifySubscribers();
+    }
+
+    // getter 메서드 추가
+    getNoticeCount() {
+        return this.noticeCount;
+    }
+
+    // 프로필 데이터 가져올 때 알림 개수도 포함
+    getProfileData() {
+        return {
+            profileImage: this.profileImage,
+            ownedProfileImages: this.ownedProfileImages || [],
+            nickname: this.nickname,
+            region: this.region,
+            socialLogin: this.socialLogin,
+            challengesSummary: this.challengesSummary,
+            participationScore: this.challengesSummary.participationScore,
+            noticeCount: this.noticeCount  // 알림 개수 추가
+        };
     }
 
     getProfileImage() {
@@ -139,18 +164,6 @@ class ProfileStore {
             console.error('Failed to parse authUser from localStorage:', error);
             return null;
         }
-    }
-
-    getProfileData() {
-        return {
-            profileImage: this.profileImage,
-            ownedProfileImages: this.ownedProfileImages || [],
-            nickname: this.nickname,
-            region: this.region,
-            socialLogin: this.socialLogin,
-            challengesSummary: this.challengesSummary,
-            participationScore: this.challengesSummary.participationScore
-        };
     }
 
     getSocialLogin() {
@@ -320,7 +333,7 @@ class ProfileStore {
         this.setNickname(data.nickname);
         this.setRegion(data.region);
         this.setUserNum(data.userNum);
-        this.setSocialLogin(data.socialLogin); 
+        this.setSocialLogin(data.socialLogin);
         this.setChallengesSummary(data.challengesSummary);
         this.setChallengesDetails(data.challengesDetails);
     }
@@ -344,7 +357,8 @@ class ProfileStore {
             socialLogin: this.socialLogin,
             challengesSummary: this.challengesSummary,
             challengesDetails: this.challengesDetails,
-            token: this.token // 토큰 포함
+            token: this.token,
+            noticeCount: this.noticeCount  // 알림 개수 추가
         };
         this.subscribers.forEach(callback => callback(updatedProfile));
     }
@@ -373,6 +387,7 @@ class ProfileStore {
         this.token = null;
         this.notifySubscribers();
     }
+
 }
 
 const profileStoreInstance = new ProfileStore();

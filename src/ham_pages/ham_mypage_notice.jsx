@@ -86,21 +86,22 @@ const Notice = () => {
                 endDate: endDate ? format(endDate, 'yyyy-MM-dd') : null
             };
 
-            const [noticeResponse, summaryResponse] = await Promise.all([
-                axios.get(`${apiUrl}/api/notice/user/${userNum}`, {
-                    params,
-                    headers: { Authorization: `Bearer ${token}` }
-                }),
-                axios.get(`${apiUrl}/api/notice/user/${userNum}/summary`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                })
-            ]);
+            // 알림 목록 API 호출
+            const noticeResponse = await axios.get(`${apiUrl}/api/notice/user/${userNum}`, {
+                params,
+                headers: { Authorization: `Bearer ${token}` }
+            });
 
             if (noticeResponse.data.result === 'success') {
                 setNoticeData(noticeResponse.data.apiData);
             } else {
                 setNoticeData([]);
             }
+
+            // 알림 요약 API 호출
+            const summaryResponse = await axios.get(`${apiUrl}/api/notice/user/${userNum}/summary`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
 
             if (summaryResponse.data.result === 'success') {
                 setSummary(summaryResponse.data.apiData);
@@ -122,24 +123,37 @@ const Notice = () => {
         if (!notice.isCheck) {
             try {
                 const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
-                await axios.put(
+                const response = await axios.put(
                     `${apiUrl}/api/notice/${notice.noticeNum}/read`,
                     {},
                     { headers: { Authorization: `Bearer ${profile.token}` } }
                 );
-                fetchNoticeData();
+
+                if (response.data.result === 'success') {
+                    // 로컬 상태 업데이트
+                    setNoticeData(prevNotices =>
+                        prevNotices.map(n =>
+                            n.noticeNum === notice.noticeNum ? { ...n, isCheck: 1 } : n
+                        )
+                    );
+
+                    // 요약 정보 업데이트
+                    const newNoticeCount = Math.max(summary.newNotice - 1, 0);
+                    setSummary(prevSummary => ({
+                        ...prevSummary,
+                        readNotice: prevSummary.readNotice + 1,
+                        newNotice: newNoticeCount
+                    }));
+
+                    // profileStore 업데이트
+                    profileStore.updateNoticeCount(newNoticeCount);
+                }
             } catch (error) {
                 console.error('알림 읽음 처리 실패:', error);
             }
         }
     };
 
-    // 6. Effects
-    useEffect(() => {
-        if (profile.userNum && profile.token) {
-            fetchNoticeData();
-        }
-    }, [profile.userNum, profile.token, currentPage]);
 
     // 알림 읽음 처리 함수
     const markNoticeAsRead = async (noticeNum) => {
@@ -156,6 +170,20 @@ const Notice = () => {
             if (response.data.result === 'success') {
                 // 알림 목록 갱신
                 fetchNoticeData();
+
+                // 요약 정보 다시 조회
+                const summaryResponse = await axios.get(
+                    `${apiUrl}/api/notice/user/${profile.userNum}/summary`,
+                    {
+                        headers: { Authorization: `Bearer ${profile.token}` }
+                    }
+                );
+
+                if (summaryResponse.data.result === 'success') {
+                    setSummary(summaryResponse.data.apiData);
+                    // ProfileStore 업데이트
+                    profileStore.updateNoticeCount(summaryResponse.data.apiData.newNotice);
+                }
             }
         } catch (error) {
             console.error('알림 읽음 처리 실패:', error);
@@ -181,7 +209,7 @@ const Notice = () => {
         if (profile.userNum && profile.token) {
             fetchNoticeData();
         }
-    }, [startDate, endDate, profile.userNum, profile.token]);
+    }, [profile.userNum, profile.token, currentPage, startDate, endDate]);
 
 
     // 필터링된 알림에 대한 페이지 수 계산

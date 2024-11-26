@@ -10,37 +10,18 @@ const PointsIcon = '/images/points.png';
 const InventoryIcon = '/images/inventory.png';
 
 const Sidebar = () => {
-    const [newNoticeCount, setNewNoticeCount] = useState(0);
     const [profile, setProfile] = useState({
         userNum: profileStore.getUserNum(),
-        token: profileStore.getToken()
+        token: profileStore.getToken(),
+        noticeCount: profileStore.getNoticeCount() // 알림 개수 추가
     });
-
-    // 알림 개수 조회
-    const fetchNoticeCount = async () => {
-        try {
-            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
-            const response = await axios.get(
-                `${apiUrl}/api/notice/user/${profile.userNum}/summary`,
-                {
-                    headers: { Authorization: `Bearer ${profile.token}` }
-                }
-            );
-
-            if (response.data.result === 'success') {
-                setNewNoticeCount(response.data.apiData.newNotice || 0);
-            }
-        } catch (error) {
-            console.error('알림 개수 조회 실패:', error);
-        }
-    };
-
     // ProfileStore 구독
     useEffect(() => {
         const handleProfileChange = (updatedProfile) => {
             setProfile({
                 userNum: updatedProfile.userNum,
-                token: updatedProfile.token
+                token: updatedProfile.token,
+                noticeCount: profileStore.getNoticeCount() // 알림 개수 업데이트
             });
         };
         profileStore.subscribe(handleProfileChange);
@@ -54,11 +35,30 @@ const Sidebar = () => {
     useEffect(() => {
         if (profile.userNum && profile.token) {
             fetchNoticeCount();
-            // 주기적으로 알림 개수 업데이트 (1분마다)
             const interval = setInterval(fetchNoticeCount, 60000);
             return () => clearInterval(interval);
         }
     }, [profile.userNum, profile.token]);
+
+    // 알림 개수 조회
+    const fetchNoticeCount = async () => {
+        try {
+            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
+            const response = await axios.get(
+                `${apiUrl}/api/notice/user/${profile.userNum}/summary`,
+                {
+                    headers: { Authorization: `Bearer ${profile.token}` }
+                }
+            );
+
+            if (response.data.result === 'success') {
+                const newCount = response.data.apiData.newNotice || 0;
+                profileStore.updateNoticeCount(newCount); // profileStore 업데이트
+            }
+        } catch (error) {
+            console.error('알림 개수 조회 실패:', error);
+        }
+    };
 
     return (
         <aside className="hmk_sidebar-container">
@@ -83,8 +83,8 @@ const Sidebar = () => {
                         <div className="hmk_sidebar-notice-container">
                             <img src={NoticeIcon} alt="Notice" className="hmk_sidebar-icon" />
                             <Link to="/my/notice">알림</Link>
-                            {newNoticeCount > 0 && (
-                                <span className="hmk_sidebar-notice-badge">{newNoticeCount}</span>
+                            {profile.noticeCount > 0 && (
+                                <span className="hmk_sidebar-notice-badge">{profile.noticeCount}</span>
                             )}
                         </div>
                     </li>

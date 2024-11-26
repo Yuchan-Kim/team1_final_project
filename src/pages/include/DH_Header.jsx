@@ -25,6 +25,18 @@ const DH_Header = () => {
 
 
 	// --------------------------------< 민규 Tobbar용 사용 >----------------------------------------------------------------------------------------------------
+	// notificationCount state를 profile state에 포함시키기
+	const [profile, setProfile] = useState({
+		nickname: profileStore.getNickname(),
+		profileImage: profileStore.getProfileImage(),
+		challengesSummary: profileStore.getChallengesSummary(),
+		ownedProfileImages: profileStore.getOwnedProfileImages(),
+		region: profileStore.getRegion(),
+		userNum: profileStore.getUserNum(),
+		challengesDetails: profileStore.getChallengesDetails(),
+		noticeCount: profileStore.getNoticeCount(), // 알림 개수 추가
+	});
+
 	// Helper 함수 추가 -- 프로필 변경 시 헤더에도 적용되게 하는 것을 도와주는 함수
 	const getFullImagePath = (path) => {
 		if (!path) return defaultProfile;
@@ -53,21 +65,16 @@ const DH_Header = () => {
 		return `/images/${path}`;
 	};
 
-	const [profile, setProfile] = useState({
-		nickname: profileStore.getNickname(),
-		profileImage: profileStore.getProfileImage(),
-		challengesSummary: profileStore.getChallengesSummary(),
-		ownedProfileImages: profileStore.getOwnedProfileImages(),
-		region: profileStore.getRegion(),
-		userNum: profileStore.getUserNum(),
-		challengesDetails: profileStore.getChallengesDetails(),
-	});
 	// ProfileStore 구독
 	useEffect(() => {
 		const handleProfileChange = (updatedProfile) => {
-			setProfile(updatedProfile);
+			setProfile({
+				...updatedProfile,
+				noticeCount: profileStore.getNoticeCount() // 알림 개수 포함
+			});
 		};
 		profileStore.subscribe(handleProfileChange);
+
 		// 초기 구독자 호출
 		handleProfileChange({
 			nickname: profileStore.getNickname(),
@@ -77,12 +84,36 @@ const DH_Header = () => {
 			region: profileStore.getRegion(),
 			userNum: profileStore.getUserNum(),
 			challengesDetails: profileStore.getChallengesDetails(),
+			noticeCount: profileStore.getNoticeCount() // 알림 개수 포함
 		});
+
 		return () => {
 			profileStore.unsubscribe(handleProfileChange);
 		};
 	}, []);
 
+	const fetchNotificationCount = async () => {
+		try {
+			const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
+			const { userNum, token } = profile;
+
+			if (!userNum || !token) {
+				console.error('인증 정보가 없습니다.');
+				return;
+			}
+
+			const summaryResponse = await axios.get(`${apiUrl}/api/my/${userNum}/noticeSummary`, {
+				headers: { Authorization: `Bearer ${token}` }
+			});
+
+			if (summaryResponse.data.result === 'success') {
+				const newCount = summaryResponse.data.apiData.newNotice;
+				profileStore.updateNoticeCount(newCount); // profileStore 업데이트
+			}
+		} catch (error) {
+			console.error('알림 요약 정보를 가져오는 데 실패했습니다:', error);
+		}
+	};
 	// 로그인 시 ProfileStore에 토큰 전달
 	useEffect(() => {
 		profileStore.setToken(token);
@@ -145,34 +176,6 @@ const DH_Header = () => {
 				console.error('Error fetching user points:', error);
 			});
 	};
-
-	// 알림 수 가져오기 (API를 통해 가져오기)
-	const fetchNotificationCount = async () => {
-		try {
-			const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
-			const { userNum, token } = profile;
-
-			if (!userNum || !token) {
-				console.error('인증 정보가 없습니다.');
-				return;
-			}
-
-			const summaryResponse = await axios.get(`${apiUrl}/api/my/${userNum}/noticeSummary`, {
-				headers: { Authorization: `Bearer ${token}` }
-			});
-
-			if (summaryResponse.data.result === 'success') {
-				setNotificationCount(summaryResponse.data.apiData.newNotice);
-			} else {
-				console.error('알림 요약 정보 조회 실패:', summaryResponse.data.message);
-				setNotificationCount(0);
-			}
-		} catch (error) {
-			console.error('알림 요약 정보를 가져오는 데 실패했습니다:', error);
-			setNotificationCount(0);
-		}
-	};
-
 
 	useEffect(() => {
 		if (profile.userNum && profile.token) {
@@ -315,10 +318,10 @@ const DH_Header = () => {
 											}}
 										/>
 										{/* 알림 배지 (읽지 않은 알림이 있을 경우에만) */}
-										{notificationCount > 0 && (
+										{profile.noticeCount > 0 && (
 											<Link to="/my/notice" className="hmk_notification-link">
 												<span className="hmk_notification-badge">
-													{notificationCount}
+													{profile.noticeCount}
 												</span>
 											</Link>
 										)}
