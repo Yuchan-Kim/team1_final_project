@@ -1,12 +1,13 @@
 // src/pages/genebang/Step09.jsx
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import '../../css/reset.css';
 import '../../css/jy_step.css';
 
 const Step09 = ({ onNext, onPrevious, onClose }) => {
+    const { roomNum } = useParams();
 
     const navigate = useNavigate();
 
@@ -15,8 +16,8 @@ const Step09 = ({ onNext, onPrevious, onClose }) => {
     };
 
     const handleNext = () => {
-        navigate('/cmain');
-        onClose(); // 모달 닫기 (선택 사항: 페이지 이동과 함께 모달 닫기)
+        navigate(`/cmain/${roomNum}`);
+        
     };
 
     return (
