@@ -129,24 +129,21 @@ const MyPage = () => {
         };
         fetchChartData();
     }, [userNum]);
-
     // 탭 클릭 핸들러
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
-
     // 챌린지 카드 클릭 핸들러
     const handleCardClick = (roomNum) => {
         navigate(`/cmain/${roomNum}`);
     };
-
     if (loading) {
         return <div>데이터를 불러오는 중...</div>;
     }
     if (error) {
         return <div className="error-message">{error}</div>;
     }
-
+    
     const activeChallenges = challenges[activeTab] || [];
 
     return (
