@@ -7,7 +7,7 @@ function UserKakaoLogin() {
   const PARAMS = new URL(document.location).searchParams;
   const KAKAO_CODE = PARAMS.get("code");
 
-  console.log("KAKAO_CODE:", KAKAO_CODE);
+  // console.log("KAKAO_CODE:", KAKAO_CODE);
 
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
@@ -54,7 +54,7 @@ function UserKakaoLogin() {
       if (message === "이미 가입된 이메일") {
         // 헤더에서 토큰 꺼내기
         const token = userResponse.headers["authorization"].split(" ")[1];
-        console.log(token);
+        // console.log(token);
 
         // 로컬스토리지에 토큰 저장
         localStorage.setItem("token", token); // "token"이라는 이름으로 token을 저장
