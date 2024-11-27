@@ -40,13 +40,16 @@
     padding: 15px;
     overflow-y: auto;
     background-color: #f7f7f7;
+    
 }
 
 .jy-chatbot .jy-chatbot-message {
-    max-width: 80%;
+    max-width: 95%;
     margin-bottom: 15px;
     padding: 10px;
     border-radius: 8px;
+
+    margin-bottom: 15px;
 }
 
 .jy-chatbot .jy-chatbot-message.user {
@@ -55,8 +58,9 @@
     align-self: flex-end;
 }
 
-.jy-chatbot .jy-chatbot-message.bot {
-    background-color: #e5e5e5;
+.jy-chatbot .jy-chatbot-message.assistant {
+    /* background-color: #e5e5e5; */
+    background-color: #fff;
     color: black;
     align-self: flex-start;
 }
