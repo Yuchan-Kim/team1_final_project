@@ -112,8 +112,3 @@
     display: flex;
     align-items: center;
 }
-
-.hmk_sidebar-notice-container a {
-    flex-grow: 1;
-    margin-right: 30px; /* 뱃지를 위한 공간 확보 */
-}

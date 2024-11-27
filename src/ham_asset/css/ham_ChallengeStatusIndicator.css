@@ -1,0 +1,52 @@
+/* ham_ChallengeStatusIndicator.css */
+.hmk_status-container {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 10;
+}
+
+.hmk_status-badge {
+    padding: 4px 8px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+}
+
+.hmk_badge-red {
+    background-color: #ef4444;
+}
+
+.hmk_badge-orange {
+    background-color: #f97316;
+    animation: hmk_pulse 2s infinite;
+}
+
+.hmk_badge-green {
+    background-color: #22c55e;
+}
+
+.hmk_dday-badge {
+    padding: 4px 8px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes hmk_pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}

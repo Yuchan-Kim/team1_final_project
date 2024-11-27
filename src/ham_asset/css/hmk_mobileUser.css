@@ -1,0 +1,202 @@
+/* src/ham_asset/css/hmk_mobileUser.css */
+
+
+.hmk-wrap {
+    background-color: #f4f4f4; /* 배경색 */
+    height: 100%;
+    overflow: hidden; /* 스크롤 방지 */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 전체 화면 높이 */
+    padding: 20px;
+}
+
+.hmk-joinform {
+    width: 100%;
+    max-width: 400px; /* 최대 폭 제한 */
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    text-align: center;
+}
+
+.hmk-joinTitle {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.hmk-joinform-content {
+    width: 100%;
+}
+
+.hmk-joinform-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.hmk-join-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.hmk-input-group {
+    display: flex;
+}
+
+.hmk-join-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px 0 0 5px;
+    font-size: 16px;
+}
+
+.hmk-emailcheck-btn,
+.hmk-namecheck-btn {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.hmk-emailcheck-btn:hover,
+.hmk-namecheck-btn:hover {
+    background-color: #0056b3;
+}
+
+.hmk-message {
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.hmk-success {
+    color: green;
+}
+
+.hmk-error {
+    color: red;
+}
+
+.hmk-submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745; /* 버튼 색상 */
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.hmk-submit-btn:hover {
+    background-color: #218838;
+}
+
+.hmk-divider {
+    margin: 20px 0;
+    font-size: 14px;
+    color: #aaa;
+}
+
+.hmk-social-logins {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.hmk-social-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    color: white;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.3s;
+}
+
+.hmk-social-btn:hover {
+    opacity: 0.8;
+}
+
+.hmk-kakao {
+    background-color: #FEE500; /* 카카오톡 노란색 */
+    color: #000;
+    border-radius: 50%; /* 원형 유지 */
+}
+
+.hmk-naver {
+    background-color: #03C75A; /* 네이버 녹색 */
+    border-radius: 50%; /* 원형 유지 */
+}
+
+.hmk-google {
+    background-color: #DB4437; /* 구글 빨간색 */
+    border-radius: 50%; /* 원형 유지 */
+}
+
+.hmk-social-icon {
+    font-size: 20px;
+}
+
+.hmk-social-text {
+    display: none; /* 모바일에서는 텍스트 숨김, 필요 시 표시 가능 */
+}
+
+.hmk-to-loginform {
+    margin-top: 15px;
+}
+
+.hmk-link {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.hmk-link:hover {
+    text-decoration: underline;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 480px) {
+    .hmk-joinform {
+        padding: 20px;
+    }
+
+    .hmk-submit-btn {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .hmk-social-logins {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .hmk-social-btn {
+        width: 100%;
+        border-radius: 5px; /* 원형에서 사각형으로 변경 */
+    }
+
+    .hmk-social-text {
+        display: inline; /* 모바일에서 텍스트 표시 */
+        margin-left: 8px;
+    }
+}

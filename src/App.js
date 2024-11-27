@@ -16,6 +16,7 @@ import Pointpage from './ham_pages/ham_mypage_point';
 import Cargo from './ham_pages/ham_mypage_cargo';
 import Rank from './ham_pages/ham_mypage_ranking';
 import Notice from './ham_pages/ham_mypage_notice';
+import Mobile from './ham_pages/ham_mobile/ham_mobileUser';
 
 import Step0 from './pages/genebang/Genebang01';
 import Step1 from './pages/genebang/Step01';
@@ -98,6 +99,7 @@ function App() {
           <Route path="/naver/login" element={<NaverLogin />} />
           <Route path="/naver/callback" element={<NaverLoginCallback  />} />
           <Route path="/google/login" element={<GoogleLogin  />} />
+          <Route path="/m" element={<Mobile  />} />
     
         </Routes>
     </BrowserRouter>

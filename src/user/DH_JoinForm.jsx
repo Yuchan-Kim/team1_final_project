@@ -293,11 +293,11 @@ const DH_JoinForm = () => {
                                         onClick={handleKakaoLogin}
                                     />
                                 </div>
-                                <div className="dy-google-join">
+                                <div className="dy-social-join google">
                                     <GoogleLoginComponent />
                                     <p>Google로 계속하기</p>
                                 </div>
-                                <div className="dy-naver-join">
+                                <div className="dy-social-join naver">
                                     <NaverLogin />
                                     <p>네이버 회원가입</p>
                                 </div>

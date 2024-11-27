@@ -9,8 +9,11 @@ import Footer from '../pages/include/JM-Footer';
 import Sidebar from './ham_common/ham_sidebar';
 import Topbar from './ham_common/ham_topbar';
 import ChartComponent from './ham_common/ham_ChartComponent';
+import ChallengeStatusIndicator from './ham_ChallengeStatusIndicator';
 
 import '../ham_asset/css/ham_mypage.css';
+import '../ham_asset/css/ham_ChallengeStatusIndicator.css';
+
 import profileStore from './ham_common/profileStore'; // profileStore 임포트
 
 const MyPage = () => {
@@ -54,6 +57,7 @@ const MyPage = () => {
         return () => {
             profileStore.unsubscribe(handleProfileChange);
         };
+        d
     }, []);
 
     // 차트 데이터 로드
@@ -234,19 +238,31 @@ const MyPage = () => {
                         <div className="hmk_challenge-list">
                             {activeChallenges.map((challenge) => {
                                 const challengeKey = `challenge-${challenge.roomNum || challenge.id}`;
-
+                                // 데이터 확인을 위한 콘솔 로그
+                                console.log("Challenge data:", {
+                                    roomNum: challenge.roomNum,
+                                    roomStatusNum: challenge.roomStatusNum,
+                                    status: challenge.roomStatusName
+                                });
                                 return (
                                     <div
                                         key={challengeKey}
                                         className="hmk_challenge-card"
-                                        onClick={() => handleCardClick(challenge.roomNum)} // 여기를 수정
+                                        onClick={() => handleCardClick(challenge.roomNum)}
                                         onKeyDown={(e) => {
-                                            if (e.key === 'Enter') handleCardClick(challenge.roomNum); // 여기도 수정
+                                            if (e.key === 'Enter') handleCardClick(challenge.roomNum);
                                         }}
                                         tabIndex="0"
                                         role="button"
-                                        style={{ cursor: 'pointer' }}
+                                        style={{ cursor: 'pointer', position: 'relative' }}
                                     >
+                                        {activeTab === 'created' && (
+                                            <ChallengeStatusIndicator
+                                                startDate={challenge.roomStartDate}
+                                                endDate={challenge.endDate}
+                                                roomStatusNum={challenge.roomStatusNum}
+                                            />
+                                        )}
                                         <img
                                             src={imgError[challengeKey]
                                                 ? '/images/challenge1.png'

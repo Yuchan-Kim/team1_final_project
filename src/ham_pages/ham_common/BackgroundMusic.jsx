@@ -1,9 +1,8 @@
-// src/components/BackgroundMusic.jsx
 import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import '../../ham_asset/css/ham_BackgroundMusic.css'; // 정확한 CSS 경로 확인
 
-const BackgroundMusic = ({ src, autoPlay, loop, volume }) => {
+const BackgroundMusic = ({ src, autoPlay = false, loop = true, volume = 0.5 }) => {
     const audioRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(autoPlay);
     const [isMuted, setIsMuted] = useState(false);
@@ -102,12 +101,6 @@ BackgroundMusic.propTypes = {
     autoPlay: PropTypes.bool,
     loop: PropTypes.bool,
     volume: PropTypes.number,
-};
-
-BackgroundMusic.defaultProps = {
-    autoPlay: false,
-    loop: true,
-    volume: 0.5,
 };
 
 export default BackgroundMusic;

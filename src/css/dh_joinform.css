@@ -127,31 +127,52 @@
     margin-bottom: 10px;
 }
 
-.dy-naver-join {
+/* 공통 스타일: 소셜 로그인 버튼 */
+.dy-social-join {
     width: 300px;
     height: 45px;
-    margin: 0 auto;
+    margin: 10px auto;
     border-radius: 10px;
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
-
-    /* background-color: #03c75a; */
-    background-color: rgb(3, 199, 90);
+    font-size: 14px;
+    font-weight: bold;
     color: white;
+    cursor: pointer;
+    text-align: center;
 }
 
-.dy-google-join {
-    width: 300px;
-    height: 45px;
-    margin: 0 auto;
-    border-radius: 10px;
+/* 각 플랫폼 별 색상 */
+.dy-social-join.kakao {
+    background-color: #fee500;
+    color: #3c1e1e;
+    border: 1px solid #e6b800;
+    margin-bottom: 0;
+}
+
+.dy-social-join.google {
+    background-color: #ffffff;
+    color: white;
+    border: none;
+    margin-top: 0;
+}
+
+.dy-social-join.naver {
+    background-color: #03c75a;
+    color: white;
+    border: none;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    margin-bottom: 5px;
+    justify-content: flex-start;
+    padding: 3px 0 0 6px;
+    gap: 70px;
+    margin-top: 12px;
+}
+
+/* hover 효과 */
+.dy-social-join:hover {
+    opacity: 0.9;
 }
 
 
