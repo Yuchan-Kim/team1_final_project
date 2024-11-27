@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Ham_KakaoLogin from './ham_KakaoLogin';
 import Ham_NaverLogin from './ham_NaverLogin';
 import Ham_GoogleLogin from './ham_GoogleLogin';
+import profileStore from '../ham_common/profileStore';
 
 // Import CSS
 import '../../ham_asset/css/hmk_mobileUser.css';
@@ -144,24 +145,36 @@ const Ham_MobileAuth = () => {
                 responseType: 'json'
             });
 
-            console.log(response.data);
+            console.log("로그인 응답:", response.data);
 
-            // 토큰 처리
+            // 먼저 사용자 정보 저장
+            if (response.data.apiData) {
+                localStorage.setItem("authUser", JSON.stringify(response.data.apiData));
+                // profileStore에 사용자 정보 먼저 설정
+                profileStore.setUserNum(response.data.apiData.userNum);
+                profileStore.setUserInfo(response.data.apiData);
+            } else {
+                setLoginError("사용자 정보를 받아오지 못했습니다.");
+                return;
+            }
+
+            // 그 다음 토큰 처리
             const authHeader = response.headers['authorization'];
             if (authHeader) {
                 const token = authHeader.split(' ')[1];
                 localStorage.setItem("token", token);
+                // userNum 설정 후 토큰 설정
+                profileStore.setToken(token);
             } else {
                 setLoginError("이메일과 비밀번호를 다시 확인해주세요.");
                 return;
             }
 
-            // 사용자 정보 저장
-            localStorage.setItem("authUser", JSON.stringify(response.data.apiData));
+            // 데이터 로딩 완료 확인
+            await profileStore.loadUserData();
 
-            // 로그인 성공 처리
             if (response.data.result === 'success') {
-                navigate("/m/home"); // 메인 페이지로 이동
+                navigate("/m/home");
             } else {
                 setLoginError("로그인에 실패했습니다.");
             }
@@ -212,7 +225,7 @@ const Ham_MobileAuth = () => {
         })
             .then(response => {
                 if (response.data.result === 'success') {
-                    navigate("/user/loginform");
+                    navigate("/m/home");
                 } else {
                     alert("회원등록에 실패했습니다.");
                 }

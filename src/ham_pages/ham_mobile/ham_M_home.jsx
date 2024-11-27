@@ -28,47 +28,44 @@ const MobileDashboard = () => {
 
     // profileStore 구독 및 데이터 동기화
     useEffect(() => {
+        // 초기 데이터 확인
+        const token = localStorage.getItem('token');
+        const authUser = localStorage.getItem('authUser');
+
+        if (!token || !authUser) {
+            navigate('/m');
+            return;
+        }
+
+        // profileStore에서 데이터가 없다면 다시 로드
+        if (!profileStore.getUserNum()) {
+            profileStore.loadUserData();
+        }
+
         const handleProfileChange = (updatedProfile) => {
-            const safeProfile = {
-                challengesSummary: updatedProfile?.challengesSummary || {
+            if (!updatedProfile) return;
+
+            setUserInfo({
+                challengesSummary: updatedProfile.challengesSummary || {
                     ongoing: 0,
                     upcoming: 0,
                     completed: 0,
                     participationScore: 0
                 },
-                challengesDetails: updatedProfile?.challengesDetails || {
+                challengesDetails: updatedProfile.challengesDetails || {
                     ongoing: [],
                     upcoming: [],
                     completed: [],
                     created: []
                 }
-            };
-            setUserInfo(safeProfile);
-        };
-        // 초기 데이터 설정
-        const initialData = {
-            challengesSummary: profileStore.getChallengesSummary() || {
-                ongoing: 0,
-                upcoming: 0,
-                completed: 0,
-                participationScore: 0
-            },
-            challengesDetails: profileStore.getChallengesDetails() || {
-                ongoing: [],
-                upcoming: [],
-                completed: [],
-                created: []
-            }
+            });
         };
 
-        // 여기서 initialData를 사용하여 초기 상태 설정
-        handleProfileChange(initialData);
-
-        // profileStore 구독
         profileStore.subscribe(handleProfileChange);
 
+        // 컴포넌트 언마운트 시 구독 해제
         return () => profileStore.unsubscribe(handleProfileChange);
-    }, []);
+    }, [navigate]);
     // 탭 클릭 핸들러
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -245,7 +242,6 @@ const MobileDashboard = () => {
                         alt="챌린지 요약정보 아이콘"
                     />
                     <div className={`hmk_mobile_home-bottom-text ${activeMenu === 'challenge' ? 'visible' : 'hidden'}`}>
-                        챌린지
                     </div>
                 </div>
                 <div
@@ -260,22 +256,20 @@ const MobileDashboard = () => {
                         alt="보관함 아이콘"
                     />
                     <div className={`hmk_mobile_home-bottom-text ${activeMenu === 'inventory' ? 'visible' : 'hidden'}`}>
-                        보관함
                     </div>
                 </div>
                 <div
-                    className="hmk_mobile_home-bottom-item"
+                    className="hmk_mobile_home-bottom-item3"
                     onMouseEnter={() => handleMouseEnter('points')}
                     onMouseLeave={handleMouseLeave}
                     onTouchStart={() => handleTouch('points')}
                 >
                     <img
-                        className="hmk_mobile_home-icon"
-                        src="/images/points.png"
-                        alt="포인트 내역 아이콘"
+                        className="hmk_mobile_home-icon hmk_camera"
+                        src="/images/icons/camera_icon.png"
+                        alt="인증샷 아이콘"
                     />
                     <div className={`hmk_mobile_home-bottom-text ${activeMenu === 'points' ? 'visible' : 'hidden'}`}>
-                        포인트
                     </div>
                 </div>
                 <div
@@ -290,7 +284,6 @@ const MobileDashboard = () => {
                         alt="랭킹페이지 아이콘"
                     />
                     <div className={`hmk_mobile_home-bottom-text ${activeMenu === 'rank' ? 'visible' : 'hidden'}`}>
-                        랭킹
                     </div>
                 </div>
                 <div
@@ -305,7 +298,6 @@ const MobileDashboard = () => {
                         alt="프로필 카드 아이콘"
                     />
                     <div className={`hmk_mobile_home-bottom-text ${activeMenu === 'profile' ? 'visible' : 'hidden'}`}>
-                        프로필
                     </div>
                 </div>
             </div>
