@@ -2,42 +2,60 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
 const SocialLogin = ({ platform, onLogin }) => {
     const getPlatformDetails = (platform) => {
         switch(platform) {
             case 'kakao':
                 return {
                     name: '카카오',
-                    color: '#FEE500',
-                    icon: '/images/icons/kakao-icon.png', // 실제 프로젝트에서는 아이콘 이미지나 SVG 사용 권장
+                    bgColor: '#FEE500',
+                    textColor: '#000000',
+                    icon: '/images/icons/kakao-icon.png',
+                    hoverColor: '#e6cf00'
                 };
             case 'naver':
                 return {
                     name: '네이버',
-                    color: '#03C75A',
+                    bgColor: '#03C75A',
+                    textColor: '#FFFFFF',
                     icon: '/images/icons/naver-icon.png',
+                    hoverColor: '#02b351'
                 };
             case 'google':
                 return {
                     name: '구글',
-                    color: '#DB4437',
+                    bgColor: '#FFFFFF',
+                    textColor: '#000000',
                     icon: '/images/icons/google-icon.png',
+                    hoverColor: '#f5f5f5',
+                    border: '1px solid #dddddd'
                 };
+            default:
+                return null;
         }
     };
 
-    const { name, color, icon } = getPlatformDetails(platform);
+    const platformDetails = getPlatformDetails(platform);
 
     return (
         <button
-            className={`hmk-social-btn hmk-${platform}`}
+            className={`hmk_social-login-btn hmk_${platform}-login`}
             onClick={() => onLogin(platform)}
-            aria-label={`${name} 로그인`}
-            style={{ backgroundColor: color }}
+            aria-label={`${platformDetails.name}로 계속하기`}
+            style={{
+                backgroundColor: platformDetails.bgColor,
+                color: platformDetails.textColor,
+                border: platformDetails.border || 'none'
+            }}
         >
-            <span className="hmk-social-icon">{icon}</span>
-            <span className="hmk-social-text">{name}로 로그인</span>
+            <img 
+                src={platformDetails.icon}
+                alt={`${platformDetails.name} 아이콘`}
+                className="hmk_social-icon"
+            />
+            <span className="hmk_social-text">
+                {platformDetails.name}로 계속하기
+            </span>
         </button>
     );
 };

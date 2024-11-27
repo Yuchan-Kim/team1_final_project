@@ -320,7 +320,7 @@ const Ham_MobileAuth = () => {
 
                             <button type="submit" className="hmk-submit-btn">로그인</button>
 
-                            <div className="hmk-divider">─────────── 또는 ───────────</div>
+                            <div className="hmk-divider">───────  또는  ───────</div>
 
                             <div className="hmk-social-logins">
                                 <Ham_KakaoLogin onLogin={handleSocialLogin} />
@@ -438,7 +438,7 @@ const Ham_MobileAuth = () => {
                             <button type="submit" className="hmk-submit-btn">가입하기</button>
 
                             {/* 구분선 */}
-                            <div className="hmk-divider">─────────── 또는 ───────────</div>
+                            <div className="hmk-divider">───────  또는  ───────</div>
 
                             {/* 소셜 로그인 버튼들 */}
                             <div className="hmk-social-logins">
