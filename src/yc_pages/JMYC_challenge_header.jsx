@@ -79,6 +79,8 @@ const JMYCChallengeHeader = () => {
         regionName: "",
         roomStatusNum: 1,
         periodType: 0,
+        roomMinNum: 0, 
+        enteredUserNum: 0, 
     });
 
     const [timeLeft, setTimeLeft] = useState("");
@@ -325,30 +327,29 @@ const JMYCChallengeHeader = () => {
     // JMYCChallengeHeader.jsx - handleConfirmJoin 함수 수정
     const handleConfirmJoin = async () => {
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/challenge/join/${roomNum}`, {}, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            const response = await axios.post(
+                `${process.env.REACT_APP_API_URL}/api/challenge/join/${roomNum}`,
+                {},
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
     
-            if (response.data.result === 'success') {
-                const enteredUserAuth = response.data.apiData; // 백엔드에서 enteredUserAuth를 직접 반환
-                if (enteredUserAuth !== undefined) {
-                    setUserAuthorization(enteredUserAuth);
-                }
+            if (response.data.result === "success") {
+                alert(response.data.message || "참가가 성공적으로 완료되었습니다.");
                 setShowJoinModal(false);
                 await getRoomHeaderInfo(); // 최신 방 정보 다시 가져오기
-    
-                alert('참가가 성공적으로 완료되었습니다.');
-                // useEffect를 통해 모달 표시
             } else {
-                alert(`참가 실패: ${response.data.message}`);
+                console.log(response.data.data);
+                // message가 undefined인 경우 대비
+                alert(response.data.message || "참가에 실패했습니다.");
             }
         } catch (error) {
-            console.error('참가 중 오류 발생:', error);
-            alert('참가 중 오류가 발생했습니다.');
+            console.error("참가 중 오류 발생:", error);
+            alert("참가 중 오류가 발생했습니다.");
         }
     };
+    
+    
+    
     
 
     
@@ -560,6 +561,8 @@ const JMYCChallengeHeader = () => {
                     regionName: data.regionName,
                     roomStatusNum: data.roomStatusNum,
                     periodType: data.periodType,
+                    roomMinNum: data.roomMinNum, // 새로 추가된 필드
+                enteredUserNum: data.enteredUserNum, // 새로 추가된 필드
                 });
             } else {
                 setError(response.data.message);
@@ -872,22 +875,10 @@ const JMYCChallengeHeader = () => {
                                 <button 
                                     className="jm-c-start host" 
                                     onClick={handleStartChallengeClick}
-                                    disabled={
-                                        roomData.roomStartDate &&
-                                        (
-                                            roomData.roomStatusNum === 3
-                                                ? calculateTimeDifference(new Date(roomData.roomStartDate.getTime() + roomData.periodType * 24 * 60 * 60 * 1000)) <= 0
-                                                : calculateTimeDifference(roomData.roomStartDate) <= 0
-                                        )
-                                    }
+                                    disabled={roomData.enteredUserNum < roomData.roomMinNum}
                                     title={
-                                        roomData.roomStartDate &&
-                                        (
-                                            roomData.roomStatusNum === 3
-                                                ? calculateTimeDifference(new Date(roomData.roomStartDate.getTime() + roomData.periodType * 24 * 60 * 60 * 1000)) <= 0
-                                                : calculateTimeDifference(roomData.roomStartDate) <= 0
-                                        )
-                                            ? "남은 시간이 없어 챌린지를 시작할 수 없습니다."
+                                        roomData.enteredUserNum < roomData.roomMinNum
+                                            ? `참여 인원이 부족합니다 (${roomData.enteredUserNum}/${roomData.roomMinNum})`
                                             : "챌린지 시작"
                                     }
                                 >

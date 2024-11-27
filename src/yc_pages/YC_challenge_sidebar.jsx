@@ -162,14 +162,22 @@ const YCChallengeSidebar = () => {
             // 방 삭제
             setExitModalMessage('방을 나가시겠습니까? 방이 삭제됩니다.');
             setExitModalType('delete');
-        } else if (enteredUserAuth === 2 && (roomStatusNum === 2 || roomStatusNum === 3)) {
-            // 챌린지를 그만두기
+        } else if (enteredUserAuth === 2 && (roomStatusNum === 2)) {
+            // 챌린지를 그만두기 (환불 있음)
             setExitModalMessage('챌린지를 그만 두시겠습니까?');
             setExitModalType('leave');
-        } else if (enteredUserAuth === 1 && (roomStatusNum === 2 || roomStatusNum === 3)) {
+        } else if (enteredUserAuth === 2 && (roomStatusNum === 3)) {
+            // 챌린지를 그만두기 (환불 없음)
+            setExitModalMessage('챌린지를 그만 두시겠습니까?');
+            setExitModalType('leave_norefund');
+        } else if (enteredUserAuth === 1 && (roomStatusNum === 2)) {
             // 방장 권한 위임과 함께 방 나가기
             setExitModalMessage('챌린지를 그만 두시겠습니까? 방장을 다른 사용자에게 위임합니다.');
             setExitModalType('transfer');
+        } else if (enteredUserAuth === 1 && roomStatusNum === 3) {
+            // 방장 권한 위임과 함께 방 나가기 (환불 없음)
+            setExitModalMessage('챌린지를 그만 두시겠습니까? 방장을 다른 사용자에게 위임합니다.');
+            setExitModalType('transfer_norefund');
         } else {
             // 기타 상태 처리 (필요 시 추가)
             return;
@@ -177,7 +185,7 @@ const YCChallengeSidebar = () => {
         setIsExitModalOpen(true);
     };
 
-    // 모달의 확인 버튼 클릭 핸들러 추가
+    // 모달의 확인 버튼 클릭 핸들러 수정
     const handleExitConfirm = async () => {
         const token = localStorage.getItem('token');
         if (!token) {
@@ -199,8 +207,8 @@ const YCChallengeSidebar = () => {
                 } else {
                     alert('방 삭제에 실패했습니다.');
                 }
-            }else if (exitModalType === 'leave' || exitModalType === 'penalty') {
-                // 방 나가기 API 호출
+            } else if (exitModalType === 'leave') {
+                // 챌린지 나가기 (환불 있음) API 호출
                 const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/leave-room/${roomNum}`, null, {
                     headers: {
                         'Authorization': `Bearer ${token}`
@@ -208,6 +216,19 @@ const YCChallengeSidebar = () => {
                 });
                 if (response.data.result === 'success') {
                     alert('챌린지를 나갔습니다.');
+                    navigate('/'); // 메인 페이지로 이동
+                } else {
+                    alert('챌린지 나가기에 실패했습니다.');
+                }
+            } else if (exitModalType === 'leave_norefund') {
+                // 챌린지 나가기 (환불 없음) API 호출
+                const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/leave-room-no-refund/${roomNum}`, null, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                if (response.data.result === 'success') {
+                    alert('챌린지를 나갔습니다. 환불은 없습니다.');
                     navigate('/'); // 메인 페이지로 이동
                 } else {
                     alert('챌린지 나가기에 실패했습니다.');
@@ -225,6 +246,19 @@ const YCChallengeSidebar = () => {
                 } else {
                     alert('챌린지 나가기에 실패했습니다.');
                 }
+            } else if (exitModalType === 'transfer_norefund') {
+                // 방장 권한 위임 및 방 나가기 (환불 없음) API 호출
+                const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/leave-room-no-refund/${roomNum}`, null, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                if (response.data.result === 'success') {
+                    alert('챌린지를 나가고 방장이 위임되었습니다. 환불은 없습니다.');
+                    navigate('/'); // 메인 페이지로 이동
+                } else {
+                    alert('챌린지 나가기에 실패했습니다.');
+                }
             }
         } catch (error) {
             console.error('Error:', error);
@@ -233,6 +267,7 @@ const YCChallengeSidebar = () => {
             setIsExitModalOpen(false);
         }
     };
+
 
     // 모달 닫기 핸들러
     const closeExitModal = () => {
