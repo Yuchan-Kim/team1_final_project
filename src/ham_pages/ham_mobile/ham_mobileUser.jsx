@@ -11,8 +11,14 @@ import Ham_GoogleLogin from './ham_GoogleLogin';
 // Import CSS
 import '../../ham_asset/css/hmk_mobileUser.css';
 
-const Ham_MobileUser = () => {
+const Ham_MobileAuth = () => {
     /*--- 상태 관리 변수들 ------------------------------------------*/
+    const [isLogin, setIsLogin] = useState(true); // true: 로그인, false: 회원가입
+    // 로그인 상태 관리
+    const [loginEmail, setLoginEmail] = useState('');
+    const [loginPw, setLoginPw] = useState('');
+    const [loginError, setLoginError] = useState('');
+
     const [userEmail, setUserEmail] = useState("");
     const [emailMessage, setEmailMessage] = useState("");
     const [isEmailAvailable, setIsEmailAvailable] = useState(true);
@@ -73,21 +79,21 @@ const Ham_MobileUser = () => {
             headers: { "Content-Type": "application/json; charset=utf-8" },
             responseType: 'json'
         })
-        .then(response => {
-            if (response.data.result === 'success') {
-                setIsEmailAvailable(true);
-                setEmailMessage('사용 가능한 이메일입니다.');
-                setIsEmailChecked(true);
-            } else {
+            .then(response => {
+                if (response.data.result === 'success') {
+                    setIsEmailAvailable(true);
+                    setEmailMessage('사용 가능한 이메일입니다.');
+                    setIsEmailChecked(true);
+                } else {
+                    setIsEmailAvailable(false);
+                    setEmailMessage('이미 가입된 이메일입니다.');
+                }
+            })
+            .catch(error => {
+                console.error(error);
                 setIsEmailAvailable(false);
-                setEmailMessage('이미 가입된 이메일입니다.');
-            }
-        })
-        .catch(error => {
-            console.error(error);
-            setIsEmailAvailable(false);
-            setEmailMessage('이메일 중복 확인에 실패했습니다.');
-        });
+                setEmailMessage('이메일 중복 확인에 실패했습니다.');
+            });
     };
 
     const handleNameCheck = () => {
@@ -102,23 +108,70 @@ const Ham_MobileUser = () => {
             headers: { "Content-Type": "application/json; charset=utf-8" },
             responseType: 'json'
         })
-        .then(response => {
-            if (response.data.result === 'success') {
-                setIsNameAvailable(true);
-                setNameMessage('사용 가능한 닉네임입니다.');
-                setIsNameChecked(true);
-            } else {
+            .then(response => {
+                if (response.data.result === 'success') {
+                    setIsNameAvailable(true);
+                    setNameMessage('사용 가능한 닉네임입니다.');
+                    setIsNameChecked(true);
+                } else {
+                    setIsNameAvailable(false);
+                    setNameMessage('이미 가입된 닉네임입니다.');
+                }
+            })
+            .catch(error => {
+                console.error(error);
                 setIsNameAvailable(false);
-                setNameMessage('이미 가입된 닉네임입니다.');
-            }
-        })
-        .catch(error => {
-            console.error(error);
-            setIsNameAvailable(false);
-            setNameMessage('닉네임 중복 확인에 실패했습니다.');
-        });
+                setNameMessage('닉네임 중복 확인에 실패했습니다.');
+            });
     };
 
+    // 로그인 핸들러
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        setLoginError('');
+
+        const userVo = {
+            userEmail: loginEmail,
+            userPw: loginPw
+        };
+
+        try {
+            const response = await axios({
+                method: 'post',
+                url: `${process.env.REACT_APP_API_URL}/api/users/login`,
+                headers: { "Content-Type": "application/json; charset=utf-8" },
+                data: userVo,
+                responseType: 'json'
+            });
+
+            console.log(response.data);
+
+            // 토큰 처리
+            const authHeader = response.headers['authorization'];
+            if (authHeader) {
+                const token = authHeader.split(' ')[1];
+                localStorage.setItem("token", token);
+            } else {
+                setLoginError("이메일과 비밀번호를 다시 확인해주세요.");
+                return;
+            }
+
+            // 사용자 정보 저장
+            localStorage.setItem("authUser", JSON.stringify(response.data.apiData));
+
+            // 로그인 성공 처리
+            if (response.data.result === 'success') {
+                navigate("/"); // 메인 페이지로 이동
+            } else {
+                setLoginError("로그인에 실패했습니다.");
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            setLoginError('로그인 중 오류가 발생했습니다.');
+        }
+    };
+
+    // 회원가입 핸들러
     const handleJoin = (e) => {
         e.preventDefault();
 
@@ -157,22 +210,22 @@ const Ham_MobileUser = () => {
             headers: { "Content-Type": "application/json; charset=utf-8" },
             responseType: 'json'
         })
-        .then(response => {
-            if (response.data.result === 'success') {
-                navigate("/user/loginform");
-            } else {
-                alert("회원등록에 실패했습니다.");
-            }
-        })
-        .catch(error => {
-            console.error(error);
-            alert("회원등록 중 오류가 발생했습니다.");
-        });
+            .then(response => {
+                if (response.data.result === 'success') {
+                    navigate("/user/loginform");
+                } else {
+                    alert("회원등록에 실패했습니다.");
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                alert("회원등록 중 오류가 발생했습니다.");
+            });
     };
 
     /*--- 소셜 로그인 핸들러 -------------------------------------*/
     const handleSocialLogin = (platform) => {
-        switch(platform) {
+        switch (platform) {
             case 'kakao':
                 handleKakaoLogin();
                 break;
@@ -218,7 +271,7 @@ const Ham_MobileUser = () => {
         let result = '';
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         const charactersLength = characters.length;
-        for ( let i = 0; i < length; i++ ) {
+        for (let i = 0; i < length; i++) {
             result += characters.charAt(Math.floor(Math.random() * charactersLength));
         }
         return result;
@@ -227,125 +280,184 @@ const Ham_MobileUser = () => {
     return (
         <div className="hmk-wrap">
             <div className="hmk-joinform">
-                <h1 className="hmk-joinTitle">가입하고 원하는 콘텐츠를 즐기세요</h1>
+                <h1 className="hmk-joinTitle">
+                    {isLogin ? '로그인하고 시작하기' : '가입하고 원하는 콘텐츠를 즐기세요'}
+                </h1>
 
                 <div className="hmk-joinform-content">
-                    <form onSubmit={handleJoin}>
-                        {/* 이메일 입력 */}
-                        <div className="hmk-joinform-group">
-                            <label className="hmk-join-label">이메일</label>
-                            <div className="hmk-input-group">
+                    {isLogin ? (
+                        // 로그인 폼
+                        <form onSubmit={handleLogin}>
+                            <div className="hmk-joinform-group">
+                                <label className="hmk-join-label">이메일</label>
                                 <input
                                     type="email"
                                     className="hmk-join-input"
-                                    value={userEmail}
-                                    onChange={handleEmailChange}
+                                    value={loginEmail}
+                                    onChange={(e) => setLoginEmail(e.target.value)}
                                     placeholder="이메일을 입력하세요"
                                     required
                                 />
-                                <button
-                                    type="button"
-                                    className="hmk-emailcheck-btn"
-                                    onClick={handleEmailCheck}
-                                >
-                                    중복체크
-                                </button>
                             </div>
-                            {emailMessage && (
-                                <div className={`hmk-message ${isEmailAvailable ? 'hmk-success' : 'hmk-error'}`}>
-                                    &#8226; {emailMessage}
-                                </div>
-                            )}
-                        </div>
 
-                        {/* 닉네임 입력 */}
-                        <div className="hmk-joinform-group">
-                            <label className="hmk-join-label">닉네임</label>
-                            <div className="hmk-input-group">
+                            <div className="hmk-joinform-group">
+                                <label className="hmk-join-label">비밀번호</label>
                                 <input
-                                    type="text"
+                                    type="password"
                                     className="hmk-join-input"
-                                    value={userName}
-                                    onChange={handleNameChange}
-                                    placeholder="닉네임을 입력하세요"
+                                    value={loginPw}
+                                    onChange={(e) => setLoginPw(e.target.value)}
+                                    placeholder="비밀번호를 입력하세요"
                                     required
                                 />
-                                <button
-                                    type="button"
-                                    className="hmk-namecheck-btn"
-                                    onClick={handleNameCheck}
-                                >
-                                    중복체크
-                                </button>
                             </div>
-                            {nameMessage && (
-                                <div className={`hmk-message ${isNameAvailable ? 'hmk-success' : 'hmk-error'}`}>
-                                    &#8226; {nameMessage}
-                                </div>
-                            )}
-                        </div>
 
-                        {/* 비밀번호 입력 */}
-                        <div className="hmk-joinform-group">
-                            <label className="hmk-join-label">비밀번호</label>
-                            <input
-                                type="password"
-                                className="hmk-join-input"
-                                value={userPw}
-                                onChange={handlePwChange}
-                                placeholder="비밀번호를 입력하세요"
-                                required
-                            />
-                            {!isPwValid && (
+                            {loginError && (
                                 <div className="hmk-message hmk-error">
-                                    <div>비밀번호에는 다음 문자가 반드시 포함되어야 합니다.</div>
-                                    <ol>
-                                        <li>&#8226; 문자 1개</li>
-                                        <li>&#8226; 숫자 또는 특수 문자 1개 (예: # ? ! &)</li>
-                                        <li>&#8226; 10자 이상</li>
-                                    </ol>
+                                    &#8226; {loginError}
                                 </div>
                             )}
-                        </div>
 
-                        {/* 비밀번호 재입력 */}
-                        <div className="hmk-joinform-group">
-                            <label className="hmk-join-label">비밀번호 재입력</label>
-                            <input
-                                type="password"
-                                className="hmk-join-input"
-                                value={userPw2}
-                                onChange={handlePw2Change}
-                                placeholder="비밀번호를 다시 입력하세요"
-                                required
-                            />
-                            {!pwMatch && userPw2 && (
-                                <div className="hmk-message hmk-error">
-                                    &#8226; 비밀번호가 일치하지 않습니다.
+                            <button type="submit" className="hmk-submit-btn">로그인</button>
+
+                            <div className="hmk-divider">─────────── 또는 ───────────</div>
+
+                            <div className="hmk-social-logins">
+                                <Ham_KakaoLogin onLogin={handleSocialLogin} />
+                                <Ham_GoogleLogin onLogin={handleSocialLogin} />
+                                <Ham_NaverLogin onLogin={handleSocialLogin} />
+                            </div>
+
+                            <div className="hmk-to-loginform">
+                                <span
+                                    className="hmk-link"
+                                    onClick={() => setIsLogin(false)}
+                                >
+                                    계정이 없으신가요? 여기에서 가입하세요
+                                </span>
+                            </div>
+                        </form>
+                    ) : (
+                        <form onSubmit={handleJoin}>
+                            {/* 이메일 입력 */}
+                            <div className="hmk-joinform-group">
+                                <label className="hmk-join-label">이메일</label>
+                                <div className="hmk-input-group">
+                                    <input
+                                        type="email"
+                                        className="hmk-join-input"
+                                        value={userEmail}
+                                        onChange={handleEmailChange}
+                                        placeholder="이메일을 입력하세요"
+                                        required
+                                    />
+                                    <button
+                                        type="button"
+                                        className="hmk-emailcheck-btn"
+                                        onClick={handleEmailCheck}
+                                    >
+                                        중복체크
+                                    </button>
                                 </div>
-                            )}
-                        </div>
+                                {emailMessage && (
+                                    <div className={`hmk-message ${isEmailAvailable ? 'hmk-success' : 'hmk-error'}`}>
+                                        &#8226; {emailMessage}
+                                    </div>
+                                )}
+                            </div>
 
-                        {/* 가입하기 버튼 */}
-                        <button type="submit" className="hmk-submit-btn">가입하기</button>
+                            {/* 닉네임 입력 */}
+                            <div className="hmk-joinform-group">
+                                <label className="hmk-join-label">닉네임</label>
+                                <div className="hmk-input-group">
+                                    <input
+                                        type="text"
+                                        className="hmk-join-input"
+                                        value={userName}
+                                        onChange={handleNameChange}
+                                        placeholder="닉네임을 입력하세요"
+                                        required
+                                    />
+                                    <button
+                                        type="button"
+                                        className="hmk-namecheck-btn"
+                                        onClick={handleNameCheck}
+                                    >
+                                        중복체크
+                                    </button>
+                                </div>
+                                {nameMessage && (
+                                    <div className={`hmk-message ${isNameAvailable ? 'hmk-success' : 'hmk-error'}`}>
+                                        &#8226; {nameMessage}
+                                    </div>
+                                )}
+                            </div>
 
-                        {/* 구분선 */}
-                        <div className="hmk-divider">─────────── 또는 ───────────</div>
+                            {/* 비밀번호 입력 */}
+                            <div className="hmk-joinform-group">
+                                <label className="hmk-join-label">비밀번호</label>
+                                <input
+                                    type="password"
+                                    className="hmk-join-input"
+                                    value={userPw}
+                                    onChange={handlePwChange}
+                                    placeholder="비밀번호를 입력하세요"
+                                    required
+                                />
+                                {!isPwValid && (
+                                    <div className="hmk-message hmk-error">
+                                        <div>비밀번호에는 다음 문자가 반드시 포함되어야 합니다.</div>
+                                        <ol>
+                                            <li>&#8226; 문자 1개</li>
+                                            <li>&#8226; 숫자 또는 특수 문자 1개 (예: # ? ! &)</li>
+                                            <li>&#8226; 10자 이상</li>
+                                        </ol>
+                                    </div>
+                                )}
+                            </div>
 
-                        {/* 소셜 로그인 버튼들 */}
-                        <div className="hmk-social-logins">
-                            <Ham_KakaoLogin onLogin={handleSocialLogin} />
-                            <Ham_GoogleLogin onLogin={handleSocialLogin} />
-                            <Ham_NaverLogin onLogin={handleSocialLogin} />
-                        </div>
+                            {/* 비밀번호 재입력 */}
+                            <div className="hmk-joinform-group">
+                                <label className="hmk-join-label">비밀번호 재입력</label>
+                                <input
+                                    type="password"
+                                    className="hmk-join-input"
+                                    value={userPw2}
+                                    onChange={handlePw2Change}
+                                    placeholder="비밀번호를 다시 입력하세요"
+                                    required
+                                />
+                                {!pwMatch && userPw2 && (
+                                    <div className="hmk-message hmk-error">
+                                        &#8226; 비밀번호가 일치하지 않습니다.
+                                    </div>
+                                )}
+                            </div>
 
-                        {/* 로그인 페이지로 이동 */}
-                        <div className="hmk-to-loginform">
-                            <Link to="/user/loginform" className="hmk-link">
-                                이미 계정이 있나요? 여기에서 로그인하세요
-                            </Link>
-                        </div>
-                    </form>
+                            {/* 가입하기 버튼 */}
+                            <button type="submit" className="hmk-submit-btn">가입하기</button>
+
+                            {/* 구분선 */}
+                            <div className="hmk-divider">─────────── 또는 ───────────</div>
+
+                            {/* 소셜 로그인 버튼들 */}
+                            <div className="hmk-social-logins">
+                                <Ham_KakaoLogin onLogin={handleSocialLogin} />
+                                <Ham_GoogleLogin onLogin={handleSocialLogin} />
+                                <Ham_NaverLogin onLogin={handleSocialLogin} />
+                            </div>
+
+                            {/* 로그인 페이지로 이동 */}
+                            <div className="hmk-to-loginform">
+                                <span
+                                    className="hmk-link"
+                                    onClick={() => setIsLogin(true)}
+                                >
+                                    이미 계정이 있나요? 여기에서 로그인하세요
+                                </span>
+                            </div>
+                        </form>
+                    )}
                 </div>
                 {/* /hmk-joinform-content */}
             </div>
@@ -354,4 +466,4 @@ const Ham_MobileUser = () => {
     );
 };
 
-export default Ham_MobileUser;
+export default Ham_MobileAuth;
