@@ -161,7 +161,7 @@ const Ham_MobileAuth = () => {
 
             // 로그인 성공 처리
             if (response.data.result === 'success') {
-                navigate("/"); // 메인 페이지로 이동
+                navigate("/m/home"); // 메인 페이지로 이동
             } else {
                 setLoginError("로그인에 실패했습니다.");
             }
