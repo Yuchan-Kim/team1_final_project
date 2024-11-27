@@ -33,18 +33,36 @@ const Step04 = () => {
     };
 
     // 포인트 입력 필드 제한
-    const handleEntryPointChange = (e) => {
-        const value = parseInt(e.target.value, 10);
-        if (isNaN(value) || value < 0) {
-            setEntryPoint('');
-            return;
-        }
-        if (value > userPoints) {
-            alert('입력한 포인트가 보유한 포인트를 초과할 수 없습니다.');
-            return;
-        }
-        setEntryPoint(value);
-    };
+const handleEntryPointChange = (e) => {
+    const value = parseInt(e.target.value, 10);
+    if (isNaN(value) || value < 0) {
+        setEntryPoint('');
+        return;
+    }
+    if (value > userPoints) {
+        alert(`입력한 포인트가 보유한 포인트를 초과했습니다. 최대 ${userPoints}으로 설정됩니다.`);
+        setEntryPoint(userPoints); // 최대값으로 설정
+        return;
+    }
+    setEntryPoint(value);
+};
+
+// 성실도 입력 필드 제한
+const handleHonestyScoreChange = (e) => {
+    const value = e.target.value; // 문자열로 입력값 가져오기
+    if (!/^\d*\.?\d*$/.test(value)) { // 숫자와 소수점만 허용하는 정규식
+        return;
+    }
+
+    const numericValue = parseFloat(value);
+    if (!isNaN(numericValue) && numericValue > userScore) {
+        alert(`입력한 성실도가 보유한 성실도를 초과했습니다. 최대 ${userScore}으로 설정됩니다.`);
+        setHonestyScore(userScore.toFixed(2)); // 최대값으로 설정
+        return;
+    }
+
+    setHonestyScore(value); // 유효한 값만 설정
+};
 
     // 지역 변경 핸들러
     const handleRegionChange = (e) => {
@@ -277,9 +295,9 @@ const Step04 = () => {
                                             입장 성실도 활성화
                                         </label>
                                         <input
-                                            placeholder="80"
+                                            placeholder={`최대 ${userScore}`}
                                             value={honestyScore}
-                                            onChange={(e) => setHonestyScore(e.target.value)}
+                                            onChange={handleHonestyScoreChange}
                                             disabled={!isHonestyEnabled}
                                         />
                                     </div>
