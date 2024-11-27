@@ -281,7 +281,7 @@ const Ham_MobileAuth = () => {
         <div className="hmk-wrap">
             <div className="hmk-joinform">
                 <h1 className="hmk-joinTitle">
-                    {isLogin ? '로그인하고 시작하기' : '가입하고 원하는 콘텐츠를 즐기세요'}
+                    {isLogin ? 'DONKEY 로그인' : '지금 바로 DONKEY 가입하고 함께 동기를 키워봐요'}
                 </h1>
 
                 <div className="hmk-joinform-content">
