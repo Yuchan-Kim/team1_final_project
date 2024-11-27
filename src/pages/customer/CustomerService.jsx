@@ -11,6 +11,8 @@ import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
 import ArrowUpLineIcon from '@rsuite/icons/ArrowUpLine';
 import WechatCustomerOutlineIcon from '@rsuite/icons/WechatCustomerOutline';
 
+import Chatbot from './CSchatbot';
+
 //import css
 import '../../css/reset.css';
 import '../../css/customerservice.css';
@@ -25,13 +27,13 @@ const CustomerService = () => {
     /*---일반 변수--------------------------------*/
     // 각 질문에 대한 답변을 표시하는 상태를 관리하기 위한 배열
     const [openIndex, setOpenIndex] = useState(null);
-    const [faqs, setFaqs] = useState([]); 
+    const [faqs, setFaqs] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     /*---일반 메소드 -----------------------------*/
 
     /*---훅(useEffect)+이벤트(handle)메소드-------*/
-    useEffect(()=>{
+    useEffect(() => {
         console.log("마운트 됐어요");
 
         // 서버로 데이터 전송
@@ -85,7 +87,7 @@ const CustomerService = () => {
                 <div className="dy-customerservice">
                     <div className="dy-customerservice-header">
                         <h1 className="dy-customerserviceTitle">고객 센터</h1>
-                        <img src="../images/customerservice.jpg" className="dy-faq-img" alt="자주 묻는 질문 이미지"/>
+                        <img src="../images/customerservice.jpg" className="dy-faq-img" alt="자주 묻는 질문 이미지" />
                     </div>
                     {/* /dy-customerservice-header */}
 
@@ -118,26 +120,32 @@ const CustomerService = () => {
                     <div className="dy-customerservice-btn">
                         <button className="customerservice-btn" onClick={openModal}>
                             <span>
-                                <WechatCustomerOutlineIcon /><br />챗봇
+                                <WechatCustomerOutlineIcon /><br />챗 봇
                             </span>
                         </button>
                     </div>
                     {/* /dy-customerservice-modal */}
-                    
+
                     {/* 모달 구현 */}
-                    <Modal isOpen={isModalOpen} className="" >
-                        <div className="">
-                            <button onClick={closeModal} className="">닫기</button>
+                    <Modal
+                        isOpen={isModalOpen}
+                        onRequestClose={closeModal}
+                        className="dy-customerservice-chatbot-modal"
+                        overlayClassName="dy-customerservice-chatbot-overlay"
+                        >
+
+                        <div className="dy-customerservice-modal-content">
+                            <Chatbot closeModal={closeModal} />
                         </div>
                     </Modal>
 
                 </div>
                 {/* /dy-customerservice */}
-            </div>
+            </div >
             {/* /wrap */}
 
             {/* 푸터 */}
-            <Footert/>
+            <Footert />
             {/* 푸터 끝 */}
         </>
 

@@ -1,4 +1,8 @@
-.chatbot-container {
+@charset "UTF-8";
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+
+.jy-chatbot .jy-chatbot-container {
     width: 100%;
     max-width: 400px;
     margin: 0 auto;
@@ -10,63 +14,115 @@
     height: 500px;
 }
 
-.chatbot-header {
+.jy-chatbot .jy-chatbot-header {
     background-color: #007bff;
     color: white;
     padding: 15px;
     text-align: center;
     border-radius: 10px 10px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.chatbot-messages {
+.jy-chatbot .jy-chatbot-header h2 {
+    margin: 0;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.jy-chatbot .jy-chatbot-header .jy-chatbot-close-button {
+    cursor: pointer;
+}
+
+.jy-chatbot .jy-chatbot-messages {
     flex: 1;
     padding: 15px;
     overflow-y: auto;
     background-color: #f7f7f7;
 }
 
-.chatbot-message {
+.jy-chatbot .jy-chatbot-message {
     max-width: 80%;
     margin-bottom: 15px;
     padding: 10px;
     border-radius: 8px;
 }
 
-.chatbot-message.user {
+.jy-chatbot .jy-chatbot-message.user {
     background-color: #007bff;
     color: white;
     align-self: flex-end;
 }
 
-.chatbot-message.bot {
+.jy-chatbot .jy-chatbot-message.bot {
     background-color: #e5e5e5;
     color: black;
     align-self: flex-start;
 }
 
-.chatbot-input {
+.jy-chatbot .jy-chatbot-input {
     display: flex;
     padding: 10px;
     border-top: 1px solid #ccc;
     background-color: #fff;
 }
 
-.chatbot-input input {
+.jy-chatbot .jy-chatbot-input input {
     flex: 1;
     padding: 10px;
     border-radius: 8px;
     border: 1px solid #ddd;
+    width: 280px;
 }
 
-.chatbot-input button {
+.jy-chatbot .jy-chatbot-input button {
     padding: 10px 15px;
     background-color: #007bff;
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    margin-left: 15px;
 }
 
-.chatbot-input button:hover {
+.jy-chatbot .jy-chatbot-input button:hover {
     background-color: #0056b3;
 }
+
+
+.dy-customerservice-chatbot-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: block;
+    z-index: 999;
+}
+
+
+.dy-customerservice-modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+.dy-customerservice-close-btn {
+    align-self: flex-end;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
