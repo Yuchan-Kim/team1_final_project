@@ -60,6 +60,7 @@ const ChallengePage = () => {
   const [roomInfo, setRoomInfo] = useState(null); // 방 설명
   const [roomAnnoun, setRoomAnnoun] = useState(null); // 공지 사항
   const [userList, setUserList] = useState([]); // 참가자 리스트
+  const [dateList, setDateList] = useState([]); // 요일 리스트
   const [missionList, setMissionList] = useState([]); // 미션 리스트
 
   // 방정보 가져오기
@@ -69,9 +70,10 @@ const ChallengePage = () => {
       url: `${process.env.REACT_APP_API_URL}/api/roomMain/${roomNum}`,
       responseType: 'json'
     }).then(response => {
-      const { userList, missionList, roomInfo, roomAnnoun } = response.data.apiData;
+      const { userList,dateList, missionList, roomInfo, roomAnnoun } = response.data.apiData;
 
       setUserList(userList || []);
+      setDateList(dateList || []);
       setMissionList(missionList || []);
       setRoomInfo(roomInfo || {});
       setRoomAnnoun(roomAnnoun || {});
@@ -315,6 +317,21 @@ const ChallengePage = () => {
 
           {/* Main Bottom Section */}
           <section className='yc-main-bottom'>
+          <div className='jm-room-mission-date-box'>
+              {
+                  dateList
+                      .filter(date => date.roomDayNum >= 1 && date.roomDayNum <= 7) // 1~7번만 필터링
+                      .map((date, index) => {
+                          // 요일 매핑
+                          const days = ["월", "화", "수", "목", "금", "토", "일"];
+                          return (
+                              <div key={index} className='jm-room-mission-date'>
+                                  <span className='jm-room-date'>{days[date.roomDayNum - 1]}</span>
+                              </div>
+                          );
+                      })
+              }
+          </div>
             {/* 개별 미션 요약 */}
             <div className='yc-mission-summary'>
               {missionList.length > 0 ? (

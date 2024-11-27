@@ -300,6 +300,15 @@
     });
     };
 
+    const resetForm = () => {
+      setSelectedMissionIndex(null); // 선택된 미션 인덱스 초기화
+      setSelectedMissionTitle(''); // 미션 제목 초기화
+      setSelectedMissionNumber(null); // 미션 번호 초기화
+      setFileInputs([{}]); // 파일 입력 초기화
+      setPreviews([]); // 이미지 미리보기 초기화
+      document.querySelector('.jm-add-comment-box').value = ''; // 코멘트 입력란 초기화
+  };
+
     
     // 제출 미션 선택 핸들러
     const handleSelectMission = (index, mission) => {
@@ -310,6 +319,7 @@
       setSelectedMissionIndex(index);
       setSelectedMissionTitle(mission.missionName); // 미션 제목 업데이트
       setSelectedMissionNumber(mission.missionNum); // 미션 넘버 업데이트
+      resetForm(); // 폼 초기화
     };
 
     const handleOpenModal = () => setIsModalOpen(true);
@@ -496,6 +506,7 @@
         console.log("Mission submitted successfully:", response.data);
         alert("미션 제출이 완료되었습니다.");
         getMissionList(); // 미션 리스트 갱신
+        resetForm(); // 폼 초기화
         } else {
           console.log(response.data.message);
       }

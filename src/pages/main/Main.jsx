@@ -163,23 +163,29 @@ const Main = () => {
 
     // 카테고리 핸들러
     const handleCategoryChange = (category) => {
-        axios({
-            method: 'get',
-            url: `${process.env.REACT_APP_API_URL}/api/roomFilter/category`,
-            params: { category }, // 카테고리를 쿼리 파라미터로 전달
-            responseType: 'json',
-        })
-        .then((response) => {
-            if (response.data.result === 'success') {
-                setRoomList(response.data.apiData); // 필터링된 방 리스트 설정
-            } else {
-                console.log(response.data.message);
-            }
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-    };
+        if (category === '전체') {
+            // 전체 방 가져오기
+            getRoomList();
+        } else {
+            // 특정 카테고리만 가져오기
+            axios({
+                method: 'get',
+                url: `${process.env.REACT_APP_API_URL}/api/roomFilter/category`,
+                params: { category }, // 카테고리를 쿼리 파라미터로 전달
+                responseType: 'json',
+            })
+            .then((response) => {
+                if (response.data.result === 'success') {
+                    setRoomList(response.data.apiData); // 필터링된 방 리스트 설정
+                } else {
+                    console.log(response.data.message);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+        }
+    };    
 
     // 방 리스트 전부 가져오기
     const getRoomList = () => {
@@ -253,6 +259,10 @@ const Main = () => {
                         {/* //ad-bang */}
 
                         <div id='icon-bar'>
+                            <div>
+                                <button className='jm-thema-button-all' onClick={() => handleCategoryChange('전체')}></button>
+                                <span>전체</span>
+                            </div>
                             <div>
                                 <button className='jm-thema-button1' onClick={() => handleCategoryChange('운동')}></button>
                                 <span>운동</span>

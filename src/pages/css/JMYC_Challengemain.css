@@ -194,6 +194,21 @@
   margin: 0 auto;
 }
 
+.jm-room-mission-date-box {
+  display: flex;
+  gap: 10px; /* ����, 시간, 지역 간격 */
+}
+
+.jm-room-mission-date {
+  border: solid 1px #ccc;
+  border-radius: 5px;
+  padding: 1px 10px;
+}
+
+.jm-room-mission-date span {
+  font-size: 14px;
+}
+
 /* 미션 요약 */
 .yc-mission-summary {
   display:flex; /* 미션 아이템을 세로로 배치 */

@@ -16,6 +16,10 @@ const Step04 = () => {
     const [isHonestyEnabled, setIsHonestyEnabled] = useState(false); // 성실도 활성화 여부
     const [honestyScore, setHonestyScore] = useState(''); // 입장 성실도
     const [region, setRegion] = useState(''); // 지역 선택
+    const [roomType, setRoomType] = useState(null); // 방 타입 저장
+    const [userPoints, setUserPoints] = useState(0); // 유저 보유 포인트
+    const [userScore, setUserScore] = useState(0); // 유저 보유 포인트
+
 
     /*---버튼 활성화 조건---------------------------*/
     const isNextEnabled = () => {
@@ -26,6 +30,20 @@ const Step04 = () => {
             return false;
         }
         return true;
+    };
+
+    // 포인트 입력 필드 제한
+    const handleEntryPointChange = (e) => {
+        const value = parseInt(e.target.value, 10);
+        if (isNaN(value) || value < 0) {
+            setEntryPoint('');
+            return;
+        }
+        if (value > userPoints) {
+            alert('입력한 포인트가 보유한 포인트를 초과할 수 없습니다.');
+            return;
+        }
+        setEntryPoint(value);
     };
 
     // 지역 변경 핸들러
@@ -99,9 +117,81 @@ const Step04 = () => {
             });
     };
 
+    // 방 타입 가져오기
+    const getRoomType = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/step4/roomType/${roomNum}`);
+            if (response.data && response.data.result === 'success') {
+                const roomTypeNum = response.data.apiData; // roomTypeNum 데이터 추출
+                console.log("받은 roomTypeNum:", roomTypeNum);
+                setRoomType(roomTypeNum); // 상태 업데이트
+            } else {
+                console.error('방 타입 정보를 가져오는 데 실패했습니다.');
+            }
+        } catch (error) {
+            console.error('방 타입 데이터 가져오기 중 오류 발생:', error);
+        } finally {
+           
+        }
+    };
+
+    // 유저 포인트 가져오기
+    const getUserPoints = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/room/points`,
+                {   headers: {
+                        Authorization: `Bearer ${token}`, // 인증 헤더 추가
+                    },
+                }
+            );
+            if (response.data && response.data.result === 'success') {
+                setUserPoints(response.data.apiData);
+            } else {
+                console.error('유저 포인트 정보를 가져오는 데 실패했습니다.');
+            }
+        } catch (error) {
+            console.error('유저 포인트 데이터 가져오기 중 오류 발생:', error);
+        }
+    };
+
+    // 유저 성실도 가져오기
+    const getUserScore = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/room/score`,
+                {   headers: {
+                        Authorization: `Bearer ${token}`, // 인증 헤더 추가
+                    },
+                }
+            );
+            if (response.data && response.data.result === 'success') {
+                setUserScore(response.data.apiData);
+            } else {
+                console.error('유저 포인트 정보를 가져오는 데 실패했습니다.');
+            }
+        } catch (error) {
+            console.error('유저 포인트 데이터 가져오기 중 오류 발생:', error);
+        }
+    };
+
     useEffect(() => {
         // 지역 데이터 가져오기
         getRegions();
+        // 방 타입 가져오기
+        getRoomType();
+        // 유저 포인트 가져오기
+        getUserPoints();
+        // 유저 성실도 가져오기
+        getUserScore();
     }, []);
 
     return (
@@ -163,33 +253,37 @@ const Step04 = () => {
 
 
                                 {/* 입장 포인트 설정 */}
-                                <div id='box2'>
+                                {roomType !== 1 && (
+                                    <div id='box2'>
                                     <h3>입장 포인트 설정</h3>
                                     <input
-                                        placeholder="100,000 pt"
+                                        placeholder={`최대 ${userPoints} pt`}
                                         value={entryPoint}
-                                        onChange={(e) => setEntryPoint(e.target.value)}
+                                        onChange={handleEntryPointChange}
                                     />
                                 </div>
+                                )}
 
                                 {/* 입장 성실도 설정 */}
-                                <div>
-                                    <h3>입장 성실도 설정</h3>
-                                    <label>
+                                {roomType !== 1 && (
+                                    <div>
+                                        <h3>입장 성실도 설정</h3>
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                checked={isHonestyEnabled}
+                                                onChange={() => setIsHonestyEnabled(!isHonestyEnabled)}
+                                            />
+                                            입장 성실도 활성화
+                                        </label>
                                         <input
-                                            type="checkbox"
-                                            checked={isHonestyEnabled}
-                                            onChange={() => setIsHonestyEnabled(!isHonestyEnabled)}
+                                            placeholder="80"
+                                            value={honestyScore}
+                                            onChange={(e) => setHonestyScore(e.target.value)}
+                                            disabled={!isHonestyEnabled}
                                         />
-                                        입장 성실도 활성화
-                                    </label>
-                                    <input
-                                        placeholder="80"
-                                        value={honestyScore}
-                                        onChange={(e) => setHonestyScore(e.target.value)}
-                                        disabled={!isHonestyEnabled}
-                                    />
-                                </div>
+                                    </div>
+                                )}
 
                                 {/* 지역 설정 */}
                                 <div id='box3'>
