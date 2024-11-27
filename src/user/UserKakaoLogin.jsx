@@ -92,7 +92,7 @@ function UserKakaoLogin() {
       }
     } catch (error) {
       console.error("카카오 로그인 오류:", error);
-      alert("카카오 로그인에 실패했습니다.");
+      // alert("카카오 로그인에 실패했습니다.");
       setLoading(false);
     }
   };
@@ -123,11 +123,11 @@ function UserKakaoLogin() {
         navigate("/"); // 홈으로 이동
         return;
       } else {
-        alert(joinResponse.data.message || "회원가입에 실패했습니다.");
+        // alert(joinResponse.data.message || "회원가입에 실패했습니다.");
       }
     } catch (error) {
-      console.error("회원가입 오류:", error);
-      alert("회원가입에 실패했습니다.");
+      // console.error("회원가입 오류:", error);
+      // alert("회원가입에 실패했습니다.");
     }
   };
 
