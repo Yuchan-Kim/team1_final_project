@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 // Import CSS
@@ -47,6 +47,11 @@ ChartJS.register(
 
 const ChallengePage = () => {
   const { roomNum } = useParams();
+  const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+  const [userAuth, setUserAuth] = useState(0);
+
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedMission, setSelectedMission] = useState(null);
   const [error, setError] = useState(null);
@@ -77,6 +82,7 @@ const ChallengePage = () => {
       setMissionList(missionList || []);
       setRoomInfo(roomInfo || {});
       setRoomAnnoun(roomAnnoun || {});
+      
     }).catch(error => {
       console.log(error);
       setError("방 정보를 불러오는 데 실패했습니다.");
@@ -88,10 +94,40 @@ const ChallengePage = () => {
       getRoomInfo();
       fetchTopUsers();
       fetchMissionAchievements();
+      checkUserAuth();
     } else {
       setError("roomNum이 정의되지 않았습니다.");
     }
   }, [roomNum]); 
+
+  
+  const checkUserAuth = () => {
+    axios({
+      method: 'get',
+      url: `${process.env.REACT_APP_API_URL}/api/challenge/user/${roomNum}`,
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      responseType: 'json'
+    }).then(response => {
+      if (response.data.result === 'success' && response.data.apiData === 1){
+        setUserAuth(1);
+        console.log("1등록");
+
+      } else if (response.data.result === 'success' && response.data.apiData === 2) {
+          setUserAuth(2);
+          console.log("2등록");
+
+      } else {
+        setUserAuth(0);
+        console.log("0등록");
+
+      }
+    }).catch(error => {
+      console.log(error);
+      setError("서버와의 통신에 실��했습니다.");
+    });
+  }
 
   // 모달 열기 함수
   const openModal = (mission) => {
@@ -104,6 +140,8 @@ const ChallengePage = () => {
     setIsModalOpen(false);
     setSelectedMission(null);
   };
+
+  
 
    // 프로필 모달 열기 함수
    const openProfile = async (userNum) => {
@@ -128,6 +166,9 @@ const ChallengePage = () => {
     setProfileOpen(false);
     setProfileUser(null);
   };
+
+
+  
 
   // 미션 달성률 데이터를 가져오는 함수
   const fetchMissionAchievements = () => {
@@ -373,7 +414,9 @@ const ChallengePage = () => {
         </main>
       </div>
       
-      <ChatRoom roomNum={roomNum}/>
+      { (userAuth === 1 ||userAuth === 2)  &&(
+            <ChatRoom roomNum={roomNum}/>
+        ) }  
 
       {/* 모달 창 */}
       {isModalOpen && selectedMission && (

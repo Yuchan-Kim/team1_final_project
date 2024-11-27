@@ -70,6 +70,36 @@
         const [isProfileOpen, setProfileOpen] = useState(false);
         const [profileUser, setProfileUser] = useState(null);
 
+
+      
+
+  const checkUserAuth = () => {
+    axios({
+      method: 'get',
+      url: `${process.env.REACT_APP_API_URL}/api/challenge/user/${roomNum}`,
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      responseType: 'json'
+    }).then(response => {
+      if (response.data.result === 'success' && response.data.apiData === 1){
+        setUserAuth(1);
+        console.log("1등록");
+
+      } else if (response.data.result === 'success' && response.data.apiData === 2) {
+          setUserAuth(2);
+          console.log("2등록");
+
+      } else {
+        setUserAuth(0);
+        console.log("0등록");
+
+      }
+    }).catch(error => {
+      console.log(error);
+      setError("서버와의 통신에 실��했습니다.");
+    });
+  }
         // 첫 번째 미션 선택
     const firstMission = missionAchievements.length > 0 ? missionAchievements[0] : null;
 
@@ -436,7 +466,7 @@
             fetchTopUsers();
             fetchMissionAchievements();
             fetchMissionApprovals();
-
+            checkUserAuth();
 
         }, []);
 
@@ -751,7 +781,9 @@
 
                     </div>
                 </div>
-                <ChatRoom roomNum={roomNum}/>
+                { (userAuth === 1 ||userAuth === 2)  &&(
+                    <ChatRoom roomNum={roomNum}/>
+                ) }  
                 <Footert />
             </>
         );

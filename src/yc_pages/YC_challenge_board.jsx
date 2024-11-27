@@ -133,7 +133,7 @@ const YcChallengeBoard = () => {
                         setUserAuth(2);
                         fetchNotices();
                     } else {
-                        setError("사용자 권한을 확인할 수 없습니다.");
+                        fetchNotices();
                         setLoading(false);
                     }
                 } else if (response.data.result === 'success' && response.data.apiData === false) {
@@ -883,8 +883,12 @@ const YcChallengeBoard = () => {
             onClose={closeProfile}
             user={profileUser} // 선택된 유저 정보 전달
       />
+
         {/* 채팅룸 컴포넌트 렌더링 */}
-        <ChatRoom roomNum={roomNum}/>
+        { (userAuth === 1 ||userAuth === 2)  &&(
+            <ChatRoom roomNum={roomNum}/>
+        ) }  
+        
         {/* 푸터 컴포넌트 렌더링 */}
         <Footert/>
         {/* 푸터 끝 */}

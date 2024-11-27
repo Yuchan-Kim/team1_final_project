@@ -98,42 +98,9 @@ const YCChallengeSidebar = () => {
         setIsModalOpen(false);
     };
 
-    // 다음 단계로 이동하거나 특정 경로로 네비게이션
-    const handleNext = (path = null) => {
-        if (path) {
-            closeModal();
-            navigate(path);
-        } else {
-            setPreviousStep(currentStep);
-            setCurrentStep((prev) => Math.min(prev + 1, 10));
-        }
-    };
+   
 
-    // 이전 단계로 이동
-    const handlePrevious = () => {
-        if (currentStep === 2) return;
-        setCurrentStep((prev) => Math.max(prev - 1, 2));
-    };
-
-    // 스텝 10 취소 핸들러
-    const handleStep10Cancel = () => {
-        if (previousStep) {
-            setCurrentStep(previousStep);
-            setPreviousStep(null);
-        } else {
-            closeModal();
-        }
-    };
-
-    // 스텝 10 폐기 핸들러
-    const handleStep10Discard = () => {
-        closeModal();
-    };
-
-    // 스텝 10 저장 핸들러
-    const handleStep10Save = () => {
-        navigate('/ycstep10');
-    };
+    
 
     // 스텝 변경 핸들러
     const handleStepChange = (step) => {
@@ -176,7 +143,7 @@ const YCChallengeSidebar = () => {
             setExitModalType('transfer');
         } else if (enteredUserAuth === 1 && roomStatusNum === 3) {
             // 방장 권한 위임과 함께 방 나가기 (환불 없음)
-            setExitModalMessage('챌린지를 그만 두시겠습니까? 방장을 다른 사용자에게 위임합니다.');
+            setExitModalMessage('챌린지를 그만 두시겠습니까? 챌린지가 진행중입니다. 방장을 다른 사용자에게 위임합니다.');
             setExitModalType('transfer_norefund');
         } else {
             // 기타 상태 처리 (필요 시 추가)
@@ -274,7 +241,7 @@ const YCChallengeSidebar = () => {
         setIsExitModalOpen(false);
     };
 
-    const isDisabled = !(enteredUserAuth === 1 || (enteredUserAuth === 2 && (enteredUserStatusNum === 1 || enteredUserStatusNum === 2) && roomStatusNum > 2));
+    const isDisabled = !(enteredUserAuth === 1 || (enteredUserAuth === 2 && (enteredUserStatusNum === 1) && roomStatusNum > 2));
 
     return (
         <aside className="yc_challenge_sidebar">

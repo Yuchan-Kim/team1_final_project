@@ -17,7 +17,7 @@
 
 /* 헤더 크기 */
 .dy-header {
-    width: 100%;          /* 전체 화면 너비 */
+    width: 90%;          /* 전체 화면 너비 */
     height: 60px;
     margin: 0 auto;         /* 중앙 정렬 */
     border-bottom: 1px solid #d4d4d4;
@@ -76,7 +76,8 @@
 
 /* 로그인에 따라 달라지는 화면 */
 .dy-header .dy-info {
-    width: 230px;
+    width: 180px;
+    align-self: right;
 }
 
 /* 로그인전 */

@@ -51,6 +51,7 @@ const YCChallengeStatistics = () => {
   const [profileUser, setProfileUser] = useState(null);
 
   // 데이터 상태 관리
+  const token = localStorage.getItem('token');
   const [topUsers, setTopUsers] = useState([]);
   const [users, setUsers] = useState([]);
   const [overallStats, setOverallStats] = useState([]); // 전체 달성률 통계
@@ -126,6 +127,36 @@ const YCChallengeStatistics = () => {
     setProfileUser(null);
   };
 
+  const [userAuth, setUserAuth] = useState(0);
+
+  const checkUserAuth = () => {
+    axios({
+      method: 'get',
+      url: `${process.env.REACT_APP_API_URL}/api/challenge/user/${roomNum}`,
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      responseType: 'json'
+    }).then(response => {
+      if (response.data.result === 'success' && response.data.apiData === 1){
+        setUserAuth(1);
+        console.log("1등록");
+
+      } else if (response.data.result === 'success' && response.data.apiData === 2) {
+          setUserAuth(2);
+          console.log("2등록");
+
+      } else {
+        setUserAuth(0);
+        console.log("0등록");
+
+      }
+    }).catch(error => {
+      console.log(error);
+      setError("서버와의 통신에 실��했습니다.");
+    });
+  }
+
   // 컴포넌트가 마운트될 때 API 호출
   useEffect(() => {
     if (roomNum) {
@@ -133,6 +164,7 @@ const YCChallengeStatistics = () => {
       fetchUsers();
       fetchOverallStats();
       fetchMissionAchievements(); // 새로운 함수 호출
+      checkUserAuth();
     } else {
       setError("roomNum이 정의되지 않았습니다.");
     }
@@ -601,7 +633,9 @@ const YCChallengeStatistics = () => {
       </div>
       {/* 채팅룸 컴포넌트 */}
       {/* 채팅 컴포넌트 */}
-      <ChatRoom roomNum={roomNum}/>
+      { (userAuth === 1 ||userAuth === 2)  &&(
+            <ChatRoom roomNum={roomNum}/>
+        ) }  
 
        {/* 푸터 */}
        <Footert/>
