@@ -57,7 +57,6 @@ const MyPage = () => {
         return () => {
             profileStore.unsubscribe(handleProfileChange);
         };
-        d
     }, []);
 
     // 차트 데이터 로드
