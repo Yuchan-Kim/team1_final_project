@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../../css/reset.css';
@@ -8,11 +8,12 @@ import { StepNav } from '../include/StepNav';
 const Step06 = ({ onNext, onPrevious }) => {
     const { roomNum } = useParams();
     const navigate = useNavigate();
+    const [aiChallenges, setAiChallenges] = useState([]); // AI 추천 챌린지 데이터
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const [missionInstruction, setMissionInstruction] = useState('');
-    const [missions, setMissions] = useState([
-        { id: 1, title: '미션 1', inputCount: 1, imagePreviews: [null], imageFiles: [], method: '' }
-    ]);
+    const [missions, setMissions] = useState([]); // 미션 리스트
 
     const handleImageChange = (missionId, index, e) => {
         const file = e.target.files[0];
@@ -45,12 +46,82 @@ const Step06 = ({ onNext, onPrevious }) => {
         }));
     };
 
+    // 미션 추가 버튼 핸들러
     const handleAddMission = () => {
         if (missions.length < 4) {
-            setMissions([...missions, { id: missions.length + 1, title: `미션 ${missions.length + 1}`, inputCount: 1, imagePreviews: [null], imageFiles: [], method: '' }]);
+            setMissions([...missions, { 
+                id: missions.length + 1, 
+                title: '', 
+                placeholder: '새로운 미션 제목', // Placeholder 기본 값
+                inputCount: 1, 
+                imagePreviews: [null], 
+                imageFiles: [], 
+                method: '' 
+            }]);
+        } else if (missions.length >= 4) {
+            alert('최대 4개의 미션만 추가할 수 있습니다.');
         }
     };
 
+    // 미션 삭제 버튼 핸들러
+    const handleRemoveMission = (missionId) => {
+        if (missions.length > 1) {
+            setMissions(missions.filter(mission => mission.id !== missionId));
+        }
+    };
+
+    // AI 추천 미션 가져오기
+    useEffect(() => {
+        const fetchDataAndGenerateChallenges = async () => {
+            try {
+                setLoading(true);
+                const aiResponse = await axios.post(
+                    `${process.env.REACT_APP_API_URL}/api/genebang/generatePlaceholder/${roomNum}`,
+                    {}, // 빈 본문 전송
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                );
+
+                const challenges = aiResponse.data.apiData; // 서버에서 전달된 missionName 리스트
+                console.log('AI 생성된 챌린지: ', challenges);
+
+                // AI 챌린지를 고유 ID와 함께 저장
+                const challengesWithId = challenges.map((challenge, index) => ({
+                    missionName: challenge.missionName, // 전달받은 missionName
+                    id: index + 1, // 고유 ID 추가
+                }));
+
+                setAiChallenges(challengesWithId);
+
+                // missions 초기화: 첫 번째 missionName을 포함한 기본 데이터 세팅
+                setMissions(
+                    challengesWithId.map((challenge) => ({
+                        id: challenge.id,
+                        title: '',
+                        missionName: challenge.missionName || '새로운 미션 제목',
+                        inputCount: 1,
+                        imagePreviews: [null],
+                        imageFiles: [],
+                        method: '',
+                    }))
+                );
+
+                setLoading(false);
+            } catch (err) {
+                console.error(err);
+                setError('챌린지 생성 중 오류가 발생했습니다.');
+                setLoading(false);
+            }
+        };
+
+        fetchDataAndGenerateChallenges();
+    }, [roomNum]);
+
+    // 유의사항 저장 + 미션 등록
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -62,12 +133,10 @@ const Step06 = ({ onNext, onPrevious }) => {
                 return;
             }
 
-            // URLSearchParams로 데이터를 구성
             const roomData = new URLSearchParams();
             roomData.append('roomNum', roomNum);
             roomData.append('missionInstruction', missionInstruction);
 
-            // 유의사항 저장 요청
             const roomResponse = await axios.post(
                 `${process.env.REACT_APP_API_URL}/api/genebang/saveInstruction`,
                 roomData,
@@ -84,17 +153,16 @@ const Step06 = ({ onNext, onPrevious }) => {
                 return;
             }
 
-            // 유의사항 저장 성공 후 미션 데이터 전송 로직
             for (const mission of missions) {
                 const formData = new FormData();
                 formData.append('roomNum', roomNum);
-                formData.append('missionName', mission.title);
+                formData.append('missionName', mission.title || mission.placeholder);
                 formData.append('missionMethod', mission.method);
                 formData.append('missionTypeNum', 1);
 
                 mission.imageFiles.forEach((file, index) => {
                     if (file) {
-                        formData.append(`files`, file); // 'files'는 List<MultipartFile>로 서버에서 처리
+                        formData.append(`files`, file);
                     }
                 });
 
@@ -144,7 +212,7 @@ const Step06 = ({ onNext, onPrevious }) => {
                                                 <div className="jm-mission-add-item" key={mission.id}>
                                                     <input
                                                         type="text"
-                                                        placeholder="미션 제목"
+                                                        placeholder={mission.missionName}
                                                         value={mission.title}
                                                         onChange={(e) => {
                                                             const updatedMissions = missions.map(m => 
@@ -180,6 +248,15 @@ const Step06 = ({ onNext, onPrevious }) => {
                                                     >
                                                         이미지 추가
                                                     </button>
+                                                    {index > 0 && (
+                                                        <button
+                                                            type="button"
+                                                            className="jm-remove-mission-button"
+                                                            onClick={() => handleRemoveMission(mission.id)}
+                                                        >
+                                                            미션 삭제
+                                                        </button>
+                                                    )}
                                                     <textarea
                                                         value={mission.method}
                                                         placeholder="인증 방법을 입력해주세요"
