@@ -35,8 +35,9 @@
     margin-bottom: 10px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
-.hmk_mobile_home-content{
-    padding: 0 10px;
+.hmk_mobile_home-content {
+    padding: 16px;
+    margin-bottom: 80px; /* 하단 메뉴와의 간격 */
 }
 .hmk_mobile_home-stats {
     display: flex;

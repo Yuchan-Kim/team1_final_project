@@ -83,48 +83,50 @@ const MobileRank = () => {
         <div className="hmk_mobile_home-wrap">
             <div className="hmk_mobile_home-fixed-top">
                 {/* 움직이는 배너 */}
-                <div className="hmk_mobile_home-card">
-                    <div className="hmk_rank_moving_text">
-                        <div className="hmk_rank_moving_content">
-                            <span>
-                                <img src={clap} alt="clap" className="hmk_mobile_home-icon" />
-                                Top3 Ranker
-                            </span>
-                            {rankData.slice(0, 3).map((user, index) => (
-                                <span key={user.userNum}>
-                                    {index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}
-                                    <img
-                                        src={getImageUrl(user.profileImage)}
-                                        alt={`rank${index + 1}`}
-                                        className="hmk_mobile_home-icon"
-                                        onError={(e) => { e.target.src = defaultProfile }}
-                                    />
-                                    {user.nickname}
+                <div className="hmk_rank_moving_banner">
+                    <div className="hmk_mobile_home-card">
+                        <div className="hmk_rank_moving_text">
+                            <div className="hmk_rank_moving_content">
+                                <span>
+                                    <img src={clap} alt="clap" className="hmk_mobile_home-icon" />
+                                    Top3 Ranker
                                 </span>
-                            ))}
-                            <span>
-                                <img src={dog} alt="dog" className="hmk_mobile_home-icon" />
-                            </span>
-                            {/* 무한 스크롤을 위해 동일한 내용 반복 */}
-                            <span>
-                                <img src={clap} alt="clap" className="hmk_mobile_home-icon" />
-                                Top3 Ranker
-                            </span>
-                            {rankData.slice(0, 3).map((user, index) => (
-                                <span key={`repeat-${user.userNum}`}>
-                                    {index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}
-                                    <img
-                                        src={getImageUrl(user.profileImage)}
-                                        alt={`rank${index + 1}`}
-                                        className="hmk_mobile_home-icon"
-                                        onError={(e) => { e.target.src = defaultProfile }}
-                                    />
-                                    {user.nickname}
+                                {rankData.slice(0, 3).map((user, index) => (
+                                    <span key={user.userNum}>
+                                        {index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}
+                                        <img
+                                            src={getImageUrl(user.profileImage)}
+                                            alt={`rank${index + 1}`}
+                                            className="hmk_mobile_home-icon"
+                                            onError={(e) => { e.target.src = defaultProfile }}
+                                        />
+                                        {user.nickname}
+                                    </span>
+                                ))}
+                                <span>
+                                    <img src={dog} alt="dog" className="hmk_mobile_home-icon" />
                                 </span>
-                            ))}
-                            <span>
-                                <img src={dog} alt="dog" className="hmk_mobile_home-icon" />
-                            </span>
+                                {/* 무한 스크롤을 위해 동일한 내용 반복 */}
+                                <span>
+                                    <img src={clap} alt="clap" className="hmk_mobile_home-icon" />
+                                    Top3 Ranker
+                                </span>
+                                {rankData.slice(0, 3).map((user, index) => (
+                                    <span key={`repeat-${user.userNum}`}>
+                                        {index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}
+                                        <img
+                                            src={getImageUrl(user.profileImage)}
+                                            alt={`rank${index + 1}`}
+                                            className="hmk_mobile_home-icon"
+                                            onError={(e) => { e.target.src = defaultProfile }}
+                                        />
+                                        {user.nickname}
+                                    </span>
+                                ))}
+                                <span>
+                                    <img src={dog} alt="dog" className="hmk_mobile_home-icon" />
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
