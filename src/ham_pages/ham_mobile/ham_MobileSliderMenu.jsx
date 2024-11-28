@@ -148,7 +148,7 @@ const MobileSliderMenu = ({ isOpen, onClose }) => {
 
                         {/* 메뉴 아이템들 */}
                         <div className="hmk_mobile_menu-items">
-                            <div className="hmk_mobile_menu-item" onClick={() => {
+                            <div key={0} className="hmk_mobile_menu-item" onClick={() => {
                                 navigate('/m/notice');
                                 onClose();
                             }}>
@@ -160,7 +160,7 @@ const MobileSliderMenu = ({ isOpen, onClose }) => {
                                     </span>
                                 )}
                             </div>
-                            <div className="hmk_mobile_menu-item" onClick={() => {
+                            <div key={1} className="hmk_mobile_menu-item" onClick={() => {
                                 navigate('/m/store');
                                 onClose();
                             }}>
