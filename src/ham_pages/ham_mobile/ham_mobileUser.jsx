@@ -126,7 +126,6 @@ const Ham_MobileAuth = () => {
             });
     };
 
-    // 로그인 핸들러
     const handleLogin = async (e) => {
         e.preventDefault();
         setLoginError('');
@@ -137,6 +136,7 @@ const Ham_MobileAuth = () => {
         };
 
         try {
+            // 1. 로그인 요청
             const response = await axios({
                 method: 'post',
                 url: `${process.env.REACT_APP_API_URL}/api/users/login`,
@@ -147,32 +147,33 @@ const Ham_MobileAuth = () => {
 
             console.log("로그인 응답:", response.data);
 
-            // 먼저 사용자 정보 저장
-            if (response.data.apiData) {
-                localStorage.setItem("authUser", JSON.stringify(response.data.apiData));
-                // profileStore에 사용자 정보 먼저 설정
-                profileStore.setUserNum(response.data.apiData.userNum);
-                profileStore.setUserInfo(response.data.apiData);
-            } else {
+            // 2. 사용자 정보 검증
+            if (!response.data.apiData) {
                 setLoginError("사용자 정보를 받아오지 못했습니다.");
                 return;
             }
 
-            // 그 다음 토큰 처리
+            // 3. 토큰 검증
             const authHeader = response.headers['authorization'];
-            if (authHeader) {
-                const token = authHeader.split(' ')[1];
-                localStorage.setItem("token", token);
-                // userNum 설정 후 토큰 설정
-                profileStore.setToken(token);
-            } else {
+            if (!authHeader) {
                 setLoginError("이메일과 비밀번호를 다시 확인해주세요.");
                 return;
             }
 
-            // 데이터 로딩 완료 확인
+            // 4. 데이터 저장
+            const token = authHeader.split(' ')[1];
+            localStorage.setItem("authUser", JSON.stringify(response.data.apiData));
+            localStorage.setItem("token", token);
+
+            // 5. profileStore 설정
+            profileStore.setUserNum(response.data.apiData.userNum);
+            profileStore.setToken(token);
+            profileStore.setUserInfo(response.data.apiData);
+
+            // 6. 사용자 데이터 로드 완료 대기
             await profileStore.loadUserData();
 
+            // 7. 모든 데이터가 준비된 후 페이지 이동
             if (response.data.result === 'success') {
                 navigate("/m/home");
             } else {

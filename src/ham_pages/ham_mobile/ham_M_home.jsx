@@ -1,8 +1,9 @@
-// src/components/DashboardPrototype.jsx
+// src/ham_pages/ham_mobile/ham_M_home.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ChallengeStatusIndicator from '../ham_ChallengeStatusIndicator';
 import profileStore from '../ham_common/profileStore';
+import MobileBottomMenu from './ham_MobileBottomMenu';
 import '../../ham_asset/css/ham_M_home.css';
 
 const MobileDashboard = () => {
@@ -28,44 +29,47 @@ const MobileDashboard = () => {
 
     // profileStore 구독 및 데이터 동기화
     useEffect(() => {
-        // 초기 데이터 확인
-        const token = localStorage.getItem('token');
-        const authUser = localStorage.getItem('authUser');
+        const initialize = async () => {
+            const token = localStorage.getItem('token');
+            const authUser = localStorage.getItem('authUser');
 
-        if (!token || !authUser) {
-            navigate('/m');
-            return;
-        }
+            if (!token || !authUser) {
+                navigate('/m');
+                return;
+            }
 
-        // profileStore에서 데이터가 없다면 다시 로드
-        if (!profileStore.getUserNum()) {
-            profileStore.loadUserData();
-        }
+            // 구독 설정
+            const handleProfileChange = (updatedProfile) => {
+                console.log('Updated Profile:', updatedProfile);
+                if (!updatedProfile) return;
 
-        const handleProfileChange = (updatedProfile) => {
-            if (!updatedProfile) return;
+                // challengesDetails를 직접 profileStore에서 가져옴
+                const details = profileStore.getChallengesDetails();
+                const summary = profileStore.getChallengesSummary();
+
+                setUserInfo({
+                    challengesSummary: summary,
+                    challengesDetails: details
+                });
+            };
+
+            profileStore.subscribe(handleProfileChange);
+
+            // 초기 데이터 설정
+            const details = profileStore.getChallengesDetails();
+            const summary = profileStore.getChallengesSummary();
 
             setUserInfo({
-                challengesSummary: updatedProfile.challengesSummary || {
-                    ongoing: 0,
-                    upcoming: 0,
-                    completed: 0,
-                    participationScore: 0
-                },
-                challengesDetails: updatedProfile.challengesDetails || {
-                    ongoing: [],
-                    upcoming: [],
-                    completed: [],
-                    created: []
-                }
+                challengesSummary: summary,
+                challengesDetails: details
             });
+
+            return () => profileStore.unsubscribe(handleProfileChange);
         };
 
-        profileStore.subscribe(handleProfileChange);
-
-        // 컴포넌트 언마운트 시 구독 해제
-        return () => profileStore.unsubscribe(handleProfileChange);
+        initialize();
     }, [navigate]);
+
     // 탭 클릭 핸들러
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -73,9 +77,8 @@ const MobileDashboard = () => {
 
     // 챌린지 카드 클릭 핸들러
     const handleCardClick = (roomNum) => {
-        navigate(`/cmain/${roomNum}`);
+        navigate(`/m/mission/${roomNum}`);
     };
-
 
     const handleMouseEnter = (menu) => {
         setActiveMenu(menu);
@@ -103,6 +106,12 @@ const MobileDashboard = () => {
         };
     }, [activeMenu]);
     const activeChallenges = userInfo.challengesDetails[activeTab] || [];
+    useEffect(() => {
+        console.log('Active Tab:', activeTab);
+        console.log('Challenges Details:', userInfo.challengesDetails);
+        const currentChallenges = userInfo.challengesDetails[activeTab] || [];
+        console.log('Current Tab Challenges:', currentChallenges);
+    }, [activeTab, userInfo]);
 
 
     return (
@@ -132,8 +141,8 @@ const MobileDashboard = () => {
                         <div className="hmk_mobile_home-stat">
                             <div className="hmk_mobile_home-stat-title">종합 달성률(평점)</div>
                             <div className="hmk_mobile_home-stat-value">
-                                {userInfo.participationScore > 0 ?
-                                    `${userInfo.participationScore}점` :
+                                {userInfo.challengesSummary.participationScore > 0 ?
+                                    `${userInfo.challengesSummary.participationScore}점` :
                                     <span className="hmk_small-text">달성한 미션이 없습니다.</span>
                                 }
                             </div>
@@ -229,78 +238,7 @@ const MobileDashboard = () => {
                 </div>
             </div>
             {/* 하단 메뉴 섹션 */}
-            <div className="hmk_mobile_home-bottom">
-                <div
-                    className="hmk_mobile_home-bottom-item"
-                    onMouseEnter={() => handleMouseEnter('challenge')}
-                    onMouseLeave={handleMouseLeave}
-                    onTouchStart={() => handleTouch('challenge')}
-                >
-                    <img
-                        className="hmk_mobile_home-icon"
-                        src="/images/challenge.png"
-                        alt="챌린지 요약정보 아이콘"
-                    />
-                    <div className={`hmk_mobile_home-bottom-text ${activeMenu === 'challenge' ? 'visible' : 'hidden'}`}>
-                    </div>
-                </div>
-                <div
-                    className="hmk_mobile_home-bottom-item"
-                    onMouseEnter={() => handleMouseEnter('inventory')}
-                    onMouseLeave={handleMouseLeave}
-                    onTouchStart={() => handleTouch('inventory')}
-                >
-                    <img
-                        className="hmk_mobile_home-icon"
-                        src="/images/inventory.png"
-                        alt="보관함 아이콘"
-                    />
-                    <div className={`hmk_mobile_home-bottom-text ${activeMenu === 'inventory' ? 'visible' : 'hidden'}`}>
-                    </div>
-                </div>
-                <div
-                    className="hmk_mobile_home-bottom-item3"
-                    onMouseEnter={() => handleMouseEnter('points')}
-                    onMouseLeave={handleMouseLeave}
-                    onTouchStart={() => handleTouch('points')}
-                >
-                    <img
-                        className="hmk_mobile_home-icon hmk_camera"
-                        src="/images/icons/camera_icon.png"
-                        alt="인증샷 아이콘"
-                    />
-                    <div className={`hmk_mobile_home-bottom-text ${activeMenu === 'points' ? 'visible' : 'hidden'}`}>
-                    </div>
-                </div>
-                <div
-                    className="hmk_mobile_home-bottom-item"
-                    onMouseEnter={() => handleMouseEnter('rank')}
-                    onMouseLeave={handleMouseLeave}
-                    onTouchStart={() => handleTouch('rank')}
-                >
-                    <img
-                        className="hmk_mobile_home-icon"
-                        src="/images/rank_spincup.gif"
-                        alt="랭킹페이지 아이콘"
-                    />
-                    <div className={`hmk_mobile_home-bottom-text ${activeMenu === 'rank' ? 'visible' : 'hidden'}`}>
-                    </div>
-                </div>
-                <div
-                    className="hmk_mobile_home-bottom-item"
-                    onMouseEnter={() => handleMouseEnter('profile')}
-                    onMouseLeave={handleMouseLeave}
-                    onTouchStart={() => handleTouch('profile')}
-                >
-                    <img
-                        className="hmk_mobile_home-icon"
-                        src="/images/profile-fill.png"
-                        alt="프로필 카드 아이콘"
-                    />
-                    <div className={`hmk_mobile_home-bottom-text ${activeMenu === 'profile' ? 'visible' : 'hidden'}`}>
-                    </div>
-                </div>
-            </div>
+            <MobileBottomMenu />
         </div>
     );
 }
