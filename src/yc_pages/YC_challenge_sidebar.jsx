@@ -4,9 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Modal from 'react-modal';
-
 import '../yc_assets/yc_css/yc_css_challenge_sidebar.css';
-
 import { FaHome, FaBullhorn, FaTasks, FaUpload, FaUserFriends, FaCogs } from 'react-icons/fa';
 
 Modal.setAppElement('#root');
@@ -17,8 +15,6 @@ const YCChallengeSidebar = () => {
 
     // 모달 상태 관리
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [currentStep, setCurrentStep] = useState(2);
-    const [previousStep, setPreviousStep] = useState(null);
     const [isExitModalOpen, setIsExitModalOpen] = useState(false);
     const [exitModalMessage, setExitModalMessage] = useState('');
     const [exitModalType, setExitModalType] = useState('');
@@ -26,9 +22,41 @@ const YCChallengeSidebar = () => {
     // 방 상태 및 사용자 권한 상태 관리
     const [roomStatusNum, setRoomStatusNum] = useState(null);
     const [enteredUserAuth, setEnteredUserAuth] = useState(null);
-    const [enteredUserStatusNum, setEnteredUserStatusNum] = useState(null); // 추가
+    const [enteredUserStatusNum, setEnteredUserStatusNum] = useState(null);
     const [error, setError] = useState(null);
-    const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
+    const [isLoading, setIsLoading] = useState(true);
+
+    // 관리 모달 폼 상태
+    const [formData, setFormData] = useState({
+        regionNum: '',
+        roomKeyword: '',
+        roomTitle: '',
+        roomThumbnail: null,
+        roomMinNum: '',
+        roomMaxNum: '',
+        roomEnterPoint: '',
+        roomEnterRate: '',
+        evaluationType: ''
+    });
+
+    const [previewImage, setPreviewImage] = useState(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [formError, setFormError] = useState(null);
+    const [successMessage, setSuccessMessage] = useState(null);
+
+    // 섹션별 업데이트 상태
+    const [updateStatus, setUpdateStatus] = useState({
+        regionNum: { loading: false, error: null, success: null },
+        roomKeyword: { loading: false, error: null, success: null },
+        roomTitle: { loading: false, error: null, success: null },
+        roomThumbnail: { loading: false, error: null, success: null },
+        roomMinNum: { loading: false, error: null, success: null },
+        roomMaxNum: { loading: false, error: null, success: null },
+        roomEnterPoint: { loading: false, error: null, success: null },
+        roomEnterRate: { loading: false, error: null, success: null },
+        evaluationType: { loading: false, error: null, success: null },
+    });
+
     const isExitDisabled = !(enteredUserStatusNum === 1 && enteredUserAuth !== null);
 
     useEffect(() => {
@@ -36,7 +64,6 @@ const YCChallengeSidebar = () => {
             const token = localStorage.getItem('token');
 
             if (!token) {
-                // 토큰이 없는 경우 enteredUserAuth와 enteredUserStatusNum을 null로 설정
                 setEnteredUserAuth(null);
                 setRoomStatusNum(null);
                 setEnteredUserStatusNum(null);
@@ -45,7 +72,7 @@ const YCChallengeSidebar = () => {
             }
 
             try {
-                // roomHeaderInfo 가져오기
+                // 방 헤더 정보 가져오기
                 const roomHeaderResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/header/${roomNum}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
@@ -57,11 +84,11 @@ const YCChallengeSidebar = () => {
                     setRoomStatusNum(headerInfo.roomStatusNum);
                     setEnteredUserStatusNum(headerInfo.enteredUserStatusNum);
                 } else {
-                    console.error('Failed to get room header info:', roomHeaderResponse.data.message);
+                    console.error('방 헤더 정보 가져오기 실패:', roomHeaderResponse.data.message);
                     setError('방 헤더 정보를 가져오는 데 실패했습니다.');
                 }
 
-                // enteredUserAuth 가져오기
+                // 사용자 권한 정보 가져오기
                 const userAuthResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/user/${roomNum}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
@@ -71,13 +98,12 @@ const YCChallengeSidebar = () => {
                 if (userAuthResponse.data.result === 'success') {
                     setEnteredUserAuth(userAuthResponse.data.apiData);
                 } else {
-                    console.error('Failed to get user auth:', userAuthResponse.data.message);
+                    console.error('사용자 권한 정보 가져오기 실패:', userAuthResponse.data.message);
                     setError('사용자 권한을 가져오는 데 실패했습니다.');
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
+                console.error('데이터 가져오기 오류:', error);
                 setError('데이터를 가져오는 중 오류가 발생했습니다.');
-                // 인증 관련 오류 처리 (401, 403) 시 별도의 처리 필요
             } finally {
                 setIsLoading(false);
             }
@@ -86,73 +112,212 @@ const YCChallengeSidebar = () => {
         fetchData();
     }, [roomNum]);
 
-    // 모달 열기 함수
+    // 모달 열기 및 닫기 함수
     const openModal = () => {
         setIsModalOpen(true);
-        setCurrentStep(2);
-        setPreviousStep(null);
+        fetchRoomDetails();
     };
 
-    // 모달 닫기 함수
     const closeModal = () => {
         setIsModalOpen(false);
+        setFormError(null);
+        setSuccessMessage(null);
     };
 
-   
+    // 방 상세 정보 가져오기
+    const fetchRoomDetails = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setError('로그인이 필요합니다.');
+            return;
+        }
 
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/${roomNum}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.data.result === 'success') {
+                const data = response.data.apiData;
+                setFormData({
+                    regionNum: data.regionNum,
+                    roomKeyword: data.roomKeyword,
+                    roomTitle: data.roomTitle,
+                    roomThumbnail: null, // 이미지는 별도로 처리
+                    roomMinNum: data.roomMinNum,
+                    roomMaxNum: data.roomMaxNum,
+                    roomEnterPoint: data.roomEnterPoint,
+                    roomEnterRate: data.roomEnterRate,
+                    evaluationType: data.evaluationType
+                });
+                setPreviewImage(data.roomThumbnail);
+            } else {
+                setFormError('방 상세 정보를 가져오는 데 실패했습니다.');
+            }
+        } catch (error) {
+            console.error('방 상세 정보 가져오기 오류:', error);
+            setFormError('방 상세 정보를 가져오는 중 오류가 발생했습니다.');
+        }
+    };
+
+    // 폼 입력 변경 핸들러
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    // 이미지 파일 선택 핸들러
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setFormData(prevState => ({
+                ...prevState,
+                roomThumbnail: file
+            }));
+            setPreviewImage(URL.createObjectURL(file));
+        }
+    };
+
+    // 섹션별 업데이트 핸들러
+    const handleSectionUpdate = async (section) => {
+        setUpdateStatus(prevState => ({
+            ...prevState,
+            [section]: { ...prevState[section], loading: true, error: null, success: null }
+        }));
     
-
-    // 스텝 변경 핸들러
-    const handleStepChange = (step) => {
-        setCurrentStep(step);
-    };
-
-    // 특정 링크 클릭 시 이벤트 핸들러
-    const handleLinkClick = (e) => {
-        if (isDisabled) {
-            e.preventDefault();
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setUpdateStatus(prevState => ({
+                ...prevState,
+                [section]: { ...prevState[section], loading: false, error: '로그인이 필요합니다.', success: null }
+            }));
+            return;
+        }
+    
+        let url = '';
+        let data = {};
+        let headers = {
+            'Authorization': `Bearer ${token}`
+        };
+    
+        switch (section) {
+            case 'regionNum':
+                url = `${process.env.REACT_APP_API_URL}/api/challenge/update-region/${roomNum}`;
+                data = { regionNum: formData.regionNum };
+                headers['Content-Type'] = 'application/json';
+                break;
+            case 'roomKeyword':
+                url = `${process.env.REACT_APP_API_URL}/api/challenge/update-keyword/${roomNum}`;
+                data = { roomKeyword: formData.roomKeyword };
+                headers['Content-Type'] = 'application/json';
+                break;
+            case 'roomTitle':
+                url = `${process.env.REACT_APP_API_URL}/api/challenge/update-title/${roomNum}`;
+                data = { roomTitle: formData.roomTitle };
+                headers['Content-Type'] = 'application/json';
+                break;
+            case 'roomThumbnail':
+                url = `${process.env.REACT_APP_API_URL}/api/challenge/update-thumbnail/${roomNum}`;
+                if (formData.roomThumbnail) {
+                    data = new FormData();
+                    data.append('roomThumbnail', formData.roomThumbnail);
+                    headers['Content-Type'] = 'multipart/form-data';
+                } else {
+                    setUpdateStatus(prevState => ({
+                        ...prevState,
+                        [section]: { ...prevState[section], loading: false, error: '이미지를 선택해주세요.', success: null }
+                    }));
+                    return;
+                }
+                break;
+            case 'roomMinNum':
+                url = `${process.env.REACT_APP_API_URL}/api/challenge/update-minnum/${roomNum}`;
+                data = { roomMinNum: formData.roomMinNum };
+                headers['Content-Type'] = 'application/json';
+                break;
+            case 'roomMaxNum':
+                url = `${process.env.REACT_APP_API_URL}/api/challenge/update-maxnum/${roomNum}`;
+                data = { roomMaxNum: formData.roomMaxNum };
+                headers['Content-Type'] = 'application/json';
+                break;
+            case 'roomEnterPoint':
+                url = `${process.env.REACT_APP_API_URL}/api/challenge/update-enterpoint/${roomNum}`;
+                data = { roomEnterPoint: formData.roomEnterPoint };
+                headers['Content-Type'] = 'application/json';
+                break;
+            case 'roomEnterRate':
+                url = `${process.env.REACT_APP_API_URL}/api/challenge/update-enterrate/${roomNum}`;
+                data = { roomEnterRate: formData.roomEnterRate };
+                headers['Content-Type'] = 'application/json';
+                break;
+            case 'evaluationType':
+                url = `${process.env.REACT_APP_API_URL}/api/challenge/update-evaluationtype/${roomNum}`;
+                data = { evaluationType: formData.evaluationType };
+                headers['Content-Type'] = 'application/json';
+                break;
+            default:
+                setUpdateStatus(prevState => ({
+                    ...prevState,
+                    [section]: { ...prevState[section], loading: false, error: '잘못된 섹션입니다.', success: null }
+                }));
+                return;
+        }
+    
+        try {
+            const response = await axios.put(url, data, {
+                headers: headers
+            });
+    
+            if (response.data.result === 'success') {
+                setUpdateStatus(prevState => ({
+                    ...prevState,
+                    [section]: { ...prevState[section], loading: false, error: null, success: '성공적으로 업데이트되었습니다.' }
+                }));
+                fetchRoomDetails(); // 업데이트된 데이터로 폼 새로고침
+            } else {
+                setUpdateStatus(prevState => ({
+                    ...prevState,
+                    [section]: { ...prevState[section], loading: false, error: response.data.message || '업데이트에 실패했습니다.', success: null }
+                }));
+            }
+        } catch (error) {
+            console.error(`방 정보 업데이트 오류 (${section}):`, error);
+            setUpdateStatus(prevState => ({
+                ...prevState,
+                [section]: { ...prevState[section], loading: false, error: '업데이트 중 오류가 발생했습니다.', success: null }
+            }));
         }
     };
 
-    // 관리 메뉴 클릭 시 이벤트 핸들러
-    const handleManageClick = (e) => {
-        if (!(enteredUserAuth === 1 && (roomStatusNum === 1 || roomStatusNum === 2))) {
-            e.preventDefault();
-        } else {
-            openModal();
-        }
-    };
-
-    // "나가기" 버튼 클릭 핸들러 추가
+    // 방 나가기 버튼 클릭 핸들러
     const handleExitClick = () => {
         if (enteredUserAuth === 1 && roomStatusNum === 1) {
-            // 방 삭제
             setExitModalMessage('방을 나가시겠습니까? 방이 삭제됩니다.');
             setExitModalType('delete');
-        } else if (enteredUserAuth === 2 && (roomStatusNum === 2)) {
-            // 챌린지를 그만두기 (환불 있음)
-            setExitModalMessage('챌린지를 그만 두시겠습니까?');
+        } else if (enteredUserAuth === 2 && roomStatusNum === 2) {
+            setExitModalMessage('챌린지를 그만 두시겠습니까? 환불이 제공됩니다.');
             setExitModalType('leave');
-        } else if (enteredUserAuth === 2 && (roomStatusNum === 3)) {
-            // 챌린지를 그만두기 (환불 없음)
-            setExitModalMessage('챌린지를 그만 두시겠습니까?');
+        } else if (enteredUserAuth === 2 && roomStatusNum === 3) {
+            setExitModalMessage('챌린지를 그만 두시겠습니까? 환불이 제공되지 않습니다.');
             setExitModalType('leave_norefund');
-        } else if (enteredUserAuth === 1 && (roomStatusNum === 2)) {
-            // 방장 권한 위임과 함께 방 나가기
+        } else if (enteredUserAuth === 1 && roomStatusNum === 2) {
             setExitModalMessage('챌린지를 그만 두시겠습니까? 방장을 다른 사용자에게 위임합니다.');
             setExitModalType('transfer');
         } else if (enteredUserAuth === 1 && roomStatusNum === 3) {
-            // 방장 권한 위임과 함께 방 나가기 (환불 없음)
-            setExitModalMessage('챌린지를 그만 두시겠습니까? 챌린지가 진행중입니다. 방장을 다른 사용자에게 위임합니다.');
+            setExitModalMessage('챌린지를 그만 두시겠습니까? 챌린지가 진행 중입니다. 방장을 다른 사용자에게 위임합니다.');
             setExitModalType('transfer_norefund');
         } else {
-            // 기타 상태 처리 (필요 시 추가)
             return;
         }
         setIsExitModalOpen(true);
     };
 
-    // 모달의 확인 버튼 클릭 핸들러 수정
+    // 방 나가기 확인 핸들러
     const handleExitConfirm = async () => {
         const token = localStorage.getItem('token');
         if (!token) {
@@ -161,82 +326,67 @@ const YCChallengeSidebar = () => {
             return;
         }
         try {
+            let response;
             if (exitModalType === 'delete') {
-                // 방 삭제 API 호출
-                const response = await axios.delete(`${process.env.REACT_APP_API_URL}/api/challenge/delete-room/${roomNum}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
+                response = await axios.delete(`${process.env.REACT_APP_API_URL}/api/challenge/delete-room/${roomNum}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (response.data.result === 'success') {
                     alert('방이 삭제되었습니다.');
-                    navigate('/'); // 메인 페이지로 이동
+                    navigate('/');
                 } else {
                     alert('방 삭제에 실패했습니다.');
                 }
             } else if (exitModalType === 'leave') {
-                // 챌린지 나가기 (환불 있음) API 호출
-                const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/leave-room/${roomNum}`, null, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
+                response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/leave-room/${roomNum}`, null, {
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (response.data.result === 'success') {
                     alert('챌린지를 나갔습니다.');
-                    navigate('/'); // 메인 페이지로 이동
+                    navigate('/');
                 } else {
                     alert('챌린지 나가기에 실패했습니다.');
                 }
             } else if (exitModalType === 'leave_norefund') {
-                // 챌린지 나가기 (환불 없음) API 호출
-                const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/leave-room-no-refund/${roomNum}`, null, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
+                response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/leave-room-no-refund/${roomNum}`, null, {
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (response.data.result === 'success') {
-                    alert('챌린지를 나갔습니다. 환불은 없습니다.');
-                    navigate('/'); // 메인 페이지로 이동
+                    alert('챌린지를 나갔습니다. 환불은 제공되지 않습니다.');
+                    navigate('/');
                 } else {
                     alert('챌린지 나가기에 실패했습니다.');
                 }
             } else if (exitModalType === 'transfer') {
-                // 방장 권한 위임 및 방 나가기 API 호출
-                const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/leave-room/${roomNum}`, null, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
+                response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/leave-room/${roomNum}`, null, {
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (response.data.result === 'success') {
                     alert('챌린지를 나가고 방장이 위임되었습니다.');
-                    navigate('/'); // 메인 페이지로 이동
+                    navigate('/');
                 } else {
                     alert('챌린지 나가기에 실패했습니다.');
                 }
             } else if (exitModalType === 'transfer_norefund') {
-                // 방장 권한 위임 및 방 나가기 (환불 없음) API 호출
-                const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/leave-room-no-refund/${roomNum}`, null, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
+                response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/leave-room-no-refund/${roomNum}`, null, {
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (response.data.result === 'success') {
-                    alert('챌린지를 나가고 방장이 위임되었습니다. 환불은 없습니다.');
-                    navigate('/'); // 메인 페이지로 이동
+                    alert('챌린지를 나가고 방장이 위임되었습니다. 환불은 제공되지 않습니다.');
+                    navigate('/');
                 } else {
                     alert('챌린지 나가기에 실패했습니다.');
                 }
             }
         } catch (error) {
-            console.error('Error:', error);
+            console.error('서버와의 통신 오류:', error);
             alert('서버와의 통신에 실패했습니다.');
         } finally {
             setIsExitModalOpen(false);
         }
     };
 
-
-    // 모달 닫기 핸들러
+    // 방 나가기 모달 닫기 핸들러
     const closeExitModal = () => {
         setIsExitModalOpen(false);
     };
@@ -245,12 +395,10 @@ const YCChallengeSidebar = () => {
 
     return (
         <aside className="yc_challenge_sidebar">
-            {/* 로딩 상태 표시 */}
             {isLoading ? (
                 <div className="loading-spinner">로딩 중...</div>
             ) : (
                 <>
-                    {/* 에러 메시지 표시 */}
                     {error && <div className="yc_error_message">{error}</div>}
 
                     <nav className="yc_challenge_menu">
@@ -262,7 +410,7 @@ const YCChallengeSidebar = () => {
                                 </Link>
                             </li>
                             <li className="yc_challenge_sidebar_notice">
-                                <Link to={`/board/${roomNum}`} aria-label="공지/유의 사항">
+                                <Link to={`/board/${roomNum}`} aria-label="공지사항">
                                     <FaBullhorn size={24} />
                                     <span className="menu-text">공지사항</span>
                                 </Link>
@@ -271,7 +419,7 @@ const YCChallengeSidebar = () => {
                                 <Link
                                     to={`/missioninfo/${roomNum}`}
                                     aria-label="미션 상세"
-                                    onClick={handleLinkClick}
+                                    onClick={(e) => isDisabled && e.preventDefault()}
                                     className={isDisabled ? 'disabled-link' : ''}
                                     title={isDisabled ? '챌린지에 참여해야 이용할 수 있습니다.' : ''}
                                 >
@@ -282,8 +430,8 @@ const YCChallengeSidebar = () => {
                             <li className={`yc_challenge_sidebar_submission-status ${isDisabled ? 'disabled' : ''}`}>
                                 <Link
                                     to={`/mission/${roomNum}`}
-                                    aria-label="제출 현황"
-                                    onClick={handleLinkClick}
+                                    aria-label="미션 제출"
+                                    onClick={(e) => isDisabled && e.preventDefault()}
                                     className={isDisabled ? 'disabled-link' : ''}
                                     title={isDisabled ? '챌린지에 참여해야 이용할 수 있습니다.' : ''}
                                 >
@@ -295,7 +443,7 @@ const YCChallengeSidebar = () => {
                                 <Link
                                     to={`/stat/${roomNum}`}
                                     aria-label="유저 현황"
-                                    onClick={handleLinkClick}
+                                    onClick={(e) => isDisabled && e.preventDefault()}
                                     className={isDisabled ? 'disabled-link' : ''}
                                     title={isDisabled ? '챌린지에 참여해야 이용할 수 있습니다.' : ''}
                                 >
@@ -308,9 +456,10 @@ const YCChallengeSidebar = () => {
                             {(enteredUserAuth === 1 && (roomStatusNum === 1 || roomStatusNum === 2)) && (
                                 <li className="yc_challenge_sidebar_manage">
                                     <Link
-                                        onClick={handleManageClick}
+                                        onClick={openModal}
                                         aria-label="관리"
                                         className="manage-button"
+                                        style={{ background: 'none', border: 'none', cursor: 'pointer' }}
                                     >
                                         <FaCogs size={24} />
                                         <span className="menu-text">관리</span>
@@ -324,15 +473,255 @@ const YCChallengeSidebar = () => {
                     <Modal
                         isOpen={isModalOpen}
                         onRequestClose={closeModal}
-                        contentLabel="관리 및 방 생성 모달"
+                        contentLabel="관리 모달"
                         className="custom-modal"
                         overlayClassName="custom-overlay"
                     >
-                        {/* 모달 내용 추가 */}
                         <div className="modal-content">
-                            <h2>관리 기능</h2>
-                            <button onClick={() => handleStepChange(3)}>스텝 변경</button>
-                            <button onClick={closeModal}>닫기</button>
+                            <h2>방 관리</h2>
+                            {formError && <div className="error-message">{formError}</div>}
+                            {successMessage && <div className="success-message">{successMessage}</div>}
+                            <div className="manage-sections">
+                                {/* 지역 수정 섹션 */}
+                                <div className="manage-section">
+                                    <h3>지역 수정</h3>
+                                    <div className="form-group">
+                                        <label htmlFor="regionNum">지역:</label>
+                                        <select
+                                            id="regionNum"
+                                            name="regionNum"
+                                            value={formData.regionNum}
+                                            onChange={handleInputChange}
+                                            required
+                                        >
+                                            {/* 실제 지역 데이터로 대체 */}
+                                            <option value="">지역 선택</option>
+                                            <option value="1">서울</option>
+                                            <option value="2">부산</option>
+                                            <option value="3">대구</option>
+                                            {/* 추가 지역 옵션 */}
+                                        </select>
+                                    </div>
+                                    <button
+                                        onClick={() => handleSectionUpdate('regionNum')}
+                                        disabled={updateStatus.regionNum.loading}
+                                    >
+                                        {updateStatus.regionNum.loading ? '업데이트 중...' : '지역 업데이트'}
+                                    </button>
+                                    {updateStatus.regionNum.error && <div className="error-message">{updateStatus.regionNum.error}</div>}
+                                    {updateStatus.regionNum.success && <div className="success-message">{updateStatus.regionNum.success}</div>}
+                                </div>
+
+                                {/* 방 키워드 수정 섹션 */}
+                                <div className="manage-section">
+                                    <h3>방 키워드 수정</h3>
+                                    <div className="form-group">
+                                        <label htmlFor="roomKeyword">방 키워드:</label>
+                                        <input
+                                            type="text"
+                                            id="roomKeyword"
+                                            name="roomKeyword"
+                                            value={formData.roomKeyword}
+                                            onChange={handleInputChange}
+                                            required
+                                        />
+                                    </div>
+                                    <button
+                                        onClick={() => handleSectionUpdate('roomKeyword')}
+                                        disabled={updateStatus.roomKeyword.loading}
+                                    >
+                                        {updateStatus.roomKeyword.loading ? '업데이트 중...' : '키워드 업데이트'}
+                                    </button>
+                                    {updateStatus.roomKeyword.error && <div className="error-message">{updateStatus.roomKeyword.error}</div>}
+                                    {updateStatus.roomKeyword.success && <div className="success-message">{updateStatus.roomKeyword.success}</div>}
+                                </div>
+
+                                {/* 방 제목 수정 섹션 */}
+                                <div className="manage-section">
+                                    <h3>방 제목 수정</h3>
+                                    <div className="form-group">
+                                        <label htmlFor="roomTitle">방 제목:</label>
+                                        <input
+                                            type="text"
+                                            id="roomTitle"
+                                            name="roomTitle"
+                                            value={formData.roomTitle}
+                                            onChange={handleInputChange}
+                                            required
+                                        />
+                                    </div>
+                                    <button
+                                        onClick={() => handleSectionUpdate('roomTitle')}
+                                        disabled={updateStatus.roomTitle.loading}
+                                    >
+                                        {updateStatus.roomTitle.loading ? '업데이트 중...' : '제목 업데이트'}
+                                    </button>
+                                    {updateStatus.roomTitle.error && <div className="error-message">{updateStatus.roomTitle.error}</div>}
+                                    {updateStatus.roomTitle.success && <div className="success-message">{updateStatus.roomTitle.success}</div>}
+                                </div>
+
+                                {/* 방 썸네일 수정 섹션 */}
+                                <div className="manage-section">
+                                    <h3>방 썸네일 수정</h3>
+                                    <div className="form-group">
+                                        <label htmlFor="roomThumbnail">방 썸네일:</label>
+                                        <input
+                                            type="file"
+                                            id="roomThumbnail"
+                                            name="roomThumbnail"
+                                            accept="image/*"
+                                            onChange={handleImageChange}
+                                        />
+                                        {previewImage && (
+                                            <div className="image-preview">
+                                                <img src={previewImage} alt="방 썸네일 미리보기" />
+                                            </div>
+                                        )}
+                                    </div>
+                                    <button
+                                        onClick={() => handleSectionUpdate('roomThumbnail')}
+                                        disabled={updateStatus.roomThumbnail.loading}
+                                    >
+                                        {updateStatus.roomThumbnail.loading ? '업데이트 중...' : '썸네일 업데이트'}
+                                    </button>
+                                    {updateStatus.roomThumbnail.error && <div className="error-message">{updateStatus.roomThumbnail.error}</div>}
+                                    {updateStatus.roomThumbnail.success && <div className="success-message">{updateStatus.roomThumbnail.success}</div>}
+                                </div>
+
+                                {/* 최소 참가 인원 수정 섹션 */}
+                                <div className="manage-section">
+                                    <h3>최소 참가 인원 수정</h3>
+                                    <div className="form-group">
+                                        <label htmlFor="roomMinNum">최소 참가 인원:</label>
+                                        <input
+                                            type="number"
+                                            id="roomMinNum"
+                                            name="roomMinNum"
+                                            value={formData.roomMinNum}
+                                            onChange={handleInputChange}
+                                            min="1"
+                                            required
+                                        />
+                                    </div>
+                                    <button
+                                        onClick={() => handleSectionUpdate('roomMinNum')}
+                                        disabled={updateStatus.roomMinNum.loading}
+                                    >
+                                        {updateStatus.roomMinNum.loading ? '업데이트 중...' : '최소 인원 업데이트'}
+                                    </button>
+                                    {updateStatus.roomMinNum.error && <div className="error-message">{updateStatus.roomMinNum.error}</div>}
+                                    {updateStatus.roomMinNum.success && <div className="success-message">{updateStatus.roomMinNum.success}</div>}
+                                </div>
+
+                                {/* 최대 참가 인원 수정 섹션 */}
+                                <div className="manage-section">
+                                    <h3>최대 참가 인원 수정</h3>
+                                    <div className="form-group">
+                                        <label htmlFor="roomMaxNum">최대 참가 인원:</label>
+                                        <input
+                                            type="number"
+                                            id="roomMaxNum"
+                                            name="roomMaxNum"
+                                            value={formData.roomMaxNum}
+                                            onChange={handleInputChange}
+                                            min="1"
+                                            required
+                                        />
+                                    </div>
+                                    <button
+                                        onClick={() => handleSectionUpdate('roomMaxNum')}
+                                        disabled={updateStatus.roomMaxNum.loading}
+                                    >
+                                        {updateStatus.roomMaxNum.loading ? '업데이트 중...' : '최대 인원 업데이트'}
+                                    </button>
+                                    {updateStatus.roomMaxNum.error && <div className="error-message">{updateStatus.roomMaxNum.error}</div>}
+                                    {updateStatus.roomMaxNum.success && <div className="success-message">{updateStatus.roomMaxNum.success}</div>}
+                                </div>
+
+                                {/* 방 참가 포인트 수정 섹션 */}
+                                <div className="manage-section">
+                                    <h3>방 참가 포인트 수정</h3>
+                                    <div className="form-group">
+                                        <label htmlFor="roomEnterPoint">방 참가 포인트:</label>
+                                        <input
+                                            type="number"
+                                            id="roomEnterPoint"
+                                            name="roomEnterPoint"
+                                            value={formData.roomEnterPoint}
+                                            onChange={handleInputChange}
+                                            min="0"
+                                            required
+                                        />
+                                    </div>
+                                    <button
+                                        onClick={() => handleSectionUpdate('roomEnterPoint')}
+                                        disabled={updateStatus.roomEnterPoint.loading}
+                                    >
+                                        {updateStatus.roomEnterPoint.loading ? '업데이트 중...' : '참가 포인트 업데이트'}
+                                    </button>
+                                    {updateStatus.roomEnterPoint.error && <div className="error-message">{updateStatus.roomEnterPoint.error}</div>}
+                                    {updateStatus.roomEnterPoint.success && <div className="success-message">{updateStatus.roomEnterPoint.success}</div>}
+                                </div>
+
+                                {/* 방 참가 비율 수정 섹션 */}
+                                <div className="manage-section">
+                                    <h3>방 참가 비율 수정</h3>
+                                    <div className="form-group">
+                                        <label htmlFor="roomEnterRate">방 참가 비율 (%):</label>
+                                        <input
+                                            type="number"
+                                            id="roomEnterRate"
+                                            name="roomEnterRate"
+                                            value={formData.roomEnterRate}
+                                            onChange={handleInputChange}
+                                            min="0"
+                                            max="100"
+                                            required
+                                        />
+                                    </div>
+                                    <button
+                                        onClick={() => handleSectionUpdate('roomEnterRate')}
+                                        disabled={updateStatus.roomEnterRate.loading}
+                                    >
+                                        {updateStatus.roomEnterRate.loading ? '업데이트 중...' : '참가 비율 업데이트'}
+                                    </button>
+                                    {updateStatus.roomEnterRate.error && <div className="error-message">{updateStatus.roomEnterRate.error}</div>}
+                                    {updateStatus.roomEnterRate.success && <div className="success-message">{updateStatus.roomEnterRate.success}</div>}
+                                </div>
+
+                                {/* 평가 유형 수정 섹션 */}
+                                <div className="manage-section">
+                                    <h3>평가 유형 수정</h3>
+                                    <div className="form-group">
+                                        <label htmlFor="evaluationType">평가 유형:</label>
+                                        <select
+                                            id="evaluationType"
+                                            name="evaluationType"
+                                            value={formData.evaluationType}
+                                            onChange={handleInputChange}
+                                            required
+                                        >
+                                            {/* 실제 평가 유형으로 대체 */}
+                                            <option value="">평가 유형 선택</option>
+                                            <option value="1">타입 1</option>
+                                            <option value="2">타입 2</option>
+                                            <option value="3">타입 3</option>
+                                            {/* 추가 평가 유형 옵션 */}
+                                        </select>
+                                    </div>
+                                    <button
+                                        onClick={() => handleSectionUpdate('evaluationType')}
+                                        disabled={updateStatus.evaluationType.loading}
+                                    >
+                                        {updateStatus.evaluationType.loading ? '업데이트 중...' : '평가 유형 업데이트'}
+                                    </button>
+                                    {updateStatus.evaluationType.error && <div className="error-message">{updateStatus.evaluationType.error}</div>}
+                                    {updateStatus.evaluationType.success && <div className="success-message">{updateStatus.evaluationType.success}</div>}
+                                </div>
+                            </div>
+                            <button type="button" onClick={closeModal} className="close-modal-button">
+                                닫기
+                            </button>
                         </div>
                     </Modal>
 
@@ -340,7 +729,7 @@ const YCChallengeSidebar = () => {
                     <Modal
                         isOpen={isExitModalOpen}
                         onRequestClose={closeExitModal}
-                        contentLabel="나가기 확인 모달"
+                        contentLabel="방 나가기 확인 모달"
                         className="custom-modal"
                         overlayClassName="custom-overlay"
                     >
@@ -370,7 +759,7 @@ const YCChallengeSidebar = () => {
                         <div className={isExitDisabled ? 'disabled-link' : ''}>
                             <button 
                                 className="yc_challenge_exit-btn" 
-                                title="나가기" 
+                                title="방 나가기" 
                                 onClick={isExitDisabled ? null : handleExitClick} 
                                 aria-label="방 나가기"
                                 disabled={isExitDisabled}

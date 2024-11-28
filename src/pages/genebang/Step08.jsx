@@ -63,46 +63,84 @@ const Step08 = ({ onNext, onPrevious }) => {
     };
 
     // 선택한 미션 데이터 제출
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-    
-        if (selectedBox === null) {
-            alert('챌린지를 선택해주세요.');
-            return;
-        }
-    
-        // 선택된 챌린지 찾기
-        const selectedChallenge = aiChallenges.find((ch) => ch.id === selectedBox);
-        if (!selectedChallenge) {
-            alert('선택한 챌린지를 찾을 수 없습니다.');
-            return;
-        }
-    
-        try {
-            // 백엔드로 데이터 전송
-            const response = await axios.post(
-                `${process.env.REACT_APP_API_URL}/api/genebang/saveOpenAiMission/${roomNum}`,
-                null, // Request body는 없으므로 null 전달
-                {
-                    params: {
-                        AiMission: selectedChallenge.aiMission, // AI가 생성한 미션 이름
-                        Count: selectedChallenge.count,   // 반복 횟수
-                        MissionName: selectedChallenge.missionName, // 사용자 정의 또는 미션 이름
-                    },
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
-                    },
-                }
-            );
-    
-            console.log('저장 응답: ', response);
-            navigate(`/genebang/step9/${roomNum}`); // 성공 시 다음 단계로 이동
-        } catch (error) {
+const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (selectedBox === null) {
+        alert('챌린지를 선택해주세요.');
+        return;
+    }
+
+    // 선택된 챌린지 찾기
+    const selectedChallenge = aiChallenges.find((ch) => ch.id === selectedBox);
+    if (!selectedChallenge) {
+        alert('선택한 챌린지를 찾을 수 없습니다.');
+        return;
+    }
+
+    try {
+        // 백엔드로 데이터 전송
+        const response = await axios.post(
+            `${process.env.REACT_APP_API_URL}/api/genebang/saveOpenAiMission/${roomNum}`,
+            null, // Request body는 없으므로 null 전달
+            {
+                params: {
+                    AiMission: selectedChallenge.aiMission, // AI가 생성한 미션 이름
+                    Count: selectedChallenge.count,   // 반복 횟수
+                    MissionName: selectedChallenge.missionName, // 사용자 정의 또는 미션 이름
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            }
+        );
+
+        console.log('저장 응답: ', response);
+
+        // 미션이 성공적으로 저장되면 참가 함수 호출
+        await handleConfirmJoin();
+
+        // 성공 시 다음 단계로 이동
+        navigate(`/genebang/step9/${roomNum}`);
+    } catch (error) {
+        if (error.response && error.response.data && error.response.data.message) {
+            console.error('챌린지 저장 중 오류: ', error.response.data.message);
+            alert(`챌린지 저장 중 오류가 발생했습니다: ${error.response.data.message}`);
+        } else {
             console.error('챌린지 저장 중 오류: ', error);
             alert('챌린지 저장 중 오류가 발생했습니다.');
         }
-    };
+    }
+};
+
+// 방 참가 함수
+const handleConfirmJoin = async () => {
+    try {
+        const response = await axios.post(
+            `${process.env.REACT_APP_API_URL}/api/challenge/join/${roomNum}`,
+            {},
+            { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
+        );
+
+        if (response.data.result === "success") {
+            alert(response.data.message || "참가가 성공적으로 완료되었습니다.");
+        } else {
+            console.log(response.data.data);
+            // message가 undefined인 경우 대비
+            alert(response.data.message || "참가에 실패했습니다.");
+        }
+    } catch (error) {
+        if (error.response && error.response.data && error.response.data.message) {
+            console.error('참가 중 오류 발생: ', error.response.data.message);
+            alert(`참가 중 오류가 발생했습니다: ${error.response.data.message}`);
+        } else {
+            console.error('참가 중 오류 발생:', error);
+            alert('참가 중 오류가 발생했습니다.');
+        }
+    }
+};
+
     
     
 
