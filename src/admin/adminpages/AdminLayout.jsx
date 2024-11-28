@@ -17,10 +17,10 @@ const AdminLayout = ({ children }) => {
                     <h2><Link to="/admin/main" rel="noreferrer noopener">관리자 페이지</Link></h2>
                     <div id="yc-sub_list">
                         <ul className='yc-lists'>
-                            <li><Link to="/admin/users" rel="noreferrer noopener">유저 관리</Link></li>
+                        <li><Link to="/admin/user" rel="noreferrer noopener">유저 관리</Link></li>
                             <li><Link to="/admin/viewitems" rel="noreferrer noopener">포인트 상품 관리</Link></li>
-                            <li><Link to="/admin/delivery" rel="noreferrer noopener">챌린지 관리</Link></li>
-                            {/* 추가적인 메뉴 항목 */}
+                            <li><Link to="/admin/datamanagement" rel="noreferrer noopener">데이터 관리</Link></li> 
+                            <li><Link to="/admin/notifications" rel="noreferrer noopener">알림 발송</Link></li> 
                         </ul>
                     </div>
                 </aside>

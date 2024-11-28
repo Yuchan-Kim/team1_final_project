@@ -1,4 +1,4 @@
-import React, {useContext, useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from "axios";
 
 import '../yc_assets/yc_css/yc_css_challenge_chatroom.css';
@@ -40,6 +40,14 @@ const ChatRoom = ({ roomNum }) => { // props를 디스트럭처링하여 roomNum
   useEffect(() => {
     if (roomNum && userNum !== null) {
       getAllMessages();
+
+      // 폴링 설정: 1초마다 메시지 가져오기
+      const interval = setInterval(() => {
+        getAllMessages();
+      }, 1000); // 1000ms = 1초
+
+      // 컴포넌트 언마운트 시 인터벌 정리
+      return () => clearInterval(interval);
     }
   }, [roomNum, userNum]); // roomNum이나 userNum이 변경될 때마다 메시지 가져오기
 
