@@ -50,6 +50,7 @@ const CSchatbot = ({ closeModal }) => {
     const [userInput, setUserInput] = useState('');
     const [responseText, setResponseText] = useState('');
     const [promptTxt, setPromptTxt] = useState('');
+    const [assistant, setassistant] = useState('');
 
     const getPrompt = async () => {
         try {
@@ -70,18 +71,22 @@ const CSchatbot = ({ closeModal }) => {
     const formatPrompt = (data) => {
         let formattedPrompt = `
 #persona
-당신의 쇼핑몰의 상담사 입니다.
-항상 고객을 공손하게 맞이하며 고객을 최우선으로 생각합니다.
+당신은 매우 친절하고 전문적인 상담사입니다.
+항상 고객에게 친절하고 따뜻하게 응답하며, 고객의 문제를 신속하게 해결하려고 최선을 다합니다.
+고객을 최우선으로 생각하고, 고객이 만족할 수 있도록 돕는 것을 가장 중요하게 여깁니다.
 
 #tone
-항상 최선을 다해 공손한 말투를 사용합니다.
+답변은 항상 공손하고 친절하며, 친근하게 고객을 대하며 정확한 정보를 제공해야 합니다.
+고객이 이해하기 쉽도록 간단하고 명확한 언어를 사용합니다.
 
 #context
 - 당신은 고객의 질문에 최선을 다해 친절하게 대답합니다.
+- 고객의 질문에 대해 가능한 한 정확하고 명확한 답변을 제공합니다.
 - 질문에 대한 답변은 아래의  #동키동키정보 에 있는 내용으로만 작성합니다.
-- 해당하는 내용을 요약해서 대답하고 url정보가 있는경우 링크정보도 제공합니다.
+- 답변이 길어질 경우, 요약해서 제공하고, url정보가 있는경우 링크정보도 제공합니다.
+- 응답은 고객이 바로 이해할 수 있도록 간결하고 명확하게 작성합니다.
 - 답변은 최대 100글자로 요약해서 작성합니다.
-- 질문에 대한 적절한 답변이 없다면 아래의 메세지를 출력합니다.
+- 질문에 대한 적절한 답변이 없다면, 고객에게 사과하고 고객센터로 문의를 유도하는 아래의 메세지를 출력합니다.
 ----
 죄송합니다.
 고객센터로 문의 바랍니다.
@@ -121,6 +126,7 @@ const CSchatbot = ({ closeModal }) => {
             ...(messageHistory.length === 0 ? [{ role: 'system', content: promptTxt }] : []),
             ...messageHistory,
             { role: 'user', content: userInput },
+
         ];
 
         try {
@@ -129,11 +135,36 @@ const CSchatbot = ({ closeModal }) => {
 
             setMessageHistory(newMessageHistory);
             setResponseText(assistantResponse);
+            setassistant(assistantResponse);
             setUserInput('');
         } catch (error) {
             console.error('Error during OpenAI API call:', error);
             setResponseText('챗봇 응답 중 문제가 발생했습니다. 나중에 다시 시도해주세요.');
         }
+
+        try {
+            const formData = new FormData();
+
+            formData.append('userNum', authUser.userNum);
+            formData.append('csbotWriter', userInput);
+            formData.append('csbotAnswer', assistant);
+
+            console.log('여기에룡롬루ㅠ낟ㄱ로ㅜ');
+            console.log(authUser.userNum);
+            console.log(userInput);
+            console.log(assistant);
+
+
+            // axios.post(`${process.env.REACT_APP_API_URL}/api/`, formData, {
+            //     headers: { 'Content-Type': 'multipart/form-data' },
+            // })
+
+        } catch (error) {
+            console.error('newMessageHistory를 등록하는데 실패했습니다 :', error);
+        }
+
+
+
     };
 
     return (
