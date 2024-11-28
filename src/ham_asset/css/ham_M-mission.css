@@ -338,3 +338,29 @@
     opacity: 0.6;
     /* 아이콘 투명도 */
 }
+
+.hmk_challenge-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    /* 기본 테두리 추가 */
+}
+
+.hmk_challenge-card.selected {
+    border-color: #007AFF;
+    /* 애플 블루 컬러 */
+    background-color: #F5F9FF;
+    /* 연한 파란색 배경 */
+    transform: scale(1.02);
+    /* 살짝 크기 증가 */
+    box-shadow: 0 4px 15px rgba(0, 122, 255, 0.15);
+    /* 파란색 그림자 */
+}
+
+.hmk_challenge-card.selected .hmk_challenge-title {
+    color: #007AFF;
+    /* 제목도 파란색으로 변경 */
+}

@@ -91,9 +91,9 @@
 
 .hmk_mobile_home-grid-item.hmk_active {
     color: #1d1d1f;
-    background-color: #ffffff;
+    background-color: #f5f9ff;
     font-weight: 600;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 

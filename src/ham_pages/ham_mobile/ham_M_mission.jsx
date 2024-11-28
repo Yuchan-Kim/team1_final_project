@@ -283,7 +283,7 @@ const MobileMission = () => {
           {missionList.map((mission) => (
             <div
               key={mission.missionNum}
-              className="hmk_challenge-card"
+              className={`hmk_challenge-card ${selectedMission?.missionNum === mission.missionNum ? 'selected' : ''}`}
               onClick={() => setSelectedMission(mission)}
             >
               <div className="hmk_challenge-details">
@@ -335,7 +335,7 @@ const MobileMission = () => {
                       htmlFor={`file-${index}`}
                       className="hmk_mobile_mission-upload"
                     >
-                      <FontAwesomeIcon icon={faCamera} className="hmk_mobile_home-icon"/>
+                      <FontAwesomeIcon icon={faCamera} className="hmk_mobile_home-icon" />
                     </label>
                   )}
                 </div>
@@ -346,7 +346,7 @@ const MobileMission = () => {
                   onClick={handleAddFileInput}
                 >
                   <div className="hmk_mobile_mission-upload">
-                    <FontAwesomeIcon icon={faPlus} className="hmk_mobile_mission-photo-input"/>
+                    <FontAwesomeIcon icon={faPlus} className="hmk_mobile_mission-photo-input" />
                   </div>
                 </div>
               )}

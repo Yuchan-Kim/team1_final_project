@@ -52,7 +52,7 @@ const MobileBottomMenu = () => {
                 navigate('/m/inventory');
                 break;
             case 'points':
-                navigate('/m/points');
+                navigate('/m/home');
                 break;
             case 'rank':
                 navigate('/m/rank');
