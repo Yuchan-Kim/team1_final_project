@@ -84,7 +84,7 @@ const MobileRank = () => {
             <div className="hmk_mobile_home-fixed-top">
                 {/* 움직이는 배너 */}
                 <div className="hmk_rank_moving_banner">
-                    <div className="hmk_mobile_home-card">
+                    <div className="hmk_mobile_home-card_in_banner">
                         <div className="hmk_rank_moving_text">
                             <div className="hmk_rank_moving_content">
                                 <span>
@@ -169,7 +169,7 @@ const MobileRank = () => {
                             </div>
                             <div className="hmk_mobile_rank-info">
                                 <div className="hmk_mobile_rank-name">{rank.nickname}</div>
-                                <div className="hmk_mobile_rank-points">{rank.points.toLocaleString()} PT</div>
+                                <div className="hmk_mobile_rank-points">{rank.points.toLocaleString()}</div>
                             </div>
                         </div>
                     ))}

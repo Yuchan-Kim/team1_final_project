@@ -1,0 +1,131 @@
+@charset "UTF-8";
+
+/* ham_M_notice.css */
+.hmk_mobile_notice-container {
+    min-height: 100vh;
+    padding: 16px;
+    padding-bottom: 0; /* padding-bottom 제거 */
+    background-color: #f2f2f7;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 상단 통계 카드 스타일 */
+.hmk_mobile_notice-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.hmk_mobile_notice-card {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.hmk_mobile_notice-card-label {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.hmk_mobile_notice-card-value {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* 필터 탭 스타일 */
+.hmk_mobile_notice-tabs {
+    display: flex;
+    background: white;
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 16px;
+}
+
+.hmk_mobile_notice-tab {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: none;
+    font-size: 14px;
+    color: #666;
+    border-radius: 8px;
+}
+
+.hmk_mobile_notice-tab.active {
+    background: #007AFF;
+    color: white;
+}
+
+/* 알림 리스트 스타일 */
+.hmk_mobile_notice-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 80px; /* 하단 메뉴바 높이 + 여유 공간 */
+    padding-bottom: 16px; /* 리스트 마지막 아이템 아래 여백 */
+}
+
+.hmk_mobile_notice-item {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.hmk_mobile_notice-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.hmk_mobile_notice-item-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+}
+
+.hmk_mobile_notice-item-status {
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 12px;
+}
+
+.hmk_mobile_notice-item-status.new {
+    background: #007AFF;
+    color: white;
+}
+
+.hmk_mobile_notice-item-status.read {
+    background: #E5E5EA;
+    color: #666;
+}
+
+.hmk_mobile_notice-item-sender {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 4px;
+}
+
+.hmk_mobile_notice-item-date {
+    font-size: 12px;
+    color: #999;
+}
+
+.hmk_mobile_notice-empty {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 15px;
+    margin-bottom: 80px; /* 하단 메뉴바 높이 + 여유 공간 */
+}

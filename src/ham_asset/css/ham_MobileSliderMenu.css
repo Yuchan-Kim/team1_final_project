@@ -1,0 +1,204 @@
+@charset "UTF-8";
+
+.hmk_mobile_slider-menu {
+    position: fixed;
+    bottom: 70px;
+    /* 바텀 네비게이션 바 위로 */
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin: 0 auto;
+    height: auto;
+    /* 내용물에 맞게 자동 조절 */
+    max-height: 85vh;
+    /* 최대 화면 높이의 85% */
+    background-color: #f2f2f7;
+    /* iOS 시스템 배경색 */
+    z-index: 9999;
+    transform: translateY(100%);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 12px;
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.12);
+    padding: 8px 0;
+}
+
+.hmk_mobile_slider-menu.open {
+    transform: translateY(0);
+}
+
+.hmk_mobile_slider-content {
+    width: 100%;
+    padding: 0;
+}
+
+/* 프로필 섹션 여백과 크기 조정 */
+.hmk_mobile_profile-section {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    margin: 0 8px;
+    background-color: white;
+    border-radius: 10px;
+    margin-bottom: 8px;
+}
+
+.hmk_mobile_profile-image {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+.hmk_mobile_profile-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    letter-spacing: -0.3px;
+    background: linear-gradient(to bottom, #333333, #666666);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.hmk_mobile_point-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.hmk_mobile_point-info2 {
+    display: flex;
+align-items: center;;
+    margin-left: 80px;
+    gap: 10px;
+}
+
+.hmk_mobile_point-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));  /* 아이콘에도 그림자 효과 */
+}
+
+.hmk_mobile_point-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: #FFB800;  /* 황금빛 느낌의 색상 */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);  /* 글자 그림자 */
+    background: linear-gradient(to bottom, #FFD700, #FFA500);  /* 그라데이션 효과 */
+    -webkit-background-clip: text;  /* 텍스트에만 그라데이션 적용 */
+    -webkit-text-fill-color: transparent;  /* 텍스트 색상을 투명하게 하여 그라데이션이 보이도록 */
+    display: flex;
+    align-items: center;
+}
+
+.hmk_mobile_menu-items {
+    margin: 0 8px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.hmk_mobile_menu-item {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    color: #000;
+    font-size: 17px;
+    position: relative;
+    cursor: pointer;
+}
+
+.hmk_mobile_menu-item:active {
+    background-color: #f2f2f7;
+}
+
+.hmk_mobile_menu-item svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    color: #007AFF;
+    /* iOS 기본 파란색 */
+}
+
+.hmk_mobile_menu-item:hover {
+    background-color: #f5f5f5;
+}
+
+.hmk_mobile_notice-badge {
+    position: absolute;
+    right: 16px;
+    background-color: #FF3B30;
+    /* iOS 빨간색 */
+    color: white;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 10px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 구분선 추가 */
+.hmk_mobile_menu-item:not(:last-child) {
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+}
+
+/* 로그아웃 버튼 별도 스타일링 */
+.hmk_mobile_logout {
+    margin: 8px;
+    background-color: white;
+    border-radius: 10px;
+    color: #FF3B30;
+    /* iOS 빨간색 */
+}
+
+.hmk_mobile_logout svg {
+    color: #FF3B30;
+}
+
+.hmk_mobile_slider-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+}
+
+.hmk_mobile_slider-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+}
+
+.hmk_mobile_slider-close {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #666;
+    font-size: 20px;
+}
+
+.hmk_mobile_slider-close:hover {
+    color: #333;
+}
+
+.hmk_mobile_slider-menu {
+    /* 기존 스타일... */
+    visibility: hidden;
+    opacity: 0;
+    transition: transform 0.3s ease-in-out, visibility 0s linear 0.3s, opacity 0.3s ease-in-out;
+}
+
+.hmk_mobile_slider-menu.open {
+    max-width: 400px;
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0s;
+}

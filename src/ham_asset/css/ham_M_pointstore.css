@@ -1,0 +1,194 @@
+@charset "UTF-8";
+
+/* ham_M_pointstore.css */
+.hmk_mobile_pointstore {
+    padding-bottom: 60px;
+    background-color: #f2f2f7;
+    min-height: 100vh;
+}
+
+.hmk_mobile_pointstore-header {
+    padding: 16px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.hmk_mobile_pointstore-point-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.hmk_mobile_pointstore-categories {
+    padding: 12px 16px;
+    display: flex;
+    overflow-x: auto;
+    gap: 8px;
+    background-color: white;
+    margin-bottom: 12px;
+}
+
+.hmk_mobile_pointstore-category {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    background: none;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.hmk_mobile_pointstore-category.active {
+    background-color: #007AFF;
+    color: white;
+    border-color: #007AFF;
+}
+
+.hmk_mobile_pointstore-items {
+    padding: 16px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.hmk_mobile_pointstore-item {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.hmk_mobile_pointstore-item-image {
+    position: relative;
+    padding-top: 100%;
+}
+
+.hmk_mobile_pointstore-item-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hmk_mobile_pointstore-item-purchased {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.hmk_mobile_pointstore-item-info {
+    padding: 12px;
+}
+
+.hmk_mobile_pointstore-item-info h3 {
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: #333;
+}
+
+.hmk_mobile_pointstore-item-info p {
+    font-size: 16px;
+    font-weight: 600;
+    color: #007AFF;
+}
+
+.hmk_mobile_pointstore-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.hmk_mobile_pointstore-modal {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    width: 80%;
+    max-width: 320px;
+}
+
+.hmk_mobile_pointstore-modal h3 {
+    font-size: 18px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.hmk_mobile_pointstore-modal p {
+    margin: 8px 0;
+    text-align: center;
+}
+
+.hmk_mobile_pointstore-modal-info {
+    margin: 20px 0;
+    text-align: center;
+    padding: 12px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+}
+
+.hmk_mobile_pointstore-modal-buttons {
+    display: flex;
+    justify-content: center;  /* 버튼들을 가운데로 정렬 */
+    gap: 12px;  /* 버튼 사이 간격 */
+    margin-top: 20px;
+}
+
+/* 모달 버튼 공통 스타일 */
+.hmk_mobile_pointstore-modal button {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #007AFF;
+    color: white;
+    font-size: 16px;
+}
+
+/* 단일 버튼(확인 버튼) 컨테이너 */
+.hmk_mobile_pointstore-modal-single-button {
+    display: flex;
+    justify-content: center;  /* 가운데 정렬 */
+    margin-top: 20px;
+}
+
+/* 단일 버튼 스타일 */
+.hmk_mobile_pointstore-modal-single-button button {
+    width: 50%;  /* 버튼 너비 조절 */
+}
+
+.hmk_mobile_pointstore-modal button:first-child {
+    background-color: #8e8e93;
+}
+
+.hmk_mobile_pointstore-modal-single-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.hmk_mobile_pointstore-modal-single-button button {
+    width: 50%;  /* 버튼 너비 조절 */
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #007AFF;
+    color: white;
+    font-size: 16px;
+}
