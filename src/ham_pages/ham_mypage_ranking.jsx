@@ -111,7 +111,6 @@ const Rank = () => {
         <>
             <Header />
             {/* 배경음악 컴포넌트 추가 */}
-            {/* 배경음악 컴포넌트 추가 */}
             <BackgroundMusic
                 src="/audio/01-BoysLikeGirls-TheGreatEscape.mp3" // 배경음악 파일 경로 (확인 필요)
                 autoPlay={false} // 자동 재생 여부 (false로 설정하여 사용자의 상호작용 필요)

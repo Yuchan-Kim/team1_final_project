@@ -22,6 +22,7 @@ import Mobile from './ham_pages/ham_mobile/ham_mobileUser';
 import M_home from './ham_pages/ham_mobile/ham_M_home';
 import M_mission from './ham_pages/ham_mobile/ham_M_mission';
 import M_cargo from './ham_pages/ham_mobile/ham_M_cargo.jsx';
+import M_rank from './ham_pages/ham_mobile/ham_M_rank.jsx';
 
 import Step0 from './pages/genebang/Genebang01';
 import Step1 from './pages/genebang/Step01';
@@ -110,6 +111,7 @@ function App() {
           <Route path="/m/home" element={<M_home  />} />
           <Route path="/m/mission/:roomNum" element={<M_mission  />} />
           <Route path="/m/cargo" element={<M_cargo  />} />
+          <Route path="/m/rank" element={<M_rank  />} />
     
         </Routes>
     </BrowserRouter>
