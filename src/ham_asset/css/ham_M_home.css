@@ -40,7 +40,7 @@
 }
 .hmk_mobile_home-stats {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .hmk_mobile_home-stat {

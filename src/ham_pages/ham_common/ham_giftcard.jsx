@@ -13,9 +13,13 @@
 
 import React from 'react';
 
-const GiftCard = ({ gift, onClick }) => {
+const GiftCard = ({ gift, onClick, isMobile }) => {
+    const cardClassName = isMobile 
+        ? "hmk_challenge-card" 
+        : "hmk_gift-card";
+
     return (
-        <div className="hmk_gift-card">
+        <div className={cardClassName}>
             <div className="hmk_gift-image_frame">
                 {/* 기프티콘 이미지 표시 */}
                 <img src={gift.image} alt={gift.name} className="hmk_gift-image" />
