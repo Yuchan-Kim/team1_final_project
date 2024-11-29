@@ -8,24 +8,28 @@ import Header from '../include/DH_Header';
 
 const Mainlist = () => {
     const location = useLocation();
-    const navigate = useNavigate(); // navigate 초기화
-    const [roomList, setRoomList] = useState([]); // 검색 결과 리스트
-    const [roomType, setRoomType] = useState([]); // 방 유형
-    const [category, setCategory] = useState([]); // 카테고리
-    const [period, setPeriod] = useState([]); // 기간
-    const [regions, setRegions] = useState([]); // 지역
+    const navigate = useNavigate(); 
+    const [roomList, setRoomList] = useState([]); 
+    const [roomType, setRoomType] = useState([]); 
+    const [category, setCategory] = useState([]); 
+    const [period, setPeriod] = useState([]); 
+    const [regions, setRegions] = useState([]); 
     const [filters, setFilters] = useState({
         roomType: [],
         category: 'all',
         period: 'all',
         region: 'all',
     });
-    const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태
+    const [searchTerm, setSearchTerm] = useState(''); 
+    const [filteredRooms, setFilteredRooms] = useState([]); 
+    const [query, setQuery] = useState(''); 
 
-    const [filteredRooms, setFilteredRooms] = useState([]); // 필터링된 방 리스트
-    const [query, setQuery] = useState(''); // 검색어 상태
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 12;
 
-    // URL에서 쿼리 파라미터 추출
+    const totalPages = Math.ceil(filteredRooms.length / itemsPerPage);
+
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
         const searchQuery = queryParams.get('query') || '';
@@ -36,27 +40,25 @@ const Mainlist = () => {
         }
     }, [location.search]);
 
-    //검색어 전달 -> 페이지 이동
     const handleSearchKeyDown = (e) => {
         if (e.key === 'Enter') {
-            e.preventDefault(); // 기본 Enter 동작 방지 (예: 폼 제출)
-            navigate(`/mainlist?query=${searchTerm}`); // 검색어를 쿼리 파라미터로 전달하며 이동
+            e.preventDefault();
+            navigate(`/mainlist?query=${searchTerm}`);
         }
     };
 
-    // 검색 결과 가져오기
     const fetchRoomList = (searchQuery) => {
         axios.get(`${process.env.REACT_APP_API_URL}/api/roomFilter/search`, { params: { query: searchQuery } })
             .then((response) => {
                 if (response.data.result === 'success') {
                     setRoomList(response.data.apiData || []);
-                    setFilteredRooms(response.data.apiData || []); // 초기 필터링 결과는 검색 결과와 동일
+                    setFilteredRooms(response.data.apiData || []);
+                    setCurrentPage(1); // Reset to first page on new search
                 }
             })
             .catch((error) => console.error(error));
     };
 
-    // 필터링 데이터 가져오기
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API_URL}/api/Roomtype`).then((response) => {
             if (response.data.result === 'success') setRoomType(response.data.apiData || []);
@@ -75,7 +77,6 @@ const Mainlist = () => {
         });
     }, []);
 
-    // 필터링 적용
     useEffect(() => {
         const filtered = roomList.filter((room) => {
             const matchesRoomType =
@@ -90,9 +91,9 @@ const Mainlist = () => {
             return matchesRoomType && matchesCategory && matchesPeriod && matchesRegion;
         });
         setFilteredRooms(filtered);
+        setCurrentPage(1); // Reset to first page on filter change
     }, [filters, roomList]);
 
-    // 필터 변경 핸들러
     const handleFilterChange = (e) => {
         const { name, value } = e.target;
         setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
@@ -108,25 +109,32 @@ const Mainlist = () => {
         }));
     };
 
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const displayedRooms = filteredRooms.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+    );
+
     return (
         <>
             <Header />
             <div id="jy_wrap" className="jy_wrap">
                 <div className="jy_main" id="jy_main">
-                    {/* 검색창 */}
                     <div id="search">
-                    <div>
+                        <div>
                             <SearchIcon />
                             <input
                                 placeholder="방 제목, 키워드, 카테고리, 방 유형 검색"
                                 value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)} // 검색어 상태 업데이트
-                                onKeyDown={handleSearchKeyDown} // Enter 키 감지
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                onKeyDown={handleSearchKeyDown}
                             />
                         </div>
                     </div>
 
-                    {/* 필터 */}
                     <div id="search-bar">
                         <div id="search-bar1">
                             {roomType.map((type) => (
@@ -182,10 +190,9 @@ const Mainlist = () => {
                         </div>
                     </div>
 
-                    {/* 방 리스트 */}
                     <div id="list">
-                        {filteredRooms && filteredRooms.length > 0 ? (
-                            filteredRooms.map((room) => (
+                        {displayedRooms.length > 0 ? (
+                            displayedRooms.map((room) => (
                                 <div key={room.roomNum}>
                                     <Link to={`/cmain/${room.roomNum}`} className="list_bang">
                                         <div className="bang_level">
@@ -227,6 +234,18 @@ const Mainlist = () => {
                         ) : (
                             <div>검색 결과가 없습니다.</div>
                         )}
+                    </div>
+
+                    <div id="pagination">
+                        {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
+                            <button
+                                key={page}
+                                className={page === currentPage ? 'active' : ''}
+                                onClick={() => handlePageChange(page)}
+                            >
+                                {page}
+                            </button>
+                        ))}
                     </div>
                 </div>
             </div>

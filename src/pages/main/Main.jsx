@@ -34,7 +34,8 @@ const Main = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [previousStep, setPreviousStep] = useState(null); // 이전 스텝 추적
     const [selection, setSelection] = useState(null); // 'left' 또는 'right' 선택 추적
-    const [roomList, setRoomList] = useState(); // 방 리스트 가져오기
+    const [roomList, setRoomList] = useState([]); // 방 리스트 가져오기 (빈 배열로 초기화)
+    const [closeRoomList, setCloseRoomList] = useState([]); // 종료된 방 리스트 가져오기 (빈 배열로 초기화)
     const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태
 
     const openModal = () => {
@@ -206,8 +207,59 @@ const Main = () => {
         });
       };
 
+    // 종료된 방 리스트와 전체 달성률 통계 가져오기
+const getCloseRoomList = () => {
+    axios({
+      method: 'get',
+      url: `${process.env.REACT_APP_API_URL}/api/closeRoomList`,
+      responseType: 'json'
+    })
+      .then(response => {
+        if (response.data.result === "success") {
+          const closeRooms = response.data.apiData;
+  
+          // 각 종료된 방의 전체 달성률 통계 가져오기
+          const updatedRooms = closeRooms.map(room => {
+            return axios({
+              method: 'get',
+              url: `${process.env.REACT_APP_API_URL}/api/overall/${room.roomNum}`,
+              responseType: 'json'
+            })
+              .then(statResponse => {
+                if (statResponse.data.result === "success") {
+                  // 전체 달성률 정보를 room 객체에 추가
+                  return {
+                    ...room,
+                    overallStats: statResponse.data.apiData
+                  };
+                } else {
+                  console.log(statResponse.data.message);
+                  return room;
+                }
+              })
+              .catch(statError => {
+                console.log(statError);
+                return room;
+              });
+          });
+  
+          // 모든 종료된 방의 전체 달성률 통계가 추가되면 상태 업데이트
+          Promise.all(updatedRooms).then(roomsWithStats => {
+            setCloseRoomList(roomsWithStats);
+          });
+        } else {
+          console.log(response.data.message);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+
     useEffect(() => {
         getRoomList(); // 방리스트 가져오기
+        getCloseRoomList(); // 방리스트 가져오기
     }, []);
 
     return (
@@ -234,27 +286,28 @@ const Main = () => {
                         <div id='ad-banner'>
                             <img src="/img/banner.jpg" alt="banner" />
                         </div>
+
                         {/* //ad-banner */}
-
                         <div id='ad-bang'>
-                            {score.map((item, idx) => (
-                                <div className='ad-bang-list' key={idx}>
-
-                                    <div className="ad-bang-image">
-                                        <img src={item.image} alt={item.title} width="100" height="100" />
-                                    </div> {/* 이미지 */}
-
-                                    <div className="ad-bang-title">{item.title}</div> {/* 챌린지 제목 */}
-
-                                    <div className="ad-bang-score">
-                                        <svg className="circle_progress" width="60" height="60" viewBox="0 0 60 60">
-                                            <circle className="frame" cx="30" cy="30" r="27" strokeWidth="6" />
-                                            <circle className="bar" cx="30" cy="30" r="27" strokeWidth="6" />
-                                        </svg>
-                                        <strong className="value">{item.score}%</strong>
+                            {closeRoomList && closeRoomList.length > 0 ? (
+                                closeRoomList.map((close, idx) => (
+                                    <div className='ad-bang-list' key={idx}>
+                                        <div className="ad-bang-image">
+                                            <img src={close.roomThumbNail || "/img/default-room.jpg"} alt={close.roomTitle} width="100" height="100" />
+                                        </div>
+                                        <div className="ad-bang-title">{close.roomTitle}</div>
+                                        <div className="ad-bang-score">
+                                            <svg className="circle_progress" width="60" height="60" viewBox="0 0 60 60">
+                                                <circle className="frame" cx="30" cy="30" r="27" strokeWidth="6" />
+                                                <circle className="bar" cx="30" cy="30" r="27" strokeWidth="6" />
+                                            </svg>
+                                            <strong className="value">{close.overallStats ? close.overallStats.achievementRate + '%' : '통계 없음'}</strong>
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))
+                            ) : (
+                                <div>종료된 방이 없습니다.</div>
+                            )}
                         </div>
                         {/* //ad-bang */}
 

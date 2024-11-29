@@ -328,7 +328,7 @@ const ChallengePage = () => {
                   <thead>
                     <tr>
                       <th>이름</th>
-                      <th>상태</th>
+                      <th>성실도</th>
                       <th>포인트</th>
                       <th>액션</th>
                     </tr>
@@ -343,8 +343,8 @@ const ChallengePage = () => {
                         >
                           {user.userName}
                         </Link></td>
-                        <td className={`yc-status-${user.userStatus}`}>{user.userStatus}</td>
-                        <td>{user.points || 0}</td>
+                        <td className={`yc-status-${user.achievementRate}`}>{user.achievementRate}</td>
+                        <td>{user.userPoints || 0}</td>
                         <td><button className="yc-report-button">신고</button></td>
                       </tr>
                     ))}
