@@ -348,16 +348,15 @@ const JMYCChallengeHeader = () => {
             alert("참가 중 오류가 발생했습니다.");
         }
     };
-    
-    
-    
-    
-
-    
 
     const handleCancelJoin = () => {
         setShowJoinModal(false);
     };
+
+
+
+
+
 
     // ------ 모집 시작 핸들러 ------
     const handleStartRecruitClick = () => {
@@ -390,6 +389,7 @@ const JMYCChallengeHeader = () => {
     const handleCancelStartRecruit = () => {
         setShowStartRecruitModal(false);
     };
+
 
     // ------ 챌린지 시작 핸들러 ------
     const handleStartChallengeClick = () => {
@@ -553,6 +553,7 @@ const JMYCChallengeHeader = () => {
 
             if (response.data.result === 'success') {
                 const data = response.data.apiData;
+                console.log(response.data.apiData);
                 setRoomData({
                     roomTitle: data.roomTitle,
                     roomStartDate: data.roomStartDate ? new Date(data.roomStartDate) : null, // null 유지
@@ -563,7 +564,7 @@ const JMYCChallengeHeader = () => {
                     roomStatusNum: data.roomStatusNum,
                     periodType: data.periodType,
                     roomMinNum: data.roomMinNum, // 새로 추가된 필드
-                enteredUserNum: data.enteredUserNum, // 새로 추가된 필드
+                enteredUserNum: data.enteredUserCount, // 새로 추가된 필드
                 });
             } else {
                 setError(response.data.message);
@@ -576,6 +577,11 @@ const JMYCChallengeHeader = () => {
 
     // 사용자 인증 상태 조회 함수
     const checkUser = async () => {
+
+        if (!roomData.roomStartDate) {
+            console.warn("roomStartDate가 설정되지 않았습니다.");
+            return;
+        }
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/user/${roomNum}`, {
                 headers: {
@@ -645,24 +651,22 @@ const JMYCChallengeHeader = () => {
 
         const updateTimer = () => {
             let difference = 0;
+            let endDate = null;
             if (roomData.roomStatusNum === 3 && roomData.roomStartDate) { // 챌린지 진행 중
-                const endDate = new Date(roomData.roomStartDate.getTime() + roomData.periodType * 24 * 60 * 60 * 1000);
+                endDate = new Date(roomData.roomStartDate.getTime() + roomData.periodType * 24 * 60 * 60 * 1000);
                 difference = calculateTimeDifference(endDate);
             } else if (roomData.roomStartDate) { // 챌린지 시작 전
-                difference = calculateTimeDifference(roomData.roomStartDate);
+                endDate = new Date(roomData.roomStartDate);
+                difference = calculateTimeDifference(endDate);
             } else { // roomStartDate가 null인 경우
                 difference = 0;
             }
 
+
             if (difference <= 0) {
-                if (roomData.roomStatusNum === 3) {
-                    setTimeLeft("종료됨");
-                    // Since the time has expired, prompt to end the challenge if user is host
-                    if (userAuthorization === 1) {
-                        setShowChallengeEndModal(true);
-                    }
-                } else {
-                    setTimeLeft("종료됨");
+                setTimeLeft("종료됨");
+                if (roomData.roomStatusNum === 3 && userAuthorization === 1) {
+                    setShowChallengeEndModal(true);
                 }
                 clearInterval(timerRef.current);
             } else {
@@ -689,7 +693,7 @@ const JMYCChallengeHeader = () => {
             try {
                 await fetchUserNum(); // Fetch and set userNum first
                 await getRoomHeaderInfo();
-                await checkUser();
+               
                 getUserLocation(); // 위치 정보 가져오기
 
             } catch (error) {
@@ -701,72 +705,12 @@ const JMYCChallengeHeader = () => {
         fetchData();
     }, [roomNum]);
 
-    // 남은 시간이 6시간이 되었을 때 실행되는 함수
-    const handleSixHoursLeft = async () => {
-        try {
-            const response = await axios.delete(`${process.env.REACT_APP_API_URL}/api/challenge/delete-room/${roomNum}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            if (response.data.result === 'success') {
-                alert('남은 인원이 최소 인원 미만이어서 챌린지가 삭제되었습니다.');
-                navigate('/'); // 홈으로 이동
-            } else {
-                alert(`챌린지 삭제 실패: ${response.data.message}`);
-            }
-        } catch (error) {
-            console.error('챌린지 삭제 중 오류 발생:', error);
-            alert('챌린지 삭제 중 오류가 발생했습니다.');
+    // roomData가 업데이트된 후 checkUser 호출
+    useEffect(() => {
+        if (roomData.roomTitle !== "") { // roomData가 로드되었는지 확인
+            checkUser();
         }
-    };
-
-    // 카운트다운이 끝났을 때 실행되는 함수
-    const handleCountdownEnd = async () => {
-        if (roomData.roomStatusNum === 2 && userAuthorization > 0) {
-            try {
-                const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/end-challenge/${roomNum}`, {}, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                if (response.data.result === 'success') {
-                    setRoomData(prevData => ({ ...prevData, roomStatusNum: 3 }));
-                    alert('챌린지가 종료되었습니다.');
-                    // 최신 데이터 다시 가져오기
-                    await getRoomHeaderInfo();
-                } else {
-                    alert(`챌린지 종료 실패: ${response.data.message}`);
-                }
-            } catch (error) {
-                console.error('챌린지 종료 중 오류 발생:', error);
-                alert('챌린지 종료 중 오류가 발생했습니다.');
-            }
-        }
-    };
-
-    // periodType 카운트다운이 끝났을 때 실행되는 함수
-    const handlePeriodCountdownEnd = async () => {
-        try {
-            const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/complete-period/${roomNum}`, {}, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            if (response.data.result === 'success') {
-                setRoomData(prevData => ({ ...prevData, roomStatusNum: 4 }));
-                alert('챌린지가 완전히 종료되었습니다.');
-            } else {
-                alert(`챌린지 완전 종료 실패: ${response.data.message}`);
-            }
-        } catch (error) {
-            console.error('챌린지 완전 종료 중 오류 발생:', error);
-            alert('챌린지 완전 종료 중 오류가 발생했습니다.');
-        }
-    };
+    }, [roomData]);
 
     // ----------------------
     // 렌더링
@@ -876,22 +820,20 @@ const JMYCChallengeHeader = () => {
                                 <button 
                                     className="jm-c-start host" 
                                     onClick={handleStartChallengeClick}
-                                    disabled={roomData.enteredUserNum < roomData.roomMinNum}
+                                    disabled={roomData.enteredUserCount < roomData.roomMinNum}
                                     title={
-                                        roomData.enteredUserNum < roomData.roomMinNum
-                                            ? `참여 인원이 부족합니다 (${roomData.enteredUserNum}/${roomData.roomMinNum})`
+                                        roomData.enteredUserCount < roomData.roomMinNum
+                                            ? `참여 인원이 부족합니다 (${roomData.enteredUserCount}/${roomData.roomMinNum})`
                                             : "챌린지 시작"
                                     }
                                 >
-                                    <span className="emoji"></span>
                                     <span className="label">챌린지 시작</span>
                                 </button>
-                            ) : roomData.roomStatusNum === 3 && timeLeft === "종료됨" ? ( // roomStatusNum이 3이고 시간이 만료되었을 때 챌린지 종료 버튼
+                            ) : (roomData.roomStatusNum === 3 && timeLeft === "종료됨") ? ( // roomStatusNum이 3이고 시간이 만료되었을 때 챌린지 종료 버튼
                                 <button 
                                     className="jm-c-end host" 
                                     onClick={() => setShowChallengeEndModal(true)}
                                 >
-                                    <span className="emoji"></span>
                                     <span className="label">챌린지 종료</span>
                                 </button>
                             ) : null // roomStatusNum이 4 이상일 때 버튼 숨김
@@ -1039,7 +981,7 @@ const JMYCChallengeHeader = () => {
 
                     {/* 챌린지 종료 확인 모달 */}
                     <Modal
-                        isOpen={showChallengeEndModal}
+                        isOpen={showChallengeEndModal && timeLeft === "종료됨"}
                         onRequestClose={handleCancelEndChallenge}
                         style={customModalStyles}
                         contentLabel="챌린지 종료 모달"
@@ -1053,22 +995,7 @@ const JMYCChallengeHeader = () => {
                             </div>
                         </div>
                     </Modal>
-
-                    {/* 챌린지 시작 알림 모달 */}
-                    <Modal
-                        isOpen={showChallengeStartedModal}
-                        onRequestClose={() => setShowChallengeStartedModal(false)}
-                        style={customModalStyles}
-                        contentLabel="챌린지 시작 알림 모달"
-                        ariaHideApp={false}
-                    >
-                        <div className="yc-modal-header">
-                            <p>챌린지가 시작되었습니다!</p>
-                            <div className="yc-modal-buttons-header">
-                                <button className="yc-modal-confirm-header" onClick={() => setShowChallengeStartedModal(false)}>확인</button>
-                            </div>
-                        </div>
-                    </Modal>
+                   
 
                     {/* 성적표 모달 */}
                     {isModalOpen && selectedUser && userDetails && (
