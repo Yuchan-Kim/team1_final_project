@@ -47,7 +47,7 @@ const Step03 = () => {
             formData.append('roomNum', parseInt(roomNum, 10)); // roomNum 추가
             formData.append('roomTitle', title.trim()); // 방 제목 추가
             formData.append('roomInfo', description.trim()); // 방 설명 추가
-            formData.append('file', thumbnailUrl); // 썸네일 파일 추가 (업로드를 위해)
+            formData.append('file', thumbnail); // 썸네일 파일 추가
     
             // Axios 요청
             const response = await axios.post(

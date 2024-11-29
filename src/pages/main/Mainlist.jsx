@@ -201,7 +201,7 @@ const Mainlist = () => {
                                         </div>
                                         <div className="bang_img">
                                             <img
-                                                src={room.roomThumbNail || "/img/default-room.jpg"}
+                                                src={`${process.env.REACT_APP_API_URL}/upload/${room.roomThumbNail}`}
                                                 alt={`${room.roomTitle} 방 썸네일`}
                                             />
                                         </div>
