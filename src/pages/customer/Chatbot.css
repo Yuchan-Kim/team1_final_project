@@ -29,10 +29,13 @@
     margin: 0;
     flex-grow: 1;
     text-align: center;
+    padding-left: 19px;
 }
 
 .jy-chatbot .jy-chatbot-header .jy-chatbot-close-button {
     cursor: pointer;
+    font-size: 18px;
+    padding-right: 19px;
 }
 
 .jy-chatbot .jy-chatbot-messages {
@@ -56,6 +59,12 @@
     background-color: #007bff;
     color: white;
     align-self: flex-end;
+}
+
+.jy-chatbot .jy-chatbot-first {
+    background-color: #fff;
+    color: black;
+    align-self: flex-start;
 }
 
 .jy-chatbot .jy-chatbot-message.assistant {

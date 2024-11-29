@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import './Chatbot.css';
+import WarningRoundIcon from '@rsuite/icons/WarningRound';
 
 const callOpenAI = async (messageHistory) => {
     const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
@@ -51,6 +52,7 @@ const CSchatbot = ({ closeModal }) => {
     const [responseText, setResponseText] = useState('');
     const [promptTxt, setPromptTxt] = useState('');
     const [assistant, setassistant] = useState('');
+    const [recentChats, setRecentChats] = useState([]); 
 
     const getPrompt = async () => {
         try {
@@ -67,6 +69,25 @@ const CSchatbot = ({ closeModal }) => {
             console.error('faq를 가져오는데 실패했습니다 :', error);
         }
     };
+
+
+    // 최근 채팅 가져오기 함수
+    const getRecentChats = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/getRecentChats`, {
+                params: { userNum: authUser.userNum },
+            });
+
+            if (response.data.apiData) {
+                setRecentChats(response.data.apiData.reverse()); // 최근 채팅 데이터 설정
+            }
+        } catch (error) {
+            console.error('최근 채팅을 가져오는 데 실패했습니다:', error);
+        }
+    };
+
+
+
 
     const formatPrompt = (data) => {
         let formattedPrompt = `
@@ -116,6 +137,7 @@ const CSchatbot = ({ closeModal }) => {
             navigate('/user/loginform');
         } else {
             getPrompt();
+            getRecentChats();
         }
     }, [authUser, navigate]);
 
@@ -137,6 +159,21 @@ const CSchatbot = ({ closeModal }) => {
             setResponseText(assistantResponse);
             setassistant(assistantResponse);
             setUserInput('');
+
+            // 서버로 대화 내용을 전송
+            await axios.post(`${process.env.REACT_APP_API_URL}/api/saveChat`, {
+                userNum: authUser.userNum,   // 로그인한 유저의 userNum
+                csbotAnswer: userInput,      // 사용자의 입력
+                csbotWriter: 1,              // 사용자 (1은 사용자)
+            });
+
+            // 봇의 응답을 서버로 전송
+            await axios.post(`${process.env.REACT_APP_API_URL}/api/saveChat`, {
+                userNum: authUser.userNum,   // 로그인한 유저의 userNum
+                csbotAnswer: assistantResponse, // 봇의 응답
+                csbotWriter: 2,              // 봇 (2는 봇)
+            });
+
         } catch (error) {
             console.error('Error during OpenAI API call:', error);
             setResponseText('챗봇 응답 중 문제가 발생했습니다. 나중에 다시 시도해주세요.');
@@ -149,21 +186,9 @@ const CSchatbot = ({ closeModal }) => {
             formData.append('csbotWriter', userInput);
             formData.append('csbotAnswer', assistant);
 
-            console.log('여기에룡롬루ㅠ낟ㄱ로ㅜ');
-            console.log(authUser.userNum);
-            console.log(userInput);
-            console.log(assistant);
-
-
-            // axios.post(`${process.env.REACT_APP_API_URL}/api/`, formData, {
-            //     headers: { 'Content-Type': 'multipart/form-data' },
-            // })
-
         } catch (error) {
             console.error('newMessageHistory를 등록하는데 실패했습니다 :', error);
         }
-
-
 
     };
 
@@ -172,10 +197,23 @@ const CSchatbot = ({ closeModal }) => {
             <div className="jy-chatbot-container">
                 <div className="jy-chatbot-header">
                     <h2>Donkey ChatBot</h2>
-                    <div className='jy-chatbot-close-button' onClick={closeModal}>X</div>
+                    <div className='jy-chatbot-close-button' onClick={closeModal}><WarningRoundIcon /></div>
                 </div>
 
                 <div className="jy-chatbot-messages">
+                    <div className="jy-chatbot-message jy-chatbot-first">
+                        <strong>동키 챗봇:</strong><br />
+                        안녕하세요! 동기 키우기의 동키입니다.<br />
+                        궁금한 점이 있다면 물어보세요~<br /><br />
+                        저는 고객센터안내/개인정보수정/챌린지정보/랭킹정보/포인트정보에 관한 안내가 가능해요!
+                    </div>
+
+                    {recentChats.length > 0 && recentChats.map((chat, index) => (
+                        <div key={index} className={`jy-chatbot-message ${chat.csbotWriter === 1 ? 'user' : 'assistant'}`}>
+                            <strong>{chat.csbotWriter === 1 ? authUser.userName : '동키 챗봇'}:</strong>
+                            <p>{LineBreaks(chat.csbotAnswer)}</p>
+                        </div>
+                    ))}
                     {messageHistory.slice(1).map((msg, index) => (
                         <div key={index} className={`jy-chatbot-message ${msg.role}`}>
                             <strong>{msg.role === 'user' ? authUser.userName : '동키 챗봇'}:</strong>
