@@ -12,6 +12,10 @@ Modal.setAppElement('#root');
 const YCChallengeSidebar = () => {
     const navigate = useNavigate();
     const { roomNum } = useParams();
+    
+    const [regions, setRegions] = useState([]);
+    const [currentParticipantCount, setCurrentParticipantCount] = useState(0);
+
 
     // 모달 상태 관리
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -141,20 +145,36 @@ const YCChallengeSidebar = () => {
 
             if (response.data.result === 'success') {
                 const data = response.data.apiData;
+                console.log(data);
                 setFormData({
-                    regionNum: data.regionNum,
-                    roomKeyword: data.roomKeyword,
-                    roomTitle: data.roomTitle,
-                    roomThumbnail: null, // 이미지는 별도로 처리
-                    roomMinNum: data.roomMinNum,
-                    roomMaxNum: data.roomMaxNum,
-                    roomEnterPoint: data.roomEnterPoint,
-                    roomEnterRate: data.roomEnterRate,
-                    evaluationType: data.evaluationType
+                    regionNum: response.data.apiData[0].regionNum,
+                    roomKeyword: response.data.apiData[0].roomKeyword,
+                    roomTitle: response.data.apiData[0].roomTitle,
+                    roomThumbnail: response.data.apiData[0].roomThumbnail,
+                    roomMinNum: response.data.apiData[0].roomMinNum,
+                    roomMaxNum: response.data.apiData[0].roomMaxNum,
+                    roomEnterPoint: response.data.apiData[0].roomPoint,
+                    roomEnterRate: response.data.apiData[0].roomRate,
+                    evaluationType: response.data.apiData[0].evaluationType
                 });
+                console.log(setFormData.regionNum, setFormData.roomMinNum);
                 setPreviewImage(data.roomThumbnail);
             } else {
                 setFormError('방 상세 정보를 가져오는 데 실패했습니다.');
+            }
+
+            // 지역 목록 가져오기
+            const regionsResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/regions`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (regionsResponse.data.result === 'success') {
+                setRegions(regionsResponse.data.apiData);
+            } else {
+                console.error('지역 정보 가져오기 실패:', regionsResponse.data.message);
+                setError('지역 정보를 가져오는 데 실패했습니다.');
             }
         } catch (error) {
             console.error('방 상세 정보 가져오기 오류:', error);
@@ -240,11 +260,6 @@ const YCChallengeSidebar = () => {
                 data = { roomMinNum: formData.roomMinNum };
                 headers['Content-Type'] = 'application/json';
                 break;
-            case 'roomMaxNum':
-                url = `${process.env.REACT_APP_API_URL}/api/challenge/update-maxnum/${roomNum}`;
-                data = { roomMaxNum: formData.roomMaxNum };
-                headers['Content-Type'] = 'application/json';
-                break;
             case 'roomEnterPoint':
                 url = `${process.env.REACT_APP_API_URL}/api/challenge/update-enterpoint/${roomNum}`;
                 data = { roomEnterPoint: formData.roomEnterPoint };
@@ -257,8 +272,8 @@ const YCChallengeSidebar = () => {
                 break;
             case 'evaluationType':
                 url = `${process.env.REACT_APP_API_URL}/api/challenge/update-evaluationtype/${roomNum}`;
-                data = { evaluationType: formData.evaluationType };
-                headers['Content-Type'] = 'application/json';
+                data = { evaluationType: formData.evaluationType === '방장' ? 1 : 2 };
+            headers['Content-Type'] = 'application/json';
                 break;
             default:
                 setUpdateStatus(prevState => ({
@@ -496,10 +511,11 @@ const YCChallengeSidebar = () => {
                                         >
                                             {/* 실제 지역 데이터로 대체 */}
                                             <option value="">지역 선택</option>
-                                            <option value="1">서울</option>
-                                            <option value="2">부산</option>
-                                            <option value="3">대구</option>
-                                            {/* 추가 지역 옵션 */}
+                                            {regions.map(region => (
+                                                <option key={region.regionNum} value={region.regionNum}>
+                                                    {region.regionName}
+                                                </option>
+                                            ))}
                                         </select>
                                     </div>
                                     <button
@@ -599,7 +615,8 @@ const YCChallengeSidebar = () => {
                                             name="roomMinNum"
                                             value={formData.roomMinNum}
                                             onChange={handleInputChange}
-                                            min="1"
+                                            min="2"
+                                            max= {formData.roomMaxNum}
                                             required
                                         />
                                     </div>
@@ -613,31 +630,8 @@ const YCChallengeSidebar = () => {
                                     {updateStatus.roomMinNum.success && <div className="success-message">{updateStatus.roomMinNum.success}</div>}
                                 </div>
 
-                                {/* 최대 참가 인원 수정 섹션 */}
-                                <div className="manage-section">
-                                    <h3>최대 참가 인원 수정</h3>
-                                    <div className="form-group">
-                                        <label htmlFor="roomMaxNum">최대 참가 인원:</label>
-                                        <input
-                                            type="number"
-                                            id="roomMaxNum"
-                                            name="roomMaxNum"
-                                            value={formData.roomMaxNum}
-                                            onChange={handleInputChange}
-                                            min="1"
-                                            required
-                                        />
-                                    </div>
-                                    <button
-                                        onClick={() => handleSectionUpdate('roomMaxNum')}
-                                        disabled={updateStatus.roomMaxNum.loading}
-                                    >
-                                        {updateStatus.roomMaxNum.loading ? '업데이트 중...' : '최대 인원 업데이트'}
-                                    </button>
-                                    {updateStatus.roomMaxNum.error && <div className="error-message">{updateStatus.roomMaxNum.error}</div>}
-                                    {updateStatus.roomMaxNum.success && <div className="success-message">{updateStatus.roomMaxNum.success}</div>}
-                                </div>
-
+                                
+                                
                                 {/* 방 참가 포인트 수정 섹션 */}
                                 <div className="manage-section">
                                     <h3>방 참가 포인트 수정</h3>
@@ -703,10 +697,8 @@ const YCChallengeSidebar = () => {
                                         >
                                             {/* 실제 평가 유형으로 대체 */}
                                             <option value="">평가 유형 선택</option>
-                                            <option value="1">타입 1</option>
-                                            <option value="2">타입 2</option>
-                                            <option value="3">타입 3</option>
-                                            {/* 추가 평가 유형 옵션 */}
+                                            <option value="방장">방장</option>
+                                            <option value="유저">유저</option>
                                         </select>
                                     </div>
                                     <button

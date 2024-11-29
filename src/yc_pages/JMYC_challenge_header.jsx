@@ -227,7 +227,7 @@ const JMYCChallengeHeader = () => {
     // ----------------------
     const fetchWeatherData = async (latitude, longitude) => {
         try {
-            const API_KEY = "d34033ce5a7c862984974f178d1598ca"; // 실제 API 키 사용 권장
+            const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
 
             console.log(`Fetching weather data for lat: ${latitude}, lon: ${longitude}`);
             
@@ -237,10 +237,11 @@ const JMYCChallengeHeader = () => {
                     params: {
                         lat: latitude,
                         lon: longitude,
-                        appid: API_KEY,
+                        appid: apiKey,
                         units: 'metric',
                         lang: 'kr'
-                    }
+                    },
+                    withCredentials: false,
                 }
             );
 

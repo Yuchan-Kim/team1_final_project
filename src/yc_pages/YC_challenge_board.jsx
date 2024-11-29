@@ -199,6 +199,7 @@ const YcChallengeBoard = () => {
                     latitude: notice.latitude ? parseFloat(notice.latitude) : null,
                     longitude: notice.longitude ? parseFloat(notice.longitude) : null,
                 }));
+                console.log(processedNotices);
                 setNotices(processedNotices);
                 setMapPlaces(processedNotices.filter(notice => notice.latitude && notice.longitude));
                 setLoading(false);
@@ -274,7 +275,7 @@ const YcChallengeBoard = () => {
                             return {
                                 ...notice,
                                 ...updatedNotice,
-                                isModified: true,
+                                modified: true,
                             };
                         }
                         return notice;
@@ -562,7 +563,7 @@ const YcChallengeBoard = () => {
     labels: ['완료', '미완료'],
     datasets: [
       {
-        label: firstMission.missionName,
+        label: missionAchievements.missionName,
         data: [firstMission.achievementRate, 100 - firstMission.achievementRate],
         backgroundColor: [
           'rgba(75, 192, 192, 0.6)',
@@ -818,7 +819,7 @@ const YcChallengeBoard = () => {
                                     <div className="yc_challenge_notice-item-header">
                                         <div className="yc_challenge_notice-title">
                                             <h3>{notice.title}</h3>
-                                            {notice.isModified && <span className="yc_modified-badge">수정됨</span>}
+                                            {notice.modified === true && <span className="yc_modified-badge">수정됨</span>}
                                         </div>
                                         <span className="yc_challenge_notice-date">작성일 {formatDateTime(notice.announceTime)}</span>
                                     </div>

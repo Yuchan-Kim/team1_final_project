@@ -22,7 +22,7 @@ import Mobile from './ham_pages/ham_mobile/ham_mobileUser';
 import M_home from './ham_pages/ham_mobile/ham_M_home';
 import M_mission from './ham_pages/ham_mobile/ham_M_mission';
 import M_cargo from './ham_pages/ham_mobile/ham_M_cargo.jsx';
-import M_rank from './ham_pages/ham_mobile/ham_M_rank.jsx';
+import MobileRank from './ham_pages/ham_mobile/ham_M_rank.jsx';
 import M_notice from './ham_pages/ham_mobile/ham_M_notice.jsx';
 import M_store from './ham_pages/ham_mobile/ham_M_pointstore.jsx';
 
@@ -109,14 +109,19 @@ function App() {
           <Route path="/naver/login" element={<NaverLogin />} />
           <Route path="/naver/callback" element={<NaverLoginCallback  />} />
           <Route path="/google/login" element={<GoogleLogin  />} />
+
+
+          <Route path='/mainlist2' element={<Mainlist />} />
+          <Route path="/rank" element={<MobileRank  />} />
+
           <Route path="/m" element={<Mobile  />} />
           <Route path="/m/home" element={<M_home  />} />
           <Route path="/m/mission/:roomNum" element={<M_mission  />} />
           <Route path="/m/cargo" element={<M_cargo  />} />
-          <Route path="/m/rank" element={<M_rank  />} />
+          {/* <Route path="/m/rank" element={<M_rank  />} /> */}
           <Route path="/m/notice" element={<M_notice  />} />
           <Route path="/m/store" element={<M_store  />} />
-    
+
         </Routes>
     </BrowserRouter>
 

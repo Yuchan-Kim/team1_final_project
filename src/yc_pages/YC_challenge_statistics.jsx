@@ -452,7 +452,7 @@ const YCChallengeStatistics = () => {
           {doughnutData && (
             <>
               <Doughnut data={doughnutData} options={doughnutOptions} />
-              <h4>{firstMission.missionName} 달성률: {firstMission.achievementRate.toFixed(2)}%</h4>
+              <h4>{missionAchievements.missionName} 달성률: {firstMission.achievementRate.toFixed(2)}%</h4>
             </>
           )}
           <h3>Top 5 랭킹</h3>
