@@ -77,10 +77,10 @@ const JMYCChallengeHeader = () => {
         categoryName: "",
         roomKeyword: "",
         regionName: "",
-        roomStatusNum: 1,
-        periodType: 0,
-        roomMinNum: 0, 
-        enteredUserNum: 0, 
+        roomStatusNum: null,
+        periodType: null,
+        roomMinNum: null, 
+        enteredUserCount: null, 
     });
 
     const [timeLeft, setTimeLeft] = useState("");
@@ -337,7 +337,7 @@ const JMYCChallengeHeader = () => {
             if (response.data.result === "success") {
                 alert(response.data.message || "참가가 성공적으로 완료되었습니다.");
                 setShowJoinModal(false);
-                await getRoomHeaderInfo(); // 최신 방 정보 다시 가져오기
+                getRoomHeaderInfo(); // 최신 방 정보 다시 가져오기
             } else {
                 console.log(response.data.data);
                 // message가 undefined인 경우 대비
@@ -393,8 +393,14 @@ const JMYCChallengeHeader = () => {
 
     // ------ 챌린지 시작 핸들러 ------
     const handleStartChallengeClick = () => {
-        setShowStartChallengeModal(true);
+        console.log(`enteredUserCount: ${roomData.enteredUserCount}, roomMinNum: ${roomData.roomMinNum}`);
+        if (roomData.enteredUserCount < roomData.roomMinNum) {
+            alert(`참여 인원이 부족해서 챌린지를 시작할 수 없습니다 (${roomData.enteredUserCount}/${roomData.roomMinNum})`);
+            return;
+        }
+        handleConfirmStartChallenge();
     };
+    
 
     const handleConfirmStartChallenge = async () => {
         try {
@@ -416,7 +422,7 @@ const JMYCChallengeHeader = () => {
                 alert('챌린지가 성공적으로 시작되었습니다.');
 
                 // 최신 데이터 다시 가져오기
-                await getRoomHeaderInfo();
+                getRoomHeaderInfo();
 
                 // 챌린지가 시작되었음을 사용자에게 알림
                 if ((userAuthorization === 1 || userAuthorization === 2) && !hasShownChallengeStartedModal) {
@@ -497,11 +503,11 @@ const JMYCChallengeHeader = () => {
 
     const handleConfirmExtend = async () => {
         if (!selectedDate) return;
-
+    
         try {
             // ISO 형식 유지
             const updatedStartDate = selectedDate.toISOString().slice(0, 19).replace('T', ' ');
-
+    
             const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/header/${roomNum}`, {
                 roomStartDate: updatedStartDate
             }, {
@@ -509,13 +515,13 @@ const JMYCChallengeHeader = () => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-
+    
             if (response.data.result === 'success') {
                 const newRoomStartDate = response.data.apiData.roomStartDate ? new Date(response.data.apiData.roomStartDate) : null; // 서버에서 받은 roomStartDate 사용
                 setRoomData(prevData => ({
                     ...prevData,
                     roomStartDate: newRoomStartDate,
-                    roomStatusNum: 1 // 상태 초기화
+                    // roomStatusNum: 1 // 제거: 상태 초기화 하지 않음
                 }));
                 setTimeLeft(formatTimeLeft(calculateTimeDifference(newRoomStartDate)));
                 getRoomHeaderInfo();
@@ -527,9 +533,10 @@ const JMYCChallengeHeader = () => {
             console.error('시작 시간 업데이트 중 오류 발생:', error);
             alert('시작 시간 업데이트 중 오류가 발생했습니다.');
         }
-
+    
         setShowExtendConfirmModal(false);
     };
+    
 
     const handleCancelExtend = () => {
         setShowExtendConfirmModal(false);
@@ -553,18 +560,18 @@ const JMYCChallengeHeader = () => {
 
             if (response.data.result === 'success') {
                 const data = response.data.apiData;
-                console.log(response.data.apiData);
+                console.log("아씨바" + response.data.apiData.enteredUserCount);
                 setRoomData({
-                    roomTitle: data.roomTitle,
-                    roomStartDate: data.roomStartDate ? new Date(data.roomStartDate) : null, // null 유지
-                    roomTypeName: data.roomTypeName,
-                    categoryName: data.categoryName,
-                    roomKeyword: data.roomKeyword,
-                    regionName: data.regionName,
-                    roomStatusNum: data.roomStatusNum,
-                    periodType: data.periodType,
-                    roomMinNum: data.roomMinNum, // 새로 추가된 필드
-                enteredUserNum: data.enteredUserCount, // 새로 추가된 필드
+                    roomTitle: response.data.apiData.roomTitle,
+                    roomStartDate: response.data.apiData.roomStartDate ? new Date(data.roomStartDate) : null, // null 유지
+                    roomTypeName: response.data.apiData.roomTypeName,
+                    categoryName: response.data.apiData.categoryName,
+                    roomKeyword: response.data.apiData.roomKeyword,
+                    regionName: response.data.apiData.regionName,
+                    roomStatusNum: response.data.apiData.roomStatusNum,
+                    periodType: response.data.apiData.periodType,
+                    roomMinNum: response.data.apiData.roomMinNum, // 새로 추가된 필드
+                    enteredUserCount: response.data.apiData.enteredUserCount, // 새로 추가된 필드
                 });
             } else {
                 setError(response.data.message);
@@ -590,6 +597,7 @@ const JMYCChallengeHeader = () => {
             });
 
             if (response.data.result === 'success') {
+                console.log("여길보세요!!!!!"+response.data.apiData);
                 const userAuth = response.data.apiData; // enteredUserAuth 값 (0, 1, 2)
                 setUserAuthorization(userAuth);
 
@@ -691,8 +699,8 @@ const JMYCChallengeHeader = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                await fetchUserNum(); // Fetch and set userNum first
-                await getRoomHeaderInfo();
+                fetchUserNum(); // Fetch and set userNum first
+                getRoomHeaderInfo();
                
                 getUserLocation(); // 위치 정보 가져오기
 
@@ -822,7 +830,7 @@ const JMYCChallengeHeader = () => {
                                     onClick={handleStartChallengeClick}
                                     disabled={roomData.enteredUserCount < roomData.roomMinNum}
                                     title={
-                                        roomData.enteredUserCount < roomData.roomMinNum
+                                        (roomData.enteredUserCount < roomData.roomMinNum)
                                             ? `참여 인원이 부족합니다 (${roomData.enteredUserCount}/${roomData.roomMinNum})`
                                             : "챌린지 시작"
                                     }
@@ -965,7 +973,7 @@ const JMYCChallengeHeader = () => {
                     {/* 시작 시간 변경 확인 모달 */}
                     <Modal
                         isOpen={showExtendConfirmModal}
-                        onRequestClose={handleCancelExtend}
+                        onRequestClose={handleCancelExtend} 
                         style={customModalStyles}
                         contentLabel="시작 시간 변경 확인 모달"
                         ariaHideApp={false}
