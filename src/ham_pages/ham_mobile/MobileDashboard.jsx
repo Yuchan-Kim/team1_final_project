@@ -26,6 +26,13 @@ const MobileDashboard = () => {
             created: []
         }
     });
+    const calculateDday = (startDate) => {
+        const today = new Date();
+        const start = new Date(startDate);
+        const timeDiff = start.getTime() - today.getTime();
+        return Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+    };
+    
 
     // profileStore 구독 및 데이터 동기화
     useEffect(() => {
@@ -112,7 +119,14 @@ const MobileDashboard = () => {
         const currentChallenges = userInfo.challengesDetails[activeTab] || [];
         console.log('Current Tab Challenges:', currentChallenges);
     }, [activeTab, userInfo]);
-
+    const sortedChallenges = [...activeChallenges].sort((a, b) => {
+        if (activeTab === 'created') {
+            const dDayA = calculateDday(a.roomStartDate);
+            const dDayB = calculateDday(b.roomStartDate);
+            return dDayA - dDayB; // D-day가 가까운 순으로 정렬
+        }
+        return 0; // 다른 탭은 정렬하지 않음
+    });
 
     return (
         <div className="hmk_mobile_home-wrap">
@@ -186,7 +200,7 @@ const MobileDashboard = () => {
             <div className="hmk_mobile_home-content">
                 {/* 챌린지 리스트 */}
                 <div className="hmk_mobile_home-grid-list">
-                    {activeChallenges.map((challenge) => {
+                    {sortedChallenges.map((challenge) => {
                         const challengeKey = `challenge-${challenge.roomNum || challenge.id}`;
                         return (
                             <div

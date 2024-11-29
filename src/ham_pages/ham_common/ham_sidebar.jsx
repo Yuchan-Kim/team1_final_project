@@ -4,10 +4,10 @@ import axios from 'axios';
 import profileStore from './profileStore';
 import '../../ham_asset/css/ham_sidebar.css';
 
-const ChallengeIcon = '/images/challenge.png';
-const NoticeIcon = '/images/notice_ico.png';
-const PointsIcon = '/images/points.png';
-const InventoryIcon = '/images/inventory.png';
+const ChallengeIcon = '/app/upload/icons/challenge.png';
+const NoticeIcon = '/app/upload/icons/notice_ico.png';
+const PointsIcon = '/app/upload/icons/points.png';
+const InventoryIcon = '/app/upload/icons/inventory.png';
 
 const Sidebar = () => {
     const [profile, setProfile] = useState({

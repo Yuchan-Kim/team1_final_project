@@ -7,7 +7,8 @@ import {
   faTimes,
   faCamera,
   faPlus,
-  faImage
+  faImage,
+  faPen
 } from '@fortawesome/free-solid-svg-icons';
 import MobileBottomMenu from '../ham_mobile/MobileBottomMenu';
 import '../../ham_asset/css/ham_M-mission.css';
@@ -28,6 +29,7 @@ const MobileMission = () => {
   // 모달 상태
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMission, setModalMission] = useState(null);
+  const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
   // 제출된 미션 상태
   const [submittedMissions, setSubmittedMissions] = useState([]);
   // 컴포넌트 마운트 시 상태 확인
@@ -73,9 +75,16 @@ const MobileMission = () => {
           }
         );
         console.log('Mission list response:', missionsResponse.data);
-        setMissionList(missionsResponse.data.apiData || []);
 
-        // 유의사항 가져오기
+        // evalNum이 존재하면 제출된 미션으로 처리
+        const updatedMissions = missionsResponse.data.apiData.map(mission => ({
+          ...mission,
+          isSubmitted: mission.evalNum ? true : false  // evalNum이 있으면 제출된 것으로 판단
+        }));
+
+        setMissionList(updatedMissions);
+
+        // 유의사항 가져오기 (기존 코드 유지)
         console.log('Fetching rules...');
         const rulesResponse = await axios.get(
           `${process.env.REACT_APP_API_URL}/api/getRule/${roomNum}`
@@ -91,6 +100,7 @@ const MobileMission = () => {
 
     fetchInitialData();
   }, [roomNum, token]);
+
   // 유의사항 저장 핸들러
   const handleSaveRule = async () => {
     if (!token || userAuth !== 1) return;
@@ -193,11 +203,16 @@ const MobileMission = () => {
       );
 
       if (response.data.result === 'success') {
-        // 제출된 미션 목록 업데이트
-        setSubmittedMissions([...submittedMissions, selectedMission.missionNum]);
-        alert('미션이 성공적으로 제출되었습니다.');
+        // 미션 리스트 업데이트
+        setMissionList(prevList =>
+          prevList.map(mission =>
+            mission.missionNum === selectedMission.missionNum
+              ? { ...mission, isSubmitted: true }
+              : mission
+          )
+        );
 
-        // 폼 초기화
+        alert('미션이 성공적으로 제출되었습니다.');
         setSelectedMission(null);
         setFileInputs([null]);
         setPreviews([]);
@@ -255,8 +270,16 @@ const MobileMission = () => {
         {/* 유의사항 카드 */}
         <div className="hmk_mobile_home-card">
           <div className="hmk_mobile_home-rules">
-            <div className="hmk_mobile_home-stat-title">유의사항</div>
-            {isEditingRule && userAuth === 1 ? (
+            <div className="hmk_mobile_home-stat-title-wrapper">
+              <h2 className="hmk_mobile_home-stat-title">유의사항</h2>
+              {userAuth === 1 && (
+                <div className="hmk_edit-icon-wrapper" onClick={() => setIsEditingRule(true)}>
+                  <FontAwesomeIcon icon={faPen} className="hmk_edit-icon" />
+                  <span className="hmk_edit-tooltip">수정하기</span>
+                </div>
+              )}
+            </div>
+            {isEditingRule ? (
               <div className="hmk_mobile_mission-edit">
                 <textarea
                   className="hmk_mobile_mission-textarea"
@@ -280,19 +303,14 @@ const MobileMission = () => {
                 </div>
               </div>
             ) : (
-              <>
-                <p className="hmk_mobile_home-stat-value">
-                  {getRule || "등록된 유의사항이 없습니다."}
-                </p>
-                {userAuth === 1 && (
-                  <button
-                    className="hmk_mobile_home-grid-item"
-                    onClick={() => setIsEditingRule(true)}
-                  >
-                    수정
-                  </button>
-                )}
-              </>
+              <div className="hmk_rule-button-wrapper">
+                <button
+                  className="hmk_view-rule-button"
+                  onClick={() => setIsRuleModalOpen(true)}
+                >
+                  유의사항 확인하기
+                </button>
+              </div>
             )}
           </div>
         </div>
@@ -305,9 +323,9 @@ const MobileMission = () => {
             <div
               key={mission.missionNum}
               className={`hmk_challenge-card ${selectedMission?.missionNum === mission.missionNum ? 'selected' : ''
-                } ${submittedMissions.includes(mission.missionNum) ? 'submitted' : ''}`}
+                } ${mission.isSubmitted ? 'submitted' : ''}`}
               onClick={() => {
-                if (!submittedMissions.includes(mission.missionNum)) {
+                if (!mission.isSubmitted) {
                   setSelectedMission(mission);
                 }
               }}
@@ -315,7 +333,7 @@ const MobileMission = () => {
               <div className="hmk_challenge-details">
                 <h4 className="hmk_challenge-title">{mission.missionName}</h4>
                 <p className="hmk_mobile_home-stat-title">{mission.missionMethod}</p>
-                {submittedMissions.includes(mission.missionNum) && (
+                {mission.isSubmitted && (
                   <div className="hmk_mission-submitted-badge">제출 완료</div>
                 )}
                 <button
@@ -397,6 +415,27 @@ const MobileMission = () => {
           </div>
         )}
       </div>
+      {isRuleModalOpen && (
+        <div className="hmk_mobile_home-modal-overlay" onClick={() => setIsRuleModalOpen(false)}>
+          <div
+            className="hmk_mobile_home-modal"
+            onClick={e => e.stopPropagation()}
+          >
+            <button
+              className="hmk_mobile_home-modal-close"
+              onClick={() => setIsRuleModalOpen(false)}
+            >
+              <FontAwesomeIcon icon={faTimes} />
+            </button>
+            <div className="hmk_mobile_home-modal-content">
+              <h3 className="hmk_mobile_home-stat-title">유의사항</h3>
+              <div className="hmk_mobile_home-rule-content">
+                {getRule || "등록된 유의사항이 없습니다."}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       {isModalOpen && modalMission && (
         <div className="hmk_mobile_home-modal-overlay" onClick={() => setIsModalOpen(false)}>
           <div

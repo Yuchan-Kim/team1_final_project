@@ -143,8 +143,24 @@ const MyPage = () => {
     if (error) {
         return <div className="error-message">{error}</div>;
     }
-    
-    const activeChallenges = challenges[activeTab] || [];
+
+    // D-day 계산 함수
+    const calculateDday = (startDate) => {
+        const today = new Date();
+        const start = new Date(startDate);
+        const timeDiff = start.getTime() - today.getTime();
+        return Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+    };
+
+    // activeChallenges 정렬 로직 수정
+    const activeChallenges = challenges[activeTab] ? [...challenges[activeTab]].sort((a, b) => {
+        if (activeTab === 'created') {
+            const dDayA = calculateDday(a.roomStartDate);
+            const dDayB = calculateDday(b.roomStartDate);
+            return dDayA - dDayB; // D-day가 가까운 순으로 정렬
+        }
+        return 0; // 다른 탭은 정렬하지 않음
+    }) : [];
 
     return (
         <>
