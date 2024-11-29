@@ -116,9 +116,15 @@ const handleSubmit = async (e) => {
 
 // 방 참가 함수
 const handleConfirmJoin = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.log("토큰이 없습니다. 로그인하세요.");
+      return; // 토큰이 없으면 요청을 보내지 않음
+    }
+
     try {
         const response = await axios.post(
-            `${process.env.REACT_APP_API_URL}/api/challenge/join/${roomNum}`,
+            `${process.env.REACT_APP_API_URL}/api/genebang/joinRoom/${roomNum}`,
             {},
             { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
         );

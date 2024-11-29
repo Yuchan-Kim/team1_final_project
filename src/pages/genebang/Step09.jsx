@@ -12,6 +12,7 @@ const Step09 = ({ onNext, onPrevious, onClose }) => {
     const navigate = useNavigate();
 
     const handleCancel = () => {
+        navigate("/");
         onClose(); // 모달 닫기
     };
 
