@@ -57,7 +57,7 @@ const DH_PointStoreMain = () => {
             responseType: 'json',
         }).then(response => {
                 console.log(response); // 수신 데이터
-                console.log("ㅁㅁㅁㅁㅁ",response.data.apiData);
+                // console.log(response.data.apiData);
                 setItemList(response.data.apiData);
         }).catch(error => {
                 console.log(error);
