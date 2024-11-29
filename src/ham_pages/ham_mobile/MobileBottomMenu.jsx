@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import MobileSliderMenu from '../ham_mobile/ham_MobileSliderMenu';
+import MobileSliderMenu from '../ham_mobile/MobileSliderMenu';
 import {
     faMedal,
     faBars,
@@ -39,16 +39,16 @@ const MobileBottomMenu = () => {
     const handleMenuClick = (menu) => {
         switch (menu) {
             case 'challenge':
-                navigate('/m/home');
+                navigate('/mobile/home');
                 break;
             case 'inventory':
-                navigate('/m/cargo');
+                navigate('/mobile/cargo');
                 break;
             case 'points':
-                navigate('/m/home');
+                navigate('/mobile/home');
                 break;
             case 'rank':
-                navigate('/m/rank');
+                navigate('/mobile/rank');
                 break;
             case 'setting':
                 console.log('Opening slider menu');

@@ -175,7 +175,7 @@ const Ham_MobileAuth = () => {
 
             // 7. 모든 데이터가 준비된 후 페이지 이동
             if (response.data.result === 'success') {
-                navigate("/m/home");
+                navigate("/mobile/home");
             } else {
                 setLoginError("로그인에 실패했습니다.");
             }
@@ -226,7 +226,7 @@ const Ham_MobileAuth = () => {
         })
             .then(response => {
                 if (response.data.result === 'success') {
-                    navigate("/m/home");
+                    navigate("/mobile/home");
                 } else {
                     alert("회원등록에 실패했습니다.");
                 }

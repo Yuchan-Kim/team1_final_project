@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ChallengeStatusIndicator from '../ham_ChallengeStatusIndicator';
 import profileStore from '../ham_common/profileStore';
-import MobileBottomMenu from './ham_MobileBottomMenu';
+import MobileBottomMenu from './MobileBottomMenu';
 import '../../ham_asset/css/ham_M_home.css';
 
 const MobileDashboard = () => {
@@ -34,7 +34,7 @@ const MobileDashboard = () => {
             const authUser = localStorage.getItem('authUser');
 
             if (!token || !authUser) {
-                navigate('/m');
+                navigate('/mobile');
                 return;
             }
 
@@ -77,7 +77,7 @@ const MobileDashboard = () => {
 
     // 챌린지 카드 클릭 핸들러
     const handleCardClick = (roomNum) => {
-        navigate(`/m/mission/${roomNum}`);
+        navigate(`/mobile/mission/${roomNum}`);
     };
 
     const handleMouseEnter = (menu) => {

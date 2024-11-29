@@ -9,7 +9,7 @@ import {
   faPlus,
   faImage
 } from '@fortawesome/free-solid-svg-icons';
-import MobileBottomMenu from '../ham_mobile/ham_MobileBottomMenu';
+import MobileBottomMenu from '../ham_mobile/MobileBottomMenu';
 import '../../ham_asset/css/ham_M-mission.css';
 const MobileMission = () => {
   const { roomNum } = useParams();

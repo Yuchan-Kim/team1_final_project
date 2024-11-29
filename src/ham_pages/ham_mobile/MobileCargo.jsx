@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import MobileBottomMenu from './ham_MobileBottomMenu';
+import MobileBottomMenu from './MobileBottomMenu';
 import profileStore from '../ham_common/profileStore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -25,7 +25,7 @@ const MobileCargo = () => {
     useEffect(() => {
         const fetchGiftCards = async () => {
             if (!userNum) {
-                navigate('/m');
+                navigate('/mobile');
                 return;
             }
 

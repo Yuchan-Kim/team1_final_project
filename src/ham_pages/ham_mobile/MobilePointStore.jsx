@@ -1,7 +1,7 @@
 // ham_M_pointstore.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import MobileBottomMenu from './ham_MobileBottomMenu';
+import MobileBottomMenu from './MobileBottomMenu';
 import '../../ham_asset/css/ham_M_pointstore.css';
 import profileStore from '../ham_common/profileStore';
 

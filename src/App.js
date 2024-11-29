@@ -18,13 +18,14 @@ import Pointpage from './ham_pages/ham_mypage_point';
 import Cargo from './ham_pages/ham_mypage_cargo';
 import Rank from './ham_pages/ham_mypage_ranking';
 import Notice from './ham_pages/ham_mypage_notice';
-import Mobile from './ham_pages/ham_mobile/ham_mobileUser';
-import M_home from './ham_pages/ham_mobile/ham_M_home';
-import M_mission from './ham_pages/ham_mobile/ham_M_mission';
-import M_cargo from './ham_pages/ham_mobile/ham_M_cargo.jsx';
-import MobileRank from './ham_pages/ham_mobile/ham_M_rank.jsx';
-import M_notice from './ham_pages/ham_mobile/ham_M_notice.jsx';
-import M_store from './ham_pages/ham_mobile/ham_M_pointstore.jsx';
+
+import MobileAuth from './ham_pages/ham_mobile/Ham_MobileAuth';
+import MobileDashboard from './ham_pages/ham_mobile/MobileDashboard';
+import MobileMission from './ham_pages/ham_mobile/MobileMission';
+import MobileCargo from './ham_pages/ham_mobile/MobileCargo';
+import MobileRank from './ham_pages/ham_mobile/MobileRank';
+import MobileNotice from './ham_pages/ham_mobile/MobileNotice';
+import MobilePointStore from './ham_pages/ham_mobile/MobilePointStore';
 
 import Step0 from './pages/genebang/Genebang01';
 import Step1 from './pages/genebang/Step01';
@@ -111,16 +112,14 @@ function App() {
           <Route path="/google/login" element={<GoogleLogin  />} />
 
 
-          <Route path='/mainlist2' element={<Mainlist />} />
-          <Route path="/rank" element={<MobileRank  />} />
 
-          <Route path="/m" element={<Mobile  />} />
-          <Route path="/m/home" element={<M_home  />} />
-          <Route path="/m/mission/:roomNum" element={<M_mission  />} />
-          <Route path="/m/cargo" element={<M_cargo  />} />
-          {/* <Route path="/m/rank" element={<M_rank  />} /> */}
-          <Route path="/m/notice" element={<M_notice  />} />
-          <Route path="/m/store" element={<M_store  />} />
+          <Route path="/mobile" element={<MobileAuth  />} />
+          <Route path="/mobile/home" element={<MobileDashboard  />} />
+          <Route path="/mobile/mission/:roomNum" element={<MobileMission  />} />
+          <Route path="/mobile/cargo" element={<MobileCargo  />} />
+          <Route path="/mobile/rank" element={<MobileRank  />} />
+          <Route path="/mobile/notice" element={<MobileNotice  />} />
+          <Route path="/mobile/store" element={<MobilePointStore  />} />
 
         </Routes>
     </BrowserRouter>

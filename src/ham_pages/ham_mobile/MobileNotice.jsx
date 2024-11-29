@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import profileStore from '../ham_common/profileStore';
-import MobileBottomMenu from './ham_MobileBottomMenu';
+import MobileBottomMenu from './MobileBottomMenu';
 import '../../ham_asset/css/ham_M_notice.css';
 
 const MobileNotice = () => {

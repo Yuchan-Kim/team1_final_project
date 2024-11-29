@@ -85,7 +85,7 @@ const MobileSliderMenu = ({ isOpen, onClose }) => {
     const handleLogout = () => {
         localStorage.clear();
         profileStore.setToken(null);
-        navigate("/m");
+        navigate("/mobile");
         onClose();
     };
 
@@ -149,7 +149,7 @@ const MobileSliderMenu = ({ isOpen, onClose }) => {
                         {/* 메뉴 아이템들 */}
                         <div className="hmk_mobile_menu-items">
                             <div key={0} className="hmk_mobile_menu-item" onClick={() => {
-                                navigate('/m/notice');
+                                navigate('/mobile/notice');
                                 onClose();
                             }}>
                                 <FontAwesomeIcon icon={faBell} />
@@ -161,7 +161,7 @@ const MobileSliderMenu = ({ isOpen, onClose }) => {
                                 )}
                             </div>
                             <div key={1} className="hmk_mobile_menu-item" onClick={() => {
-                                navigate('/m/store');
+                                navigate('/mobile/store');
                                 onClose();
                             }}>
                                 <FontAwesomeIcon icon={faStore} />

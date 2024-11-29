@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import MobileBottomMenu from './ham_MobileBottomMenu';
+import MobileBottomMenu from './MobileBottomMenu';
 import YCProfileInfo from "../../yc_pages/YC_profile_info";
 import profileStore from '../ham_common/profileStore';
 
@@ -49,7 +49,7 @@ const MobileRank = () => {
     useEffect(() => {
         const fetchRankData = async () => {
             if (!currentUserNum) {
-                navigate('/m');
+                navigate('/mobile');
                 return;
             }
 
