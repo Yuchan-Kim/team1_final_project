@@ -14,8 +14,8 @@
 }
 
 .jy_step {
-    width: 100vw;
-    min-width: 1000px;
+    width: 80vw; /* 전체 너비를 80% 뷰포트 너비로 설정 */
+    min-height: 100vh;
     margin: 0 auto;
     padding: 0 20px;
     height: auto;
@@ -78,6 +78,7 @@
 /* ##################################### */
 #stepNav {
     margin-bottom: 10px;
+    width: 100%;
 }
 
 #stepNav ul {

@@ -10,6 +10,7 @@ import Modal from 'react-modal';
 import '../../css/jy_main.css';
 
 import Header from '../include/DH_Header';
+import Footert from "../include/JM-Footer.jsx";
 import { StepNav } from '../include/StepNav'; // StepNav 임포트
 
 // Step 컴포넌트들을 올바른 경로로 임포트
@@ -18,8 +19,8 @@ import Step02 from '../genebang/Step02';
 import Step03 from '../genebang/Step03';
 import Step04 from '../genebang/Step04';
 import Step05 from '../genebang/Step05';
-import Step06 from '../genebang/Step06';
-import Step07 from '../genebang/Step07';
+import Step06 from '../genebang/Step07.jsx';
+import Step07 from '../genebang/Step06.jsx';
 import Step08 from '../genebang/Step08';
 import Step09 from '../genebang/Step09';
 import Step10 from '../genebang/Step10';
@@ -386,7 +387,7 @@ const getCloseRoomList = () => {
 
                         {/* 모달 열기 버튼 복구 */}
                         <div className="btn">
-                            <button id="secondary" onClick={openModal}>
+                            <button id="secondary" onClick={() => navigate("/genebang/step1")}>
                                 <span>
                                     <SendIcon size="5em" /><br />
                                     방 생성
@@ -398,7 +399,9 @@ const getCloseRoomList = () => {
                     {/* //board */}
                 </div>
                 {/* //main */}
+                
             </div>
+            <Footert/>
             {/* //wrap */}
 
             {/* 모달 구현 */}

@@ -7,6 +7,8 @@ import '../../css/jy_step.css';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { StepNav } from '../include/StepNav'; // StepNav 임포트
+import Header from '../include/DH_Header';
+import Footert from "../include/JM-Footer.jsx";
 
 const Step05 = ({ onNext, onPrevious }) => {
     const navigate = useNavigate();
@@ -92,6 +94,8 @@ const Step05 = ({ onNext, onPrevious }) => {
     
 
     return (
+        <>
+        <Header /> 
         <div id="jy_step" className="jy_wrap">
             <div id="container">
                 <div className="step" id="step5">
@@ -179,6 +183,8 @@ const Step05 = ({ onNext, onPrevious }) => {
                 </div>
             </div>
         </div>
+        <Footert />
+        </>
     );
 };
 

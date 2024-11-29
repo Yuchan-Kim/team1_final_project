@@ -14,7 +14,7 @@
     margin: 0 auto; /* 중앙 정렬 */
     min-height: 100vh;
     box-sizing: border-box;
-    padding: 20px; /* 양 옆에 간격 추가 */
+    padding-inline: 20px; /* 양 옆에 간격 추가 */
     background-color: #ffffff; /* 배경색 설정 */
 }
 

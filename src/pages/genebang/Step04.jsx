@@ -4,6 +4,8 @@ import axios from 'axios';
 import '../../css/reset.css';
 import '../../css/jy_step.css';
 import { StepNav } from '../include/StepNav'; // StepNav 임포트
+import Header from '../include/DH_Header';
+import Footert from "../include/JM-Footer.jsx";
 
 const Step04 = () => {
     const navigate = useNavigate();
@@ -213,6 +215,8 @@ const handleHonestyScoreChange = (e) => {
     }, []);
 
     return (
+        <>
+        <Header/>
         <div id="jy_step" className="jy_wrap">
             <div id="container">
                 <div className="step" id="step4">
@@ -327,6 +331,8 @@ const handleHonestyScoreChange = (e) => {
                 </div>
             </div>
         </div>
+        <Footert />
+        </>
     );
 };
 

@@ -5,6 +5,7 @@ import SearchIcon from '@rsuite/icons/Search';
 import '../../css/reset.css';
 import '../../css/jy_main.css';
 import Header from '../include/DH_Header';
+import Footert from "../include/JM-Footer.jsx";
 
 const Mainlist = () => {
     const location = useLocation();
@@ -235,7 +236,7 @@ const Mainlist = () => {
                             <div>검색 결과가 없습니다.</div>
                         )}
                     </div>
-
+                        
                     <div id="pagination">
                         {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
                             <button
@@ -247,8 +248,10 @@ const Mainlist = () => {
                             </button>
                         ))}
                     </div>
+                    
                 </div>
             </div>
+            <Footert />
         </>
     );
 };

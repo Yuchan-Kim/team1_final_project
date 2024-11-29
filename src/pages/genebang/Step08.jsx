@@ -5,6 +5,8 @@ import axios from 'axios';
 import '../../css/reset.css';
 import '../../css/jy_step.css';
 import { StepNav } from '../include/StepNav';
+import Header from '../include/DH_Header';
+import Footert from "../include/JM-Footer.jsx";
 
 const Step08 = ({ onNext, onPrevious }) => {
     const { roomNum } = useParams();
@@ -153,6 +155,8 @@ const handleConfirmJoin = async () => {
 
     if (loading) {
         return (
+            <>
+            <Header/>
             <div id="jy_step" className="jy_wrap">
                 <div id="container">
                     <div className="step" id="step8">
@@ -166,11 +170,14 @@ const handleConfirmJoin = async () => {
                     </div>
                 </div>
             </div>
+            <Footert/>
+            </>
         );
     }
 
     if (error) {
         return (
+            <>
             <div id="jy_step" className="jy_wrap">
                 <div id="container">
                     <div className="step" id="step8">
@@ -184,10 +191,13 @@ const handleConfirmJoin = async () => {
                     </div>
                 </div>
             </div>
+            </>
         );
     }
 
     return (
+        <>
+        <Header/>
         <div id="jy_step" className="jy_wrap">
             <div id="container">
                 <div className="step" id="step8">
@@ -254,6 +264,8 @@ const handleConfirmJoin = async () => {
                 </div>
             </div>
         </div>
+        <Footert/>
+        </>
     );
 };
 

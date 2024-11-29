@@ -8,6 +8,9 @@ import '../../css/reset.css';
 import '../../css/jy_step.css';
 import { StepNav } from '../include/StepNav'; // StepNav 임포트
 
+import Header from '../include/DH_Header';
+import Footert from "../include/JM-Footer.jsx";
+
 const Step02 = () => {
     const { roomNum } = useParams(); // URL에서 roomNum 추출
     const navigate = useNavigate();
@@ -64,9 +67,45 @@ const Step02 = () => {
     }
 };
 
+// 방 삭제하고 뒤로가기
+const handlePrevious = async () => {
+    const token = localStorage.getItem('token'); // 토큰 가져오기
+
+    if (!token) {
+        alert("로그인이 필요합니다.");
+        return;
+    }
+
+    try {
+        // Axios 요청
+        const response = await axios.delete(
+            `${process.env.REACT_APP_API_URL}/api/deleteRoom`, // 백엔드 API URL
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`, // 인증 헤더
+                },
+                params: {
+                    roomNum: parseInt(roomNum, 10), // roomNum 전달
+                },
+            }
+        );
+
+        // 응답 처리
+        if (response.data.result === 'success') {
+            alert("방이 삭제되었습니다.");
+            navigate("/genebang/step1"); // step1로 이동
+        } else {
+            alert(`오류: ${response.data.message}`);
+        }
+    } catch (error) {
+        console.error("Axios 요청 중 오류 발생:", error);
+        alert("서버와 통신 중 오류가 발생했습니다.");
+    }
+};
 
     return (
         <>
+        <Header />
             <div id="jy_step" className="jy_wrap">
                 <div id="container">
                     <div className="step" id="step2">
@@ -131,7 +170,13 @@ const Step02 = () => {
 
                                 {/* 버튼 */}
                                 <div className="btn">
-                                    <button id="secondary" onClick={() => navigate(-1)}>이전</button>
+                                    <button
+                                        id="secondary"
+                                        type="button" // form 제출을 방지하기 위해 type="button"
+                                        onClick={handlePrevious} // 이전 버튼 클릭 핸들러 연결
+                                    >
+                                        이전
+                                    </button>
                                     <button
                                         type="submit"
                                         id="primary"
@@ -145,6 +190,7 @@ const Step02 = () => {
                         </form>
                     </div>
                 </div>
+                <Footert />
             </div>
         </>
     );

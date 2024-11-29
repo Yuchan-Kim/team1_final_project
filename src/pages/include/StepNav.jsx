@@ -11,8 +11,8 @@ export const StepNav = ({ idx }) => {
         { title: "3. 제목/이미지/설명", link: '/genebang/step3' },
         { title: "4. 세부설정", link: '/genebang/step4' },
         { title: "5. 기간", link: '/genebang/step5' },
-        { title: "6. 미션/최종평가", link: '/genebang/step6' },
-        { title: "7. 평가 요일", link: '/genebang/step7' },
+        { title: "6. 평가 요일", link: '/genebang/step7' },
+        { title: "7. 미션/최종평가", link: '/genebang/step6' },
         { title: "8. AI 추천 미션", link: '/genebang/step8' },
     ];
 

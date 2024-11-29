@@ -5,6 +5,8 @@ import CloseOutlineIcon from '@rsuite/icons/CloseOutline';
 import '../../css/reset.css';
 import '../../css/jy_step.css';
 import { StepNav } from '../include/StepNav'; // StepNav 임포트
+import Header from '../include/DH_Header';
+import Footert from "../include/JM-Footer.jsx";
 
 const Step03 = () => {
     const navigate = useNavigate();
@@ -45,7 +47,7 @@ const Step03 = () => {
             formData.append('roomNum', parseInt(roomNum, 10)); // roomNum 추가
             formData.append('roomTitle', title.trim()); // 방 제목 추가
             formData.append('roomInfo', description.trim()); // 방 설명 추가
-            formData.append('roomThumbNail', thumbnailUrl.trim()); // 썸네일 경로 추가
+            formData.append('file', thumbnailUrl); // 썸네일 파일 추가 (업로드를 위해)
     
             // Axios 요청
             const response = await axios.post(
@@ -74,6 +76,8 @@ const Step03 = () => {
     
 
     return (
+        <>
+        <Header /> 
         <div id="jy_step" className="jy_wrap">
             <div id="container">
                 <div className="step" id="step3">
@@ -147,6 +151,8 @@ const Step03 = () => {
                 </div>
             </div>
         </div>
+        <Footert />
+        </>
     );
 };
 

@@ -8,6 +8,8 @@ import '../../css/reset.css';
 import '../../css/jy_step.css';
 
 import CheckRoundIcon from '@rsuite/icons/CheckRound';
+import Header from '../include/DH_Header';
+import Footert from "../include/JM-Footer.jsx";
 
 const Step01 = () => {
     const navigate = useNavigate();
@@ -69,6 +71,8 @@ const Step01 = () => {
     
 
     return (
+        <>
+        <Header/>
         <div id="jy_step" className="jy_wrap">
             <div id="container">
                 <div className="step" id="step1">
@@ -137,7 +141,10 @@ const Step01 = () => {
             </div>
             {/* //container */}
         </div>
+        <Footert/>
+        </>
     );
+    
 };
 
 export default Step01;
