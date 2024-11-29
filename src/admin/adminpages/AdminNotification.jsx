@@ -55,7 +55,7 @@ const AdminNotification = () => {
                 } else {
                     console.error('알림 발송 중 오류 발생:', response.data.message);
                 }
-            })
+            }) 
             .catch(error => {
                 console.error('알림 발송 중 오류 발생:', error);
             });

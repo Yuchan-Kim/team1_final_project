@@ -12,7 +12,7 @@ const AdminAddItemBrand = ({ onSuccess, onClose }) => {
     const handleAddBrand = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setError('');
+        setError(''); 
 
         if (!brandName) {
             setError('브랜드 이름을 입력해주세요.');

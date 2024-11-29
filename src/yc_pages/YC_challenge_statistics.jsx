@@ -400,7 +400,7 @@ const YCChallengeStatistics = () => {
 
   // 도넛 차트 데이터 설정
   const doughnutData = firstMission ? {
-    labels: ['완료', '미완료'],
+    labels: ['완료', '미완료'], 
     datasets: [
       {
         label: firstMission.missionName,

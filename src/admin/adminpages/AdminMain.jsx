@@ -23,7 +23,7 @@ const AdminMain = () => {
     const [keyStats, setKeyStats] = useState({
         totalUsers: 0,
         totalSales: 0,
-        totalOrders: 0,
+        totalOrders: 0, 
     });
 
     // 데이터 로드 (API 호출 예시)

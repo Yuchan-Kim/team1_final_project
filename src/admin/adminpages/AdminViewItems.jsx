@@ -18,7 +18,7 @@ const ViewItems = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const itemsPerPage = 10;
 
-    useEffect(() => {
+    useEffect(() => { 
         const fetchItems = async () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/admin/items`);

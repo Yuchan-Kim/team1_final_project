@@ -23,7 +23,7 @@ const AdminEditItem = () => {
     const [showAddBrand, setShowAddBrand] = useState(false);
 
     useEffect(() => {
-        fetchItemBrands();
+        fetchItemBrands(); 
         getItemInfo();
     }, []);
 

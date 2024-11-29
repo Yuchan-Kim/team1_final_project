@@ -242,7 +242,7 @@ const JMYCChallengeHeader = () => {
                         lang: 'kr'
                     },
                     withCredentials: false,
-                }
+                } 
             );
 
             console.log('Weather API Response:', response.data);

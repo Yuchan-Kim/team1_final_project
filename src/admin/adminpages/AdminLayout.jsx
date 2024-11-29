@@ -12,7 +12,7 @@ const AdminLayout = ({ children }) => {
         <>
             <Header />
             <div id="yc-admin-wrap">
-                {/* 사이드바 */}
+                {/* 사이드바 */} 
                 <aside id="yc-asides-admin">
                     <h2><Link to="/admin/main" rel="noreferrer noopener">관리자 페이지</Link></h2>
                     <div id="yc-sub_list">

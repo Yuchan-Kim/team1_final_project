@@ -26,7 +26,7 @@ const YCProfileInfo = ({ isOpen, onClose, user }) => {
                         <button className="yc_add_friend_button" title="친구 추가" aria-label="친구 추가">
                             <FaUserPlus /> 추가
                         </button>
-                    </h2>
+                    </h2> 
                     
                     <p className="yc_profile_location">{user.location}</p>
                 </div>

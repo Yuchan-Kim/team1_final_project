@@ -171,7 +171,7 @@ const AdminDataManagement = () => {
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </div> 
             </div>
         </AdminLayout>
     );

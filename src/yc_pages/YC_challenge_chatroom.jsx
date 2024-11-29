@@ -37,7 +37,7 @@ const ChatRoom = ({ roomNum }) => { // props를 디스트럭처링하여 roomNum
     fetchUserNum();
   }, [token]);
 
-  useEffect(() => {
+  useEffect(() => { 
     if (roomNum && userNum !== null) {
       getAllMessages();
 

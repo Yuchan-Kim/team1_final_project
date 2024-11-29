@@ -128,7 +128,7 @@ const AddItem = () => {
                             onChange={(e) => setPrice(e.target.value)}
                             required
                             min="0"
-                            step="0.01"
+                            step="1"
                         />
                     </div>
                     <div className="yc-form-group">
@@ -155,7 +155,7 @@ const AddItem = () => {
                     <div className="yc-form-group">
                         <label htmlFor="yc-image">이미지 업로드</label>
                         <input
-                            type="file"
+                            type="file" 
                             id="yc-image"
                             accept="image/*"
                             onChange={(e) => setImage(e.target.files[0])}

@@ -407,7 +407,7 @@ const YcChallengeBoard = () => {
     // 날짜 및 시간 포맷팅 함수
     const formatDateTime = (dateTimeString) => {
         const options = { 
-            year: 'numeric', 
+            year: 'numeric',  
             month: '2-digit', 
             day: '2-digit', 
             hour: '2-digit', 

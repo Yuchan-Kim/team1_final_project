@@ -162,7 +162,7 @@ const YCChallengeSidebar = () => {
             } else {
                 setFormError('방 상세 정보를 가져오는 데 실패했습니다.');
             }
-
+ 
             // 지역 목록 가져오기
             const regionsResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/regions`, {
                 headers: {
