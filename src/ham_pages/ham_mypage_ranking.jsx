@@ -5,16 +5,26 @@ import Footer from '../pages/include/JM-Footer';
 import '../ham_asset/css/ham_mypage_ranking.css';
 import YCProfileInfo from "../yc_pages/YC_profile_info.jsx";
 import { Link } from 'react-router-dom';
-import BackgroundMusic from './ham_common/BackgroundMusic';
 
 // 이미지 상수들
-const defaultProfile = '/images/profile-fill.png';
-const grl = '/images/rank_girl-runtoleft.gif';
-const dog = '/images/rank_dog-runtoleft.gif';
-const cat = '/images/rank_cat-runtoleft.gif';
-const clap = '/images/rank_clap.gif';
-const win = '/images/rank_winner.gif';
-
+const defaultProfile = 'app/upload/profile-fill.png';
+const grl = 'app/upload/rank_girl-runtoleft.gif';
+const dog = 'app/upload/rank_dog-runtoleft.gif';
+const cat = 'app/upload/rank_cat-runtoleft.gif';
+const clap = 'app/upload/rank_clap.gif';
+const win = 'app/upload/rank_winner.gif';
+// 스타일 객체 추가
+const rankStyles = {
+    backgroundImages: {
+        goldFrame: `url(${process.env.REACT_APP_API_URL}/upload/rank_prof_frame0.png)`,
+        silverFrame: `url(${process.env.REACT_APP_API_URL}/upload/rank_prof_frame1.png)`,
+        bronzeFrame: `url(${process.env.REACT_APP_API_URL}/upload/rank_prof_frame2.png)`,
+        spincup: `url(${process.env.REACT_APP_API_URL}/upload/rank_spincup.gif)`,
+        goodjob: `url(${process.env.REACT_APP_API_URL}/upload/rank_goodjob.gif)`,
+        thumbsup: `url(${process.env.REACT_APP_API_URL}/upload/rank_thumbsup.gif)`,
+        bgimg: `url(${process.env.REACT_APP_API_URL}/upload/rank_bgimg6.gif)`
+    }
+};
 // axios 기본 설정
 axios.defaults.withCredentials = true; // 쿠키 포함 설정
 const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
@@ -27,7 +37,7 @@ const Rank = () => {
     const currentUserNum = localStorage.getItem('userNum');
     const getImageUrl = (imagePath) => {
         if (!imagePath) return defaultProfile;
-        return `/images/${imagePath}`;
+        return `${process.env.REACT_APP_API_URL}/upload/${imagePath}`;
     };
 
     // 프로필 모달 상태 관리
@@ -110,13 +120,7 @@ const Rank = () => {
     return (
         <>
             <Header />
-            {/* 배경음악 컴포넌트 추가 */}
-            <BackgroundMusic
-                src="/audio/01-BoysLikeGirls-TheGreatEscape.mp3" // 배경음악 파일 경로 (확인 필요)
-                autoPlay={false} // 자동 재생 여부 (false로 설정하여 사용자의 상호작용 필요)
-                loop={true} // 반복 재생 여부
-                volume={0.5} // 볼륨 (0 ~ 1)
-            />
+            
             <div className="hmk_rank_page">
                 <div className="hmk_rank_title_banner">
                     <div className="hmk_rank_banner_image"></div>
@@ -160,7 +164,7 @@ const Rank = () => {
                                     {/* 2등 */}
                                     {rankData[1] && (
                                         <div key={rankData[1].userNum} className="hmk_podium_rank hmk_rank2">
-                                            <div className='hmk_podium_profile hmk_silver_frame'>
+                                            <div className='hmk_podium_profile hmk_silver_frame' style={{ backgroundImage: rankStyles.backgroundImages.silverFrame }}>
                                                 <img
                                                     src={rankData[1].profileImage ? getImageUrl(rankData[1].profileImage) : defaultProfile}
                                                     alt="rank2_profile"
@@ -169,7 +173,7 @@ const Rank = () => {
                                                 />
                                                 <div className="hmk_podium_medal">🥈</div>
                                             </div>
-                                            <div className="hmk_podium_base silver">
+                                            <div className="hmk_podium_base silver" style={{ backgroundImage: rankStyles.backgroundImages.goodjob }}>
                                                 <p>{rankData[1].nickname}</p>
                                                 <p>{rankData[1].points.toLocaleString()}</p>
                                             </div>
@@ -178,7 +182,7 @@ const Rank = () => {
                                     {/* 1등 */}
                                     {rankData[0] && (
                                         <div key={rankData[0].userNum} className="hmk_podium_rank hmk_rank1">
-                                            <div className='hmk_podium_profile hmk_gold_frame'>
+                                            <div className='hmk_podium_profile hmk_gold_frame' style={{ backgroundImage: rankStyles.backgroundImages.goldFrame }}>
                                                 <img
                                                     src={rankData[0].profileImage ? getImageUrl(rankData[0].profileImage) : defaultProfile}
                                                     alt="rank1_profile"
@@ -187,7 +191,7 @@ const Rank = () => {
                                                 />
                                                 <div className="hmk_podium_medal">🥇</div>
                                             </div>
-                                            <div className="hmk_podium_base gold">
+                                            <div className="hmk_podium_base gold" style={{ backgroundImage: rankStyles.backgroundImages.spincup }}>
                                                 <p>{rankData[0].nickname}</p>
                                                 <p>{rankData[0].points.toLocaleString()}</p>
                                             </div>
@@ -196,7 +200,7 @@ const Rank = () => {
                                     {/* 3등 */}
                                     {rankData[2] && (
                                         <div key={rankData[2].userNum} className="hmk_podium_rank hmk_rank3">
-                                            <div className='hmk_podium_profile hmk_bronze_frame'>
+                                            <div className='hmk_podium_profile hmk_bronze_frame' style={{ backgroundImage: rankStyles.backgroundImages.bronzeFrame }}>
                                                 <img
                                                     src={rankData[2].profileImage ? getImageUrl(rankData[2].profileImage) : defaultProfile}
                                                     alt="rank3_profile"
@@ -205,7 +209,7 @@ const Rank = () => {
                                                 />
                                                 <div className="hmk_podium_medal">🥉</div>
                                             </div>
-                                            <div className="hmk_podium_base bronze">
+                                            <div className="hmk_podium_base bronze" style={{ backgroundImage: rankStyles.backgroundImages.thumbsup }}>
                                                 <p>{rankData[2].nickname}</p>
                                                 <p>{rankData[2].points.toLocaleString()}</p>
                                             </div>
