@@ -152,6 +152,24 @@
     background-color: #0062cc;
 }
 
+.hmk_challenge-card.submitted {
+    background-color: #f0f0f0;
+    pointer-events: none;
+}
+
+.hmk_mission-submitted-badge {
+    background-color: #4CAF50;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.hmk_challenge-card.submitted .hmk_mobile_home-grid-item {
+    pointer-events: auto;
+}
+
 /* 모달 스타일 */
 .hmk-modal-overlay {
     position: fixed;

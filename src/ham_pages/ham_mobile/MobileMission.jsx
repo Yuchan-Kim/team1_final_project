@@ -28,7 +28,8 @@ const MobileMission = () => {
   // 모달 상태
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMission, setModalMission] = useState(null);
-
+  // 제출된 미션 상태
+  const [submittedMissions, setSubmittedMissions] = useState([]);
   // 컴포넌트 마운트 시 상태 확인
   useEffect(() => {
     console.log('Component mounted');
@@ -180,7 +181,6 @@ const MobileMission = () => {
     });
 
     try {
-      console.log('Sending mission submission request...');
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/submitMissionWithFiles`,
         formData,
@@ -191,10 +191,12 @@ const MobileMission = () => {
           }
         }
       );
-      console.log('Mission submission response:', response.data);
 
       if (response.data.result === 'success') {
+        // 제출된 미션 목록 업데이트
+        setSubmittedMissions([...submittedMissions, selectedMission.missionNum]);
         alert('미션이 성공적으로 제출되었습니다.');
+
         // 폼 초기화
         setSelectedMission(null);
         setFileInputs([null]);
@@ -203,10 +205,29 @@ const MobileMission = () => {
       }
     } catch (error) {
       console.error('Mission submission failed:', error);
-      console.log('Error response:', error.response?.data);
       alert('미션 제출에 실패했습니다.');
     }
   };
+
+
+  // 컴포넌트 마운트 시 제출된 미션 정보 가져오기 
+  useEffect(() => {
+    const fetchSubmittedMissions = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/submittedMissions/${roomNum}`,
+          {
+            headers: { 'Authorization': `Bearer ${token}` }
+          }
+        );
+        setSubmittedMissions(response.data.apiData || []);
+      } catch (error) {
+        console.error('Failed to fetch submitted missions:', error);
+      }
+    };
+
+    fetchSubmittedMissions();
+  }, [roomNum, token]);
 
   console.log('Rendering component with:', {
     userAuth,
@@ -283,12 +304,20 @@ const MobileMission = () => {
           {missionList.map((mission) => (
             <div
               key={mission.missionNum}
-              className={`hmk_challenge-card ${selectedMission?.missionNum === mission.missionNum ? 'selected' : ''}`}
-              onClick={() => setSelectedMission(mission)}
+              className={`hmk_challenge-card ${selectedMission?.missionNum === mission.missionNum ? 'selected' : ''
+                } ${submittedMissions.includes(mission.missionNum) ? 'submitted' : ''}`}
+              onClick={() => {
+                if (!submittedMissions.includes(mission.missionNum)) {
+                  setSelectedMission(mission);
+                }
+              }}
             >
               <div className="hmk_challenge-details">
                 <h4 className="hmk_challenge-title">{mission.missionName}</h4>
                 <p className="hmk_mobile_home-stat-title">{mission.missionMethod}</p>
+                {submittedMissions.includes(mission.missionNum) && (
+                  <div className="hmk_mission-submitted-badge">제출 완료</div>
+                )}
                 <button
                   className="hmk_mobile_home-grid-item"
                   onClick={(e) => {

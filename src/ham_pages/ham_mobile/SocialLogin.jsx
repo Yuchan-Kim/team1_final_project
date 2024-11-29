@@ -10,7 +10,7 @@ const SocialLogin = ({ platform, onLogin }) => {
                     name: '카카오',
                     bgColor: '#FEE500',
                     textColor: '#000000',
-                    icon: '/images/icons/kakao-icon.png',
+                    icon: `${process.env.REACT_APP_API_URL}/app/upload/icons/kakao-icon.png`,
                     hoverColor: '#e6cf00'
                 };
             case 'naver':
@@ -18,7 +18,7 @@ const SocialLogin = ({ platform, onLogin }) => {
                     name: '네이버',
                     bgColor: '#03C75A',
                     textColor: '#FFFFFF',
-                    icon: '/images/icons/naver-icon.png',
+                    icon: `${process.env.REACT_APP_API_URL}/upload/icons/naver-icon.png`,
                     hoverColor: '#02b351'
                 };
             case 'google':
@@ -26,7 +26,7 @@ const SocialLogin = ({ platform, onLogin }) => {
                     name: '구글',
                     bgColor: '#FFFFFF',
                     textColor: '#000000',
-                    icon: '/images/icons/google-icon.png',
+                    icon: `${process.env.REACT_APP_API_URL}/upload/icons/google-icon.png`,
                     hoverColor: '#f5f5f5',
                     border: '1px solid #dddddd'
                 };
