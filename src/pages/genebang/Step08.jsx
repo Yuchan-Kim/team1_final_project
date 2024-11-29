@@ -44,6 +44,7 @@ const Step08 = ({ onNext, onPrevious }) => {
             } catch (err) {
                 console.error(err);
                 setError('챌린지 생성 중 오류가 발생했습니다.');
+                setError('새로고침 해주세요.');
                 setLoading(false);
             }
         };
