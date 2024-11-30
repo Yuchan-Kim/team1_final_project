@@ -636,7 +636,7 @@ const YcChallengeBoard = () => {
             <div key={user.userNum} className="yc-ranking-item">
               <img 
                 src={`${process.env.REACT_APP_API_URL}/upload/${user.usingProfilePic}` || '/images/challenge1.png'} 
-                alt={`${user.userName} 프로필`} 
+                alt={'/images/challenge1.png'} 
                 className="yc-ranking-avatar" 
               />
               <div className="yc-ranking-info">
