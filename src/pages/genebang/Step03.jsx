@@ -136,7 +136,7 @@ const Step03 = () => {
                             </div>
 
                             <div className="btn">
-                                <button id="secondary" onClick={() => navigate(-1)}>이전</button>
+                                <button id="secondary" onClick={() => navigate(`/genebang/step2/${roomNum}`)}>이전</button>
                                 <button
                                     type="submit"
                                     id="primary"

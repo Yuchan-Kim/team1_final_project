@@ -167,7 +167,7 @@ const Step05 = ({ onNext, onPrevious }) => {
                         </div>
 
                         <div className="btn">
-                            <button id="secondary" onClick={onPrevious}>이전</button>
+                        <button id="secondary" onClick={() => navigate(`/genebang/step4/${roomNum}`)}>이전</button>
                             <button
                                 id="primary"
                                 onClick={handleSubmit}

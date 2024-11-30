@@ -322,6 +322,7 @@ const handleHonestyScoreChange = (e) => {
                             </div>
 
                             <div className="btn">
+                            <button id="secondary" onClick={() => navigate(`/genebang/step3/${roomNum}`)}>이전</button>
                                 <button type="submit" id="primary" disabled={!isNextEnabled()}>
                                     다음
                                 </button>

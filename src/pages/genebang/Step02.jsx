@@ -92,7 +92,6 @@ const handlePrevious = async () => {
 
         // 응답 처리
         if (response.data.result === 'success') {
-            alert("방이 삭제되었습니다.");
             navigate("/genebang/step1"); // step1로 이동
         } else {
             alert(`오류: ${response.data.message}`);
