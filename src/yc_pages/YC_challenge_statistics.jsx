@@ -490,6 +490,9 @@ const YCChallengeStatistics = () => {
                 src={`${process.env.REACT_APP_API_URL}/upload/${user.usingProfilePic}` || '/images/challenge1.png'} 
                 alt={'/images/challenge1.png'} 
                 className="yc-ranking-avatar" 
+                onError={(e) => {
+                  e.target.src = '/images/profile-fill.png';
+              }}
               />
               <div className="yc-ranking-info">
                         <Link
@@ -545,7 +548,12 @@ const YCChallengeStatistics = () => {
                   <img 
                     src={`${process.env.REACT_APP_API_URL}/upload/${user.usingProfilePic}`}
                     alt={'/images/challenge1.png'}  
-                    className="yc_challenge_statistics_user-emoji" 
+                    className="yc_challenge_statistics_user-emoji"
+                    onError={(e) => {
+                      if (e.target.src !== `${process.env.PUBLIC_URL}/images/challenge1.png`) {
+                          e.target.src = '/images/challenge1.png';
+                      }
+                  }} 
                   />
                   
                   {/* 유저 정보 */}
