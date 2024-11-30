@@ -37,7 +37,7 @@ import '../css/Footer.css';
                         <ul>
                             <Link to="/mainlist"><li>챌린지</li></Link>
                             <Link to="/pointstore/pointstoremain"><li>상점</li></Link>
-                            <Link to=""><li>랭킹</li></Link>
+                            <Link to="/my/rank"><li>랭킹</li></Link>
                             <Link to="/user/loginform"><li>로그인</li></Link>
                         </ul>
                     </div>
