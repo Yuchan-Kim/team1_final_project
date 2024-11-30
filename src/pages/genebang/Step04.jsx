@@ -14,7 +14,7 @@ const Step04 = () => {
     const [regions, setRegions] = useState([]); // 지역 데이터
     const [maxParticipants, setMaxParticipants] = useState(''); // 최대인원
     const [minParticipants, setMinParticipants] = useState(''); // 최소인원
-    const [entryPoint, setEntryPoint] = useState(''); // 입장포인트
+    const [entryPoint, setEntryPoint] = useState(50); // 입장포인트 기본값 50
     const [isHonestyEnabled, setIsHonestyEnabled] = useState(false); // 성실도 활성화 여부
     const [honestyScore, setHonestyScore] = useState(''); // 입장 성실도
     const [region, setRegion] = useState(''); // 지역 선택
@@ -35,19 +35,32 @@ const Step04 = () => {
     };
 
     // 포인트 입력 필드 제한
-const handleEntryPointChange = (e) => {
-    const value = parseInt(e.target.value, 10);
-    if (isNaN(value) || value < 0) {
-        setEntryPoint('');
-        return;
-    }
-    if (value > userPoints) {
-        alert(`입력한 포인트가 보유한 포인트를 초과했습니다. 최대 ${userPoints}으로 설정됩니다.`);
-        setEntryPoint(userPoints); // 최대값으로 설정
-        return;
-    }
-    setEntryPoint(value);
-};
+    const handleEntryPointChange = (e) => {
+        const value = e.target.value.trim(); // 입력값 가져오기
+    
+        // 사용자가 입력을 비우면 허용 (중간 입력 단계)
+        if (value === "") {
+            setEntryPoint(""); 
+            return;
+        }
+    
+        // 숫자인 경우만 처리
+        const numericValue = parseInt(value, 10);
+        if (!isNaN(numericValue)) {
+            setEntryPoint(numericValue);
+        }
+    };
+    
+    const handleEntryPointBlur = () => {
+        // 포커스를 벗어났을 때 유효성 검사 실행
+        if (entryPoint === "" || entryPoint < 50) {
+            alert("입력값은 최소 50 이상이어야 합니다.");
+            setEntryPoint(50); // 최소값으로 설정
+        } else if (entryPoint > userPoints) {
+            alert(`입력한 포인트가 보유한 포인트를 초과했습니다. 최대 ${userPoints}으로 설정됩니다.`);
+            setEntryPoint(userPoints); // 최대값으로 설정
+        }
+    };
 
 // 성실도 입력 필드 제한
 const handleHonestyScoreChange = (e) => {
@@ -281,6 +294,7 @@ const handleHonestyScoreChange = (e) => {
                                         placeholder={`최대 ${userPoints} pt`}
                                         value={entryPoint}
                                         onChange={handleEntryPointChange}
+                                        onBlur={handleEntryPointBlur}
                                     />
                                 </div>
                                 )}

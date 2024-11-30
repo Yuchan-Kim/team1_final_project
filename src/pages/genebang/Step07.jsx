@@ -34,93 +34,98 @@ const Step07 = ({ onNext, onPrevious }) => {
         }
     };
 
+    // 이미지 추가 버튼 핸들러
     const handleAddImageInput = (missionId) => {
-        setMissions(missions.map(mission => {
-            if (mission.id === missionId && mission.inputCount < 3) {
-                return { 
-                    ...mission, 
-                    inputCount: mission.inputCount + 1, 
-                    imagePreviews: [...mission.imagePreviews, null], 
-                    imageFiles: [...mission.imageFiles, null] 
-                };
-            }
-            return mission;
-        }));
+        setMissions((prevMissions) =>
+            prevMissions.map((mission) => {
+                if (mission.id === missionId) {
+                    if (mission.imageFiles.length >= 3) {
+                        alert('이미지는 최대 3개까지 추가할 수 있습니다.');
+                        return mission; // 아무 변화도 없이 반환
+                    }
+                    return {
+                        ...mission,
+                        imagePreviews: [...mission.imagePreviews, null],
+                        imageFiles: [...mission.imageFiles, null],
+                    };
+                }
+                return mission;
+            })
+        );
+    };
+    // 이미지 삭제 버튼 핸들러
+    const handleRemoveImage = (missionId, index) => {
+        setMissions((prevMissions) =>
+            prevMissions.map((mission) => {
+                if (mission.id === missionId) {
+                    const updatedImagePreviews = mission.imagePreviews.filter((_, i) => i !== index);
+                    const updatedImageFiles = mission.imageFiles.filter((_, i) => i !== index);
+                    return { ...mission, imagePreviews: updatedImagePreviews, imageFiles: updatedImageFiles };
+                }
+                return mission;
+            })
+        );
     };
 
     // 미션 추가 버튼 핸들러
     const handleAddMission = () => {
-        if (missions.length < 4) {
-            setMissions([...missions, { 
-                id: missions.length + 1, 
-                title: '', 
-                placeholder: '새로운 미션 제목', // Placeholder 기본 값
-                inputCount: 1, 
-                imagePreviews: [null], 
-                imageFiles: [], 
-                method: '' 
-            }]);
-        } else if (missions.length >= 4) {
-            alert('최대 4개의 미션만 추가할 수 있습니다.');
-        }
+        setMissions((prevMissions) => {
+            if (prevMissions.length >= 4) {
+                alert('최대 4개의 미션만 추가할 수 있습니다.');
+                return prevMissions;
+            }
+            return [
+                ...prevMissions,
+                {
+                    id: prevMissions.length + 1,
+                    title: '',
+                    missionName: '새로운 미션 제목',
+                    imagePreviews: [null],
+                    imageFiles: [],
+                    method: '',
+                },
+            ];
+        });
     };
 
     // 미션 삭제 버튼 핸들러
     const handleRemoveMission = (missionId) => {
-        if (missions.length > 1) {
-            setMissions(missions.filter(mission => mission.id !== missionId));
-        }
+        setMissions((prevMissions) =>
+            prevMissions.filter((mission) => mission.id !== missionId)
+        );
     };
 
     // AI 추천 미션 가져오기
     useEffect(() => {
-        const fetchDataAndGenerateChallenges = async () => {
+        const fetchMissions = async () => {
             try {
-                setLoading(true);
-                const aiResponse = await axios.post(
+                const response = await axios.post(
                     `${process.env.REACT_APP_API_URL}/api/genebang/generatePlaceholder/${roomNum}`,
-                    {}, // 빈 본문 전송
+                    {},
                     {
                         headers: {
-                            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${localStorage.getItem('token')}`,
                         },
                     }
                 );
 
-                const challenges = aiResponse.data.apiData; // 서버에서 전달된 missionName 리스트
-                console.log('AI 생성된 챌린지: ', challenges);
-
-                // AI 챌린지를 고유 ID와 함께 저장
-                const challengesWithId = challenges.map((challenge, index) => ({
-                    missionName: challenge.missionName, // 전달받은 missionName
-                    id: index + 1, // 고유 ID 추가
-                }));
-
-                setAiChallenges(challengesWithId);
-
-                // missions 초기화: 첫 번째 missionName을 포함한 기본 데이터 세팅
+                const initialMissions = response.data.apiData || [];
                 setMissions(
-                    challengesWithId.map((challenge) => ({
-                        id: challenge.id,
+                    initialMissions.map((mission, index) => ({
+                        id: index + 1,
                         title: '',
-                        missionName: challenge.missionName || '새로운 미션 제목',
-                        inputCount: 1,
+                        missionName: mission.missionName || '새로운 미션 제목',
                         imagePreviews: [null],
                         imageFiles: [],
                         method: '',
                     }))
                 );
-
-                setLoading(false);
-            } catch (err) {
-                console.error(err);
-                setError('챌린지 생성 중 오류가 발생했습니다.');
-                setLoading(false);
+            } catch (error) {
+                console.error('Failed to fetch missions:', error);
             }
         };
 
-        fetchDataAndGenerateChallenges();
+        fetchMissions();
     }, [roomNum]);
 
     // 유의사항 저장 + 미션 등록
@@ -211,68 +216,81 @@ const Step07 = ({ onNext, onPrevious }) => {
                                     <div className="jm-todo-user-add-form">
                                         <h2>미션 제출하기</h2>
                                         <div className="jm-mission-add-list">
-                                            {missions.map((mission, index) => (
-                                                <div className="jm-mission-add-item" key={mission.id}>
-                                                    <input
-                                                        type="text"
-                                                        placeholder={mission.missionName}
-                                                        value={mission.title}
-                                                        onChange={(e) => {
-                                                            const updatedMissions = missions.map(m => 
-                                                                m.id === mission.id ? { ...m, title: e.target.value } : m
-                                                            );
-                                                            setMissions(updatedMissions);
-                                                        }}
-                                                        className="jm-mission-items"
-                                                    />
-                                                    <div className="jm-add-mission-img-form">
-                                                        {mission.imagePreviews.map((preview, imgIndex) => (
-                                                            <div key={imgIndex} className="jm-file-upload">
-                                                                <label htmlFor={`file-input-${mission.id}-${imgIndex}`} className="jm-file-label">
-                                                                    {preview ? (
-                                                                        <img src={preview} alt={`Preview ${imgIndex}`} className="jm-image-preview" />
-                                                                    ) : (
-                                                                        <span className="jm-placeholder-text">이미지 선택</span>
-                                                                    )}
-                                                                </label>
-                                                                <input
-                                                                    type="file"
-                                                                    id={`file-input-${mission.id}-${imgIndex}`}
-                                                                    className="jm-hidden-file-input"
-                                                                    onChange={(e) => handleImageChange(mission.id, imgIndex, e)}
-                                                                />
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                    <button
-                                                        type="button"
-                                                        className="jm-add-file-button"
-                                                        onClick={() => handleAddImageInput(mission.id)}
-                                                    >
-                                                        이미지 추가
-                                                    </button>
-                                                    {index > 0 && (
-                                                        <button
-                                                            type="button"
-                                                            className="jm-remove-mission-button"
-                                                            onClick={() => handleRemoveMission(mission.id)}
-                                                        >
-                                                            미션 삭제
-                                                        </button>
-                                                    )}
-                                                    <textarea
-                                                        value={mission.method}
-                                                        placeholder="인증 방법을 입력해주세요"
-                                                        onChange={(e) => {
-                                                            const updatedMissions = missions.map(m => 
-                                                                m.id === mission.id ? { ...m, method: e.target.value } : m
-                                                            );
-                                                            setMissions(updatedMissions);
-                                                        }}
-                                                    ></textarea>
-                                                </div>
-                                            ))}
-                                        </div>
+    {missions.map((mission, index) => (
+        <div className="jm-mission-add-item" key={mission.id}>
+            <input
+                type="text"
+                placeholder={mission.missionName}
+                value={mission.title}
+                onChange={(e) => {
+                    setMissions((prevMissions) =>
+                        prevMissions.map((m) =>
+                            m.id === mission.id ? { ...m, title: e.target.value } : m
+                        )
+                    );
+                }}
+                className="jm-mission-items"
+            />
+            <div className="jm-add-mission-img-form">
+                {mission.imagePreviews.map((preview, imgIndex) => (
+                    <div key={imgIndex} className="jm-file-upload">
+                        <label htmlFor={`file-input-${mission.id}-${imgIndex}`} className="jm-file-label">
+                            {preview ? (
+                                <img src={preview} alt={`Preview ${imgIndex}`} className="jm-image-preview" />
+                            ) : (
+                                <span className="jm-placeholder-text">이미지 선택</span>
+                            )}
+                        </label>
+                        <input
+                            type="file"
+                            id={`file-input-${mission.id}-${imgIndex}`}
+                            className="jm-hidden-file-input"
+                            onChange={(e) => handleImageChange(mission.id, imgIndex, e)}
+                        />
+                        {imgIndex > 0 && (
+                            <button
+                                type="button"
+                                className="jm-file-delete-btn"
+                                onClick={() => handleRemoveImage(mission.id, imgIndex)}
+                            >
+                                &times;
+                            </button>
+                        )}
+                    </div>
+                ))}
+            </div>
+            <button
+                type="button"
+                className="jm-add-file-button"
+                onClick={() => handleAddImageInput(mission.id)}
+                disabled={mission.imageFiles.length >= 3}
+            >
+                이미지 추가
+            </button>
+            {index > 0 && (
+                <button
+                    type="button"
+                    className="jm-remove-mission-button"
+                    onClick={() => handleRemoveMission(mission.id)}
+                >
+                    미션 삭제
+                </button>
+            )}
+            <textarea
+                value={mission.method}
+                placeholder="인증 방법을 입력해주세요"
+                onChange={(e) => {
+                    setMissions((prevMissions) =>
+                        prevMissions.map((m) =>
+                            m.id === mission.id ? { ...m, method: e.target.value } : m
+                        )
+                    );
+                }}
+            ></textarea>
+        </div>
+    ))}
+</div>
+
                                     </div>
                                 </div>
                                 <div id="mission-content">
