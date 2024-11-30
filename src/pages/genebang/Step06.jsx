@@ -96,7 +96,6 @@ const Step06 = ({ onNext, onPrevious }) => {
 
     return (
         <>
-        <Header/>
         <div id="jy_step" className="jy_wrap">
             <div id="container">
                 <div className="step" id="step7">

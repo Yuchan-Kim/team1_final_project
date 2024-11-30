@@ -156,7 +156,6 @@ const handleConfirmJoin = async () => {
     if (loading) {
         return (
             <>
-            <Header/>
             <div id="jy_step" className="jy_wrap">
                 <div id="container">
                     <div className="step" id="step8">
@@ -197,7 +196,6 @@ const handleConfirmJoin = async () => {
 
     return (
         <>
-        <Header/>
         <div id="jy_step" className="jy_wrap">
             <div id="container">
                 <div className="step" id="step8">

@@ -384,7 +384,7 @@ const ChallengePage = () => {
                   >
                     <h4>{mission.missionName}</h4>
                     <img 
-                      src={mission.image || "https://via.placeholder.com/150"} 
+                      src={`${process.env.REACT_APP_API_URL}/upload/${mission.missionImgName}` || "https://via.placeholder.com/150"} 
                       alt={`${mission.missionName} 이미지`} 
                       className="yc-mission-image" 
                     />
@@ -429,7 +429,7 @@ const ChallengePage = () => {
             {/* 모달 내용 */}
             <div className="yc-modal-content_roomMain">
               <img 
-                src={selectedMission.image || "https://via.placeholder.com/150"} 
+                src={`${process.env.REACT_APP_API_URL}/upload/${selectedMission.missionImgName}` || "https://via.placeholder.com/150"} 
                 alt={`${selectedMission.missionName} 상세 이미지`} 
                 className="yc-modal-image_roomMain" 
               />
