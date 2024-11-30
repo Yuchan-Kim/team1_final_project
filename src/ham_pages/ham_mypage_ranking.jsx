@@ -37,7 +37,21 @@ const Rank = () => {
     const currentUserNum = localStorage.getItem('userNum');
     const getImageUrl = (imagePath) => {
         if (!imagePath) return defaultProfile;
-        return `${process.env.REACT_APP_API_URL}/upload/${imagePath}`;
+
+        // 이미 완전한 URL인 경우
+        if (imagePath.startsWith('http')) {
+            return imagePath;
+        }
+
+        const apiUrl = process.env.REACT_APP_API_URL || 'http://13.125.216.39:9000';
+
+        // /upload로 시작하는 경우
+        if (imagePath.startsWith('/upload/')) {
+            return `${apiUrl}${imagePath}`;
+        }
+
+        // 단순 파일명이거나 /로 시작하는 경우
+        return `${apiUrl}/upload/${imagePath.startsWith('/') ? imagePath.slice(1) : imagePath}`;
     };
 
     // 프로필 모달 상태 관리
@@ -76,7 +90,7 @@ const Rank = () => {
                 const rankResponse = await axios.get(`${apiUrl}/api/rank/top10`);
 
                 if (rankResponse.data.result === "success") {
-                    setRankData(rankResponse.data.apiData); 
+                    setRankData(rankResponse.data.apiData);
                 } else {
                     throw new Error(rankResponse.data.message || "랭킹 데이터를 가져오는데 실패했습니다.");
                 }
@@ -85,7 +99,7 @@ const Rank = () => {
                     const myRankResponse = await axios.get(`${apiUrl}/api/rank/user/${currentUserNum}`);
 
                     if (myRankResponse.data.result === "success") {
-                        setMyRank(myRankResponse.data.apiData); 
+                        setMyRank(myRankResponse.data.apiData);
                     } else {
                     }
                 }
@@ -120,7 +134,7 @@ const Rank = () => {
     return (
         <>
             <Header />
-            
+
             <div className="hmk_rank_page">
                 <div className="hmk_rank_title_banner">
                     <div className="hmk_rank_banner_image"></div>
