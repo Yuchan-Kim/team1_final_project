@@ -1,11 +1,11 @@
-// ChallengeStatusIndicator.jsx
 import React from 'react';
 
 const ChallengeStatusIndicator = ({ startDate, endDate, roomStatusNum, roomStatusName }) => {
     console.log("ChallengeStatusIndicator received roomStatusNum:", roomStatusNum);
     const now = new Date();
     const challengeStart = new Date(startDate);
-    const daysUntilStart = Math.ceil((challengeStart - now) / (1000 * 60 * 60 * 24));
+    const timeDiff = challengeStart - now;
+    const daysUntilStart = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
 
     let badgeClass = 'hmk_badge-gray';
     let status = '알 수 없음';
@@ -22,7 +22,7 @@ const ChallengeStatusIndicator = ({ startDate, endDate, roomStatusNum, roomStatu
             case 2: // 모집 중
                 status = '모집 중';
                 badgeClass = 'hmk_badge-orange';
-                showDDay = true;
+                showDDay = timeDiff > 0; // 시작 시간이 지나지 않았을 때만 D-day 표시
                 break;
             case 3: // 진행 중
                 status = '진행 중';
@@ -38,7 +38,7 @@ const ChallengeStatusIndicator = ({ startDate, endDate, roomStatusNum, roomStatu
                 break;
         }
     } else if (roomStatusName) {
-        // roomStatusName을 기반으로 상태 설정
+        // roomStatusName을 기반으로 상태 설정 (기존 코드와 동일)
         switch (roomStatusName) {
             case '모집 전':
                 status = '모집 전';
@@ -48,7 +48,7 @@ const ChallengeStatusIndicator = ({ startDate, endDate, roomStatusNum, roomStatu
             case '모집 중':
                 status = '모집 중';
                 badgeClass = 'hmk_badge-orange';
-                showDDay = true;
+                showDDay = timeDiff > 0; // 시작 시간이 지나지 않았을 때만 D-day 표시
                 break;
             case '진행 중':
                 status = '진행 중';
@@ -64,16 +64,15 @@ const ChallengeStatusIndicator = ({ startDate, endDate, roomStatusNum, roomStatu
                 break;
         }
     }
-    
 
     return (
         <div className="hmk_status-container">
             <span className={`hmk_status-badge ${badgeClass}`}>
                 {status}
             </span>
-            {showDDay && daysUntilStart > 0 && (
-                <span className="hmk_dday-badge">
-                    D-{daysUntilStart}
+            {showDDay && timeDiff > 0 && (
+                <span className={`hmk_dday-badge ${daysUntilStart <= 1 && timeDiff > 0 ? 'hmk_dday-red' : ''}`}>
+                    {daysUntilStart <= 1 && timeDiff > 0 ? 'D-day' : `D-${daysUntilStart}`}
                 </span>
             )}
         </div>

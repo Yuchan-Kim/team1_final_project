@@ -134,6 +134,8 @@ const MobileCargo = () => {
     return (
         <div className="hmk_mobile_home-wrap">
             <div className="hmk_mobile_home-fixed-top">
+                <div className="hmk_mobile_site-header">Donkey: 동기 키우기</div>
+                <h1 className="hmk_mobile_page-title">보관함</h1>
                 {/* 상단 통계 카드 */}
                 <div className="hmk_mobile_home-card">
                     <div className="hmk_mobile_home-stats">
@@ -170,16 +172,24 @@ const MobileCargo = () => {
             </div>
 
             {/* 기프티콘 리스트 */}
-            <div className="hmk_mobile_home-content">
-                <div className="hmk_mobile_home-grid-list">
-                    {loading ? (
+            <div className="hmk_mobile_cargo-content">
+                {loading ? (
+                    <div className="hmk_mobile_cargo-grid-list">
                         <div className="hmk_loading">로딩중...</div>
-                    ) : error ? (
+                    </div>
+                ) : error ? (
+                    <div className="hmk_mobile_cargo-grid-list">
                         <div className="hmk_error">{error}</div>
-                    ) : filteredGifts.length === 0 ? (
-                        <div className="hmk_empty">표시할 기프티콘이 없습니다.</div>
-                    ) : (
-                        filteredGifts.map(gift => (
+                    </div>
+                ) : filteredGifts.length === 0 ? (
+                    <div className="hmk_mobile_cargo-grid-list">
+                        <div className="hmk_empty">
+                            표시할 기프티콘이 없습니다
+                        </div>
+                    </div>
+                ) : (
+                    <div className="hmk_mobile_cargo-grid-list">
+                        {filteredGifts.map(gift => (
                             <GiftCard
                                 key={gift.purchaseNum}
                                 gift={gift}
@@ -189,9 +199,9 @@ const MobileCargo = () => {
                                 }}
                                 isMobile={true}
                             />
-                        ))
-                    )}
-                </div>
+                        ))}
+                    </div>
+                )}
             </div>
 
             {/* 상세 모달 */}

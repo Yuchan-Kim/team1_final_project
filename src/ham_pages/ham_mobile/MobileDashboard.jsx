@@ -29,6 +29,9 @@ const MobileDashboard = () => {
     const calculateDday = (startDate) => {
         const today = new Date();
         const start = new Date(startDate);
+        // 시간을 0시 0분 0초로 설정
+        today.setHours(0, 0, 0, 0);
+        start.setHours(0, 0, 0, 0);
         const timeDiff = start.getTime() - today.getTime();
         return Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
     };
@@ -119,18 +122,29 @@ const MobileDashboard = () => {
         const currentChallenges = userInfo.challengesDetails[activeTab] || [];
         console.log('Current Tab Challenges:', currentChallenges);
     }, [activeTab, userInfo]);
-    const sortedChallenges = [...activeChallenges].sort((a, b) => {
-        if (activeTab === 'created') {
-            const dDayA = calculateDday(a.roomStartDate);
-            const dDayB = calculateDday(b.roomStartDate);
-            return dDayA - dDayB; // D-day가 가까운 순으로 정렬
-        }
-        return 0; // 다른 탭은 정렬하지 않음
-    });
+    const sortedChallenges = [...activeChallenges]
+        .filter(challenge => {
+            if (activeTab === 'upcoming' || activeTab === 'created') {
+                // 시작 전 탭과 내가 방장 탭에서는 roomStatusNum이 2(모집 중)인 방만 표시
+                return challenge.roomStatusNum === 2;
+            }
+            return true; // 다른 탭은 모든 방 표시
+        })
+        .sort((a, b) => {
+            if (activeTab === 'created') {
+                const dDayA = calculateDday(a.roomStartDate);
+                const dDayB = calculateDday(b.roomStartDate);
+                return dDayA - dDayB; // D-day가 가까운 순으로 정렬
+            }
+            return 0; // 다른 탭은 정렬하지 않음
+        });
 
     return (
         <div className="hmk_mobile_home-wrap">
             <div className="hmk_mobile_home-fixed-top">
+                <div className="hmk_mobile_site-header">Donkey: 동기 키우기</div>
+                <h1 className="hmk_mobile_page-title">나의 DONKEY</h1>
+                {/* 상단 통계 카드 */}
                 {/* 상단 통계 카드 */}
                 <div className="hmk_mobile_home-card">
                     <div className="hmk_mobile_home-stats">
@@ -206,7 +220,7 @@ const MobileDashboard = () => {
                             <div
                                 key={challengeKey}
                                 className={`hmk_challenge-card ${(activeTab === 'completed' ||
-                                        (activeTab === 'created' && challenge.roomStatusNum === 4)) ? 'completed' : ''
+                                    (activeTab === 'created' && challenge.roomStatusNum === 4)) ? 'completed' : ''
                                     }`}
                                 onClick={() => handleCardClick(challenge.roomNum)}
                                 onKeyDown={(e) => {

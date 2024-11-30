@@ -26,6 +26,7 @@ import MobileCargo from './ham_pages/ham_mobile/MobileCargo';
 import MobileRank from './ham_pages/ham_mobile/MobileRank';
 import MobileNotice from './ham_pages/ham_mobile/MobileNotice';
 import MobilePointStore from './ham_pages/ham_mobile/MobilePointStore';
+import MobileRecruiting from './ham_pages/ham_mobile/MobileRecruiting.jsx';
 
 import Step0 from './pages/genebang/Genebang01';
 import Step1 from './pages/genebang/Step01';
@@ -120,6 +121,7 @@ function App() {
           <Route path="/mobile/rank" element={<MobileRank  />} />
           <Route path="/mobile/notice" element={<MobileNotice  />} />
           <Route path="/mobile/store" element={<MobilePointStore  />} />
+          <Route path="/mobile/recruiting" element={<MobileRecruiting  />} />
 
         </Routes>
     </BrowserRouter>

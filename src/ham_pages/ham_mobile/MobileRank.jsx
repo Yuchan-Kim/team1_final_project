@@ -96,6 +96,9 @@ const MobileRank = () => {
     return (
         <div className="hmk_mobile_home-wrap">
             <div className="hmk_mobile_home-fixed-top">
+            <div className="hmk_mobile_site-header">Donkey: 동기 키우기</div>
+                <h1 className="hmk_mobile_page-title">명예의 전당</h1>
+                {/* 상단 통계 카드 */}
                 {/* 움직이는 배너 */}
                 <div className="hmk_mobile_rank_moving_banner">
                     <div className="hmk_mobile_home-card_in_banner">

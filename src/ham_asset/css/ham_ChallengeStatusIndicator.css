@@ -58,3 +58,8 @@
         opacity: 1;
     }
 }
+
+.hmk_dday-badge.hmk_dday-red {
+    background-color: #ff3b30;
+    color: #ffffff;
+}
