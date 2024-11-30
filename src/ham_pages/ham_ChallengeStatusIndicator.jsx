@@ -64,6 +64,7 @@ const ChallengeStatusIndicator = ({ startDate, endDate, roomStatusNum, roomStatu
                 break;
         }
     }
+    
 
     return (
         <div className="hmk_status-container">

@@ -250,12 +250,20 @@ const MyPage = () => {
                         <div className="hmk_challenge-list">
                             {activeChallenges.map((challenge) => {
                                 const challengeKey = `challenge-${challenge.roomNum || challenge.id}`;
-                                // 데이터 확인을 위한 콘솔 로그
-                                console.log("Challenge data:", {
-                                    roomNum: challenge.roomNum,
-                                    roomStatusNum: challenge.roomStatusNum,
-                                    status: challenge.roomStatusName
-                                });
+                                const getStatusNumber = (activeTab) => {
+                                    switch (activeTab) {
+                                        case 'ongoing':
+                                            return 3; // 진행 중
+                                        case 'upcoming':
+                                            return 2; // 모집 중
+                                        case 'created':
+                                            return challenge.roomStatusNum || 1; // 생성된 방은 기본적으로 모집 전
+                                        case 'completed':
+                                            return 4; // 종료
+                                        default:
+                                            return 0;
+                                    }
+                                };
                                 return (
                                     <div
                                         key={challengeKey}
@@ -269,11 +277,11 @@ const MyPage = () => {
                                         role="button"
                                         style={{ cursor: 'pointer', position: 'relative' }}
                                     >
-                                        {activeTab === 'created' && (
+                                        {(activeTab === 'created' || activeTab === 'ongoing' || activeTab === 'upcoming') && (
                                             <ChallengeStatusIndicator
                                                 startDate={challenge.roomStartDate}
                                                 endDate={challenge.endDate}
-                                                roomStatusNum={challenge.roomStatusNum}
+                                                roomStatusNum={getStatusNumber(activeTab)}
                                             />
                                         )}
                                         <img
