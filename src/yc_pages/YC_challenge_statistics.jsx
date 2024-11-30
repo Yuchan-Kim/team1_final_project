@@ -543,7 +543,7 @@ const YCChallengeStatistics = () => {
                 <div key={user.userNum} className="yc_challenge_statistics_user">
                   {/* 이모지 표시 */}
                   <img 
-                    src={user.usingProfilePic} 
+                    src={`${process.env.REACT_APP_API_URL}/upload/${user.usingProfilePic}`}
                     alt={`${user.userName} 프로필`} 
                     className="yc_challenge_statistics_user-emoji" 
                   />
