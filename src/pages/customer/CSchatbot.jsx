@@ -216,7 +216,7 @@ const CSchatbot = ({ closeModal }) => {
                         개인 정보 수정<br />
                         챌린지 정보<br />
                         포인트<br />
-                        랭킹<br />
+                        랭킹<br /><br />
                         안내가 가능합니다.
                     </div>
 
