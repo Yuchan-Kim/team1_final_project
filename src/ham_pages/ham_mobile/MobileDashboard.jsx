@@ -32,7 +32,7 @@ const MobileDashboard = () => {
         const timeDiff = start.getTime() - today.getTime();
         return Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
     };
-    
+
 
     // profileStore 구독 및 데이터 동기화
     useEffect(() => {
@@ -205,7 +205,9 @@ const MobileDashboard = () => {
                         return (
                             <div
                                 key={challengeKey}
-                                className="hmk_challenge-card"
+                                className={`hmk_challenge-card ${(activeTab === 'completed' ||
+                                        (activeTab === 'created' && challenge.roomStatusNum === 4)) ? 'completed' : ''
+                                    }`}
                                 onClick={() => handleCardClick(challenge.roomNum)}
                                 onKeyDown={(e) => {
                                     if (e.key === 'Enter') handleCardClick(challenge.roomNum);
@@ -214,13 +216,18 @@ const MobileDashboard = () => {
                                 role="button"
                                 style={{ cursor: 'pointer', position: 'relative' }}
                             >
-                                {activeTab === 'created' && (
-                                    <ChallengeStatusIndicator
-                                        startDate={challenge.roomStartDate}
-                                        endDate={challenge.endDate}
-                                        roomStatusNum={challenge.roomStatusNum}
-                                    />
-                                )}
+                                {/* 모든 탭에서 상태 배지 표시 */}
+                                <ChallengeStatusIndicator
+                                    startDate={challenge.roomStartDate}
+                                    endDate={challenge.endDate}
+                                    roomStatusNum={
+                                        activeTab === 'ongoing' ? 3 : // 진행 중
+                                            activeTab === 'upcoming' ? 2 : // 모집 중
+                                                activeTab === 'created' ? challenge.roomStatusNum || 1 : // 생성된 방은 실제 상태값 사용
+                                                    activeTab === 'completed' ? 4 : // 종료
+                                                        0 // 기본값
+                                    }
+                                />
                                 <img
                                     src={imgError[challengeKey]
                                         ? '/images/challenge1.png'
