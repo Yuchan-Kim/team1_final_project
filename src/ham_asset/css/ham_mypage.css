@@ -377,3 +377,25 @@
 }
 
 
+/* 챌린지 카드 종료 상태 스타일 */
+.hmk_challenge-card.completed {
+    position: relative;
+    opacity: 0.8;
+}
+
+.hmk_challenge-card.completed::after {
+    content: '종료됨';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 12px;
+}

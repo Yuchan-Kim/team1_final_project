@@ -259,7 +259,8 @@ const MyPage = () => {
                                 return (
                                     <div
                                         key={challengeKey}
-                                        className="hmk_challenge-card"
+                                        className={`hmk_challenge-card ${challenge.roomStatusNum === 4 || activeTab === 'completed' ? 'completed' : ''
+                                            }`}
                                         onClick={() => handleCardClick(challenge.roomNum)}
                                         onKeyDown={(e) => {
                                             if (e.key === 'Enter') handleCardClick(challenge.roomNum);
