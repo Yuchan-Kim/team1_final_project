@@ -487,7 +487,11 @@ const YCChallengeStatistics = () => {
           {topUsers.map((user) => (
             <div key={user.userNum} className="yc-ranking-item">
               <img 
-                src={`${process.env.REACT_APP_API_URL}/upload/${user.usingProfilePic}` || '/images/challenge1.png'} 
+                src={
+                  user.usingProfilePic
+                      ? `${process.env.REACT_APP_API_URL}${user.usingProfilePic}`
+                      : '/images/profile-fill.png' // 기본 프로필 이미지 경로
+              }
                 alt={'/images/challenge1.png'} 
                 className="yc-ranking-avatar" 
                 onError={(e) => {
@@ -546,14 +550,16 @@ const YCChallengeStatistics = () => {
                 <div key={user.userNum} className="yc_challenge_statistics_user">
                   {/* 이모지 표시 */}
                   <img 
-                    src={`${process.env.REACT_APP_API_URL}/upload/${user.usingProfilePic}`}
+                    src={
+                      user.usingProfilePic
+                          ? `${process.env.REACT_APP_API_URL}${user.usingProfilePic}`
+                          : '/images/profile-fill.png' // 기본 프로필 이미지 경로
+                  }
                     alt={'/images/challenge1.png'}  
                     className="yc_challenge_statistics_user-emoji"
                     onError={(e) => {
-                      if (e.target.src !== `${process.env.PUBLIC_URL}/images/challenge1.png`) {
-                          e.target.src = '/images/challenge1.png';
-                      }
-                  }} 
+                      e.target.src = '/images/profile-fill.png';
+                  }}
                   />
                   
                   {/* 유저 정보 */}
