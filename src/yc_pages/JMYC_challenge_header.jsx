@@ -330,9 +330,9 @@ const JMYCChallengeHeader = () => {
                 setShowJoinModal(false);
                 getRoomHeaderInfo(); // 최신 방 정보 다시 가져오기
             } else {
-                console.log(response.data.data);
+                console.log(response.data.apiData);
                 // message가 undefined인 경우 대비
-                alert(response.data.message || "참가에 실패했습니다.");
+                alert(response.data.message );
             }
         } catch (error) {
             console.error("참가 중 오류 발생:", error);
@@ -622,7 +622,7 @@ const JMYCChallengeHeader = () => {
 
             if (response.data.result === 'success') {
                 const data = response.data.apiData;
-                console.log('Room Header Data:', data);
+                console.log('Room Header Data:', response.data.apiData);
                 setRoomData({
                     roomTitle: data.roomTitle,
                     roomStartDate: data.roomStartDate ? new Date(data.roomStartDate) : null, // null 유지
@@ -961,6 +961,26 @@ const JMYCChallengeHeader = () => {
                     </div>
 
                     {/* 모달들 */}
+                    {/* 참여 모달 */}
+                    <Modal
+                                isOpen={showJoinModal}
+                                onRequestClose={handleCancelJoin}
+                                style={customModalStyles}
+                                contentLabel="참여 모달"
+                                ariaHideApp={false}
+                            >
+                                <div className="yc-modal-header">
+                                    <p>참여 하시겠습니까?</p>
+                                    <div className="yc-modal-details">
+                                        <p>포인트: {roomData.roomPoint !== undefined && roomData.roomPoint !== null ? `${roomData.roomPoint} P` : "정보 없음"}</p>
+                                        <p>달성률: {roomData.roomRate !== undefined && roomData.roomRate !== null ? `${roomData.roomRate}%` : "조건 없음"}</p>
+                                    </div>
+                                    <div className="yc-modal-buttons-header">
+                                        <button className="yc-modal-confirm-header" onClick={handleConfirmJoin}>확인</button>
+                                        <button className="yc-modal-cancel-header" onClick={handleCancelJoin}>취소</button>
+                                    </div>
+                                </div>
+                            </Modal>
 
                     {isCMainPage && (
                         <>
@@ -996,26 +1016,7 @@ const JMYCChallengeHeader = () => {
                                     </div>
                                 </div>
                             </Modal>
-                            {/* 참여 모달 */}
-                            <Modal
-                                isOpen={showJoinModal}
-                                onRequestClose={handleCancelJoin}
-                                style={customModalStyles}
-                                contentLabel="참여 모달"
-                                ariaHideApp={false}
-                            >
-                                <div className="yc-modal-header">
-                                    <p>참여 하시겠습니까?</p>
-                                    <div className="yc-modal-details">
-                                        <p>포인트: {roomData.roomPoint !== undefined && roomData.roomPoint !== null ? `${roomData.roomPoint} P` : "정보 없음"}</p>
-                                        <p>비율: {roomData.roomRate !== undefined && roomData.roomRate !== null ? `${roomData.roomRate}%` : "조건 없음"}</p>
-                                    </div>
-                                    <div className="yc-modal-buttons-header">
-                                        <button className="yc-modal-confirm-header" onClick={handleConfirmJoin}>확인</button>
-                                        <button className="yc-modal-cancel-header" onClick={handleCancelJoin}>취소</button>
-                                    </div>
-                                </div>
-                            </Modal>
+                            
 
                             {/* 모집 시작 확인 모달 */}
                             <Modal

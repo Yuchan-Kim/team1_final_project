@@ -664,7 +664,7 @@ const YcChallengeBoard = () => {
                     {/* 공지 / 유의사항 섹션 */}
                     <section className="yc_challenge_notice-section">
                         <div className="yc_challenge_notice-header">
-                            <h2>공지 / 유의사항</h2>
+                            <h2>공지 사항</h2>
                             {/* 새 공지사항 추가/닫기 버튼 */}
                             {userAuth === 1 && (
                                 <button

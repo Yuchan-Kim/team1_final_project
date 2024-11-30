@@ -147,7 +147,7 @@ const ViewItems = () => {
                                             <td>{item.itemNum}</td>
                                             <td>
                                                 {item.itemImg ? (
-                                                    <img src={item.itemImg} alt={item.itemName} className="yc-item-image" />
+                                                    <img src={`${process.env.REACT_APP_API_URL}/upload/${item.itemImg}`} alt={item.itemName} className="yc-item-image" />
                                                 ) : (
                                                     'No Image'
                                                 )}
