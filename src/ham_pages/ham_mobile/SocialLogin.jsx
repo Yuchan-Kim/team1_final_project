@@ -10,7 +10,7 @@ const SocialLogin = ({ platform, onLogin }) => {
                     name: '카카오',
                     bgColor: '#FEE500',
                     textColor: '#000000',
-                    icon: `${process.env.REACT_APP_API_URL}/app/upload/icons/kakao-icon.png`,
+                    icon: `${process.env.REACT_APP_API_URL}/upload/icons/kakao-icon.png`,
                     hoverColor: '#e6cf00'
                 };
             case 'naver':

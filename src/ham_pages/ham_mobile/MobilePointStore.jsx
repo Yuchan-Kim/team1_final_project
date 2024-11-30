@@ -140,7 +140,7 @@ const MobilePointStore = () => {
                             }}
                         >
                             <div className="hmk_mobile_pointstore-item-image">
-                                <img src={`/images/${item.itemImg}`} alt={item.itemName} />
+                                <img src={`/upload/${item.itemImg}`} alt={item.itemName} />
                                 {item.purchaseNum > 0 && item.itemBrandName === "꾸미기" && (
                                     <div className="hmk_mobile_pointstore-item-purchased">구매완료</div>
                                 )}

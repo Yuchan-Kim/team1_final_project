@@ -118,18 +118,18 @@ const Cargo = () => {
 
     // 이미지 경로 처리 헬퍼 함수 추가
     const getGiftImagePath = (imagePath) => {
-        if (!imagePath) return '/images/gift-default.png'; // 기본 이미지 경로
+        if (!imagePath) return '/upload/gift-default.png'; // 기본 이미지 경로
         if (imagePath.startsWith('http')) {
             // http로 시작하는 경로를 /images 경로로 변환
             const imageName = imagePath.split('/').pop();
-            return `/images/${imageName}`;
+            return `/upload/${imageName}`;
         }
         // /로 시작하지 않는 경우 /images/ 추가
         if (!imagePath.startsWith('/')) {
-            return `/images/${imagePath}`;
+            return `/upload/${imagePath}`;
         }
         // /로 시작하는 경우 /images 추가
-        return `/images${imagePath}`;
+        return `/upload${imagePath}`;
     };
 
     // **기프티콘 데이터 필터링**
@@ -153,7 +153,7 @@ const Cargo = () => {
                         className="hmk_gift-image"
                         onError={(e) => {
                             e.target.onerror = null;
-                            e.target.src = '/images/gift-default.png';
+                            e.target.src = '/upload/gift-default.png';
                         }}
                     />
                     {/* 버튼을 이미지 프레임 안으로 이동 */}

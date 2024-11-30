@@ -39,7 +39,7 @@ const MobileBottomMenu = () => {
     const handleMenuClick = (menu) => {
         switch (menu) {
             case 'challenge':
-                navigate('/mobile/home');
+                navigate('/mobile/recruiting');
                 break;
             case 'inventory':
                 navigate('/mobile/cargo');

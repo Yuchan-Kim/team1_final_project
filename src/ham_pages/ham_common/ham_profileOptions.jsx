@@ -15,7 +15,7 @@ const ProfileOptions = memo(({
         (Array.isArray(profiles) ? profiles : [])
             .map(src => {
                 if (!src || typeof src !== 'string') return null;
-                return src.startsWith('/images') ? src : `/images${src}`;
+                return src.startsWith('/upload') ? src : `/upload${src}`;
             })
             .filter(Boolean)
     ), [profiles]);
@@ -23,7 +23,7 @@ const ProfileOptions = memo(({
     // Optimized profile selection handler
     const handleProfileClick = useCallback((src) => {
         if (src?.trim()) {
-            const relativePath = src.replace('/images', '');
+            const relativePath = src.replace('/upload', '');
             onSelect(relativePath);
         }
     }, [onSelect]);
@@ -57,7 +57,7 @@ const ProfileOptions = memo(({
                                 <ImageWithFallback
                                     src={src}
                                     index={index}
-                                    isSelected={selectedProfile === src.replace('/images', '')}
+                                    isSelected={selectedProfile === src.replace('/upload', '')}
                                 />
                             </div>
                         ))

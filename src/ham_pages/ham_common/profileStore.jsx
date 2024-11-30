@@ -225,9 +225,9 @@ class ProfileStore {
         if (imagePath.startsWith('http')) return imagePath;
         // DB에서 온 경로가 /로 시작하면 /images 붙여주기
         if (imagePath.startsWith('/')) {
-            return `/images${imagePath}`;
+            return `/upload${imagePath}`;
         }
-        return `/images/${imagePath}`;
+        return `/upload/${imagePath}`;
     }
 
 

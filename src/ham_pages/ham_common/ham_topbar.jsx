@@ -11,7 +11,7 @@ import profileStore from './profileStore';
 import '../../ham_asset/css/ham_modal.css';
 import '../../ham_asset/css/ham_topbar.css';
 const defaultProfile = '/images/profile-fill.png';
-const storeIcon = '/images/shopfront.png';
+const storeIcon = '/ipload/icons/shopfront.png';
 
 
 

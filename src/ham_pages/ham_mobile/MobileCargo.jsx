@@ -50,15 +50,15 @@ const MobileCargo = () => {
 
     // 이미지 경로 처리 헬퍼 함수
     const getGiftImagePath = (imagePath) => {
-        if (!imagePath) return '/images/gift-default.png';
+        if (!imagePath) return '/upload/gift-default.png';
         if (imagePath.startsWith('http')) {
             const imageName = imagePath.split('/').pop();
-            return `/images/${imageName}`;
+            return `/upload/${imageName}`;
         }
         if (!imagePath.startsWith('/')) {
-            return `/images/${imagePath}`;
+            return `/upload/${imagePath}`;
         }
-        return `/images${imagePath}`;
+        return `/upload${imagePath}`;
     };
 
     const GiftCard = ({ gift, onClick }) => {
@@ -73,7 +73,7 @@ const MobileCargo = () => {
                     className="hmk_challenge-image"
                     onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src = '/images/gift-default.png';
+                        e.target.src = '/upload/gift-default.png';
                     }}
                 />
                 <div className="hmk_challenge-details">
@@ -211,7 +211,7 @@ const MobileCargo = () => {
                                 className="hmk_mobile_home-modal-image"
                                 onError={(e) => {
                                     e.target.onerror = null;
-                                    e.target.src = '/images/gift-default.png';
+                                    e.target.src = '/upload/gift-default.png';
                                 }}
                             />
                             <h3 className="hmk_mobile_home-stat-title">{selectedGift.name}</h3>

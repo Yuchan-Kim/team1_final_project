@@ -6,12 +6,12 @@ import YCProfileInfo from "../../yc_pages/YC_profile_info";
 import profileStore from '../ham_common/profileStore';
 
 import '../../ham_asset/css/ham_M_rank.css';
-const defaultProfile = '/images/profile-fill.png';
-const grl = '/images/rank_girl-runtoleft.gif';
-const dog = '/images/rank_dog-runtoleft.gif';
-const cat = '/images/rank_cat-runtoleft.gif';
-const clap = '/images/rank_clap.gif';
-const win = '/images/rank_winner.gif';
+const defaultProfile = '/upload/profile-fill.png';
+const grl = '/upload/rank_girl-runtoleft.gif';
+const dog = '/upload/rank_dog-runtoleft.gif';
+const cat = '/upload/rank_cat-runtoleft.gif';
+const clap = '/upload/rank_clap.gif';
+const win = '/upload/rank_winner.gif';
 
 const MobileRank = () => {
     const navigate = useNavigate();
@@ -26,7 +26,7 @@ const MobileRank = () => {
 
     const getImageUrl = (imagePath) => {
         if (!imagePath) return defaultProfile;
-        return `/images/${imagePath}`;
+        return `/upload/${imagePath}`;
     };
 
     const openProfile = async (userNum) => {

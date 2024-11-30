@@ -17,6 +17,7 @@ const MobileMission = () => {
   const token = localStorage.getItem('token');
 
   const [userAuth, setUserAuth] = useState(null);
+  const [roomTitle, setRoomTitle] = useState('');
   const [missionList, setMissionList] = useState([]);
   const [getRule, setGetRule] = useState('');
   const [isEditingRule, setIsEditingRule] = useState(false);
@@ -30,8 +31,6 @@ const MobileMission = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMission, setModalMission] = useState(null);
   const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
-  // 제출된 미션 상태
-  const [submittedMissions, setSubmittedMissions] = useState([]);
   // 컴포넌트 마운트 시 상태 확인
   useEffect(() => {
     console.log('Component mounted');
@@ -66,32 +65,40 @@ const MobileMission = () => {
     const fetchInitialData = async () => {
       console.log('Fetching initial data...');
       try {
-        // 미션 리스트 가져오기
-        console.log('Fetching mission list...');
+        // 1. 방 정보 가져오기
+        const roomResponse = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/challenge/${roomNum}`,
+          {
+            headers: { 'Authorization': `Bearer ${token}` }
+          }
+        );
+
+        if (roomResponse.data.result === 'success') {
+          const roomInfo = roomResponse.data.apiData[0]; // 배열의 첫 번째 항목 사용
+          setRoomTitle(roomInfo.roomTitle);
+        }
+
+        // 2. 미션 리스트 가져오기
         const missionsResponse = await axios.get(
           `${process.env.REACT_APP_API_URL}/api/missionList/${roomNum}`,
           {
             headers: { 'Authorization': `Bearer ${token}` }
           }
         );
-        console.log('Mission list response:', missionsResponse.data);
 
-        // evalNum이 존재하면 제출된 미션으로 처리
         const updatedMissions = missionsResponse.data.apiData.map(mission => ({
           ...mission,
-          isSubmitted: mission.evalNum ? true : false  // evalNum이 있으면 제출된 것으로 판단
+          isSubmitted: mission.evalNum ? true : false
         }));
-
         setMissionList(updatedMissions);
 
-        // 유의사항 가져오기 (기존 코드 유지)
-        console.log('Fetching rules...');
+        // 3. 유의사항 가져오기
         const rulesResponse = await axios.get(
           `${process.env.REACT_APP_API_URL}/api/getRule/${roomNum}`
         );
-        console.log('Rules response:', rulesResponse.data);
         setGetRule(rulesResponse.data.apiData?.missionInstruction || '');
         setRuleText(rulesResponse.data.apiData?.missionInstruction || '');
+
       } catch (error) {
         console.error('Initial data fetch failed:', error);
         console.log('Error response:', error.response?.data);
@@ -225,24 +232,6 @@ const MobileMission = () => {
   };
 
 
-  // 컴포넌트 마운트 시 제출된 미션 정보 가져오기 
-  useEffect(() => {
-    const fetchSubmittedMissions = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/submittedMissions/${roomNum}`,
-          {
-            headers: { 'Authorization': `Bearer ${token}` }
-          }
-        );
-        setSubmittedMissions(response.data.apiData || []);
-      } catch (error) {
-        console.error('Failed to fetch submitted missions:', error);
-      }
-    };
-
-    fetchSubmittedMissions();
-  }, [roomNum, token]);
 
   console.log('Rendering component with:', {
     userAuth,
@@ -265,13 +254,13 @@ const MobileMission = () => {
   };
 
   return (
-    <div className="hmk_mobile_home-wrap">
-      <div className="hmk_mobile_home-fixed-top">
+    <div className="hmk_mobile_mission-wrap">
+      <div className="hmk_mobile_mission-fixed-top">
         {/* 유의사항 카드 */}
-        <div className="hmk_mobile_home-card">
-          <div className="hmk_mobile_home-rules">
-            <div className="hmk_mobile_home-stat-title-wrapper">
-              <h2 className="hmk_mobile_home-stat-title">유의사항</h2>
+        <div className="hmk_mobile_mission-card">
+          <div className="hmk_mobile_mission-rules">
+            <div className="hmk_mobile_mission-stat-title-wrapper">
+              <h2 className="hmk_mobile_mission-stat-title">{roomTitle}</h2>
               {userAuth === 1 && (
                 <div className="hmk_edit-icon-wrapper" onClick={() => setIsEditingRule(true)}>
                   <FontAwesomeIcon icon={faPen} className="hmk_edit-icon" />
@@ -287,15 +276,15 @@ const MobileMission = () => {
                   onChange={(e) => setRuleText(e.target.value)}
                   placeholder="유의사항을 입력하세요"
                 />
-                <div className="hmk_mobile_home-grid">
+                <div className="hmk_mobile_mission-grid">
                   <button
-                    className="hmk_mobile_home-grid-item hmk_active"
+                    className="hmk_mobile_mission-grid-item hmk_active"
                     onClick={handleSaveRule}
                   >
                     저장
                   </button>
                   <button
-                    className="hmk_mobile_home-grid-item"
+                    className="hmk_mobile_mission-grid-item"
                     onClick={() => setIsEditingRule(false)}
                   >
                     취소
@@ -316,9 +305,9 @@ const MobileMission = () => {
         </div>
       </div>
 
-      <div className="hmk_mobile_home-content">
+      <div className="hmk_mobile_mission-content">
         {/* 미션 리스트 */}
-        <div className="hmk_mobile_home-grid-list">
+        <div className="hmk_mobile_mission-grid-list">
           {missionList.map((mission) => (
             <div
               key={mission.missionNum}
@@ -331,13 +320,13 @@ const MobileMission = () => {
               }}
             >
               <div className="hmk_challenge-details">
-                <h4 className="hmk_challenge-title">{mission.missionName}</h4>
-                <p className="hmk_mobile_home-stat-title">{mission.missionMethod}</p>
+                <h4 className="hmk_challenge-mission-title">{mission.missionName}</h4>
+                <p className="hmk_mobile_mission-stat-mission-content">{mission.missionMethod}</p>
                 {mission.isSubmitted && (
                   <div className="hmk_mission-submitted-badge">제출 완료</div>
                 )}
                 <button
-                  className="hmk_mobile_home-grid-item"
+                  className="hmk_mobile_mission-grid-item"
                   onClick={(e) => {
                     e.stopPropagation();
                     setModalMission(mission);
@@ -353,9 +342,9 @@ const MobileMission = () => {
 
         {/* 선택된 미션 제출 폼 */}
         {selectedMission && (
-          <div className="hmk_mobile_home-card">
-            <div className="hmk_mobile_home-stat-title">미션 제출</div>
-            <div className="hmk_challenge-title">{selectedMission.missionName}</div>
+          <div className="hmk_mobile_mission-submitcard">
+            <div className="hmk_mobile_mission-stat-submit-title">미션 제출</div>
+            <div className="hmk_challenge-submit-content">{selectedMission.missionName}</div>
 
             <div className="hmk_mobile_mission-photos">
               {fileInputs.map((_, index) => (
@@ -382,7 +371,7 @@ const MobileMission = () => {
                       htmlFor={`file-${index}`}
                       className="hmk_mobile_mission-upload"
                     >
-                      <FontAwesomeIcon icon={faCamera} className="hmk_mobile_home-icon" />
+                      <FontAwesomeIcon icon={faCamera} className="hmk_mobile_mission-icon" />
                     </label>
                   )}
                 </div>
@@ -407,7 +396,7 @@ const MobileMission = () => {
             />
 
             <button
-              className="hmk_mobile_home-grid-item hmk_active"
+              className="hmk_mobile_mission-grid-item hmk_active"
               onClick={handleSubmitMission}
             >
               미션 제출하기
@@ -416,20 +405,20 @@ const MobileMission = () => {
         )}
       </div>
       {isRuleModalOpen && (
-        <div className="hmk_mobile_home-modal-overlay" onClick={() => setIsRuleModalOpen(false)}>
+        <div className="hmk_mobile_mission-rulmodal-overlay" onClick={() => setIsRuleModalOpen(false)}>
           <div
-            className="hmk_mobile_home-modal"
+            className="hmk_mobile_mission-rulmodal"
             onClick={e => e.stopPropagation()}
           >
             <button
-              className="hmk_mobile_home-modal-close"
+              className="hmk_mobile_mission-rulmodal-close"
               onClick={() => setIsRuleModalOpen(false)}
             >
               <FontAwesomeIcon icon={faTimes} />
             </button>
-            <div className="hmk_mobile_home-modal-content">
-              <h3 className="hmk_mobile_home-stat-title">유의사항</h3>
-              <div className="hmk_mobile_home-rule-content">
+            <div className="hmk_mobile_mission-rulmodal-content">
+              <h3 className="hmk_mobile_mission-rulstat-title">유의사항</h3>
+              <div className="hmk_mobile_mission-rule-content">
                 {getRule || "등록된 유의사항이 없습니다."}
               </div>
             </div>
@@ -437,29 +426,29 @@ const MobileMission = () => {
         </div>
       )}
       {isModalOpen && modalMission && (
-        <div className="hmk_mobile_home-modal-overlay" onClick={() => setIsModalOpen(false)}>
+        <div className="hmk_mobile_mission-modal-overlay" onClick={() => setIsModalOpen(false)}>
           <div
-            className="hmk_mobile_home-modal"
+            className="hmk_mobile_mission-modal"
             onClick={e => e.stopPropagation()}
           >
             <button
-              className="hmk_mobile_home-modal-close"
+              className="hmk_mobile_mission-modal-close"
               onClick={() => setIsModalOpen(false)}
             >
               <FontAwesomeIcon icon={faTimes} />
             </button>
-            <div className="hmk_mobile_home-modal-content">
+            <div className="hmk_mobile_mission-modal-content">
               {modalMission.image && (
                 <img
                   src={modalMission.image}
                   alt={modalMission.missionName}
-                  className="hmk_mobile_home-modal-image"
+                  className="hmk_mobile_mission-modal-image"
                 />
               )}
-              <h3 className="hmk_mobile_home-stat-title">
+              <h3 className="hmk_mobile_mission-stat-title">
                 {modalMission.missionName}
               </h3>
-              <p className="hmk_mobile_home-stat-value">
+              <p className="hmk_mobile_mission-stat-value">
                 {modalMission.missionMethod}
               </p>
             </div>

@@ -12,6 +12,8 @@
 }
 
 .hmk_status-badge {
+    width: 50px;
+    text-align: center;
     padding: 4px 8px;
     border-radius: 9999px;
     font-size: 12px;
@@ -30,6 +32,10 @@
 
 .hmk_badge-green {
     background-color: #22c55e;
+}
+
+.hmk_badge-gray {
+    background-color: #575757;
 }
 
 .hmk_dday-badge {
