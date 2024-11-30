@@ -223,11 +223,13 @@ class ProfileStore {
     constructAbsoluteUrl(apiUrl, imagePath) {
         if (!imagePath) return this.profileImage;
         if (imagePath.startsWith('http')) return imagePath;
-        // DB에서 온 경로가 /로 시작하면 /upload 붙여주기
+
+        const baseUrl = apiUrl || process.env.REACT_APP_API_URL || 'http://13.125.216.39:9000';
+
         if (imagePath.startsWith('/')) {
-            return `/upload${imagePath}`;
+            return `${baseUrl}${imagePath}`;
         }
-        return `/upload/${imagePath}`;
+        return `${baseUrl}/upload/${imagePath}`;
     }
 
 

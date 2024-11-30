@@ -400,21 +400,19 @@ const Topbar = () => {
     // Helper 함수: 절대 경로 생성
     const getFullImagePath = (path) => {
         if (!path) return defaultProfile;
+        
+        const apiUrl = process.env.REACT_APP_API_URL || 'http://13.125.216.39:9000';
+        
         if (path.startsWith('http')) {
-            // http로 시작하는 경로를 /upload 경로로 변환
-            const imageName = path.split('/').pop(); // item2.jpg 추출
-            return `/upload/${imageName}`;
+            return path; // 전체 URL은 그대로 유지
         }
-        // 이미 /images로 시작하면 그대로 반환
-        if (path.startsWith('/upload')) {
-            return path;
-        }
-        // /item1.jpg 형식이면 /upload 추가
+        
+        // 상대 경로인 경우 전체 URL로 변환
         if (path.startsWith('/')) {
-            return `/upload${path}`;
+            return `${apiUrl}${path}`;
         }
-        // 그 외의 경우 /upload/ 추가
-        return `/upload/${path}`;
+        
+        return `${apiUrl}/upload/${path}`;
     };
 
 
