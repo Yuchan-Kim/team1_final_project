@@ -17,7 +17,11 @@ const YCProfileInfo = ({ isOpen, onClose, user }) => {
                     <div className="yc_profile-avatar">
                     {user.usingProfilePic ? (
                         <img 
-                            src={`${process.env.REACT_APP_API_URL}/upload/${user.usingProfilePic}`}   
+                            src={
+                                user.usingProfilePic
+                                    ? `${process.env.REACT_APP_API_URL}${user.usingProfilePic}`
+                                    : '/images/profile-fill.png' // 기본 프로필 이미지 경로
+                            }
                             alt="Profile"  
                             onError={(e) => {
                                     e.target.src = '/images/profile-fill.png';

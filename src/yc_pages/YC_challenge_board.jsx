@@ -636,8 +636,8 @@ const YcChallengeBoard = () => {
             <div key={user.userNum} className="yc-ranking-item">
               <img 
                 src={
-                    user.userPofile
-                        ? `${process.env.REACT_APP_API_URL}${user.userPofile}`
+                    user.usingProfilePic
+                        ? `${process.env.REACT_APP_API_URL}${user.usingProfilePic}`
                         : '/images/profile-fill.png' // 기본 프로필 이미지 경로
                 }
                 alt="profile" 
