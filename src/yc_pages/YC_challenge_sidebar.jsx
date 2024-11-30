@@ -67,6 +67,8 @@ const YCChallengeSidebar = () => {
     });
 
     const isExitDisabled = !(enteredUserStatusNum === 1 && enteredUserAuth !== null);
+    const isMissionSubmissionDisabled = [1, 2, 4].includes(roomStatusNum);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -439,13 +441,13 @@ const YCChallengeSidebar = () => {
                                     <span className="menu-text">미션 히스토리 / 채점</span>
                                 </Link>
                             </li>
-                            <li className={`yc_challenge_sidebar_submission-status ${isDisabled ? 'disabled' : ''}`}>
+                            <li className={`yc_challenge_sidebar_submission-status ${isMissionSubmissionDisabled ? 'disabled' : ''}`}>
                                 <Link
                                     to={`/mission/${roomNum}`}
                                     aria-label="미션 제출"
-                                    onClick={(e) => isDisabled && e.preventDefault()}
-                                    className={isDisabled ? 'disabled-link' : ''}
-                                    title={isDisabled ? '챌린지에 참여해야 이용할 수 있습니다.' : ''}
+                                    onClick={(e) => isMissionSubmissionDisabled && e.preventDefault()}
+                                    className={isMissionSubmissionDisabled ? 'disabled-link' : ''}
+                                    title={isMissionSubmissionDisabled ? '현재 상태에서는 미션 제출을 할 수 없습니다.' : ''}
                                 >
                                     <FaUpload size={24} />
                                     <span className="menu-text">미션 제출</span>

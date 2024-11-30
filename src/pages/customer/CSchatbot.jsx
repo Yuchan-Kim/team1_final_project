@@ -212,7 +212,12 @@ const CSchatbot = ({ closeModal }) => {
                         <strong>동키 챗봇:</strong><br />
                         안녕하세요! 동기 키우기의 동키입니다.<br />
                         궁금한 점이 있다면 물어보세요~<br /><br />
-                        저는 고객센터안내/개인정보수정/챌린지정보/랭킹정보/포인트정보에 관한 안내가 가능해요!
+                        고객센터<br />
+                        개인 정보 수정<br />
+                        챌린지 정보<br />
+                        포인트<br />
+                        랭킹<br />
+                        안내가 가능합니다.
                     </div>
 
                     {recentChats.length > 0 && recentChats.map((chat, index) => (
