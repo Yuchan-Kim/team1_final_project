@@ -16,7 +16,7 @@ const Mainlist = () => {
     const [period, setPeriod] = useState([]); 
     const [regions, setRegions] = useState([]); 
     const [filters, setFilters] = useState({
-        roomType: [],
+        roomType: 'all', // 방 타입 필터 추가 ('all', '일반', '챌린지')
         category: 'all',
         period: 'all',
         region: 'all',
@@ -25,7 +25,6 @@ const Mainlist = () => {
     const [filteredRooms, setFilteredRooms] = useState([]); 
     const [query, setQuery] = useState(''); 
 
-    // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 12;
 
@@ -81,7 +80,7 @@ const Mainlist = () => {
     useEffect(() => {
         const filtered = roomList.filter((room) => {
             const matchesRoomType =
-                filters.roomType.length === 0 || filters.roomType.includes(room.roomTypeName);
+                filters.roomType === 'all' || room.roomTypeName === filters.roomType;
             const matchesCategory =
                 filters.category === 'all' || room.categoryName === filters.category;
             const matchesPeriod =
@@ -100,18 +99,12 @@ const Mainlist = () => {
         setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
     };
 
-    const handleRoomTypeChange = (e) => {
-        const { value, checked } = e.target;
-        setFilters((prevFilters) => ({
-            ...prevFilters,
-            roomType: checked
-                ? [...prevFilters.roomType, value]
-                : prevFilters.roomType.filter((type) => type !== value),
-        }));
-    };
-
     const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
+        setCurrentPage(pageNumber); 
+        window.scrollTo({
+            top: 0, 
+            behavior: 'smooth', 
+        });
     };
 
     const displayedRooms = filteredRooms.slice(
@@ -138,17 +131,18 @@ const Mainlist = () => {
 
                     <div id="search-bar">
                         <div id="search-bar1">
-                            {roomType.map((type) => (
-                                <div key={type.id}>
-                                    <input
-                                        type="checkbox"
-                                        id={`roomType_${type.id}`}
-                                        value={type.name}
-                                        onChange={handleRoomTypeChange}
-                                    />
-                                    <label htmlFor={`roomType_${type.id}`}>{type.roomTypeName}</label>
-                                </div>
-                            ))}
+                            <div className="jm-room-type-select">
+                                <span>방 유형</span>
+                                <select
+                                    name="roomType"
+                                    value={filters.roomType}
+                                    onChange={handleFilterChange}
+                                >
+                                    <option value="all">전체</option>
+                                    <option value="일반">일반</option>
+                                    <option value="챌린지">챌린지</option>
+                                </select>
+                            </div>
                         </div>
                         <div id="search-bar2">
                             <div className="jm-Category-select">

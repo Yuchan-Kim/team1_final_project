@@ -266,7 +266,7 @@ const ChallengePage = () => {
           <>
             <Doughnut data={doughnutData} options={doughnutOptions} />
             <div className="yc-achievement-rate">
-              <h4>달성률: {firstMission.achievementRate.toFixed(2)}%</h4>
+            <h4>{firstMission.missionName} 달성률: {firstMission.achievementRate.toFixed(2)}%</h4>
             </div>
           </>
         ) : (
@@ -277,8 +277,8 @@ const ChallengePage = () => {
           {topUsers.map((user) => (
             <div key={user.userNum} className="yc-ranking-item">
               <img 
-                src={user.usingProfilePic} 
-                alt={`${user.userName} 프로필`} 
+                src={`${process.env.REACT_APP_API_URL}/upload/${user.usingProfilePic}` } 
+                alt={'/images/challenge1.png'} 
                 className="yc-ranking-avatar" 
               />
               <div className="yc-ranking-info">

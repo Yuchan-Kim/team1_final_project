@@ -16,7 +16,7 @@ const YCProfileInfo = ({ isOpen, onClose, user }) => {
                 <div className="yc_profile">
                     <div className="yc_profile-avatar">
                         {user.usingProfilePic ? (
-                            <img src={user.usingProfilePic} alt={`${user.userName}의 아바타`} />
+                            <img src={`${process.env.REACT_APP_API_URL}/upload/${user.usingProfilePic}`}   alt={'/images/challenge1.png'}  />
                         ) : (
                             <FaUserPlus />
                         )}
@@ -39,10 +39,8 @@ const YCProfileInfo = ({ isOpen, onClose, user }) => {
                         <p>포인트 랭킹</p>
                         <p>{user.pointRanking} 등</p>
                     </div>
-                    <div>
-                        <p>신고당한 횟수</p>
-                        <p>{user.reportCount}</p>
-                    </div>
+                   
+                    
                 </div>
                 <div className="yc_profile_challenge_info">
                     <div>

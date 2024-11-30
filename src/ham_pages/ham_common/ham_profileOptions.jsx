@@ -15,7 +15,8 @@ const ProfileOptions = memo(({
         (Array.isArray(profiles) ? profiles : [])
             .map(src => {
                 if (!src || typeof src !== 'string') return null;
-                return src.startsWith('/upload') ? src : `/upload${src}`;
+                const apiUrl = process.env.REACT_APP_API_URL || 'http://13.125.216.39:9000';
+                return src.startsWith('http') ? src : `${apiUrl}${src.startsWith('/') ? src : `/upload/${src}`}`;
             })
             .filter(Boolean)
     ), [profiles]);
@@ -23,7 +24,13 @@ const ProfileOptions = memo(({
     // Optimized profile selection handler
     const handleProfileClick = useCallback((src) => {
         if (src?.trim()) {
-            const relativePath = src.replace('/upload', '');
+            let relativePath;
+            if (src.includes('/upload/')) {
+                // 전체 URL에서 /upload/ 이후의 경로만 추출
+                relativePath = '/upload/' + src.split('/upload/')[1];
+            } else {
+                relativePath = src;
+            }
             onSelect(relativePath);
         }
     }, [onSelect]);
@@ -31,7 +38,7 @@ const ProfileOptions = memo(({
     // Error boundary component
     const ImageWithFallback = memo(({ src, index, isSelected }) => (
         <img
-            src={src}
+            src={src.startsWith('http') ? src : `/upload/${src.split('/upload/').pop()}`}
             alt={`프로필 선택 ${index + 1}`}
             onClick={() => handleProfileClick(src)}
             className={`hmk_profile-image ${isSelected ? "hmk_selected-profile" : ""}`}
@@ -50,8 +57,8 @@ const ProfileOptions = memo(({
                 <div className="hmk_profile-options">
                     {safeProfiles.length > 0 ? (
                         safeProfiles.map((src, index) => (
-                            <div 
-                                key={`profile-${index}-${src}`} 
+                            <div
+                                key={`profile-${index}-${src}`}
                                 className="hmk_profile-option-item"
                             >
                                 <ImageWithFallback
@@ -64,10 +71,10 @@ const ProfileOptions = memo(({
                     ) : (
                         <div className="hmk_profile-option-item">
                             <p>구매한 프로필 이미지가 없습니다. 상점에서 새로운 프로필 이미지를 구매하세요.</p>
-                            <img 
-                                src={DEFAULT_PROFILE} 
-                                alt="기본 프로필" 
-                                className="hmk_profile-image" 
+                            <img
+                                src={DEFAULT_PROFILE}
+                                alt="기본 프로필"
+                                className="hmk_profile-image"
                             />
                         </div>
                     )}
