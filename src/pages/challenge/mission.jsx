@@ -562,10 +562,8 @@
                   alt={'/images/challenge1.png'}  
                   className="yc-ranking-avatar"
                   onError={(e) => {
-                    if (e.target.src !== `${process.env.PUBLIC_URL}/images/challenge1.png`) {
-                        e.target.src = '/images/challenge1.png';
-                    }
-                }} 
+                    e.target.src = '/images/profile-fill.png';
+                  }}
                 />
                 <div className="yc-ranking-info">
                           <Link

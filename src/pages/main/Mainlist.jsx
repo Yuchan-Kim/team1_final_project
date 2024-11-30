@@ -107,6 +107,29 @@ const Mainlist = () => {
         });
     };
 
+    // 방 리스트 전부 가져오기
+    const getRoomList = () => {
+       
+        axios({
+          method: 'get',
+          url: `${process.env.REACT_APP_API_URL}/api/roomList`,
+
+          responseType: 'json'
+        }).then(response => {
+          if (response.data.result === "success") {
+            setRoomList(response.data.apiData); 
+          } else {
+            console.log(response.data.message); 
+          }
+        }).catch(error => {
+          console.log(error);
+        });
+      };
+
+      useEffect(() => {
+        getRoomList(); // 방리스트 가져오기
+    }, []);
+
     const displayedRooms = filteredRooms.slice(
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage

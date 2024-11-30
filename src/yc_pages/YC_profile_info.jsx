@@ -20,9 +20,7 @@ const YCProfileInfo = ({ isOpen, onClose, user }) => {
                             src={`${process.env.REACT_APP_API_URL}/upload/${user.usingProfilePic}`}   
                             alt="Profile"  
                             onError={(e) => {
-                                if (e.target.src !== `${process.env.PUBLIC_URL}/images/challenge1.png`) {
-                                    e.target.src = '/images/challenge1.png';
-                                }
+                                    e.target.src = '/images/profile-fill.png';
                             }}
                         />
                     ) : (
