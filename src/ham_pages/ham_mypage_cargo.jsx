@@ -145,7 +145,7 @@ const Cargo = () => {
     // **GiftCard 컴포넌트 정의**
     const GiftCard = ({ gift, onClick }) => {
         return (
-            <div className="hmk_gift-card" tabIndex={0}>
+            <div className={`hmk_gift-card ${gift.purchasedStatus === '사용완료' ? 'completed' : ''}`} tabIndex={0}>
                 <div className="hmk_gift-image_frame">
                     <img
                         src={getGiftImagePath(gift.image)}
@@ -156,7 +156,6 @@ const Cargo = () => {
                             e.target.src = '/upload/gift-default.png';
                         }}
                     />
-                    {/* 버튼을 이미지 프레임 안으로 이동 */}
                     <button
                         className="hmk_gift-name-button"
                         onClick={() => onClick(gift)}
