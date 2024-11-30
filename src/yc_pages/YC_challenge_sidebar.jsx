@@ -12,9 +12,12 @@ Modal.setAppElement('#root');
 const YCChallengeSidebar = () => {
     const navigate = useNavigate();
     const { roomNum } = useParams();
+   
     
     const [regions, setRegions] = useState([]);
     const [currentParticipantCount, setCurrentParticipantCount] = useState(0);
+
+    
 
 
     // 모달 상태 관리
@@ -29,6 +32,8 @@ const YCChallengeSidebar = () => {
     const [enteredUserStatusNum, setEnteredUserStatusNum] = useState(null);
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const isExitButtonVisible = roomStatusNum !== 4;
+    const isMenuDisabled = roomStatusNum !== 4;
 
     // 관리 모달 폼 상태
     const [formData, setFormData] = useState({
@@ -67,20 +72,10 @@ const YCChallengeSidebar = () => {
         const fetchData = async () => {
             const token = localStorage.getItem('token');
 
-            if (!token) {
-                setEnteredUserAuth(null);
-                setRoomStatusNum(null);
-                setEnteredUserStatusNum(null);
-                setIsLoading(false);
-                return;
-            }
-
             try {
                 // 방 헤더 정보 가져오기
                 const roomHeaderResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/header/${roomNum}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
+                    headers: token ? { 'Authorization': `Bearer ${token}` } : {}
                 });
 
                 if (roomHeaderResponse.data.result === 'success') {
@@ -92,18 +87,20 @@ const YCChallengeSidebar = () => {
                     setError('방 헤더 정보를 가져오는 데 실패했습니다.');
                 }
 
-                // 사용자 권한 정보 가져오기
-                const userAuthResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/user/${roomNum}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
+                // 토큰이 있을 때만 사용자 권한 정보 가져오기
+                if (token) {
+                    const userAuthResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/user/${roomNum}`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
 
-                if (userAuthResponse.data.result === 'success') {
-                    setEnteredUserAuth(userAuthResponse.data.apiData);
-                } else {
-                    console.error('사용자 권한 정보 가져오기 실패:', userAuthResponse.data.message);
-                    setError('사용자 권한을 가져오는 데 실패했습니다.');
+                    if (userAuthResponse.data.result === 'success') {
+                        setEnteredUserAuth(userAuthResponse.data.apiData);
+                    } else {
+                        console.error('사용자 권한 정보 가져오기 실패:', userAuthResponse.data.message);
+                        setError('사용자 권한을 가져오는 데 실패했습니다.');
+                    }
                 }
             } catch (error) {
                 console.error('데이터 가져오기 오류:', error);
@@ -406,7 +403,7 @@ const YCChallengeSidebar = () => {
         setIsExitModalOpen(false);
     };
 
-    const isDisabled = !(enteredUserAuth === 1 || (enteredUserAuth === 2 && (enteredUserStatusNum === 1) && roomStatusNum > 2));
+    const isDisabled = !(roomStatusNum === 4 || enteredUserAuth === 1 || (enteredUserAuth === 2 && (enteredUserStatusNum === 1) && roomStatusNum > 2));
 
     return (
         <aside className="yc_challenge_sidebar">
@@ -744,6 +741,7 @@ const YCChallengeSidebar = () => {
                     </Modal>
 
                     {/* 푸터 버튼 */}
+                    {isExitButtonVisible && (
                     <div className="yc_challenge_footer-buttons">
                         <button className="yc_challenge_report-btn" title="신고" aria-label="신고">
                             신고
@@ -760,6 +758,7 @@ const YCChallengeSidebar = () => {
                             </button>
                         </div>
                     </div>
+                    )}
                 </>
             )}
         </aside>

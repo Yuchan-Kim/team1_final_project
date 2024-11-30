@@ -48,6 +48,22 @@ const AdminUsers = () => {
     /*---훅(useEffect)+이벤트(handle)메소드-------*/
     
     
+    const changeUserStatus = (userNum, newStatus) => {
+        return axios.put(`${process.env.REACT_APP_API_URL}/api/admin/user-status`, {
+            userNum,
+            newStatus
+        })
+        .then(response => {
+            if (response.data.result === 'success') {
+                alert('유저 상태가 성공적으로 변경되었습니다.');
+            } else {
+                alert('유저 상태 변경에 실패했습니다.');
+            }
+        })
+        .catch(error => {
+            console.error('유저 상태 변경 중 오류 발생:', error);
+        });
+    };
     
 
     

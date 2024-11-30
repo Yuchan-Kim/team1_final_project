@@ -450,6 +450,7 @@ const YCChallengeStatistics = () => {
   // 그룹 챌린지 포인트 계산
   const groupChallengePoints = groupChallengeSuccess ? roomEnterPoint : 0;
 
+  
 
 
   // 컴포넌트가 마운트될 때 API 호출
