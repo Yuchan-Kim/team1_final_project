@@ -19,27 +19,27 @@ const DH_PointStoreMain = () => {
 	/*---라우터 관련------------------------------------------*/
 
 	/*---상태관리 변수들(값이 변화면 화면 랜더링) ----------*/
-    const [hasToken, setHasToken] = useState(false);    // 토큰 상태 관리
+    const [hasToken, setHasToken] = useState(false);   
 
     const [itemList, setItemList] = useState([]);
-    const [selectedItem, setSelectedItem] = useState(null); // 디테일 모달창 
-    const [selectedItemExchange, setSelectedItemExchange] = useState(null);   // 포인트 교환 모달창
-    const [selectedItemComplete, setSelectedItemComplete] = useState(null);   // 완료 모달창
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [selectedItemExchange, setSelectedItemExchange] = useState(null);   
+    const [selectedItemComplete, setSelectedItemComplete] = useState(null);  
 
-    const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);      // 상품 상세 모달
-    const [isPointsAvailable, setIsPointsAvailable] = useState(0); // 유저의 포인트 상태 관리
-    const [historyPoint, setHistoryPoint] = useState(0); // 유저의 포인트 상태 관리
+    const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);      
+    const [isPointsAvailable, setIsPointsAvailable] = useState(0); 
+    const [historyPoint, setHistoryPoint] = useState(0); 
     // 토큰 상태 확인 및 포인트 조회
     const [token, setToken] = useState(localStorage.getItem('token')); 
     const authUser = JSON.parse(localStorage.getItem('authUser'));
 
-    const [isExchangeModalOpen, setIsExchangeModalOpen] = useState(false);  // 포인트 교환 모달
-    const [isCompleteModalOpen, setIsCompleteModalOpen] = useState(false);  // 교환 완료 모달
+    const [isExchangeModalOpen, setIsExchangeModalOpen] = useState(false); 
+    const [isCompleteModalOpen, setIsCompleteModalOpen] = useState(false);  
 
-    const starbucksGiftSectionRef = useRef(null); // 스타벅스 기프티콘 섹션을 참조하는 ref
-    const baskinrobbinsGiftSectionRef = useRef(null); // 배스킨라빈스 기프티콘 섹션을 참조하는 ref
-    const atwosomeplaceGiftSectionRef = useRef(null); // 투썸플레이스 기프티콘 섹션을 참조하는 ref
-    const megacoffeeGiftSectionRef = useRef(null); // 메가커피 기프티콘 섹션을 참조하는 ref
+    const starbucksGiftSectionRef = useRef(null); 
+    const baskinrobbinsGiftSectionRef = useRef(null); 
+    const atwosomeplaceGiftSectionRef = useRef(null); 
+    const megacoffeeGiftSectionRef = useRef(null); 
 
 	/*---일반 메소드 -----------------------------------------*/
 
@@ -48,25 +48,24 @@ const DH_PointStoreMain = () => {
     useEffect(() => {
         console.log("마운트 됐어요");
     
-        const userNum = localStorage.getItem('userNum'); // 로컬스토리지에서 userNum 가져오기
+        const userNum = localStorage.getItem('userNum'); 
     
         axios({
             method: 'get',
             url: `${process.env.REACT_APP_API_URL}/api/pointstores`,
-            params: userNum ? { userNum: userNum } : {}, // userNum이 있으면 전달, 없으면 빈 객체
+            params: userNum ? { userNum: userNum } : {}, 
             responseType: 'json',
         }).then(response => {
-                console.log(response); // 수신 데이터
-                // console.log(response.data.apiData);
+                console.log(response); 
                 setItemList(response.data.apiData);
         }).catch(error => {
                 console.log(error);
         });
 
         // 토큰 확인 로직
-        const token = localStorage.getItem('token'); // 로컬스토리지에서 토큰 가져오기
+        const token = localStorage.getItem('token'); 
         if (token) {
-            setHasToken(true); // 토큰이 있다면 true로 설정
+            setHasToken(true);
         }
 
     }, []);
@@ -76,8 +75,8 @@ const DH_PointStoreMain = () => {
     const handleAttendance = () => {
 
         const authUser = JSON.parse(localStorage.getItem('authUser'));
-        const userNum = authUser ? authUser.userNum : null;  // authUser에 userNum이 있을 경우 가져오기
-        // userNum이 유효하지 않으면 알림을 표시하고 종료
+        const userNum = authUser ? authUser.userNum : null;  
+
         if (!userNum) {
             alert("로그인 정보가 유효하지 않습니다.");
             return;
@@ -85,7 +84,7 @@ const DH_PointStoreMain = () => {
         const today = new Intl.DateTimeFormat('ko-KR').format(new Date());
         const dyCheckinVo = {
             userNum: userNum,
-            checkinDate: today   // 오늘 날짜
+            checkinDate: today  
         };
     
         // 서버로 데이터 전송
@@ -110,42 +109,42 @@ const DH_PointStoreMain = () => {
             });
     };
 
-    // 스타벅스 로고 클릭 시 스크롤 이동 함수
+    // 스타벅스 로고 스크롤
     const handleStarbucksLogoClick = () => {
         if (starbucksGiftSectionRef.current) {
             starbucksGiftSectionRef.current.scrollIntoView({
-                behavior: 'smooth', // 부드럽게 스크롤
-                block: 'start', // 섹션의 맨 위로
+                behavior: 'smooth', 
+                block: 'start', 
             });
         }
     };
 
-    // 배스킨라빈스 로고 클릭 시 스크롤 이동 함수
+    // 배스킨라빈스 로고 스크롤
     const handleBaskinrobbinsLogoClick = () => {
         if (baskinrobbinsGiftSectionRef.current) {
             baskinrobbinsGiftSectionRef.current.scrollIntoView({
-                behavior: 'smooth', // 부드럽게 스크롤
-                block: 'start', // 섹션의 맨 위로
+                behavior: 'smooth', 
+                block: 'start', 
             });
         }
     };
 
-    // 투썸플레이스 로고 클릭 시 스크롤 이동 함수
+    // 투썸플레이스 로고 스크롤
     const handleAtwosomeplaceLogoClick = () => {
         if (atwosomeplaceGiftSectionRef.current) {
             atwosomeplaceGiftSectionRef.current.scrollIntoView({
-                behavior: 'smooth', // 부드럽게 스크롤
-                block: 'start', // 섹션의 맨 위로
+                behavior: 'smooth', 
+                block: 'start', 
             });
         }
     };
 
-    // 메가커피 로고 클릭 시 스크롤 이동 함수
+    // 메가커피 로고 스크롤
     const handleMegacoffeeLogoClick = () => {
         if (megacoffeeGiftSectionRef.current) {
             megacoffeeGiftSectionRef.current.scrollIntoView({
-                behavior: 'smooth', // 부드럽게 스크롤
-                block: 'start', // 섹션의 맨 위로
+                behavior: 'smooth', 
+                block: 'start', 
             });
         }
     };
@@ -157,14 +156,14 @@ const DH_PointStoreMain = () => {
             alert("로그인이 필요합니다. 로그인을 먼저 해주세요."); // 알림 메시지
             return;
         }
-        setSelectedItem(item); // 선택한 아이템을 상태에 저장
+        setSelectedItem(item); 
         setIsDetailModalOpen(true);
     };
     const closeDetailModal = () => setIsDetailModalOpen(false);
     
     const openExchangeModal = () => {
-        setSelectedItemExchange(selectedItem); // 선택한 아이템 정보 저장
-        setIsDetailModalOpen(false); // 이전 모달 닫기
+        setSelectedItemExchange(selectedItem);
+        setIsDetailModalOpen(false); 
 
         axios({
 			method: 'get', // HTTP 메서드 설정 (GET 요청)
@@ -176,9 +175,8 @@ const DH_PointStoreMain = () => {
         .then(response => {
             if (response.data.result === "success") {
                 const userPoints = response.data.apiData;
-                setHistoryPoint(userPoints);  // 포인트 정보 저장
+                setHistoryPoint(userPoints); 
 
-                 // 포인트가 부족해도 교환 모달은 열어두고, 부족 메시지를 표시
                 setIsExchangeModalOpen(true);
             }
         })
@@ -190,13 +188,13 @@ const DH_PointStoreMain = () => {
     const closeExchangeModal = () => setIsExchangeModalOpen(false);
 
     const openCompleteModal = () => {
-        setSelectedItemComplete(selectedItemExchange); // 교환할 아이템 정보 저장
-        setIsExchangeModalOpen(false); // 이전 모달 닫기
-        setIsCompleteModalOpen(true); // 교환 완료 모달 열기
+        setSelectedItemComplete(selectedItemExchange); 
+        setIsExchangeModalOpen(false); 
+        setIsCompleteModalOpen(true); 
 
         // 구매 처리 함수 호출
         const authUser = JSON.parse(localStorage.getItem('authUser'));
-        const userNum = authUser ? authUser.userNum : null; // authUser에 userNum이 있을 경우 가져오기
+        const userNum = authUser ? authUser.userNum : null; 
         if (!userNum || !selectedItem) {
             alert("유효하지 않은 요청입니다.");
             return;
@@ -204,9 +202,9 @@ const DH_PointStoreMain = () => {
 
         // 구매 정보 구성
         const purchaseData = {
-            itemNum: selectedItem.itemNum, // 선택된 상품 번호
-            userNum: userNum, // 로그인한 사용자 번호
-            purchasedDate: new Date().toISOString().split("T")[0], // 오늘 날짜 (YYYY-MM-DD 형식)
+            itemNum: selectedItem.itemNum, 
+            userNum: userNum, 
+            purchasedDate: new Date().toISOString().split("T")[0], 
             purchasedStatus: selectedItem.itemBrandName === "꾸미기" ? "꾸미기" : "사용가능",
             itemCost: selectedItem.itemCost,
             itemBrandName: selectedItem.itemBrandName
@@ -232,8 +230,8 @@ const DH_PointStoreMain = () => {
             });
     };
     const closeCompleteModal = () => {
-        setIsCompleteModalOpen(false);  // 모달 닫기
-        window.location.reload();  // 페이지 리로드
+        setIsCompleteModalOpen(false);  
+        window.location.reload();  
     };
 
 
@@ -292,7 +290,7 @@ const DH_PointStoreMain = () => {
                                         
                                         {/* 구매완료 여부 체크 */}
                                         {item.purchaseNum ? (
-                                            <span className="dy-purchase-completed">구매완료</span>  // 이미 구매한 아이템에 '구매완료' 표시
+                                            <span className="dy-purchase-completed">구매완료</span> 
                                         ) : null}
                                         
                                         <div className="dy-product-details">

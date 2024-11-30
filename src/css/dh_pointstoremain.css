@@ -34,11 +34,11 @@
 
 /* 포인트 상점 메인 틀 */
 .dy-wrap .dy-pointstoremain {
-    margin-left: 110px; /* 사이드바 너비 + 좌측 padding (120px + 40px) */
-    margin-right: 110px; /* 우측 간격 */
+    margin-left: 110px; 
+    margin-right: 110px; 
     margin-top: 70px;
-    box-sizing: border-box; /* 패딩 포함하여 크기 계산 */
-    padding: 0 20px; /* 추가 패딩 */
+    box-sizing: border-box; 
+    padding: 0 20px;
 }
 
 /* 포인트상점, 출석하기 */
@@ -86,45 +86,45 @@
     margin-right: 20px;
 
     display: flex;
-    overflow: hidden; /* 이미지가 밖으로 넘어가지 않도록 설정 */
+    overflow: hidden; 
 }
 .dy-pointstoremain .dy-ad img{
     width: 100%;
     height: 100%;
     object-fit: cover;
 
-    flex-shrink: 0; /* 이미지들이 줄어들지 않도록 설정 */
-    transition: transform 0.5s ease; /* 부드러운 전환 효과 */
-    animation: slide 41.7s infinite; /* 무한 반복 */
+    flex-shrink: 0; 
+    transition: transform 0.5s ease; 
+    animation: slide 41.7s infinite; 
 }
 
 @keyframes slide {
     0% {
-        transform: translateX(0); /* 첫 번째 이미지 위치 */
-    }
-    24.5% { /* 첫 번째 이미지에서 10초 동안 머무름 */
         transform: translateX(0); 
     }
-    25% { /* 첫 번째에서 두 번째로 넘어가는 구간 (0.5초) */
+    24.5% { /* 10초 */
+        transform: translateX(0); 
+    }
+    25% { /* 0.5초 */
         transform: translateX(-100%);
     }
-    49.5% { /* 두 번째 이미지에서 10초 동안 머무름 */
+    49.5% {  /* 10초 */
         transform: translateX(-100%);
     }
-    50% { /* 두 번째에서 세 번째로 넘어가는 구간 (0.5초) */
+    50% { /* 0.5초 */
         transform: translateX(-200%);
     }
-    74.5% { /* 세 번째 이미지에서 10초 동안 머무름 */
+    74.5% {  /* 10초 */
         transform: translateX(-200%);
     }
-    75% { /* 세 번째에서 네 번째로 넘어가는 구간 (0.5초) */
+    75% { /* 0.5초 */
         transform: translateX(-300%);
     }
-    99.5% { /* 네 번째 이미지에서 10초 동안 머무름 */
+    99.5% {  /* 10초 */
         transform: translateX(-300%);
     }
     100% {
-        transform: translateX(-400%); /* 첫 번째 이미지로 돌아감 (0.5초 동안) */
+        transform: translateX(-400%); /* 0.5초 */
     }
 }
 
@@ -134,11 +134,11 @@
 .dy-pointstoremain .dy-filter {
     width: 27%;
     height: 100%;
-    display: grid;  /* Grid 레이아웃 활성화 */
-    grid-template-columns: repeat(2, 1fr);  /* 두 개의 칸을 가로로 배치 */
-    grid-template-rows: repeat(2, auto);  /* 두 개의 행을 세로로 배치 */
+    display: grid; 
+    grid-template-columns: repeat(2, 1fr); 
+    grid-template-rows: repeat(2, auto);  
     gap: 15px;
-    perspective: 1000px; /* 3D 효과를 위한 관찰 거리 설정 */
+    perspective: 1000px; 
 
 }
 
@@ -192,16 +192,16 @@
     flex-direction: column;
     text-align: center;
     align-items: center;
-    position: relative; /* 이미지 위에 '구매완료'를 올리기 위한 기준 */
+    position: relative; 
 
     /* border: 1px solid  #497B91; */
     border-radius: 5px;
     box-shadow: 1px 2px 10px rgba(0,0,0,0.2);
-    transition: transform 0.3s ease;  /* 확대 효과에 애니메이션 추가 */
+    transition: transform 0.3s ease;  
 }
 
 .dy-pointstoremain .dy-product-info:hover:hover {
-    transform: scale(1.05);  /* 1.1배로 확대 */
+    transform: scale(1.05);  
 }
 
 /* 상품사진 */
@@ -211,23 +211,23 @@
     text-align: center;
     margin-top: 10px;
     margin-bottom: 10px;
-    position: relative; /* 자식 요소들이 절대 위치로 배치될 기준 */
+    position: relative; 
 }
 
 /* 구매완료 문구 */
 .dy-product-info .dy-purchase-completed {
-    position: absolute; /* 이미지 위에 배치 */
-    top: 7%; /* 이미지의 중간에 배치 */
-    left: 75%; /* 이미지의 중간에 배치 */
-    transform: translate(-50%, -50%); /* 정확히 중앙에 위치시키고 대각선 회전 */
-    background-color: rgba(59, 59, 59, 0.7); /* 배경색 */
+    position: absolute; 
+    top: 7%; 
+    left: 75%; 
+    transform: translate(-50%, -50%); 
+    background-color: rgba(59, 59, 59, 0.7); 
     width: 40%; 
-    color: white; /* 글자색 */
-    padding: 2px 2px; /* 여백 */
+    color: white; 
+    padding: 2px 2px; 
     font-weight: bold;
-    letter-spacing: 1px; /* 글자 간격 */
+    letter-spacing: 1px; 
     font-size: 12px;
-    z-index: 10; /* 다른 요소들보다 위에 보이게 */
+    z-index: 10; 
 }
 
 /* 상품이름, 포인트 가격 */
@@ -279,7 +279,7 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
-    z-index: 1000; /* 배경 위에 표시 */
+    z-index: 1000; 
 }
 
 
