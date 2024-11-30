@@ -839,20 +839,13 @@ const JMYCChallengeHeader = () => {
                                                 className="extend-button" 
                                                 onClick={handleExtendClick}
                                                 disabled={
+                                                    roomData.roomStatusNum === 3 && // roomStatusNum이 3일 때만 비활성화 조건 검사
                                                     roomData.roomStartDate &&
-                                                    (
-                                                        roomData.roomStatusNum === 3
-                                                            ? calculateTimeDifference(new Date(roomData.roomStartDate.getTime() + roomData.periodType * 24 * 60 * 60 * 1000)) <= 0
-                                                            : calculateTimeDifference(roomData.roomStartDate) <= 0
-                                                    )
+                                                    calculateTimeDifference(new Date(roomData.roomStartDate.getTime() + roomData.periodType * 24 * 60 * 60 * 1000)) <= 0
                                                 }
                                                 title={
-                                                    roomData.roomStartDate &&
-                                                    (
-                                                        roomData.roomStatusNum === 3
-                                                            ? calculateTimeDifference(new Date(roomData.roomStartDate.getTime()+ roomData.periodType * 24 * 60 * 60 * 1000)) <= 0
-                                                            : calculateTimeDifference(roomData.roomStartDate) <= 0
-                                                    )
+                                                    roomData.roomStatusNum === 3 && roomData.roomStartDate &&
+                                                    calculateTimeDifference(new Date(roomData.roomStartDate.getTime() + roomData.periodType * 24 * 60 * 60 * 1000)) <= 0
                                                         ? "남은 시간이 없어 연장할 수 없습니다."
                                                         : "연장"
                                                 }
@@ -968,6 +961,7 @@ const JMYCChallengeHeader = () => {
                     </div>
 
                     {/* 모달들 */}
+
                     {isCMainPage && (
                         <>
                             {/* 모집 시간 연장 모달 */}
@@ -1116,75 +1110,69 @@ const JMYCChallengeHeader = () => {
                                     </div>
                                 </div>
                             </Modal>
+                            </>
+                    ) }
 
                             {/* 성적표 모달 */}
-                            {selectedUser && userDetails && (
-                                <Modal
-                                    isOpen={isModalOpen && isCMainPage}
-                                    onRequestClose={closeModal}
-                                    style={customModalStyles}
-                                    contentLabel="성적표 모달"
-                                    ariaHideApp={false}
-                                >
-                                    <div className="yc-modal-overlay" onClick={closeModal}>
-                                        <div className="yc-modal-content" onClick={(e) => e.stopPropagation()}>
-                                            <h2>성적표</h2>
-                                            <div className="yc-report-details">
-                                                {/* 도넛 차트 */}
-                                                <div className="yc-dougnut-chart">
-                                                    <Doughnut
-                                                        key={selectedUser.userNum} // selectedUser가 null이 아니므로 옵셔널 체이닝 필요 없음
-                                                        data={chartData}
-                                                        options={chartOptions}
-                                                    />
-                                                    <span className="yc-completion-rate">{selectedUser.achievementRate || 0}%</span>
-                                                </div>
-
-                                                {/* 미션 상세 정보 */}
-                                                <div className="yc-mission-details">
-                                                    <p>완료한 미션: {userDetails.totalMissions.completedCount}/{userDetails.totalMissions.totalAssigned}</p>
-                                                    {userDetails.missionDetails.map((mission) => (
-                                                        <p key={mission.missionName}>
-                                                            {mission.missionName}: {mission.completedCount}/{mission.totalAssigned}
-                                                        </p>
-                                                    ))}
-                                                </div>
-
-                                                {/* 그룹 챌린지 섹션 */}
-                                                <div className="yc-group-challenge-section">
-                                                    <h3>그룹 챌린지</h3>
-                                                    <div className="yc-group-challenge-points">
-                                                        +{groupChallengePoints} P
-                                                    </div>
-                                                    <ul className="yc-group-challenges">
-                                                        {userDetails.groupChallenges.map((challenge) => (
-                                                            <li key={challenge.missionName}>
-                                                                {challenge.missionName} - {challenge.achievementRate === 100 ? '성공' : '실패'}
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
-
-                                                {/* 포인트 요약 */}
-                                                <div className="yc-points-summary">
-                                                    {userDetails.challengeRewardEligible && (
-                                                        <p><strong>도전 보상:</strong> +{challengeRewardPoints} P</p>
-                                                    )}
-                                                    <p><strong>그룹 보상:</strong> +{groupChallengePoints} P</p>
-                                                    <p><strong>배팅 포인트:</strong> +{Math.round(bettingPoints)} P</p>
-                                                    <p><strong>합계:</strong> {Math.round(challengeRewardPoints + groupChallengePoints + bettingPoints)} P</p>
-                                                </div>
-
-                                                <button className="yc-close-button" onClick={closeModal}>
-                                                    닫기
-                                                </button>
-                                            </div>
-                                        </div>
+                            {isCMainPage&&isModalOpen && selectedUser && userDetails && (
+                        <div className="yc-modal-overlay" onClick={closeModal}>
+                            <div className="yc-modal-content" onClick={(e) => e.stopPropagation()}>
+                                <h2>성적표</h2>
+                                <div className="yc-report-details">
+                                    {/* 도넛 차트 */}
+                                    <div className="yc-dougnut-chart">
+                                        <Doughnut
+                                            key={selectedUser.userNum}
+                                            data={chartData}
+                                            options={chartOptions}
+                                        />
+                                        <span className="yc-completion-rate">{selectedUser.achievementRate}%</span>
                                     </div>
-                                </Modal>
-                            )}
-                        </>
+
+                                    {/* 미션 상세 정보 */}
+                                    <div className="yc-mission-details">
+                                        <p>완료한 미션: {userDetails?.totalMissions?.completedCount}/{userDetails?.totalMissions?.totalAssigned}</p>
+                                        {userDetails?.missionDetails?.map((mission) => (
+                                            <p key={mission.missionName}>
+                                                {mission.missionName}: {mission.completedCount}/{mission.totalAssigned}
+                                            </p>
+                                        ))}
+                                    </div>
+
+                                    {/* 그룹 챌린지 섹션 */}
+                                    <div className="yc-group-challenge-section">
+                                        <h3>그룹 챌린지</h3>
+                                        <div className="yc-group-challenge-points">
+                                            +{groupChallengePoints} P
+                                        </div>
+                                        <ul className="yc-group-challenges">
+                                            {userDetails?.groupChallenges?.map((challenge) => (
+                                                <li key={challenge.missionName}>
+                                                    {challenge.missionName} - {challenge.achievementRate === 100 ? '성공' : '실패'}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+
+                                    {/* 포인트 요약 */}
+                                    <div className="yc-points-summary">
+                                        {userDetails?.challengeRewardEligible && (
+                                            <p><strong>도전 보상:</strong> +{challengeRewardPoints} P</p>
+                                        )}
+                                        <p><strong>그룹 보상:</strong> +{groupChallengePoints} P</p>
+                                        <p><strong>배팅 포인트:</strong> +{Math.round(bettingPoints)} P</p>
+                                        <p><strong>합계:</strong> {Math.round(challengeRewardPoints + groupChallengePoints + bettingPoints)} P</p>
+                                    </div>
+
+                                    <button className="yc-close-button" onClick={closeModal}>
+                                        닫기
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     )}
+
+                    
 
                 </>
             )}

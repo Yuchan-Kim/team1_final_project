@@ -42,6 +42,9 @@ ChartJS.register(
 );
 
 const YCChallengeStatistics = () => {
+
+  const [roomStatusNum, setRoomStatusNum] = useState(null);
+
   // 모달 상태 관리
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -76,6 +79,26 @@ const YCChallengeStatistics = () => {
 
   // URL에서 roomNum 파라미터 가져오기
   const { roomNum } = useParams();
+
+  // 방 상태 가져오기 함수
+  const fetchRoomStatus = async () => {
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/header/${roomNum}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        console.log('Room Status Response:', response.data);
+        if (response.data.result === 'success') {
+            setRoomStatusNum(response.data.apiData.roomStatusNum);
+        } else {
+            setError("방 상태 정보를 불러오는 데 실패했습니다.");
+        }
+    } catch (error) {
+        setError("서버와의 통신에 실패했습니다.");
+        console.error(error);
+    }
+  };
 
   // 모달 열기 함수
   const openModal = async (user) => {
@@ -157,18 +180,6 @@ const YCChallengeStatistics = () => {
     });
   }
 
-  // 컴포넌트가 마운트될 때 API 호출
-  useEffect(() => {
-    if (roomNum) {
-      fetchTopUsers();
-      fetchUsers();
-      fetchOverallStats();
-      fetchMissionAchievements(); // 새로운 함수 호출
-      checkUserAuth();
-    } else {
-      setError("roomNum이 정의되지 않았습니다.");
-    }
-  }, [roomNum]);
 
   // 미션 달성률 데이터를 가져오는 함수
   const fetchMissionAchievements = () => {
@@ -439,6 +450,22 @@ const YCChallengeStatistics = () => {
   // 그룹 챌린지 포인트 계산
   const groupChallengePoints = groupChallengeSuccess ? roomEnterPoint : 0;
 
+
+
+  // 컴포넌트가 마운트될 때 API 호출
+  useEffect(() => {
+    if (roomNum) {
+      fetchTopUsers();
+      fetchUsers();
+      fetchOverallStats();
+      fetchMissionAchievements(); // 새로운 함수 호출
+      checkUserAuth();
+      fetchRoomStatus();
+    } else {
+      setError("roomNum이 정의되지 않았습니다.");
+    }
+  }, [roomNum]);
+
   return (
     <>
       {/* 상단 헤더 */}
@@ -544,16 +571,18 @@ const YCChallengeStatistics = () => {
                     </span>
                   </div>
 
-                  {/* 성적표 보기 버튼 */}
-                  <span className="yc_challenge_statistics_user-details">
-                    <button
-                      className="yc_challenge_statistics_report-button"
-                      onClick={() => openModal(user)}
-                      aria-label="성적표 보기"
-                    >
-                      <FaFileAlt />
-                    </button>
-                  </span>
+                  {/* 성적표 보기 버튼 - roomStatusNum이 4일 때만 표시 */}
+                {roomStatusNum === 4 && (
+                    <span className="yc_challenge_statistics_user-details">
+                        <button
+                            className="yc_challenge_statistics_report-button"
+                            onClick={() => openModal(user)}
+                            aria-label="성적표 보기"
+                        >
+                            <FaFileAlt />
+                        </button>
+                    </span>
+                )}
                   
                 </div>
               )) 
