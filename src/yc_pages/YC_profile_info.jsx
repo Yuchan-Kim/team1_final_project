@@ -16,7 +16,7 @@ const YCProfileInfo = ({ isOpen, onClose, user }) => {
                 <div className="yc_profile">
                     <div className="yc_profile-avatar">
                         {user.usingProfilePic ? (
-                            <img src={user.usingProfilePic} alt={`${user.userName}의 아바타`} />
+                            <img src={`${process.env.REACT_APP_API_URL}/upload/${user.usingProfilePic}`} alt={`${user.userName}의 아바타`} />
                         ) : (
                             <FaUserPlus />
                         )}
