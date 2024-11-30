@@ -10,7 +10,6 @@ const ProfileOptions = memo(({
     onConfirm,
     onCancel
 }) => {
-    // Improved image path processing with validation
     const safeProfiles = useMemo(() => (
         (Array.isArray(profiles) ? profiles : [])
             .map(src => {
@@ -21,7 +20,6 @@ const ProfileOptions = memo(({
             .filter(Boolean)
     ), [profiles]);
 
-    // Optimized profile selection handler
     const handleProfileClick = useCallback((src) => {
         if (src?.trim()) {
             let relativePath;
@@ -35,7 +33,15 @@ const ProfileOptions = memo(({
         }
     }, [onSelect]);
 
-    // Error boundary component
+    // 선택된 이미지 비교를 위한 헬퍼 함수
+    const isImageSelected = useCallback((src) => {
+        if (!selectedProfile || !src) return false;
+        
+        // 경로에서 파일명만 추출하여 비교
+        const getFileName = (path) => path.split('/').pop();
+        return getFileName(selectedProfile) === getFileName(src);
+    }, [selectedProfile]);
+
     const ImageWithFallback = memo(({ src, index, isSelected }) => (
         <img
             src={src.startsWith('http') ? src : `/upload/${src.split('/upload/').pop()}`}
@@ -64,7 +70,7 @@ const ProfileOptions = memo(({
                                 <ImageWithFallback
                                     src={src}
                                     index={index}
-                                    isSelected={selectedProfile === src.replace('/upload', '')}
+                                    isSelected={isImageSelected(src)}
                                 />
                             </div>
                         ))
