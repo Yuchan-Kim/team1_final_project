@@ -249,8 +249,8 @@ const Rank = () => {
                                                         className="hmk_ranker_profile_no"
                                                         onError={(e) => { e.target.src = defaultProfile }}
                                                     />
-                                                </td>
-                                                <td className="hmk_rank_my_rank_nickname">{myRank.nickname}</td>
+                                                
+                                                <span className="hmk_rank_my_rank_nickname">{myRank.nickname}</span></td>
                                                 <td className="hmk_rank_my_points">{myRank.points.toLocaleString()} 포인트</td>
                                             </tr>
                                         </tbody>
@@ -264,7 +264,6 @@ const Rank = () => {
                                         <tr>
                                             <th>순위</th>
                                             <th>프로필</th>
-                                            <th>닉네임</th>
                                             <th>포인트</th>
                                         </tr>
                                     </thead>
@@ -282,8 +281,7 @@ const Rank = () => {
                                                         className='hmk_ranker_profile_no'
                                                         onError={(e) => { e.target.src = defaultProfile }}
                                                     />
-                                                </td>
-                                                <td><span onClick={() => openProfile(rank.userNum)}>{rank.nickname}</span></td>
+                                                <span onClick={() => openProfile(rank.userNum)}>{rank.nickname}</span></td>
                                                 <td>{rank.points.toLocaleString()}</td>
                                             </tr>
                                         ))}
