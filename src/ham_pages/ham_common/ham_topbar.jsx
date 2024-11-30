@@ -11,7 +11,7 @@ import profileStore from './profileStore';
 import '../../ham_asset/css/ham_modal.css';
 import '../../ham_asset/css/ham_topbar.css';
 const defaultProfile = '/images/profile-fill.png';
-const storeIcon = '/ipload/icons/shopfront.png';
+const storeIcon = '/upload/icons/shopfront.png';
 
 
 
@@ -401,20 +401,20 @@ const Topbar = () => {
     const getFullImagePath = (path) => {
         if (!path) return defaultProfile;
         if (path.startsWith('http')) {
-            // http로 시작하는 경로를 /images 경로로 변환
+            // http로 시작하는 경로를 /upload 경로로 변환
             const imageName = path.split('/').pop(); // item2.jpg 추출
-            return `/images/${imageName}`;
+            return `/upload/${imageName}`;
         }
         // 이미 /images로 시작하면 그대로 반환
-        if (path.startsWith('/images')) {
+        if (path.startsWith('/upload')) {
             return path;
         }
-        // /item1.jpg 형식이면 /images 추가
+        // /item1.jpg 형식이면 /upload 추가
         if (path.startsWith('/')) {
-            return `/images${path}`;
+            return `/upload${path}`;
         }
-        // 그 외의 경우 /images/ 추가
-        return `/images/${path}`;
+        // 그 외의 경우 /upload/ 추가
+        return `/upload/${path}`;
     };
 
 

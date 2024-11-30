@@ -1,6 +1,6 @@
 // src/ham_pages/ham_common/profileStore.js
 
-const defaultProfile = '/images/profile-fill.png';
+const defaultProfile = '/upload/profile-fill.png';
 
 class ProfileStore {
     constructor() {
@@ -223,7 +223,7 @@ class ProfileStore {
     constructAbsoluteUrl(apiUrl, imagePath) {
         if (!imagePath) return this.profileImage;
         if (imagePath.startsWith('http')) return imagePath;
-        // DB에서 온 경로가 /로 시작하면 /images 붙여주기
+        // DB에서 온 경로가 /로 시작하면 /upload 붙여주기
         if (imagePath.startsWith('/')) {
             return `/upload${imagePath}`;
         }
