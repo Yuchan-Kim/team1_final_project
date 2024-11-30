@@ -27,7 +27,7 @@
   margin-top: 20px;
 }
 
-.jm-calender-api {
+.jm-datepicker-container {
   text-align: left;
   margin-top: 20px;
   margin-left: 20px;
@@ -118,7 +118,7 @@
   font-weight: bold;
 }
 /* 미션 승인버튼 */
-.jm-btn-primary {
+.jm-eval-type {
   background-color: white;
   color: #5E91A7;
   border: none;

@@ -576,6 +576,7 @@ const filteredHistories = useMemo(() => {
                         {/* 날짜 선택 필터 */}
                         <div className="jm-datepicker-container">
                             <DatePicker
+                                className='jm-challenge-select'
                                 selected={selectedDate}
                                 onChange={(date) => setSelectedDate(date)}
                                 dateFormat="yyyy-MM-dd"
@@ -634,7 +635,6 @@ const filteredHistories = useMemo(() => {
                                     {userHistories.length > 0 && (
                                         <>
                                             <span className="jm-day">{userHistories[0].submitDate || '날짜 없음'}</span>
-                                            <span className="jm-approval-button">{userHistories[0].evalType || '승인 확인불가'}</span>
                                             <div className="jm-user-profile-container">
                                                 <div className="jm-user-profile-img-card">
                                                 <img
@@ -661,62 +661,62 @@ const filteredHistories = useMemo(() => {
 
                                     <div className="jm-task-list">
                                     {userHistories.map((history, index) => {
-    const imgNames = history.evalImgName ? history.evalImgName.split(',') : [];
-    const currentImgIndex = currentImgIndexes[history.evalNum] || 0;
+                                            const imgNames = history.evalImgName ? history.evalImgName.split(',') : [];
+                                            const currentImgIndex = currentImgIndexes[history.evalNum] || 0;
 
-    return (
-        <div
-            key={`history-${history.evalNum}-${index}`}
-            className="jm-task-card"
-            onClick={() => handleOpenModal(history)} // `jm-task-card` 클릭 시 모달 열기
-            style={{ cursor: 'pointer' }} // 마우스 커서 변경
-        >
-            <span className="jm-task-title">{history.missionName}</span>
+                                            return (
+                                                <div
+                                                    key={`history-${history.evalNum}-${index}`}
+                                                    className="jm-task-card"
+                                                    onClick={() => handleOpenModal(history)} // `jm-task-card` 클릭 시 모달 열기
+                                                    style={{ cursor: 'pointer' }} // 마우스 커서 변경
+                                                >
+                                                    <span className="jm-task-title">{history.missionName}</span>
 
-            {/* 현재 evalType 표시 */}
-            <span className="jm-eval-type">{history.evalType || '상태 없음'}</span>
+                                                    {/* 현재 evalType 표시 */}
+                                                    <span className="jm-eval-type">{history.evalType || '상태 없음'}</span>
 
-            {imgNames.length > 0 && (
-                <div className="jm-task-images">
-                    <div className="jm-image-container">
-                        <img
-                            key={`img-${currentImgIndex}`}
-                            className="jm-task-img"
-                            src={`${process.env.REACT_APP_API_URL}/upload/${imgNames[currentImgIndex].trim()}`}
-                            alt={`제출된 이미지 ${currentImgIndex + 1}`}
-                        />
-                        {imgNames.length > 1 && (
-                            <div className="jm-slider-buttons">
-                                <button
-                                    className="jm-slider-btn prev"
-                                    onClick={(e) => {
-                                        e.stopPropagation(); // 부모 요소의 클릭 이벤트 방지
-                                        handlePrevImage(history.evalNum, imgNames.length);
-                                    }}
-                                >
-                                    ◀
-                                </button>
-                                <button
-                                    className="jm-slider-btn next"
-                                    onClick={(e) => {
-                                        e.stopPropagation(); // 부모 요소의 클릭 이벤트 방지
-                                        handleNextImage(history.evalNum, imgNames.length);
-                                    }}
-                                >
-                                    ▶
-                                </button>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            )}
+                                                    {imgNames.length > 0 && (
+                                                        <div className="jm-task-images">
+                                                            <div className="jm-image-container">
+                                                                <img
+                                                                    key={`img-${currentImgIndex}`}
+                                                                    className="jm-task-img"
+                                                                    src={`${process.env.REACT_APP_API_URL}/upload/${imgNames[currentImgIndex].trim()}`}
+                                                                    alt={`제출된 이미지 ${currentImgIndex + 1}`}
+                                                                />
+                                                                {imgNames.length > 1 && (
+                                                                    <div className="jm-slider-buttons">
+                                                                        <button
+                                                                            className="jm-slider-btn prev"
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation(); // 부모 요소의 클릭 이벤트 방지
+                                                                                handlePrevImage(history.evalNum, imgNames.length);
+                                                                            }}
+                                                                        >
+                                                                            ◀
+                                                                        </button>
+                                                                        <button
+                                                                            className="jm-slider-btn next"
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation(); // 부모 요소의 클릭 이벤트 방지
+                                                                                handleNextImage(history.evalNum, imgNames.length);
+                                                                            }}
+                                                                        >
+                                                                            ▶
+                                                                        </button>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    )}
 
-            <div className="jm-task-comment-container">
-                <p className="jm-task-comment">{history.submitComment}</p>
-            </div>
-        </div>
-    );
-})}
+                                                    <div className="jm-task-comment-container">
+                                                        <p className="jm-task-comment">{history.submitComment}</p>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             </div>
