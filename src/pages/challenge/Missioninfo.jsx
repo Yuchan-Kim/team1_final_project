@@ -635,7 +635,18 @@ const filteredHistories = useMemo(() => {
                                             <span className="jm-approval-button">{userHistories[0].evalType || '승인 확인불가'}</span>
                                             <div className="jm-user-profile-container">
                                                 <div className="jm-user-profile-img-card">
-                                                    <img src="https://via.placeholder.com/100" className="yc_challenge_profile-pic" alt="Profile Pic" />
+                                                <img
+                                                    src={
+                                                        userHistories[0].userPofile
+                                                            ? `${process.env.REACT_APP_API_URL}/upload/${userHistories[0].userPofile}`
+                                                            : '/images/profile-fill.png' // 기본 프로필 이미지 경로
+                                                    }
+                                                    className="yc_challenge_profile-pic"
+                                                    alt="Profile Pic"
+                                                    onError={(e) => {
+                                                        e.target.src = '/images/profile-fill.png'; // 이미지 로드 실패 시 기본 이미지로 설정
+                                                    }}
+                                                />
                                                 </div>
                                                 <div className="jm-user-profile-name">
                                                     <span className="jm-submission-title">
