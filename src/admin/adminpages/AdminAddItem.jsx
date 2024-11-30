@@ -110,7 +110,7 @@ const AddItem = () => {
                 <h2>새 상품 추가</h2>
                 <form onSubmit={handleSubmit} className="yc-add-item-form">
                     <div className="yc-form-group">
-                        <label htmlFor="yc-itemName">상품 이름a</label>
+                        <label htmlFor="yc-itemName">상품 awfaef</label>
                         <input
                             type="text"
                             id="yc-itemName"

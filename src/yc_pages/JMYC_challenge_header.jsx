@@ -1,6 +1,6 @@
 // JMYCChallengeHeader.jsx
 import React, { useState, useEffect, useRef } from "react";
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation, matchPath } from 'react-router-dom';
 import axios from "axios";
 
 import '../yc_assets/yc_css/jmyc_challenge_header.css'; 
@@ -81,6 +81,8 @@ const JMYCChallengeHeader = () => {
         periodType: null,
         roomMinNum: null, 
         enteredUserCount: null, 
+        roomPoint: null, // roomPoint 초기값 추가
+        roomRate: null,  // roomRate 초기값 추가
     });
 
     const [timeLeft, setTimeLeft] = useState("");
@@ -109,6 +111,12 @@ const JMYCChallengeHeader = () => {
     const roomEnterPoint = userDetails.roomEnterPoint || 0;
     const achievementRate = userDetails.userAchievementRate || 0;
     const challengeRewardPoints = userDetails.challengeRewardEligible ? roomEnterPoint : 0;
+
+    const location = useLocation();
+
+    // 현재 경로가 /cmain/{roomNum}과 일치하는지 확인
+    const isCMainPage = matchPath("/cmain/:roomNum", location.pathname) !== null;
+
     // ----------------------
     // 날씨 관련 상태 변수 추가
     // ----------------------
@@ -127,6 +135,10 @@ const JMYCChallengeHeader = () => {
 
     // 모달 열기 함수
     const openModal = async (user) => {
+        if (!user || !user.userNum) {
+            console.error("유효하지 않은 사용자 데이터입니다.");
+            return;
+        }
         setSelectedUser(user);
         setModalOpen(true);
         setUserDetails({}); // 이전 데이터 초기화
@@ -145,27 +157,6 @@ const JMYCChallengeHeader = () => {
         }
     };
 
-    // 새로운 모달 열기 함수 - 현재 사용자
-    const openReportModalForCurrentUser = async () => {
-        if (!userNum) {
-            console.error("userNum이 설정되지 않았습니다.");
-            return;
-        }
-        try {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/rates/userDetails/${roomNum}/${userNum}`);
-            console.log('Current User Details Response:', response.data);
-            if (response.data.result === 'success') {
-                setUserDetails(response.data.apiData);
-                setSelectedUser(response.data.apiData);
-                setModalOpen(true);
-            } else {
-                setError("현재 사용자 정보를 불러오는 데 실패했습니다.");
-            }
-        } catch (error) {
-            setError("서버와의 통신에 실패했습니다.");
-            console.error(error);
-        }
-    };
 
     // 모달 닫기 함수
     const closeModal = () => {
@@ -333,7 +324,7 @@ const JMYCChallengeHeader = () => {
                 {},
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-    
+
             if (response.data.result === "success") {
                 alert(response.data.message || "참가가 성공적으로 완료되었습니다.");
                 setShowJoinModal(false);
@@ -352,9 +343,6 @@ const JMYCChallengeHeader = () => {
     const handleCancelJoin = () => {
         setShowJoinModal(false);
     };
-
-
-
 
 
 
@@ -392,15 +380,8 @@ const JMYCChallengeHeader = () => {
 
 
     // ------ 챌린지 시작 핸들러 ------
-    const handleStartChallengeClick = () => {
-        console.log(`enteredUserCount: ${roomData.enteredUserCount}, roomMinNum: ${roomData.roomMinNum}`);
-        if (roomData.enteredUserCount < roomData.roomMinNum) {
-            alert(`참여 인원이 부족해서 챌린지를 시작할 수 없습니다 (${roomData.enteredUserCount}/${roomData.roomMinNum})`);
-            return;
-        }
-        handleConfirmStartChallenge();
-    };
-    
+
+
 
     const handleConfirmStartChallenge = async () => {
         try {
@@ -443,6 +424,79 @@ const JMYCChallengeHeader = () => {
     };
 
     // ------ 챌린지 종료 핸들러 ------
+
+    // 포인트 기록 삽입 함수
+    const insertPointHistory = async (userNum, points, achievementRate) => {
+        let pointPurposeNum;
+
+        if (achievementRate < 85) {
+            pointPurposeNum = 3;
+            
+        } else if (achievementRate >= 85 && achievementRate < 100) {
+            pointPurposeNum = 2;
+            
+        } else if (achievementRate === 100) {
+            pointPurposeNum = 1;
+            
+        } else {
+            // 예외 처리
+            console.error("유효하지 않은 달성률");
+            return;
+        }
+
+        try {
+            const response = await axios.post(
+                `${process.env.REACT_APP_API_URL}/api/rates/insertPointHistory`,
+                {
+                    userNum,
+                    historyPoint: points,
+                    pointPurposeNum,
+                    
+                },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            );
+
+            if (response.data.result === "success") {
+                console.log("포인트 기록이 성공적으로 삽입되었습니다.");
+            } else {
+                alert(response.data.message || "포인트 기록 삽입에 실패했습니다.");
+            }
+        } catch (error) {
+            console.error("포인트 기록 삽입 중 오류 발생:", error);
+            alert("포인트 기록 삽입 중 오류가 발생했습니다.");
+        }
+    };
+
+    // openReportModalForCurrentUser 함수 수정
+    const openReportModalForCurrentUser = async () => {
+        if (userNum === null || userNum === undefined) {
+            console.error("userNum이 설정되지 않았습니다.");
+            return null;
+        }
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/rates/userDetails/${roomNum}/${userNum}`);
+            console.log('Current User Details Response:', response.data);
+            if (response.data.result === 'success') {
+                setUserDetails(response.data.apiData);
+                setSelectedUser(response.data.apiData);
+                setModalOpen(true);
+                return response.data.apiData; // 데이터 반환
+            } else {
+                setError("현재 사용자 정보를 불러오는 데 실패했습니다.");
+                return null;
+            }
+        } catch (error) {
+            setError("서버와의 통신에 실패했습니다.");
+            console.error(error);
+            return null;
+        }
+    };
+
+    // handleEndChallengeClick 함수 수정
     const handleEndChallengeClick = async () => {
         try {
             const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/end-challenge/${roomNum}`, {}, {
@@ -450,16 +504,22 @@ const JMYCChallengeHeader = () => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-    
+
             if (response.data.result === 'success') {
                 setRoomData(prevData => ({ ...prevData, roomStatusNum: 4 }));
                 setShowChallengeEndModal(false);
                 getRoomHeaderInfo();
-    
+
                 alert('챌린지가 성공적으로 종료되었습니다.');
-    
-                // Report Modal 열기
-                openReportModalForCurrentUser();
+
+                // Report Modal 열기 및 데이터 가져오기
+                const currentUserDetails = await openReportModalForCurrentUser();
+
+                // 포인트 기록 삽입
+                if (currentUserDetails) {
+                    const totalPoints = Math.round(challengeRewardPoints + groupChallengePoints + bettingPoints);
+                    await insertPointHistory(currentUserDetails.userNum, totalPoints, currentUserDetails.achievementRate);
+                }
             } else {
                 alert(`챌린지 종료 실패: ${response.data.message}`);
             }
@@ -468,6 +528,7 @@ const JMYCChallengeHeader = () => {
             alert('챌린지 종료 중 오류가 발생했습니다.');
         }
     };
+
 
     const handleCancelEndChallenge = () => {
         setShowChallengeEndModal(false);
@@ -507,7 +568,7 @@ const JMYCChallengeHeader = () => {
         try {
             // ISO 형식 유지
             const updatedStartDate = selectedDate.toISOString().slice(0, 19).replace('T', ' ');
-    
+
             const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/header/${roomNum}`, {
                 roomStartDate: updatedStartDate
             }, {
@@ -515,15 +576,15 @@ const JMYCChallengeHeader = () => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-    
+
             if (response.data.result === 'success') {
-                const newRoomStartDate = response.data.apiData.roomStartDate ? new Date(response.data.apiData.roomStartDate) : null; // 서버에서 받은 roomStartDate 사용
+                const newRoomStartDate = response.data.apiData.roomStartDate ? new Date(response.data.apiData.roomStartDate) : null;
                 setRoomData(prevData => ({
                     ...prevData,
                     roomStartDate: newRoomStartDate,
                     // roomStatusNum: 1 // 제거: 상태 초기화 하지 않음
                 }));
-                setTimeLeft(formatTimeLeft(calculateTimeDifference(newRoomStartDate)));
+                // 타이머가 roomStartDate 변경을 감지하여 timeLeft를 자동으로 업데이트하도록 함
                 getRoomHeaderInfo();
                 alert('시작 시간이 성공적으로 업데이트되었습니다.');
             } else {
@@ -536,7 +597,7 @@ const JMYCChallengeHeader = () => {
     
         setShowExtendConfirmModal(false);
     };
-    
+
 
     const handleCancelExtend = () => {
         setShowExtendConfirmModal(false);
@@ -546,6 +607,7 @@ const JMYCChallengeHeader = () => {
     const togglePointInfo = () => {
         setShowPointInfo(!showPointInfo);
     };
+
 
     // ----------------------
     // 데이터 가져오기 함수
@@ -560,18 +622,20 @@ const JMYCChallengeHeader = () => {
 
             if (response.data.result === 'success') {
                 const data = response.data.apiData;
-                console.log("아씨바" + response.data.apiData.enteredUserCount);
+                console.log('Room Header Data:', data);
                 setRoomData({
-                    roomTitle: response.data.apiData.roomTitle,
-                    roomStartDate: response.data.apiData.roomStartDate ? new Date(data.roomStartDate) : null, // null 유지
-                    roomTypeName: response.data.apiData.roomTypeName,
-                    categoryName: response.data.apiData.categoryName,
-                    roomKeyword: response.data.apiData.roomKeyword,
-                    regionName: response.data.apiData.regionName,
-                    roomStatusNum: response.data.apiData.roomStatusNum,
-                    periodType: response.data.apiData.periodType,
-                    roomMinNum: response.data.apiData.roomMinNum, // 새로 추가된 필드
-                    enteredUserCount: response.data.apiData.enteredUserCount, // 새로 추가된 필드
+                    roomTitle: data.roomTitle,
+                    roomStartDate: data.roomStartDate ? new Date(data.roomStartDate) : null, // null 유지
+                    roomTypeName: data.roomTypeName,
+                    categoryName: data.categoryName,
+                    roomKeyword: data.roomKeyword,
+                    regionName: data.regionName,
+                    roomStatusNum: data.roomStatusNum,
+                    periodType: data.periodType,
+                    roomMinNum: data.roomMinNum, // 새로 추가된 필드
+                    enteredUserCount: data.enteredUserCount, // 새로 추가된 필드
+                    roomPoint: data.roomPoint, // roomPoint 추가
+                    roomRate: data.roomRate,   // roomRate 추가
                 });
             } else {
                 setError(response.data.message);
@@ -581,6 +645,15 @@ const JMYCChallengeHeader = () => {
             setError("데이터를 불러오는 데 실패했습니다.");
         }
     }
+
+    const handleStartChallengeClick = () => {
+        console.log(`enteredUserCount: ${roomData.enteredUserCount}, roomMinNum: ${roomData.roomMinNum}`);
+        if (roomData.enteredUserCount < roomData.roomMinNum) {
+            alert(`참여 인원이 부족해서 챌린지를 시작할 수 없습니다 (${roomData.enteredUserCount}/${roomData.roomMinNum})`);
+            return;
+        }
+        handleConfirmStartChallenge();
+    };
 
     // 사용자 인증 상태 조회 함수
     const checkUser = async () => {
@@ -597,7 +670,7 @@ const JMYCChallengeHeader = () => {
             });
 
             if (response.data.result === 'success') {
-                console.log("여길보세요!!!!!"+response.data.apiData);
+                console.log("사용자 인증 데이터:", response.data.apiData);
                 const userAuth = response.data.apiData; // enteredUserAuth 값 (0, 1, 2)
                 setUserAuthorization(userAuth);
 
@@ -638,8 +711,11 @@ const JMYCChallengeHeader = () => {
               'Authorization': `Bearer ${token}`
             }
           });
+          console.log('fetchUserNum Response:', response.data);
           if (response.data.result === 'success') {
-            setUserNum(response.data.apiData);
+            // userNum이 직접 반환되는지, 아니면 객체 내에 있는지 확인
+            const fetchedUserNum = response.data.apiData.userNum || response.data.apiData; // 상황에 맞게 조정
+            setUserNum(fetchedUserNum);
           } else {
             alert('유저 정보를 가져오는 데 실패했습니다.');
           }
@@ -691,16 +767,14 @@ const JMYCChallengeHeader = () => {
     }, [roomData.roomStartDate, roomData.roomStatusNum, roomData.periodType, userAuthorization]);
 
 
-    
-    
     // ----------------------
     // 데이터 가져오기 및 사용자 인증 확인
     // ----------------------
     useEffect(() => {
         const fetchData = async () => {
             try {
-                fetchUserNum(); // Fetch and set userNum first
-                getRoomHeaderInfo();
+                await fetchUserNum(); // Fetch and set userNum first
+                await getRoomHeaderInfo();
                
                 getUserLocation(); // 위치 정보 가져오기
 
@@ -795,7 +869,7 @@ const JMYCChallengeHeader = () => {
                             )}
                         </div>
 
-                       
+
                        {/* 버튼 영역 */}
                         {userAuthorization === 1 ? ( // 방장인 경우
                             roomData.roomStatusNum === 1 ? ( // roomStatusNum이 1일 때 모집 시작 버튼
@@ -824,19 +898,20 @@ const JMYCChallengeHeader = () => {
                                     <span className="emoji"></span>
                                     <span className="label">모집 시작</span>
                                 </button>
-                            ) : roomData.roomStatusNum === 2 ? ( // roomStatusNum이 2일 때 챌린지 시작 버튼
-                                <button 
-                                    className="jm-c-start host" 
-                                    onClick={handleStartChallengeClick}
-                                    disabled={roomData.enteredUserCount < roomData.roomMinNum}
-                                    title={
-                                        (roomData.enteredUserCount < roomData.roomMinNum)
-                                            ? `참여 인원이 부족합니다 (${roomData.enteredUserCount}/${roomData.roomMinNum})`
-                                            : "챌린지 시작"
-                                    }
-                                >
-                                    <span className="label">챌린지 시작</span>
-                                </button>
+                            ) : roomData.roomStatusNum === 2 ? ( //roomStatusNum이 2일 때 챌린지 시작 버튼
+                                roomData.enteredUserCount < roomData.roomMinNum ? (
+                                    <p className="insufficient-participants">
+                                         참여 인원이 부족합니다 ({roomData.enteredUserCount}/{roomData.roomMinNum})
+                                     </p>
+                                 ) : (
+                                    <button 
+                                        className="jm-c-start host" 
+                                        onClick={ handleConfirmStartChallenge}
+                                        title="챌린지 시작"
+                                    >
+                                        <span className="label">챌린지 시작</span>
+                                    </button>
+                                 )
                             ) : (roomData.roomStatusNum === 3 && timeLeft === "종료됨") ? ( // roomStatusNum이 3이고 시간이 만료되었을 때 챌린지 종료 버튼
                                 <button 
                                     className="jm-c-end host" 
@@ -845,7 +920,7 @@ const JMYCChallengeHeader = () => {
                                     <span className="label">챌린지 종료</span>
                                 </button>
                             ) : null // roomStatusNum이 4 이상일 때 버튼 숨김
-                        ) : (userAuthorization === 0 ) && roomData.roomStatusNum === 2 && roomData.roomStartDate && ( // userAuthorization ===0 (미참여) 또는 2 (떠남)인 경우
+                        ) : userAuthorization === 0  && roomData.roomStatusNum === 2 && roomData.roomStartDate && ( // userAuthorization ===0 (미참여) 또는 2 (떠남)인 경우
                             <button className="jm-c-start" onClick={handleJoinClick}>
                                 <span className="emoji"></span>
                                 <span className="label">+ 참가</span>
@@ -893,177 +968,224 @@ const JMYCChallengeHeader = () => {
                     </div>
 
                     {/* 모달들 */}
-                    {/* 참가 확인 모달 */}
-                    <Modal
-                        isOpen={showJoinModal}
-                        onRequestClose={handleCancelJoin}
-                        style={customModalStyles}
-                        contentLabel="참여 모달"
-                        ariaHideApp={false}
-                    >
-                        <div className="yc-modal-header">
-                            <p>참여 하시겠습니까?</p>
-                            <div className="yc-modal-buttons-header">
-                                <button className="yc-modal-confirm-header" onClick={handleConfirmJoin}>확인</button>
-                                <button className="yc-modal-cancel-header" onClick={handleCancelJoin}>취소</button>
-                            </div>
-                        </div>
-                    </Modal>
-
-                    {/* 모집 시작 확인 모달 */}
-                    <Modal
-                        isOpen={showStartRecruitModal}
-                        onRequestClose={handleCancelStartRecruit}
-                        style={customModalStyles}
-                        contentLabel="모집 시작 모달"
-                        ariaHideApp={false}
-                    >
-                        <div className="yc-modal-header">
-                            <p>맴버 모집을 시작 하시겠습니까?</p>
-                            <div className="yc-modal-buttons-header">
-                                <button className="yc-modal-confirm-header" onClick={handleConfirmStartRecruit}>확인</button>
-                                <button className="yc-modal-cancel-header" onClick={handleCancelStartRecruit}>취소</button>
-                            </div>
-                        </div>
-                    </Modal>
-
-                    {/* 챌린지 시작 확인 모달 */}
-                    <Modal
-                        isOpen={showStartChallengeModal}
-                        onRequestClose={handleCancelStartChallenge}
-                        style={customModalStyles}
-                        contentLabel="챌린지 시작 모달"
-                        ariaHideApp={false}
-                    >
-                        <div className="yc-modal-header">
-                            <p>챌린지를 시작하시겠습니까?</p>
-                            <div className="yc-modal-buttons-header">
-                                <button className="yc-modal-confirm-header" onClick={handleConfirmStartChallenge}>확인</button>
-                                <button className="yc-modal-cancel-header" onClick={handleCancelStartChallenge}>취소</button>
-                            </div>
-                        </div>
-                    </Modal>
-
-                    {/* 시작 시간 연장 캘린더 모달 */}
-                    <Modal
-                        isOpen={showExtendCalendar}
-                        onRequestClose={() => setShowExtendCalendar(false)}
-                        style={customModalStyles}
-                        contentLabel="시작 시간 연장 모달"
-                        ariaHideApp={false}
-                    >
-                        <div className="yc-modal-header-date">
-                            <p>새로운 시작 시간을 선택하세요:</p>
-                            <DatePicker 
-                                selected={selectedDate}
-                                onChange={handleDateChange}
-                                showTimeSelect
-                                timeIntervals={15}
-                                dateFormat="yyyy-MM-dd HH:mm"
-                                inline
-                                minDate={getTomorrow()} // 내일 날짜부터 선택 가능
-                            />
-                            <div className="yc-modal-buttons-header">
-                                <button className="yc-modal-confirm-header" onClick={handleCalendarConfirm}>확인</button>
-                                <button className="yc-modal-cancel-header" onClick={() => setShowExtendCalendar(false)}>취소</button>
-                            </div>
-                        </div>
-                    </Modal>
-
-                    {/* 시작 시간 변경 확인 모달 */}
-                    <Modal
-                        isOpen={showExtendConfirmModal}
-                        onRequestClose={handleCancelExtend} 
-                        style={customModalStyles}
-                        contentLabel="시작 시간 변경 확인 모달"
-                        ariaHideApp={false}
-                    >
-                        <div className="yc-modal-header">
-                            <p>선택한 날짜로 시작 시간을 변경하시겠습니까?</p>
-                            <div className="yc-modal-buttons-header">
-                                <button className="yc-modal-confirm-header" onClick={handleConfirmExtend}>확인</button>
-                                <button className="yc-modal-cancel-header" onClick={handleCancelExtend}>취소</button>
-                            </div>
-                        </div>
-                    </Modal>
-
-                    {/* 챌린지 종료 확인 모달 */}
-                    <Modal
-                        isOpen={showChallengeEndModal && timeLeft === "종료됨"}
-                        onRequestClose={handleCancelEndChallenge}
-                        style={customModalStyles}
-                        contentLabel="챌린지 종료 모달"
-                        ariaHideApp={false}
-                    >
-                        <div className="yc-modal-header">
-                            <p>챌린지가 종료되었습니다! 챌린지 종료 버튼을 눌러주세요.</p>
-                            <div className="yc-modal-buttons-header">
-                                <button className="yc-modal-confirm-header" onClick={handleEndChallengeClick}>챌린지 종료</button>
-                                <button className="yc-modal-cancel-header" onClick={handleCancelEndChallenge}>취소</button>
-                            </div>
-                        </div>
-                    </Modal>
-                   
-
-                    {/* 성적표 모달 */}
-                    {isModalOpen && selectedUser && userDetails && (
-                        <div className="yc-modal-overlay" onClick={closeModal}>
-                            <div className="yc-modal-content" onClick={(e) => e.stopPropagation()}>
-                                <h2>성적표</h2>
-                                <div className="yc-report-details">
-                                    {/* 도넛 차트 */}
-                                    <div className="yc-dougnut-chart">
-                                        <Doughnut
-                                            key={selectedUser.userNum}
-                                            data={chartData}
-                                            options={chartOptions}
-                                        />
-                                        <span className="yc-completion-rate">{selectedUser.achievementRate}%</span>
+                    {isCMainPage && (
+                        <>
+                            {/* 모집 시간 연장 모달 */}
+                            <Modal
+                                isOpen={showExtendTimeModal}
+                                onRequestClose={() => setShowExtendTimeModal(false)}
+                                style={customModalStyles}
+                                contentLabel="모집 시간 연장 모달"
+                                ariaHideApp={false}
+                            >
+                                <div className="yc-modal-header">
+                                    <p>모집 시간이 종료되었습니다. 시간을 연장하시겠습니까?</p>
+                                    <div className="yc-modal-buttons-header">
+                                        <button className="yc-modal-confirm-header" onClick={handleExtendClick}>연장</button>
+                                        <button className="yc-modal-cancel-header" onClick={() => setShowExtendTimeModal(false)}>취소</button>
                                     </div>
-
-                                    {/* 미션 상세 정보 */}
-                                    <div className="yc-mission-details">
-                                        <p>완료한 미션: {userDetails?.totalMissions?.completedCount}/{userDetails?.totalMissions?.totalAssigned}</p>
-                                        {userDetails?.missionDetails?.map((mission) => (
-                                            <p key={mission.missionName}>
-                                                {mission.missionName}: {mission.completedCount}/{mission.totalAssigned}
-                                            </p>
-                                        ))}
-                                    </div>
-
-                                    {/* 그룹 챌린지 섹션 */}
-                                    <div className="yc-group-challenge-section">
-                                        <h3>그룹 챌린지</h3>
-                                        <div className="yc-group-challenge-points">
-                                            +{groupChallengePoints} P
-                                        </div>
-                                        <ul className="yc-group-challenges">
-                                            {userDetails?.groupChallenges?.map((challenge) => (
-                                                <li key={challenge.missionName}>
-                                                    {challenge.missionName} - {challenge.achievementRate === 100 ? '성공' : '실패'}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-
-                                    {/* 포인트 요약 */}
-                                    <div className="yc-points-summary">
-                                        {userDetails?.challengeRewardEligible && (
-                                            <p><strong>도전 보상:</strong> +{challengeRewardPoints} P</p>
-                                        )}
-                                        <p><strong>그룹 보상:</strong> +{groupChallengePoints} P</p>
-                                        <p><strong>배팅 포인트:</strong> +{Math.round(bettingPoints)} P</p>
-                                        <p><strong>합계:</strong> {Math.round(challengeRewardPoints + groupChallengePoints + bettingPoints)} P</p>
-                                    </div>
-
-                                    <button className="yc-close-button" onClick={closeModal}>
-                                        닫기
-                                    </button>
                                 </div>
-                            </div>
-                        </div>
+                            </Modal>
+                            {/* 챌린지 시작 촉구 모달 */}
+                            <Modal
+                                isOpen={showStartChallengePromptModal}
+                                onRequestClose={() => setShowStartChallengePromptModal(false)}
+                                style={customModalStyles}
+                                contentLabel="챌린지 시작 촉구 모달"
+                                ariaHideApp={false}
+                            >
+                                <div className="yc-modal-header">
+                                    <p>챌린지 시간이 종료되었습니다. 챌린지를 시작하시겠습니까? 맴버가 부족하면 시간을 늘리거나, 방 설정에서 챌린지 시작 최소인원을 변경 하십시오.</p>
+                                    <div className="yc-modal-buttons-header">
+                                        <button className="yc-modal-confirm-header" onClick={handleStartChallengeClick}>시작</button>
+                                        <button className="yc-modal-cancel-header" onClick={() => setShowStartChallengePromptModal(false)}>취소</button>
+                                    </div>
+                                </div>
+                            </Modal>
+                            {/* 참여 모달 */}
+                            <Modal
+                                isOpen={showJoinModal}
+                                onRequestClose={handleCancelJoin}
+                                style={customModalStyles}
+                                contentLabel="참여 모달"
+                                ariaHideApp={false}
+                            >
+                                <div className="yc-modal-header">
+                                    <p>참여 하시겠습니까?</p>
+                                    <div className="yc-modal-details">
+                                        <p>포인트: {roomData.roomPoint !== undefined && roomData.roomPoint !== null ? `${roomData.roomPoint} P` : "정보 없음"}</p>
+                                        <p>비율: {roomData.roomRate !== undefined && roomData.roomRate !== null ? `${roomData.roomRate}%` : "조건 없음"}</p>
+                                    </div>
+                                    <div className="yc-modal-buttons-header">
+                                        <button className="yc-modal-confirm-header" onClick={handleConfirmJoin}>확인</button>
+                                        <button className="yc-modal-cancel-header" onClick={handleCancelJoin}>취소</button>
+                                    </div>
+                                </div>
+                            </Modal>
+
+                            {/* 모집 시작 확인 모달 */}
+                            <Modal
+                                isOpen={showStartRecruitModal}
+                                onRequestClose={handleCancelStartRecruit}
+                                style={customModalStyles}
+                                contentLabel="모집 시작 모달"
+                                ariaHideApp={false}
+                            >
+                                <div className="yc-modal-header">
+                                    <p>맴버 모집을 시작 하시겠습니까?</p>
+                                    <div className="yc-modal-buttons-header">
+                                        <button className="yc-modal-confirm-header" onClick={handleConfirmStartRecruit}>확인</button>
+                                        <button className="yc-modal-cancel-header" onClick={handleCancelStartRecruit}>취소</button>
+                                    </div>
+                                </div>
+                            </Modal>
+
+                            {/* 챌린지 시작 확인 모달 */}
+                            <Modal
+                                isOpen={showStartChallengeModal}
+                                onRequestClose={handleCancelStartChallenge}
+                                style={customModalStyles}
+                                contentLabel="챌린지 시작 모달"
+                                ariaHideApp={false}
+                            >
+                                <div className="yc-modal-header">
+                                    <p>챌린지를 시작하시겠습니까?</p>
+                                    <div className="yc-modal-buttons-header">
+                                        <button className="yc-modal-confirm-header" onClick={handleConfirmStartChallenge}>확인</button>
+                                        <button className="yc-modal-cancel-header" onClick={handleCancelStartChallenge}>취소</button>
+                                    </div>
+                                </div>
+                            </Modal>
+
+                            {/* 시작 시간 연장 캘린더 모달 */}
+                            <Modal
+                                isOpen={showExtendCalendar}
+                                onRequestClose={() => setShowExtendCalendar(false)}
+                                style={customModalStyles}
+                                contentLabel="시작 시간 연장 모달"
+                                ariaHideApp={false}
+                            >
+                                <div className="yc-modal-header-date">
+                                    <p>새로운 시작 시간을 선택하세요:</p>
+                                    <DatePicker 
+                                        selected={selectedDate}
+                                        onChange={handleDateChange}
+                                        showTimeSelect
+                                        timeIntervals={15}
+                                        dateFormat="yyyy-MM-dd HH:mm"
+                                        inline
+                                        minDate={getTomorrow()} // 내일 날짜부터 선택 가능
+                                    />
+                                    <div className="yc-modal-buttons-header">
+                                        <button className="yc-modal-confirm-header" onClick={handleCalendarConfirm}>확인</button>
+                                        <button className="yc-modal-cancel-header" onClick={() => setShowExtendCalendar(false)}>취소</button>
+                                    </div>
+                                </div>
+                            </Modal>
+
+                            {/* 시작 시간 변경 확인 모달 */}
+                            <Modal
+                                isOpen={showExtendConfirmModal}
+                                onRequestClose={handleCancelExtend} 
+                                style={customModalStyles}
+                                contentLabel="시작 시간 변경 확인 모달"
+                                ariaHideApp={false}
+                            >
+                                <div className="yc-modal-header">
+                                    <p>선택한 날짜로 시작 시간을 변경하시겠습니까?</p>
+                                    <div className="yc-modal-buttons-header">
+                                        <button className="yc-modal-confirm-header" onClick={ handleConfirmExtend  }>확인</button>
+                                        <button className="yc-modal-cancel-header" onClick={handleCancelExtend}>취소</button>
+                                    </div>
+                                </div>
+                            </Modal>
+
+                            {/* 챌린지 종료 확인 모달 */}
+                            <Modal
+                                isOpen={showChallengeEndModal && timeLeft === "종료됨"}
+                                onRequestClose={handleCancelEndChallenge}
+                                style={customModalStyles}
+                                contentLabel="챌린지 종료 모달"
+                                ariaHideApp={false}
+                            >
+                                <div className="yc-modal-header">
+                                    <p>챌린지가 종료되었습니다! 챌린지 종료 버튼을 눌러주세요.</p>
+                                    <div className="yc-modal-buttons-header">
+                                        <button className="yc-modal-confirm-header" onClick={handleEndChallengeClick}>챌린지 종료</button>
+                                        <button className="yc-modal-cancel-header" onClick={handleCancelEndChallenge}>취소</button>
+                                    </div>
+                                </div>
+                            </Modal>
+
+                            {/* 성적표 모달 */}
+                            {selectedUser && userDetails && (
+                                <Modal
+                                    isOpen={isModalOpen && isCMainPage}
+                                    onRequestClose={closeModal}
+                                    style={customModalStyles}
+                                    contentLabel="성적표 모달"
+                                    ariaHideApp={false}
+                                >
+                                    <div className="yc-modal-overlay" onClick={closeModal}>
+                                        <div className="yc-modal-content" onClick={(e) => e.stopPropagation()}>
+                                            <h2>성적표</h2>
+                                            <div className="yc-report-details">
+                                                {/* 도넛 차트 */}
+                                                <div className="yc-dougnut-chart">
+                                                    <Doughnut
+                                                        key={selectedUser.userNum} // selectedUser가 null이 아니므로 옵셔널 체이닝 필요 없음
+                                                        data={chartData}
+                                                        options={chartOptions}
+                                                    />
+                                                    <span className="yc-completion-rate">{selectedUser.achievementRate || 0}%</span>
+                                                </div>
+
+                                                {/* 미션 상세 정보 */}
+                                                <div className="yc-mission-details">
+                                                    <p>완료한 미션: {userDetails.totalMissions.completedCount}/{userDetails.totalMissions.totalAssigned}</p>
+                                                    {userDetails.missionDetails.map((mission) => (
+                                                        <p key={mission.missionName}>
+                                                            {mission.missionName}: {mission.completedCount}/{mission.totalAssigned}
+                                                        </p>
+                                                    ))}
+                                                </div>
+
+                                                {/* 그룹 챌린지 섹션 */}
+                                                <div className="yc-group-challenge-section">
+                                                    <h3>그룹 챌린지</h3>
+                                                    <div className="yc-group-challenge-points">
+                                                        +{groupChallengePoints} P
+                                                    </div>
+                                                    <ul className="yc-group-challenges">
+                                                        {userDetails.groupChallenges.map((challenge) => (
+                                                            <li key={challenge.missionName}>
+                                                                {challenge.missionName} - {challenge.achievementRate === 100 ? '성공' : '실패'}
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+
+                                                {/* 포인트 요약 */}
+                                                <div className="yc-points-summary">
+                                                    {userDetails.challengeRewardEligible && (
+                                                        <p><strong>도전 보상:</strong> +{challengeRewardPoints} P</p>
+                                                    )}
+                                                    <p><strong>그룹 보상:</strong> +{groupChallengePoints} P</p>
+                                                    <p><strong>배팅 포인트:</strong> +{Math.round(bettingPoints)} P</p>
+                                                    <p><strong>합계:</strong> {Math.round(challengeRewardPoints + groupChallengePoints + bettingPoints)} P</p>
+                                                </div>
+
+                                                <button className="yc-close-button" onClick={closeModal}>
+                                                    닫기
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Modal>
+                            )}
+                        </>
                     )}
-                    
+
                 </>
             )}
         </div>
