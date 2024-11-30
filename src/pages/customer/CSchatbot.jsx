@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef  } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -45,6 +45,7 @@ const callOpenAI = async (messageHistory) => {
 
 const CSchatbot = ({ closeModal }) => {
     const navigate = useNavigate();
+    const messagesEndRef = useRef(null);
 
     const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem('authUser')));
     const [messageHistory, setMessageHistory] = useState([]);
@@ -52,7 +53,7 @@ const CSchatbot = ({ closeModal }) => {
     const [responseText, setResponseText] = useState('');
     const [promptTxt, setPromptTxt] = useState('');
     const [assistant, setassistant] = useState('');
-    const [recentChats, setRecentChats] = useState([]); 
+    const [recentChats, setRecentChats] = useState([]);
 
     const getPrompt = async () => {
         try {
@@ -70,8 +71,6 @@ const CSchatbot = ({ closeModal }) => {
         }
     };
 
-
-    // 최근 채팅 가져오기 함수
     const getRecentChats = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/getRecentChats`, {
@@ -79,7 +78,7 @@ const CSchatbot = ({ closeModal }) => {
             });
 
             if (response.data.apiData) {
-                setRecentChats(response.data.apiData.reverse()); // 최근 채팅 데이터 설정
+                setRecentChats(response.data.apiData.reverse());
             }
         } catch (error) {
             console.error('최근 채팅을 가져오는 데 실패했습니다:', error);
@@ -141,8 +140,18 @@ const CSchatbot = ({ closeModal }) => {
         }
     }, [authUser, navigate]);
 
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [messageHistory, recentChats]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!userInput.trim()) {
+            return;
+        }
 
         const newMessageHistory = [
             ...(messageHistory.length === 0 ? [{ role: 'system', content: promptTxt }] : []),
@@ -160,18 +169,16 @@ const CSchatbot = ({ closeModal }) => {
             setassistant(assistantResponse);
             setUserInput('');
 
-            // 서버로 대화 내용을 전송
             await axios.post(`${process.env.REACT_APP_API_URL}/api/saveChat`, {
-                userNum: authUser.userNum,   // 로그인한 유저의 userNum
-                csbotAnswer: userInput,      // 사용자의 입력
-                csbotWriter: 1,              // 사용자 (1은 사용자)
+                userNum: authUser.userNum,
+                csbotAnswer: userInput,
+                csbotWriter: 1,
             });
 
-            // 봇의 응답을 서버로 전송
             await axios.post(`${process.env.REACT_APP_API_URL}/api/saveChat`, {
-                userNum: authUser.userNum,   // 로그인한 유저의 userNum
-                csbotAnswer: assistantResponse, // 봇의 응답
-                csbotWriter: 2,              // 봇 (2는 봇)
+                userNum: authUser.userNum,
+                csbotAnswer: assistantResponse,
+                csbotWriter: 2,
             });
 
         } catch (error) {
@@ -220,6 +227,7 @@ const CSchatbot = ({ closeModal }) => {
                             <p>{LineBreaks(msg.content)}</p>
                         </div>
                     ))}
+                    <div ref={messagesEndRef} />
                 </div>
 
                 <div className="jy-chatbot-input">

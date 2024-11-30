@@ -87,7 +87,7 @@ const CustomerService = () => {
                 <div className="dy-customerservice">
                     <div className="dy-customerservice-header">
                         <h1 className="dy-customerserviceTitle">고객 센터</h1>
-                        <img src="../images/customerservice.jpg" className="dy-faq-img" alt="자주 묻는 질문 이미지" />
+                        <img src={`${process.env.REACT_APP_API_URL}/upload/customerservice.jpg`} className="dy-faq-img" alt="자주 묻는 질문 이미지" />
                     </div>
                     {/* /dy-customerservice-header */}
 
