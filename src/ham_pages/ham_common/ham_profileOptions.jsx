@@ -24,7 +24,13 @@ const ProfileOptions = memo(({
     // Optimized profile selection handler
     const handleProfileClick = useCallback((src) => {
         if (src?.trim()) {
-            const relativePath = src.replace('/upload', '');
+            let relativePath;
+            if (src.includes('/upload/')) {
+                // 전체 URL에서 /upload/ 이후의 경로만 추출
+                relativePath = '/upload/' + src.split('/upload/')[1];
+            } else {
+                relativePath = src;
+            }
             onSelect(relativePath);
         }
     }, [onSelect]);
@@ -32,7 +38,7 @@ const ProfileOptions = memo(({
     // Error boundary component
     const ImageWithFallback = memo(({ src, index, isSelected }) => (
         <img
-            src={src}
+            src={src.startsWith('http') ? src : `/upload/${src.split('/upload/').pop()}`}
             alt={`프로필 선택 ${index + 1}`}
             onClick={() => handleProfileClick(src)}
             className={`hmk_profile-image ${isSelected ? "hmk_selected-profile" : ""}`}
