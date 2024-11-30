@@ -22,6 +22,17 @@ const Step01 = () => {
         setSelectedType(type);
     };
 
+    const handleCancel = () => {
+        if (selectedType) {
+            const confirmCancel = window.confirm('선택된 내용이 있습니다. 취소하시겠습니까?');
+            if (!confirmCancel) {
+                return; // 사용자가 취소하지 않으면 종료
+            }
+        }
+        setSelectedType(null); // 선택 상태 초기화
+        navigate("/"); // 이전 페이지로 이동
+    };
+
     // 폼 제출 핸들러
     const handleSubmit = async (e) => {
         e.preventDefault(); // 기본 동작 방지
@@ -33,7 +44,6 @@ const Step01 = () => {
         }
     
         if (!selectedType) {
-            alert("챌린지 종류를 선택해주세요.");
             return;
         }
     
@@ -53,7 +63,6 @@ const Step01 = () => {
             // 응답 처리
             if (response.data.result === 'success') {
                 const roomNum = response.data.apiData; // 서버에서 반환된 방 번호
-                alert('챌린지 종류가 저장되었습니다.');
                 navigate(`/genebang/step2/${roomNum}`); // 방 번호로 다음 스텝 이동
             } else {
                 alert(`오류: ${response.data.message}`);
@@ -118,12 +127,12 @@ const Step01 = () => {
                             {/* //list */}
 
                             <div className="btn">
-                                <button
-                                    id="secondary"
-                                    onClick={() => navigate(-1)} // 뒤로 가기
-                                >
-                                    취소
-                                </button>
+                            <button
+                                id="secondary"
+                                onClick={handleCancel} // 수정된 핸들러 사용
+                            >
+                                취소
+                            </button>
                                 <button
                                     type="submit"
                                     id="primary"

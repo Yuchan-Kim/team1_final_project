@@ -72,6 +72,16 @@
     const [isProfileOpen, setProfileOpen] = useState(false);
     const [profileUser, setProfileUser] = useState(null);
 
+    // 제출 폼 초기화
+    const resetMissionForm = () => {
+      setSelectedMissionIndex(null);
+      setSelectedMissionTitle('');
+      setSelectedMissionNumber(null);
+      setFileInputs([{}]);
+      setPreviews([]);
+      document.querySelector('.jm-add-comment-box').value = ''; // 코멘트 입력란 초기화
+  };
+
     // 유저의 미션 승인 횟수 통계 가져오기
     const fetchMissionApprovals = () => {
       axios({
@@ -307,6 +317,7 @@
         alert("이미 제출된 미션입니다.");
         return; // 이미 제출된 미션은 선택 불가
       }
+      resetMissionForm(); // 폼 초기화
       setSelectedMissionIndex(index);
       setSelectedMissionTitle(mission.missionName); // 미션 제목 업데이트
       setSelectedMissionNumber(mission.missionNum); // 미션 넘버 업데이트
@@ -495,6 +506,7 @@
         if (response.data.result === "success") {
         console.log("Mission submitted successfully:", response.data);
         alert("미션 제출이 완료되었습니다.");
+        resetMissionForm(); // 폼 초기화
         getMissionList(); // 미션 리스트 갱신
         } else {
           console.log(response.data.message);

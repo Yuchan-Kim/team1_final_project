@@ -98,7 +98,12 @@ const ChallengePage = () => {
     } else {
       setError("roomNum이 정의되지 않았습니다.");
     }
-  }, [roomNum]); 
+  }, [roomNum]);
+  
+  useEffect(() => {
+    // 페이지 로드 시 스크롤 위치를 맨 위로 설정
+    window.scrollTo(0, 0);
+  }, []);
 
   
   const checkUserAuth = () => {

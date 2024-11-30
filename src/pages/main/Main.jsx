@@ -50,6 +50,17 @@ const Main = () => {
         setIsModalOpen(false);
     };
 
+    // 토큰값 없으면 방생성 눌렀을때 로그인창으로 보내기
+    const handleCreateRoom = () => {
+        const token = localStorage.getItem('token'); // 로컬 스토리지에서 토큰 가져오기
+        if (!token) {
+            alert("로그인이 필요합니다."); // 로그인 상태가 아니면 알림
+            navigate('/user/loginform'); // 로그인 페이지로 이동
+        } else {
+            navigate('/genebang/step1'); // 로그인 상태라면 방 생성 페이지로 이동
+        }
+    };
+
     const handleNext = (path = null) => {
         if (path) {
             // 특정 경로로 네비게이션
@@ -288,54 +299,70 @@ const getCloseRoomList = () => {
                             <img src="/img/banner.jpg" alt="banner" />
                         </div>
 
-                        {/* //ad-banner */}
                         <div id='ad-bang'>
-                            {closeRoomList && closeRoomList.length > 0 ? (
-                                closeRoomList.map((close, idx) => (
-                                    <div className='ad-bang-list' key={idx}>
-                                        <div className="ad-bang-image">
-                                            <img src={close.roomThumbNail || "/img/default-room.jpg"} alt={close.roomTitle} width="100" height="100" />
-                                        </div>
-                                        <div className="ad-bang-title">{close.roomTitle}</div>
-                                        <div className="ad-bang-score">
-                                            <svg className="circle_progress" width="60" height="60" viewBox="0 0 60 60">
-                                                <circle className="frame" cx="30" cy="30" r="27" strokeWidth="6" />
-                                                <circle className="bar" cx="30" cy="30" r="27" strokeWidth="6" />
-                                            </svg>
-                                            <strong className="value">{close.overallStats ? close.overallStats.achievementRate + '%' : '통계 없음'}</strong>
-                                        </div>
-                                    </div>
-                                ))
-                            ) : (
-                                <div>종료된 방이 없습니다.</div>
-                            )}
-                        </div>
+    {closeRoomList && closeRoomList.length > 0 ? (
+        closeRoomList.map((close, idx) => (
+            <Link 
+                to={`/cmain/${close.roomNum}`} 
+                key={idx} 
+                className='ad-bang-list'
+            >
+                <div className="ad-bang-image">
+                    <img 
+                        src={close.roomThumbNail || "/img/default-room.jpg"} 
+                        alt={close.roomTitle} 
+                        width="100" 
+                        height="100" 
+                    />
+                </div>
+                <div className="ad-bang-title">{close.roomTitle}</div>
+                <div className="ad-bang-score">
+                    <svg className="circle_progress" width="60" height="60" viewBox="0 0 60 60">
+                        <circle className="frame" cx="30" cy="30" r="27" strokeWidth="6" />
+                        <circle className="bar" cx="30" cy="30" r="27" strokeWidth="6" />
+                    </svg>
+                    <strong className="value">
+                        {close.overallStats ? close.overallStats.achievementRate + '%' : '통계 없음'}
+                    </strong>
+                </div>
+            </Link>
+        ))
+    ) : (
+        <div>종료된 방이 없습니다.</div>
+    )}
+</div>
                         {/* //ad-bang */}
 
                         <div id='icon-bar'>
                             <div>
-                                <button className='jm-thema-button-all' onClick={() => handleCategoryChange('전체')}></button>
+                                <button className='jm-thema-button-all' onClick={() => handleCategoryChange('전체')}>
                                 <span>전체</span>
+                                </button>
                             </div>
                             <div>
-                                <button className='jm-thema-button1' onClick={() => handleCategoryChange('운동')}></button>
+                                <button className='jm-thema-button1' onClick={() => handleCategoryChange('운동')}>
                                 <span>운동</span>
+                                </button>
                             </div>
                             <div>
-                                <button className='jm-thema-button2' onClick={() => handleCategoryChange('독서')}></button>
+                                <button className='jm-thema-button2' onClick={() => handleCategoryChange('독서')}>
                                 <span>독서</span>
+                                </button>
                             </div>
                             <div>
-                                <button className='jm-thema-button3' onClick={() => handleCategoryChange('스터디')}></button>
+                                <button className='jm-thema-button3' onClick={() => handleCategoryChange('스터디')}>
                                 <span>스터디</span>
+                                </button>
                             </div>
                             <div>
-                                <button className='jm-thema-button4' onClick={() => handleCategoryChange('생활루틴')}></button>
+                                <button className='jm-thema-button4' onClick={() => handleCategoryChange('생활루틴')}>
                                 <span>생활루틴</span>
+                                </button>
                             </div>
                             <div>
-                                <button className='jm-thema-button5' onClick={() => handleCategoryChange('취미')}></button>
+                                <button className='jm-thema-button5' onClick={() => handleCategoryChange('취미')}>
                                 <span>취미</span>
+                                </button>
                             </div>
                         </div> {/* //icon-bar */}
 
@@ -387,12 +414,12 @@ const getCloseRoomList = () => {
 
                         {/* 모달 열기 버튼 복구 */}
                         <div className="btn">
-                            <button id="secondary" onClick={() => navigate("/genebang/step1")}>
-                                <span>
-                                    <SendIcon size="5em" /><br />
-                                    방 생성
-                                </span>
-                            </button>
+                        <button id="secondary" onClick={handleCreateRoom}>
+                            <span>
+                                <SendIcon size="5em" /><br />
+                                방 생성
+                            </span>
+                        </button>
                         </div>
 
                     </div>
