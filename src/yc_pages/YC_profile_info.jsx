@@ -15,11 +15,20 @@ const YCProfileInfo = ({ isOpen, onClose, user }) => {
                 </button>
                 <div className="yc_profile">
                     <div className="yc_profile-avatar">
-                        {user.usingProfilePic ? (
-                            <img src={`${process.env.REACT_APP_API_URL}/upload/${user.usingProfilePic}`}   alt={'/images/challenge1.png'}  />
-                        ) : (
-                            <FaUserPlus />
-                        )}
+                    {user.usingProfilePic ? (
+                        <img 
+                            src={`${process.env.REACT_APP_API_URL}/upload/${user.usingProfilePic}`}   
+                            alt="Profile"  
+                            onError={(e) => {
+                                if (e.target.src !== `${process.env.PUBLIC_URL}/images/challenge1.png`) {
+                                    e.target.src = '/images/challenge1.png';
+                                }
+                            }}
+                        />
+                    ) : (
+                        <FaUserPlus />
+                    )}
+
                     </div>
                     <h2 className="yc_profile_nickname" id="profile-title">
                         {user.userName}
