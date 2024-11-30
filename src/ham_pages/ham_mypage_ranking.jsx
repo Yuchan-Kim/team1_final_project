@@ -7,12 +7,12 @@ import YCProfileInfo from "../yc_pages/YC_profile_info.jsx";
 import { Link } from 'react-router-dom';
 
 // 이미지 상수들
-const defaultProfile = 'app/upload/profile-fill.png';
-const grl = 'app/upload/rank_girl-runtoleft.gif';
-const dog = 'app/upload/rank_dog-runtoleft.gif';
-const cat = 'app/upload/rank_cat-runtoleft.gif';
-const clap = 'app/upload/rank_clap.gif';
-const win = 'app/upload/rank_winner.gif';
+const defaultProfile = '/upload/profile-fill.png';
+const grl = '/upload/rank_girl-runtoleft.gif';
+const dog = '/upload/rank_dog-runtoleft.gif';
+const cat = '/upload/rank_cat-runtoleft.gif';
+const clap = '/upload/rank_clap.gif';
+const win = '/upload/rank_winner.gif';
 // 스타일 객체 추가
 const rankStyles = {
     backgroundImages: {
