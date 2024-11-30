@@ -29,7 +29,6 @@
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    background-color: ;
 }
 
 .hmk_mobile_rank-info {
@@ -51,7 +50,7 @@
 }
 
 /* 움직이는 배너 애니메이션 스타일 */
-.hmk_rank_moving_banner {
+.hmk_mobile_rank_moving_banner {
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -59,7 +58,7 @@
     padding: 8px 0;
 }
 
-.hmk_rank_moving_text {
+.hmk_mobile_rank_moving_text {
     display: flex;
     align-items: center;
     white-space: nowrap;
@@ -70,31 +69,31 @@
     border-radius: 12px;
     padding: 12px 0;
 }
-.hmk_rank_moving_text::-webkit-scrollbar {
+
+.hmk_mobile_rank_moving_text::-webkit-scrollbar {
     display: none;
 }
 
-
 /* 실제 움직이는 컨텐츠를 담을 컨테이너 */
-.hmk_rank_moving_content {
+.hmk_mobile_rank_moving_content {
     display: flex;
     align-items: center;
     gap: 20px;
     animation: moveLeft 20s linear infinite;
     padding-right: 20px;
+    will-change: transform;
 }
 
 @keyframes moveLeft {
-    0% {
-        transform: translateX(100%);
+    from {
+        transform: translateX(0);
     }
-
-    100% {
-        transform: translateX(-100%);
+    to {
+        transform: translateX(-50%);
     }
 }
 
-.hmk_rank_moving_content span {
+.hmk_mobile_rank_moving_content span {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -104,8 +103,7 @@
     padding: 0 10px;
 }
 
-
-.hmk_rank_moving_content img {
+.hmk_mobile_rank_moving_content img {
     width: 24px;
     height: 24px;
     object-fit: cover;

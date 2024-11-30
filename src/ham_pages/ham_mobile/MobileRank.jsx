@@ -26,7 +26,21 @@ const MobileRank = () => {
 
     const getImageUrl = (imagePath) => {
         if (!imagePath) return defaultProfile;
-        return `/upload/${imagePath}`;
+
+        // 이미 완전한 URL인 경우
+        if (imagePath.startsWith('http')) {
+            return imagePath;
+        }
+
+        const apiUrl = process.env.REACT_APP_API_URL || 'http://13.125.216.39:9000';
+
+        // /upload로 시작하는 경우
+        if (imagePath.startsWith('/upload/')) {
+            return `${apiUrl}${imagePath}`;
+        }
+
+        // 단순 파일명이거나 /로 시작하는 경우
+        return `${apiUrl}/upload/${imagePath.startsWith('/') ? imagePath.slice(1) : imagePath}`;
     };
 
     const openProfile = async (userNum) => {
@@ -83,10 +97,10 @@ const MobileRank = () => {
         <div className="hmk_mobile_home-wrap">
             <div className="hmk_mobile_home-fixed-top">
                 {/* 움직이는 배너 */}
-                <div className="hmk_rank_moving_banner">
+                <div className="hmk_mobile_rank_moving_banner">
                     <div className="hmk_mobile_home-card_in_banner">
-                        <div className="hmk_rank_moving_text">
-                            <div className="hmk_rank_moving_content">
+                        <div className="hmk_mobile_rank_moving_text">
+                            <div className="hmk_mobile_rank_moving_content">
                                 <span>
                                     <img src={clap} alt="clap" className="hmk_mobile_home-icon" />
                                     Top3 Ranker
