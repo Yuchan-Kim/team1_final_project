@@ -68,7 +68,6 @@
 }
 
 .jy-chatbot .jy-chatbot-message.assistant {
-    /* background-color: #e5e5e5; */
     background-color: #fff;
     color: black;
     align-self: flex-start;
@@ -105,7 +104,6 @@
 
 
 .dy-customerservice-chatbot-overlay {
-    /* background-color: rgba(0, 0, 0, 0.5); */
     position: fixed;
     top: 0;
     left: 0;
@@ -114,7 +112,7 @@
     display: block;
     z-index: 999;
 
-    pointer-events: none; /* 배경은 클릭할 수 없도록 설정 */
+    pointer-events: none;
 }
 
 
@@ -123,21 +121,17 @@
     flex-direction: column;
     align-items: center;
     position: fixed;
-    /* top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); */
     padding: 20px;
     border-radius: 10px;
-    /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
     max-width: 400px;
     width: 100%;
 
     right: 20px;
     bottom: 0px;
     transform: translate(0, 0);
-    max-height: 90vh;  /* 화면에서 90% 정도의 높이로 제한 */
-    overflow-y: auto;  /* 너무 길어지면 스크롤을 추가 */
-    pointer-events: auto; /* 모달은 클릭할 수 있도록 설정 */
+    max-height: 90vh;
+    overflow-y: auto;
+    pointer-events: auto;
 }
 
 .dy-customerservice-close-btn {
