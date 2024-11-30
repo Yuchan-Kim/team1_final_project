@@ -487,7 +487,7 @@ const YCChallengeStatistics = () => {
           {topUsers.map((user) => (
             <div key={user.userNum} className="yc-ranking-item">
               <img 
-                src={`${process.env.REACT_APP_API_URL}/upload/${user.usingProfilePic}`} 
+                src={`${process.env.REACT_APP_API_URL}/upload/${user.usingProfilePic}` || '/images/challenge1.png'} 
                 alt={`${user.userName} 프로필`} 
                 className="yc-ranking-avatar" 
               />
@@ -543,7 +543,7 @@ const YCChallengeStatistics = () => {
                 <div key={user.userNum} className="yc_challenge_statistics_user">
                   {/* 이모지 표시 */}
                   <img 
-                    src={`${process.env.REACT_APP_API_URL}/upload/${user.usingProfilePic}`}
+                    src={`${process.env.REACT_APP_API_URL}/upload/${user.usingProfilePic}` || '/images/challenge1.png'} 
                     alt={`${user.userName} 프로필`} 
                     className="yc_challenge_statistics_user-emoji" 
                   />
