@@ -41,28 +41,18 @@ const DH_Header = () => {
 	const getFullImagePath = (path) => {
 		if (!path) return defaultProfile;
 
-		// 이미 완전한 경로를 가진 경우
+		const apiUrl = process.env.REACT_APP_API_URL || 'http://13.125.216.39:9000';
+
 		if (path.startsWith('http')) {
-			const imageName = path.split('/').pop();
-			return `/images/${imageName}`;
+			return path; // 전체 URL은 그대로 유지해야 합니다
 		}
 
-		// img 폴더 내의 이미지인 경우 (/img/item3.jpg)
-		if (path.includes('img/')) {
-			return path; // 그대로 사용 (public 폴더 기준)
-		}
-
-		// images 폴더 내의 이미지인 경우
-		if (path.startsWith('/images')) {
-			return path;
-		}
-
-		// 단순 파일명만 있는 경우 (/item1.jpg)
+		// 서버의 이미지 경로로 연결
 		if (path.startsWith('/')) {
-			return `/images${path}`;
+			return `${apiUrl}${path}`;
 		}
 
-		return `/images/${path}`;
+		return `${apiUrl}/upload/${path}`;
 	};
 
 	// ProfileStore 구독
@@ -333,7 +323,7 @@ const DH_Header = () => {
 									/>
 									{/* 기존 로그인 정보는 슬라이드 메뉴 외부에 유지 */}
 									<ol className="hmk_header-login-info">
-										<li className="hmk_header-nickname">{authUser.userName}</li>
+										<li className="hmk_header-nickname">{profile.nickname}</li>
 										<li className="hmk_header-pointNlogout">
 											<div className="hmk_header-point">
 												<img src="../images/point.png" alt="point" />

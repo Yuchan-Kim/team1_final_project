@@ -278,7 +278,7 @@ const MyPage = () => {
                                         <img
                                             src={imgError[challengeKey]
                                                 ? '/images/challenge1.png'
-                                                : `${process.env.REACT_APP_API_URL}${challenge.roomThumbNail}`
+                                                : `${process.env.REACT_APP_API_URL}/upload/${challenge.roomThumbNail}`
                                             }
                                             alt={`챌린지 ${challenge.roomTitle}`}
                                             className="hmk_challenge-image"
