@@ -635,8 +635,12 @@ const YcChallengeBoard = () => {
           {topUsers.map((user) => (
             <div key={user.userNum} className="yc-ranking-item">
               <img 
-                src={`${process.env.REACT_APP_API_URL}/upload/${user.usingProfilePic}`} 
-                alt={'/images/challenge1.png'} 
+                src={
+                    user.userPofile
+                        ? `${process.env.REACT_APP_API_URL}${user.userPofile}`
+                        : '/images/profile-fill.png' // 기본 프로필 이미지 경로
+                }
+                alt="profile" 
                 className="yc-ranking-avatar" 
                 onError={(e) => {
                     e.target.src = '/images/profile-fill.png';

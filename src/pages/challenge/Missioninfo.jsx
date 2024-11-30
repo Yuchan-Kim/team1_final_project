@@ -528,7 +528,11 @@ const filteredHistories = useMemo(() => {
       {topUsers.map((user) => (
         <div key={user.userNum} className="yc-ranking-item">
           <img 
-            src={`${process.env.REACT_APP_API_URL}/upload/${user.usingProfilePic}`} 
+            src={
+                user.userPofile
+                    ? `${process.env.REACT_APP_API_URL}${user.userPofile}`
+                    : '/images/profile-fill.png' // 기본 프로필 이미지 경로
+            }
             alt={'/images/challenge1.png'} 
             className="yc-ranking-avatar" 
             onError={(e) => {
