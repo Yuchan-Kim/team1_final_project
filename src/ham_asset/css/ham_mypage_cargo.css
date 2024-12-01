@@ -321,7 +321,7 @@
 /* ham_mypage_cargo.css 파일에 추가 */
 
 /* 확인/알림 모달 베이스 스타일 */
-/* [role="dialog"] {
+[role="dialog"] {
     position: fixed;
     top: 0;
     left: 0;
@@ -332,7 +332,7 @@
     justify-content: center;
     background: rgba(0, 0, 0, 0.5);
     z-index: 2000;
-} */
+}
 
 /* 모달 컨테이너 */
 .hmk_modal_content {

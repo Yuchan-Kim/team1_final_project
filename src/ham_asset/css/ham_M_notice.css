@@ -1,14 +1,20 @@
 @charset "UTF-8";
 
 /* ham_M_notice.css */
+
+/* 알림창 전체 컨테이너 */
 .hmk_mobile_notice-container {
-    min-height: 100vh;
     padding: 16px;
-    padding-bottom: 0;
-    /* padding-bottom 제거 */
+    padding-bottom: 80px;
+    /* 하단 고정 바 높이에 맞춰 패딩 추가 */
     background-color: #f2f2f7;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
+    /* 횡 스크롤 방지 */
+    box-sizing: border-box;
+    height: calc(100vh - 23px - 64px);
+    /* 화면 높이에서 상단 고정 바(180px)와 하단 고정 바(80px) 제외 */
 }
 
 /* 상단 통계 카드 스타일 */
@@ -19,6 +25,7 @@
     margin-bottom: 20px;
 }
 
+/* 개별 알림 카드 */
 .hmk_mobile_notice-card {
     background: white;
     border-radius: 12px;
@@ -29,12 +36,14 @@
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
+/* 알림 카드 라벨 */
 .hmk_mobile_notice-card-label {
     font-size: 14px;
     color: #666;
     margin-bottom: 8px;
 }
 
+/* 알림 카드 값 */
 .hmk_mobile_notice-card-value {
     font-size: 20px;
     font-weight: 600;
@@ -48,8 +57,13 @@
     border-radius: 12px;
     padding: 4px;
     margin-bottom: 16px;
+    box-sizing: border-box;
+    width: 100%;
+    overflow-x: auto;
+    /* 필터 탭이 많을 경우 스크롤 가능하도록 설정 */
 }
 
+/* 개별 필터 탭 */
 .hmk_mobile_notice-tab {
     flex: 1;
     padding: 10px;
@@ -58,31 +72,55 @@
     font-size: 14px;
     color: #666;
     border-radius: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    /* 탭이 줄어들지 않도록 설정 */
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
 }
 
+/* 활성화된 필터 탭 */
 .hmk_mobile_notice-tab.active {
     background: #007AFF;
     color: white;
 }
 
-/* 알림 리스트 스타일 */
+/* 알림 리스트 컨테이너 */
 .hmk_mobile_notice-list {
+    flex: 1;
+    /* 남은 공간을 채우도록 설정 */
     display: flex;
     flex-direction: column;
     gap: 12px;
-    margin-bottom: 80px;
-    /* 하단 메뉴바 높이 + 여유 공간 */
     padding-bottom: 16px;
     /* 리스트 마지막 아이템 아래 여백 */
+    overflow-y: auto;
+    /* 세로 스크롤 허용 */
+    -webkit-overflow-scrolling: touch;
+    /* iOS 부드러운 스크롤 */
+    box-sizing: border-box;
+    width: 100%;
+    scrollbar-width: none;
+    /* Firefox */
 }
 
+/* 스크롤바 숨기기 */
+.hmk_mobile_notice-list::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Opera */
+}
+
+/* 개별 알림 아이템 */
 .hmk_mobile_notice-item {
     background: white;
     border-radius: 12px;
     padding: 16px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+    width: 100%;
 }
 
+/* 알림 아이템 헤더 */
 .hmk_mobile_notice-item-header {
     display: flex;
     justify-content: space-between;
@@ -90,39 +128,49 @@
     margin-bottom: 8px;
 }
 
+/* 알림 아이템 제목 */
 .hmk_mobile_notice-item-title {
     font-size: 16px;
     font-weight: 500;
     color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
+/* 알림 아이템 상태 */
 .hmk_mobile_notice-item-status {
     font-size: 12px;
     padding: 4px 8px;
     border-radius: 12px;
 }
 
+/* 새 알림 상태 */
 .hmk_mobile_notice-item-status.new {
     background: #007AFF;
     color: white;
 }
 
+/* 읽은 알림 상태 */
 .hmk_mobile_notice-item-status.read {
     background: #E5E5EA;
     color: #666;
 }
 
+/* 알림 아이템 발신자 */
 .hmk_mobile_notice-item-sender {
     font-size: 14px;
     color: #666;
     margin-bottom: 4px;
 }
 
+/* 알림 아이템 날짜 */
 .hmk_mobile_notice-item-date {
     font-size: 12px;
     color: #999;
 }
 
+/* 알림이 없을 때 표시되는 메시지 */
 .hmk_mobile_notice-empty {
     flex: 1;
     display: flex;
@@ -134,6 +182,7 @@
     /* 하단 메뉴바 높이 + 여유 공간 */
 }
 
+/* 알림 모달 오버레이 */
 .hmk_mobile_notice-modal-overlay {
     position: fixed;
     top: 0;
@@ -145,8 +194,11 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    overflow: hidden;
+    /* 모달 내부에서 스크롤 방지 */
 }
 
+/* 알림 모달 창 */
 .hmk_mobile_notice-modal {
     background: white;
     border-radius: 12px;
@@ -155,8 +207,11 @@
     padding: 20px;
     max-height: 80vh;
     overflow-y: auto;
+    /* 모달 내용이 많을 경우 스크롤 가능 */
+    box-sizing: border-box;
 }
 
+/* 모달 헤더 */
 .hmk_mobile_notice-modal-header {
     display: flex;
     justify-content: space-between;
@@ -165,12 +220,14 @@
     border-bottom: 1px solid #999;
 }
 
+/* 모달 제목 */
 .hmk_mobile_notice-modal-header h2 {
     font-size: 1.2rem;
     font-weight: 500;
     margin: 0;
 }
 
+/* 모달 닫기 버튼 */
 .hmk_mobile_notice-modal-close {
     background: none;
     border: none;
@@ -179,17 +236,20 @@
     padding: 0;
 }
 
+/* 모달 내용 */
 .hmk_mobile_notice-modal-content {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
+/* 모달 메시지 */
 .hmk_mobile_notice-modal-message {
     color: #333;
     line-height: 1.5;
 }
 
+/* 모달 정보 박스 */
 .hmk_mobile_notice-modal-info {
     display: flex;
     flex-direction: column;
@@ -199,6 +259,7 @@
     font-size: 0.9rem;
 }
 
+/* 모달 방 이동 버튼 */
 .hmk_mobile_notice-modal-room-button {
     background-color: #3b82f6;
     color: white;
@@ -207,6 +268,7 @@
     border-radius: 6px;
     cursor: pointer;
     margin-top: 16px;
+    transition: background-color 0.3s ease;
 }
 
 .hmk_mobile_notice-modal-room-button:hover {

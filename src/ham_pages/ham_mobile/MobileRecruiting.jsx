@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import MobileBottomMenu from './MobileBottomMenu';
+
 import '../../ham_asset/css/ham_M_recruiting.css';
 
 const MobileRecruiting = () => {
@@ -30,7 +31,7 @@ const MobileRecruiting = () => {
 
             if (response.data.result === 'success') {
                 setRoomTypes(response.data.apiData);
-                console.log('%%%룸 타입이 들어있니???;',response.data.apiData)
+                console.log('%%%룸 타입이 들어있니???;', response.data.apiData)
             } else {
                 setError(response.data.message);
             }
@@ -53,14 +54,17 @@ const MobileRecruiting = () => {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
+                
             });
-
+            console.log("룸 리스트에서 가져오는거: ",response.data.apiData);
             if (response.data.result === 'success') {
                 return response.data.apiData;
+                
             } else {
                 setError(response.data.message);
                 return [];
             }
+            
         } catch (error) {
             console.error('방 목록을 불러오는 중 오류 발생:', error);
             setError("방 목록을 불러오는 데 실패했습니다.");
@@ -73,18 +77,24 @@ const MobileRecruiting = () => {
 
         let filteredChallenges = challenges.filter(challenge => {
             const dDay = calculateDday(challenge.roomStartDate);
-            return challenge.roomStatusNum === 2 && dDay >= 1;
-        });
 
+            return (
+                challenge.roomStatusNum === 2 && // 모집 중인 방
+                dDay >= 1 && // 시작일이 지나지 않은 방
+                challenge.enteredUserStatusNum !== 1 // 참여하지 않은 방
+            );
+        });
+console.log("필터챌린지에 뭐가 들었니? : ",filterChallenges)
+console.log("필터챌린지에 뭐가 들었니? : ",filteredChallenges)
         switch (tab) {
             case 'normal':
                 filteredChallenges = filteredChallenges.filter(
-                    challenge => challenge.roomTypeName === "일반"  // roomTypeNum으로 직접 비교
+                    challenge => challenge.roomTypeName === "일반"
                 );
                 break;
             case 'challenge':
                 filteredChallenges = filteredChallenges.filter(
-                    challenge => challenge.roomTypeName === "챌린지"  // roomTypeNum으로 직접 비교
+                    challenge => challenge.roomTypeName === "챌린지"
                 );
                 break;
             case 'closing-soon':
@@ -93,7 +103,6 @@ const MobileRecruiting = () => {
                     return dDay === 1;
                 });
                 break;
-            // 'all'인 경우는 추가 필터링 없음
             default:
                 break;
         }

@@ -11,6 +11,7 @@ import {
   faPen
 } from '@fortawesome/free-solid-svg-icons';
 import MobileBottomMenu from '../ham_mobile/MobileBottomMenu';
+import Alert from '../ham_common/ham_alert';
 import '../../ham_asset/css/ham_M-mission.css';
 const MobileMission = () => {
   const navigate = useNavigate();
@@ -34,17 +35,26 @@ const MobileMission = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMission, setModalMission] = useState(null);
   const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
+
+  const [alertState, setAlertState] = useState({
+    isOpen: false,
+    message: '',
+    type: 'success'
+  });
+
   // 컴포넌트 마운트 시 상태 확인
   useEffect(() => {
-    console.log('Component mounted');
-    console.log('Room Number:', roomNum);
-    console.log('Token:', token ? 'exists' : 'missing');
-  }, []);
+    console.log('State changed:', {
+      userAuth,
+      showJoinModal,
+      token,
+      roomNum
+    });
+  }, [userAuth, showJoinModal, token, roomNum]);
 
   // 유저 권한 확인
   useEffect(() => {
     const checkUserAuth = async () => {
-      console.log('Checking user auth...');
       try {
         const response = await axios.get(
           `${process.env.REACT_APP_API_URL}/api/challenge/user/${roomNum}`,
@@ -52,21 +62,38 @@ const MobileMission = () => {
             headers: { 'Authorization': `Bearer ${token}` }
           }
         );
-        console.log('User auth response:', response.data);
-        setUserAuth(response.data.apiData);
+        const userAuthValue = response.data.apiData;
+        console.log('User auth value:', userAuthValue);
+        setUserAuth(userAuthValue);
+
+        // userAuthValue가 0인 경우에만 참가 모달 표시
+        if (userAuthValue === 0) {
+          setShowJoinModal(true);
+        }
       } catch (error) {
-        console.error('User auth check failed:', error);
-        console.log('Error response:', error.response?.data);
+        console.error('Auth check error:', error);
+        setUserAuth(0);
+        setShowJoinModal(true);
       }
     };
 
-    checkUserAuth();
+    if (token && roomNum) {
+      checkUserAuth();
+    }
   }, [roomNum, token]);
+
+  // 디버깅을 위한 추가 useEffect
+  useEffect(() => {
+    console.log('User auth changed:', {
+      userAuth,
+      showJoinModal,
+      shouldShowModal: userAuth === 0
+    });
+  }, [userAuth, showJoinModal]);
 
   // 미션 리스트와 유의사항 가져오기
   useEffect(() => {
     const fetchInitialData = async () => {
-      console.log('Fetching initial data...');
       try {
         // 1. 방 정보 가져오기
         const roomResponse = await axios.get(
@@ -81,12 +108,6 @@ const MobileMission = () => {
           setRoomTitle(roomInfo.roomTitle);
         }
 
-        // 여기서 userAuth 체크 (roomInfo를 가져온 후에)
-        if (userAuth === 0) {
-          console.log('User is not a member, showing join modal');
-          setShowJoinModal(true);
-        }
-
         // 2. 미션 리스트 가져오기
         const missionsResponse = await axios.get(
           `${process.env.REACT_APP_API_URL}/api/missionList/${roomNum}`,
@@ -94,12 +115,6 @@ const MobileMission = () => {
             headers: { 'Authorization': `Bearer ${token}` }
           }
         );
-
-        if (roomResponse.data.result === 'success') {
-          const roomInfo = roomResponse.data.apiData[0];
-          setRoomTitle(roomInfo.roomTitle);
-
-        }
 
         const updatedMissions = missionsResponse.data.apiData.map(mission => ({
           ...mission,
@@ -116,14 +131,12 @@ const MobileMission = () => {
 
       } catch (error) {
         console.error('Initial data fetch failed:', error);
-        console.log('Error response:', error.response?.data);
       }
     };
 
-    if (userAuth !== null) {
+    if (userAuth !== null && userAuth !== 0) {
       fetchInitialData();
     }
-
   }, [roomNum, token, userAuth]);
 
   // 유의사항 저장 핸들러
@@ -175,6 +188,14 @@ const MobileMission = () => {
     }
   };
 
+  const showAlert = (message, type = 'success') => {
+    setAlertState({
+      isOpen: true,
+      message,
+      type
+    });
+  };
+
   // 참가 관련 핸들러
   const handleConfirmJoin = async () => {
     try {
@@ -185,27 +206,26 @@ const MobileMission = () => {
       );
 
       if (response.data.result === "success") {
-        alert(response.data.message || "참가가 성공적으로 완료되었습니다.");
+        showAlert(response.data.message || "참가가 성공적으로 완료되었습니다.", 'success');
         setShowJoinModal(false);
-        // userAuth 상태 업데이트를 위한 재조회
+
         const authResponse = await axios.get(
           `${process.env.REACT_APP_API_URL}/api/challenge/user/${roomNum}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setUserAuth(authResponse.data.apiData);
       } else {
-        alert(response.data.message);
+        showAlert(response.data.message || "인원이 다 차서 참여할 수 없습니다.", 'error');
       }
     } catch (error) {
       console.error("참가 중 오류 발생:", error);
-      alert("참가 중 오류가 발생했습니다.");
+      showAlert("참가 중 오류가 발생했습니다.", 'error');
     }
   };
 
-  // 참가 취소 핸들러 추가
   const handleCancelJoin = () => {
-    setShowJoinModal(false);
-    navigate(-1); // 이전 페이지로 돌아가기
+    setShowJoinModal(false);  // 모달 닫기
+    navigate('/mobile/recruiting');  // 방 목록 페이지로 이동
   };
 
   const handleAddFileInput = () => {
@@ -359,36 +379,42 @@ const MobileMission = () => {
       <div className="hmk_mobile_mission-content">
         {/* 미션 리스트 */}
         <div className="hmk_mobile_mission-grid-list">
-          {missionList.map((mission) => (
-            <div
-              key={mission.missionNum}
-              className={`hmk_challenge-card ${selectedMission?.missionNum === mission.missionNum ? 'selected' : ''
-                } ${mission.isSubmitted ? 'submitted' : ''}`}
-              onClick={() => {
-                if (!mission.isSubmitted) {
-                  setSelectedMission(mission);
-                }
-              }}
-            >
-              <div className="hmk_challenge-details">
-                <h4 className="hmk_challenge-mission-title">{mission.missionName}</h4>
-                <p className="hmk_mobile_mission-stat-mission-content">{mission.missionMethod}</p>
-                {mission.isSubmitted && (
-                  <div className="hmk_mission-submitted-badge">제출 완료</div>
-                )}
-                <button
-                  className="hmk_mobile_mission-grid-item"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setModalMission(mission);
-                    setIsModalOpen(true);
+            {missionList.length === 0 ? (
+              <div className="hmk_mission-empty">
+                <p>제출할 미션이 없습니다.</p>
+              </div>
+            ) : (
+              missionList.map((mission) => (
+                <div
+                  key={mission.missionNum}
+                  className={`hmk_challenge-card ${selectedMission?.missionNum === mission.missionNum ? 'selected' : ''
+                    } ${mission.isSubmitted ? 'submitted' : ''}`}
+                  onClick={() => {
+                    if (!mission.isSubmitted) {
+                      setSelectedMission(mission);
+                    }
                   }}
                 >
-                  상세보기
-                </button>
-              </div>
-            </div>
-          ))}
+                  <div className="hmk_challenge-details">
+                    <h4 className="hmk_challenge-mission-title">{mission.missionName}</h4>
+                    <p className="hmk_mobile_mission-stat-mission-content">{mission.missionMethod}</p>
+                    {mission.isSubmitted && (
+                      <div className="hmk_mission-submitted-badge">제출 완료</div>
+                    )}
+                    <button
+                      className="hmk_mobile_mission-grid-item"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setModalMission(mission);
+                        setIsModalOpen(true);
+                      }}
+                    >
+                      상세보기
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
         </div>
 
         {/* 선택된 미션 제출 폼 */}
@@ -507,10 +533,11 @@ const MobileMission = () => {
         </div>
       )}
       {/* 참가 모달 추가 */}
+      {/* 참가 모달 */}
       {showJoinModal && (
         <div className="hmk_mission-join-modal-overlay">
           <div className="hmk_mission-join-modal">
-            <h2>{roomTitle} 방에 참가하시겠습니까?</h2>
+            <h2>{roomTitle || '챌린지'} 방에 참가하시겠습니까?</h2>
             <div className="hmk_mission-join-buttons">
               <button
                 className="hmk_mission-join-confirm"
@@ -528,6 +555,13 @@ const MobileMission = () => {
           </div>
         </div>
       )}
+      <Alert
+        isOpen={alertState.isOpen}
+        message={alertState.message}
+        type={alertState.type}
+        onClose={() => setAlertState(prev => ({ ...prev, isOpen: false }))}
+        autoClose={true}
+      />
       <MobileBottomMenu />
     </div>
   );

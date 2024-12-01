@@ -219,9 +219,10 @@
     color: #0071e3;
 }
 
+/* 
 .hmk_mobile_home-wrap {
     padding-bottom: 80px;
-}
+} */
 
 .hmk_mobile_home-icon-wrapper {
     position: relative;
@@ -294,4 +295,124 @@
     color: #8E8E93;
     padding: 0 20px;
     grid-column: 1 / -1;
+}
+
+/* 모달 오버레이 */
+.hmk_mobile_home-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 2000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* 모달 컨테이너 */
+.hmk_mobile_home-modal {
+    background-color: #f2f2f7;
+    width: 100%;
+    max-width: 768px;
+    border-radius: 12px 12px 0 0;
+    padding: 8px 8px 32px 8px;
+    position: relative;
+    animation: slideUp 0.3s ease-out;
+}
+
+/* 모달 닫기 버튼 */
+.hmk_mobile_home-modal-close {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    background-color: rgba(142, 142, 147, 0.12);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8e8e93;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+/* 모달 컨텐츠 */
+.hmk_mobile_home-modal-content {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+/* 모달 이미지 */
+.hmk_mobile_home-modal-image {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* 확인/취소 버튼 그리드 */
+.hmk_mobile_home-modal .hmk_mobile_home-grid {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.hmk_mobile_home-modal .hmk_mobile_home-grid-item {
+    font-size: 17px;
+    padding: 12px 24px;
+    border-radius: 10px;
+}
+
+.hmk_mobile_home-modal .hmk_mobile_home-grid-item.hmk_active {
+    background-color: #007aff;
+    color: white;
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+/* 모달 내부 텍스트 스타일 */
+.hmk_mobile_home-modal .hmk_mobile_home-stat-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1d1d1f;
+    margin: 0;
+    text-align: center;
+}
+
+.hmk_mobile_home-modal .hmk_mobile_home-stat-value {
+    font-size: 15px;
+    color: #86868b;
+    margin: 0;
+    text-align: center;
+    line-height: 1.4;
 }
