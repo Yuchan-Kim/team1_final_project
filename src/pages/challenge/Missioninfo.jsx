@@ -446,7 +446,15 @@ const getUserAuth = () => {
 
     // 평가 업데이트 요청
     const handleEvalUpdate = (evalNum, evalType) => {
+        if (!token) {
+            console.log("토큰이 없습니다. 로그인하세요.");
+            return; // 토큰이 없으면 요청을 보내지 않음
+            } 
+
         axios.post(`${process.env.REACT_APP_API_URL}/api/updateEvaluation`, null, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
             params: {
                 evalNum: evalNum,
                 evalType: evalType
@@ -737,6 +745,14 @@ const filteredHistories = useMemo(() => {
                                     <div className='jm-modal-user-profile-name'>
                                         <span className="jm-modal-submission-title">{selectedMission.userName}</span>
                                     </div>
+                                    {/* 평가자 정보를 조건부로 렌더링 */}
+                                    {selectedMission.evalType !== "승인대기" && (
+                                        <div className="jm-modal-user-profile-evalUserName">
+                                            <span className="jm-modal-submission-evalUser">
+                                                평가자: {selectedMission.evalUserName}
+                                            </span>
+                                        </div>
+                                    )}
                                 </div>
                                 <h3 className='jm-modal-mission-tatle'>{selectedMission.missionName}</h3>
 
