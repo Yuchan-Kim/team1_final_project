@@ -22,6 +22,8 @@ const MobileMission = () => {
   const [getRule, setGetRule] = useState('');
   const [isEditingRule, setIsEditingRule] = useState(false);
   const [ruleText, setRuleText] = useState('');
+  // 참가 모달 관련 상태
+  const [showJoinModal, setShowJoinModal] = useState(false);
   // 미션제출 상태
   const [selectedMission, setSelectedMission] = useState(null);
   const [fileInputs, setFileInputs] = useState([null]);
@@ -74,8 +76,14 @@ const MobileMission = () => {
         );
 
         if (roomResponse.data.result === 'success') {
-          const roomInfo = roomResponse.data.apiData[0]; // 배열의 첫 번째 항목 사용
+          const roomInfo = roomResponse.data.apiData[0];
           setRoomTitle(roomInfo.roomTitle);
+        }
+
+        // 여기서 userAuth 체크 (roomInfo를 가져온 후에)
+        if (userAuth === 0) {
+          console.log('User is not a member, showing join modal');
+          setShowJoinModal(true);
         }
 
         // 2. 미션 리스트 가져오기
@@ -85,6 +93,12 @@ const MobileMission = () => {
             headers: { 'Authorization': `Bearer ${token}` }
           }
         );
+
+        if (roomResponse.data.result === 'success') {
+          const roomInfo = roomResponse.data.apiData[0];
+          setRoomTitle(roomInfo.roomTitle);
+
+        }
 
         const updatedMissions = missionsResponse.data.apiData.map(mission => ({
           ...mission,
@@ -105,8 +119,11 @@ const MobileMission = () => {
       }
     };
 
-    fetchInitialData();
-  }, [roomNum, token]);
+    if (userAuth !== null) {
+      fetchInitialData();
+    }
+
+  }, [roomNum, token, userAuth]);
 
   // 유의사항 저장 핸들러
   const handleSaveRule = async () => {
@@ -154,6 +171,33 @@ const MobileMission = () => {
         setPreviews(newPreviews);
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  // 참가 관련 핸들러
+  const handleConfirmJoin = async () => {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/challenge/join/${roomNum}`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (response.data.result === "success") {
+        alert(response.data.message || "참가가 성공적으로 완료되었습니다.");
+        setShowJoinModal(false);
+        // userAuth 상태 업데이트를 위한 재조회
+        const authResponse = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/challenge/user/${roomNum}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setUserAuth(authResponse.data.apiData);
+      } else {
+        alert(response.data.message);
+      }
+    } catch (error) {
+      console.error("참가 중 오류 발생:", error);
+      alert("참가 중 오류가 발생했습니다.");
     }
   };
 
@@ -451,6 +495,28 @@ const MobileMission = () => {
               <p className="hmk_mobile_mission-stat-value">
                 {modalMission.missionMethod}
               </p>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* 참가 모달 추가 */}
+      {showJoinModal && (
+        <div className="hmk_mission-join-modal-overlay">
+          <div className="hmk_mission-join-modal">
+            <h2>{roomTitle} 방에 참가하시겠습니까?</h2>
+            <div className="hmk_mission-join-buttons">
+              <button
+                className="hmk_mission-join-confirm"
+                onClick={handleConfirmJoin}
+              >
+                참가
+              </button>
+              <button
+                className="hmk_mission-join-cancel"
+                onClick={() => setShowJoinModal(false)}
+              >
+                취소
+              </button>
             </div>
           </div>
         </div>

@@ -286,8 +286,10 @@
     border-radius: 12px;
     font-size: 13px;
     font-weight: 600;
-    z-index: 1;  /* 배지를 흐림 효과 위에 표시 */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  /* 배지에 약간의 그림자 추가 */
+    z-index: 1;
+    /* 배지를 흐림 효과 위에 표시 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* 배지에 약간의 그림자 추가 */
 }
 
 /* 유의사항 모달 스타일 */
@@ -458,10 +460,13 @@
 
 /* 제출 완료된 미션 카드 스타일 */
 .hmk_challenge-card.submitted {
-    background-color: rgba(255, 255, 255, 0.7);  /* 배경 투명도 조정 */
-    opacity: 0.8;  /* 전체적인 흐림 효과 */
+    background-color: rgba(255, 255, 255, 0.7);
+    /* 배경 투명도 조정 */
+    opacity: 0.8;
+    /* 전체적인 흐림 효과 */
     position: relative;
-    cursor: default;  /* 클릭 불가능함을 시각적으로 표시 */
+    cursor: default;
+    /* 클릭 불가능함을 시각적으로 표시 */
 }
 
 .hmk_challenge-card.submitted::before {
@@ -471,14 +476,69 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(245, 245, 247, 0.5);  /* 흐림 레이어 추가 */
-    backdrop-filter: blur(2px);  /* 블러 효과 */
+    background: rgba(245, 245, 247, 0.5);
+    /* 흐림 레이어 추가 */
+    backdrop-filter: blur(2px);
+    /* 블러 효과 */
     border-radius: 16px;
-    pointer-events: none;  /* 클릭 이벤트 통과 */
+    pointer-events: none;
+    /* 클릭 이벤트 통과 */
 }
 
 .hmk_challenge-card.submitted .hmk_challenge-mission-title,
 .hmk_challenge-card.submitted .hmk_mobile_mission-stat-mission-content {
-    color: #86868b;  /* 텍스트 색상을 더 연하게 */
+    color: #86868b;
+    /* 텍스트 색상을 더 연하게 */
 }
 
+.hmk_mission-join-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.hmk_mission-join-modal {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    text-align: center;
+    width: 90%;
+    max-width: 320px;
+}
+
+.hmk_mission-join-modal h2 {
+    margin-bottom: 24px;
+    font-size: 18px;
+    word-break: keep-all;
+}
+
+.hmk_mission-join-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.hmk_mission-join-buttons button {
+    padding: 12px 24px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.hmk_mission-join-confirm {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.hmk_mission-join-cancel {
+    background-color: #e5e7eb;
+    color: #374151;
+}
