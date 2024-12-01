@@ -1,4 +1,4 @@
-// AdminMain.jsx
+// src/components/AdminMain.jsx
 
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
@@ -10,7 +10,7 @@ import {
 } from 'recharts';
 
 import AdminLayout from '../adminpages/AdminLayout.jsx'; // 공통 레이아웃 임포트
-import '../admincss/adminMain.css'; // 기존 AdminMain CSS
+import '../admincss/adminMain.css'; // 업데이트된 AdminMain CSS
 
 const AdminMain = () => {
     // 상태 관리
@@ -139,11 +139,12 @@ const AdminMain = () => {
     }, []);
 
     // 도넛 그래프 색상
-    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AA336A'];
+    const COLORS = ['#1a73e8', '#34a853', '#fbbc05', '#ea4335', '#6a1b9a'];
 
     return (
+        <>
         <AdminLayout>
-            <div className="yc-hjy-grid-container">
+            <div className="yc-add-item-container">
                 {/* KPI 카드 섹션 */}
                 {keyStats && (keyStats.totalUsers || keyStats.totalSales || keyStats.totalOrders) && (
                     <div className="yc-kpi-section">
@@ -170,13 +171,13 @@ const AdminMain = () => {
                     </div>
                     <div className="yc-hjy-list-status">
                         {userData.length > 0 ? (
-                            <LineChart width={400} height={200} data={userData}>
+                            <LineChart width={600} height={300} data={userData}>
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <XAxis dataKey="month" />
                                 <YAxis />
                                 <Tooltip />
                                 <Legend />
-                                <Line type="monotone" dataKey="users" stroke="#8884d8" activeDot={{ r: 8 }} />
+                                <Line type="monotone" dataKey="users" stroke="#1a73e8" activeDot={{ r: 8 }} />
                             </LineChart>
                         ) : (
                             <p>데이터가 없습니다.</p>
@@ -192,13 +193,13 @@ const AdminMain = () => {
                     </div>
                     <div className="yc-hjy-list-status">
                         {salesData.length > 0 ? (
-                            <BarChart width={400} height={200} data={salesData}>
+                            <BarChart width={600} height={300} data={salesData}>
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <XAxis dataKey="month" />
                                 <YAxis />
                                 <Tooltip />
                                 <Legend />
-                                <Bar dataKey="sales" fill="#82ca9d" />
+                                <Bar dataKey="sales" fill="#1a73e8" />
                             </BarChart>
                         ) : (
                             <p>데이터가 없습니다.</p>
@@ -214,13 +215,13 @@ const AdminMain = () => {
                     </div>
                     <div className="yc-hjy-list-status">
                         {categoryData.length > 0 ? (
-                            <PieChart width={400} height={200}>
+                            <PieChart width={600} height={300}>
                                 <Pie
                                     data={categoryData}
-                                    cx={200}
-                                    cy={100}
-                                    innerRadius={60}
-                                    outerRadius={80}
+                                    cx={300}
+                                    cy={150}
+                                    innerRadius={80}
+                                    outerRadius={120}
                                     fill="#8884d8"
                                     paddingAngle={5}
                                     nameKey="categoryName"
@@ -294,9 +295,11 @@ const AdminMain = () => {
                         )}
                     </div>
                 </div>
-            </div>
-        </AdminLayout>
-    );
+                </div>
+
+                </AdminLayout>
+            </>
+        );
 
 };
 

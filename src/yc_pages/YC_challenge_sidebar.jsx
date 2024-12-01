@@ -29,7 +29,7 @@ const YCChallengeSidebar = () => {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const isExitButtonVisible = roomStatusNum !== 4;
-    const isMenuDisabled = roomStatusNum !== 4;
+    const isMenuDisabled = roomStatusNum !== 3 && roomStatusNum !== 4;
 
     // 관리 모달 폼 상태
     const [formData, setFormData] = useState({
@@ -317,7 +317,7 @@ const YCChallengeSidebar = () => {
             setExitModalMessage('챌린지를 그만 두시겠습니까? 방장을 다른 사용자에게 위임합니다.');
             setExitModalType('transfer');
         } else if (enteredUserAuth === 1 && roomStatusNum === 3) {
-            setExitModalMessage('챌린지를 그만 두시겠습니까? 챌린지가 진행 중입니다. 방장을 다른 사용자에게 위임합니다.');
+            setExitModalMessage('챌린지를 그만 두시겠습니까? 챌린지가 진행 중입니다. \n 방장을 다른 사용자에게 위임합니다.');
             setExitModalType('transfer_norefund');
         } else {
             return;

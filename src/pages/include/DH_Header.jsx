@@ -241,9 +241,16 @@ const DH_Header = () => {
 				<div className="dy-header-content">
 					<div className="dy-logo">
 						<Link to="/" className="dy-link" rel="noreferrer noopener">
-							<ol>
+						<div className="dy-logo-container">
+							<img
+								src="/img/struggle.gif" // public/img/struggle.png 경로에 맞게 설정
+								alt="DONKEY 아이콘"
+								className="dy-logo-icon"
+							/>
+							<ol className="dy-logo-text">
 								<li>DONKEY:동기 키우기</li>
 							</ol>
+						</div>
 						</Link>
 					</div>
 					{/* /dy-logo */}
