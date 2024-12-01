@@ -99,115 +99,120 @@ const MobilePointStore = () => {
     const categories = ['꾸미기', '스타벅스', '배스킨라빈스', '투썸플레이스', '메가MGC커피'];
 
     return (
-        <div className="hmk_mobile_pointstore">
-            {/* 상단 포인트 표시 */}
-            <div className="hmk_mobile_pointstore-header">
-                <img src="/images/point.png" alt="point" className="hmk_mobile_pointstore-point-icon" />
-                <span>{historyPoint} P</span>
-            </div>
+        <div className="hmk_mobile_home-wrap">
+            <div className="hmk_mobile_home-fixed-top">
+                <div className="hmk_mobile_site-header">Donkey: 동기 키우기</div>
+                <h1 className="hmk_mobile_page-title">포인트 상점</h1>
+                <div className="hmk_mobile_pointstore">
+                    {/* 상단 포인트 표시 */}
+                    <div className="hmk_mobile_pointstore-header">
+                        <img src="/images/point.png" alt="point" className="hmk_mobile_pointstore-point-icon" />
+                        <span>{historyPoint} P</span>
+                    </div>
 
-            {/* 카테고리 필터 */}
-            <div className="hmk_mobile_pointstore-categories">
-                {categories.map(category => (
-                    <button
-                        key={category}
-                        className={`hmk_mobile_pointstore-category ${activeCategory === category ? 'active' : ''}`}
-                        onClick={() => setActiveCategory(category)}
-                    >
-                        {category}
-                    </button>
-                ))}
-            </div>
+                    {/* 카테고리 필터 */}
+                    <div className="hmk_mobile_pointstore-categories">
+                        {categories.map(category => (
+                            <button
+                                key={category}
+                                className={`hmk_mobile_pointstore-category ${activeCategory === category ? 'active' : ''}`}
+                                onClick={() => setActiveCategory(category)}
+                            >
+                                {category}
+                            </button>
+                        ))}
+                    </div>
 
-            {/* 상품 목록 */}
-            <div className="hmk_mobile_pointstore-items">
-                {itemList
-                    .filter(item => item.itemBrandName === activeCategory)
-                    .map(item => (
-                        <div
-                            key={item.itemNum}
-                            className="hmk_mobile_pointstore-item"
-                            onClick={() => {
-                                if (profile.token) {
-                                    if (item.purchaseNum && item.itemBrandName === "꾸미기") {
-                                        alert("이미 구매한 아이템입니다.");
-                                        return;
-                                    }
-                                    openExchangeModal(item);
-                                } else {
-                                    alert("로그인이 필요한 서비스입니다.");
-                                }
-                            }}
-                        >
-                            <div className="hmk_mobile_pointstore-item-image">
-                                <img src={`/upload/${item.itemImg}`} alt={item.itemName} />
-                                {item.purchaseNum > 0 && item.itemBrandName === "꾸미기" && (
-                                    <div className="hmk_mobile_pointstore-item-purchased">구매완료</div>
-                                )}
+                    {/* 상품 목록 */}
+                    <div className="hmk_mobile_pointstore-items">
+                        {itemList
+                            .filter(item => item.itemBrandName === activeCategory)
+                            .map(item => (
+                                <div
+                                    key={item.itemNum}
+                                    className="hmk_mobile_pointstore-item"
+                                    onClick={() => {
+                                        if (profile.token) {
+                                            if (item.purchaseNum && item.itemBrandName === "꾸미기") {
+                                                alert("이미 구매한 아이템입니다.");
+                                                return;
+                                            }
+                                            openExchangeModal(item);
+                                        } else {
+                                            alert("로그인이 필요한 서비스입니다.");
+                                        }
+                                    }}
+                                >
+                                    <div className="hmk_mobile_pointstore-item-image">
+                                        <img src={`/upload/${item.itemImg}`} alt={item.itemName} />
+                                        {item.purchaseNum > 0 && item.itemBrandName === "꾸미기" && (
+                                            <div className="hmk_mobile_pointstore-item-purchased">구매완료</div>
+                                        )}
+                                    </div>
+                                    <div className="hmk_mobile_pointstore-item-info">
+                                        <h3>{item.itemName}</h3>
+                                        <p>{item.itemCost} P</p>
+                                    </div>
+                                </div>
+                            ))}
+                        {/* 교환 확인 모달 */}
+                        {isExchangeModalOpen && selectedItem && (
+                            <div className="hmk_mobile_pointstore-modal-overlay">
+                                <div className="hmk_mobile_pointstore-modal">
+                                    <h3>포인트 교환</h3>
+                                    {historyPoint >= selectedItem.itemCost ? (
+                                        <>
+                                            <p>{selectedItem.itemCost} 포인트를 사용하여 교환하시겠습니까?</p>
+                                            <div className="hmk_mobile_pointstore-modal-info">
+                                                <p>상품: {selectedItem.itemName}</p>
+                                                <p>가격: {selectedItem.itemCost} P</p>
+                                            </div>
+                                            <div className="hmk_mobile_pointstore-modal-buttons">
+                                                <button onClick={() => setIsExchangeModalOpen(false)}>취소</button>
+                                                <button onClick={handlePurchase}>확인</button>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <br />
+                                            <div className="hmk_mobile_pointstore-modal-content">
+                                                <p>포인트가 부족합니다.</p>
+                                                <p>이 제품의 구매를 원하시나요?</p>
+                                                <br />
+                                                <p>원하시는 제품을 구매하시려면</p>
+                                                <p>챌린지를 통해 포인트를 쌓아주세요.</p>
+                                                <p>현재 포인트: {historyPoint} P</p>
+                                                <p>필요 포인트: {selectedItem.itemCost} P</p>
+                                            </div>
+                                            <div className="hmk_mobile_pointstore-modal-single-button">
+                                                <button onClick={() => setIsExchangeModalOpen(false)}>확인</button>
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
                             </div>
-                            <div className="hmk_mobile_pointstore-item-info">
-                                <h3>{item.itemName}</h3>
-                                <p>{item.itemCost} P</p>
-                            </div>
-                        </div>
-                    ))}
-                {/* 교환 확인 모달 */}
-                {isExchangeModalOpen && selectedItem && (
-                    <div className="hmk_mobile_pointstore-modal-overlay">
-                        <div className="hmk_mobile_pointstore-modal">
-                            <h3>포인트 교환</h3>
-                            {historyPoint >= selectedItem.itemCost ? (
-                                <>
-                                    <p>{selectedItem.itemCost} 포인트를 사용하여 교환하시겠습니까?</p>
-                                    <div className="hmk_mobile_pointstore-modal-info">
-                                        <p>상품: {selectedItem.itemName}</p>
-                                        <p>가격: {selectedItem.itemCost} P</p>
-                                    </div>
-                                    <div className="hmk_mobile_pointstore-modal-buttons">
-                                        <button onClick={() => setIsExchangeModalOpen(false)}>취소</button>
-                                        <button onClick={handlePurchase}>확인</button>
-                                    </div>
-                                </>
-                            ) : (
-                                <>
-                                    <br />
-                                    <div className="hmk_mobile_pointstore-modal-content">
-                                        <p>포인트가 부족합니다.</p>
-                                        <p>이 제품의 구매를 원하시나요?</p>
-                                        <br />
-                                        <p>원하시는 제품을 구매하시려면</p>
-                                        <p>챌린지를 통해 포인트를 쌓아주세요.</p>
-                                        <p>현재 포인트: {historyPoint} P</p>
-                                        <p>필요 포인트: {selectedItem.itemCost} P</p>
-                                    </div>
+                        )}
+
+                        {/* 교환 완료 모달 */}
+                        {isCompleteModalOpen && selectedItem && (
+                            <div className="hmk_mobile_pointstore-modal-overlay">
+                                <div className="hmk_mobile_pointstore-modal">
+                                    <h3>교환 완료</h3>
+                                    <p>교환이 완료되었습니다.</p>
+                                    <p>{selectedItem.itemCost} 포인트를 사용하였습니다.</p>
+                                    <p>남은 포인트: {historyPoint} P</p>
                                     <div className="hmk_mobile_pointstore-modal-single-button">
-                                        <button onClick={() => setIsExchangeModalOpen(false)}>확인</button>
+                                        <button onClick={() => {
+                                            setIsCompleteModalOpen(false);
+                                            window.location.reload();
+                                        }}>확인</button>
                                     </div>
-                                </>
-                            )}
-                        </div>
-                    </div>
-                )}
-
-                {/* 교환 완료 모달 */}
-                {isCompleteModalOpen && selectedItem && (
-                    <div className="hmk_mobile_pointstore-modal-overlay">
-                        <div className="hmk_mobile_pointstore-modal">
-                            <h3>교환 완료</h3>
-                            <p>교환이 완료되었습니다.</p>
-                            <p>{selectedItem.itemCost} 포인트를 사용하였습니다.</p>
-                            <p>남은 포인트: {historyPoint} P</p>
-                            <div className="hmk_mobile_pointstore-modal-single-button">
-                                <button onClick={() => {
-                                    setIsCompleteModalOpen(false);
-                                    window.location.reload();
-                                }}>확인</button>
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </div>
-                )}
+                </div>
             </div>
-
             <MobileBottomMenu />
         </div>
     );

@@ -93,6 +93,7 @@ const Notice = () => {
             });
 
             if (noticeResponse.data.result === 'success') {
+                console.log('API 응답 데이터:', noticeResponse.data.apiData);
                 setNoticeData(noticeResponse.data.apiData);
             } else {
                 setNoticeData([]);
@@ -222,30 +223,22 @@ const Notice = () => {
         setSelectedNotice(null);
     };
 
-    // 알림 내용에 따른 모달 컨텐츠 생성
     const getModalContent = (notice) => {
-        console.log("현재 알림 데이터:", notice); // 디버깅용
-
-        // 알림 메시지에서 방 번호 추출하는 로직 추가
-        const extractRoomNumber = (msg) => {
-            const match = msg.match(/(\d+)번 방/);
-            return match ? parseInt(match[1]) : null;
-        };
-
-        const roomNum = notice.roomNum || extractRoomNumber(notice.noticeMsg);
+        // roomNum 확인 로그 추가
+        console.log("알림의 roomNum:", notice.roomNum);
+        console.log("전체 알림 데이터:", notice);
 
         const baseContent = {
             title: notice.noticeTitle,
             content: notice.noticeMsg,
-            showRoomButton: roomNum &&
-                roomNum > 0 &&
-                (notice.noticeTitle.includes('방') ||
-                    notice.noticeTitle.includes('챌린지')),
-            roomNum: roomNum // 방 번호 저장
+            // roomNum이 0이나 undefined가 아닌 경우에만 true
+            showRoomButton: notice.roomNum > 0,
+            roomNum: notice.roomNum
         };
 
-        console.log("생성된 모달 컨텐츠:", baseContent); // 디버깅용
+        console.log("생성된 모달 컨텐츠:", baseContent);
 
+        // 추가 내용 설정
         if (notice.noticeTitle.includes('방 생성')) {
             baseContent.additionalContent = '새로운 챌린지의 시작을 축하드립니다!';
         } else if (notice.noticeTitle.includes('방 참가')) {
@@ -255,6 +248,10 @@ const Notice = () => {
         } else if (notice.noticeTitle.includes('종료')) {
             baseContent.additionalContent = '수고하셨습니다!';
         }
+
+        // undefined 대신 명시적으로 false 반환
+        baseContent.showRoomButton = baseContent.showRoomButton || false;
+        baseContent.roomNum = baseContent.roomNum || null;
 
         return baseContent;
     };

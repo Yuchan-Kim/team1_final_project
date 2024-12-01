@@ -71,6 +71,7 @@ const MobileNotice = () => {
 
     // 알림 클릭 핸들러
     const handleNoticeClick = async (notice) => {
+        console.log('Clicked notice:', notice); // 클릭한 알림 데이터 확인
         setSelectedNotice(notice);
         setIsModalOpen(true);
 
@@ -84,14 +85,12 @@ const MobileNotice = () => {
                 );
 
                 if (response.data.result === 'success') {
-                    // 상태 업데이트
                     setNoticeData(prevNotices =>
                         prevNotices.map(n =>
                             n.noticeNum === notice.noticeNum ? { ...n, isCheck: 1 } : n
                         )
                     );
 
-                    // 요약 정보 업데이트
                     const newNoticeCount = Math.max(summary.newNotice - 1, 0);
                     setSummary(prevSummary => ({
                         ...prevSummary,
@@ -107,6 +106,15 @@ const MobileNotice = () => {
         }
     };
 
+    const handleMoveToRoom = (roomNum) => {
+        console.log('Moving to room:', roomNum); // roomNum 확인
+        if (!roomNum) {
+            console.log('No room number provided');
+            return;
+        }
+        setIsModalOpen(false);
+        navigate(`/mobile/mission/${roomNum}`);
+    };
     // ProfileStore 구독
     useEffect(() => {
         const handleProfileChange = (updatedProfile) => {
@@ -130,75 +138,115 @@ const MobileNotice = () => {
     }, [profile.userNum, profile.token]);
 
     return (
-        <div className="hmk_mobile_notice-container">
-            {/* 상단 통계 카드 섹션 */}
-            <div className="hmk_mobile_notice-summary">
-                <div className="hmk_mobile_notice-card">
-                    <span className="hmk_mobile_notice-card-label">전체 알림</span>
-                    <span className="hmk_mobile_notice-card-value">{summary.totalNotice}</span>
-                </div>
-                <div className="hmk_mobile_notice-card">
-                    <span className="hmk_mobile_notice-card-label">새 알림</span>
-                    <span className="hmk_mobile_notice-card-value">{summary.newNotice}</span>
-                </div>
-                <div className="hmk_mobile_notice-card">
-                    <span className="hmk_mobile_notice-card-label">읽음</span>
-                    <span className="hmk_mobile_notice-card-value">{summary.readNotice}</span>
-                </div>
-            </div>
+        <div className="hmk_mobile_home-wrap">
+            <div className="hmk_mobile_home-fixed-top">
+                <div className="hmk_mobile_site-header">Donkey: 동기 키우기</div>
+                <h1 className="hmk_mobile_page-title">알림창</h1>
+                <div className="hmk_mobile_notice-container">
+                    {/* 상단 통계 카드 섹션 */}
+                    <div className="hmk_mobile_notice-summary">
+                        <div className="hmk_mobile_notice-card">
+                            <span className="hmk_mobile_notice-card-label">전체 알림</span>
+                            <span className="hmk_mobile_notice-card-value">{summary.totalNotice}</span>
+                        </div>
+                        <div className="hmk_mobile_notice-card">
+                            <span className="hmk_mobile_notice-card-label">새 알림</span>
+                            <span className="hmk_mobile_notice-card-value">{summary.newNotice}</span>
+                        </div>
+                        <div className="hmk_mobile_notice-card">
+                            <span className="hmk_mobile_notice-card-label">읽음</span>
+                            <span className="hmk_mobile_notice-card-value">{summary.readNotice}</span>
+                        </div>
+                    </div>
 
-            {/* 필터 탭 섹션 */}
-            <div className="hmk_mobile_notice-tabs">
-                <button
-                    className={`hmk_mobile_notice-tab ${activeTab === '전체' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('전체')}
-                >
-                    전체
-                </button>
-                <button
-                    className={`hmk_mobile_notice-tab ${activeTab === '새 알림' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('새 알림')}
-                >
-                    새 알림
-                </button>
-                <button
-                    className={`hmk_mobile_notice-tab ${activeTab === '읽음' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('읽음')}
-                >
-                    읽음
-                </button>
-            </div>
-
-            {/* 알림 리스트 섹션 */}
-            <div className="hmk_mobile_notice-list">
-                {filteredNotices.length > 0 ? (
-                    filteredNotices.map((notice) => (
-                        <div
-                            key={notice.noticeNum}
-                            className="hmk_mobile_notice-item"
-                            onClick={() => handleNoticeClick(notice)}
+                    {/* 필터 탭 섹션 */}
+                    <div className="hmk_mobile_notice-tabs">
+                        <button
+                            className={`hmk_mobile_notice-tab ${activeTab === '전체' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('전체')}
                         >
-                            <div className="hmk_mobile_notice-item-header">
-                                <span className="hmk_mobile_notice-item-title">
-                                    {notice.noticeTitle}
-                                </span>
-                                <span className={`hmk_mobile_notice-item-status ${notice.isCheck ? 'read' : 'new'}`}>
-                                    {notice.isCheck ? '읽음' : '새 알림'}
-                                </span>
+                            전체
+                        </button>
+                        <button
+                            className={`hmk_mobile_notice-tab ${activeTab === '새 알림' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('새 알림')}
+                        >
+                            새 알림
+                        </button>
+                        <button
+                            className={`hmk_mobile_notice-tab ${activeTab === '읽음' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('읽음')}
+                        >
+                            읽음
+                        </button>
+                    </div>
+
+                    {/* 알림 리스트 섹션 */}
+                    <div className="hmk_mobile_notice-list">
+                        {filteredNotices.length > 0 ? (
+                            filteredNotices.map((notice) => (
+                                <div
+                                    key={notice.noticeNum}
+                                    className="hmk_mobile_notice-item"
+                                    onClick={() => handleNoticeClick(notice)}
+                                >
+                                    <div className="hmk_mobile_notice-item-header">
+                                        <span className="hmk_mobile_notice-item-title">
+                                            {notice.noticeTitle}
+                                        </span>
+                                        <span className={`hmk_mobile_notice-item-status ${notice.isCheck ? 'read' : 'new'}`}>
+                                            {notice.isCheck ? '읽음' : '새 알림'}
+                                        </span>
+                                    </div>
+                                    <div className="hmk_mobile_notice-item-sender">
+                                        {notice.senderNickname || notice.msgSender}
+                                    </div>
+                                    <div className="hmk_mobile_notice-item-date">
+                                        {notice.createDate}
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="hmk_mobile_notice-empty">
+                                알림이 없습니다.
                             </div>
-                            <div className="hmk_mobile_notice-item-sender">
-                                {notice.senderNickname || notice.msgSender}
-                            </div>
-                            <div className="hmk_mobile_notice-item-date">
-                                {notice.createDate}
+                        )}
+                    </div>
+                    {/* 알림 상세 모달 추가 */}
+                    {isModalOpen && selectedNotice && (
+                        <div className="hmk_mobile_notice-modal-overlay" onClick={() => setIsModalOpen(false)}>
+                            <div className="hmk_mobile_notice-modal" onClick={e => e.stopPropagation()}>
+                                <div className="hmk_mobile_notice-modal-header">
+                                    <h2>{selectedNotice.noticeTitle}</h2>
+                                    <button
+                                        className="hmk_mobile_notice-modal-close"
+                                        onClick={() => setIsModalOpen(false)}
+                                    >
+                                        ✕
+                                    </button>
+                                </div>
+                                <div className="hmk_mobile_notice-modal-content">
+                                    <p className="hmk_mobile_notice-modal-message">{selectedNotice.noticeMsg}</p>
+                                    <div className="hmk_mobile_notice-modal-info">
+                                        <span>보낸사람: {selectedNotice.senderNickname || selectedNotice.msgSender}</span>
+                                        <span>{selectedNotice.createDate}</span>
+                                    </div>
+                                    {selectedNotice.roomNum && (
+                                        <button
+                                            className="hmk_mobile_notice-modal-room-button"
+                                            onClick={() => {
+                                                console.log('Room button clicked, roomNum:', selectedNotice.roomNum);
+                                                handleMoveToRoom(selectedNotice.roomNum);
+                                            }}
+                                        >
+                                            방으로 이동
+                                        </button>
+                                    )}
+                                </div>
                             </div>
                         </div>
-                    ))
-                ) : (
-                    <div className="hmk_mobile_notice-empty">
-                        알림이 없습니다.
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
             <MobileBottomMenu />
         </div>

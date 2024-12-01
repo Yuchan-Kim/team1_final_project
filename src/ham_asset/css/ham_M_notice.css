@@ -4,7 +4,8 @@
 .hmk_mobile_notice-container {
     min-height: 100vh;
     padding: 16px;
-    padding-bottom: 0; /* padding-bottom 제거 */
+    padding-bottom: 0;
+    /* padding-bottom 제거 */
     background-color: #f2f2f7;
     display: flex;
     flex-direction: column;
@@ -25,7 +26,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .hmk_mobile_notice-card-label {
@@ -69,15 +70,17 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
-    margin-bottom: 80px; /* 하단 메뉴바 높이 + 여유 공간 */
-    padding-bottom: 16px; /* 리스트 마지막 아이템 아래 여백 */
+    margin-bottom: 80px;
+    /* 하단 메뉴바 높이 + 여유 공간 */
+    padding-bottom: 16px;
+    /* 리스트 마지막 아이템 아래 여백 */
 }
 
 .hmk_mobile_notice-item {
     background: white;
     border-radius: 12px;
     padding: 16px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .hmk_mobile_notice-item-header {
@@ -127,5 +130,85 @@
     justify-content: center;
     color: #999;
     font-size: 15px;
-    margin-bottom: 80px; /* 하단 메뉴바 높이 + 여유 공간 */
+    margin-bottom: 80px;
+    /* 하단 메뉴바 높이 + 여유 공간 */
+}
+
+.hmk_mobile_notice-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.hmk_mobile_notice-modal {
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    padding: 20px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.hmk_mobile_notice-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #999;
+}
+
+.hmk_mobile_notice-modal-header h2 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.hmk_mobile_notice-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+}
+
+.hmk_mobile_notice-modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.hmk_mobile_notice-modal-message {
+    color: #333;
+    line-height: 1.5;
+}
+
+.hmk_mobile_notice-modal-info {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    gap: 8px;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.hmk_mobile_notice-modal-room-button {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 16px;
+}
+
+.hmk_mobile_notice-modal-room-button:hover {
+    background-color: #2563eb;
 }
