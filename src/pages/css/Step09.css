@@ -1,0 +1,94 @@
+@charset "UTF-8";
+
+.step9-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.step9-modal {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 14px;
+    padding: 20px;
+    width: 90%;
+    max-width: 340px;
+    animation: modal-pop 0.3s ease-out;
+}
+
+.step9-modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.step9-modal-icon {
+    width: 60px;
+    height: 60px;
+    background: #34C759;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 30px;
+    margin-bottom: 16px;
+}
+
+.step9-modal-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #000;
+}
+
+.step9-modal-message {
+    color: #666;
+    margin-bottom: 24px;
+}
+
+.step9-modal-buttons {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+}
+
+.step9-modal-button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.step9-modal-button.primary {
+    background: #007AFF;
+    color: white;
+}
+
+.step9-modal-button.secondary {
+    background: #E5E5EA;
+    color: #007AFF;
+}
+
+@keyframes modal-pop {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
