@@ -153,14 +153,33 @@ const MyPage = () => {
     };
 
     // activeChallenges 정렬 로직 수정
-    const activeChallenges = challenges[activeTab] ? [...challenges[activeTab]].sort((a, b) => {
-        if (activeTab === 'created') {
-            const dDayA = calculateDday(a.roomStartDate);
-            const dDayB = calculateDday(b.roomStartDate);
-            return dDayA - dDayB; // D-day가 가까운 순으로 정렬
-        }
-        return 0; // 다른 탭은 정렬하지 않음
-    }) : [];
+    const activeChallenges = challenges[activeTab] ? [...challenges[activeTab]]
+        .sort((a, b) => {
+            if (activeTab === 'created') {
+                // 상태 우선순위 정의
+                const getStatusPriority = (status) => {
+                    switch (status) {
+                        case 4: return 4; // 종료
+                        case 3: return 3; // 진행중
+                        case 2: return 2; // 모집중
+                        case 1: return 1; // 모집전
+                        default: return 5;
+                    }
+                };
+
+                // 먼저 상태로 정렬
+                const statusDiff = getStatusPriority(a.roomStatusNum) - getStatusPriority(b.roomStatusNum);
+                if (statusDiff !== 0) return statusDiff;
+
+                // 같은 상태 내에서는 시작 날짜가 가까운 순으로 정렬
+                if (a.roomStatusNum === 1 || a.roomStatusNum === 2) {
+                    const dDayA = calculateDday(a.roomStartDate);
+                    const dDayB = calculateDday(b.roomStartDate);
+                    return dDayA - dDayB;
+                }
+            }
+            return 0; // 다른 탭은 정렬하지 않음
+        }) : [];
 
     return (
         <>

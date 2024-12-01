@@ -27,7 +27,7 @@
 
 .hmk_badge-orange {
     background-color: #f97316;
-    animation: hmk_pulse 2s infinite;
+    animation: hmk_pulse 1.5s infinite, hmk_scale 1.5s infinite;
 }
 
 .hmk_badge-green {
@@ -47,18 +47,26 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-@keyframes hmk_pulse {
-    0% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
-    100% {
-        opacity: 1;
-    }
+/* 크기 변화 애니메이션 추가 */
+@keyframes hmk_scale {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
 }
 
+/* 기존 opacity 애니메이션 */
+@keyframes hmk_pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* D-day 빨간색 배지 강조 효과 추가 */
+.hmk_dday-badge.hmk_dday-red {
+    background-color: #ff3b30;
+    color: #ffffff;
+    animation: hmk_scale 1.5s infinite;
+}
 .hmk_dday-badge.hmk_dday-red {
     background-color: #ff3b30;
     color: #ffffff;
