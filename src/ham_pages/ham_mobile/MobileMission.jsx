@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,6 +13,7 @@ import {
 import MobileBottomMenu from '../ham_mobile/MobileBottomMenu';
 import '../../ham_asset/css/ham_M-mission.css';
 const MobileMission = () => {
+  const navigate = useNavigate();
   const { roomNum } = useParams();
   const token = localStorage.getItem('token');
 
@@ -199,6 +200,12 @@ const MobileMission = () => {
       console.error("참가 중 오류 발생:", error);
       alert("참가 중 오류가 발생했습니다.");
     }
+  };
+
+  // 참가 취소 핸들러 추가
+  const handleCancelJoin = () => {
+    setShowJoinModal(false);
+    navigate(-1); // 이전 페이지로 돌아가기
   };
 
   const handleAddFileInput = () => {
@@ -513,7 +520,7 @@ const MobileMission = () => {
               </button>
               <button
                 className="hmk_mission-join-cancel"
-                onClick={() => setShowJoinModal(false)}
+                onClick={handleCancelJoin}
               >
                 취소
               </button>
