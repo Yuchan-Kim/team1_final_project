@@ -1,4 +1,23 @@
-/* JMYC_Challengemain.css */
+/* =========================
+   CSS 변수 정의
+   ========================= */
+   :root {
+    --primary-color: #007bff;
+    --secondary-color: #28a745;
+    --danger-color: #dc3545;
+    --light-gray: #f1f1f1;
+    --dark-gray: #555;
+    --text-color: #333;
+    --background-color: #ffffff;
+    --modal-bg-color: rgba(0, 0, 0, 0.5);
+    --border-color: #ddd;
+    --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --transition-duration: 0.3s;
+    --border-radius: 8px;
+    --font-size-small: 0.9rem;
+    --font-size-medium: 1rem;
+    --font-size-large: 1.5rem;
+}
 
 /* =========================
    전체 레이아웃
@@ -6,22 +25,23 @@
 
 /* 전체 컨테이너 */
 .yc-container {
-  display: flex; /* 사이드바와 메인 콘텐츠를 가로로 배치 */
-  width: 80vw; /* 전체 너비를 80% 뷰포트 너비로 설정 */
-  margin: 0 auto; /* 중앙 정렬 */
-  min-height: 100vh; /* 최소 높이를 화면 전체로 설정 */
-  box-sizing: border-box; /* 패딩과 보더를 포함하여 크기 계산 */
-  padding: 20px; /* 양 옆에 간격 추가 */
-  background-color: #ffffff; /* 배경색 설정 */
+    display: flex; /* 사이드바와 메인 콘텐츠를 가로로 배치 */
+    width: 80vw; /* 전체 너비를 80% 뷰포트 너비로 설정 */
+    margin: 0 auto; /* 중앙 정렬 */
+    min-height: 100vh; /* 최소 높이를 화면 전체로 설정 */
+    box-sizing: border-box; /* 패딩과 보더를 포함하여 크기 계산 */
+    padding: 20px; /* 양 옆에 간격 추가 */
+    background-color: var(--background-color); /* 배경색 설정 */
 }
 
 /* 메인 콘텐츠 */
 .yc-main-content {
-  flex: 1; /* 가변 너비를 차지 */
-  margin-left: 110px; /* 사이드바 너비만큼 좌측 여백 */
-  margin-right: 110px; /* 우측 간격 */
-  box-sizing: border-box; /* 패딩 포함하여 크기 계산 */
-  padding: 0 20px; /* 추가 패딩 */
+    flex: 1; /* 가변 너비를 차지 */
+    margin-left: 110px; /* 사이드바 너비만큼 좌측 여백 */
+    margin-right: 110px; /* 우측 간격 */
+    box-sizing: border-box; /* 패딩 포함하여 크기 계산 */
+    padding: 0 20px; /* 추가 패딩 */
+    transition: margin 0.3s ease; /* 부드러운 여백 변화 */
 }
 
 /* =========================
@@ -30,58 +50,71 @@
 
 /* 메인 상단 섹션 */
 .yc-main-top {
-  display: flex; /* 방 정보와 참가자 정보를 가로로 배치 */
-  justify-content: space-between; /* 공간을 균등하게 분배 */
-  gap: 20px; /* 요소 간 간격 */
-  margin-bottom: 20px; /* 하단 여백 추가 */
+    display: flex; /* 방 정보와 참가자 정보를 가로로 배치 */
+    justify-content: space-between; /* 공간을 균등하게 분배 */
+    gap: 20px; /* 요소 간 간격 */
+    margin-bottom: 20px; /* 하단 여백 추가 */
+    max-height: 400px;
 }
 
 /* 방 주요 정보 */
 .yc-room-info {
-  flex: 2.5; /* 참가자 정보보다 넓은 너비 차지 */
-  display: flex; /* 방 카드들을 세로로 배치 */
-  flex-direction: column; /* 세로 방향으로 정렬 */
-  gap: 20px; /* 카드 간 간격 */
-  max-height: 400px; /* 최대 높이 설정 */
+    flex: 2.5; /* 참가자 정보보다 넓은 너비 차지 */
+    display: flex; /* 방 카드들을 세로로 배치 */
+    flex-direction: column; /* 세로 방향으로 정렬 */
+    gap: 10px; /* 카드 간 간격 */
+    max-height: 400px; /* 최대 높이 설정 */
 }
 
 /* 방 카드 */
 .yc-room-card {
-  background-color: rgb(244, 244, 244);
-  border: 1px solid #ddd; /* 테두리 */
-  border-radius: 10px; /* 둥근 모서리 */
-  padding: 10px; /* 내부 여백 축소 */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-  position: relative; /* 자식 요소의 절대 위치 지정 시 기준 */
-  height: 200px; /* 고정 높이 */
+    background-color: var(--light-gray);
+    border: 1px solid var(--border-color); /* 테두리 */
+    border-radius: 10px; /* 둥근 모서리 */
+    padding: 15px; /* 내부 여백 */
+    box-shadow: var(--box-shadow); /* 그림자 효과 */
+    position: relative; /* 자식 요소의 절대 위치 지정 시 기준 */
+    height: 180px; /* 고정 높이 */
+    transition: transform var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+}
+
+.yc-room-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* 방 카드 제목 */
 .yc-room-card h3 {
-  margin-left: 5px;
-  font-size: 19px; /* 제목 폰트 크기 축소 */
-  font-weight: bold;
-  margin-bottom: 5px; /* 아래 여백 */
-  display: flex; /* 아이콘과 텍스트를 가로로 배치 */
-  align-items: center; /* 수직 정렬 */
+    margin-left: 5px;
+    font-size: 19px; /* 제목 폰트 크기 축소 */
+    font-weight: bold;
+    margin-bottom: 10px; /* 아래 여백 */
+    display: flex; /* 아이콘과 텍스트를 가로로 배치 */
+    align-items: center; /* 수직 정렬 */
 }
 
+/* 방 카드 내용 박스 */
 .jm-room-card-contents-box {
-  background-color: #ffffff;
-  border: solid 1px #ccc;
-  border-radius: 5px;
-  padding: 5px;
-  height: 132px; /* 고정 높이 */
-  overflow-y: auto; /* 내용이 초과할 경우 스크롤 */
+    background-color: var(--background-color);
+    border: solid 1px #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    height: 110px; /* 고정 높이 */
+    overflow-y: auto; /* 내용이 초과할 경우 스크롤 */
+    transition: background-color var(--transition-duration) ease;
+}
+
+.jm-room-card-contents-box:hover {
+    background-color: #f9f9f9;
 }
 
 /* 방 카드 내용 */
 .yc-room-card p {
-  font-size: 16px; /* 본문 폰트 크기 축소 */
-  color: #727272;
-  line-height: 1.5; /* 줄 간격 축소 */
-  padding-left:5px;
-  padding-right: 5px;
+    font-size: 16px; /* 본문 폰트 크기 축소 */
+    color: #727272;
+    line-height: 1.5; /* 줄 간격 축소 */
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 /* =========================
@@ -90,90 +123,116 @@
 
 /* 참가자 정보 */
 .yc-participant-info {
-  flex: 1; /* 방 정보보다 좁은 너비 차지 */
-  justify-content: center;
-  background-color: rgb(244, 244, 244); /* 배경색 */
-  border: 1px solid #ddd; /* 테두리 */
-  border-radius: 10px; /* 둥근 모서리 */
-  padding: 10px; /* 내부 여백 추가 축소 */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-  max-height: 385px; /* 최대 높이 설정 */
+    flex: 1; /* 방 정보보다 좁은 너비 차지 */
+    justify-content: center;
+    background-color: var(--light-gray); /* 배경색 */
+    border: 1px solid var(--border-color); /* 테두리 */
+    border-radius: 10px; /* 둥근 모서리 */
+    padding: 15px; /* 내부 여백 추가 축소 */
+    box-shadow: var(--box-shadow); /* 그림자 효과 */
+    max-height: 400px; /* 최대 높이 설정 */
+    overflow-y: hidden;
+    transition: transform var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+}
+
+.yc-participant-info:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* 참가자 수 표시 */
 .yc-participant-info h3 {
-  font-size: 15px; /* 제목 폰트 크기 축소 */
-  font-weight: bold;
-  margin-bottom: 5px; /* 아래 여백 */
-  text-align: center; /* 중앙 정렬 */
-}
-
-.yc-participant-user-table {
-  background-color: #ffffff;
-  padding: 0;
-  border: solid 1px #ccc;
-  border-radius: 5px;
-  max-height: 360px; /* 최대 높이 설정 */
-  overflow-y: auto; /* 세로 스크롤 활성화 */
+    font-size: 15px; /* 제목 폰트 크기 축소 */
+    font-weight: bold;
+    margin-bottom: 10px; /* 아래 여백 */
+    text-align: center; /* 중앙 정렬 */
 }
 
 /* 참가자 테이블 */
+.yc-participant-user-table {
+    background-color: var(--background-color);
+    padding: 0;
+    border: solid 1px #ccc;
+    border-radius: 5px;
+    min-height: 320px;
+    max-height: 300px; /* 최대 높이 설정 */
+    overflow-y: auto; /* 세로 스크롤 활성화 */
+    padding-bottom: 20px; 
+    transition: box-shadow var(--transition-duration) ease;
+    margin-bottom: 20px;
+}
+
+.yc-participant-user-table:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 참가자 테이블 스타일 */
 .yc-participant-table {
-  width: 100%; /* 테이블 너비를 100%로 설정 */
-  border-collapse: collapse; /* 테두리 겹치기 제거 */
+    width: 100%; /* 테이블 너비를 100%로 설정 */
+    border-collapse: collapse; /* 테두리 겹치기 제거 */
+    overflow-y:hidden;
+    
+
 }
 
 .yc-participant-table th,
 .yc-participant-table td {
-  padding: 4px 6px; /* 셀 내부 여백 축소 */
-  text-align: center; /* 텍스트 중앙 정렬 */
-  border-bottom: 1px solid #ddd; /* 셀 하단 테두리 */
+    padding: 8px 10px; /* 셀 내부 여백 조정 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+    border-bottom: 1px solid #ddd; /* 셀 하단 테두리 */
+    transition: background-color var(--transition-duration) ease;
 }
 
 .yc-participant-table th {
-  background-color: #f1f1f1; /* 헤더 배경색 */
-  font-size: 10px; /* 헤더 폰트 크기 축소 */
+    background-color: var(--light-gray); /* 헤더 배경색 */
+    font-size: 14px; /* 헤더 폰트 크기 조정 */
 }
 
 .yc-user-list td {
-  padding: 2px 6px; /* 사용자 리스트 셀 내부 여백 추가 축소 */
-  font-size: 13px;
+    padding: 6px 10px; /* 사용자 리스트 셀 내부 여백 추가 축소 */
+    font-size: 14px;
+    transition: background-color var(--transition-duration) ease;
+}
+
+.yc-user-list:hover {
+    background-color: #f9f9f9;
 }
 
 /* 참가자 상태 표시 */
 .yc-status-online::before,
 .yc-status-offline::before {
-  content: ""; /* 빈 내용 */
-  display: inline-block; /* 인라인 블록 요소로 설정 */
-  width: 6px; /* 원의 너비 추가 축소 */
-  height: 6px; /* 원의 높이 추가 축소 */
-  border-radius: 50%; /* 원형으로 만들기 */
-  margin-right: 3px; /* 오른쪽 여백 */
+    content: ""; /* 빈 내용 */
+    display: inline-block; /* 인라인 블록 요소로 설정 */
+    width: 8px; /* 원의 너비 추가 조정 */
+    height: 8px; /* 원의 높이 추가 조정 */
+    border-radius: 50%; /* 원형으로 만들기 */
+    margin-right: 5px; /* 오른쪽 여백 */
 }
 
 .yc-status-online::before {
-  background-color: green; /* 온라인 상태 색상 */
+    background-color: var(--secondary-color); /* 온라인 상태 색상 */
 }
 
 .yc-status-offline::before {
-  background-color: gray; /* 오프라인 상태 색상 */
+    background-color: gray; /* 오프라인 상태 색상 */
 }
 
 /* 신고 버튼 */
 .yc-report-button {
-  padding: 4px 8px; /* 버튼 내부 여백 추가 축소 */
-  border: none; /* 테두리 제거 */
-  border-radius: 3px; /* 둥근 모서리 */
-  cursor: pointer; /* 커서 변경 */
-  background: transparent; /* 배경색 */
-  color: #f44336; /* 텍스트 색상 */
-  transition: background-color 0.3s ease; /* 호버 시 색상 전환 */
-  font-size: 10px; /* 폰트 크기 축소 */
+    padding: 4px 8px; /* 버튼 내부 여백 추가 축소 */
+    border: none; /* 테두리 제거 */
+    border-radius: 3px; /* 둥근 모서리 */
+    cursor: pointer; /* 커서 변경 */
+    background: transparent; /* 배경색 */
+    color: var(--danger-color); /* 텍스트 색상 */
+    transition: background-color var(--transition-duration) ease, color var(--transition-duration) ease;
+    font-size: 12px; /* 폰트 크기 축소 */
 }
 
 /* 신고 버튼 호버 효과 */
 .yc-report-button:hover {
-  background-color: #ffe5e5; /* 호버 시 배경색 변경 */
+    background-color: rgba(220, 53, 69, 0.1); /* 호버 시 배경색 변경 */
+    color: var(--danger-color); /* 텍스트 색상 유지 */
 }
 
 /* =========================
@@ -182,179 +241,142 @@
 
 /* 메인 하단 섹션 */
 .yc-main-bottom {
-  display: flex; /* 미션 요약을 세로로 배치 */
-  flex-direction: column; /* 세로 방향으로 정렬 */
-  gap: 20px; /* 요소 간 간격 */
-  padding: 20px; /* 내부 여백 */
-  background-color: rgb(244, 244, 244); /* 배경색 */
-  border: 1px solid #ddd; /* 테두리 */
-  border-radius: 10px; /* 둥근 모서리 */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-  max-width: 63vw;
-  margin: 0 auto;
+    display: flex; /* 미션 요약을 세로로 배치 */
+    flex-direction: column; /* 세로 방향으로 정렬 */
+    gap: 20px; /* 요소 간 간격 */
+    padding: 20px; /* 내부 여백 */
+    background-color: var(--light-gray); /* 배경색 */
+    border: 1px solid var(--border-color); /* 테두리 */
+    border-radius: 10px; /* 둥근 모서리 */
+    box-shadow: var(--box-shadow); /* 그림자 효과 */
+    max-width: 63vw;
+    margin: 0 auto;
+    transition: box-shadow var(--transition-duration) ease, transform var(--transition-duration) ease;
 }
 
+.yc-main-bottom:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+}
+
+/* 미션 날짜 박스 */
 .jm-room-mission-date-box {
-  display: flex;
-  gap: 10px; /* ����, 시간, 지역 간격 */
+    display: flex;
+    gap: 10px; /* 요일, 시간, 지역 간격 */
 }
 
+/* 개별 미션 날짜 */
 .jm-room-mission-date {
-  border: solid 1px #ccc;
-  border-radius: 5px;
-  padding: 1px 10px;
+    border: solid 1px #ccc;
+    border-radius: 5px;
+    padding: 5px 10px;
+    transition: background-color var(--transition-duration) ease, transform var(--transition-duration) ease;
+}
+
+.jm-room-mission-date:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.05);
 }
 
 .jm-room-mission-date span {
-  font-size: 14px;
+    font-size: 14px;
+    color: var(--text-color);
 }
 
 /* 미션 요약 */
 .yc-mission-summary {
-  display:flex; /* 미션 아이템을 세로로 배치 */
-  flex-direction: row; /* 세로 방향으로 정렬 */
-  gap: 15px; /* 미션 아이템 간 간격 */
-  overflow-x: auto; /* 세로 스크롤 활성화 */
+    display: flex; /* 미션 아이템을 가로로 배치 */
+    flex-direction: row; /* 가로 방향으로 정렬 */
+    gap: 15px; /* 미션 아이템 간 간격 */
+    overflow-x: auto; /* 가로 스크롤 활성화 */
+    padding-bottom: 10px;
 }
+
+.yc-mission-summary::-webkit-scrollbar {
+    height: 8px;
+}
+
+.yc-mission-summary::-webkit-scrollbar-track {
+    background: var(--light-gray);
+    border-radius: 4px;
+}
+
+
+
 
 /* 개별 미션 아이템 */
 .yc-mission-item {
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: solid 1px #ccc;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  text-decoration: none;
-  color: #000;
+    background-color: var(--background-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: solid 1px #ccc;
+    box-shadow: var(--box-shadow);
+    padding: 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #000;
+    transition: background-color var(--transition-duration) ease, transform var(--transition-duration) ease;
+    width: 200px;
+    flex-shrink: 0;
 }
 
 .yc-mission-item:hover {
-  background-color: #edf3f4;
+    background-color: #edf3f4;
+    transform: translateY(+2px);
 }
 
+/* 미션 제목 */
 .yc-mission-item h4 {
-  font-size: 18px;
-  font-weight: bold;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
 /* 미션 이미지 */
 .yc-mission-image {
-  width: 180px; /* 이미지 너비 */
-  height: 180px; /* 이미지 높이 */
-  margin-right: 10px; /* 오른쪽 여백 */
-  border-radius: 5px; /* 둥근 모서리 */
+    width: 180px; /* 이미지 너비 */
+    height: 180px; /* 이미지 높이 */
+    object-fit: cover;
+    border-radius: 5px; /* 둥근 모서리 */
+    transition: transform var(--transition-duration) ease;
+}
+
+.yc-mission-image:hover {
+    transform: scale(1.05);
 }
 
 /* 미션 내용 */
 .yc-mission-content {
-  flex-grow: 1; /* 남은 공간 차지 */
-  align-self: flex-start; /* 콘텐츠 상단 정렬 */
-}
-
-/* 미션 제목 */
-.yc-mission-content h4 {
-  margin-top: 5px; /* 위쪽 여백 */
-  font-size: 16px; /* 제목 폰트 크기 */
+    flex-grow: 1; /* 남은 공간 차지 */
+    align-self: flex-start; /* 콘텐츠 상단 정렬 */
+    width: 100%;
 }
 
 /* 미션 설명 */
 .yc-mission-content p {
-  margin-block: 10px;
-  font-size: 14px; /* 본문 폰트 크기 */
+    font-size: 14px; /* 본문 폰트 크기 */
+    line-height: 1.5; /* 줄 간격 */
+    text-align: center;
 }
 
+/* 더보기 버튼 */
 .yc-view-button {
-  background-color: #707070;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-size: 13px;
+    background-color: #303030c9;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color var(--transition-duration) ease, transform var(--transition-duration) ease;
+    font-size: 13px;
+    margin-top: 10px;
 }
 
-
-
-/* =========================
-   모달 스타일
-   ========================= */
-
-/* 모달 오버레이 */
-.yc-modal-overlay_roomMain {
-  position: fixed; /* 화면 고정 위치 */
-  top: 0;
-  left: 0;
-  width: 100%; /* 전체 너비 */
-  height: 100%; /* 전체 높이 */
-  background-color: rgba(0,0,0,0.5); /* 반투명 배경 */
-  display: flex; /* 모달을 중앙에 배치 */
-  justify-content: center; /* 수평 중앙 정렬 */
-  align-items: center; /* 수직 중앙 정렬 */
-  z-index: 1000; /* 다른 요소보다 위에 표시 */
-}
-
-/* 모달 창 */
-.yc-modal_roomMain {
-  background-color: #fff; /* 배경색 */
-  padding: 20px 30px; /* 내부 여백 */
-  border-radius: 10px; /* 둥근 모서리 */
-  width: 500px; /* 너비 */
-  max-width: 90%; /* 최대 너비 */
-  height: auto;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* 그림자 효과 */
-  position: relative; /* 자식 요소의 절대 위치 지정 시 기준 */
-  display: flex; /* 이미지와 설명을 가로로 배치 */
-  align-items: flex-start; /* 수직 시작점에 정렬 */
-}
-
-/* 모달 닫기 버튼 (아이콘) */
-.yc-modal-close_roomMain {
-  position: absolute; /* 절대 위치 */
-  top: 10px; /* 위쪽 여백 */
-  right: 10px; /* 오른쪽 여백 */
-  background: none; /* 배경 없음 */
-  border: none; /* 테두리 없음 */
-  font-size: 20px; /* 아이콘 크기 */
-  cursor: pointer; /* 커서 변경 */
-  color: #555; /* 아이콘 색상 */
-}
-
-.yc-modal-close_roomMain:hover {
-  color: #000; /* 호버 시 색상 변경 */
-}
-
-/* 모달 내용 */
-.yc-modal-content_roomMain {
-  display: flex; /* 이미지와 설명을 가로로 배치 */
-  gap: 20px; /* 간격 */
-  width: 100%; /* 전체 너비 차지 */
-}
-
-/* 모달 이미지 */
-.yc-modal-image_roomMain {
-  width: 150px; /* 이미지 너비 줄이기 */
-  height: auto; /* 높이 자동 조절 */
-  border-radius: 5px; /* 둥근 모서리 */
-}
-
-/* 모달 설명 */
-.yc-modal-description_roomMain {
-  flex-grow: 1; /* 남은 공간 차지 */
-}
-
-.yc-modal-description_roomMain h2 {
-  margin-top: 0; /* 위쪽 여백 제거 */
-  font-size: 24px; /* 제목 폰트 크기 */
-}
-
-.yc-modal-description_roomMain p {
-  font-size: 16px; /* 본문 폰트 크기 */
-  line-height: 1.5; /* 줄 간격 */
+.yc-view-button:hover {
+    color: white;
+    transform: translateY(-2px);
 }
 
 /* =========================
@@ -363,107 +385,434 @@
 
 /* 차트 컨테이너 */
 .yc-chart-container {
-  position: fixed; /* 화면 고정 위치 */
-  top: 80px; /* TopHeader의 높이에 맞게 조정 */
-  right: 50px; /* 우측 여백 */
-  width: 150px;
-  height: auto;
-  background-color: #ffffff; /* 배경색 */
-  border: 1px solid #ddd; /* 테두리 */
-  border-radius: 10px; /* 둥근 모서리 */
-  padding: 10px; /* 내부 여백 */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-  z-index: 1000; /* 다른 요소보다 위에 표시 */
+    position: fixed; /* 화면 고정 위치 */
+    top: 80px; /* TopHeader의 높이에 맞게 조정 */
+    right: 50px; /* 우측 여백 */
+    width: 150px;
+    background-color: var(--background-color); /* 배경색 */
+    border: 1px solid var(--border-color); /* 테두리 */
+    border-radius: 10px; /* 둥근 모서리 */
+    padding: 15px; /* 내부 여백 */
+    box-shadow: var(--box-shadow); /* 그림자 효과 */
+    z-index: 1000; /* 다른 요소보다 위에 표시 */
+    transition: opacity var(--transition-duration) ease, transform var(--transition-duration) ease;
+    opacity: 0;
+    animation: fadeInSlideUp 0.5s forwards;
+}
+
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* 달성률 텍스트 */
 .yc-achievement-rate {
-  text-align: center; /* 텍스트 중앙 정렬 */
-  margin-top: 10px; /* 위쪽 여백 */
-  font-size: 13px; /* 폰트 크기 */
-  font-weight: bold; /* 굵은 글씨 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+    margin-top: 10px; /* 위쪽 여백 */
+    font-size: 13px; /* 폰트 크기 */
+    font-weight: bold; /* 굵은 글씨 */
+    color: var(--text-color);
 }
 
-
-
-
-
 /* =========================
-   모달 스타일
+   성적표 모달 추가 스타일
    ========================= */
 
 /* 모달 오버레이 */
 .yc-modal-overlay_roomMain {
-  position: fixed; /* 화면 고정 위치 */
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100%; /* 전체 너비 */
-  height: 100%; /* 전체 높이 */
-  background-color: rgba(0,0,0,0.5); /* 반투명 배경 */
-  display: flex; /* 모달을 중앙에 배치 */
-  justify-content: center; /* 수평 중앙 정렬 */
-  align-items: center; /* 수직 중앙 정렬 */
-  z-index: 1000; /* 다른 요소보다 위에 표시 */
+  right: 0;
+  bottom: 0;
+  background: var(--modal-bg-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1200;
+  opacity: 0;
+  animation: modalFadeIn 0.3s forwards; /* 모달 페이드 인 애니메이션 */
+  transition: opacity var(--transition-duration) ease;
 }
+
+
 
 /* 모달 창 */
 .yc-modal_roomMain {
-  background-color: #fff; /* 배경색 */
-  padding: 20px 30px; /* 내부 여백 */
-  border-radius: 10px; /* 둥근 모서리 */
-  width: 500px; /* 너비 */
-  max-width: 90%; /* 최대 너비 */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* 그림자 효과 */
-  position: relative; /* 자식 요소의 절대 위치 지정 시 기준 */
-  display: flex; /* 이미지와 설명을 가로로 배치 */
-  align-items: flex-start; /* 수직 시작점에 정렬 */
+  background: var(--background-color);
+  padding: 25px;
+  border-radius: var(--border-radius);
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  animation: modalScaleIn 0.3s forwards; /* 모달 스케일 인 애니메이션 */
+  position: relative;
+  transform: scale(0.8);
+  transition: transform var(--transition-duration) ease;
 }
 
-/* 모달 닫기 버튼 (아이콘) */
+/* 모달 등장 애니메이션 */
+@keyframes modalFadeIn {
+  to {
+      opacity: 1;
+  }
+}
+
+@keyframes modalScaleIn {
+  to {
+      transform: scale(1);
+  }
+}
+
+/* 모달 닫기 애니메이션 */
+.yc-modal-overlay_roomMain.closing {
+  animation: modalFadeOut 0.3s forwards;
+}
+
+.yc-modal_roomMain.closing {
+  animation: modalScaleOut 0.3s forwards;
+}
+
+@keyframes modalFadeOut {
+  from {
+      opacity: 1;
+  }
+  to {
+      opacity: 0;
+  }
+}
+
+@keyframes modalScaleOut {
+  from {
+      transform: scale(1);
+  }
+  to {
+      transform: scale(0.8);
+  }
+}
+
+/* 닫기 버튼 */
 .yc-modal-close_roomMain {
-  position: absolute; /* 절대 위치 */
-  top: 10px; /* 위쪽 여백 */
-  right: 10px; /* 오른쪽 여백 */
-  background: none; /* 배경 없음 */
-  border: none; /* 테두리 없음 */
-  font-size: 20px; /* 아이콘 크기 */
-  cursor: pointer; /* 커서 변경 */
-  color: #555; /* 아이콘 색상 */
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--dark-gray);
 }
 
 .yc-modal-close_roomMain:hover {
-  color: #000; /* 호버 시 색상 변경 */
+  color: #000;
 }
 
 /* 모달 내용 */
 .yc-modal-content_roomMain {
-  display: flex; /* 이미지와 설명을 가로로 배치 */
-  gap: 20px; /* 간격 */
-  width: 100%; /* 전체 너비 차지 */
+  display: flex;
+  gap: 20px;
+  width: 100%;
 }
 
-/* 모달 이미지 */
 .yc-modal-image_roomMain {
-  width: 150px; /* 이미지 너비 줄이기 */
-  height: auto; /* 높이 자동 조절 */
-  border-radius: 5px; /* 둥근 모서리 */
+  width: 150px;
+  height: auto;
+  border-radius: 5px;
+  object-fit: cover;
 }
 
-/* 모달 설명 */
 .yc-modal-description_roomMain {
-  flex-grow: 1; /* 남은 공간 차지 */
+  flex-grow: 1;
 }
 
 .yc-modal-description_roomMain h2 {
-  margin-top: 0; /* 위쪽 여백 제거 */
-  font-size: 24px; /* 제목 폰트 크기 */
+  margin-top: 0;
+  font-size: 24px;
+  text-align: left;
+  color: var(--text-color);
 }
 
 .yc-modal-description_roomMain p {
-  font-size: 16px; /* 본문 폰트 크기 */
-  line-height: 1.5; /* 줄 간격 */
+  font-size: 16px;
+  line-height: 1.5;
+  margin-top: 5px;
+}
+
+/* 모달 헤더 */
+.yc-modal-title h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: left;
+    color: var(--text-color);
 }
 
 
+/* 도넛 차트 섹션 */
+.yc-dougnut-chart {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 20px auto;
+    transition: transform var(--transition-duration) ease;
+}
+
+.yc-dougnut-chart:hover {
+    transform: scale(1.05);
+}
+
+/* 성취율 텍스트 */
+.yc-completion-rate {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+/* 미션 상세 정보 */
+.yc-mission-details {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #555;
+    transition: color var(--transition-duration) ease;
+}
+
+.yc-mission-details:hover {
+    color: var(--primary-color);
+}
+
+/* 그룹 챌린지 섹션 */
+.yc-group-challenge-section {
+    margin-bottom: 20px;
+}
+
+.yc-group-challenge-section h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: var(--text-color);
+}
+
+.yc-group-challenge-points {
+    font-size: 16px;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+    transition: color var(--transition-duration) ease;
+}
+
+.yc-group-challenge-points:hover {
+    color: darken(var(--secondary-color), 10%);
+}
+
+.yc-group-challenges {
+    list-style-type: disc;
+    padding-left: 20px;
+    color: #555;
+    transition: color var(--transition-duration) ease;
+}
+
+.yc-group-challenges li {
+    margin-bottom: 5px;
+}
+
+.yc-group-challenges li:hover {
+    color: var(--primary-color);
+}
+
+/* 포인트 요약 */
+.yc-points-summary {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #555;
+}
+
+.yc-points-summary p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #555;
+    transition: color var(--transition-duration) ease;
+}
+
+.yc-points-summary p strong {
+    color: var(--text-color);
+}
+
+.yc-points-summary p:hover {
+    color: var(--primary-color);
+}
+
+/* 닫기 버튼 */
+.yc-modal-close_roomMain {
+    display: block;
+    margin: 20px auto 0 auto;
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.yc-modal-close_roomMain:hover {
+    
+}
+
+/* =========================
+   모달 애니메이션 (닫을 때 애니메이션 추가)
+   ========================= */
+
+/* 모달 닫기 애니메이션 */
+.yc-modal-overlay_roomMain.closing {
+    animation: modalFadeOut 0.3s forwards;
+}
+
+.yc-modal-content_roomMain.closing {
+    animation: modalScaleOut 0.3s forwards;
+}
+
+@keyframes modalFadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes modalScaleOut {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(0.8);
+    }
+}
+
+/* =========================
+   반응형 디자인
+   ========================= */
+@media (max-width: 768px) {
+    .yc-container {
+        flex-direction: column;
+        width: 95vw;
+        padding: 10px;
+    }
+
+    .yc-main-content {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .yc-main-top {
+        flex-direction: column;
+    }
+
+    .yc-room-info, .yc-participant-info {
+        max-height: none;
+    }
+
+    .yc-chart-container {
+        top: 60px;
+        right: 20px;
+        width: 120px;
+        padding: 10px;
+    }
+
+    .yc-modal-content, .yc-modal_roomMain {
+        width: 95%;
+    }
+
+    .yc-dougnut-chart {
+        width: 120px;
+        height: 120px;
+    }
+
+    .yc-mission-image {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .yc-modal-content, .yc-modal_roomMain {
+        padding: 15px;
+        width: 95%;
+    }
+
+    .yc-dougnut-chart {
+        width: 100px;
+        height: 100px;
+    }
+
+    .yc-completion-rate {
+        font-size: 16px;
+    }
+
+    .yc-modal-content h2 {
+        font-size: 20px;
+    }
+
+    .yc-mission-details,
+    .yc-group-challenge-section,
+    .yc-points-summary {
+        font-size: 14px;
+    }
+
+    .yc-close-button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    .yc-mission-image {
+        width: 120px;
+        height: 120px;
+    }
+
+    .yc-mission-item {
+        width: 150px;
+        padding: 10px;
+    }
+
+    .yc-view-button {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+}
+
+/* =========================
+   애니메이션 함수
+   ========================= */
+
+/* 부드러운 트랜지션 효과 */
 
 
+/* 버튼 트랜지션 */
+button, .yc-view-button {
+    transition: background-color var(--transition-duration) ease, transform var(--transition-duration) ease, color var(--transition-duration) ease;
+}
+
+/* 테이블 행 호버 효과 */
+.yc-participant-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* 링크 호버 효과 */
+a.yc_challenge_statistics_top5User,
+a.yc_challenge_statistics_enteredUser {
+    transition: color var(--transition-duration) ease;
+}
+
+a.yc_challenge_statistics_top5User:hover,
+a.yc_challenge_statistics_enteredUser:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}

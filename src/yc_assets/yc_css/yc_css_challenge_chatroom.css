@@ -1,163 +1,252 @@
-/* src/yc_assets/yc_css/yc_css_chat.css */
+/* src/yc_assets/yc_css/yc_css_challenge_chatroom.css */
 
-/* 채팅 아이콘 */
-.yc-floating-chat-icon {
-  position: fixed;
-  bottom: 30px; /* 하단으로 이동 */
-  right: 50px; /* 우측으로 이동 */
-  width: 60px;
-  height: 60px;
-  background-color: #9dabb7;
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  font-size: 24px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  z-index: 1500; /* 다른 요소 위에 표시 */
-}
-
-.yc-floating-chat-icon:hover {
-  background-color: #1976D2;
-  transform: scale(1.1);
-}
-
-/* 채팅 모달 */
-.yc-chat-modal {
-  position: fixed;
-  bottom: 100px; /* 채팅 아이콘 위에 위치 */
-  right: 10px; /* 채팅 아이콘과 동일한 우측 위치 */
-  background-color: #fff;
-  padding: 10px;
-  border-radius: 10px;
-  width: 250px; /* 가로 사이즈 200px */
-  height: 400px; /* 높이 300px */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  animation: yc-slideDown 0.3s forwards;
-  display: flex;
-  flex-direction: column;
-  z-index: 1501; /* 채팅 아이콘보다 위 */
-}
-
-@keyframes yc-slideDown {
-  from { transform: translateY(-30px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-.yc-chat-modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.yc-chat-modal-header h2 {
-  margin: 0;
-  font-size: 18px;
-}
-
-.yc-chat-modal-close-button {
-  background: none;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-  color: #f44336;
-  transition: color 0.3s ease;
-}
-
-.yc-chat-modal-close-button:hover {
-  color: #d32f2f;
-}
-
-.yc-chat-box {
-  flex-grow: 1;
-  overflow-y: auto;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 5px;
-  background-color: #f9f9f9;
-  margin-bottom: 10px;
-}
-
-.yc-chat-form {
-  display: flex;
-  gap: 5px;
-}
-
-.yc-chat-input {
-  flex-grow: 1;
-  height: 30px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding-left: 5px;
-}
-
-.yc-chat-input:focus {
-  border-color: #888;
-}
-
-.yc-btn-send {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  padding: 0 10px;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
-
-.yc-btn-send:hover {
-  background-color: #45a049;
-}
-
-/* 채팅 메시지 */
-.yc-user-msg-box,
-.yc-bot-msg-box {
-  display: flex;
-  margin-bottom: 5px;
-}
-
-.yc-user-msg-box {
-  justify-content: flex-end;
-}
-
-.yc-bot-msg-box {
-  justify-content: flex-start;
-}
-
-.yc-user-msg,
-.yc-bot-msg {
-  max-width: 80%;
-  padding: 5px 10px;
-  border-radius: 10px;
-  font-size: 14px;
-}
-
-.yc-user-msg {
-  background-color: #e0f7fa;
-  text-align: right;
-}
-
-.yc-bot-msg {
-  background-color: #f1f8e9;
-  text-align: left;
-}
-/* 채팅 시간 */
-.yc-chat-time {
-  font-size: 12px;
-  color: #888;
-  text-align: right; /* 오른쪽 정렬 */
-  margin-top: 3px;
-}
-
-/* 메시지 발신자 이름 */
-.yc-user-msg span:first-child,
-.yc-bot-msg span:first-child {
-  font-weight: bold;
-  margin-right: 5px;
-}
+/* ============================
+   Floating Chat Icon
+   ============================ */
+   .yc-floating-chat-icon {
+    position: fixed;
+    bottom: 30px;
+    right: 50px;
+    width: 60px;
+    height: 60px;
+    background-color: #9dabb7;
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-size: 24px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    z-index: 1500;
+  }
+  
+  .yc-floating-chat-icon:hover {
+    background-color: #1976D2;
+    transform: scale(1.1);
+  }
+  
+  /* ============================
+     Chat Modal
+     ============================ */
+  .yc-chat-modal {
+    position: fixed;
+    bottom: 100px;
+    right: 10px;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    width: 300px;
+    max-width: 90%;
+    height: 450px;
+    max-height: 80%;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    animation: slideDown 0.3s forwards;
+    display: flex;
+    flex-direction: column;
+    z-index: 1501;
+  }
+  
+  /* Slide Down Animation */
+  @keyframes slideDown {
+    from {
+      transform: translateY(-30px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  /* ============================
+     Modal Header
+     ============================ */
+  .yc-chat-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+  }
+  
+  .yc-chat-modal-header h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .yc-chat-modal-close-button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #f44336;
+    transition: color 0.3s ease;
+  }
+  
+  .yc-chat-modal-close-button:hover {
+    color: #d32f2f;
+  }
+  
+  /* ============================
+     Chat Box
+     ============================ */
+  .yc-chat-box {
+    flex-grow: 1;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    margin-bottom: 15px;
+    
+    /* 부드러운 스크롤링 */
+    scroll-behavior: smooth;
+  
+    /* 스크롤바 스타일링 */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #c1c1c1 #f1f1f1; /* Firefox */
+  }
+  
+  /* WebKit 기반 스크롤바 */
+  .yc-chat-box::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .yc-chat-box::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+  
+  .yc-chat-box::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+  }
+  
+  .yc-chat-box::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+  }
+  
+  /* ============================
+     Chat Messages
+     ============================ */
+  .yc-user-msg-box,
+  .yc-bot-msg-box {
+    display: flex;
+    margin-bottom: 10px;
+  }
+  
+  .yc-user-msg-box {
+    justify-content: flex-end;
+  }
+  
+  .yc-bot-msg-box {
+    justify-content: flex-start;
+  }
+  
+  .yc-user-msg,
+  .yc-bot-msg {
+    max-width: 80%;
+    padding: 10px 15px;
+    border-radius: 15px;
+    font-size: 14px;
+    word-wrap: break-word;
+    position: relative; /* 시간을 위치시키기 위해 */
+  }
+  
+  .yc-user-msg {
+    background-color: #e0f7fa;
+    text-align: right;
+  }
+  
+  .yc-bot-msg {
+    background-color: #f1f8e9;
+    text-align: left;
+  }
+  
+  /* ============================
+     Sender Name and Message Time
+     ============================ */
+  .yc-user-msg span:first-child,
+  .yc-bot-msg span:first-child {
+    font-weight: bold;
+    margin-right: 5px;
+  }
+  
+  .yc-chat-time {
+    font-size: 12px;
+    color: #888;
+    text-align: right;
+    margin-top: 5px;
+  }
+  
+  /* ============================
+     Chat Form
+     ============================ */
+  .yc-chat-form {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .yc-chat-input {
+    flex-grow: 1;
+    height: 35px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 0 10px;
+    background-color: #ffffff;
+    transition: border-color 0.3s ease;
+  }
+  
+  .yc-chat-input:focus {
+    border-color: #888;
+    outline: none;
+  }
+  
+  .yc-btn-send {
+    background-color: #5e93c2;
+    color: #ffffff;
+    border: none;
+    padding: 0 15px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .yc-btn-send:hover {
+    background-color: #4c79a0;
+  }
+  
+  /* ============================
+     Responsive Design
+     ============================ */
+  @media (max-width: 480px) {
+    .yc-chat-modal {
+      width: 90%;
+      height: 60%;
+      right: 5px;
+      bottom: 80px;
+      padding: 10px;
+    }
+  
+    .yc-chat-modal-header h2 {
+      font-size: 16px;
+    }
+  
+    .yc-chat-input {
+      height: 30px;
+      font-size: 13px;
+    }
+  
+    .yc-btn-send {
+      padding: 0 10px;
+      font-size: 13px;
+    }
+  }
+  

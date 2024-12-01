@@ -11,6 +11,7 @@ const ChatRoom = ({ roomNum }) => { // props를 디스트럭처링하여 roomNum
   const [input, setInput] = useState('');
   const [userNum, setUserNum] = useState(null); // userNum 상태 추가
   const chatBoxRef = useRef(null);
+  const [isUserAtBottom, setIsUserAtBottom] = useState(true); // 사용자가 맨 아래에 있는지 여부
 
   const token = localStorage.getItem('token');
 
@@ -60,12 +61,13 @@ const ChatRoom = ({ roomNum }) => { // props를 디스트럭처링하여 roomNum
         }
       });
       if (response.data.result === 'success') { 
-        setMessages(response.data.apiData.map(msg => ({
+        const newMessages = response.data.apiData.map(msg => ({
           sender: msg.chatter === userNum ? 'user' : 'other', // chatter와 userNum 비교
           text: msg.chatContent,
           chatTime: new Date(msg.chatTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
           userName: msg.chatter === userNum ? '나' : msg.userName // 메시지 발신자 이름 설정
-        })));
+        }));
+        setMessages(newMessages);
       } else {
         alert("채팅 메시지를 불러오는 데 문제가 있습니다.");
       }
@@ -110,10 +112,30 @@ const ChatRoom = ({ roomNum }) => { // props를 디스트럭처링하여 roomNum
   };
 
   useEffect(() => {
+    if (isChatOpen) {
+      scrollToBottom();
+    }
+  }, [isChatOpen]);
+
+  useEffect(() => {
+    if (isUserAtBottom) {
+      scrollToBottom();
+    }
+  }, [messages, isUserAtBottom]);
+
+  const scrollToBottom = () => {
     if (chatBoxRef.current) {
       chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
     }
-  }, [messages]); // 메시지가 업데이트될 때마다 스크롤 이동
+  };
+
+  const handleScroll = () => {
+    if (chatBoxRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = chatBoxRef.current;
+      // 사용자가 맨 아래에 50px 이내에 있으면 true로 설정
+      setIsUserAtBottom(scrollHeight - scrollTop - clientHeight < 50);
+    }
+  };
 
   return (
     <>
@@ -140,7 +162,11 @@ const ChatRoom = ({ roomNum }) => { // props를 디스트럭처링하여 roomNum
               <FaTimes />
             </button>
           </div>
-          <div className='yc-chat-box' ref={chatBoxRef}>
+          <div 
+            className='yc-chat-box' 
+            ref={chatBoxRef} 
+            onScroll={handleScroll}
+          >
             {messages.map((msg, index) => (
               <div 
                 key={index} 

@@ -21,12 +21,6 @@
 }
 
 
-/* Footer와 겹치지 않게 Sidebar 하단 여백 추가 */
-.yc_challenge_sidebar::after {
-    content: "";
-    display: block;
-    height: 50px; /* Footer와 겹치지 않기 위해 추가적인 공간 확보 */
-}
 
 
 /* 메뉴 섹션 */
@@ -101,7 +95,7 @@
 /* 메뉴 아이템 호버 및 활성화 스타일 */
 .yc_challenge_menu li:not(.disabled):hover,
 .yc_challenge_menu li.active:not(.disabled) {
-    background-color: #34495e;
+    background-color: #303030c9;
     color: white;
     transform: translateY(-1px);
 }
@@ -183,5 +177,6 @@
 .yc_challenge_menu li.disabled svg {
     color: gray;
 }
+
 
 

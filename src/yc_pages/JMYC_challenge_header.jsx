@@ -833,7 +833,7 @@ const JMYCChallengeHeader = () => {
                             {roomData.roomStartDate ? (
                                 roomData.roomStatusNum < 3 ? (
                                     <p className="jm-c-time">
-                                        {roomData.roomStatusNum === 1 || roomData.roomStatusNum === 2  ? "시작까지: " : "종료까지: "} {timeLeft}
+                                        {roomData.roomStatusNum === 1 || roomData.roomStatusNum === 2  ? "모집 마감 시간: " : "챌린지 마감: "} {timeLeft}
                                         {userAuthorization === 1 && (
                                             <button 
                                                 className="extend-button" 

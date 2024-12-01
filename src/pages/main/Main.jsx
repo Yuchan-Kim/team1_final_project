@@ -234,15 +234,16 @@ const getCloseRoomList = () => {
           const updatedRooms = closeRooms.map(room => {
             return axios({
               method: 'get',
-              url: `${process.env.REACT_APP_API_URL}/api/overall/${room.roomNum}`,
+              url: `${process.env.REACT_APP_API_URL}/api/roomoverall/${room.roomNum}`,
               responseType: 'json'
             })
               .then(statResponse => {
                 if (statResponse.data.result === "success") {
                   // 전체 달성률 정보를 room 객체에 추가
+                  console.log(statResponse.data.apiData)
                   return {
                     ...room,
-                    overallStats: statResponse.data.apiData
+                    achievementRate: statResponse.data.apiData.achievementRate
                   };
                 } else {
                   console.log(statResponse.data.message);

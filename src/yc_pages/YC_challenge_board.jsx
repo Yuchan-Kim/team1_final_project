@@ -443,7 +443,12 @@ const YcChallengeBoard = () => {
             });
     
             if (response.data.result === "success" && response.data.apiData.items.length > 0) {
-                setSearchResults(response.data.apiData.items);
+                const cleanedResults = response.data.apiData.items.map(place => ({
+                    ...place,
+                    title: place.title.replace(/<\/?b>/g, ''),
+                    address: place.address.replace(/<\/?b>/g, ''),
+                }));
+                setSearchResults(cleanedResults);
             } else if (response.data.result === "fail") {
                 setSearchError(response.data.message || "검색 결과가 없습니다.");
             } else {

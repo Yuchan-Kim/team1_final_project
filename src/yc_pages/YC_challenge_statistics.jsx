@@ -295,11 +295,15 @@ const YCChallengeStatistics = () => {
 
   // 전체 달성률 라인 차트 데이터 (백엔드에서 가져온 데이터로 설정)
   const overallLineChartData = {
-    labels: overallStats.map(stat => stat.date), // 제출 날짜 레이블
+    labels: overallStats
+      .filter(stat => stat !== null && stat !== undefined)
+      .map(stat => stat.submitDate || 'Unknown'), // 안전하게 접근
     datasets: [
       {
         label: "일일 달성률",
-        data: overallStats.map(stat => stat.percentage), // 달성률 데이터
+        data: overallStats
+          .filter(stat => stat !== null && stat !== undefined)
+          .map(stat => stat.achievementRate || 0),
         fill: true,
         backgroundColor: "rgba(33, 150, 243, 0.2)",
         borderColor: "#2196f3",
@@ -308,6 +312,7 @@ const YCChallengeStatistics = () => {
       },
     ],
   };
+  
 
   // 전체 달성률 라인 차트 옵션
   const lineChartOptions = {

@@ -721,12 +721,12 @@ const YCChallengeSidebar = () => {
                         isOpen={isExitModalOpen}
                         onRequestClose={closeExitModal}
                         contentLabel="방 나가기 확인 모달"
-                        className="custom-modal"
-                        overlayClassName="custom-overlay"
+                        className="custom-modal_sidebar"
+                        overlayClassName="custom-overlay_sidebar"
                     >
-                        <div className="modal-content">
+                        <div className="modal-content_sidebar">
                             <p>{exitModalMessage}</p>
-                            <div className="modal-buttons">
+                            <div className="modal-buttons_sidebar">
                                 {exitModalType === 'delete' ? (
                                     <>
                                         <button onClick={handleExitConfirm} aria-label="방 삭제 확인">삭제</button>

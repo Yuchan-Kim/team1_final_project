@@ -340,9 +340,8 @@ const ChallengePage = () => {
                   <thead>
                     <tr>
                       <th>이름</th>
-                      <th>성실도</th>
-                      <th>포인트</th>
-                      <th>액션</th>
+                      <th>종합 달성률</th>
+                      <th>보유 포인트</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -357,7 +356,6 @@ const ChallengePage = () => {
                         </Link></td>
                         <td className={`yc-status-${user.achievementRate}`}>{user.achievementRate}</td>
                         <td>{user.userPoints || 0}</td>
-                        <td><button className="yc-report-button">신고</button></td>
                       </tr>
                     ))}
                   </tbody>
@@ -371,6 +369,7 @@ const ChallengePage = () => {
           {/* Main Bottom Section */}
           <section className='yc-main-bottom'>
           <div className='jm-room-mission-date-box'>
+            <span>미션 해당 요일: </span>
               {
                   dateList
                       .filter(date => date.roomDayNum >= 1 && date.roomDayNum <= 7) // 1~7번만 필터링
@@ -413,7 +412,7 @@ const ChallengePage = () => {
                         openModal(mission);  // 모달 열기
                       }}
                     >
-                      더보기
+                      + 더보기
                     </button>
                   </Link>
                 ))
@@ -441,12 +440,12 @@ const ChallengePage = () => {
             {/* 모달 내용 */}
             <div className="yc-modal-content_roomMain">
               <img 
-                src={`${process.env.REACT_APP_API_URL}/upload/${selectedMission.missionImgName}` || "https://via.placeholder.com/150"} 
-                alt={`${selectedMission.missionName} 상세 이미지`} 
+                src={`${process.env.REACT_APP_API_URL}/upload/${selectedMission.missionImgName}` || "https://via.placeholder.com/300"} 
+                alt={`상세 이미지`} 
                 className="yc-modal-image_roomMain" 
               />
               <div className="yc-modal-description_roomMain">
-                <h2 id="modal-title">{selectedMission.missionName}</h2>
+                <h2 id="yc-modal-title">{selectedMission.missionName}</h2>
                 <p>{selectedMission.missionMethod}</p>
                 {/* 추가 정보가 있다면 여기에 추가 */}
               </div>
