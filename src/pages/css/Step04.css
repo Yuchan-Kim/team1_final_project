@@ -1,0 +1,277 @@
+/* 전체 레이아웃 */
+#jm-step4.jm-step4-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    font-family: 'Arial', sans-serif;
+}
+
+#jm-step4 #jm-step4-container {
+    width: 100%;
+    overflow: hidden;
+}
+
+#jm-step4 #jm-step4-board {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#jm-step4 #jm-step4-list h2 {
+    font-size: 26px;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+#jm-step4 #jm-step4-list h4 {
+    font-size: 16px;
+    color: #555555;
+    margin-bottom: 30px;
+}
+
+/* 인원 설정 스타일 */
+#jm-step4 #jm-step4-member-count {
+    text-align: center; /* 중앙 정렬 */
+    margin-bottom: 30px;
+}
+
+#jm-step4 #jm-step4-member-count h3 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 10px;
+    text-align: center; /* 제목도 중앙 정렬 */
+}
+
+#jm-step4 #jm-step4-box-double {
+    display: flex;
+    justify-content: center; /* 박스를 가로로 중앙 정렬 */
+    align-items: center; /* 박스 내부 요소 세로 중앙 정렬 */
+    gap: 0; /* 간격 제거 */
+    margin: 0 auto; /* 전체 컨테이너를 중앙 정렬 */
+}
+
+#jm-step4 #jm-step4-box-double div {
+    flex: 0.15;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 필드 내부 중앙 정렬 */
+    margin-right: 0; /* 여백 제거 */
+}
+
+#jm-step4 #jm-step4-box-double select {
+    padding: 6px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px; /* 둥근 모서리 */
+    outline: none;
+    transition: border-color 0.3s ease;
+    text-align: center;
+}
+
+#jm-step4 #jm-step4-box-double select:first-child {
+    border-radius: 6px 0 0 6px; /* 왼쪽 모서리 둥글게 */
+}
+
+#jm-step4 #jm-step4-box-double select:last-child {
+    border-radius: 0 6px 6px 0; /* 오른쪽 모서리 둥글게 */
+}
+
+#jm-step4 #jm-step4-box-double select:focus {
+    border-color: #007bff;
+}
+
+.jm-step4-maxuser {
+    text-align: right;
+}
+
+.jm-step4-maxuser select{
+    width: 150px;
+}
+
+.jm-step4-minuser {
+    text-align: left;
+}
+
+.jm-step4-minuser select{
+    width: 150px;
+}
+
+#jm-step4 #jm-step4-box-double label {
+    font-size: 14px;
+    color: #555555;
+    margin-bottom: 8px;
+    text-align: center; /* 라벨 중앙 정렬 */
+}
+
+#jm-step4 #jm-step4-box-double select {
+    padding: 6px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    text-align: center;
+}
+
+#jm-step4 #jm-step4-box-double select:focus {
+    border-color: #007bff;
+}
+
+/* 포인트 설정 */
+#jm-step4 #jm-step4-box2 {
+    margin-bottom: 20px;
+    text-align: center; /* 중앙 정렬 */
+}
+
+#jm-step4 #jm-step4-box2 h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333333;
+    text-align: center;
+}
+
+#jm-step4 #jm-step4-box2 input {
+    width: 300px; /* 가로폭을 1/3로 설정 */
+    padding: 6px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#jm-step4 #jm-step4-box2 input:focus {
+    border-color: #007bff;
+}
+
+/* 성실도 설정 */
+#jm-step4 input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+#jm-step4 input[type="checkbox"]:checked + label {
+    color: #007bff;
+}
+
+#jm-step4 input[type="checkbox"] + label {
+    font-size: 14px;
+    color: #555555;
+    margin-bottom: 8px;
+}
+
+#jm-step4 input[type="checkbox"]:disabled + label {
+    color: #ccc;
+}
+
+#jm-step4 input[type="text"] {
+    width: 300px; /* 가로폭을 1/3로 설정 */
+    padding: 6px; /* 크기 감소 */
+    font-size: 14px; /* 폰트 크기 축소 */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    text-align: center;
+}
+
+.jm-step4-Score {
+    width: 300px; /* 가로폭을 1/3로 설정 */
+    padding: 6px; /* 패딩 축소 */
+    font-size: 14px; /* 텍스트 크기 축소 */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* 지역 설정 */
+#jm-step4 #jm-step4-box3 {
+    margin-bottom: 20px;
+    text-align: center; /* 중앙 정렬 */
+}
+
+#jm-step4 #jm-step4-box3 h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333333;
+    text-align: center;
+}
+
+#jm-step4 #jm-step4-box3 select {
+    width: 300px; /* 가로폭을 1/3로 설정 */
+    padding: 6px; /* 패딩 축소 */
+    font-size: 14px; /* 텍스트 크기 축소 */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    text-align: center;
+}
+
+#jm-step4 #jm-step4-box3 select:focus {
+    border-color: #007bff;
+}
+
+/* 버튼 컨테이너 */
+.jm-step4-btn {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+#jm-step4-primary {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#jm-step4-primary:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#jm-step4-primary:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+#jm-step4-secondary {
+    padding: 10px 20px;
+    background-color: #e0e0e0;
+    color: #333333;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#jm-step4-secondary:hover {
+    background-color: #ccc;
+}
+
+/* 반응형 스타일 */
+@media screen and (max-width: 768px) {
+    #jm-step4 #jm-step4-box-double {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .jm-step4-btn {
+        flex-direction: column;
+    }
+
+    #jm-step4 #jm-step4-box-double select,
+    #jm-step4 #jm-step4-box2 input,
+    #jm-step4 #jm-step4-box3 select {
+        width: 80%; /* 작은 화면에서는 가로폭 늘리기 */
+    }
+}

@@ -107,13 +107,15 @@ const Step03 = () => {
                                     />
                                 </div>
 
+                                <div className='jm-step3-input-right'>
                                 {/* 제목 입력 */}
                                 <div id="jm-step3-input-title" className="jm-step3-input-title">
                                     <h2>제목을 지어주세요.</h2>
                                     <h4>챌린지의 목표가 포함된 제목을 지어주세요.</h4>
                                     <div>
                                         <input
-                                            placeholder="윗몸일으키기 마스터"
+                                            className='jm-step3-input-roomtitle'
+                                            placeholder="방 제목을 작성해주세요"
                                             value={title}
                                             onChange={(e) => setTitle(e.target.value)}
                                         />
@@ -124,13 +126,13 @@ const Step03 = () => {
                                 {/* 설명 입력 */}
                                 <div id="jm-step3-input-description">
                                     <h2>다른 참가자에게 챌린지를 설명해주세요.</h2>
-                                    <div>설명(50자 이내)</div>
                                     <textarea
-                                        placeholder="방에 대해 설명해 주세요."
+                                        placeholder="방에 대해 설명해 주세요. (200자 이내)"
                                         value={description}
                                         onChange={(e) => setDescription(e.target.value)}
                                     ></textarea>
                                 </div>
+                            </div>
                             </div>
 
                             <div className="jm-step3-btn">

@@ -20,14 +20,11 @@
 /* 제목 스타일 */
 #jm-step1 #board h2 {
     margin-block: 40px;
-    font-size: 26px;
+    font-size: 24px;
     font-weight: bold;
     color: #333333;
     text-align: center;
     margin-bottom: 20px;
-}
-
-#jm-step1 #board {
 }
 
 /* 선택 목록 컨테이너 */
@@ -43,29 +40,36 @@
     margin-top: 30px;
 }
 
-
 #jm-step1 #list #list-left,
 #jm-step1 #list #list-right {
     flex: 0 1 45%; /* 가로 폭을 컨테이너의 절반 크기로 설정 */
     height: 400px;
-    padding: 30px 20px; /* 세로로 늘리기 위해 padding-top과 padding-bottom 조정 */
-    background-color: #e2e2e2;
+    padding: 30px 20px;
+    background-color: #ffffff; /* 기본 배경 흰색 */
+    border: 2px solid #333333; /* 기본 테두리 검은색 */
     border-radius: 6px;
-    border: 2px solid transparent;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     text-align: center;
     box-sizing: border-box; /* 패딩이 크기에 포함되도록 설정 */
 }
 
-#jm-step1 #list #list-left:hover,
-#jm-step1 #list #list-right:hover {
-    background-color: #ffffff;
-    border: 2px solid #007bff;
-}
-
+/* 선택된 상태 */
 #jm-step1 #list #list-left.selected,
 #jm-step1 #list #list-right.selected {
+    background-color: #ffffff; /* 선택된 항목 배경 흰색 */
+    border: 2px solid #007bff; /* 선택된 항목 테두리 파란색 */
+}
+
+/* 선택되지 않은 상태 */
+#jm-step1 #list #list-left:not(.selected):hover,
+#jm-step1 #list #list-right:not(.selected):hover {
+    background-color: #e2e2e2; /* 선택되지 않은 항목에 마우스를 올릴 때 배경 회색 */
+}
+
+/* 호버 효과 */
+#jm-step1 #list #list-left:hover,
+#jm-step1 #list #list-right:hover {
     background-color: #ffffff;
     border: 2px solid #007bff;
 }
@@ -90,7 +94,6 @@
     font-size: 15px;
     margin-bottom: 20px;
 }
-
 
 #jm-step1 #list ul li span:first-child {
     margin-right: 8px;
@@ -147,7 +150,6 @@
 #jm-step1 .btn #primary.active:hover {
     background-color: #0056b3; /* 호버 시 색상 */
 }
-
 
 /* 반응형 스타일 */
 @media screen and (max-width: 768px) {

@@ -18,7 +18,7 @@
 
 /* 제목 스타일 */
 #jm-step3 #jm-step3-board h2 {
-    font-size: 26px;
+    font-size: 24px;
     font-weight: bold;
     color: #333333;
     margin-bottom: 20px;
@@ -27,15 +27,15 @@
 #jm-step3 #jm-step3-board h4 {
     font-size: 16px;
     color: #555555;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
 }
 
 /* 입력 목록 컨테이너 */
 #jm-step3 #jm-step3-list {
     display: flex;
-    flex-direction: column;
     gap: 30px;
     align-items: center;
+    justify-content: center; /* 수평 중앙 정렬 */
     text-align: center;
     margin-bottom: 30px;
 }
@@ -48,7 +48,7 @@
 }
 
 #jm-step3 #jm-step3-upload-thumbnail {
-    width: 500px;
+    width: 400px;
     height: 300px;
     background-color: #e2e2e2;
     border-radius: 6px;
@@ -72,6 +72,10 @@
     object-fit: cover;
 }
 
+.jm-step3-input-right {
+    margin-top: 40px;
+}
+
 /* 제목 입력 스타일 */
 #jm-step3 #jm-step3-input-title {
     width: 100%;
@@ -79,13 +83,14 @@
 }
 
 #jm-step3 #jm-step3-input-title input {
-    width: 100%;
+    width: 300px;
     padding: 10px;
     font-size: 16px;
     border: 2px solid #dddddd;
     border-radius: 6px;
     outline: none;
     transition: border-color 0.3s ease;
+    margin-bottom: 30px;
 }
 
 #jm-step3 #jm-step3-input-title input:focus {
@@ -99,7 +104,7 @@
 }
 
 #jm-step3 #jm-step3-input-description textarea {
-    width: 100%;
+    width: 300px;
     height: 100px;
     padding: 10px;
     font-size: 16px;

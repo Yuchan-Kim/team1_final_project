@@ -5,6 +5,7 @@ import { StepNav } from '../include/StepNav'; // StepNav 임포트
 import Footert from "../include/JM-Footer.jsx";
 
 import '../../css/reset.css';
+import '../css/Step04.css';
 
 const Step04 = () => {
     const navigate = useNavigate();
@@ -228,89 +229,90 @@ const handleHonestyScoreChange = (e) => {
 
     return (
         <>
-        <div id="jy_step" className="jy_wrap">
-            <div id="container">
-                <div className="step" id="step4">
+        <div id="jm-step4" className="jm-step4-wrap">
+            <div id="jm-step4-container">
+                <div className="jm-step4-step">
                     <StepNav idx={4} /> {/* StepNav 포함 */}
 
                     <form onSubmit={handleSubmit} encType="multipart/form-data">
-                        <div id="board">
-                            <div id="list">
+                        <div id="jm-step4-board">
+                            <div id="jm-step4-list">
                                 <h2>세부 설정</h2>
                                 <h4>방에 필요한 세부적인 설정을 할 수 있습니다.</h4>
 
                                 {/* 인원 설정 */}
-                                <div id='member-count'>
-                                <h3>인원 설정</h3>
-                                <div id='box-double'>
-                                    {/* 최대 참여 인원 설정 */}
-                                    <div>
-                                        <label>최대 참여 인원</label>
-                                        <select
-                                            value={maxParticipants}
-                                            onChange={(e) => {
-                                                setMaxParticipants(e.target.value);
-                                                if (parseInt(minParticipants, 10) > parseInt(e.target.value, 10)) {
-                                                    setMinParticipants(''); // 최소 참여 인원이 최대 참여 인원보다 클 경우 초기화
-                                                }
-                                            }}
-                                        >
-                                            <option value="">선택</option>
-                                            {[...Array(19)].map((_, i) => (
-                                                <option key={i + 2} value={i + 2}>
-                                                    {i + 2}명
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-
-                                    {/* 최소 참여 인원 설정 */}
-                                    <div>
-                                        <label>최소 참여 인원</label>
-                                        <select
-                                            value={minParticipants}
-                                            onChange={(e) => setMinParticipants(e.target.value)}
-                                            disabled={!maxParticipants} // 최대 참여 인원이 선택되지 않으면 비활성화
-                                        >
-                                            <option value="">선택</option>
-                                            {maxParticipants &&
-                                                [...Array(parseInt(maxParticipants, 10) - 1)].map((_, i) => (
+                                <div id="jm-step4-member-count">
+                                    <h3>인원 설정</h3>
+                                    <div id="jm-step4-box-double">
+                                        {/* 최대 참여 인원 설정 */}
+                                        <div className='jm-step4-maxuser'>
+                                            <label>최대 참여 인원</label>
+                                            <select
+                                                value={maxParticipants}
+                                                onChange={(e) => {
+                                                    setMaxParticipants(e.target.value);
+                                                    if (parseInt(minParticipants, 10) > parseInt(e.target.value, 10)) {
+                                                        setMinParticipants(''); // 최소 참여 인원이 최대 참여 인원보다 클 경우 초기화
+                                                    }
+                                                }}
+                                            >
+                                                <option value="">선택</option>
+                                                {[...Array(19)].map((_, i) => (
                                                     <option key={i + 2} value={i + 2}>
                                                         {i + 2}명
                                                     </option>
                                                 ))}
-                                        </select>
+                                            </select>
+                                        </div>
+
+                                        {/* 최소 참여 인원 설정 */}
+                                        <div className='jm-step4-minuser'>
+                                            <label>최소 참여 인원</label>
+                                            <select
+                                                value={minParticipants}
+                                                onChange={(e) => setMinParticipants(e.target.value)}
+                                                disabled={!maxParticipants} // 최대 참여 인원이 선택되지 않으면 비활성화
+                                            >
+                                                <option value="">선택</option>
+                                                {maxParticipants &&
+                                                    [...Array(parseInt(maxParticipants, 10) - 1)].map((_, i) => (
+                                                        <option key={i + 2} value={i + 2}>
+                                                            {i + 2}명
+                                                        </option>
+                                                    ))}
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
 
                                 {/* 입장 포인트 설정 */}
                                 {roomType !== 1 && (
-                                    <div id='box2'>
-                                    <h3>입장 포인트 설정</h3>
-                                    <input
-                                        placeholder={`최대 ${userPoints} pt`}
-                                        value={entryPoint}
-                                        onChange={handleEntryPointChange}
-                                        onBlur={handleEntryPointBlur}
-                                    />
-                                </div>
+                                    <div id="jm-step4-box2">
+                                        <h3>입장 포인트 설정</h3>
+                                        <input
+                                            placeholder={`최대 ${userPoints} pt`}
+                                            value={entryPoint}
+                                            onChange={handleEntryPointChange}
+                                            onBlur={handleEntryPointBlur}
+                                        />
+                                    </div>
                                 )}
 
                                 {/* 입장 성실도 설정 */}
                                 {roomType !== 1 && (
                                     <div>
-                                        <h3>입장 성실도 설정</h3>
+                                        <h3>
                                         <label>
                                             <input
                                                 type="checkbox"
                                                 checked={isHonestyEnabled}
                                                 onChange={() => setIsHonestyEnabled(!isHonestyEnabled)}
                                             />
-                                            입장 성실도 활성화
+                                            입장 성실도 설정
                                         </label>
+                                        </h3>
                                         <input
+                                            className='jm-step4-Score'
                                             placeholder={`최대 ${userScore}`}
                                             value={honestyScore}
                                             onChange={handleHonestyScoreChange}
@@ -320,11 +322,11 @@ const handleHonestyScoreChange = (e) => {
                                 )}
 
                                 {/* 지역 설정 */}
-                                <div id='box3'>
+                                <div id="jm-step4-box3">
                                     <h3>지역 설정</h3>
                                     <select value={region} onChange={handleRegionChange}>
                                         <option value="">지역 선택</option>
-                                        {regions.map(region => (
+                                        {regions.map((region) => (
                                             <option key={region.regionNum} value={region.regionNum}>
                                                 {region.regionName}
                                             </option>
@@ -333,9 +335,9 @@ const handleHonestyScoreChange = (e) => {
                                 </div>
                             </div>
 
-                            <div className="btn">
-                            <button id="secondary" onClick={() => navigate(`/genebang/step3/${roomNum}`)}>이전</button>
-                                <button type="submit" id="primary" disabled={!isNextEnabled()}>
+                            <div className="jm-step4-btn">
+                                <button id="jm-step4-secondary" onClick={() => navigate(`/genebang/step3/${roomNum}`)}>이전</button>
+                                <button type="submit" id="jm-step4-primary" disabled={!isNextEnabled()}>
                                     다음
                                 </button>
                             </div>
@@ -344,6 +346,7 @@ const handleHonestyScoreChange = (e) => {
                 </div>
             </div>
         </div>
+
         <Footert />
         </>
     );
