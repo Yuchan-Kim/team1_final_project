@@ -13,7 +13,10 @@ import '../../ham_asset/css/ham_M_home.css';
 const MobileDashboard = () => {
     const navigate = useNavigate();
     const [activeMenu, setActiveMenu] = useState(null); // 각 메뉴 항목의 텍스트 표시 상태를 관리
-    const [activeTab, setActiveTab] = useState('created'); // 챌린지 탭 관련 상태와 핸들러 추가
+    // localStorage에서 저장된 탭을 불러오거나, 없으면 'created' 사용
+    const [activeTab, setActiveTab] = useState(
+        localStorage.getItem('dashboardActiveTab') || 'created'
+    );
     const [imgError, setImgError] = useState({});
     const [showStartChallengePromptModal, setShowStartChallengePromptModal] = useState(false);
     const [selectedRoom, setSelectedRoom] = useState(null);
@@ -90,8 +93,9 @@ const MobileDashboard = () => {
     }, [navigate]);
 
     // 탭 클릭 핸들러
-    const handleTabClick = (tab) => {
+    const handleTabChange = (tab) => {
         setActiveTab(tab);
+        localStorage.setItem('dashboardActiveTab', tab);
     };
 
     const getTomorrow = () => {
@@ -341,28 +345,28 @@ const MobileDashboard = () => {
                 <div className="hmk_mobile_home-grid">
                     <button
                         className={`hmk_mobile_home-grid-item ${activeTab === 'created' ? 'hmk_active' : ''}`}
-                        onClick={() => handleTabClick('created')}
+                        onClick={() => handleTabChange('created')}
                         aria-label="내가 만든 방 탭"
                     >
                         내가 방장
                     </button>
                     <button
                         className={`hmk_mobile_home-grid-item ${activeTab === 'ongoing' ? 'hmk_active' : ''}`}
-                        onClick={() => handleTabClick('ongoing')}
+                        onClick={() => handleTabChange('ongoing')}
                         aria-label="진행중인 챌린지 탭"
                     >
                         진행중
                     </button>
                     <button
                         className={`hmk_mobile_home-grid-item ${activeTab === 'upcoming' ? 'hmk_active' : ''}`}
-                        onClick={() => handleTabClick('upcoming')}
+                        onClick={() => handleTabChange('upcoming')}
                         aria-label="시작 전 챌린지 탭"
                     >
                         시작 전
                     </button>
                     <button
                         className={`hmk_mobile_home-grid-item ${activeTab === 'completed' ? 'hmk_active' : ''}`}
-                        onClick={() => handleTabClick('completed')}
+                        onClick={() => handleTabChange('completed')}
                         aria-label="종료 된 챌린지 탭"
                     >
                         종료

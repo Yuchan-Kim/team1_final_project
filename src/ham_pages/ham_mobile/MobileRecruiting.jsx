@@ -6,7 +6,9 @@ import MobileBottomMenu from './MobileBottomMenu';
 import '../../ham_asset/css/ham_M_recruiting.css';
 
 const MobileRecruiting = () => {
-    const [activeTab, setActiveTab] = useState('all');
+    const [activeTab, setActiveTab] = useState(
+        localStorage.getItem('recruitingActiveTab') || 'all'
+    );
     const [recruitingStats, setRecruitingStats] = useState({
         recruitingNormalRooms: 0,
         recruitingChallengeRooms: 0,
@@ -43,7 +45,8 @@ const MobileRecruiting = () => {
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
-        filterChallenges(tab, recruitingChallenges);  // recruitingChallenges 전달
+        localStorage.setItem('recruitingActiveTab', tab);
+        filterChallenges(tab, recruitingChallenges);
     };
 
 
