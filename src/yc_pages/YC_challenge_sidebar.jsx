@@ -13,12 +13,8 @@ const YCChallengeSidebar = () => {
     const navigate = useNavigate();
     const { roomNum } = useParams();
    
-    
     const [regions, setRegions] = useState([]);
     const [currentParticipantCount, setCurrentParticipantCount] = useState(0);
-
-    
-
 
     // 모달 상태 관리
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -69,7 +65,6 @@ const YCChallengeSidebar = () => {
     const isExitDisabled = !(enteredUserStatusNum === 1 && enteredUserAuth !== null);
     const isMissionSubmissionDisabled = [1, 2, 4].includes(roomStatusNum);
 
-
     useEffect(() => {
         const fetchData = async () => {
             const token = localStorage.getItem('token');
@@ -118,6 +113,7 @@ const YCChallengeSidebar = () => {
     // 모달 열기 및 닫기 함수
     const openModal = () => {
         setIsModalOpen(true);
+        setIsExitModalOpen(false); // 다른 모달을 닫음
         fetchRoomDetails();
     };
 
@@ -143,25 +139,23 @@ const YCChallengeSidebar = () => {
             });
 
             if (response.data.result === 'success') {
-                const data = response.data.apiData;
+                const data = response.data.apiData[0];
                 console.log(data);
                 setFormData({
-                    regionNum: response.data.apiData[0].regionNum,
-                    roomKeyword: response.data.apiData[0].roomKeyword,
-                    roomTitle: response.data.apiData[0].roomTitle,
-                    roomThumbnail: response.data.apiData[0].roomThumbnail,
-                    roomMinNum: response.data.apiData[0].roomMinNum,
-                    roomMaxNum: response.data.apiData[0].roomMaxNum,
-                    roomEnterPoint: response.data.apiData[0].roomPoint,
-                    roomEnterRate: response.data.apiData[0].roomRate,
-                    evaluationType: response.data.apiData[0].evaluationType
+                    regionNum: data.regionNum,
+                    roomKeyword: data.roomKeyword,
+                    roomTitle: data.roomTitle,
+                    roomMinNum: data.roomMinNum,
+                    roomMaxNum: data.roomMaxNum,
+                    roomEnterPoint: data.roomPoint,
+                    roomEnterRate: data.roomRate,
+                    evaluationType: data.evaluationType === 1 ? '방장' : '유저'
                 });
-                console.log(setFormData.regionNum, setFormData.roomMinNum);
                 setPreviewImage(data.roomThumbnail);
             } else {
                 setFormError('방 상세 정보를 가져오는 데 실패했습니다.');
             }
- 
+
             // 지역 목록 가져오기
             const regionsResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/regions`, {
                 headers: {
@@ -272,7 +266,7 @@ const YCChallengeSidebar = () => {
             case 'evaluationType':
                 url = `${process.env.REACT_APP_API_URL}/api/challenge/update-evaluationtype/${roomNum}`;
                 data = { evaluationType: formData.evaluationType === '방장' ? 1 : 2 };
-            headers['Content-Type'] = 'application/json';
+                headers['Content-Type'] = 'application/json';
                 break;
             default:
                 setUpdateStatus(prevState => ({
@@ -329,6 +323,7 @@ const YCChallengeSidebar = () => {
             return;
         }
         setIsExitModalOpen(true);
+        setIsModalOpen(false); // 다른 모달을 닫음
     };
 
     // 방 나가기 확인 핸들러
@@ -408,75 +403,75 @@ const YCChallengeSidebar = () => {
     const isDisabled = !(roomStatusNum === 4 || enteredUserAuth === 1 || (enteredUserAuth === 2 && (enteredUserStatusNum === 1) && roomStatusNum > 2));
 
     return (
-        <aside className="yc_challenge_sidebar">
+        <aside className="yc-challenge-sidebar_sidebar">
             {isLoading ? (
-                <div className="loading-spinner">로딩 중...</div>
+                <div className="yc-loading-spinner_sidebar">로딩 중...</div>
             ) : (
                 <>
-                    {error && <div className="yc_error_message">{error}</div>}
+                    {error && <div className="yc-error-message_sidebar">{error}</div>}
 
-                    <nav className="yc_challenge_menu">
+                    <nav className="yc-challenge-menu_sidebar">
                         <ul>
-                            <li className="yc_challenge_sidebar_home">
+                            <li className="yc-challenge-sidebar-home_sidebar">
                                 <Link to={`/cmain/${roomNum}`} aria-label="홈">
                                     <FaHome size={24} />
-                                    <span className="menu-text">홈</span>
+                                    <span className="yc-menu-text_sidebar">홈</span>
                                 </Link>
                             </li>
-                            <li className="yc_challenge_sidebar_notice">
+                            <li className="yc-challenge-sidebar-notice_sidebar">
                                 <Link to={`/board/${roomNum}`} aria-label="공지사항">
                                     <FaBullhorn size={24} />
-                                    <span className="menu-text">공지사항</span>
+                                    <span className="yc-menu-text_sidebar">공지사항</span>
                                 </Link>
                             </li>
-                            <li className={`yc_challenge_sidebar_mission-detail ${isDisabled ? 'disabled' : ''}`}>
+                            <li className={`yc-challenge-menu-mission-detail_sidebar ${isMenuDisabled ? 'yc-disabled_sidebar' : ''}`}>
                                 <Link
                                     to={`/missioninfo/${roomNum}`}
                                     aria-label="미션 상세"
-                                    onClick={(e) => isDisabled && e.preventDefault()}
-                                    className={isDisabled ? 'disabled-link' : ''}
-                                    title={isDisabled ? '챌린지에 참여해야 이용할 수 있습니다.' : ''}
+                                    onClick={(e) => isMenuDisabled && e.preventDefault()}
+                                    className={isMenuDisabled ? 'yc-disabled-link_sidebar' : ''}
+                                    title={isMenuDisabled ? '챌린지에 참여해야 이용할 수 있습니다.' : ''}
                                 >
                                     <FaTasks size={24} />
-                                    <span className="menu-text">미션 히스토리 / 채점</span>
+                                    <span className="yc-menu-text_sidebar">미션 히스토리 / 채점</span>
                                 </Link>
                             </li>
-                            <li className={`yc_challenge_sidebar_submission-status ${isMissionSubmissionDisabled ? 'disabled' : ''}`}>
+                            <li className={`yc-challenge-menu-submission-status_sidebar ${isMissionSubmissionDisabled ? 'yc-disabled_sidebar' : ''}`}>
                                 <Link
                                     to={`/mission/${roomNum}`}
                                     aria-label="미션 제출"
                                     onClick={(e) => isMissionSubmissionDisabled && e.preventDefault()}
-                                    className={isMissionSubmissionDisabled ? 'disabled-link' : ''}
+                                    className={isMissionSubmissionDisabled ? 'yc-disabled-link_sidebar' : ''}
                                     title={isMissionSubmissionDisabled ? '현재 상태에서는 미션 제출을 할 수 없습니다.' : ''}
                                 >
                                     <FaUpload size={24} />
-                                    <span className="menu-text">미션 제출</span>
+                                    <span className="yc-menu-text_sidebar">미션 제출</span>
                                 </Link>
                             </li>
-                            <li className={`yc_challenge_sidebar_user-status ${isDisabled ? 'disabled' : ''}`}>
+                            <li className={`yc-challenge-menu-user-status_sidebar ${isMenuDisabled ? 'yc-disabled_sidebar' : ''}`}>
                                 <Link
                                     to={`/stat/${roomNum}`}
                                     aria-label="유저 현황"
-                                    onClick={(e) => isDisabled && e.preventDefault()}
-                                    className={isDisabled ? 'disabled-link' : ''}
-                                    title={isDisabled ? '챌린지에 참여해야 이용할 수 있습니다.' : ''}
+                                    onClick={(e) => isMenuDisabled && e.preventDefault()}
+                                    className={isMenuDisabled ? 'yc-disabled-link_sidebar' : ''}
+                                    title={isMenuDisabled ? '챌린지에 참여해야 이용할 수 있습니다.' : ''}
                                 >
                                     <FaUserFriends size={24} />
-                                    <span className="menu-text">유저 현황</span>
+                                    <span className="yc-menu-text_sidebar">유저 현황</span>
                                 </Link>
                             </li>
 
                             {/* 관리 메뉴: enteredUserAuth === 1인 관리자만 접근 가능 */}
                             {(enteredUserAuth === 1 && (roomStatusNum === 1 || roomStatusNum === 2)) && (
-                                <li className="yc_challenge_sidebar_manage">
+                                <li className="yc-challenge-menu-manage_sidebar">
                                     <Link
                                         onClick={openModal}
                                         aria-label="관리"
-                                        className="manage-button"
+                                        className="yc-manage-button_sidebar"
                                         style={{ background: 'none', border: 'none', cursor: 'pointer' }}
                                     >
                                         <FaCogs size={24} />
-                                        <span className="menu-text">관리</span>
+                                        <span className="yc-menu-text_sidebar">관리</span>
                                     </Link>
                                 </li>
                             )}
@@ -488,27 +483,28 @@ const YCChallengeSidebar = () => {
                         isOpen={isModalOpen}
                         onRequestClose={closeModal}
                         contentLabel="관리 모달"
-                        className="custom-modal"
-                        overlayClassName="custom-overlay"
+                        className="yc-custom-modal_sidebar"
+                        overlayClassName="yc-custom-overlay_sidebar"
                     >
-                        <div className="modal-content">
+                        <div className="yc-modal-content_sidebar">
+                            <button type="button" onClick={closeModal} className="yc-close-modal-button_sidebar" aria-label="모달 닫기">
+                                &times;
+                            </button>
                             <h2>방 관리</h2>
-                            {formError && <div className="error-message">{formError}</div>}
-                            {successMessage && <div className="success-message">{successMessage}</div>}
-                            <div className="manage-sections">
+                            {formError && <div className="yc-error-message_sidebar">{formError}</div>}
+                            {successMessage && <div className="yc-success-message_sidebar">{successMessage}</div>}
+                            <div className="yc-manage-sections_sidebar">
                                 {/* 지역 수정 섹션 */}
-                                <div className="manage-section">
-                                    <h3>지역 수정</h3>
-                                    <div className="form-group">
-                                        <label htmlFor="regionNum">지역:</label>
+                                <div className="yc-manage-section_sidebar">
+                                    <div className="yc-form-group_sidebar">
+                                        <label htmlFor="yc-regionNum_sidebar">지역:</label>
                                         <select
-                                            id="regionNum"
+                                            id="yc-regionNum_sidebar"
                                             name="regionNum"
                                             value={formData.regionNum}
                                             onChange={handleInputChange}
                                             required
                                         >
-                                            {/* 실제 지역 데이터로 대체 */}
                                             <option value="">지역 선택</option>
                                             {regions.map(region => (
                                                 <option key={region.regionNum} value={region.regionNum}>
@@ -520,21 +516,21 @@ const YCChallengeSidebar = () => {
                                     <button
                                         onClick={() => handleSectionUpdate('regionNum')}
                                         disabled={updateStatus.regionNum.loading}
+                                        className="yc-update-button_sidebar"
                                     >
                                         {updateStatus.regionNum.loading ? '업데이트 중...' : '지역 업데이트'}
                                     </button>
-                                    {updateStatus.regionNum.error && <div className="error-message">{updateStatus.regionNum.error}</div>}
-                                    {updateStatus.regionNum.success && <div className="success-message">{updateStatus.regionNum.success}</div>}
+                                    {updateStatus.regionNum.error && <div className="yc-error-message_sidebar">{updateStatus.regionNum.error}</div>}
+                                    {updateStatus.regionNum.success && <div className="yc-success-message_sidebar">{updateStatus.regionNum.success}</div>}
                                 </div>
 
                                 {/* 방 키워드 수정 섹션 */}
-                                <div className="manage-section">
-                                    <h3>방 키워드 수정</h3>
-                                    <div className="form-group">
-                                        <label htmlFor="roomKeyword">방 키워드:</label>
+                                <div className="yc-manage-section_sidebar">
+                                    <div className="yc-form-group_sidebar">
+                                        <label htmlFor="yc-roomKeyword_sidebar">방 키워드:</label>
                                         <input
                                             type="text"
-                                            id="roomKeyword"
+                                            id="yc-roomKeyword_sidebar"
                                             name="roomKeyword"
                                             value={formData.roomKeyword}
                                             onChange={handleInputChange}
@@ -544,21 +540,21 @@ const YCChallengeSidebar = () => {
                                     <button
                                         onClick={() => handleSectionUpdate('roomKeyword')}
                                         disabled={updateStatus.roomKeyword.loading}
+                                        className="yc-update-button_sidebar"
                                     >
                                         {updateStatus.roomKeyword.loading ? '업데이트 중...' : '키워드 업데이트'}
                                     </button>
-                                    {updateStatus.roomKeyword.error && <div className="error-message">{updateStatus.roomKeyword.error}</div>}
-                                    {updateStatus.roomKeyword.success && <div className="success-message">{updateStatus.roomKeyword.success}</div>}
+                                    {updateStatus.roomKeyword.error && <div className="yc-error-message_sidebar">{updateStatus.roomKeyword.error}</div>}
+                                    {updateStatus.roomKeyword.success && <div className="yc-success-message_sidebar">{updateStatus.roomKeyword.success}</div>}
                                 </div>
 
                                 {/* 방 제목 수정 섹션 */}
-                                <div className="manage-section">
-                                    <h3>방 제목 수정</h3>
-                                    <div className="form-group">
-                                        <label htmlFor="roomTitle">방 제목:</label>
+                                <div className="yc-manage-section_sidebar">
+                                    <div className="yc-form-group_sidebar">
+                                        <label htmlFor="yc-roomTitle_sidebar">방 제목:</label>
                                         <input
                                             type="text"
-                                            id="roomTitle"
+                                            id="yc-roomTitle_sidebar"
                                             name="roomTitle"
                                             value={formData.roomTitle}
                                             onChange={handleInputChange}
@@ -568,77 +564,77 @@ const YCChallengeSidebar = () => {
                                     <button
                                         onClick={() => handleSectionUpdate('roomTitle')}
                                         disabled={updateStatus.roomTitle.loading}
+                                        className="yc-update-button_sidebar"
                                     >
                                         {updateStatus.roomTitle.loading ? '업데이트 중...' : '제목 업데이트'}
                                     </button>
-                                    {updateStatus.roomTitle.error && <div className="error-message">{updateStatus.roomTitle.error}</div>}
-                                    {updateStatus.roomTitle.success && <div className="success-message">{updateStatus.roomTitle.success}</div>}
+                                    {updateStatus.roomTitle.error && <div className="yc-error-message_sidebar">{updateStatus.roomTitle.error}</div>}
+                                    {updateStatus.roomTitle.success && <div className="yc-success-message_sidebar">{updateStatus.roomTitle.success}</div>}
                                 </div>
 
                                 {/* 방 썸네일 수정 섹션 */}
-                                <div className="manage-section">
-                                    <h3>방 썸네일 수정</h3>
-                                    <div className="form-group">
-                                        <label htmlFor="roomThumbnail">방 썸네일:</label>
+                                <div className="yc-manage-section_sidebar">
+                                    <div className="yc-form-group_sidebar">
+                                        <label htmlFor="yc-roomThumbnail_sidebar">방 썸네일:</label>
+                                        {previewImage && (
+                                            <div className="yc-image-preview_sidebar">
+                                                <img src={`${previewImage}`} alt="방 썸네일 미리보기" />
+                                            </div>
+                                        )}
                                         <input
                                             type="file"
-                                            id="roomThumbnail"
+                                            id="yc-roomThumbnail_sidebar"
                                             name="roomThumbnail"
                                             accept="image/*"
                                             onChange={handleImageChange}
                                         />
-                                        {previewImage && (
-                                            <div className="image-preview">
-                                                <img src={previewImage} alt="방 썸네일 미리보기" />
-                                            </div>
-                                        )}
+                                        
+                                        
                                     </div>
                                     <button
                                         onClick={() => handleSectionUpdate('roomThumbnail')}
                                         disabled={updateStatus.roomThumbnail.loading}
+                                        className="yc-update-button_sidebar"
                                     >
                                         {updateStatus.roomThumbnail.loading ? '업데이트 중...' : '썸네일 업데이트'}
                                     </button>
-                                    {updateStatus.roomThumbnail.error && <div className="error-message">{updateStatus.roomThumbnail.error}</div>}
-                                    {updateStatus.roomThumbnail.success && <div className="success-message">{updateStatus.roomThumbnail.success}</div>}
+                                    {updateStatus.roomThumbnail.error && <div className="yc-error-message_sidebar">{updateStatus.roomThumbnail.error}</div>}
+                                    {updateStatus.roomThumbnail.success && <div className="yc-success-message_sidebar">{updateStatus.roomThumbnail.success}</div>}
                                 </div>
 
                                 {/* 최소 참가 인원 수정 섹션 */}
-                                <div className="manage-section">
-                                    <h3>최소 참가 인원 수정</h3>
-                                    <div className="form-group">
-                                        <label htmlFor="roomMinNum">최소 참가 인원:</label>
+                                <div className="yc-manage-section_sidebar">
+                                    <div className="yc-form-group_sidebar">
+                                        <label htmlFor="yc-roomMinNum_sidebar">최소 참가 인원:</label>
                                         <input
                                             type="number"
-                                            id="roomMinNum"
+                                            id="yc-roomMinNum_sidebar"
                                             name="roomMinNum"
                                             value={formData.roomMinNum}
                                             onChange={handleInputChange}
                                             min="2"
-                                            max= {formData.roomMaxNum}
+                                            max={formData.roomMaxNum}
                                             required
                                         />
                                     </div>
                                     <button
                                         onClick={() => handleSectionUpdate('roomMinNum')}
                                         disabled={updateStatus.roomMinNum.loading}
+                                        className="yc-update-button_sidebar"
                                     >
                                         {updateStatus.roomMinNum.loading ? '업데이트 중...' : '최소 인원 업데이트'}
                                     </button>
-                                    {updateStatus.roomMinNum.error && <div className="error-message">{updateStatus.roomMinNum.error}</div>}
-                                    {updateStatus.roomMinNum.success && <div className="success-message">{updateStatus.roomMinNum.success}</div>}
+                                    {updateStatus.roomMinNum.error && <div className="yc-error-message_sidebar">{updateStatus.roomMinNum.error}</div>}
+                                    {updateStatus.roomMinNum.success && <div className="yc-success-message_sidebar">{updateStatus.roomMinNum.success}</div>}
                                 </div>
 
-                                
-                                
                                 {/* 방 참가 포인트 수정 섹션 */}
-                                <div className="manage-section">
-                                    <h3>방 참가 포인트 수정</h3>
-                                    <div className="form-group">
-                                        <label htmlFor="roomEnterPoint">방 참가 포인트:</label>
+                                <div className="yc-manage-section_sidebar">
+                                    <div className="yc-form-group_sidebar">
+                                        <label htmlFor="yc-roomEnterPoint_sidebar">방 참가 포인트:</label>
                                         <input
                                             type="number"
-                                            id="roomEnterPoint"
+                                            id="yc-roomEnterPoint_sidebar"
                                             name="roomEnterPoint"
                                             value={formData.roomEnterPoint}
                                             onChange={handleInputChange}
@@ -649,21 +645,21 @@ const YCChallengeSidebar = () => {
                                     <button
                                         onClick={() => handleSectionUpdate('roomEnterPoint')}
                                         disabled={updateStatus.roomEnterPoint.loading}
+                                        className="yc-update-button_sidebar"
                                     >
                                         {updateStatus.roomEnterPoint.loading ? '업데이트 중...' : '참가 포인트 업데이트'}
                                     </button>
-                                    {updateStatus.roomEnterPoint.error && <div className="error-message">{updateStatus.roomEnterPoint.error}</div>}
-                                    {updateStatus.roomEnterPoint.success && <div className="success-message">{updateStatus.roomEnterPoint.success}</div>}
+                                    {updateStatus.roomEnterPoint.error && <div className="yc-error-message_sidebar">{updateStatus.roomEnterPoint.error}</div>}
+                                    {updateStatus.roomEnterPoint.success && <div className="yc-success-message_sidebar">{updateStatus.roomEnterPoint.success}</div>}
                                 </div>
 
                                 {/* 방 참가 비율 수정 섹션 */}
-                                <div className="manage-section">
-                                    <h3>방 참가 비율 수정</h3>
-                                    <div className="form-group">
-                                        <label htmlFor="roomEnterRate">방 참가 비율 (%):</label>
+                                <div className="yc-manage-section_sidebar">
+                                    <div className="yc-form-group_sidebar">
+                                        <label htmlFor="yc-roomEnterRate_sidebar">방 참가 비율 (%):</label>
                                         <input
                                             type="number"
-                                            id="roomEnterRate"
+                                            id="yc-roomEnterRate_sidebar"
                                             name="roomEnterRate"
                                             value={formData.roomEnterRate}
                                             onChange={handleInputChange}
@@ -675,26 +671,25 @@ const YCChallengeSidebar = () => {
                                     <button
                                         onClick={() => handleSectionUpdate('roomEnterRate')}
                                         disabled={updateStatus.roomEnterRate.loading}
+                                        className="yc-update-button_sidebar"
                                     >
                                         {updateStatus.roomEnterRate.loading ? '업데이트 중...' : '참가 비율 업데이트'}
                                     </button>
-                                    {updateStatus.roomEnterRate.error && <div className="error-message">{updateStatus.roomEnterRate.error}</div>}
-                                    {updateStatus.roomEnterRate.success && <div className="success-message">{updateStatus.roomEnterRate.success}</div>}
+                                    {updateStatus.roomEnterRate.error && <div className="yc-error-message_sidebar">{updateStatus.roomEnterRate.error}</div>}
+                                    {updateStatus.roomEnterRate.success && <div className="yc-success-message_sidebar">{updateStatus.roomEnterRate.success}</div>}
                                 </div>
 
                                 {/* 평가 유형 수정 섹션 */}
-                                <div className="manage-section">
-                                    <h3>평가 유형 수정</h3>
-                                    <div className="form-group">
-                                        <label htmlFor="evaluationType">평가 유형:</label>
+                                <div className="yc-manage-section_sidebar">
+                                    <div className="yc-form-group_sidebar">
+                                        <label htmlFor="yc-evaluationType_sidebar">평가 유형:</label>
                                         <select
-                                            id="evaluationType"
+                                            id="yc-evaluationType_sidebar"
                                             name="evaluationType"
                                             value={formData.evaluationType}
                                             onChange={handleInputChange}
                                             required
                                         >
-                                            {/* 실제 평가 유형으로 대체 */}
                                             <option value="">평가 유형 선택</option>
                                             <option value="방장">방장</option>
                                             <option value="유저">유저</option>
@@ -703,16 +698,19 @@ const YCChallengeSidebar = () => {
                                     <button
                                         onClick={() => handleSectionUpdate('evaluationType')}
                                         disabled={updateStatus.evaluationType.loading}
+                                        className="yc-update-button_sidebar"
                                     >
                                         {updateStatus.evaluationType.loading ? '업데이트 중...' : '평가 유형 업데이트'}
                                     </button>
-                                    {updateStatus.evaluationType.error && <div className="error-message">{updateStatus.evaluationType.error}</div>}
-                                    {updateStatus.evaluationType.success && <div className="success-message">{updateStatus.evaluationType.success}</div>}
+                                    {updateStatus.evaluationType.error && <div className="yc-error-message_sidebar">{updateStatus.evaluationType.error}</div>}
+                                    {updateStatus.evaluationType.success && <div className="yc-success-message_sidebar">{updateStatus.evaluationType.success}</div>}
                                 </div>
                             </div>
-                            <button type="button" onClick={closeModal} className="close-modal-button">
-                                닫기
-                            </button>
+                            <div className="yc-modal-buttons_sidebar">
+                                <button type="button" onClick={closeModal} className="yc-confirm-button_sidebar">
+                                    닫기
+                                </button>
+                            </div>
                         </div>
                     </Modal>
 
@@ -721,21 +719,21 @@ const YCChallengeSidebar = () => {
                         isOpen={isExitModalOpen}
                         onRequestClose={closeExitModal}
                         contentLabel="방 나가기 확인 모달"
-                        className="custom-modal_sidebar"
-                        overlayClassName="custom-overlay_sidebar"
+                        className="yc-custom-modal_sidebar"
+                        overlayClassName="yc-custom-overlay_sidebar"
                     >
-                        <div className="modal-content_sidebar">
+                        <div className="yc-modal-content_sidebar">
                             <p>{exitModalMessage}</p>
-                            <div className="modal-buttons_sidebar">
+                            <div className="yc-modal-buttons_sidebar">
                                 {exitModalType === 'delete' ? (
                                     <>
-                                        <button onClick={handleExitConfirm} aria-label="방 삭제 확인">삭제</button>
-                                        <button onClick={closeExitModal} aria-label="방 삭제 취소">취소</button>
+                                        <button onClick={handleExitConfirm} aria-label="방 삭제 확인" className="yc-confirm-button_sidebar">삭제</button>
+                                        <button onClick={closeExitModal} aria-label="방 삭제 취소" className="yc-cancel-button_sidebar">취소</button>
                                     </>
                                 ) : (
                                     <>
-                                        <button onClick={handleExitConfirm} aria-label="방 나가기 확인">확인</button>
-                                        <button onClick={closeExitModal} aria-label="방 나가기 취소">취소</button>
+                                        <button onClick={handleExitConfirm} aria-label="방 나가기 확인" className="yc-confirm-button_sidebar">확인</button>
+                                        <button onClick={closeExitModal} aria-label="방 나가기 취소" className="yc-cancel-button_sidebar">취소</button>
                                     </>
                                 )}
                             </div>
@@ -744,13 +742,13 @@ const YCChallengeSidebar = () => {
 
                     {/* 푸터 버튼 */}
                     {isExitButtonVisible && (
-                    <div className="yc_challenge_footer-buttons">
-                        <button className="yc_challenge_report-btn" title="신고" aria-label="신고">
+                    <div className="yc-challenge-footer-buttons_sidebar">
+                        <button className="yc-challenge-report-btn_sidebar" title="신고" aria-label="신고">
                             신고
                         </button>
-                        <div className={isExitDisabled ? 'disabled-link' : ''}>
+                        <div className={isExitDisabled ? 'yc-disabled-link_sidebar' : ''}>
                             <button 
-                                className="yc_challenge_exit-btn" 
+                                className="yc-challenge-exit-btn_sidebar" 
                                 title="방 나가기" 
                                 onClick={isExitDisabled ? null : handleExitClick} 
                                 aria-label="방 나가기"

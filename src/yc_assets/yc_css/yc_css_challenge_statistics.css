@@ -85,6 +85,9 @@
   border-radius: 12px; /* 모서리 더 둥글게 */
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* 그림자 강화 */
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* 부드러운 hover 효과 */
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeSlideIn 0.5s forwards; /* 카드 진입 애니메이션 */
 }
 
 .yc_challenge_statistics_user:hover {
@@ -94,9 +97,13 @@
 
 /* 사용자 이모티콘 */
 .yc_challenge_statistics_user-emoji {
-  font-size: 32px; /* 이모지 크기 증가 */
+  width: 50px; /* 이모지 대신 이미지의 크기를 고정 */
+  height: 50px;
+  border-radius: 50%; /* 원형 이미지 */
+  object-fit: cover;
   margin-right: 20px;
-  flex-shrink: 0;
+  opacity: 0;
+  animation: fadeIn 0.5s forwards; /* 프로필 이미지 페이드 인 */
 }
 
 /* 사용자 정보 섹션 */
@@ -115,9 +122,11 @@
   flex-shrink: 0;
   text-decoration: none;
   transition: color 0.3s ease;
+  position: relative;
 }
 
 .yc_challenge_statistics_user-name:hover {
+  color: #2196f3; /* 호버 시 색상 변경 */
   text-decoration: underline;
 }
 
@@ -172,6 +181,10 @@
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+.yc_challenge_statistics_report-button:active {
+  animation: bounce 0.3s; /* 클릭 시 튕김 효과 */
+}
+
 .yc_challenge_statistics_report-button:hover {
   background-color: #2c3e50;
   transform: scale(1.1);
@@ -195,7 +208,7 @@
 
 @keyframes modalFadeIn {
   to {
-      opacity: 1;
+    opacity: 1;
   }
 }
 
@@ -208,7 +221,35 @@
   text-align: center;
   position: relative;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-  animation: slideDown 0.6s ease-out;
+  animation: slideDown 0.6s ease-out, fadeIn 0.3s forwards;
+  opacity: 0;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* 모달 닫힘 애니메이션 */
+.yc-modal-overlay.closing .yc-modal-content {
+  animation: slideUp 0.5s forwards;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
 }
 
 /* 보고서 상세 섹션 */
@@ -227,7 +268,27 @@
   position: relative;
   margin-right: 20px;
   opacity: 0;
-  animation: fadeInChart 0.8s forwards; /* 차트 페이드 인 애니메이션 추가 */
+  animation: fadeInChart 0.8s forwards, rotateIn 1s ease-out;
+}
+
+@keyframes fadeInChart {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes rotateIn {
+  from {
+    transform: rotate(-360deg) scale(0.8);
+  }
+  to {
+    transform: rotate(0deg) scale(1);
+  }
 }
 
 /* 완료율 표시 */
@@ -244,7 +305,7 @@
 /* 미션 상세 섹션 위치 수정 */
 .yc-mission-details {
   text-align: left;
-  font-size: 18px; 
+  font-size: 18px;
   color: #333;
   margin-top: 10px;
 }
@@ -257,6 +318,8 @@
   padding: 20px;
   margin-bottom: 20px;
   position: relative;
+  opacity: 0;
+  animation: fadeIn 0.5s forwards; /* 그룹 챌린지 섹션 페이드 인 */
 }
 
 .yc-group-challenge-section h3 {
@@ -300,6 +363,8 @@
   color: #333;
   margin-bottom: 20px;
   margin-left: 200px;
+  opacity: 0;
+  animation: fadeIn 0.5s forwards; /* 포인트 요약 페이드 인 */
 }
 
 .yc-points-summary p {
@@ -318,6 +383,10 @@
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+.yc-close-button:active {
+  animation: bounce 0.3s; /* 클릭 시 튕김 효과 */
+}
+
 .yc-close-button:hover {
   background-color: #2c3e50;
   transform: scale(1.05);
@@ -325,123 +394,128 @@
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideDown {
-  from { transform: translateY(-30px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-@keyframes fadeInChart {
-  from { opacity: 0; transform: scale(0.8); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-/* 반응형 디자인 */
-@media screen and (max-width: 768px) {
-  .yc_challenge_statistics_main {
-      padding-left: 20px;
-      padding-right: 20px;
-      width: calc(100vw - 100px); /* 작은 화면에서 너비 조정 */
+  from {
+    opacity: 0;
   }
+  to {
+    opacity: 1;
+  }
+}
 
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* 미디어 쿼리 */
+@media screen and (max-width: 768px) {
   .yc_challenge_statistics_overall-personal-container {
-      flex-direction: column;
-      align-items: center;
+    flex-direction: column;
+    align-items: center;
   }
 
   .yc_challenge_statistics_graphs-section {
-      flex-direction: row; /* 기본은 row로 설정 */
-      flex-wrap: wrap; /* 필요시 줄 바꿈 */
-      justify-content: center;
+    flex-direction: row; /* 기본은 row로 설정 */
+    flex-wrap: wrap; /* 필요시 줄 바꿈 */
+    justify-content: center;
   }
 
   .yc_challenge_statistics_line-chart,
   .yc_challenge_statistics_additional-graph {
-      flex: 1 1 100%; /* 모바일에서는 100% 너비 */
-      max-width: 100%;
-      height: 200px; /* 차트 높이 지정 */
+    flex: 1 1 100%; /* 모바일에서는 100% 너비 */
+    max-width: 100%;
+    height: 200px; /* 차트 높이 지정 */
   }
 
   .yc_challenge_statistics_user-list {
-      flex-direction: column;
+    flex-direction: column;
   }
 
   .yc_challenge_statistics_user {
-      flex-direction: column;
-      align-items: flex-start;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .yc_challenge_statistics_user-info {
-      margin-top: 10px;
+    margin-top: 10px;
   }
 
   .yc_challenge_statistics_user-progress-bar {
-      width: 100%; /* 진행 바 너비 조정 */
-      margin-left: 0;
-      margin-top: 10px;
+    width: 100%; /* 진행 바 너비 조정 */
+    margin-left: 0;
+    margin-top: 10px;
   }
 
   .yc_challenge_statistics_user-progress {
-      margin-left: 0;
-      margin-top: 10px;
-      text-align: left;
+    margin-left: 0;
+    margin-top: 10px;
+    text-align: left;
   }
 
   .yc_challenge_statistics_user-details {
-      margin-left: 0;
-      margin-top: 10px;
-      flex-direction: column;
-      align-items: flex-start;
+    margin-left: 0;
+    margin-top: 10px;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .yc_challenge_statistics_report-button {
-      margin-left: 0;
-      margin-top: 10px;
+    margin-left: 0;
+    margin-top: 10px;
   }
 
   .yc-modal-content {
-      width: 90%;
-      padding: 20px;
+    width: 90%;
+    padding: 20px;
   }
 
   .yc-report-details {
-      flex-direction: column;
-      align-items: center;
+    flex-direction: column;
+    align-items: center;
   }
 
   .yc-dougnut-chart {
-      margin-right: 0;
-      margin-bottom: 20px;
+    margin-right: 0;
+    margin-bottom: 20px;
   }
 
   .yc-group-challenge-section {
-      padding: 15px;
+    padding: 15px;
   }
 
   .yc-group-challenge-points {
-      top: 15px;
-      right: 15px;
+    top: 15px;
+    right: 15px;
   }
 
   .yc-points-summary {
-      font-size: 14px;
-      margin-left: 0;
+    font-size: 14px;
+    margin-left: 0;
   }
 
   .yc-close-button {
-      width: 100%;
+    width: 100%;
   }
 
-  /* Adjust chart container for mobile */
-  .yc-chart-container {
-    top: 60px; /* Adjust based on TopHeader height for smaller screens */
-    right: 10px; /* Reduce right margin */
-    width: 140px; /* Slightly smaller width */
-    padding: 8px; /* Reduced padding */
-  }
+ 
 
   .yc-chart-container .yc-achievement-rate h4 {
     font-size: 16px; /* Smaller font size */
@@ -458,36 +532,23 @@
   }
 
   .yc-ranking-avatar {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
+    margin-right: 0;
     margin-bottom: 5px;
   }
 
   .yc-ranking-info {
-    width: 100%;
+    align-items: center;
   }
 
-  .yc-ranking-name, .yc-ranking-progress {
-    font-size: 14px;
+  .yc-ranking-name,
+  .yc-ranking-progress {
+    font-size: 12px;
   }
 }
 
-/* Chart Container */
-.yc-chart-container {
-  position: fixed; /* Fixed position */
-  top: 80px; /* Adjust based on TopHeader height */
-  right: 50px; /* Right margin */
-  width: 200px; /* Increased width to accommodate rankings */
-  background-color: #ffffff; /* Background color */
-  border: 1px solid #ddd; /* Border */
-  border-radius: 10px; /* Rounded corners */
-  padding: 15px; /* Internal padding */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
-  z-index: 1000; /* Display above other elements */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+
 
 /* Achievement Rate Display */
 .yc-achievement-rate {
@@ -498,6 +559,8 @@
 .yc-top-rankings {
   width: 100%;
   margin-top: 20px;
+  opacity: 0;
+  animation: fadeIn 0.5s forwards; /* Top Rankings 페이드 인 */
 }
 
 .yc-top-rankings h3 {
@@ -511,6 +574,8 @@
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  opacity: 0;
+  animation: fadeSlideIn 0.5s forwards; /* 랭킹 아이템 진입 애니메이션 */
 }
 
 .yc-ranking-avatar {
@@ -519,6 +584,8 @@
   border-radius: 50%;
   object-fit: cover;
   margin-right: 10px;
+  opacity: 0;
+  animation: fadeIn 0.5s forwards; /* 프로필 이미지 페이드 인 */
 }
 
 .yc-ranking-info {
@@ -554,11 +621,7 @@
 
 /* Responsive Adjustments for Top Rankings */
 @media screen and (max-width: 768px) {
-  .yc-chart-container {
-    width: 140px; /* Smaller width for mobile */
-    right: 10px; /* Reduced right margin */
-    padding: 10px; /* Reduced padding */
-  }
+  
 
   .yc-top-rankings h3 {
     font-size: 16px;
@@ -581,7 +644,8 @@
     align-items: center;
   }
 
-  .yc-ranking-name, .yc-ranking-progress {
+  .yc-ranking-name,
+  .yc-ranking-progress {
     font-size: 12px;
   }
 }
