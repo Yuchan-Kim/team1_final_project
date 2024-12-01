@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import moment from 'moment';
-import '../../css/reset.css';
-import '../../css/jy_step.css';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { StepNav } from '../include/StepNav'; // StepNav 임포트
-import Header from '../include/DH_Header';
 import Footert from "../include/JM-Footer.jsx";
+
+import '../../css/reset.css';
 
 const Step05 = ({ onNext, onPrevious }) => {
     const navigate = useNavigate();

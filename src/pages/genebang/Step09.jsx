@@ -4,7 +4,7 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import '../../css/reset.css';
-import '../../css/jy_step.css';
+
 
 const Step09 = ({ onNext, onPrevious, onClose }) => {
     const { roomNum } = useParams();

@@ -1,0 +1,178 @@
+/* 전체 레이아웃 */
+#jm-step3.jm-step3-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    font-family: 'Arial', sans-serif;
+}
+
+#jm-step3 #jm-step3-container {
+    width: 100%;
+    overflow: hidden;
+}
+
+#jm-step3 #jm-step3-board {
+    text-align: center;
+}
+
+/* 제목 스타일 */
+#jm-step3 #jm-step3-board h2 {
+    font-size: 26px;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+#jm-step3 #jm-step3-board h4 {
+    font-size: 16px;
+    color: #555555;
+    margin-bottom: 30px;
+}
+
+/* 입력 목록 컨테이너 */
+#jm-step3 #jm-step3-list {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* 이미지 업로드 스타일 */
+#jm-step3 #jm-step3-input-thumbnail {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 40px;
+}
+
+#jm-step3 #jm-step3-upload-thumbnail {
+    width: 500px;
+    height: 300px;
+    background-color: #e2e2e2;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+#jm-step3 #jm-step3-upload-thumbnail:hover {
+    background-color: #ffffff;
+    border-color: #007bff;
+}
+
+#jm-step3 #jm-step3-upload-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 제목 입력 스타일 */
+#jm-step3 #jm-step3-input-title {
+    width: 100%;
+    max-width: 600px;
+}
+
+#jm-step3 #jm-step3-input-title input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #dddddd;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+#jm-step3 #jm-step3-input-title input:focus {
+    border-color: #007bff;
+}
+
+/* 설명 입력 스타일 */
+#jm-step3 #jm-step3-input-description {
+    width: 100%;
+    max-width: 600px;
+}
+
+#jm-step3 #jm-step3-input-description textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #dddddd;
+    border-radius: 6px;
+    outline: none;
+    resize: none;
+    transition: border-color 0.3s ease;
+}
+
+#jm-step3 #jm-step3-input-description textarea:focus {
+    border-color: #007bff;
+}
+
+/* 버튼 컨테이너 */
+#jm-step3 .jm-step3-btn {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+/* 버튼 스타일 */
+#jm-step3 #jm-step3-secondary {
+    padding: 12px 24px;
+    background-color: #e0e0e0;
+    color: #333333;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#jm-step3 #jm-step3-secondary:hover {
+    background-color: #c6c6c6;
+}
+
+#jm-step3 #jm-step3-primary {
+    padding: 12px 24px;
+    background-color: #d3d3d3; /* 기본 비활성화 상태 */
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: not-allowed;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+#jm-step3 #jm-step3-primary:not(.jm-step3-disabled) {
+    background-color: #007bff; /* 활성화된 상태 */
+    cursor: pointer;
+    transform: scale(1.05); /* 약간 확대 */
+}
+
+#jm-step3 #jm-step3-primary:not(.jm-step3-disabled):hover {
+    background-color: #0056b3;
+}
+
+/* 반응형 스타일 */
+@media screen and (max-width: 768px) {
+    #jm-step3 #jm-step3-upload-thumbnail {
+        width: 150px;
+        height: 150px;
+    }
+
+    #jm-step3 #jm-step3-input-title input,
+    #jm-step3 #jm-step3-input-description textarea {
+        font-size: 14px;
+    }
+
+    #jm-step3 #jm-step3-btn {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

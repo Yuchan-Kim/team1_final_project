@@ -2,11 +2,10 @@ import { useParams } from 'react-router-dom'; // URL에서 roomNum 추출
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../../css/reset.css';
-import '../../css/jy_step.css';
 import { StepNav } from '../include/StepNav'; // StepNav 임포트
-import Header from '../include/DH_Header';
 import Footert from "../include/JM-Footer.jsx";
+
+import '../../css/reset.css';
 
 const Step06 = ({ onNext, onPrevious }) => {
     const { roomNum } = useParams(); // URL에서 roomNum 추출

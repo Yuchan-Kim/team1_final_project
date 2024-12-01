@@ -5,10 +5,9 @@ import axios from 'axios';
 import { StepNav } from '../include/StepNav'; // StepNav 임포트
 
 import '../../css/reset.css';
-import '../../css/jy_step.css';
+import '../css/Step01.css';
 
 import CheckRoundIcon from '@rsuite/icons/CheckRound';
-import Header from '../include/DH_Header';
 import Footert from "../include/JM-Footer.jsx";
 
 const Step01 = () => {
@@ -19,8 +18,15 @@ const Step01 = () => {
 
     // 옵션 클릭 핸들러
     const handleSelect = (type) => {
+        console.log("Option selected:", type); // 선택된 타입 확인
         setSelectedType(type);
     };
+    
+    // "다음" 버튼의 className 확인용 로깅 추가
+    console.log(
+        "Button className:",
+        `jm-step1-btn-primary ${selectedType ? 'active' : ''}`
+    );
 
     const handleCancel = () => {
         if (selectedType) {
@@ -33,7 +39,6 @@ const Step01 = () => {
         navigate("/"); // 이전 페이지로 이동
     };
 
-    // 폼 제출 핸들러
     const handleSubmit = async (e) => {
         e.preventDefault(); // 기본 동작 방지
     
@@ -48,7 +53,6 @@ const Step01 = () => {
         }
     
         try {
-            // Axios 요청
             const response = await axios.post(
                 `${process.env.REACT_APP_API_URL}/api/challengeType`,
                 selectedType, // 단일 값 전달
@@ -60,7 +64,6 @@ const Step01 = () => {
                 }
             );
     
-            // 응답 처리
             if (response.data.result === 'success') {
                 const roomNum = response.data.apiData; // 서버에서 반환된 방 번호
                 navigate(`/genebang/step2/${roomNum}`); // 방 번호로 다음 스텝 이동
@@ -77,22 +80,19 @@ const Step01 = () => {
             }
         }
     };
-    
 
     return (
         <>
-        <Header/>
-        <div id="jy_step" className="jy_wrap">
+        <div id="jm-step1" className="jm-step1-wrap">
             <div id="container">
                 <div className="step" id="step1">
-                    <StepNav idx={1} /> {/* StepNav 포함 */}
+                    <StepNav idx={1} />
 
                     <form onSubmit={handleSubmit} encType="multipart/form-data">
                         <div id="board">
                             <h2>챌린지 종류를 선택 해주세요.</h2>
 
                             <div id="list">
-                                {/* 왼쪽 리스트 (일반) */}
                                 <div
                                     id="list-left"
                                     className={selectedType === 1 ? 'selected' : ''}
@@ -107,7 +107,6 @@ const Step01 = () => {
                                     </ul>
                                 </div>
 
-                                {/* 오른쪽 리스트 (챌린지) */}
                                 <div
                                     id="list-right"
                                     className={selectedType === 2 ? 'selected' : ''}
@@ -124,38 +123,31 @@ const Step01 = () => {
                                     </ul>
                                 </div>
                             </div>
-                            {/* //list */}
 
                             <div className="btn">
-                            <button
-                                id="secondary"
-                                onClick={handleCancel} // 수정된 핸들러 사용
-                            >
-                                취소
-                            </button>
+                                <button
+                                    id="secondary"
+                                    onClick={handleCancel}
+                                >
+                                    취소
+                                </button>
                                 <button
                                     type="submit"
                                     id="primary"
-                                    className={!selectedType ? 'disabled' : ''}
-                                    disabled={!selectedType} // 선택되지 않으면 비활성화
+                                    className={`jm-step1-btn-primary ${selectedType ? 'active' : ''}`}
+                                    disabled={!selectedType}
                                 >
                                     다음
                                 </button>
                             </div>
                         </div>
-                        {/* //board */}
                     </form>
                 </div>
-                {/* //step */}
             </div>
-            {/* //container */}
         </div>
-        <Footert/>
+        <Footert />
         </>
     );
-    
 };
 
 export default Step01;
-
-

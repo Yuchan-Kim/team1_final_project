@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import '../../css/reset.css';
-import '../../css/jy_step.css';
 import { StepNav } from '../include/StepNav';
-import Header from '../include/DH_Header';
 import Footert from "../include/JM-Footer.jsx";
+
+import '../../css/reset.css';
 
 const Step07 = ({ onNext, onPrevious }) => {
     const { roomNum } = useParams();

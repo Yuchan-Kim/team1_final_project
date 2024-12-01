@@ -6,8 +6,6 @@ import axios from 'axios';
 
 
 import '../../css/reset.css';
-import '../../css/jy_step.css';
-import { StepNav } from '../include/StepNav'; // StepNav 임포트
 
 const Step10 = ({ onCancel, onDiscard, onSave }) => {
 

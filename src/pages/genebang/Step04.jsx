@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import '../../css/reset.css';
-import '../../css/jy_step.css';
 import { StepNav } from '../include/StepNav'; // StepNav 임포트
-import Header from '../include/DH_Header';
 import Footert from "../include/JM-Footer.jsx";
+
+import '../../css/reset.css';
 
 const Step04 = () => {
     const navigate = useNavigate();
