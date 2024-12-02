@@ -19,10 +19,6 @@ const MobileDashboard = () => {
     );
     const [imgError, setImgError] = useState({});
     const [showStartChallengePromptModal, setShowStartChallengePromptModal] = useState(false);
-    const [selectedRoom, setSelectedRoom] = useState(null);
-    const [showExtendCalendar, setShowExtendCalendar] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [showExtendConfirmModal, setShowExtendConfirmModal] = useState(false);
     // 통합된 상태 관리
     const [userInfo, setUserInfo] = useState({
         challengesSummary: {
@@ -98,13 +94,6 @@ const MobileDashboard = () => {
         localStorage.setItem('dashboardActiveTab', tab);
     };
 
-    const getTomorrow = () => {
-        const today = new Date();
-        const tomorrow = new Date();
-        tomorrow.setDate(today.getDate() + 1);
-        tomorrow.setHours(0, 0, 0, 0);
-        return tomorrow;
-    };
 
     const calculateTimeDifference = (endDate) => {
         if (!endDate) return 0;
@@ -137,108 +126,11 @@ const MobileDashboard = () => {
         if (activeTab === 'created' && challenge.roomStatusNum === 2) {
             const timeDiff = calculateTimeDifference(challenge.roomStartDate);
             if (timeDiff <= 0) {
-                setSelectedRoom(challenge);
                 setShowStartChallengePromptModal(true);
                 return;
             }
         }
         navigate(`/mobile/mission/${challenge.roomNum}`);
-    };
-
-    // Extension related handlers
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
-
-    const handleExtendClick = () => {
-        setShowStartChallengePromptModal(false);
-        setShowExtendCalendar(true);
-    };
-
-    const handleCalendarConfirm = () => {
-        if (!selectedDate) {
-            alert('날짜와 시간을 선택해주세요.');
-            return;
-        }
-
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-
-        if (selectedDate <= today) {
-            alert('오늘 이후의 날짜를 선택해주세요.');
-            return;
-        }
-
-        setShowExtendCalendar(false);
-        setShowExtendConfirmModal(true);
-    };
-
-    const handleConfirmExtend = async () => {
-        if (!selectedDate || !selectedRoom) return;
-
-        try {
-            const token = localStorage.getItem('token');
-            const updatedStartDate = selectedDate.toISOString().slice(0, 19).replace('T', ' ');
-
-            const response = await axios.put(
-                `${process.env.REACT_APP_API_URL}/api/challenge/header/${selectedRoom.roomNum}`,
-                { roomStartDate: updatedStartDate },
-                { headers: { 'Authorization': `Bearer ${token}` } }
-            );
-
-            if (response.data.result === 'success') {
-                alert('시작 시간이 성공적으로 업데이트되었습니다.');
-                // Refresh the room data
-                const updatedProfile = await profileStore.fetchProfile();
-                if (updatedProfile) {
-                    setUserInfo({
-                        challengesSummary: profileStore.getChallengesSummary(),
-                        challengesDetails: profileStore.getChallengesDetails()
-                    });
-                }
-            } else {
-                alert(`시작 시간 업데이트 실패: ${response.data.message}`);
-            }
-        } catch (error) {
-            console.error('시작 시간 업데이트 중 오류 발생:', error);
-            alert('시작 시간 업데이트 중 오류가 발생했습니다.');
-        }
-
-        setShowExtendConfirmModal(false);
-        setSelectedDate(null);
-        setSelectedRoom(null);
-    };
-
-    const handleStartChallenge = async () => {
-        if (!selectedRoom) return;
-
-        try {
-            const token = localStorage.getItem('token');
-            const response = await axios.put(
-                `${process.env.REACT_APP_API_URL}/api/challenge/start-challenge/${selectedRoom.roomNum}`,
-                {},
-                { headers: { 'Authorization': `Bearer ${token}` } }
-            );
-
-            if (response.data.result === 'success') {
-                alert('챌린지가 성공적으로 시작되었습니다.');
-                // Refresh the room data
-                const updatedProfile = await profileStore.fetchProfile();
-                if (updatedProfile) {
-                    setUserInfo({
-                        challengesSummary: profileStore.getChallengesSummary(),
-                        challengesDetails: profileStore.getChallengesDetails()
-                    });
-                }
-                setShowStartChallengePromptModal(false);
-                setSelectedRoom(null);
-            } else {
-                alert(`챌린지 시작 실패: ${response.data.message}`);
-            }
-        } catch (error) {
-            console.error('챌린지 시작 중 오류 발생:', error);
-            alert('챌린지 시작 중 오류가 발생했습니다.');
-        }
     };
 
     // 문서 클릭 시 메뉴 닫기
@@ -254,12 +146,14 @@ const MobileDashboard = () => {
         };
     }, [activeMenu]);
     const activeChallenges = userInfo.challengesDetails[activeTab] || [];
+
     useEffect(() => {
         console.log('Active Tab:', activeTab);
         console.log('Challenges Details:', userInfo.challengesDetails);
         const currentChallenges = userInfo.challengesDetails[activeTab] || [];
         console.log('Current Tab Challenges:', currentChallenges);
     }, [activeTab, userInfo]);
+
     const sortedChallenges = [...activeChallenges]
         .sort((a, b) => {
             // 각 탭별 정렬 로직
@@ -305,12 +199,7 @@ const MobileDashboard = () => {
     return (
         <div className="hmk_mobile_home-wrap">
             <div className="hmk_mobile_home-fixed-top">
-                <div className="hmk_mobile_site-header">
-                    <div className="hmk_mobile_site-logo">
-                        <img src="/img/struggle.gif" alt="Donkey Logo" />
-                    </div>
-                    <span>Donkey: 동기 키우기</span>
-                </div>
+                <div className="hmk_mobile_site-header">Donkey: 동기 키우기</div>
                 <h1 className="hmk_mobile_page-title">나의 DONKEY</h1>
                 {/* 상단 통계 카드 */}
                 <div className="hmk_mobile_home-card">
@@ -444,59 +333,22 @@ const MobileDashboard = () => {
                 isOpen={showStartChallengePromptModal}
                 onRequestClose={() => setShowStartChallengePromptModal(false)}
                 style={customModalStyles}
-                contentLabel="챌린지 시작 촉구 모달"
+                contentLabel="웹 페이지 안내 모달"
                 ariaHideApp={false}
             >
                 <div className="yc-modal-header">
-                    <p>챌린지 시간이 종료되었습니다. 챌린지를 시작하시겠습니까? 맴버가 부족하면 시간을 늘리거나, 방 설정에서 챌린지 시작 최소인원을 변경 하십시오.</p>
+                    <p>모바일에서는 챌린지 시작이 제한됩니다. 웹페이지로 확인해주세요.</p>
                     <div className="yc-modal-buttons-header">
-                        <button className="yc-modal-confirm-header" onClick={handleStartChallenge}>시작</button>
-                        <button className="yc-modal-extend-header" onClick={handleExtendClick}>연장</button>
-                        <button className="yc-modal-cancel-header" onClick={() => setShowStartChallengePromptModal(false)}>취소</button>
+                        <button
+                            className="yc-modal-confirm-header"
+                            onClick={() => setShowStartChallengePromptModal(false)}
+                        >
+                            확인
+                        </button>
                     </div>
                 </div>
             </Modal>
 
-            <Modal
-                isOpen={showExtendCalendar}
-                onRequestClose={() => setShowExtendCalendar(false)}
-                style={customModalStyles}
-                contentLabel="시작 시간 연장 모달"
-                ariaHideApp={false}
-            >
-                <div className="yc-modal-header-date">
-                    <p>새로운 시작 시간을 선택하세요:</p>
-                    <DatePicker
-                        selected={selectedDate}
-                        onChange={handleDateChange}
-                        showTimeSelect
-                        timeIntervals={15}
-                        dateFormat="yyyy-MM-dd HH:mm"
-                        inline
-                        minDate={getTomorrow()}
-                    />
-                    <div className="yc-modal-buttons-header">
-                        <button className="yc-modal-confirm-header" onClick={handleCalendarConfirm}>확인</button>
-                        <button className="yc-modal-cancel-header" onClick={() => setShowExtendCalendar(false)}>취소</button>
-                    </div>
-                </div>
-            </Modal>
-
-            <Modal
-                isOpen={showExtendConfirmModal}
-                onRequestClose={() => setShowExtendConfirmModal(false)}
-                style={customModalStyles}
-                contentLabel="시작 시간 변경 확인 모달"
-                ariaHideApp={false}
-            >
-                <div className="yc-modal-header">
-                    <p>선택한 날짜로 시작 시간을 변경하시겠습니까?</p>
-                    <div className="yc-modal-buttons-header">
-                        <button className="yc-modal-confirm-header" onClick={handleConfirmExtend}>확인</button>
-                        <button className="yc-modal-cancel-header" onClick={() => setShowExtendConfirmModal(false)}>취소</button>
-                    </div>
-                </div>
-            </Modal>
             {/* 하단 메뉴 섹션 */}
             <MobileBottomMenu />
         </div>
