@@ -605,10 +605,7 @@
 }
 
 /* Scrollbar for Rankings if needed */
-.yc-top-rankings {
-  max-height: 300px; /* Adjust as needed */
-  overflow-y: auto;
-}
+
 
 .yc-top-rankings::-webkit-scrollbar {
   width: 6px;

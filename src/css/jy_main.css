@@ -407,7 +407,7 @@
 .jy_main .btn {
     position: fixed;
     right: 30px; /* 화면 오른쪽에 더 가까이 배치 */
-    bottom: 30px;
+    bottom: 20px;
     padding: 0;
     display: flex;
     justify-content: center;
@@ -417,8 +417,8 @@
 
 /* 방 생성 버튼 스타일 */
 .jy_main #secondary {
-    width: 70px; /* 버튼 크기 확대 */
-    height: 70px;
+    width: 100px; /* 버튼 크기 확대 */
+    height: 100px;
     border-radius: 50%;
     display: flex;
     flex-direction: column;
@@ -440,12 +440,7 @@
     background: linear-gradient(135deg, #123870 0%, #22487a 100%); /* 호버 시 그라데이션 방향 변경 */
 }
 
-/* 버튼 아이콘 스타일링 */
-.jy_main #secondary svg {
-    margin-bottom: 5px; /* 아이콘과 텍스트 사이 간격 조정 */
-    width: 24px; /* 아이콘 크기 조정 */
-    height: 24px;
-}
+
 
 /* 버튼 텍스트 스타일링 */
 .jy_main #secondary span {

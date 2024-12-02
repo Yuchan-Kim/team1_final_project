@@ -1,359 +1,134 @@
-/* clearfix */
-#yc-contents .yc-clearfix { *zoom:1; }
-#yc-contents .yc-clearfix:before, .yc-clearfix:after { display: block; content: ""; line-height: 0; }
-#yc-contents .yc-clearfix:after { clear: both; }
+/* src/admincss/adminMain.css */
 
-/* #yc-admin_main 레이아웃 */
+/* CSS 변수 정의 */
+:root {
+    --primary-color: #1a73e8; /* 파란색 계열 */
+    --secondary-color: #f1f3f4; /* 연한 회색 */
+    --accent-color: #34a853; /* 녹색 계열 */
+    --text-color: #202124; /* 짙은 회색 */
+    --sub-text-color: #5f6368; /* 중간 회색 */
+    --background-color: #ffffff; /* 흰색 */
+    --border-color: #dadce0; /* 연한 회색 */
+    --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --transition-speed: 0.3s;
+    --font-family: 'Roboto', sans-serif;
+}
 
+/* 전체 레이아웃 */
 #yc-admin-wrap {
     display: flex;
-    width: 80vw; /* 전체 너비를 80% 뷰포트 너비로 설정 */
-    margin: 0 auto; /* 중앙 정렬 */
+    width: 100%;
     min-height: 100vh;
     box-sizing: border-box;
-    padding: 20px; /* 양 옆에 간격 추가 */
-    background-color: #ffffff; /* 배경색 설정 */
-}
-#yc-admin_main {
-    flex: 1;
-    margin-left: 110px; /* 사이드바 너비 + 좌측 padding (120px + 40px) */
-    margin-right: 110px; /* 우측 간격 */
-    box-sizing: border-box; /* 패딩 포함하여 크기 계산 */
-    padding: 0 20px; /* 추가 패딩 */
+    background-color: #fff;
+    font-family: var(--font-family);
 }
 
-/* aside 메뉴 */
+/* 사이드바 스타일 */
 #yc-asides-admin {
-    float: left;
-    width: 17%;
-    margin-left: 2%;
+    width: 250px;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: var(--card-shadow);
+    position: fixed;
+    height: 50%;
+    overflow-y: auto;
+    margin-top:48px;
+    
 }
 
 #yc-asides-admin h2 {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: bold;
-    padding-bottom: 5px;
+    margin-bottom: 20px;
+    color: var(--primary-color);
 }
 
 #yc-asides-admin a {
     text-decoration: none;
+    color: var(--text-color);
+    display: block;
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
 }
 
-#yc-asides-admin a:link {
-    color: #333; 
-}
-
-#yc-asides-admin a:visited {
-    color: #333; 
+#yc-asides-admin a:hover {
+    background-color: var(--primary-color);
+    color: #ffffff;
 }
 
 #yc-asides-admin #yc-sub_list ul {
-    padding-inline-start: 0;
+    padding: 0;
     margin: 0;
+    list-style: none;
 }
 
 #yc-asides-admin #yc-sub_list ul > li {
-    padding-bottom: 10px;
-    font-size: 15px;
-    list-style-type: none; 
+    margin-bottom: 10px;
 }
 
 #yc-asides-admin #yc-sub_list ul > li a {
-    color: #aeaeae;
-    text-decoration: none;
+    color: var(--text-color);
+    font-size: 16px;
+    font-weight: 500;
 }
 
 #yc-asides-admin #yc-sub_list ul > li a:hover {
-    font-weight: bold;
-    color: #1594EB;
+    background-color: var(--primary-color);
+    color: #ffffff;
 }
 
-/* 스토어 */
-#yc-admin_main .yc-hjy-section {
-    grid-column: 1 / -1;
-    background-color: white;
-    padding: 20px;
-    border: 1px solid #e0e0e0;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-height: 380px; /* 3개의 카드만 보이도록 높이 제한 */
-    overflow: hidden; /* 넘치는 부분 숨김 */
+/* 메인 컨텐츠 영역 */
+.yc-add-item-container {
+    margin-left: 300px; /* 사이드바 너비 + 여백 */
+    padding: 40px 20px;
+    flex: 1;
+    background-color: #fff;
+    min-height: 100vh;
 }
-
-#yc-admin_main .yc-hjy-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-#yc-admin_main .yc-hjy-header a:link {
-    color: #333;
-    text-decoration: none; 
-}
-
-#yc-admin_main .yc-hjy-header a:visited {
-    color: #333;
-}
-
-/* Grid 레이아웃 사용하여 상품 카드 정렬 */
-#yc-admin_main .yc-hjy-brief {
-    display: grid;
-    gap: 20px;
-    grid-template-columns: repeat(3, 1fr); /* 3개의 컬럼 고정 */
-    grid-auto-rows: auto; /* 자동 높이 설정 */
-}
-
-#yc-admin_main .yc-hjy-card {
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: #f9f9f9;
-    transition: box-shadow 0.3s ease;
-}
-
-#yc-admin_main .yc-hjy-card:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-
-#yc-admin_main .yc-hjy-cards {
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    padding: 10px 0px 0px 10px;
-    margin-bottom: 10px;
-    background-color: #f9f9f9;
-    transition: box-shadow 0.3s ease;
-}
-
-#yc-admin_main .yc-hjy-cards:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-#yc-admin_main .yc-hjy-cards img {
-    max-width: 220px;
-    max-height: 600px;
-    height: auto;
-    border-radius: 10px;
-}
-
-#yc-admin_main .yc-hjy-detail p {
-    margin: 5px 0;
-    font-size: 17px;
-    color: #666;
-}
-
-#yc-admin_main .yc-hjy-brief a:link {
-    text-decoration: none;
-    color: #666;
-}
-
-#yc-admin_main .yc-hjy-brief a:visited {
-    color: #666;
-}
-
-#yc-admin_main .yc-hjy-price {
-    font-weight: bold;
-    margin: 5px 0;
-}
-
-#yc-admin_main .yc-hjy-purchase-type {
-    color: green;
-}
-
-/* 반응형 조정 */
-#yc-admin_main @media (max-width: 768px) {
-    .yc-favorite-products {
-        grid-template-columns: repeat(2, 1fr); /* 화면이 좁아지면 2개의 컬럼 */
-    }
-}
-
-
-#yc-admin_main .yc-hjy-list-section {
-    margin-top: 20px;
-    background-color: white;
-    padding: 20px;
-    border: 1px solid #e0e0e0;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    max-height: 380px; /* Same as .section */
-    overflow: hidden; /* Consistent with .section */
-}
-
-/* Ensure .yc-hjy-list-header aligns with .yc-hjy-header */
-#yc-admin_main .yc-hjy-list-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px; /* Make this consistent with .yc-hjy-header */
-}
-
-#yc-admin_main .yc-hjy-list-header a:link {
-    text-decoration: none;
-    color: #333;
-}
-
-#yc-admin_main .yc-hjy-list-header a:visited {
-    text-decoration: none;
-    color: #333;
-}
-
-
-#yc-admin_main .yc-hjy-list-status {
-    display: flex; /* Use flexbox */
-    justify-content: center; /* Center items horizontally */
-    align-items: center; /* Center items vertically */
-   background-color: #f7f7f7;
-   padding: 10px;
-   border-radius: 5px;
-   color: #555;
-}
-
-#yc-admin_main .yc-hjy-list-status p {
-   margin: 0;
-   font-size: 14px;
-}
-
-#yc-admin_main .yc-hjy-grid-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Creates two equal columns */
-    gap: 20px; /* Gap between the two sections */
-}
-
-#yc-admin_main .yc-hjy-card {
-    display: flex; /* Use flexbox */
-    flex-direction: column; /* Arrange items in a column */
-    justify-content: center; /* Center items vertically */
-    align-items: center; /* Center items horizontally */
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: #f9f9f9;
-    transition: box-shadow 0.3s ease;
-}
-
-#yc-admin_main .yc-hjy-card img {
-    max-width: 250px;
-    max-height: 600px;
-    margin-bottom: 10px; /* Add some space between the image and the details */
-    padding-top: 10px; /* Add padding only to the top */
-}
-
-#yc-admin_main .yc-hjy-detail {
-    text-align: center; /* Center text within the yc-hjy-detail */
-}
-
-#yc-admin_main #yc-sotre_Img {
-    width: 200px; /* Set the desired width */
-    height: 230px; /* Set the desired height */
-    object-fit: cover; /* Ensures the image covers the area while maintaining aspect ratio */
-    border-radius: 8px; /* Optional: add rounded corners for styling */
-}
-
-#yc-admin_main .yc-hjy-sections {
-    grid-column: 1 / -1;
-    background-color: white;
-    padding: 20px;
-    border: 1px solid #e0e0e0;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-height: 420px; /* 3개의 카드만 보이도록 높이 제한 */
-    overflow: hidden; /* 넘치는 부분 숨김 */
-}
-
-/* 기존 스타일 유지 */
 
 /* KPI 카드 섹션 */
 .yc-kpi-section {
-    margin-top: 20px;
-    background-color: white;
-    padding: 20px;
-    border: 1px solid #e0e0e0;
-    margin-bottom: 20px;
-    border-radius: 10px;
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    justify-content: space-between;
+    margin-bottom: 40px;
 }
 
 .yc-kpi-card {
-    background-color: #f9f9f9;
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    padding: 10px;
-    width: 80%;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    background-color: var(--background-color);
+    padding: 20px 30px;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    flex: 1;
+    margin: 0 10px;
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+
+.yc-kpi-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .yc-kpi-card h4 {
-    font-size: 16px;
-    color: #333;
+    font-size: 18px;
+    color: var(--sub-text-color);
     margin-bottom: 10px;
 }
 
 .yc-kpi-card p {
     font-size: 24px;
     font-weight: bold;
-    color: #1594EB;
+    color: var(--text-color);
 }
 
-/* 데이터 테이블 스타일 */
-.yc-data-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.yc-data-table th, .yc-data-table td {
-    border: 1px solid #e0e0e0;
-    padding: 10px;
-    text-align: left;
-}
-
-.yc-data-table th {
-    background-color: #f0f0f0;
-    color: #333;
-}
-
-.yc-data-table tr:nth-child(even) {
-    background-color: #fafafa;
-}
-
-.yc-data-table tr:hover {
-    background-color: #f1f1f1;
-}
-
-/* 최근 활동 스타일 */
-.yc-recent-activities {
-    list-style-type: disc;
-    padding-left: 20px;
-}
-
-.yc-recent-activities li {
-    margin-bottom: 10px;
-    font-size: 14px;
-    color: #555;
-}
-
-/* 추가적인 섹션 스타일링 */
+/* 리스트 섹션 */
 .yc-hjy-list-section {
-    margin-top: 20px;
-    background-color: white;
+    background-color: var(--background-color);
     padding: 20px;
-    border: 1px solid #e0e0e0;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 40px;
 }
 
 .yc-hjy-list-header {
@@ -364,66 +139,93 @@
 }
 
 .yc-hjy-list-header h3 {
-    margin: 0;
-    font-size: 18px;
-    color: #333;
+    font-size: 20px;
+    color: var(--text-color);
 }
 
 .yc-hjy-list-header a {
-    text-decoration: none;
-    color: #1594EB;
     font-size: 14px;
+    color: var(--primary-color);
+    font-weight: 500;
+    transition: color var(--transition-speed) ease;
 }
 
 .yc-hjy-list-header a:hover {
-    text-decoration: underline;
+    color: var(--accent-color);
 }
 
 .yc-hjy-list-status {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f7f7f7;
-    padding: 10px;
-    border-radius: 5px;
-    color: #555;
 }
 
-.yc-hjy-list-status p {
+/* 데이터 테이블 */
+.yc-data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.yc-data-table th,
+.yc-data-table td {
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    text-align: left;
+    color: var(--text-color);
+}
+
+.yc-data-table th {
+    background-color: var(--secondary-color);
+    font-weight: bold;
+}
+
+.yc-data-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.yc-data-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* 최근 활동 */
+.yc-recent-activities {
+    list-style: none;
+    padding: 0;
     margin: 0;
-    font-size: 14px;
 }
 
-/* 반응형 조정 */
+.yc-recent-activities li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.yc-recent-activities li:last-child {
+    border-bottom: none;
+}
+
+/* 반응형 디자인 */
 @media (max-width: 1200px) {
-    .yc-kpi-section {
-        flex-direction: column;
-        align-items: center;
+    #yc-asides-admin {
+        width: 200px;
     }
 
-    .yc-kpi-card {
-        width: 80%;
-        margin-bottom: 20px;
-    }
-
-    .yc-hjy-list-status {
-        flex-direction: column;
-    }
-
-    .yc-hjy-list-section {
-        width: 100%;
-        overflow-x: auto;
+    .yc-add-item-container {
+        margin-left: 220px;
     }
 }
 
 @media (max-width: 768px) {
-    .yc-hjy-grid-container {
-        grid-template-columns: 1fr;
+    #yc-asides-admin {
+        position: relative;
+        width: 100%;
+        height: auto;
+        box-shadow: none;
     }
 
-    .yc-hjy-list-section, .yc-hjy-section, .yc-hjy-sections {
-        max-width: 100%;
-        overflow-x: auto;
+    .yc-add-item-container {
+        margin-left: 0;
+        padding: 20px;
     }
 
     .yc-kpi-section {
@@ -431,6 +233,10 @@
     }
 
     .yc-kpi-card {
-        width: 90%;
+        margin: 10px 0;
+    }
+
+    .yc-hjy-list-section {
+        padding: 15px;
     }
 }
