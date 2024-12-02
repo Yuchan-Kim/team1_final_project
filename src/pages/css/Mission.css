@@ -7,6 +7,8 @@
   box-sizing: border-box;
   padding: 20px; /* 양 옆에 간격 추가 */
   background-color: #ffffff; /* 배경색 설정 */
+  flex-direction: column;
+
 }
 
 

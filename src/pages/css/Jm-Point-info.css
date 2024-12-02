@@ -1,5 +1,5 @@
 .jm-challenge-point-info {
-    position: fixed; /* 화면 고정 위치 */
+position: absolute; /* 화면 고정 위치 */
   top: 230px; /* TopHeader의 높이에 맞게 조정 */
   right: 230px; /* 우측 여백 */
   width: 150px;

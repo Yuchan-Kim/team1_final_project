@@ -300,6 +300,7 @@ const YcChallengeBoard = () => {
                     setShowPlaceOption(false);
                     setShowNewNotice(false);
                     setSelectedPlace(null); // 선택된 장소 초기화
+                    fetchNotices();
                 } else {
                     setError("공지사항 수정에 실패했습니다.");
                 }
@@ -346,6 +347,7 @@ const YcChallengeBoard = () => {
                     setShowPlaceOption(false);
                     setShowNewNotice(false);
                     setSelectedPlace(null); // 선택된 장소 초기화
+                    fetchNotices();
                 }
                 else {
                     setError("공지사항 추가에 실패했습니다.");

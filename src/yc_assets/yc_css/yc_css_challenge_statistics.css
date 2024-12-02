@@ -9,6 +9,8 @@
   box-sizing: border-box;
   padding: 20px; /* 양 옆에 간격 추가 */
   background-color: #ffffff; /* 배경색 설정 */
+  flex-direction: column;
+
 }
 
 /* 메인 콘텐츠 */
@@ -27,7 +29,7 @@
 /* 콘텐츠 레이아웃 */
 .yc_challenge_statistics_overall-personal-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: flex-start;
   margin-bottom: 30px;
   gap: 20px; /* 섹션 간 간격 추가 */
@@ -37,8 +39,10 @@
 .yc_challenge_statistics_graphs-section {
   display: flex;
   flex-direction: row; /* 가로 정렬 */
+  justify-content: center;
+  align-items: center;
   gap: 20px; /* 그래프 간 간격 */
-  width: 100%;
+  width: 50%;
   flex-wrap: wrap; /* 필요시 줄 바꿈 */
 }
 
@@ -197,7 +201,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6); /* 불투명도 약간 증가 */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -213,15 +217,17 @@
 }
 
 /* 모달 콘텐츠 */
+/* 모달 콘텐츠 */
 .yc-modal-content {
   background: white;
-  border-radius: 16px;
-  padding: 40px 30px;
-  width: 500px;
+  border-radius: 12px; /* 약간 줄인 모서리 반경 */
+  padding: 30px 20px; /* 패딩 조정 */
+  width: 400px; /* 너비 줄이기 */
+  max-width: 90%; /* 작은 화면에서 최대 너비 설정 */
   text-align: center;
   position: relative;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-  animation: slideDown 0.6s ease-out, fadeIn 0.3s forwards;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* 그림자 조정 */
+  animation: slideDown 0.5s ease-out, fadeIn 0.3s forwards;
   opacity: 0;
 }
 
@@ -255,21 +261,23 @@
 /* 보고서 상세 섹션 */
 .yc-report-details {
   display: flex;
-  justify-content: center;
+  flex-direction: column; /* 세로 정렬 */
   align-items: center;
+  justify-content: center;
   margin-bottom: 20px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 /* 도넛 차트 */
 .yc-dougnut-chart {
-  width: 150px;
-  height: 150px;
+  width: 120px; /* 크기 줄이기 */
+  height: 120px;
   position: relative;
-  margin-right: 20px;
+  margin-bottom: 15px; /* 마진 조정 */
   opacity: 0;
-  animation: fadeInChart 0.8s forwards, rotateIn 1s ease-out;
+  animation: fadeInChart 0.8s forwards;
 }
+
 
 @keyframes fadeInChart {
   from {
@@ -297,17 +305,22 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 20px;
+  font-size: 16px; /* 글자 크기 줄이기 */
   font-weight: bold;
   color: #34495e;
 }
 
-/* 미션 상세 섹션 위치 수정 */
-.yc-mission-details {
-  text-align: left;
-  font-size: 18px;
+/* 미션 상세 섹션 */
+.yc-mission-details2 {
+  text-align: center;
+  font-size: 16px; /* 글자 크기 줄이기 */
   color: #333;
   margin-top: 10px;
+  width: 100%; /* 전체 너비 사용 */
+}
+
+.yc-mission-details2 p {
+  margin-bottom: 10px;
 }
 
 /* 그룹 챌린지 섹션 */
@@ -315,15 +328,16 @@
   background-color: #f9f9f9;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
+  padding: 15px; /* 패딩 줄이기 */
+  margin-bottom: 15px; /* 마진 줄이기 */
   position: relative;
+  width:80%;
   opacity: 0;
-  animation: fadeIn 0.5s forwards; /* 그룹 챌린지 섹션 페이드 인 */
+  animation: fadeIn 0.5s forwards; /* 페이드 인 애니메이션 */
 }
 
 .yc-group-challenge-section h3 {
-  margin-bottom: 15px;
+  margin-bottom: 10px; /* 마진 줄이기 */
   margin-top: 0px;
   color: #34495e;
   text-align: left;
@@ -343,45 +357,48 @@
   color: #555;
 }
 
-/* 그룹 챌린지 포인트 색상 변경 */
+
+/* 그룹 챌린지 포인트 */
 .yc-group-challenge-points {
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: #2196f3; /* 그래프 색상과 일치 */
+  background-color: #2196f3;
   color: #fff;
-  padding: 6px 12px;
-  border-radius: 12px;
-  font-size: 14px;
+  padding: 4px 10px; /* 패딩 줄이기 */
+  border-radius: 10px; /* 모서리 반경 줄이기 */
+  font-size: 12px; /* 글자 크기 줄이기 */
   font-weight: bold;
 }
 
 /* 포인트 요약 섹션 */
 .yc-points-summary {
   text-align: left;
-  font-size: 16px;
+  font-size: 14px; /* 글자 크기 줄이기 */
   color: #333;
-  margin-bottom: 20px;
-  margin-left: 200px;
+  margin-bottom: 15px; /* 마진 줄이기 */
+  margin-left: 0; /* 고정된 왼쪽 마진 제거 */
   opacity: 0;
-  animation: fadeIn 0.5s forwards; /* 포인트 요약 페이드 인 */
+  animation: fadeIn 0.5s forwards;
 }
 
+
 .yc-points-summary p {
-  margin: 8px 0;
+  margin: 6px 0; /* 마진 줄이기 */
 }
 
 /* 닫기 버튼 */
 .yc-close-button {
   background-color: #34495e;
   color: white;
-  padding: 12px 24px;
+  padding: 10px 20px; /* 패딩 조정 */
   border: none;
-  border-radius: 6px;
+  border-radius: 5px; /* 모서리 반경 줄이기 */
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px; /* 글자 크기 줄이기 */
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
+
 
 .yc-close-button:active {
   animation: bounce 0.3s; /* 클릭 시 튕김 효과 */

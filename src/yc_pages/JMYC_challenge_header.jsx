@@ -834,7 +834,15 @@ const JMYCChallengeHeader = () => {
                                 roomData.roomStatusNum < 3 ? (
                                     <p className="jm-c-time">
                                         {roomData.roomStatusNum === 1 || roomData.roomStatusNum === 2  ? "모집 마감 시간: " : "챌린지 마감: "} {timeLeft}
-                                        {userAuthorization === 1 && (
+                                        
+                                    </p>
+                                ) : (
+                                    <p className="jm-c-time">종료까지: {timeLeft}</p>
+                                )
+                            ) : (
+                                <p className="jm-c-time">종료됨</p>
+                            )}
+                             {userAuthorization === 1 && (
                                             <button 
                                                 className="extend-button" 
                                                 onClick={handleExtendClick}
@@ -850,17 +858,11 @@ const JMYCChallengeHeader = () => {
                                                         : "연장"
                                                 }
                                             >
-                                                연장
+                                               시간 연장
                                             </button>
                                         )}
-                                    </p>
-                                ) : (
-                                    <p className="jm-c-time">종료까지: {timeLeft}</p>
-                                )
-                            ) : (
-                                <p className="jm-c-time">종료됨</p>
-                            )}
                         </div>
+                       
 
 
                        {/* 버튼 영역 */}
@@ -888,7 +890,6 @@ const JMYCChallengeHeader = () => {
                                             : "모집 시작"
                                     }
                                 >
-                                    <span className="emoji"></span>
                                     <span className="label">모집 시작</span>
                                 </button>
                             ) : roomData.roomStatusNum === 2 ? ( //roomStatusNum이 2일 때 챌린지 시작 버튼
@@ -920,6 +921,7 @@ const JMYCChallengeHeader = () => {
                             </button>
                         )
                         }
+                        
 
                     </div>
 

@@ -156,8 +156,7 @@
 
 /* 관리 모달 */
 .yc-custom-modal_sidebar {
-    position: fixed; /* absolute에서 fixed로 변경 */
-    transform: translate(-50%, -50%);
+    
     background: white;
     border-radius: 16px;
     width: 600px;
