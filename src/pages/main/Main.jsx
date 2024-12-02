@@ -283,6 +283,18 @@ const Main = () => {
     return (
         <>
             <Header />
+
+            <div id="search">
+                            <div>
+                                <SearchIcon />
+                                <input
+                                    placeholder="방 제목, 키워드, 카테고리, 방 유형 검색"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)} // 검색어 상태 업데이트
+                                    onKeyDown={handleSearchKeyDown} // Enter 키 감지
+                                />
+                            </div>
+                        </div>
             <video
                 autoPlay
                 loop
@@ -372,17 +384,7 @@ const Main = () => {
                             </div>
                         </div> {/* //icon-bar */}
 
-                        <div id="search">
-                            <div>
-                                <SearchIcon />
-                                <input
-                                    placeholder="방 제목, 키워드, 카테고리, 방 유형 검색"
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)} // 검색어 상태 업데이트
-                                    onKeyDown={handleSearchKeyDown} // Enter 키 감지
-                                />
-                            </div>
-                        </div>
+                        
                         {/* //search */}
 
                         <div id="list">
@@ -390,9 +392,18 @@ const Main = () => {
                                 roomList.slice(0, 9).map((room, i) => (
                                     <div key={room.roomNum}>
                                         <Link to={`/cmain/${room.roomNum}`} className="list_bang">
-                                            <div className="bang_level">
-                                                <div>{room.roomTypeName}</div>
-                                            </div>
+                                        
+                                            {/* roomTypeName에 따라 스타일과 텍스트를 조건부로 적용 */}
+                                            {room.roomTypeName === "챌린지" ? (
+                                                <div className="bang_level_challenge">
+                                                <span className="badge-challenge">#{room.roomTypeName}</span>
+                                                </div>
+                                            ) : (
+                                                <div className="bang_level_normal">
+                                                <span className="badge-general">#{room.roomTypeName}</span>
+                                                </div>
+                                            )}
+                                        
 
                                             <div className="bang_img">
                                                 <img
@@ -435,8 +446,10 @@ const Main = () => {
                         {/* 모달 열기 버튼 복구 */}
                         <div className="btn">
                             <button id="secondary" onClick={handleCreateRoom} aria-label="방 생성">
+                                
                                 <span>
-                                     + 방 생성
+                                <img src="/img/conference-room.gif" alt="img"/>
+                                    
                                 </span>
                             </button>
                         </div>

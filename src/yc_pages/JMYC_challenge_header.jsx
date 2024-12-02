@@ -496,7 +496,7 @@ const JMYCChallengeHeader = () => {
         }
     };
 
-    // handleEndChallengeClick 함수 수정
+    // 종료 핸들러
     const handleEndChallengeClick = async () => {
         try {
             const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/challenge/end-challenge/${roomNum}`, {}, {
@@ -1009,7 +1009,7 @@ const JMYCChallengeHeader = () => {
                                 ariaHideApp={false}
                             >
                                 <div className="yc-modal-header">
-                                    <p>챌린지 시간이 종료되었습니다. 챌린지를 시작하시겠습니까? 맴버가 부족하면 시간을 늘리거나, 방 설정에서 챌린지 시작 최소인원을 변경 하십시오.</p>
+                                    <p>모집 시간이 종료되었습니다. 챌린지를 시작하시겠습니까? 맴버가 부족하면 시간을 늘리거나, 방 설정에서 챌린지 시작 최소인원을 변경 하십시오.</p>
                                     <div className="yc-modal-buttons-header">
                                         <button className="yc-modal-confirm-header" onClick={handleStartChallengeClick}>시작</button>
                                         <button className="yc-modal-cancel-header" onClick={() => setShowStartChallengePromptModal(false)}>취소</button>

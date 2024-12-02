@@ -266,14 +266,15 @@ const ChallengePage = () => {
           <>
             <Doughnut data={doughnutData} options={doughnutOptions} />
             <div className="yc-achievement-rate">
-            <h4>{firstMission.missionName} 달성률: {firstMission.achievementRate.toFixed(2)}%</h4>
+            <strong>{firstMission.missionName} </strong> <br/> <br/>
+            <strong id = "yc-group_achieve">달성률: {firstMission.achievementRate.toFixed(2)}%</strong> <br/><br/>
             </div>
           </>
         ) : (
           <p>차트를 로드 중입니다...</p>
         )}
-
-        <h3>Top 5 랭킹</h3>
+        
+        <h3 id = "top5_rank">Top 5 랭킹</h3>
           {topUsers.map((user) => (
             <div key={user.userNum} className="yc-ranking-item">
               <img 
@@ -318,7 +319,7 @@ const ChallengePage = () => {
             {/* Room Information */}
             <div className="yc-room-info">
               <div className="yc-room-card">
-                <h3>방 소개</h3>
+                <h3>챌린지 설명</h3>
                 <div className='jm-room-card-contents-box'>
                   <p>{roomInfo?.roomInfo || "방 소개 없음"}</p>
                 </div>
@@ -369,7 +370,7 @@ const ChallengePage = () => {
           {/* Main Bottom Section */}
           <section className='yc-main-bottom'>
           <div className='jm-room-mission-date-box'>
-            <span>미션 해당 요일: </span>
+            <strong>미션 해당 요일: </strong>
               {
                   dateList
                       .filter(date => date.roomDayNum >= 1 && date.roomDayNum <= 7) // 1~7번만 필터링

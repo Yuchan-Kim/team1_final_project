@@ -625,30 +625,33 @@ const YcChallengeBoard = () => {
         {/* 상단 헤더 컴포넌트 렌더링 */}
         <TopHeader/>
 
-        <div className="yc-chart-container"> 
-          
-          {/* Top 5 유저 랭킹 */}
-          <div className="yc-top-rankings">
-            {/* 도넛 차트와 달성률 표시 */}
-            {doughnutData && (
-              <>
-                <Doughnut data={doughnutData} options={doughnutOptions} />
-                <h4>{firstMission.missionName} 달성률: {firstMission.achievementRate.toFixed(2)}%</h4>
-              </>
-            )}
-            <h3>Top 5 랭킹</h3>
+        {/* 차트 추가 */}
+      <div className="yc-chart-container">
+        {doughnutData ? (
+          <>
+            <Doughnut data={doughnutData} options={doughnutOptions} />
+            <div className="yc-achievement-rate">
+            <strong>{firstMission.missionName} </strong> <br/> <br/>
+            <strong id = "yc-group_achieve">달성률: {firstMission.achievementRate.toFixed(2)}%</strong> <br/><br/>
+            </div>
+          </>
+        ) : (
+          <p>차트를 로드 중입니다...</p>
+        )}
+        
+        <h3 id = "top5_rank">Top 5 랭킹</h3>
           {topUsers.map((user) => (
             <div key={user.userNum} className="yc-ranking-item">
               <img 
                 src={
-                    user.usingProfilePic
-                        ? `${process.env.REACT_APP_API_URL}${user.usingProfilePic}`
-                        : '/images/profile-fill.png' // 기본 프로필 이미지 경로
-                }
-                alt="profile" 
+                user.usingProfilePic
+                    ? `${process.env.REACT_APP_API_URL}${user.usingProfilePic}`
+                    : '/images/profile-fill.png' // 기본 프로필 이미지 경로
+            }
+                alt={'/images/challenge1.png'} 
                 className="yc-ranking-avatar" 
                 onError={(e) => {
-                    e.target.src = '/images/profile-fill.png';
+                  e.target.src = '/images/profile-fill.png';
                 }}
               />
               <div className="yc-ranking-info">
@@ -663,8 +666,7 @@ const YcChallengeBoard = () => {
               </div>
             </div>
           ))}
-          </div>
-        </div>
+      </div>
         <div className="yc-board-wrap">
             {/* 사이드바 컴포넌트 렌더링 */}
             <Sidebar />

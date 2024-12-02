@@ -57,6 +57,8 @@
     max-height: 400px;
 }
 
+
+
 /* 방 주요 정보 */
 .yc-room-info {
     flex: 2.5; /* 참가자 정보보다 넓은 너비 차지 */
@@ -260,28 +262,59 @@
 }
 
 /* 미션 날짜 박스 */
+/* 미션 날짜 박스 */
 .jm-room-mission-date-box {
     display: flex;
-    gap: 10px; /* 요일, 시간, 지역 간격 */
+    align-items: center; /* 수직 정렬 */
+    gap: 15px; /* 날짜 간 간격 확대 */
+    padding: 10px 20px; /* 박스 내 여백 추가 */
+    background: linear-gradient(135deg, #f7f9fc, #ffffff); /* 부드러운 그라데이션 배경 */
+    border: 1px solid #e0e0e0; /* 테두리 추가 */
+    border-radius: 10px; /* 둥근 모서리 */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    margin-bottom: 15px; /* 박스 하단 여백 */
+}
+
+/* 요일 텍스트 강조 */
+.jm-room-mission-date-box strong {
+    font-size: 1.1rem; /* 텍스트 크기 증가 */
+    color: #343a40; /* 진한 색상으로 강조 */
+    font-weight: bold; /* 굵은 글씨 */
+    margin-top: px;
 }
 
 /* 개별 미션 날짜 */
 .jm-room-mission-date {
-    border: solid 1px #ccc;
-    border-radius: 5px;
-    padding: 5px 10px;
-    transition: background-color var(--transition-duration) ease, transform var(--transition-duration) ease;
+    display: flex; /* 아이콘과 텍스트를 가로 배치 */
+    align-items: center; /* 수직 정렬 */
+    gap: 8px; /* 아이콘과 텍스트 간 간격 */
+    background: #ffffff; /* 배경색 추가 */
+    border: 1px solid #d1d1d1; /* 선명한 테두리 */
+    border-radius: 8px; /* 둥근 모서리 */
+    padding: 8px 16px; /* 내부 여백 증가 */
+    font-size: 0.95rem; /* 텍스트 크기 약간 조정 */
+    font-weight: 500; /* 중간 굵기 */
+    color: #495057; /* 중간 대비 색상 */
+    transition: all 0.3s ease; /* 부드러운 효과 */
+    cursor: pointer; /* 포인터 커서 */
 }
 
 .jm-room-mission-date:hover {
-    background-color: #f0f0f0;
-    transform: scale(1.05);
+    background: linear-gradient(135deg, #e9ecef, #f8f9fa); /* 호버 시 그라데이션 */
+    border-color: #007bff; /* 강조 색상 */
+    color: #007bff; /* 텍스트 색상 변경 */
+    transform: scale(1.08); /* 약간 확대 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* 호버 시 그림자 강화 */
 }
 
+/* 요일 텍스트 */
 .jm-room-mission-date span {
-    font-size: 14px;
-    color: var(--text-color);
+    font-size: 1rem; /* 텍스트 크기 증가 */
+    font-weight: bold; /* 강조 */
+    color: #343a40; /* 진한 색상 */
+    letter-spacing: 0.5px; /* 약간의 간격 추가 */
 }
+
 
 /* 미션 요약 */
 .yc-mission-summary {
@@ -385,21 +418,69 @@
 
 /* 차트 컨테이너 */
 .yc-chart-container {
-    position: fixed; /* 화면 고정 위치 */
-    top: 80px; /* TopHeader의 높이에 맞게 조정 */
-    right: 50px; /* 우측 여백 */
-    width: 150px;
-    min-height: 300px;
-    background-color: var(--background-color); /* 배경색 */
-    border: 1px solid var(--border-color); /* 테두리 */
-    border-radius: 10px; /* 둥근 모서리 */
-    padding: 15px; /* 내부 여백 */
-    box-shadow: var(--box-shadow); /* 그림자 효과 */
-    z-index: 1000; /* 다른 요소보다 위에 표시 */
-    transition: opacity var(--transition-duration) ease, transform var(--transition-duration) ease;
-    opacity: 0;
-    animation: fadeInSlideUp 0.5s forwards;
+    position: fixed; /* 고정된 위치 */
+    top: 80px; /* 헤더 아래에 위치 */
+    right: 40px; /* 오른쪽 여백 */
+    width: 200px; /* 넉넉한 크기 */
+    min-height: 350px; /* 최소 높이 */
+    background: linear-gradient(135deg, #ffffff, #f7f9fa); /* 부드러운 배경 */
+    border: 1px solid #e0e0e0; /* 테두리 */
+    border-radius: 15px; /* 둥근 모서리 */
+    padding: 20px; /* 내부 여백 */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); /* 그림자 효과 */
+    z-index: 1000; /* 다른 요소 위에 표시 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform: translateY(-10px); /* 살짝 떠 있는 효과 */
 }
+
+.yc-chart-container:hover {
+    transform: translateY(-15px); /* 호버 시 더 올라감 */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 강화 */
+}
+
+/* 도넛 차트 섹션 안의 텍스트 */
+.yc-achievement-rate {
+    text-align: center; /* 중앙 정렬 */
+    margin-top: 15px; /* 위쪽 여백 */
+    font-size: 1rem; /* 텍스트 크기 */
+    font-weight: bold; /* 굵은 글씨 */
+    color: var(--text-color); /* 텍스트 색상 */
+    letter-spacing: 0.5px; /* 약간의 문자 간격 */
+}
+
+/* 차트 컨테이너의 제목 */
+.yc-chart-container h3 {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    
+}
+
+
+#yc-group_achieve{
+    border: 1px solid #b1b1b1;
+    padding: 7px;
+    margin-top : 5px;
+    border-radius: 40px;
+}
+
+#top5_rank {
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top:20px;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    font-size: 1.2rem; /* 텍스트 크기 증가 */
+    font-weight: bold;
+    color: var(--text-color);
+    border-top: 1px solid #7f7f7f;
+    border-bottom: 1px solid #7f7f7f;
+
+    letter-spacing: 1px; /* 문자 간격 */
+}
+
 
 @keyframes fadeInSlideUp {
     from {
@@ -814,6 +895,5 @@ a.yc_challenge_statistics_enteredUser {
 
 a.yc_challenge_statistics_top5User:hover,
 a.yc_challenge_statistics_enteredUser:hover {
-    color: var(--primary-color);
-    text-decoration: underline;
+    color: #5e93c2;
 }

@@ -56,11 +56,14 @@
 
 /* 검색 섹션 */
 #search {
+    position: absolute;
+    top: 10%; /* 비디오 위의 위치 조정 */
+    left: 31%;
+    z-index: 2; /* 비디오 위에 위치 */
     display: flex;
-    width: 50%;
-    align-self: center;
+    width: 35%;
     background-color: #f9f9f9;
-    padding: 10px 15px; /* 패딩 조정으로 더 심플하게 */
+    padding: 10px 15px;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     transition: box-shadow var(--transition-speed) ease, background-color var(--transition-speed) ease;
@@ -68,31 +71,86 @@
     margin-bottom: 20px;
 }
 
-#search:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    background-color: #f0f0f0;
-}
-
 #search div {
     display: flex;
     align-items: center;
     width: 100%;
+    z-index: 3; /* 검색 바 내부 컨텐츠가 위에 표시되도록 */
 }
 
 #search input {
     flex: 1;
     border: none;
     outline: none;
-    padding: 8px 10px; /* 패딩 조정 */
+    padding: 8px 10px;
     font-size: 1rem;
-    margin-left: 8px; /* 마진 조정 */
+    margin-left: 8px;
     background-color: transparent;
     color: var(--text-color);
-    transition: color var(--transition-speed) ease;
+    z-index: 3; /* 검색 바 내부 컨텐츠가 위에 표시되도록 */
 }
+
+#search:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    background-color: #f0f0f0;
+}
+
 
 #search input::placeholder {
     color: #aaa;
+}
+
+/* 챌린지 스타일 
+.bang_level_challenge {
+    background-color: #ff6f61; 
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 12px; 
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-align: left;
+    box-shadow: var(--box-shadow);
+}
+*/
+.bang_level_challenge {
+    margin: 8px 10px;
+}
+
+.badge-challenge {
+    background-color: #ff6f61; 
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 12px; 
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-align: left;
+    box-shadow: var(--box-shadow);
+}
+
+/* 일반 스타일 */
+/* .bang_level_normal {
+    background-color: #4caf50; 
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 12px; 
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-align: left;
+    box-shadow: var(--box-shadow);
+} */
+
+.bang_level_normal {
+    margin: 8px 10px;
+}
+.badge-general {
+    background-color: #4caf50; 
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 12px; 
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-align: left;
+    box-shadow: var(--box-shadow);
 }
 
 
@@ -449,6 +507,11 @@
     line-height: 1.2;
 }
 
+.jy_main #secondary span img{
+    width:80px;
+    height:80px;
+}
+
 /* 반응형 디자인: 모바일 화면에서 버튼 크기 조정 */
 @media (max-width: 768px) {
     .jy_main .btn {
@@ -633,11 +696,13 @@
 
 
 
-/* 비디오 스타일 */
 .ad-banner-video {
     width: 100%;
-    height: 80vh;;
+    height: 80vh;
     object-fit: cover;
+    position: relative; /* 검색 바의 기준 위치 설정 */
+    z-index: 1; /* 검색 바보다 뒤에 위치 */
+    pointer-events: none; /* 비디오에 클릭 이벤트 전달 방지 */
 }
 
 
