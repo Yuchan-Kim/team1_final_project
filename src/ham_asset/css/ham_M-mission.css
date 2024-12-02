@@ -22,6 +22,31 @@
     padding: 16px;
 }
 
+.hmk_mobile_mission-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+}
+
+.hmk_mobile_mission-room-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1c1c1e;
+    margin: 0;
+}
+
+.hmk_rule-view-button {
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: #f5f5f7;
+    border: none;
+    color: #007aff;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
 /* 유의사항 카드 */
 .hmk_mobile_mission-card {
     background: white;
@@ -29,7 +54,6 @@
     padding: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     margin-bottom: 16px;
-    min-height: 100px;
     position: relative;
 }
 
@@ -154,13 +178,13 @@
 
 /* 미션 컨텐츠 영역 */
 .hmk_mobile_mission-content {
-    margin-top: 180px;
-    padding-bottom: 200px;
+    margin-top: 200px;
 }
 
 .hmk_mobile_mission-grid-list {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* 2열 그리드 */
+    grid-template-columns: 1fr 1fr;
+    /* 2열 그리드 */
     gap: 16px;
     padding: 16px;
     width: 100%;
@@ -169,7 +193,8 @@
 
 /* 미션 카드 */
 .hmk_challenge-card {
-    width: 100%; /* 카드 너비를 그리드 셀에 맞춤 */
+    width: 100%;
+    /* 카드 너비를 그리드 셀에 맞춤 */
     background: white;
     border-radius: 16px;
     overflow: hidden;
@@ -192,6 +217,7 @@
     justify-content: space-between;
     box-sizing: border-box;
 }
+
 .hmk_challenge-title {
     font-size: 17px;
     font-weight: 600;
@@ -551,12 +577,36 @@
     background-color: #e5e7eb;
     color: #374151;
 }
+
 /* 미션 내용이 없을 때 표시되는 메시지 스타일도 수정 */
 .hmk_mission-empty {
-    grid-column: 1 / -1; /* 전체 너비 사용 */
+    grid-column: 1 / -1;
+    /* 전체 너비 사용 */
     padding: 80px 16px;
     text-align: center;
     background: white;
     border-radius: 16px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.hmk_collapse-indicator {
+    margin-left: 8px;
+    font-size: 14px;
+    color: #86868b;
+}
+
+.hmk_mobile_mission-stat-title-wrapper {
+    transition: background-color 0.2s;
+}
+
+.hmk_mobile_mission-stat-title-wrapper:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.hmk_mobile_mission-card {
+    transition: min-height 0.3s ease;
+}
+
+.hmk_mobile_mission-card.collapsed {
+    min-height: auto;
 }

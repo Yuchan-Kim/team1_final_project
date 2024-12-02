@@ -57,17 +57,17 @@ const MobileRecruiting = () => {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
-                
+
             });
-            console.log("룸 리스트에서 가져오는거: ",response.data.apiData);
+            console.log("룸 리스트에서 가져오는거: ", response.data.apiData);
             if (response.data.result === 'success') {
                 return response.data.apiData;
-                
+
             } else {
                 setError(response.data.message);
                 return [];
             }
-            
+
         } catch (error) {
             console.error('방 목록을 불러오는 중 오류 발생:', error);
             setError("방 목록을 불러오는 데 실패했습니다.");
@@ -87,8 +87,8 @@ const MobileRecruiting = () => {
                 challenge.enteredUserStatusNum !== 1 // 참여하지 않은 방
             );
         });
-console.log("필터챌린지에 뭐가 들었니? : ",filterChallenges)
-console.log("필터챌린지에 뭐가 들었니? : ",filteredChallenges)
+        console.log("필터챌린지에 뭐가 들었니? : ", filterChallenges)
+        console.log("필터챌린지에 뭐가 들었니? : ", filteredChallenges)
         switch (tab) {
             case 'normal':
                 filteredChallenges = filteredChallenges.filter(
@@ -167,7 +167,12 @@ console.log("필터챌린지에 뭐가 들었니? : ",filteredChallenges)
     return (
         <div className="hmk_mobile_recruiting-wrap">
             <div className="hmk_mobile_recruiting-fixed-top">
-                <div className="hmk_mobile_site-header">Donkey: 동기 키우기</div>
+                <div className="hmk_mobile_site-header">
+                    <div className="hmk_mobile_site-logo">
+                        <img src="/img/struggle.gif" alt="Donkey Logo" />
+                    </div>
+                    <span>Donkey: 동기 키우기</span>
+                </div>
                 <h1 className="hmk_mobile_page-title">방 참가 하기</h1>
                 <div className="hmk_mobile_recruiting-tabs">
                     <div

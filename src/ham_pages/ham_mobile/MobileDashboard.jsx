@@ -305,7 +305,12 @@ const MobileDashboard = () => {
     return (
         <div className="hmk_mobile_home-wrap">
             <div className="hmk_mobile_home-fixed-top">
-                <div className="hmk_mobile_site-header">Donkey: 동기 키우기</div>
+                <div className="hmk_mobile_site-header">
+                    <div className="hmk_mobile_site-logo">
+                        <img src="/img/struggle.gif" alt="Donkey Logo" />
+                    </div>
+                    <span>Donkey: 동기 키우기</span>
+                </div>
                 <h1 className="hmk_mobile_page-title">나의 DONKEY</h1>
                 {/* 상단 통계 카드 */}
                 <div className="hmk_mobile_home-card">

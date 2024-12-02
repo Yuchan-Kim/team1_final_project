@@ -4,7 +4,7 @@
 .hmk_mobile_recruiting-wrap {
     max-width: 768px;
     margin: 0 auto;
-    padding-top: 200px;
+    padding-top: 170px;
     /* Increased to accommodate new header */
     padding-bottom: 80px;
     background-color: #f2f2f7;
@@ -25,16 +25,25 @@
     -webkit-backdrop-filter: blur(10px);
     max-width: 768px;
     margin: 0 auto;
-    padding: 10px 20px;
+    padding: 0 10px;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
 }
 
 .hmk_mobile_site-header {
-    font-size: 14px;
-    font-weight: 600;
-    color: #007aff;
-    text-align: left;
-    margin: 10px 0 5px;
+    display: flex;
+    align-items: center;
+    gap: 1px;  /* 로고와 텍스트 사이 간격 */
+}
+
+.hmk_mobile_site-logo {
+    display: flex;
+    align-items: center;
+}
+
+.hmk_mobile_site-logo img {
+    width: 40px;  /* 로고 크기 조정 */
+    height: 45px;
+    object-fit: contain;
 }
 
 .hmk_mobile_page-title {

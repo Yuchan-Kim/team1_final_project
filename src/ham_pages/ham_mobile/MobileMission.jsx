@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -35,22 +35,16 @@ const MobileMission = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMission, setModalMission] = useState(null);
   const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
-
+  // 유의 사항 카드 접기 상태
+  const [isRuleCardCollapsed, setIsRuleCardCollapsed] = useState(false);
+  const submitFormRef = useRef(null);
+  // alert 창 상태
   const [alertState, setAlertState] = useState({
     isOpen: false,
     message: '',
     type: 'success'
   });
 
-  // 컴포넌트 마운트 시 상태 확인
-  useEffect(() => {
-    console.log('State changed:', {
-      userAuth,
-      showJoinModal,
-      token,
-      roomNum
-    });
-  }, [userAuth, showJoinModal, token, roomNum]);
 
   // 유저 권한 확인
   useEffect(() => {
@@ -81,15 +75,6 @@ const MobileMission = () => {
       checkUserAuth();
     }
   }, [roomNum, token]);
-
-  // 디버깅을 위한 추가 useEffect
-  useEffect(() => {
-    console.log('User auth changed:', {
-      userAuth,
-      showJoinModal,
-      shouldShowModal: userAuth === 0
-    });
-  }, [userAuth, showJoinModal]);
 
   // 미션 리스트와 유의사항 가져오기
   useEffect(() => {
@@ -139,28 +124,6 @@ const MobileMission = () => {
     }
   }, [roomNum, token, userAuth]);
 
-  // 유의사항 저장 핸들러
-  const handleSaveRule = async () => {
-    if (!token || userAuth !== 1) return;
-
-    try {
-      await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/rules/${roomNum}`,
-        { ruleText },
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      );
-      setGetRule(ruleText);
-      setIsEditingRule(false);
-    } catch (error) {
-      console.error('유의사항 저장 실패:', error);
-      alert('유의사항 저장에 실패했습니다.');
-    }
-  };
   // 상태 변경 모니터링
   useEffect(() => {
     console.log('Current userAuth:', userAuth);
@@ -194,6 +157,39 @@ const MobileMission = () => {
       message,
       type
     });
+  };
+  // 유의사항 저장 핸들러
+  const handleSaveRule = async () => {
+    if (!token || userAuth !== 1) return;
+
+    try {
+      await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/rules/${roomNum}`,
+        { ruleText },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      setGetRule(ruleText);
+      setIsEditingRule(false);
+    } catch (error) {
+      console.error('유의사항 저장 실패:', error);
+      alert('유의사항 저장에 실패했습니다.');
+    }
+  };
+
+  // 미션 제출 핸들러
+  const handleMissionSelect = (mission) => {
+    if (!mission.isSubmitted) {
+      setSelectedMission(mission);
+      // 선택 후 제출 폼으로 스크롤
+      setTimeout(() => {
+        submitFormRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
   };
 
   // 참가 관련 핸들러
@@ -303,14 +299,6 @@ const MobileMission = () => {
   };
 
 
-
-  console.log('Rendering component with:', {
-    userAuth,
-    missionList: missionList.length,
-    hasRule: !!getRule,
-    selectedMission: !!selectedMission
-  });
-
   // 모달 열기 핸들러
   const openModal = (mission, e) => {
     e.stopPropagation(); // 이벤트 버블링 방지
@@ -327,51 +315,23 @@ const MobileMission = () => {
   return (
     <div className="hmk_mobile_mission-wrap">
       <div className="hmk_mobile_mission-fixed-top">
+        <div className="hmk_mobile_site-header">
+          <div className="hmk_mobile_site-logo">
+            <img src="/img/struggle.gif" alt="Donkey Logo" />
+          </div>
+          <span>Donkey: 동기 키우기</span>
+        </div>
+        <h1 className="hmk_mobile_page-title">미션제출</h1>
         {/* 유의사항 카드 */}
         <div className="hmk_mobile_mission-card">
-          <div className="hmk_mobile_mission-rules">
-            <div className="hmk_mobile_mission-stat-title-wrapper">
-              <h2 className="hmk_mobile_mission-stat-title">{roomTitle}</h2>
-              {userAuth === 1 && (
-                <div className="hmk_edit-icon-wrapper" onClick={() => setIsEditingRule(true)}>
-                  <FontAwesomeIcon icon={faPen} className="hmk_edit-icon" />
-                  <span className="hmk_edit-tooltip">수정하기</span>
-                </div>
-              )}
-            </div>
-            {isEditingRule ? (
-              <div className="hmk_mobile_mission-edit">
-                <textarea
-                  className="hmk_mobile_mission-textarea"
-                  value={ruleText}
-                  onChange={(e) => setRuleText(e.target.value)}
-                  placeholder="유의사항을 입력하세요"
-                />
-                <div className="hmk_mobile_mission-grid">
-                  <button
-                    className="hmk_mobile_mission-grid-item hmk_active"
-                    onClick={handleSaveRule}
-                  >
-                    저장
-                  </button>
-                  <button
-                    className="hmk_mobile_mission-grid-item"
-                    onClick={() => setIsEditingRule(false)}
-                  >
-                    취소
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div className="hmk_rule-button-wrapper">
-                <button
-                  className="hmk_view-rule-button"
-                  onClick={() => setIsRuleModalOpen(true)}
-                >
-                  유의사항 확인하기
-                </button>
-              </div>
-            )}
+          <div className="hmk_mobile_mission-header">
+            <h2 className="hmk_mobile_mission-room-title">{roomTitle}</h2>
+            <button
+              className="hmk_rule-view-button"
+              onClick={() => setIsRuleModalOpen(true)}
+            >
+              유의사항 {userAuth === 1 ? '수정' : '보기'}
+            </button>
           </div>
         </div>
       </div>
@@ -379,47 +339,43 @@ const MobileMission = () => {
       <div className="hmk_mobile_mission-content">
         {/* 미션 리스트 */}
         <div className="hmk_mobile_mission-grid-list">
-            {missionList.length === 0 ? (
-              <div className="hmk_mission-empty">
-                <p>제출할 미션이 없습니다.</p>
-              </div>
-            ) : (
-              missionList.map((mission) => (
-                <div
-                  key={mission.missionNum}
-                  className={`hmk_challenge-card ${selectedMission?.missionNum === mission.missionNum ? 'selected' : ''
-                    } ${mission.isSubmitted ? 'submitted' : ''}`}
-                  onClick={() => {
-                    if (!mission.isSubmitted) {
-                      setSelectedMission(mission);
-                    }
-                  }}
-                >
-                  <div className="hmk_challenge-details">
-                    <h4 className="hmk_challenge-mission-title">{mission.missionName}</h4>
-                    <p className="hmk_mobile_mission-stat-mission-content">{mission.missionMethod}</p>
-                    {mission.isSubmitted && (
-                      <div className="hmk_mission-submitted-badge">제출 완료</div>
-                    )}
-                    <button
-                      className="hmk_mobile_mission-grid-item"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setModalMission(mission);
-                        setIsModalOpen(true);
-                      }}
-                    >
-                      상세보기
-                    </button>
-                  </div>
+          {missionList.length === 0 ? (
+            <div className="hmk_mission-empty">
+              <p>제출할 미션이 없습니다.</p>
+            </div>
+          ) : (
+            missionList.map((mission) => (
+              <div
+                key={mission.missionNum}
+                className={`hmk_challenge-card ${selectedMission?.missionNum === mission.missionNum ? 'selected' : ''
+                  } ${mission.isSubmitted ? 'submitted' : ''}`}
+                onClick={() => handleMissionSelect(mission)}
+              >
+                <div className="hmk_challenge-details">
+                  <h4 className="hmk_challenge-mission-title">{mission.missionName}</h4>
+                  <p className="hmk_mobile_mission-stat-mission-content">{mission.missionMethod}</p>
+                  {mission.isSubmitted && (
+                    <div className="hmk_mission-submitted-badge">제출 완료</div>
+                  )}
+                  <button
+                    className="hmk_mobile_mission-grid-item"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setModalMission(mission);
+                      setIsModalOpen(true);
+                    }}
+                  >
+                    상세보기
+                  </button>
                 </div>
-              ))
-            )}
+              </div>
+            ))
+          )}
         </div>
 
         {/* 선택된 미션 제출 폼 */}
         {selectedMission && (
-          <div className="hmk_mobile_mission-submitcard">
+          <div className="hmk_mobile_mission-submitcard" ref={submitFormRef}>
             <div className="hmk_mobile_mission-stat-submit-title">미션 제출</div>
             <div className="hmk_challenge-submit-content">{selectedMission.missionName}</div>
 
@@ -481,23 +437,48 @@ const MobileMission = () => {
           </div>
         )}
       </div>
+      {/* 유의사항 모달 수정 */}
       {isRuleModalOpen && (
         <div className="hmk_mobile_mission-rulmodal-overlay" onClick={() => setIsRuleModalOpen(false)}>
-          <div
-            className="hmk_mobile_mission-rulmodal"
-            onClick={e => e.stopPropagation()}
-          >
-            <button
-              className="hmk_mobile_mission-rulmodal-close"
-              onClick={() => setIsRuleModalOpen(false)}
-            >
+          <div className="hmk_mobile_mission-rulmodal" onClick={e => e.stopPropagation()}>
+            <button className="hmk_mobile_mission-rulmodal-close" onClick={() => setIsRuleModalOpen(false)}>
               <FontAwesomeIcon icon={faTimes} />
             </button>
             <div className="hmk_mobile_mission-rulmodal-content">
               <h3 className="hmk_mobile_mission-rulstat-title">유의사항</h3>
-              <div className="hmk_mobile_mission-rule-content">
-                {getRule || "등록된 유의사항이 없습니다."}
-              </div>
+              {userAuth === 1 ? (
+                // 방장인 경우 수정 가능한 폼 표시
+                <div className="hmk_mobile_mission-edit">
+                  <textarea
+                    className="hmk_mobile_mission-textarea"
+                    value={ruleText}
+                    onChange={(e) => setRuleText(e.target.value)}
+                    placeholder="유의사항을 입력하세요"
+                  />
+                  <div className="hmk_mobile_mission-grid">
+                    <button
+                      className="hmk_mobile_mission-grid-item hmk_active"
+                      onClick={() => {
+                        handleSaveRule();
+                        setIsRuleModalOpen(false);
+                      }}
+                    >
+                      저장
+                    </button>
+                    <button
+                      className="hmk_mobile_mission-grid-item"
+                      onClick={() => setIsRuleModalOpen(false)}
+                    >
+                      취소
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                // 일반 참가자인 경우 내용만 표시
+                <div className="hmk_mobile_mission-rule-content">
+                  {getRule || "등록된 유의사항이 없습니다."}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -532,7 +513,6 @@ const MobileMission = () => {
           </div>
         </div>
       )}
-      {/* 참가 모달 추가 */}
       {/* 참가 모달 */}
       {showJoinModal && (
         <div className="hmk_mission-join-modal-overlay">
