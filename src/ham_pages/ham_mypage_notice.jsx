@@ -244,7 +244,7 @@ const Notice = () => {
         } else if (notice.noticeTitle.includes('방 참가')) {
             baseContent.additionalContent = '새로운 도전을 응원합니다!';
         } else if (notice.noticeTitle.includes('시작')) {
-            baseContent.additionalContent = '챌린지가 시작되었습니다. 힘내세요!';
+            baseContent.additionalContent = '목표 달성까지 동키가 함께 할게요! 힘내세요!';
         } else if (notice.noticeTitle.includes('종료')) {
             baseContent.additionalContent = '수고하셨습니다!';
         }

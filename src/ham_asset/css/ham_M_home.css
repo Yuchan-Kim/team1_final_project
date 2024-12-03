@@ -416,3 +416,50 @@
     text-align: center;
     line-height: 1.4;
 }
+
+@keyframes borderBlink {
+    0% { border-color: #FF69B4; }
+    50% { border-color: transparent; }
+    100% { border-color: #FF69B4; }
+}
+
+.hmk_today-mission {
+    border: 3px solid #FF69B4;
+    box-shadow: 0 4px 8px rgba(58, 122, 254, 0.2);
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+    animation: borderBlink 1s infinite; /* 2초 동안 무한 반복 */
+}
+
+.hmk_today-mission:hover {
+    box-shadow: 0 6px 12px rgba(58, 122, 254, 0.3);
+    transform: translateY(-4px);
+    animation-play-state: paused; /* 호버 시 애니메이션 일시 정지 */
+}
+
+.hmk_today-mission:hover {
+    box-shadow: 0 6px 12px rgba(58, 122, 254, 0.3);
+    transform: translateY(-4px);
+}
+
+.hmk_today-mission-label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #FF69B4;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 2;
+}
+
+@media (max-width: 768px) {
+    .hmk_today-mission-label {
+        font-size: 11px;
+        padding: 3px 6px;
+        top: 8px;
+        left: 8px;
+    }
+}

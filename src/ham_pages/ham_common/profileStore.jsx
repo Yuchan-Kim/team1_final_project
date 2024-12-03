@@ -4,6 +4,7 @@ const defaultProfile = '/upload/profile-fill.png';
 
 class ProfileStore {
     constructor() {
+        this.todayMissionRooms = new Set(); // 오늘 미션이 있는 방 번호들을 저장
         this.noticeCount = 0;  // 새 알림 개수 추가
         // localStorage에서 사용자 정보 불러오기
         this.profileImage = localStorage.getItem('profileImage') || defaultProfile;
@@ -41,10 +42,23 @@ class ProfileStore {
         this.noticeCount = count;
         this.notifySubscribers();
     }
-
-    // getter 메서드 추가
     getNoticeCount() {
         return this.noticeCount;
+    }
+
+    // 오늘의 미션 방 목록 설정
+    setTodayMissionRooms(rooms) {
+        if (!rooms || !Array.isArray(rooms)) {
+            this.todayMissionRooms = new Set();
+            return;
+        }
+        this.todayMissionRooms = new Set(rooms.map(room => room.roomNum));
+        this.notifySubscribers();
+    }
+    // 특정 방이 오늘의 미션이 있는지 확인
+    hasTodayMission(roomNum) {
+        console.log('Checking room:', roomNum, 'Today missions:', this.todayMissionRooms); // 로그 추가
+        return this.todayMissionRooms.has(Number(roomNum)); // roomNum을 숫자로 변환
     }
 
     // 프로필 데이터 가져올 때 알림 개수도 포함
@@ -124,7 +138,6 @@ class ProfileStore {
     setUserNum(newUserNum) {
         this.userNum = newUserNum;
         localStorage.setItem('userNum', String(newUserNum));
-        // this.loadUserData();
         this.notifySubscribers();
     }
     getChallengesSummary() {
@@ -178,6 +191,7 @@ class ProfileStore {
         }
         this.notifySubscribers();
     }
+
 
     initializeOwnedProfileImages() {
         const storedImages = localStorage.getItem('ownedProfileImages');
@@ -277,8 +291,27 @@ class ProfileStore {
                     completed: Array.isArray(data.apiData.challenges?.completed) ? data.apiData.challenges.completed : [],
                     created: Array.isArray(data.apiData.challenges?.created) ? data.apiData.challenges.created : []  // created 배열 추가
                 };
-                // console.log("챌린지 리스트: ", challengesDetails)
-                // 프로필 이미지 처리 개선 및 절대 URL 설정
+                const todayMissionsResponse = await fetch(`${apiUrl}/api/my/${this.userNum}/todayMissions`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${this.token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                // profileStore.js의 loadUserData 메서드 내부
+                if (todayMissionsResponse.ok) {
+                    const todayMissionsData = await todayMissionsResponse.json();
+                    console.log('Today Missions Response:', todayMissionsData);
+                    if (todayMissionsData.result === 'success' && Array.isArray(todayMissionsData.apiData)) {
+                        // apiData 키에서 데이터를 가져오도록 수정
+                        this.setTodayMissionRooms(todayMissionsData.apiData);
+                        console.log('Set Today Mission Rooms:', this.todayMissionRooms);
+                    } else {
+                        console.log('오늘의 미션 데이터가 없거나 형식이 잘못되었습니다.');
+                        this.setTodayMissionRooms([]);
+                    }
+                }
                 const fullProfileImageUrl = this.constructAbsoluteUrl(apiUrl, userData.profileImage);
                 // 데이터 업데이트
                 this.setSocialLogin(userData.socialLogin || '');
@@ -328,6 +361,7 @@ class ProfileStore {
             created: []  // created 배열 추가
         });
     }
+
     // 사용자 데이터 일괄 업데이트
     updateUserData(data) {
         this.setProfileImage(data.profileImage);
@@ -360,7 +394,8 @@ class ProfileStore {
             challengesSummary: this.challengesSummary,
             challengesDetails: this.challengesDetails,
             token: this.token,
-            noticeCount: this.noticeCount  // 알림 개수 추가
+            noticeCount: this.noticeCount,  // 알림 개수 추가
+            todayMissionRooms: Array.from(this.todayMissionRooms) // todayMissionRooms를 Array로 변환하여 추가
         };
         this.subscribers.forEach(callback => callback(updatedProfile));
     }
@@ -387,6 +422,7 @@ class ProfileStore {
             created: []  // created 배열 추가
         };
         this.token = null;
+        this.todayMissionRooms = new Set();
         this.notifySubscribers();
     }
 

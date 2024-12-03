@@ -10,6 +10,24 @@ import profileStore from '../ham_common/profileStore';
 import MobileBottomMenu from './MobileBottomMenu';
 import '../../ham_asset/css/ham_M_home.css';
 
+const customModalStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        padding: '20px',
+        maxWidth: '80%',
+        maxHeight: '80%',
+        overflow: 'auto'
+    },
+    overlay: {
+        backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    }
+};
+
 const MobileDashboard = () => {
     const navigate = useNavigate();
     const [activeMenu, setActiveMenu] = useState(null); // 각 메뉴 항목의 텍스트 표시 상태를 관리
@@ -32,7 +50,8 @@ const MobileDashboard = () => {
             upcoming: [],
             completed: [],
             created: []
-        }
+        },
+        todayMissionRooms: []
     });
     const calculateDday = (startDate) => {
         const today = new Date();
@@ -67,7 +86,8 @@ const MobileDashboard = () => {
 
                 setUserInfo({
                     challengesSummary: summary,
-                    challengesDetails: details
+                    challengesDetails: details,
+                    todayMissionRooms: updatedProfile.todayMissionRooms || []
                 });
             };
 
@@ -79,7 +99,8 @@ const MobileDashboard = () => {
 
             setUserInfo({
                 challengesSummary: summary,
-                challengesDetails: details
+                challengesDetails: details,
+                todayMissionRooms: []
             });
 
             return () => profileStore.unsubscribe(handleProfileChange);
@@ -101,24 +122,6 @@ const MobileDashboard = () => {
         const end = new Date(endDate);
         if (isNaN(end.getTime())) return 0;
         return end - now;
-    };
-
-    // Modal style
-    const customModalStyles = {
-        content: {
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            transform: 'translate(-50%, -50%)',
-            maxWidth: '500px',
-            padding: '20px',
-            borderRadius: '8px',
-        },
-        overlay: {
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            zIndex: 1200,
-        },
     };
 
     // Handle card click with modal logic
@@ -272,13 +275,17 @@ const MobileDashboard = () => {
                 <div className="hmk_mobile_home-grid-list">
                     {sortedChallenges.map((challenge) => {
                         const challengeKey = `challenge-${challenge.roomNum || challenge.id}`;
+                        const hasTodayMission = profileStore.hasTodayMission(challenge.roomNum);
+                        console.log(`Room ${challenge.roomNum} has today mission:`, hasTodayMission); // 로그 추가
+
                         return (
                             <div
                                 key={challengeKey}
                                 className={`hmk_challenge-card ${(activeTab === 'completed' ||
                                     (activeTab === 'created' && challenge.roomStatusNum === 4))
-                                    ? 'completed' : ''
-                                    }`}
+                                    ? 'completed'
+                                    : ''
+                                    } ${hasTodayMission ? 'hmk_today-mission' : ''}`}
                                 onClick={() => handleCardClick(challenge)}
                                 onKeyDown={(e) => {
                                     if (e.key === 'Enter') handleCardClick(challenge.roomNum);
@@ -292,13 +299,21 @@ const MobileDashboard = () => {
                                     startDate={challenge.roomStartDate}
                                     endDate={challenge.endDate}
                                     roomStatusNum={
-                                        activeTab === 'ongoing' ? 3 : // 진행 중
-                                            activeTab === 'upcoming' ? 2 : // 모집 중
-                                                activeTab === 'created' ? challenge.roomStatusNum || 1 : // 생성된 방은 실제 상태값 사용
-                                                    activeTab === 'completed' ? 4 : // 종료
-                                                        0 // 기본값
+                                        activeTab === 'ongoing' ? 3 :
+                                            activeTab === 'upcoming' ? 2 :
+                                                activeTab === 'created' ? challenge.roomStatusNum || 1 :
+                                                    activeTab === 'completed' ? 4 :
+                                                        0
                                     }
                                 />
+
+                                {/* 오늘의 미션 표시 */}
+                                {hasTodayMission && (
+                                    <div className="hmk_today-mission-label">
+                                        미션 제출일
+                                    </div>
+                                )}
+
                                 <img
                                     src={imgError[challengeKey]
                                         ? '/images/challenge1.png'
