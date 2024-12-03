@@ -113,7 +113,7 @@ const Mission = () => {
     labels: missionApprovals.map(mission => mission.missionName), // 미션 이름 레이블
     datasets: [
       {
-        label: "미션 승인 횟수",
+        label: "미션 제출 횟수",
         data: missionApprovals.map(mission => mission.userSubmissionCount), // 승인 횟수 데이터
         backgroundColor: "rgba(75, 192, 192, 0.6)",
         borderColor: "rgba(75, 192, 192, 1)",
@@ -427,6 +427,7 @@ const Mission = () => {
   };
 
   // 유의사항 1개 가져오기
+
   const getRules = () => {
     axios({
       method: 'get',
@@ -605,7 +606,7 @@ const userAchievementOptions = {
                 <h4>{firstMission.missionName} 달성률: {firstMission.achievementRate.toFixed(2)}%</h4>
               </>
             )}
-      <h3 id = "top5_rank">달성률 TOP5</h3>
+      <h3 id = "top5_rank">달성률 TOP 5</h3>
       {topUsers.map((user) => (
             <div key={user.userNum} className="yc-ranking-item">
               <img 
@@ -643,36 +644,46 @@ const userAchievementOptions = {
       {/* Main Content */}
       <div className="jm-mission-body">
       <Header/>
-      <div className="jm-mission-container-top">
-        <div className="jm-mission-progress-bar-container">
-        <div className="yc-user-achievement-doughnut">
-        {users && userAchievementData ? (
-          <>
-            <Doughnut data={userAchievementData} options={userAchievementOptions} />
-            <div className="yc-achievement-percentage">
-              <span>{users.achievementRate || 0}%</span>
-            </div>
-          </>
-        ) : (
-          <p>달성율 데이터를 로드 중입니다...</p>
-        )}
-      </div>
-       
-          {/* 추가 그래프 (막대 그래프) */}
-          <div className="jm_challenge_statistics_additional-graph">
-            <h2>내 미션 통계</h2>
-              <Bar
-                data={missionApprovalBarChartData}
-                options={missionApprovalBarChartOptions}
-              />
-            </div>
-        </div>
+      
 
-        
-        </div>
+    
+        {/* 룰셋 수정 가능 */}
+         {isEditingRule ? (
+            <div className="jm-roolset-contents-box">
+              
+            
+            
+            <div className="jm-btn-updatimg">
+              <h3>유의 사항  <button onClick={handleSaveRule}>
+                  등록
+              </button></h3>
+            </div>
+            <textarea
+                placeholder={ruleText}
+                value={ruleText}
+                onChange={handleRuleChange}
+            ></textarea>
+          </div>
+          ) : (
+            <div className='jm-roolset-update-contents-box'>
+              <div className='jm-roolset-contents-box'>
+              {/* enteredUserAuth가 1인 사용자에게만 수정 버튼 노출 */}
+              {userAuth === 1 && (
+              <div className="jm-btn-updatimg">
+                <h3>유의 사항 <button onClick={handleEditRule}>
+                  수정
+                </button></h3>
+                
+              </div>
+              )}
+              <span>{getRule?.missionInstruction || "방 소개 없음"}</span>
+              </div>
+              </div>
+          )}
 
-        <h2 className="jm-sub-tatle">미션 제출</h2>
-          <div className='jm-todo-user-add-form'>
+
+        <div className="jm-mission-main-content">
+
           <div className='jm-mission-add-list'>
             {missionList.map((mission, index) => (
               <div
@@ -701,9 +712,13 @@ const userAchievementOptions = {
             ))}
           </div>
 
+          <div className='jm-todo-user-add-form'>
+          
+
           <div className='jm-user-mission-add-fom'>
-          <h2>미션 제출하기</h2>
-          <p>선택된 미션: <strong>{selectedMissionTitle || "미션을 선택하세요"}</strong></p>
+          <p>선택된 미션: <strong>{selectedMissionTitle || "미션을 선택하세요"}</strong> <button className="jm-add-file-button" onClick={handleAddFileInput}>
+              +
+            </button></p>
             <div className="jm-add-mission-img-form">
               {fileInputs.map((_, index) => (
                 <div key={index} className="jm-file-upload">
@@ -728,20 +743,49 @@ const userAchievementOptions = {
                 </div>
               ))}
             </div>
-            <button className="jm-add-file-button" onClick={handleAddFileInput}>
-              +
-            </button>
+           
             <div className="jm-comment-add-btn-container">
-              <input className='jm-add-comment-box' type="text" placeholder="코멘트를 입력하세요" />
-              <button  className="jm-add-user-mission-btn" onClick={handleSubmitMission}>제출</button>
-              <button  className="jm-add-user-mission-btn" onClick={handleOpenModal}>수정</button>
-            </div>
+              <textarea className='jm-add-comment-box' type="textarea" placeholder="코멘트를 입력하세요" />
+              <div className="jm-buttons-container">
+      <button className="jm-add-user-mission-btn submit-btn" onClick={handleSubmitMission}>제출</button>
+      <button className="jm-add-user-mission-btn edit-btn" onClick={handleOpenModal}>수정</button>
+    </div>
+    </div>
           </div>
 
         </div>
 
       </div>
+      <div className="jm-mission-container-top">
+          <div className="yc-user-achievement-doughnut">
+          {users && userAchievementData ? (
+            <>
+              <Doughnut data={userAchievementData} options={userAchievementOptions} />
+              <div className="yc-achievement-percentage">
+                <span>{users.achievementRate || 0}%</span>
+              </div>
+            </>
+            ) : (
+              <p>달성율 데이터를 로드 중입니다...</p>
+            )}
+          </div>
+          
+          {/* 추가 그래프 (막대 그래프) */}
+          <div className="jm_challenge_statistics_additional-graph">
+            <h2>내 미션 통계</h2>
+              <Bar
+                data={missionApprovalBarChartData}
+                options={missionApprovalBarChartOptions}
+              />
+            </div>
+  
+
+        
+        </div>
     </div>
+
+    
+  </div>
 
     {/* 모달 창 */}
     {isModalOpen && selectedMission && (
@@ -762,6 +806,8 @@ const userAchievementOptions = {
         </div>
       </div>
     )}
+
+    
     <YCProfileInfo
             isOpen={isProfileOpen}
             onClose={closeProfile}

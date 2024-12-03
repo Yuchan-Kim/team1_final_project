@@ -116,7 +116,8 @@
 .yc_profile_stats, .yc_profile_challenge_info {
     display: flex;
     justify-content: space-between;
-    margin: 20px 0;
+    margin-top :20px;
+    margin-bottom: 20px;
     padding-bottom: 15px;
     border-top: 1px solid #ccc;
 }

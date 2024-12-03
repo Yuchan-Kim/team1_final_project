@@ -1133,10 +1133,10 @@ const JMYCChallengeHeader = () => {
 
                                     {/* 미션 상세 정보 */}
                                     <div className="yc-mission-details">
-                                        <p>완료한 미션: {userDetails?.totalMissions?.completedCount}/{userDetails?.totalMissions?.totalAssigned}</p>
+                                        <p>• 완료한 미션: {userDetails?.totalMissions?.completedCount}/{userDetails?.totalMissions?.totalAssigned}</p>
                                         {userDetails?.missionDetails?.map((mission) => (
                                             <p key={mission.missionName}>
-                                                {mission.missionName}: {mission.completedCount}/{mission.totalAssigned}
+                                                • {mission.missionName}: {mission.completedCount}/{mission.totalAssigned}
                                             </p>
                                         ))}
                                     </div>

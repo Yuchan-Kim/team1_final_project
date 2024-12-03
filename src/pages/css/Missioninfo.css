@@ -69,7 +69,6 @@
 .jm-datepicker-container {
   text-align: left;
   margin-top: 20px;
-  margin-left: 20px;
   height: 30px;
 }
 
@@ -84,6 +83,7 @@
   margin-left: 10px;
   padding: 5px;
   border-radius: 5px;
+  border-color:#7e7d7d
 }
 /* 서브타이틀,셀렉트 끝 */
 
@@ -158,13 +158,17 @@
 }
 /* 미션 승인버튼 */
 .jm-eval-type {
-  background-color: white;
-  color: #007bff88;
+  background-color: #007bff88;
+  color: #fff;
   border: none;
   padding: 5px;
   font-size: 12px;
-  border-radius: 3px;
+  border-radius: 6px;
   float: right;
+}
+.jm-eval-type:hover {
+  background-color: #007aff;
+  
 }
 .jm-btn-primary:hover {
   background-color: #007aff;
@@ -303,11 +307,16 @@
   text-align: center;
 }
 
+.jm-day{
+  font-size: 20px;
+  margin-left: 10px;
+}
+
 /* 미션제출 이미지 */
 .jm-modal-task-img {
-    width: 100%;
+    width: 400px;
     max-width: 400px; /* 적당한 크기로 설정 */
-    height: auto;
+    height: 400px;
     aspect-ratio: 1/1; /* 정사각형 유지 */
     object-fit: cover;
     border-radius: 8px;
@@ -326,21 +335,31 @@
 }
 /* 모달 승인버튼 */
 .jm-info-modal-button-ok {
-  background-color: #5E91A7;
+  background-color: #007bff88;
   border: none;
   padding: 5px 15px;
   border-radius: 5px;
   color: white;
   margin-right: 10px;
 }
+.jm-info-modal-button-ok:hover {
+  background-color: #007bff;
+  
+}
 /* 모달 거절버튼 */
 .jm-info-modal-button-no {
-  background-color: #383E47;
+  background-color: #383e4773;
   border: none;
   padding: 5px 15px;
   border-radius: 5px;
   color: white;
   margin-right: 10px;
+  
+}
+
+.jm-info-modal-button-no:hover {
+  background-color: #c0392b;
+ 
 }
 
 /* 슬라이더 버튼 */
