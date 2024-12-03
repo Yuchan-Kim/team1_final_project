@@ -14,7 +14,7 @@
 
 #jm-step4 #jm-step4-board {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 40px;
 }
 
 #jm-step4 #jm-step4-list h2 {
@@ -27,13 +27,13 @@
 #jm-step4 #jm-step4-list h4 {
     font-size: 16px;
     color: #555555;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
 }
 
 /* 인원 설정 스타일 */
 #jm-step4 #jm-step4-member-count {
     text-align: center; /* 중앙 정렬 */
-    margin-bottom: 30px;
+    margin-bottom: 50px;
 }
 
 #jm-step4 #jm-step4-member-count h3 {
@@ -98,30 +98,61 @@
     width: 150px;
 }
 
+#jm-step4 #jm-step4-box-double {
+    display: flex;
+    justify-content: space-between; /* 최대/최소 인원을 양쪽에 배치 */
+    gap: 10px; /* 적절한 간격 추가 */
+    margin: 0 auto; /* 중앙 정렬 */
+    width: 100%; /* 전체 너비 사용 */
+    max-width: 400px; /* 최대 너비 설정 */
+}
+
+#jm-step4 #jm-step4-box-double div {
+    flex: 1; /* 동일한 너비 할당 */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 라벨과 셀렉트를 중앙 정렬 */
+    text-align: center;
+}
+
 #jm-step4 #jm-step4-box-double label {
     font-size: 14px;
     color: #555555;
-    margin-bottom: 8px;
-    text-align: center; /* 라벨 중앙 정렬 */
+    margin-bottom: 6px; /* 라벨과 입력 필드 간격 */
 }
 
 #jm-step4 #jm-step4-box-double select {
-    padding: 6px;
+    width: 100%; /* 셀렉트 박스의 너비를 조정 */
+    padding: 8px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 6px;
     outline: none;
-    transition: border-color 0.3s ease;
     text-align: center;
+    transition: border-color 0.3s ease;
 }
 
 #jm-step4 #jm-step4-box-double select:focus {
-    border-color: #007bff;
+    border-color: #007bff; /* 포커스 시 색상 강조 */
 }
+
+/* 반응형 스타일 */
+@media screen and (max-width: 768px) {
+    #jm-step4 #jm-step4-box-double {
+        flex-direction: column; /* 작은 화면에서 세로로 배치 */
+        gap: 10px; /* 필드 간격 */
+        max-width: 100%; /* 너비를 제한 없이 사용 */
+    }
+
+    #jm-step4 #jm-step4-box-double select {
+        width: 100%; /* 작은 화면에서는 너비 확장 */
+    }
+}
+
 
 /* 포인트 설정 */
 #jm-step4 #jm-step4-box2 {
-    margin-bottom: 20px;
+    margin-bottom: 50px;
     text-align: center; /* 중앙 정렬 */
 }
 
@@ -133,8 +164,8 @@
 }
 
 #jm-step4 #jm-step4-box2 input {
-    width: 300px; /* 가로폭을 1/3로 설정 */
-    padding: 6px;
+    width: 380px; /* 가로폭을 1/3로 설정 */
+    padding: 8px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 6px;
@@ -179,20 +210,21 @@
 }
 
 .jm-step4-Score {
-    width: 300px; /* 가로폭을 1/3로 설정 */
-    padding: 6px; /* 패딩 축소 */
+    width: 380px; /* 가로폭을 1/3로 설정 */
+    padding: 8px; /* 패딩 축소 */
     font-size: 14px; /* 텍스트 크기 축소 */
     border: 1px solid #ccc;
     border-radius: 6px;
     outline: none;
     transition: border-color 0.3s ease;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
+    margin-top: 10px;
 }
 
 /* 지역 설정 */
 #jm-step4 #jm-step4-box3 {
-    margin-bottom: 20px;
+    margin-bottom: 50px;
     text-align: center; /* 중앙 정렬 */
 }
 
@@ -204,8 +236,8 @@
 }
 
 #jm-step4 #jm-step4-box3 select {
-    width: 300px; /* 가로폭을 1/3로 설정 */
-    padding: 6px; /* 패딩 축소 */
+    width: 400px; /* 가로폭을 1/3로 설정 */
+    padding: 8px;
     font-size: 14px; /* 텍스트 크기 축소 */
     border: 1px solid #ccc;
     border-radius: 6px;
@@ -237,7 +269,7 @@
 }
 
 #jm-step4-primary:disabled {
-    background-color: #ccc;
+    background-color: #c5e1ff;
     cursor: not-allowed;
 }
 

@@ -84,6 +84,20 @@ const Step03 = () => {
                     <form onSubmit={handleSubmit} encType="multipart/form-data">
                         <div id="jm-step3-board">
                             <div id="jm-step3-list">
+                                {/* 제목 입력 */}
+                                <div id="jm-step3-input-title" className="jm-step3-input-title">
+                                    <h2>제목을 지어주세요.</h2>
+                                    <h4>챌린지의 목표가 포함된 제목을 지어주세요.</h4>
+                                    <div>
+                                        <input
+                                            className='jm-step3-input-roomtitle'
+                                            placeholder="방 제목을 작성해주세요"
+                                            value={title}
+                                            onChange={(e) => setTitle(e.target.value)}
+                                        />
+                                        {title && <CloseOutlineIcon onClick={() => setTitle('')} style={{ cursor: 'pointer' }} />}
+                                    </div>
+                                </div>
                                 {/* 이미지 업로드 */}
                                 <div id="jm-step3-input-thumbnail">
                                     <h2>대표 이미지를 설정 해주세요.</h2>
@@ -108,20 +122,6 @@ const Step03 = () => {
                                 </div>
 
                                 <div className='jm-step3-input-right'>
-                                {/* 제목 입력 */}
-                                <div id="jm-step3-input-title" className="jm-step3-input-title">
-                                    <h2>제목을 지어주세요.</h2>
-                                    <h4>챌린지의 목표가 포함된 제목을 지어주세요.</h4>
-                                    <div>
-                                        <input
-                                            className='jm-step3-input-roomtitle'
-                                            placeholder="방 제목을 작성해주세요"
-                                            value={title}
-                                            onChange={(e) => setTitle(e.target.value)}
-                                        />
-                                        {title && <CloseOutlineIcon onClick={() => setTitle('')} style={{ cursor: 'pointer' }} />}
-                                    </div>
-                                </div>
 
                                 {/* 설명 입력 */}
                                 <div id="jm-step3-input-description">

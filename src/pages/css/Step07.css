@@ -1,0 +1,306 @@
+/* 전체 레이아웃 */
+#jm-step7.jm-step7-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    font-family: 'Arial', sans-serif;
+}
+
+#jm-step7 #jm-step7-container {
+    width: 100%;
+    overflow: hidden;
+}
+
+#jm-step7 #jm-step7-board {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* 미션 추가 버튼 컨테이너 */
+#jm-step7-mission-btn-plus {
+    position: fixed; /* 부모 요소 내에서 고정 */
+    top: 131px; /* 상단 여백 */
+    right: 200px; /* 왼쪽 여백 */
+    z-index: 10; /* 다른 요소 위로 배치 */
+    max-height: calc(100vh - 350px); /* 푸터 높이를 고려한 제한 */
+}
+
+/* 미션 추가 버튼 스타일 */
+#jm-step7-mission-btn button {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#jm-step7-mission-btn button:hover {
+    background-color: #0056b3;
+}
+
+#jm-step7 #jm-step7-list h2 {
+    font-size: 26px;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+#jm-step7 #jm-step7-list h4 {
+    font-size: 16px;
+    color: #555555;
+    margin-bottom: 30px;
+}
+
+/* 미션 버튼 */
+#jm-step7 #jm-step7-mission-btn {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#jm-step7 #jm-step7-mission-btn button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#jm-step7 #jm-step7-mission-btn button:hover {
+    background-color: #0056b3;
+}
+
+/* 미션 입력 */
+.jm-step7-todo-user-add-form {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.jm-step7-mission-add-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.jm-step7-mission-items {
+    width: 95%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #939393;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.jm-step7-mission-items:focus {
+    border-color: #007bff;
+}
+
+/* 이미지 업로드 */
+.jm-step7-add-mission-img-form {
+    display: flex; /* 플렉스 박스 활성화 */
+    align-items: center; /* 세로 방향으로 중앙 정렬 */
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.jm-step7-file-upload {
+    position: relative;
+    display: inline-block;
+}
+
+.jm-step7-file-label {
+    display: block;
+    width: 190px;
+    height: 150px;
+    background-color: #fff;
+    border: 1px dashed #939393;
+    border-radius: 6px;
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.jm-step7-placeholder-text {
+    font-size: 12px;
+    color: #aaa;
+    text-align: center;
+}
+
+.jm-step7-image-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.jm-step7-hidden-file-input {
+    display: none;
+}
+
+.jm-step7-file-delete-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #ff4d4d;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.jm-step7-file-delete-btn:hover {
+    background-color: #e60000;
+}
+
+.jm-step7-mission-text-box {
+    margin-top: 10px;
+    width: 100%;
+    min-width: 300px;
+    min-height: 100px;
+}
+
+/* 미션 추가/삭제 버튼 */
+.jm-step7-remove-mission-button {
+    margin-top: 10px;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.jm-step7-add-file-button {
+    background-color: #3f4142;
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-radius:50%;
+    color: #fff;
+}
+
+.jm-step7-add-file-button:hover {
+    background-color: #0056b3;
+}
+
+.jm-step7-remove-mission-button {
+    position: absolute; /* 위치를 절대값으로 설정 */
+    background-color: #fcf9f9;
+    top: -10px; /* 위쪽 여백 */
+    right: 0px; /* 오른쪽 여백 */
+    color: #ff4d4d;
+    border: none;
+    border-radius: 50%; /* 동그랗게 */
+    width: 10px; /* 버튼 크기 */
+    height: 11px; /* 버튼 크기 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 16px; /* 아이콘 크기 */
+    transition: background-color 0.3s ease;
+}
+
+.jm-step7-remove-mission-button:hover {
+    color: #e60000; /* 호버 시 색상 */
+}
+
+/* 미션 항목에 상대적 위치 설정 */
+.jm-step7-mission-add-item {
+    position: relative; /* 버튼이 이 항목을 기준으로 위치하도록 설정 */
+    border: 1px solid #939393;
+    border-radius: 6px;
+    padding: 10px;
+    padding-top: 15px;
+    width: 90%;
+    max-width: 600px;
+    background-color: #ffffff;
+    margin-bottom: 20px;
+}
+
+/* 텍스트 영역 */
+#jm-step7 #jm-step7-mission-content textarea {
+    width: 100%;
+    max-width: 600px;
+    height: 100px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #939393;
+    border-radius: 6px;
+    margin-top: 20px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+#jm-step7 #jm-step7-mission-content textarea:focus {
+    border-color: #007bff;
+}
+
+/* 버튼 컨테이너 */
+.jm-step7-btn {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+#jm-step7-primary {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#jm-step7-primary:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#jm-step7-primary:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+#jm-step7-secondary {
+    padding: 10px 20px;
+    background-color: #e0e0e0;
+    color: #333333;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#jm-step7-secondary:hover {
+    background-color: #ccc;
+}
+
+/* 반응형 스타일 */
+@media screen and (max-width: 768px) {
+    .jm-step7-mission-add-item {
+        width: 100%;
+    }
+
+    #jm-step7 #jm-step7-mission-content textarea {
+        width: 100%;
+    }
+
+    .jm-step7-btn {
+        flex-direction: column;
+    }
+}

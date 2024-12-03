@@ -1,0 +1,152 @@
+/* 전체 레이아웃 */
+#jm-step6.jm-step6-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    font-family: 'Arial', sans-serif;
+}
+
+#jm-step6 #jm-step6-container {
+    width: 100%;
+    overflow: hidden;
+
+}
+
+#jm-step6 #jm-step6-board {
+    display: flex; /* 플렉스 박스 활성화 */
+    justify-content: center; /* 가로 방향으로 중앙 정렬 */
+    text-align: center;
+    margin-top: 50px;
+}
+
+
+#jm-step6 #jm-step6-list h2 {
+    font-size: 26px;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+#jm-step6 #jm-step6-list h4 {
+    font-size: 16px;
+    color: #555555;
+}
+
+/* 질문 섹션 */
+#jm-step6 #jm-step6-question {
+    display: flex;
+    gap: 20px;
+    max-width: 800px;
+    margin-bottom: 30px;
+}
+
+#jm-step6 #jm-step6-question h2 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+#jm-step6 #jm-step6-question h4 {
+    font-size: 14px;
+    color: #555555;
+    margin-bottom: 40px;
+}
+
+#jm-step6 #jm-step6-question div {
+    flex-grow: 1;
+    min-width: 200px;
+    margin-inline: 10px;
+}
+
+/* 카테고리 선택 스타일 */
+#jm-step6 #jm-step6-category {
+    display: flex; /* 플렉스 박스 활성화 */
+    flex-direction: column; /* 항목들을 세로 정렬 */
+    justify-content: center; /* 가로 방향으로 중앙 정렬 */
+    align-items: center; /* 세로 방향으로 중앙 정렬 */
+    margin-bottom: 20px;
+}
+
+#jm-step6 #jm-step6-category div {
+    padding: 20px;
+    margin-bottom: 15px;
+    background-color: #ffffff;
+    border: 1px solid #939393;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333333;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    text-align: center;
+    width: 50%;
+}
+
+#jm-step6 #jm-step6-category div:hover {
+    background-color: #c5e1ff;
+    color: #007bff;
+    border: 1px solid #007bff;
+}
+
+#jm-step6 #jm-step6-category .jm-step6-selected {
+    background-color: #ffffff;
+    color: #007bff;
+    border: 2px solid #007bff;
+}
+
+/* 버튼 컨테이너 */
+.jm-step6-btn {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+#jm-step6-primary {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#jm-step6-primary:disabled {
+    background-color: #c5e1ff;
+    cursor: not-allowed;
+}
+
+#jm-step6-primary:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+#jm-step6-secondary {
+    padding: 10px 20px;
+    background-color: #e0e0e0;
+    color: #333333;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#jm-step6-secondary:hover {
+    background-color: #ccc;
+}
+
+/* 반응형 스타일 */
+@media screen and (max-width: 768px) {
+    #jm-step6 #jm-step6-category {
+        flex-direction: column;
+    }
+
+    #jm-step6 #jm-step6-category div {
+        min-width: unset;
+    }
+
+    .jm-step6-btn {
+        flex-direction: column;
+    }
+}

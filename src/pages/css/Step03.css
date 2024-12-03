@@ -5,6 +5,7 @@
     align-items: center;
     background-color: #ffffff;
     font-family: 'Arial', sans-serif;
+    
 }
 
 #jm-step3 #jm-step3-container {
@@ -14,11 +15,15 @@
 
 #jm-step3 #jm-step3-board {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
 }
 
 /* 제목 스타일 */
 #jm-step3 #jm-step3-board h2 {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: bold;
     color: #333333;
     margin-bottom: 20px;
@@ -27,30 +32,29 @@
 #jm-step3 #jm-step3-board h4 {
     font-size: 16px;
     color: #555555;
-    margin-bottom: 15px;
+    margin-bottom: 30px;
 }
 
 /* 입력 목록 컨테이너 */
 #jm-step3 #jm-step3-list {
     display: flex;
+    flex-direction: column;
+    align-items: center; /* 중앙 정렬 */
     gap: 30px;
-    align-items: center;
-    justify-content: center; /* 수평 중앙 정렬 */
-    text-align: center;
     margin-bottom: 30px;
+    text-align: center; /* 텍스트 중앙 정렬 */
 }
 
 /* 이미지 업로드 스타일 */
 #jm-step3 #jm-step3-input-thumbnail {
     text-align: center;
     margin-bottom: 20px;
-    margin-top: 40px;
 }
 
 #jm-step3 #jm-step3-upload-thumbnail {
-    width: 400px;
-    height: 300px;
-    background-color: #e2e2e2;
+    width: 430px;
+    height: 200px;
+    background-color: #f4f4f4;
     border-radius: 6px;
     display: flex;
     justify-content: center;
@@ -72,25 +76,28 @@
     object-fit: cover;
 }
 
-.jm-step3-input-right {
-    margin-top: 40px;
+/* 제목 입력 스타일 */
+#jm-step3 .jm-step3-input-right {
+    width: 100%;
+    max-width: 600px; /* 최대 폭 제한 */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 중앙 정렬 */
+    gap: 20px;
 }
 
-/* 제목 입력 스타일 */
 #jm-step3 #jm-step3-input-title {
     width: 100%;
-    max-width: 600px;
 }
 
 #jm-step3 #jm-step3-input-title input {
-    width: 300px;
+    width: 100%;
     padding: 10px;
     font-size: 16px;
-    border: 2px solid #dddddd;
+    border: 1px solid #ccc;
     border-radius: 6px;
     outline: none;
     transition: border-color 0.3s ease;
-    margin-bottom: 30px;
 }
 
 #jm-step3 #jm-step3-input-title input:focus {
@@ -100,15 +107,14 @@
 /* 설명 입력 스타일 */
 #jm-step3 #jm-step3-input-description {
     width: 100%;
-    max-width: 600px;
 }
 
 #jm-step3 #jm-step3-input-description textarea {
-    width: 300px;
+    width: 100%;
     height: 100px;
     padding: 10px;
     font-size: 16px;
-    border: 2px solid #dddddd;
+    border: 1px solid #ccc;
     border-radius: 6px;
     outline: none;
     resize: none;
@@ -120,55 +126,58 @@
 }
 
 /* 버튼 컨테이너 */
-#jm-step3 .jm-step3-btn {
+.jm-step3-btn {
     display: flex;
     justify-content: center;
     gap: 16px;
     margin-top: 20px;
 }
 
-/* 버튼 스타일 */
-#jm-step3 #jm-step3-secondary {
-    padding: 12px 24px;
-    background-color: #e0e0e0;
-    color: #333333;
+#jm-step3-primary {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #ffffff;
     border: none;
-    border-radius: 3px;
-    font-size: 16px;
+    border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-#jm-step3 #jm-step3-secondary:hover {
-    background-color: #c6c6c6;
-}
-
-#jm-step3 #jm-step3-primary {
-    padding: 12px 24px;
-    background-color: #d3d3d3; /* 기본 비활성화 상태 */
-    color: #ffffff;
-    border: none;
-    border-radius: 3px;
-    font-size: 16px;
+#jm-step3-primary:disabled {
+    background-color: #c5e1ff;
     cursor: not-allowed;
-    transition: background-color 0.3s ease, transform 0.2s;
 }
 
-#jm-step3 #jm-step3-primary:not(.jm-step3-disabled) {
-    background-color: #007bff; /* 활성화된 상태 */
-    cursor: pointer;
-    transform: scale(1.05); /* 약간 확대 */
-}
-
-#jm-step3 #jm-step3-primary:not(.jm-step3-disabled):hover {
+#jm-step3-primary:hover:not(:disabled) {
     background-color: #0056b3;
+}
+
+#jm-step3-secondary {
+    padding: 10px 20px;
+    background-color: #e0e0e0;
+    color: #333333;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#jm-step3-secondary:hover {
+    background-color: #ccc;
 }
 
 /* 반응형 스타일 */
 @media screen and (max-width: 768px) {
+    #jm-step3 #jm-step3-container {
+        padding: 10px;
+    }
+
     #jm-step3 #jm-step3-upload-thumbnail {
-        width: 150px;
+        width: 200px;
         height: 150px;
+    }
+
+    #jm-step3 .jm-step3-input-right {
+        width: 100%;
     }
 
     #jm-step3 #jm-step3-input-title input,
@@ -176,8 +185,7 @@
         font-size: 14px;
     }
 
-    #jm-step3 #jm-step3-btn {
+    .jm-step3-btn {
         flex-direction: column;
-        gap: 10px;
     }
 }

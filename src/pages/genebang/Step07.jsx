@@ -5,6 +5,7 @@ import { StepNav } from '../include/StepNav';
 import Footert from "../include/JM-Footer.jsx";
 
 import '../../css/reset.css';
+import '../css/Step07.css';
 
 const Step07 = ({ onNext, onPrevious }) => {
     const { roomNum } = useParams();
@@ -199,116 +200,116 @@ const Step07 = ({ onNext, onPrevious }) => {
 
     return (
         <>
-        <div id="jy_step" className="jy_wrap">
-            <div id="container">
-                <div className="step" id="step6">
+        <div id="jm-step7" className="jm-step7-wrap">
+            <div id="jm-step7-container">
+                <div className="jm-step7-step" id="jm-step7-step">
                     <StepNav idx={7} />
                     <form onSubmit={handleSubmit} encType="multipart/form-data">
-                        <div id="board">
-                            <div id="list">
-                                <div id="mission-btn-plus">
-                                    <div id="mission-btn">
+                        <div id="jm-step7-board">
+                            <div id="jm-step7-list">
+                                <div id="jm-step7-mission-btn-plus">
+                                    <div id="jm-step7-mission-btn">
                                         <button type="button" onClick={handleAddMission}>미션 추가</button>
                                     </div>
                                 </div>
-                                <div id="mission-input">
-                                    <div className="jm-todo-user-add-form">
-                                        <h2>미션 제출하기</h2>
-                                        <div className="jm-mission-add-list">
-    {missions.map((mission, index) => (
-        <div className="jm-mission-add-item" key={mission.id}>
-            <input
-                type="text"
-                placeholder={mission.missionName}
-                value={mission.title}
-                onChange={(e) => {
-                    setMissions((prevMissions) =>
-                        prevMissions.map((m) =>
-                            m.id === mission.id ? { ...m, title: e.target.value } : m
-                        )
-                    );
-                }}
-                className="jm-mission-items"
-            />
-            <div className="jm-add-mission-img-form">
-                {mission.imagePreviews.map((preview, imgIndex) => (
-                    <div key={imgIndex} className="jm-file-upload">
-                        <label htmlFor={`file-input-${mission.id}-${imgIndex}`} className="jm-file-label">
-                            {preview ? (
-                                <img src={preview} alt={`Preview ${imgIndex}`} className="jm-image-preview" />
-                            ) : (
-                                <span className="jm-placeholder-text">이미지 선택</span>
-                            )}
-                        </label>
-                        <input
-                            type="file"
-                            id={`file-input-${mission.id}-${imgIndex}`}
-                            className="jm-hidden-file-input"
-                            onChange={(e) => handleImageChange(mission.id, imgIndex, e)}
-                        />
-                        {imgIndex > 0 && (
-                            <button
-                                type="button"
-                                className="jm-file-delete-btn"
-                                onClick={() => handleRemoveImage(mission.id, imgIndex)}
-                            >
-                                &times;
-                            </button>
-                        )}
-                    </div>
-                ))}
-            </div>
-            <button
-                type="button"
-                className="jm-add-file-button"
-                onClick={() => handleAddImageInput(mission.id)}
-                disabled={mission.imageFiles.length >= 3}
-            >
-                이미지 추가
-            </button>
-            {index > 0 && (
-                <button
-                    type="button"
-                    className="jm-remove-mission-button"
-                    onClick={() => handleRemoveMission(mission.id)}
-                >
-                    미션 삭제
-                </button>
-            )}
-            <textarea
-                value={mission.method}
-                placeholder="인증 방법을 입력해주세요"
-                onChange={(e) => {
-                    setMissions((prevMissions) =>
-                        prevMissions.map((m) =>
-                            m.id === mission.id ? { ...m, method: e.target.value } : m
-                        )
-                    );
-                }}
-            ></textarea>
-        </div>
-    ))}
-</div>
-
+                                <div id="jm-step7-mission-input">
+                                    <div className="jm-step7-todo-user-add-form">
+                                        <h2>미션 생성하기</h2>
+                                        <div className="jm-step7-mission-add-list">
+                                            {missions.map((mission, index) => (
+                                                <div className="jm-step7-mission-add-item" key={mission.id}>
+                                                    {index > 0 && (
+                                                        <button
+                                                            type="button"
+                                                            className="jm-step7-remove-mission-button"
+                                                            onClick={() => handleRemoveMission(mission.id)}
+                                                        >x
+                                                        </button>
+                                                    )}
+                                                    <input
+                                                        type="text"
+                                                        placeholder={mission.missionName}
+                                                        value={mission.title}
+                                                        onChange={(e) => {
+                                                            setMissions((prevMissions) =>
+                                                                prevMissions.map((m) =>
+                                                                    m.id === mission.id ? { ...m, title: e.target.value } : m
+                                                                )
+                                                            );
+                                                        }}
+                                                        className="jm-step7-mission-items"
+                                                    />
+                                                    <div className="jm-step7-add-mission-img-form">
+                                                        {mission.imagePreviews.map((preview, imgIndex) => (
+                                                            <div key={imgIndex} className="jm-step7-file-upload">
+                                                                <label htmlFor={`file-input-${mission.id}-${imgIndex}`} className="jm-step7-file-label">
+                                                                    {preview ? (
+                                                                        <img src={preview} alt={`Preview ${imgIndex}`} className="jm-step7-image-preview" />
+                                                                    ) : (
+                                                                        <span className="jm-step7-placeholder-text">이미지 선택</span>
+                                                                    )}
+                                                                </label>
+                                                                <input
+                                                                    type="file"
+                                                                    id={`file-input-${mission.id}-${imgIndex}`}
+                                                                    className="jm-step7-hidden-file-input"
+                                                                    onChange={(e) => handleImageChange(mission.id, imgIndex, e)}
+                                                                />
+                                                                {imgIndex > 0 && (
+                                                                    <button
+                                                                        type="button"
+                                                                        className="jm-step7-file-delete-btn"
+                                                                        onClick={() => handleRemoveImage(mission.id, imgIndex)}
+                                                                    >
+                                                                        &times;
+                                                                    </button>
+                                                                )}
+                                                            </div>
+                                                        ))}
+                                                         <button
+                                                        type="button"
+                                                        className="jm-step7-add-file-button"
+                                                        onClick={() => handleAddImageInput(mission.id)}
+                                                        disabled={mission.imageFiles.length >= 3}
+                                                        >
+                                                            +
+                                                        </button>
+                                                    </div>
+                                                    <textarea
+                                                        className='jm-step7-mission-text-box'
+                                                        value={mission.method}
+                                                        placeholder="인증 방법을 입력해주세요 100자 이내)"
+                                                        onChange={(e) => {
+                                                            setMissions((prevMissions) =>
+                                                                prevMissions.map((m) =>
+                                                                    m.id === mission.id ? { ...m, method: e.target.value } : m
+                                                                )
+                                                            );
+                                                        }}
+                                                    ></textarea>
+                                                </div>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
-                                <div id="mission-content">
+                                <div id="jm-step7-mission-content">
                                     <textarea
-                                        placeholder='이곳에 입력하세요.'
+                                        placeholder="이곳에 입력하세요."
                                         value={missionInstruction}
                                         onChange={(e) => setMissionInstruction(e.target.value)}
                                     ></textarea>
                                 </div>
                             </div>
-                            <div className="btn">
-                            <button id="secondary" onClick={() => navigate(`/genebang/step6/${roomNum}`)}>이전</button>
-                                <button type="submit" id="primary">다음</button>
+                            <div className="jm-step7-btn">
+                                <button id="jm-step7-secondary" onClick={() => navigate(`/genebang/step6/${roomNum}`)}>이전</button>
+                                <button type="submit" id="jm-step7-primary">다음</button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
+        
         <Footert/>
         </>
     );

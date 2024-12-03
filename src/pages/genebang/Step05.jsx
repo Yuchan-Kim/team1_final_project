@@ -8,6 +8,7 @@ import { StepNav } from '../include/StepNav'; // StepNav 임포트
 import Footert from "../include/JM-Footer.jsx";
 
 import '../../css/reset.css';
+import '../css/Step05.css';
 
 const Step05 = ({ onNext, onPrevious }) => {
     const navigate = useNavigate();
@@ -47,16 +48,16 @@ const Step05 = ({ onNext, onPrevious }) => {
             alert("날짜, 주차, 시간을 모두 선택해주세요.");
             return;
         }
-    
+
         const token = localStorage.getItem('token');
         if (!token) {
             alert("로그인이 필요합니다.");
             return;
         }
-    
+
         // 날짜와 시간을 합쳐서 'YYYY-MM-DD HH:mm:ss' 형식으로 변환
         const roomStartDate = `${moment(value).format('YYYY-MM-DD')} ${selectedTime}:00`;
-    
+
         try {
             const response = await axios.post(
                 `${process.env.REACT_APP_API_URL}/api/genebang/step5`,
@@ -74,7 +75,7 @@ const Step05 = ({ onNext, onPrevious }) => {
                 }
             );
             console.log("응답 데이터:", response.data);
-    
+
             if (response.data.result === 'success') {
                 alert("챌린지 시작 정보가 저장되었습니다.");
                 navigate(`/genebang/step6/${roomNum}`); // 다음 스텝으로 이동
@@ -83,36 +84,25 @@ const Step05 = ({ onNext, onPrevious }) => {
             }
         } catch (error) {
             console.error("데이터 전송 중 오류 발생:", error);
-            console.error("요청 URL:", error.config.url);
-            console.error("요청 데이터:", error.config.params);
-            console.error("응답 상태 코드:", error.response?.status);
-            console.error("응답 데이터:", error.response?.data || "응답 본문이 없습니다.");
             alert("서버와 통신 중 오류가 발생했습니다.");
         }
     };
-    
 
     return (
         <>
-        <div id="jy_step" className="jy_wrap">
-            <div id="container">
-                <div className="step" id="step5">
+        <div id="jm-step5" className="jm-step5-wrap">
+            <div id="jm-step5-container">
+                <div className="jm-step5-step">
                     <StepNav idx={5} /> {/* StepNav 포함 */}
 
-                    <div id="board">
-                        <div id="stepList">
-                            <div id="list-head">
+                    <div id="jm-step5-board">
+                        <div id="jm-step5-stepList">
+                            
+                            <div id="jm-step5-list-left">
+                            <div id="jm-step5-list-head">
                                 <h2>시간 날짜를 선택해주세요.</h2>
                                 <h4>챌린지 시작일은 오늘로부터 최소 이틀 뒤부터 설정 합니다</h4>
                             </div>
-                            <div id="list-head">
-                                <h2>챌린지 기간을 설정해 주세요.</h2>
-                                <h4>챌린지를 진행할 기간을 설정합니다</h4>
-                            </div>
-                        </div>
-
-                        <div id="stepList">
-                            <div id="list-left">
                                 {/* 날짜 선택 */}
                                 <Calendar
                                     tileDisabled={tileDisabled}
@@ -121,28 +111,11 @@ const Step05 = ({ onNext, onPrevious }) => {
                                     formatDay={(locale, date) => moment(date).format("DD")}
                                 />
                                 {value && (
-                                    <div className="selected-date">
+                                    <div className="jm-step5-selected-date">
                                         선택된 날짜: {moment(value).format('YYYY-MM-DD')}
                                     </div>
                                 )}
-                            </div>
-
-                            <div id="list-left">
-                                {/* 주차 선택 */}
-                                <div id="week">
-                                    {['1 주간', '2 주간', '3 주간', '4 주간'].map((week, index) => (
-                                        <div
-                                            key={index}
-                                            onClick={() => handleWeekClick(index)} // index 전달
-                                            className={selectedWeek === index + 1 ? 'selected' : ''} // index + 1과 비교
-                                        >
-                                            {week} 챌린지 진행하기
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div id="list-left">
+                                <div id="jm-step5-list-left-time">
                                 {/* 시간 선택 */}
                                 <h3>챌린지 시작 시간을 선택해주세요.</h3>
                                 <select
@@ -157,17 +130,39 @@ const Step05 = ({ onNext, onPrevious }) => {
                                     ))}
                                 </select>
                                 {selectedTime && (
-                                    <div className="selected-time">
+                                    <div className="jm-step5-selected-time">
                                         선택된 시간: {selectedTime}
                                     </div>
                                 )}
                             </div>
+
+                            </div>
+
+
+                            <div id="jm-step5-list-left">
+                            <div id="jm-step5-list-head">
+                                <h2>챌린지 기간을 설정해 주세요.</h2>
+                                <h4>챌린지를 진행할 기간을 설정합니다</h4>
+                            </div>
+                                {/* 주차 선택 */}
+                                <div id="jm-step5-week">
+                                    {['1 주간', '2 주간', '3 주간', '4 주간'].map((week, index) => (
+                                        <div
+                                            key={index}
+                                            onClick={() => handleWeekClick(index)} // index 전달
+                                            className={selectedWeek === index + 1 ? 'selected' : ''} // index + 1과 비교
+                                        >
+                                            {week} 챌린지 진행하기
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="btn">
-                        <button id="secondary" onClick={() => navigate(`/genebang/step4/${roomNum}`)}>이전</button>
+                        <div className="jm-step5-btn">
+                            <button id="jm-step5-secondary" onClick={() => navigate(`/genebang/step4/${roomNum}`)}>이전</button>
                             <button
-                                id="primary"
+                                id="jm-step5-primary"
                                 onClick={handleSubmit}
                                 disabled={!isNextEnabled()}
                                 className={!isNextEnabled() ? 'disabled' : ''}

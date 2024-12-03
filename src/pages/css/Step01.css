@@ -43,10 +43,11 @@
 #jm-step1 #list #list-left,
 #jm-step1 #list #list-right {
     flex: 0 1 45%; /* 가로 폭을 컨테이너의 절반 크기로 설정 */
-    height: 400px;
+    height: 500px;
     padding: 30px 20px;
     background-color: #ffffff; /* 기본 배경 흰색 */
-    border: 2px solid #333333; /* 기본 테두리 검은색 */
+    border: 1px solid #939393; /* 기본 테두리 검은색 */
+    color: #939393;
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
@@ -59,19 +60,21 @@
 #jm-step1 #list #list-right.selected {
     background-color: #ffffff; /* 선택된 항목 배경 흰색 */
     border: 2px solid #007bff; /* 선택된 항목 테두리 파란색 */
+    color: #007bff;
 }
 
 /* 선택되지 않은 상태 */
 #jm-step1 #list #list-left:not(.selected):hover,
 #jm-step1 #list #list-right:not(.selected):hover {
-    background-color: #e2e2e2; /* 선택되지 않은 항목에 마우스를 올릴 때 배경 회색 */
+    background-color: #c5e1ff; /* 선택되지 않은 항목에 마우스를 올릴 때 배경 회색 */
+    color: #007bff;
 }
 
 /* 호버 효과 */
 #jm-step1 #list #list-left:hover,
 #jm-step1 #list #list-right:hover {
     background-color: #ffffff;
-    border: 2px solid #007bff;
+    border: 1px solid #007bff;
 }
 
 /* 제목 스타일 */
@@ -131,7 +134,7 @@
 
 #jm-step1 .btn #primary {
     padding: 12px 24px;
-    background-color: #d3d3d3; /* 기본 비활성화 상태 */
+    background-color: #c5e1ff; /* 기본 비활성화 상태 */
     color: #ffffff;
     border: none;
     border-radius: 3px;
