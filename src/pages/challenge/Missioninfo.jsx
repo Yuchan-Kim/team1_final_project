@@ -210,8 +210,8 @@ datasets: [
   {
     label: "미션 승인 횟수",
     data: missionApprovals.map(mission => mission.approvalCount), // 승인 횟수 데이터
-    backgroundColor: "rgba(75, 192, 192, 0.6)",
-    borderColor: "rgba(75, 192, 192, 1)",
+    backgroundColor: "#007bff88",
+    borderColor: "#007bff88",
     borderWidth: 1,
   },
 ],
@@ -567,7 +567,7 @@ const filteredHistories = useMemo(() => {
                     <Header />
                     {/* 미션 승인 횟수 바 차트 섹션 */}
                     <div className="yc_challenge_statistics_bar-chart-section">
-                        <h2 className="yc_challenge_statistics_title">미션 승인 횟수</h2>
+                        <h2 className="yc_challenge_statistics_title"> 미션 승인 횟수 (개인)</h2>
                         {isBarChartDataAvailable ? (
                             <div className="yc_challenge_statistics_bar-chart">
                             <Bar

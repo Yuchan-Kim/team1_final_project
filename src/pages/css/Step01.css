@@ -53,6 +53,7 @@
     transition: all 0.3s ease-in-out;
     text-align: center;
     box-sizing: border-box; /* 패딩이 크기에 포함되도록 설정 */
+    transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
 /* 선택된 상태 */
@@ -66,6 +67,7 @@
 /* 선택되지 않은 상태 */
 #jm-step1 #list #list-left:not(.selected):hover,
 #jm-step1 #list #list-right:not(.selected):hover {
+    transform: scale(1.02);
     background-color: #c5e1ff; /* 선택되지 않은 항목에 마우스를 올릴 때 배경 회색 */
     color: #007bff;
 }

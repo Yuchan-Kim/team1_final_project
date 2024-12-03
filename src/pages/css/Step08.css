@@ -1,0 +1,208 @@
+/* 전체 레이아웃 */
+#jm-step8.jm-step8-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    font-family: 'Arial', sans-serif;
+}
+
+#jm-step8 #jm-step8-container {
+    width: 100%;
+    overflow: hidden;
+}
+
+#jm-step8 #jm-step8-step {
+    text-align: center;
+}
+
+#jm-step8 #jm-step8-board {
+    text-align: center;
+    margin-top: 40px;
+}
+
+/* 리스트 섹션 */
+#jm-step8 #jm-step8-list h2 {
+    font-size: 26px;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+#jm-step8 #jm-step8-list h4 {
+    font-size: 16px;
+    color: #555555;
+    margin-bottom: 20px;
+}
+
+#jm-step8 #jm-step8-ai-select {
+    display: flex;
+    flex-direction: column; /* 세로 정렬 */
+    align-items: center; /* 자식 요소를 가로 중앙 정렬 */
+    gap: 20px; /* 각 자식 요소 간 간격 */
+}
+
+#jm-step8 #jm-step8-ai-box {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #939393;
+    color: #939393;
+    border-radius: 6px;
+    padding: 20px;
+    width: 500px;
+    min-height: 80px;
+    background-color: #ffffff;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+#jm-step8 #jm-step8-ai-box:hover {
+    transform: scale(1.02);
+    border-color: #007bff;
+    background-color: #c5e1ff;
+    color: #007bff;
+}
+
+#jm-step8 #jm-step8-ai-box.jm-step8-selected {
+    border: 2px solid #007bff;
+    background-color: #ffffff;
+    color: #007bff;
+}
+
+#jm-step8 #jm-step8-ai-box.jm-step8-disabled {
+    background-color: #f2f2f2;
+    color: #939393;
+    pointer-events: none;
+}
+
+#jm-step8 #jm-step8-ai-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* 버튼 섹션 */
+.jm-step8-btn {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+#jm-step8-primary {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#jm-step8-primary:disabled {
+    background-color: #c5e1ff;
+    cursor: not-allowed;
+}
+
+#jm-step8-primary:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+#jm-step8-secondary {
+    padding: 10px 20px;
+    background-color: #e0e0e0;
+    color: #333333;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#jm-step8-secondary:hover {
+    background-color: #ccc;
+}
+
+/* 모달 스타일 */
+.jm-step8-step9-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.jm-step8-step9-modal {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 400px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.jm-step8-step9-modal-icon {
+    font-size: 40px;
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+.jm-step8-step9-modal-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.jm-step8-step9-modal-message {
+    font-size: 16px;
+    color: #555555;
+    margin-bottom: 20px;
+}
+
+.jm-step8-step9-modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.jm-step8-step9-modal-button {
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.jm-step8-step9-modal-button.primary {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+.jm-step8-step9-modal-button.secondary {
+    background-color: #e0e0e0;
+    color: #333333;
+}
+
+.jm-step8-step9-modal-button:hover {
+    opacity: 0.9;
+}
+
+/* 반응형 스타일 */
+@media screen and (max-width: 768px) {
+    #jm-step8 #jm-step8-ai-select {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #jm-step8 #jm-step8-ai-box {
+        width: 100%;
+    }
+
+    .jm-step8-step9-modal {
+        width: 90%;
+    }
+}

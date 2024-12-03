@@ -733,7 +733,6 @@ const YcChallengeBoard = () => {
                                 {/* 장소 입력 필드 (옵션 선택 시 표시) */}
                                 {showPlaceOption && (
                                     <div className="yc_challenge_place-input">
-                                        <FaMapMarkerAlt className="yc_place-icon"/>
                                         
                                         {/* 장소 검색 입력 필드 */}
                                         <input
@@ -792,7 +791,7 @@ const YcChallengeBoard = () => {
                                         <div
                                             ref={mapRef}
                                             className="yc_map-container"
-                                            style={{ height: "200px", marginTop: "10px" }}
+                                           
                                         ></div>
 
                                         <button
@@ -957,7 +956,7 @@ const MapRender = ({ place }) => {
         };
     }, [place]);
 
-    return <div ref={mapRef} className="yc_map-container" style={{ height: "200px", marginTop: "10px" }}></div>;
+    return <div ref={mapRef} className="yc_map-container" style={{ height: "250px", marginTop: "10px" }}></div>;
 
 
     

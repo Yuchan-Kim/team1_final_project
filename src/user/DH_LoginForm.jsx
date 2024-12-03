@@ -110,31 +110,12 @@ const DH_LoginForm = () => {
             <Header />
             {/* // header */}
             
-            <div className="wrap">
+            <div className="dy-wrap">
                 <div className="dy-loginform">
                     <h1 className="dy-loginTitle">DONKEY에 로그인하기</h1>
                     
                     <div className="dy-loginform-content">
-                        <div className="dy-api-logins">
-                            <div id="kakaoIdLogin">
-                                <img className="dy-kakao-login"
-                                src="/images/kakao_login_medium_wide.png"
-                                alt="카카오로 계속하기"
-                                onClick={handleKakaoLogin}
-                                />
-                            </div>
-                            <div className="dy-social-login google">
-                                <GoogleLoginComponent />
-                            </div>
-                            <div className="dy-social-login naver">
-                                <NaverLogin />
-                                <p>네이버 로그인</p>
-                            </div>
-                            
-                        </div>
                         {/* /dy-api-logins */}
-                        <div className="dy-middle">─────────── 또는 ───────────</div>
-
                         <form action='' method='' onSubmit={handleLogin}>
                             <div className="dy-loginform-login">
                                 <div className="dy-login-word">이메일</div>
@@ -150,7 +131,34 @@ const DH_LoginForm = () => {
 
                             <button type="submit" className="dy-submit-btn">로그인</button>
                         </form>
-                        <br />
+                        <div className="dy-middle">─────── 또는 ────────</div>
+                        <div className="dy-api-logins">
+                            <div id="kakaoIdLogin">
+                                <img className="dy-kakao-login"
+                                src="/images/kakao_login_medium_wide.png"
+                                alt="카카오로 계속하기"
+                                onClick={handleKakaoLogin}
+                                />
+                            </div>
+                            <div className="dy-social-login google">
+                                <img
+                                    src="/images/custom_google_login.png"
+                                    alt="구글로 로그인"
+                                    onClick={() => {
+                                        /* Google 로그인 클릭 핸들러 */
+                                    }}
+                                />
+                            </div>
+                            <div className="dy-social-login naver">
+                                <img
+                                    src="/images/custom_naver_login.png"
+                                    alt="네이버로 로그인"
+                                    onClick={() => {
+                                        /* Naver 로그인 클릭 핸들러 */
+                                    }}
+                                />
+                            </div>
+                        </div>
                         <div className="dy-to-joinform"><Link to="/user/joinform" className="dy-link" rel="noreferrer noopener">계정이 없나요? DONKEY에 가입하기</Link></div>
 
                     </div>

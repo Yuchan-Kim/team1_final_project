@@ -17,6 +17,16 @@ const Step07 = ({ onNext, onPrevious }) => {
     const [missionInstruction, setMissionInstruction] = useState('');
     const [missions, setMissions] = useState([]); // 미션 리스트
 
+    // 버튼 활성화 조건
+    const isNextEnabled = () => {
+        return missions.every(
+            (mission) =>
+                mission.title.trim() && // 미션 제목 입력 확인
+                mission.imageFiles.length > 0 && // 적어도 하나의 이미지가 있는지 확인
+                mission.method.trim() // 인증 방법 입력 확인
+        );
+    };
+
     const handleImageChange = (missionId, index, e) => {
         const file = e.target.files[0];
         if (file) {
@@ -293,6 +303,7 @@ const Step07 = ({ onNext, onPrevious }) => {
                                     </div>
                                 </div>
                                 <div id="jm-step7-mission-content">
+                                <h2>미션 유의사항</h2>
                                     <textarea
                                         placeholder="이곳에 입력하세요."
                                         value={missionInstruction}
@@ -302,7 +313,12 @@ const Step07 = ({ onNext, onPrevious }) => {
                             </div>
                             <div className="jm-step7-btn">
                                 <button id="jm-step7-secondary" onClick={() => navigate(`/genebang/step6/${roomNum}`)}>이전</button>
-                                <button type="submit" id="jm-step7-primary">다음</button>
+                                <button 
+                                    type="submit" 
+                                    id="jm-step7-primary"
+                                    disabled={!isNextEnabled()}
+                                    className={!isNextEnabled() ? 'disabled' : ''}
+                                    >다음</button>
                             </div>
                         </div>
                     </form>
