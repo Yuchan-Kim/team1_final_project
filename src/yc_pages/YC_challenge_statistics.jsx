@@ -630,7 +630,7 @@ const YCChallengeStatistics = () => {
                       </div>
 
                       {/* 미션 상세 정보 */}
-                      <div className="yc-mission-details">
+                      <div className="yc-mission-details2">
                           <p>완료한 미션: {userDetails?.totalMissions?.completedCount}/{userDetails?.totalMissions?.totalAssigned}</p>
                           {userDetails?.missionDetails?.map((mission) => (
                               <p key={mission.missionName}>

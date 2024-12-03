@@ -313,7 +313,8 @@ const Main = () => {
             <div id="jy_wrap" className="jy_wrap">
                 <div className="jy_main" id="jy_main">
                     <div id="board">
-                        <span id ="top_achieve">달성률 TOP 종료된 챌린지</span>
+                        <div id ="top_achieve">달성률 TOP 종료된 챌린지</div>
+                        
                         <div id='ad-bang'>
                            
                             {closeRoomList && closeRoomList.length > 0 ? (
@@ -325,7 +326,7 @@ const Main = () => {
                                     >
                                         <div className="ad-bang-image">
                                             <img 
-                                                src={close.roomThumbNail ? `${process.env.REACT_APP_API_URL}/upload/${close.roomThumbNail}` : "https://via.placeholder.com/100"} 
+                                                src={close.roomThumbNail ? `${process.env.REACT_APP_API_URL}/upload/${close.roomThumbNail}` : "https://via.placeholder.com/180"} 
                                                 alt={close.roomTitle} 
                                                 width="100" 
                                                 height="100" 

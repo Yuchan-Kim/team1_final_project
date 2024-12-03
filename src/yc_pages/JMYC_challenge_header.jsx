@@ -56,7 +56,7 @@ const formatTimeLeft = (difference) => {
     const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
     const minutes = Math.floor((difference / (1000 * 60)) % 60);
     const seconds = Math.floor((difference / 1000) % 60);
-    return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    return `${days}일 ${hours}시 ${minutes}분 ${seconds}초`;
 }
 
 const JMYCChallengeHeader = () => {
@@ -484,6 +484,7 @@ const JMYCChallengeHeader = () => {
                 setUserDetails(response.data.apiData);
                 setSelectedUser(response.data.apiData);
                 setModalOpen(true);
+                openModal(response.data.apiData.user);
                 return response.data.apiData; // 데이터 반환
             } else {
                 setError("현재 사용자 정보를 불러오는 데 실패했습니다.");
@@ -775,6 +776,7 @@ const JMYCChallengeHeader = () => {
             try {
                 await fetchUserNum(); // Fetch and set userNum first
                 await getRoomHeaderInfo();
+              
                
                 getUserLocation(); // 위치 정보 가져오기
 

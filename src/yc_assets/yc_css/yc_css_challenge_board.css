@@ -8,7 +8,8 @@
     min-height: 100vh;
     box-sizing: border-box;
     padding: 20px; /* 양 옆에 간격 추가 */
-    background-color: #ffffff; /* 배경색 설정 */
+    flex-direction: column;
+
 }
 
 /* 메인 콘텐츠 */
@@ -42,35 +43,35 @@
 
 /* 공지 섹션 */
 .yc_challenge_notice-section {
-    background-color: rgb(244, 244, 244);
     flex: 3;
-    min-width: 300px; /* 최소 너비 보장 */
-    max-width: 100%; /* 부모 요소를 넘지 않도록 제한 */
-    border: 1px solid #ddd; /* 회색 테두리 */
-    border-radius: 8px; /* 둥근 테두리 */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
-    padding: 10px;
-    box-sizing: border-box;
-    animation: fadeIn 1s ease-in-out;
+    min-width: 300px;
+    max-width: 100%;
+    background: linear-gradient(135deg, #ffffff, #f7f9fa); /* 배경색 설정 */
+
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+
 
 /* 공지 헤더 */
 .yc_challenge_notice-header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
-    align-items: flex-start;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
 .yc_challenge_notice-header h2 {
-    margin-top: 0px;
-    font-size: 19px;
+    font-size: 22px;
     font-weight: bold;
-}
-
-.c_challenge_notice-header h2{
+    color: #333333;
     margin: 0;
 }
+
+
 
 /* 공지 버튼 변경 */
 .yc_challenge_announcement {
@@ -99,18 +100,18 @@
 
 /* 공지 아이템 */
 .yc_challenge_notice-item {
-    background-color: #ffffff; /* 아주 연한 회색 배경 */
-    border: 1px solid #eee; /* 아주 연한 회색 테두리 */
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 6px;
-    box-sizing: border-box;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: #fdfdfd; /* 밝은 배경 */
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
 }
 
 .yc_challenge_notice-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* 그림자 강화 */
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* 공지 아이템 헤더 */
@@ -126,10 +127,12 @@
     align-items: center;
 }
 
+/* 공지 제목 */
 .yc_challenge_notice-title h3 {
-    margin: 0;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
+    margin: 0;
+    color: #333333;
 }
 
 .yc_modified-badge {
@@ -160,8 +163,10 @@
     display: flex;
     align-items: center;
     font-size: 14px;
-    color: #555555;
+    color: #5e93c2;
+    margin-top: 10px;
 }
+
 
 .yc_place-icon {
     margin-right: 5px;
@@ -172,18 +177,18 @@
 .yc_challenge_notice-meta {
     display: flex;
     justify-content: flex-end;
-    font-size: 12px;
-    color: #999999; /* 연한 회색 텍스트 */
-    gap: 10px;
+    gap: 15px;
 }
+
 
 /* Edit and Delete Buttons */
 .yc_challenge_edit-btn,
 .yc_challenge_delete-btn {
     background-color: transparent; /* 투명 배경 */
-    color: #5E91A7; /* 파란색 텍스트 */
+    color: #007bff88; /* 파란색 텍스트 */
     border: none;
     padding: 5px 10px;
+    margin-top: 10px;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -194,31 +199,30 @@
 }
 
 .yc_challenge_edit-btn:hover {
-    background-color: #5E91A7;
+    background-color: #007aff;
     color: #ffffff;
 }
 
 .yc_challenge_delete-btn {
-    color: #ff1900; /* 붉은 텍스트 */
+    color: #ae514787; /* 붉은 텍스트 */
 }
 
 .yc_challenge_delete-btn:hover {
-    background-color: #ff1900;
+    background-color: #c0392b;
     color: #ffffff;
 }
 
-/* New Notice Form */
+/* 새 공지 작성 폼 */
 .yc_challenge_new-notice-form {
-    background-color: #ffffff; /* 흰색 배경 */
-    border: 1px solid #ddd; /* 회색 테두리 */
-    padding: 15px;
+    background: #fdfdfd;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
     margin-bottom: 20px;
-    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    box-sizing: border-box;
-    animation: fadeIn 0.5s ease-in-out;
+    gap: 20px;
 }
 
 .yc_challenge_new-notice-form input.yc_challenge_notice-title {
@@ -253,6 +257,7 @@
     align-items: center;
     gap: 10px;
     margin-top: 10px;
+    width: 50%;
 }
 
 .yc_challenge_place-input input {
@@ -264,23 +269,11 @@
     color: #333333; /* 진한 회색 텍스트 */
 }
 
-.yc_challenge_remove-place-btn {
-    background-color: transparent;
-    border: none;
-    color: #ff1900;
-    cursor: pointer;
-    font-size: 16px;
-    transition: color 0.3s ease;
-}
-
-.yc_challenge_remove-place-btn:hover {
-    color: #cc1400;
-}
 
 /* 등록 버튼 */
 .yc_challenge_add-btn {
     align-self: flex-end;
-    background-color: #5E91A7;
+    background-color: #007aff;
     color: white;
     border: none;
     padding: 8px 20px;
@@ -292,12 +285,12 @@
 }
 
 .yc_challenge_add-btn:disabled {
-    background-color: #a0a0a0;
+    background-color: #007bff88;
     cursor: not-allowed;
 }
 
 .yc_challenge_add-btn:hover:not(:disabled) {
-    background-color: #383E47;
+    background-color: #007bff88;
     color: #ffffff;
 }
 
@@ -326,13 +319,12 @@
 /* 삭제 확인 모달 */
 .yc_modal-board {
     background: #ffffff;
-    padding: 20px;
+    padding: 30px;
     border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    width: 320px;
     text-align: center;
-    width: 300px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    transform: scale(0.8);
-    animation: modalScaleIn 0.3s forwards; /* 모달 스케일 인 애니메이션 */
+    animation: fadeInModal 0.3s ease;
 }
 
 @keyframes modalScaleIn {
@@ -383,16 +375,26 @@
 
 /* 장소 검색 결과 리스트 */
 .yc_search-results {
-    margin-top: 10px;
-    background-color: #f9f9f9;
-    padding: 10px;
-    border: 1px solid #ddd;
-    max-height: 200px;
-    overflow-y: auto;
+    margin-top: 15px;
+    background: #ffffff; /* 흰 배경 */
+    border: 1px solid #ddd; /* 연한 회색 테두리 */
+    border-radius: 10px; /* 둥근 테두리 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+    padding: 15px;
+    max-height: 250px; /* 제한된 높이 */
+    overflow-y: auto; /* 스크롤 활성화 */
+    animation: fadeIn 0.3s ease;
+}
+
+.yc_search-results h4 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333333; /* 진한 텍스트 */
 }
 
 .yc_search-results ul {
-    list-style: none;
+    list-style: none; /* 기본 리스트 스타일 제거 */
     padding: 0;
     margin: 0;
 }
@@ -402,61 +404,87 @@
     cursor: pointer;
     border-bottom: 1px solid #eee;
 }
+.yc_search-results li strong {
+    font-size: 14px;
+    color: #333333;
+}
+
+.yc_search-results li span {
+    font-size: 12px;
+    color: #666666; /* 부드러운 텍스트 색상 */
+}
 
 .yc_search-results li:hover {
-    background-color: #f1f1f1;
+    background: #e6f7ff; /* 호버 시 연한 블루 배경 */
+    transform: translateY(-2px); /* 살짝 떠오르는 효과 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 그림자 강화 */
 }
 
 /* 선택된 장소 정보 */
 .yc_selected-place-info {
     margin-top: 20px;
-    padding: 10px;
-    background-color: #eef;
-    border: 1px solid #ccd;
+    padding: 20px;
+    background: #ffffff; /* 흰 배경 */
+    border: 1px solid #ddd; /* 연한 테두리 */
+    border-radius: 10px; /* 둥근 테두리 */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+    animation: fadeIn 0.3s ease;
 }
 
 .yc_selected-place-info h4 {
-    margin-top: 0;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333333; /* 진한 텍스트 */
 }
 
 .yc_selected-place-info p {
+    font-size: 14px;
     margin: 5px 0;
+    color: #555555; /* 부드러운 회색 텍스트 */
 }
 
 .yc_place-confirm-btn {
-    margin-top: 10px;
-    padding: 8px 16px;
-    background-color: #28a745;
+    margin-top: 3%;
+    padding: 8px 20px;
+    background-color: #007bff88;
     color: white;
     border: none;
     cursor: pointer;
+    border-radius: 5px;
+    float:right;
+    font-size: 14px;;
 }
 
 .yc_place-confirm-btn:hover {
-    background-color: #218838;
+    background-color: #007aff;
 }
 
 /* 지도 컨테이너 */
 .yc_map-container {
     width: 100%;
-    height: 400px;
-    margin-top: 10px;
+    height: 300px;
+    border-radius: 10px; /* 둥근 테두리 */
+    overflow: hidden; /* 경계 밖 내용 숨기기 */
+    margin-top: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
 }
 
 /* 기타 버튼 스타일 */
 .yc_challenge_search-btn,
 .yc_challenge_remove-place-btn {
     margin-left: 5px;
-    padding: 6px 12px;
-    background-color: #007bff;
+    padding: 6px 6px;
+    background-color: #9dabb7;
     color: white;
     border: none;
     cursor: pointer;
+    border-radius:20px;
 }
 
 .yc_challenge_search-btn:hover,
 .yc_challenge_remove-place-btn:hover {
-    background-color: #0056b3;
+    background-color: #5E91A7;
 }
 
 /* 공지사항 목록 내 지도 */

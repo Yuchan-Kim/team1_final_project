@@ -14,6 +14,23 @@
   padding: 0 20px; /* 추가 패딩 */
 }
 
+
+/* 미션 승인 횟수 바 차트 섹션 */
+.yc_challenge_statistics_bar-chart-section {
+  /* 기존 스타일 유지 또는 수정 */
+  display:flex;
+  flex-direction: column; /* 가로 정�� */
+  align-items: left;;
+  margin: 20px 0; /* 필요에 따라 조정 */
+}
+
+.yc_challenge_statistics_bar-chart {
+  width:100%;
+    height: 300px; /* 원하는 높이로 조정 */
+    align-self: center;
+  
+}
+
 /* 히스토리 상단 타이틀,셀렉트 컨테이너 */
 .jm-mission-history {
   display: flex;

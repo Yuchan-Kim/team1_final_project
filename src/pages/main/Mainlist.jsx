@@ -107,6 +107,11 @@ const Mainlist = () => {
         });
     };
 
+    const handleListImageError = (e) => {
+        e.target.src = 'https://via.placeholder.com/180';
+    };
+    
+
     // 방 리스트 전부 가져오기
     const getRoomList = () => {
        
@@ -140,7 +145,7 @@ const Mainlist = () => {
             <Header />
             <div id="jy_wrap" className="jy_wrap">
                 <div className="jy_main" id="jy_main">
-                    <div id="search">
+                    <div id="search2">
                         <div>
                             <SearchIcon />
                             <input
@@ -153,7 +158,6 @@ const Mainlist = () => {
                     </div>
 
                     <div id="search-bar">
-                        <div id="search-bar1">
                             <div className="jm-room-type-select">
                                 <span>방 유형</span>
                                 <select
@@ -166,8 +170,7 @@ const Mainlist = () => {
                                     <option value="챌린지">챌린지</option>
                                 </select>
                             </div>
-                        </div>
-                        <div id="search-bar2">
+
                             <div className="jm-Category-select">
                                 <span>카테고리</span>
                                 <select
@@ -183,17 +186,21 @@ const Mainlist = () => {
                                     ))}
                                 </select>
                             </div>
-                            <div className="jm-date-select">
-                                <span>기간</span>
-                                <select name="period" value={filters.period} onChange={handleFilterChange}>
-                                    <option value="all">전체</option>
-                                    {period.map((per) => (
-                                        <option key={per.id} value={per.periodType}>
-                                            {per.periodType}주
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
+
+                                <div className="jm-date-select">
+                                    <span>기간</span>
+                                    <select name="period" value={filters.period} onChange={handleFilterChange}>
+                                        <option value="all">전체</option>
+                                        {period.map((per) => (
+                                            <option key={per.id} value={per.periodType}>
+                                                {per.periodType}주
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
+
+
                             <div className="jm-region-select">
                                 <span>지역</span>
                                 <select name="region" value={filters.region} onChange={handleFilterChange}>
@@ -205,7 +212,10 @@ const Mainlist = () => {
                                     ))}
                                 </select>
                             </div>
-                        </div>
+                     
+                            
+                    
+                        
                     </div>
 
                     <div id="list">
@@ -217,10 +227,13 @@ const Mainlist = () => {
                                             <div>{room.roomTypeName}</div>
                                         </div>
                                         <div className="bang_img">
-                                            <img
-                                                src={`${process.env.REACT_APP_API_URL}/upload/${room.roomThumbNail}`}
-                                                alt={`${room.roomTitle} 방 썸네일`}
-                                            />
+                                        <img
+                                            src={room.roomThumbNail 
+                                                ? `${process.env.REACT_APP_API_URL}/upload/${room.roomThumbNail}` 
+                                                : "https://via.placeholder.com/180"}
+                                            alt={`${room.roomTitle} 방 썸네일`}
+                                            onError={handleListImageError}
+                                        />
                                         </div>
                                         <div className="jm-main-room-tatle">{room.roomTitle}</div>
                                         <div className="jm-main-room-date">
