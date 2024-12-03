@@ -155,6 +155,14 @@ const MyPage = () => {
     // activeChallenges 정렬 로직 수정
     const activeChallenges = challenges[activeTab] ? [...challenges[activeTab]]
         .sort((a, b) => {
+            // 오늘의 미션 여부 먼저 확인
+            const aTodayMission = profileStore.hasTodayMission(a.roomNum);
+            const bTodayMission = profileStore.hasTodayMission(b.roomNum);
+
+            // 오늘의 미션이 있는 항목을 우선 정렬
+            if (aTodayMission && !bTodayMission) return -1;
+            if (!aTodayMission && bTodayMission) return 1;
+
             if (activeTab === 'created') {
                 // 상태 우선순위 정의
                 const getStatusPriority = (status) => {
@@ -283,11 +291,15 @@ const MyPage = () => {
                                             return 0;
                                     }
                                 };
+                                const hasTodayMission = profileStore.hasTodayMission(challenge.roomNum);
+
                                 return (
                                     <div
                                         key={challengeKey}
-                                        className={`hmk_challenge-card ${challenge.roomStatusNum === 4 || activeTab === 'completed' ? 'completed' : ''
-                                            }`}
+                                        className={`hmk_challenge-card ${challenge.roomStatusNum === 4 || activeTab === 'completed'
+                                            ? 'completed'
+                                            : ''
+                                            } ${hasTodayMission ? 'hmk_today-mission' : ''}`}
                                         onClick={() => handleCardClick(challenge.roomNum)}
                                         onKeyDown={(e) => {
                                             if (e.key === 'Enter') handleCardClick(challenge.roomNum);
@@ -303,6 +315,14 @@ const MyPage = () => {
                                                 roomStatusNum={getStatusNumber(activeTab)}
                                             />
                                         )}
+
+                                        {/* 오늘의 미션 표시 추가 */}
+                                        {hasTodayMission && (
+                                            <div className="hmk_today-mission-label">
+                                                미션 제출일
+                                            </div>
+                                        )}
+
                                         <img
                                             src={imgError[challengeKey]
                                                 ? '/images/challenge1.png'
