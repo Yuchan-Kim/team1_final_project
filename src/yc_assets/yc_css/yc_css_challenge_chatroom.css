@@ -84,12 +84,12 @@
     border: none;
     font-size: 20px;
     cursor: pointer;
-    color: #f44336;
+    color: #000000;
     transition: color 0.3s ease;
   }
   
   .yc-chat-modal-close-button:hover {
-    color: #d32f2f;
+    color: #80808087;
   }
   
   /* ============================
@@ -209,7 +209,7 @@
   }
   
   .yc-btn-send {
-    background-color: #5e93c2;
+    background-color: #007bff88;
     color: #ffffff;
     border: none;
     padding: 0 15px;
@@ -220,7 +220,7 @@
   }
   
   .yc-btn-send:hover {
-    background-color: #4c79a0;
+    background-color: #007bff;
   }
   
   /* ============================

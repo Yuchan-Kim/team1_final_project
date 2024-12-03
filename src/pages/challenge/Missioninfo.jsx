@@ -532,8 +532,8 @@ const filteredHistories = useMemo(() => {
             <h4>{firstMission.missionName} 달성률: {firstMission.achievementRate.toFixed(2)}%</h4>
           </>
         )}
-        <h3 id = "top5_rank">달성률 TOP5</h3>
-        {topUsers.map((user) => (
+      <h3 id = "top5_rank">달성률 TOP 5</h3>
+      {topUsers.map((user) => (
         <div key={user.userNum} className="yc-ranking-item">
           <img 
             src={
@@ -579,8 +579,9 @@ const filteredHistories = useMemo(() => {
                             <p>미션 승인 데이터가 없습니다.</p>
                         )}
                         </div>
-                    <div className='jm-mission-history'>
                         <h2 className='jm-history-tatle'>제출 히스토리</h2>
+                    <div className='jm-mission-history'>
+                        
                         {/* 날짜 선택 필터 */}
                         <div className="jm-datepicker-container">
                             <DatePicker

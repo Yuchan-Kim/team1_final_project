@@ -68,8 +68,8 @@
 .yc-challenge-menu_sidebar {
     background-color: transparent; /* 배경색 제거 */
     flex-grow: 1; /* 남은 공간 모두 차지 */
-    margin-bottom: 20px;
     border-radius: 8px;
+    margin: 10px;
     /* height: 80vh; */ /* 제거: flex-grow으로 대체 */
 }
 

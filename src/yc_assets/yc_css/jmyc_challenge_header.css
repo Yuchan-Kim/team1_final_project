@@ -75,7 +75,7 @@
 
 /* 방장용 버튼 색상 변경 - 더 도전적인 색상 */
 .jm-room-header .jm-c-start.host {
-    background-color: #ff5722; /* 진한 주황색 */
+    background-color: #707070; /* 진한 주황색 */
 }
 
 .jm-room-header .jm-c-start.host:hover {
@@ -83,7 +83,7 @@
 }
 
 .jm-room-header .jm-c-start.host.challenge-start {
-    background-color: #3f51b5; /* 인디고 색상 */
+    background-color: #707070; /* 인디고 색상 */
 }
 
 .jm-room-header .jm-c-start.host.challenge-start:hover {
@@ -91,7 +91,7 @@
 }
 
 .jm-room-header .jm-c-end.host {
-    background-color: #f44336; /* 빨간색 */
+    background-color: #707070; /* 빨간색 */
 }
 
 .jm-room-header .jm-c-end.host:hover {

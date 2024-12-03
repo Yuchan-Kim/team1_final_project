@@ -434,7 +434,7 @@
     border: 1px solid #e0e0e0; /* 테두리 */
     border-radius: 15px; /* 둥근 모서리 */
     padding: 20px; /* 내부 여백 */
-    z-index: 2000; /* 다른 요소 위에 표시 */
+    z-index: 1000; /* 다른 요소 위에 표시 */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     transform: translateY(-10px); /* 살짝 떠 있는 효과 */
 }
@@ -646,8 +646,8 @@ a.yc_challenge_statistics_enteredUser:hover {
   }
   
   .yc-modal-image_roomMain {
-    width: 150px;
-    height: auto;
+    width: 300px;
+    height:  300px;
     border-radius: 5px;
     object-fit: cover;
   }
