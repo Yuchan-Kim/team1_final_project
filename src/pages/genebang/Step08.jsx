@@ -5,6 +5,7 @@ import axios from 'axios';
 import { StepNav } from '../include/StepNav';
 import Footert from "../include/JM-Footer.jsx";
 import '../css/Step09.css';
+import '../css/Step08.css';
 import '../../css/reset.css';
 
 const Step08 = ({ onNext, onPrevious }) => {
@@ -166,12 +167,12 @@ const Step08 = ({ onNext, onPrevious }) => {
     if (loading) {
         return (
             <>
-                <div id="jy_step" className="jy_wrap">
-                    <div id="container">
-                        <div className="step" id="step8">
+                <div id="jm-step8" className="jm-step8-wrap">
+                    <div id="jm-step8-container">
+                        <div className="jm-step8-step" id="jm-step8-step">
                             <StepNav idx={8} />
-                            <div id="board">
-                                <div id="list">
+                            <div id="jm-step8-board">
+                                <div id="jm-step8-list">
                                     <h2>AI 추천 그룹 챌린지</h2>
                                     <p>챌린지를 생성 중입니다. 잠시만 기다려주세요...</p>
                                 </div>
@@ -187,12 +188,12 @@ const Step08 = ({ onNext, onPrevious }) => {
     if (error) {
         return (
             <>
-                <div id="jy_step" className="jy_wrap">
-                    <div id="container">
-                        <div className="step" id="step8">
+                <div id="jm-step8" className="jm-step8-wrap">
+                    <div id="jm-step8-container">
+                        <div className="jm-step8-step" id="jm-step8-step">
                             <StepNav idx={8} />
-                            <div id="board">
-                                <div id="list">
+                            <div id="jm-step8-board">
+                                <div id="jm-step8-list">
                                     <h2>AI 추천 그룹 챌린지</h2>
                                     <p>{error}</p>
                                 </div>
@@ -206,60 +207,45 @@ const Step08 = ({ onNext, onPrevious }) => {
 
     return (
         <>
-            <div id="jy_step" className="jy_wrap">
-                <div id="container">
-                    <div className="step" id="step8">
+            <div id="jm-step8" className="jm-step8-wrap">
+                <div id="jm-step8-container">
+                    <div className="jm-step8-step" id="jm-step8-step">
                         <StepNav idx={8} />
 
                         <form onSubmit={handleSubmit} encType="application/json">
-                            <div id="board">
-                                <div id="list">
+                            <div id="jm-step8-board">
+                                <div id="jm-step8-list">
                                     <h2>AI 추천 그룹 챌린지</h2>
                                     <h4>사용자가 입력한 미션을 기반으로 그룹 챌린지를 제시합니다.</h4>
                                     <h4>AI는 실수할 수 있습니다.</h4>
 
-                                    <div id="ai-select">
+                                    <div id="jm-step8-ai-select">
                                         {aiChallenges.map((challenge) => (
                                             <div
                                                 key={challenge.id}
-                                                id="ai-box"
-                                                className={
+                                                id="jm-step8-ai-box"
+                                                className={`jm-step8-ai-box ${
                                                     selectedBox === challenge.id
-                                                        ? 'selected'
+                                                        ? 'jm-step8-selected'
                                                         : selectedBox
-                                                            ? 'disabled'
-                                                            : ''
-                                                }
+                                                        ? 'jm-step8-disabled'
+                                                        : ''
+                                                }`}
+                                                onClick={() => setSelectedBox(selectedBox === challenge.id ? null : challenge.id)} // 선택/취소 토글
                                             >
-                                                <div id="ai-title">
-                                                    <div>
-                                                        AI 추천 챌린지: {challenge.aiMission}
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => handleAccept(challenge.id)}
-                                                        disabled={
-                                                            selectedBox !== null &&
-                                                            selectedBox !== challenge.id
-                                                        }
-                                                    >
-                                                        {selectedBox === challenge.id
-                                                            ? '취소'
-                                                            : '수락'}
-                                                    </button>
+                                                <div id="jm-step8-ai-title">
+                                                    <div>AI 추천 챌린지: {challenge.aiMission}</div>
                                                 </div>
                                             </div>
                                         ))}
                                     </div>
                                 </div>
 
-                                <div className="btn">
-                                    <button id="secondary" onClick={() => navigate(`/genebang/step7/${roomNum}`)}>이전</button>
+                                <div className="jm-step8-btn">
+                                    <button id="jm-step8-secondary" onClick={() => navigate(`/genebang/step7/${roomNum}`)}>이전</button>
                                     <button
                                         type="submit"
-                                        id="primary"
+                                        id="jm-step8-primary"
                                         disabled={!isNextEnabled()}
                                     >
                                         다음
@@ -272,21 +258,21 @@ const Step08 = ({ onNext, onPrevious }) => {
             </div>
             {/* 성공 모달 */}
             {showSuccessModal && (
-                <div className="step9-modal-overlay" onClick={() => setShowSuccessModal(false)}>
-                    <div className="step9-modal" onClick={e => e.stopPropagation()}>
-                        <div className="step9-modal-content">
-                            <div className="step9-modal-icon">✓</div>
-                            <h2 className="step9-modal-title">챌린지 생성 완료</h2>
-                            <p className="step9-modal-message">새로운 챌린지가 성공적으로 생성되었습니다.</p>
-                            <div className="step9-modal-buttons">
+                <div className="jm-step8-step9-modal-overlay" onClick={() => setShowSuccessModal(false)}>
+                    <div className="jm-step8-step9-modal" onClick={e => e.stopPropagation()}>
+                        <div className="jm-step8-step9-modal-content">
+                            <div className="jm-step8-step9-modal-icon">✓</div>
+                            <h2 className="jm-step8-step9-modal-title">챌린지 생성 완료</h2>
+                            <p className="jm-step8-step9-modal-message">새로운 챌린지가 성공적으로 생성되었습니다.</p>
+                            <div className="jm-step8-step9-modal-buttons">
                                 <button 
-                                    className="step9-modal-button secondary" 
+                                    className="jm-step8-step9-modal-button secondary" 
                                     onClick={handleGoToMain}
                                 >
                                     메인으로 가기
                                 </button>
                                 <button 
-                                    className="step9-modal-button primary" 
+                                    className="jm-step8-step9-modal-button primary" 
                                     onClick={handleGoToChallenge}
                                 >
                                     챌린지로 가기

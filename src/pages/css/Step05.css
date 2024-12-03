@@ -80,6 +80,7 @@
     cursor: pointer;
     transition: all 0.3s ease;
     text-align: center;
+    transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
 #jm-step5 #jm-step5-week div.selected {
@@ -89,6 +90,7 @@
 }
 
 #jm-step5 #jm-step5-week div:hover {
+    transform: scale(1.02);
     background-color: #c5e1ff;
     border-color: #007bff;
     color: #007bff;
