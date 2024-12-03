@@ -56,7 +56,7 @@ const formatTimeLeft = (difference) => {
     const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
     const minutes = Math.floor((difference / (1000 * 60)) % 60);
     const seconds = Math.floor((difference / 1000) % 60);
-    return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    return `${days}일 ${hours}시 ${minutes}분 ${seconds}초`;
 }
 
 const JMYCChallengeHeader = () => {
@@ -484,6 +484,7 @@ const JMYCChallengeHeader = () => {
                 setUserDetails(response.data.apiData);
                 setSelectedUser(response.data.apiData);
                 setModalOpen(true);
+                openModal(response.data.apiData.user);
                 return response.data.apiData; // 데이터 반환
             } else {
                 setError("현재 사용자 정보를 불러오는 데 실패했습니다.");
@@ -775,6 +776,7 @@ const JMYCChallengeHeader = () => {
             try {
                 await fetchUserNum(); // Fetch and set userNum first
                 await getRoomHeaderInfo();
+              
                
                 getUserLocation(); // 위치 정보 가져오기
 
@@ -834,15 +836,7 @@ const JMYCChallengeHeader = () => {
                                 roomData.roomStatusNum < 3 ? (
                                     <p className="jm-c-time">
                                         {roomData.roomStatusNum === 1 || roomData.roomStatusNum === 2  ? "모집 마감 시간: " : "챌린지 마감: "} {timeLeft}
-                                        
-                                    </p>
-                                ) : (
-                                    <p className="jm-c-time">종료까지: {timeLeft}</p>
-                                )
-                            ) : (
-                                <p className="jm-c-time">종료됨</p>
-                            )}
-                             {userAuthorization === 1 && (
+                                        {userAuthorization === 1 && (
                                             <button 
                                                 className="extend-button" 
                                                 onClick={handleExtendClick}
@@ -858,11 +852,17 @@ const JMYCChallengeHeader = () => {
                                                         : "연장"
                                                 }
                                             >
-                                               시간 연장
+                                                연장
                                             </button>
                                         )}
+                                    </p>
+                                ) : (
+                                    <p className="jm-c-time">종료까지: {timeLeft}</p>
+                                )
+                            ) : (
+                                <p className="jm-c-time">종료됨</p>
+                            )}
                         </div>
-                       
 
 
                        {/* 버튼 영역 */}
@@ -890,6 +890,7 @@ const JMYCChallengeHeader = () => {
                                             : "모집 시작"
                                     }
                                 >
+                                    <span className="emoji"></span>
                                     <span className="label">모집 시작</span>
                                 </button>
                             ) : roomData.roomStatusNum === 2 ? ( //roomStatusNum이 2일 때 챌린지 시작 버튼
@@ -921,7 +922,6 @@ const JMYCChallengeHeader = () => {
                             </button>
                         )
                         }
-                        
 
                     </div>
 

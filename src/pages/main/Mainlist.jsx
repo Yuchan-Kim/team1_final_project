@@ -107,6 +107,11 @@ const Mainlist = () => {
         });
     };
 
+    const handleListImageError = (e) => {
+        e.target.src = 'https://via.placeholder.com/180';
+    };
+    
+
     // 방 리스트 전부 가져오기
     const getRoomList = () => {
        
@@ -222,10 +227,13 @@ const Mainlist = () => {
                                             <div>{room.roomTypeName}</div>
                                         </div>
                                         <div className="bang_img">
-                                            <img
-                                                src={`${process.env.REACT_APP_API_URL}/upload/${room.roomThumbNail}`||  "https://via.placeholder.com/180"}
-                                                alt={`${room.roomTitle} 방 썸네일`}
-                                            />
+                                        <img
+                                            src={room.roomThumbNail 
+                                                ? `${process.env.REACT_APP_API_URL}/upload/${room.roomThumbNail}` 
+                                                : "https://via.placeholder.com/180"}
+                                            alt={`${room.roomTitle} 방 썸네일`}
+                                            onError={handleListImageError}
+                                        />
                                         </div>
                                         <div className="jm-main-room-tatle">{room.roomTitle}</div>
                                         <div className="jm-main-room-date">

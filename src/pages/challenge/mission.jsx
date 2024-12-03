@@ -644,9 +644,7 @@
               </div>
           </div>
 
-          <div className="jm-calendar-container">
-            <Calendar className="jm-calendar"/>
-          </div>
+          
           </div>
           
           <h2 className="jm-todo">할일</h2>

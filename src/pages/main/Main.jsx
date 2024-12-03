@@ -313,9 +313,7 @@ const Main = () => {
             <div id="jy_wrap" className="jy_wrap">
                 <div className="jy_main" id="jy_main">
                     <div id="board">
-                        <div  id = "top_achivediv">
-                        <span id ="top_achieve">달성률 TOP 종료된 챌린지</span>
-                        </div>
+                        <div id ="top_achieve">달성률 TOP 종료된 챌린지</div>
                         
                         <div id='ad-bang'>
                            

@@ -8,7 +8,6 @@
     min-height: 100vh;
     box-sizing: border-box;
     padding: 20px; /* 양 옆에 간격 추가 */
-    background-color: #ffffff; /* 배경색 설정 */
     flex-direction: column;
 
 }
@@ -44,14 +43,14 @@
 
 /* 공지 섹션 */
 .yc_challenge_notice-section {
-    background: #ffffff; /* 흰색 배경 */
     flex: 3;
     min-width: 300px;
     max-width: 100%;
-    border: 1px solid #e0e0e0; /* 연한 테두리 */
+    background: linear-gradient(135deg, #ffffff, #f7f9fa); /* 배경색 설정 */
+
     border-radius: 15px;
     padding: 20px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -186,7 +185,7 @@
 .yc_challenge_edit-btn,
 .yc_challenge_delete-btn {
     background-color: transparent; /* 투명 배경 */
-    color: #5E91A7; /* 파란색 텍스트 */
+    color: #007bff88; /* 파란색 텍스트 */
     border: none;
     padding: 5px 10px;
     margin-top: 10px;
@@ -200,16 +199,16 @@
 }
 
 .yc_challenge_edit-btn:hover {
-    background-color: #5E91A7;
+    background-color: #007aff;
     color: #ffffff;
 }
 
 .yc_challenge_delete-btn {
-    color: #ff1900; /* 붉은 텍스트 */
+    color: #ae514787; /* 붉은 텍스트 */
 }
 
 .yc_challenge_delete-btn:hover {
-    background-color: #ff1900;
+    background-color: #c0392b;
     color: #ffffff;
 }
 
@@ -274,7 +273,7 @@
 /* 등록 버튼 */
 .yc_challenge_add-btn {
     align-self: flex-end;
-    background-color: #5E91A7;
+    background-color: #007aff;
     color: white;
     border: none;
     padding: 8px 20px;
@@ -286,12 +285,12 @@
 }
 
 .yc_challenge_add-btn:disabled {
-    background-color: #a0a0a0;
+    background-color: #007bff88;
     cursor: not-allowed;
 }
 
 .yc_challenge_add-btn:hover:not(:disabled) {
-    background-color: #383E47;
+    background-color: #007bff88;
     color: #ffffff;
 }
 
@@ -448,7 +447,7 @@
 .yc_place-confirm-btn {
     margin-top: 3%;
     padding: 8px 20px;
-    background-color: #9dabb7;
+    background-color: #007bff88;
     color: white;
     border: none;
     cursor: pointer;
@@ -458,7 +457,7 @@
 }
 
 .yc_place-confirm-btn:hover {
-    background-color: #5E91A7;
+    background-color: #007aff;
 }
 
 /* 지도 컨테이너 */

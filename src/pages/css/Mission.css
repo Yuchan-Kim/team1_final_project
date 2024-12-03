@@ -22,12 +22,7 @@
 }
 
 /* Header */
-.jm-room-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 10px;
-}
+
 
 .jm-c-tatle-box {
   flex-grow: 1; 
@@ -97,8 +92,7 @@
 
 .jm-roolset-contents-box {
   width: 100%;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  background-color: linear-gradient(135deg, #ffffff, #f7f9fa); /* 배경색 설정 */
   padding: 10px;
   margin-right: 20px;
   margin-bottom: 15px;
@@ -108,6 +102,8 @@
   height: 150px;
   flex-direction: column;
   gap: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+
 }
 
 .jm-roolset-contents-box span {
@@ -147,12 +143,17 @@
   margin-top: 5px;
   padding: 5px 10px;
   border: none;
-  background-color: #5E91A7;
+  background-color: #007bff88;
   font-size: 14px;
   color: white;
   border-radius: 4px;
   cursor: pointer;
 }
+.jm-btn-updatimg button:hover{
+  background-color: #007aff;
+    color: #ffffff;
+}
+
 /* 내 미션 그래프 */
 .jm_challenge_statistics_additional-graph {
   width: 90%;
