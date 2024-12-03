@@ -566,25 +566,24 @@ const YcChallengeBoard = () => {
   const firstMission = missionAchievements.length > 0 ? missionAchievements[0] : null;
 
     // 도넛 차트 데이터 설정
-  const doughnutData = firstMission ? {
-    labels: ['완료', '미완료'],
-    datasets: [
-      {
-        label: missionAchievements.missionName,
-        data: [firstMission.achievementRate, 100 - firstMission.achievementRate],
-        backgroundColor: [
-          'rgba(75, 192, 192, 0.6)',
-          'rgba(255, 205, 86, 0.6)'
+    const doughnutData = firstMission ? {
+        labels: ['완료', '미완료'],
+        datasets: [
+          {
+            label: firstMission.missionName,
+            data: [firstMission.achievementRate, 100 - firstMission.achievementRate],
+            backgroundColor: [
+              '#007aff',
+              '#E0E0E0',
+            ],
+            borderColor: [
+              '#007aff',
+              '#E0E0E0',
+            ],
+            borderWidth: 1,
+          },
         ],
-        borderColor: [
-          'rgba(75, 192, 192, 1)',
-          'rgba(255, 205, 86, 1)',
-        ],
-        borderWidth: 1,
-      },
-    ],
-  } : null;
-
+      } : null;
   const doughnutOptions = {
     responsive: true,
     plugins: {
@@ -641,7 +640,7 @@ const YcChallengeBoard = () => {
           <p>차트를 로드 중입니다...</p>
         )}
         
-        <h3 id = "top5_rank">Top 5 랭킹</h3>
+        <h3 id = "top5_rank">달성률 TOP5</h3>
           {topUsers.map((user) => (
             <div key={user.userNum} className="yc-ranking-item">
               <img 

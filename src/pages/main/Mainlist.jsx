@@ -223,9 +223,15 @@ const Mainlist = () => {
                             displayedRooms.map((room) => (
                                 <div key={room.roomNum}>
                                     <Link to={`/cmain/${room.roomNum}`} className="list_bang">
-                                        <div className="bang_level">
-                                            <div>{room.roomTypeName}</div>
-                                        </div>
+                                    {room.roomTypeName === "챌린지" ? (
+                                                <div className="bang_level_challenge">
+                                                <span className="badge-challenge">#{room.roomTypeName}</span>
+                                                </div>
+                                            ) : (
+                                                <div className="bang_level_normal">
+                                                <span className="badge-general">#{room.roomTypeName}</span>
+                                                </div>
+                                            )}
                                         <div className="bang_img">
                                         <img
                                             src={room.roomThumbNail 

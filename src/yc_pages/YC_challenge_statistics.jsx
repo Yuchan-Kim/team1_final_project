@@ -404,8 +404,8 @@ const YCChallengeStatistics = () => {
     datasets: [
       {
         data: [selectedUser.achievementRate, 100 - selectedUser.achievementRate],
-        backgroundColor: ["#4CAF50", "#E0E0E0"],
-        hoverBackgroundColor: ["#66BB6A", "#BDBDBD"],
+        backgroundColor: ["#007aff", "#E0E0E0"],
+        hoverBackgroundColor: ["#007aff", "#BDBDBD"],
         borderWidth: 0
       },
     ],
@@ -414,20 +414,21 @@ const YCChallengeStatistics = () => {
   // 첫 번째 미션 선택
   const firstMission = missionAchievements.length > 0 ? missionAchievements[0] : null;
 
-  // 도넛 차트 데이터 설정
-  const doughnutData = firstMission ? {
-    labels: ['완료', '미완료'], 
+ 
+   // 도넛 차트 데이터 설정
+   const doughnutData = firstMission ? {
+    labels: ['완료', '미완료'],
     datasets: [
       {
         label: firstMission.missionName,
         data: [firstMission.achievementRate, 100 - firstMission.achievementRate],
         backgroundColor: [
-          'rgba(75, 192, 192, 0.6)',
-          'rgba(255, 205, 86, 0.6)'
+          '#007aff',
+          '#E0E0E0',
         ],
         borderColor: [
-          'rgba(75, 192, 192, 1)',
-          'rgba(255, 205, 86, 1)',
+          '#007aff',
+          '#E0E0E0',
         ],
         borderWidth: 1,
       },
@@ -491,7 +492,7 @@ const YCChallengeStatistics = () => {
           <p>차트를 로드 중입니다...</p>
         )}
         
-        <h3 id = "top5_rank">Top 5 랭킹</h3>
+        <h3 id = "top5_rank">달성률 TOP5</h3>
           {topUsers.map((user) => (
             <div key={user.userNum} className="yc-ranking-item">
               <img 
@@ -630,7 +631,7 @@ const YCChallengeStatistics = () => {
                       </div>
 
                       {/* 미션 상세 정보 */}
-                      <div className="yc-mission-details2">
+                      <div className="yc-mission-details">
                           <p>완료한 미션: {userDetails?.totalMissions?.completedCount}/{userDetails?.totalMissions?.totalAssigned}</p>
                           {userDetails?.missionDetails?.map((mission) => (
                               <p key={mission.missionName}>

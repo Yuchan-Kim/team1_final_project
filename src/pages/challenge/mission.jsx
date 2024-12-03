@@ -191,12 +191,12 @@
           label: firstMission.missionName,
           data: [firstMission.achievementRate, 100 - firstMission.achievementRate],
           backgroundColor: [
-            'rgba(75, 192, 192, 0.6)',
-            'rgba(255, 205, 86, 0.6)'
+            '#007aff',
+            '#E0E0E0',
           ],
           borderColor: [
-            'rgba(75, 192, 192, 1)',
-            'rgba(255, 205, 86, 1)',
+            '#007aff',
+            '#E0E0E0',
           ],
           borderWidth: 1,
         },
@@ -554,8 +554,8 @@
                   <h4>{firstMission.missionName} 달성률: {firstMission.achievementRate.toFixed(2)}%</h4>
                 </>
               )}
-              <h3>Top 5 랭킹</h3>
-            {topUsers.map((user) => (
+        <h3 id = "top5_rank">달성률 TOP5</h3>
+        {topUsers.map((user) => (
               <div key={user.userNum} className="yc-ranking-item">
                 <img 
                   src={

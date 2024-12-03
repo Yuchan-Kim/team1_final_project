@@ -163,14 +163,14 @@
     display: flex;
     align-items: center;
     font-size: 14px;
-    color: #5e93c2;
+    color: #007bff88;
     margin-top: 10px;
 }
 
 
 .yc_place-icon {
     margin-right: 5px;
-    color: #5E91A7;
+    color: #007bff88;
 }
 
 /* 공지 메타 정보 */

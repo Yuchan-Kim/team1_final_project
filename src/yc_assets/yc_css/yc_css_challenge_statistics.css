@@ -363,7 +363,7 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: #2196f3;
+  background-color: #5882b08d;
   color: #fff;
   padding: 4px 10px; /* 패딩 줄이기 */
   border-radius: 10px; /* 모서리 반경 줄이기 */
@@ -389,7 +389,7 @@
 
 /* 닫기 버튼 */
 .yc-close-button {
-  background-color: #34495e;
+  background-color: #007bff88;
   color: white;
   padding: 10px 20px; /* 패딩 조정 */
   border: none;
@@ -405,7 +405,7 @@
 }
 
 .yc-close-button:hover {
-  background-color: #2c3e50;
+  background-color: #007bff;
   transform: scale(1.05);
 }
 
