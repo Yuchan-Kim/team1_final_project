@@ -59,10 +59,8 @@ const Rank = () => {
     const [profileUser, setProfileUser] = useState(null);
     // 프로필 모달 열기 함수
     const openProfile = async (userNum) => {
-        console.log('openProfile called with:', userNum); // 디버깅용 로그 추가
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/rates/profile/${userNum}`);
-            console.log('Profile Response:', response.data);
             if (response.data.result === 'success') {
                 setProfileUser(response.data.apiData);
                 setProfileOpen(true);

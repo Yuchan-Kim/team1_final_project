@@ -57,7 +57,6 @@ const MobileMission = () => {
           }
         );
         const userAuthValue = response.data.apiData;
-        console.log('User auth value:', userAuthValue);
         setUserAuth(userAuthValue);
 
         // userAuthValue가 0인 경우에만 참가 모달 표시
@@ -123,14 +122,6 @@ const MobileMission = () => {
       fetchInitialData();
     }
   }, [roomNum, token, userAuth]);
-
-  // 상태 변경 모니터링
-  useEffect(() => {
-    console.log('Current userAuth:', userAuth);
-    console.log('Current missionList:', missionList);
-    console.log('Current rule:', getRule);
-    console.log('Current selected mission:', selectedMission);
-  }, [userAuth, missionList, getRule, selectedMission]);
 
   // 파일 관련 핸들러
   const handleFileChange = (index, event) => {
@@ -240,10 +231,6 @@ const MobileMission = () => {
 
   // 미션 제출
   const handleSubmitMission = async () => {
-    console.log('Submitting mission...');
-    console.log('Selected mission:', selectedMission);
-    console.log('Files:', fileInputs);
-    console.log('Comment:', comment);
 
     if (!selectedMission) {
       alert('미션을 선택해주세요.');

@@ -93,7 +93,6 @@ const Notice = () => {
             });
 
             if (noticeResponse.data.result === 'success') {
-                console.log('API 응답 데이터:', noticeResponse.data.apiData);
                 setNoticeData(noticeResponse.data.apiData);
             } else {
                 setNoticeData([]);
@@ -224,10 +223,6 @@ const Notice = () => {
     };
 
     const getModalContent = (notice) => {
-        // roomNum 확인 로그 추가
-        console.log("알림의 roomNum:", notice.roomNum);
-        console.log("전체 알림 데이터:", notice);
-
         const baseContent = {
             title: notice.noticeTitle,
             content: notice.noticeMsg,
@@ -235,9 +230,6 @@ const Notice = () => {
             showRoomButton: notice.roomNum > 0,
             roomNum: notice.roomNum
         };
-
-        console.log("생성된 모달 컨텐츠:", baseContent);
-
         // 추가 내용 설정
         if (notice.noticeTitle.includes('방 생성')) {
             baseContent.additionalContent = '새로운 챌린지의 시작을 축하드립니다!';

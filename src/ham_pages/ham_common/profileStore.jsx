@@ -57,7 +57,6 @@ class ProfileStore {
     }
     // 특정 방이 오늘의 미션이 있는지 확인
     hasTodayMission(roomNum) {
-        console.log('Checking room:', roomNum, 'Today missions:', this.todayMissionRooms); // 로그 추가
         return this.todayMissionRooms.has(Number(roomNum)); // roomNum을 숫자로 변환
     }
 
@@ -126,7 +125,6 @@ class ProfileStore {
         if (typeof newRegion === 'string') {
             this.region = newRegion.trim();
             localStorage.setItem('region', this.region);
-            console.log('Region updated:', this.region); // 디버깅용 로그
             this.notifySubscribers();
         } else {
             console.warn('Invalid region value:', newRegion);
@@ -302,11 +300,9 @@ class ProfileStore {
                 // profileStore.js의 loadUserData 메서드 내부
                 if (todayMissionsResponse.ok) {
                     const todayMissionsData = await todayMissionsResponse.json();
-                    console.log('Today Missions Response:', todayMissionsData);
                     if (todayMissionsData.result === 'success' && Array.isArray(todayMissionsData.apiData)) {
                         // apiData 키에서 데이터를 가져오도록 수정
                         this.setTodayMissionRooms(todayMissionsData.apiData);
-                        console.log('Set Today Mission Rooms:', this.todayMissionRooms);
                     } else {
                         console.log('오늘의 미션 데이터가 없거나 형식이 잘못되었습니다.');
                         this.setTodayMissionRooms([]);

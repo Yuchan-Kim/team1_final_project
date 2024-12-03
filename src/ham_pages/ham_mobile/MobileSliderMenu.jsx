@@ -11,7 +11,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const MobileSliderMenu = ({ isOpen, onClose }) => {
-    console.log('Slider Menu Rendered, isOpen:', isOpen); // 디버깅용
 
     const navigate = useNavigate();
     const [profile, setProfile] = useState({

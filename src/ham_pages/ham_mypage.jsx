@@ -65,7 +65,6 @@ const MyPage = () => {
             //("userNum이 설정되지 않음. 데이터 요청하지 않음.");
             return;
         }
-        // console.log("MyPage 차트 데이터 로딩 시작, userNum:", userNum);
         const fetchChartData = async () => {
             setLoading(true);
             try {

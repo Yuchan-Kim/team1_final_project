@@ -36,6 +36,10 @@ const Ham_MobileAuth = () => {
     const pwRegex = /^(?=.*[a-zA-Z])(?=.*[0-9!@#&*?]).{10,}$/;
     const [isPwValid, setIsPwValid] = useState(true);
 
+    // 약관 동의 상태 관리
+    const [agreeTerms, setAgreeTerms] = useState(false);
+    const [agreePrivacy, setAgreePrivacy] = useState(false);
+
     const navigate = useNavigate();
 
     /*--- 이벤트 핸들러 -----------------------------------------*/
@@ -211,6 +215,12 @@ const Ham_MobileAuth = () => {
 
         if (!pwMatch) {
             alert("비밀번호 재입력하여 비밀번호를 확인해주세요.");
+            return;
+        }
+
+        // 약관 동의 확인
+        if (!agreeTerms || !agreePrivacy) {
+            alert("서비스 이용약관 및 개인정보처리방침에 동의해주세요.");
             return;
         }
 
@@ -446,6 +456,31 @@ const Ham_MobileAuth = () => {
                                         &#8226; 비밀번호가 일치하지 않습니다.
                                     </div>
                                 )}
+                            </div>
+
+                            {/* 약관 동의 체크박스 */}
+                            <div className="hmk-joinform-group hmk-agree-group">
+                                <label className="hmk-agree-label">
+                                    <input
+                                        type="checkbox"
+                                        checked={agreeTerms}
+                                        onChange={(e) => setAgreeTerms(e.target.checked)}
+                                        required
+                                    />
+                                    <span> <Link to="/terms" target="_blank" className="hmk-link">(필수) 서비스 이용약관 동의</Link></span>
+                                </label>
+                            </div>
+
+                            <div className="hmk-joinform-group hmk-agree-group">
+                                <label className="hmk-agree-label">
+                                    <input
+                                        type="checkbox"
+                                        checked={agreePrivacy}
+                                        onChange={(e) => setAgreePrivacy(e.target.checked)}
+                                        required
+                                    />
+                                    <span> <Link to="/privacy" target="_blank" className="hmk-link">(필수) 개인정보 처리방침 동의</Link></span>
+                                </label>
                             </div>
 
                             {/* 가입하기 버튼 */}

@@ -30,7 +30,6 @@ const Cargo = () => {
 
     // 기프티콘 상세 모달을 여는 함수
     const openDetailModal = (gift) => {
-        console.log('선택된 기프티콘 정보:', gift); // 디버깅용 로그
         setSelectedGift(gift);
         setModalDetailState(true);
     };
@@ -75,7 +74,6 @@ const Cargo = () => {
     // 기프티콘 데이터 로드
     useEffect(() => {
         if (!userNum) {
-            console.log("userNum이 설정되지 않았습니다.");
             return;
         }
 

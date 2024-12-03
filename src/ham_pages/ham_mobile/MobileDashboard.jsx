@@ -77,7 +77,6 @@ const MobileDashboard = () => {
 
             // 구독 설정
             const handleProfileChange = (updatedProfile) => {
-                console.log('Updated Profile:', updatedProfile);
                 if (!updatedProfile) return;
 
                 // challengesDetails를 직접 profileStore에서 가져옴
@@ -151,8 +150,6 @@ const MobileDashboard = () => {
     const activeChallenges = userInfo.challengesDetails[activeTab] || [];
 
     useEffect(() => {
-        console.log('Active Tab:', activeTab);
-        console.log('Challenges Details:', userInfo.challengesDetails);
         const currentChallenges = userInfo.challengesDetails[activeTab] || [];
         console.log('Current Tab Challenges:', currentChallenges);
     }, [activeTab, userInfo]);
@@ -283,7 +280,6 @@ const MobileDashboard = () => {
                     {sortedChallenges.map((challenge) => {
                         const challengeKey = `challenge-${challenge.roomNum || challenge.id}`;
                         const hasTodayMission = profileStore.hasTodayMission(challenge.roomNum);
-                        console.log(`Room ${challenge.roomNum} has today mission:`, hasTodayMission); // 로그 추가
 
                         return (
                             <div

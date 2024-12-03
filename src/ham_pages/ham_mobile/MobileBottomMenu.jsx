@@ -51,7 +51,6 @@ const MobileBottomMenu = () => {
                 navigate('/mobile/rank');
                 break;
             case 'setting':
-                console.log('Opening slider menu');
                 setIsSliderOpen(true);
                 break;
             default:
@@ -77,7 +76,6 @@ const MobileBottomMenu = () => {
                 const newCount = summaryResponse.data.apiData.newNotice;
                 setNoticeCount(newCount);
                 profileStore.updateNoticeCount(newCount);
-                console.log('Fetched notice count:', newCount);
             }
         } catch (error) {
             console.error('알림 요약 정보를 가져오는 데 실패했습니다:', error);

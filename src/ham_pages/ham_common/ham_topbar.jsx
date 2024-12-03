@@ -84,7 +84,6 @@ const Topbar = () => {
             const userNum = profileStore.getUserNum();
 
             const response = await axios.get(`${apiUrl}/api/my/${userNum}/checkPassword`);
-            console.log("비밀번호 확인 응답:", response);
 
             if (response.data.result === 'success' && response.data.apiData) {
                 setHasPassword(response.data.apiData.passwordExists);  // apiData로 수정
@@ -196,14 +195,12 @@ const Topbar = () => {
 
     // 정보 변경 처리 함수
     const handleChange = async (type) => {
-        console.log(`${type} 변경 함수 호출됨`); // 함수 호출 확인
         const userNum = profileStore.getUserNum();
         if (!userNum) {
             alert("사용자 번호가 설정되지 않았습니다.");
             return;
         }
         const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000';
-        console.log(`API 요청 시작: /api/my/${userNum}/update${type === 'nickname' ? 'Nickname' : type.charAt(0).toUpperCase() + type.slice(1)}`, type === 'address' ? newAddress : '');
         try {
             let response;
             switch (type) {

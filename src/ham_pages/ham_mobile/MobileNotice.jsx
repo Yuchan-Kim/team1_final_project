@@ -71,7 +71,6 @@ const MobileNotice = () => {
 
     // 알림 클릭 핸들러
     const handleNoticeClick = async (notice) => {
-        console.log('Clicked notice:', notice); // 클릭한 알림 데이터 확인
         setSelectedNotice(notice);
         setIsModalOpen(true);
 
@@ -107,9 +106,7 @@ const MobileNotice = () => {
     };
 
     const handleMoveToRoom = (roomNum) => {
-        console.log('Moving to room:', roomNum); // roomNum 확인
         if (!roomNum) {
-            console.log('No room number provided');
             return;
         }
         setIsModalOpen(false);
@@ -240,7 +237,6 @@ const MobileNotice = () => {
                                         <button
                                             className="hmk_mobile_notice-modal-room-button"
                                             onClick={() => {
-                                                console.log('Room button clicked, roomNum:', selectedNotice.roomNum);
                                                 handleMoveToRoom(selectedNotice.roomNum);
                                             }}
                                         >

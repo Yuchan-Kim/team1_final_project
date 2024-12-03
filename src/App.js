@@ -56,6 +56,8 @@ import Uk from './user/UserKakaoLogin.jsx';
 import NaverLogin from './ham_pages/NaverLogin.jsx';
 import NaverLoginCallback from './ham_pages/NaverLoginCallback.jsx';
 import GoogleLogin from './ham_pages/GoogleLogin.jsx';
+import Terms from './ham_pages/Terms.jsx';
+import Privacy from './ham_pages/Privacy.jsx'
 
 
 function App() {
@@ -122,6 +124,8 @@ function App() {
           <Route path="/mobile/notice" element={<MobileNotice  />} />
           <Route path="/mobile/store" element={<MobilePointStore  />} />
           <Route path="/mobile/recruiting" element={<MobileRecruiting  />} />
+          <Route path="/terms" element={<Terms  />} />
+          <Route path="/privacy" element={<Privacy  />} />
 
         </Routes>
     </BrowserRouter>

@@ -33,7 +33,6 @@ const MobileRecruiting = () => {
 
             if (response.data.result === 'success') {
                 setRoomTypes(response.data.apiData);
-                console.log('%%%룸 타입이 들어있니???;', response.data.apiData)
             } else {
                 setError(response.data.message);
             }
@@ -59,7 +58,6 @@ const MobileRecruiting = () => {
                 }
 
             });
-            console.log("룸 리스트에서 가져오는거: ", response.data.apiData);
             if (response.data.result === 'success') {
                 return response.data.apiData;
 
@@ -87,8 +85,6 @@ const MobileRecruiting = () => {
                 challenge.enteredUserStatusNum !== 1 // 참여하지 않은 방
             );
         });
-        console.log("필터챌린지에 뭐가 들었니? : ", filterChallenges)
-        console.log("필터챌린지에 뭐가 들었니? : ", filteredChallenges)
         switch (tab) {
             case 'normal':
                 filteredChallenges = filteredChallenges.filter(
