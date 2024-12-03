@@ -110,7 +110,7 @@ const DH_LoginForm = () => {
             <Header />
             {/* // header */}
             
-            <div className="wrap">
+            <div className="dy-wrap">
                 <div className="dy-loginform">
                     <h1 className="dy-loginTitle">DONKEY에 로그인하기</h1>
                     

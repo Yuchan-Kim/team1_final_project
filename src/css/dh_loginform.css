@@ -1,5 +1,5 @@
 /* 중앙 정렬 스타일 */
-.wrap {
+.dy-wrap {
     display: flex;
     justify-content: center; /* 가로 방향 중앙 정렬 */
     align-items: center; /* 세로 방향 중앙 정렬 */
@@ -87,7 +87,7 @@
 
 .dy-social-login {
     width: 100%;
-    max-width: 300px; /* 버튼 최대 너비 */
+    width: 350px;
     height: 45px; /* 버튼 높이 통일 */
     display: flex;
     justify-content: center;
@@ -132,8 +132,8 @@
 
 
 .dy-kakao-login {
-    width: 100%;
-    max-width: 300px;
+    width: 350px;
+    max-width: 350px;
     cursor: pointer;
 }
 

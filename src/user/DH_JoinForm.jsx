@@ -230,8 +230,7 @@ const DH_JoinForm = () => {
         <>
             <Header />
             {/* // header */}
-
-            <div className="wrap">
+            <div className="dy-wrap">
                 <div className="dy-joinform">
                     <h1 className="dy-joinTitle">가입하고 원하는 콘텐츠를 즐기세요</h1>
 
@@ -277,38 +276,43 @@ const DH_JoinForm = () => {
                                 {!pwMatch && userPw2 && (
                                     <div className="dy-message">&nbsp; &#8226; 비밀번호가 일치하지 않습니다.</div>
                                 )}
-                                {pwMatch && userPw2 && (
-                                    <div></div>
-                                )}
                             </div>
 
                             <button type="submit" className="dy-submit-btn">가입하기</button>
+                        </form>
 
-                            <div>─────────── 또는 ───────────</div>
-                            <div className="dy-api-joins">
+                            <div className="dy-middle">─────── 또는 ────────</div>
+                            <div className="dy-api-logins">
                                 <div id="kakaoIdLogin">
-                                    <img className="dy-kakao-join"
-                                        src="/images/kakao_join_medium_wide.png"
-                                        alt="카카오로 계속하기"
-                                        onClick={handleKakaoLogin}
+                                    <img className="dy-kakao-login"
+                                    src="/images/kakao_login_medium_wide.png"
+                                    alt="카카오로 계속하기"
+                                    onClick={handleKakaoLogin}
                                     />
                                 </div>
-                                <div className="dy-social-join google">
-                                    <GoogleLoginComponent />
-                                    <p>Google로 계속하기</p>
+                                <div className="dy-social-login google">
+                                    <img
+                                        src="/images/custom_google_login.png"
+                                        alt="구글로 로그인"
+                                        onClick={() => {
+                                            /* Google 로그인 클릭 핸들러 */
+                                        }}
+                                    />
                                 </div>
-                                <div className="dy-social-join naver">
-                                    <NaverLogin />
-                                    <p>네이버 회원가입</p>
+                                <div className="dy-social-login naver">
+                                    <img
+                                        src="/images/custom_naver_login.png"
+                                        alt="네이버로 로그인"
+                                        onClick={() => {
+                                            /* Naver 로그인 클릭 핸들러 */
+                                        }}
+                                    />
                                 </div>
                             </div>
 
                             <div className="dy-to-loginform"><Link to="/user/loginform" className="dy-link" rel="noreferrer noopener">이미 계정이 있나요? 여기에서 로그인하세요</Link></div>
-                        </form>
                     </div>
-                    {/* /dy-joinform-content */}
                 </div>
-                {/* /dy-joinform */}
             </div>
             {/* /wrap */}
 
