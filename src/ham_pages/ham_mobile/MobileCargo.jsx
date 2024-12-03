@@ -64,23 +64,28 @@ const MobileCargo = () => {
     const GiftCard = ({ gift, onClick }) => {
         return (
             <div
-                className="hmk_challenge-card"
+                className={`hmk_mobile_cargo-card ${gift.purchasedStatus === '사용완료' ? 'completed' : ''}`}
                 onClick={() => onClick(gift)}
             >
                 <img
                     src={getGiftImagePath(gift.image)}
                     alt={gift.name}
-                    className="hmk_challenge-image"
+                    className="hmk_mobile_cargo-image"
                     onError={(e) => {
                         e.target.onerror = null;
                         e.target.src = '/upload/gift-default.png';
                     }}
                 />
-                <div className="hmk_challenge-details">
-                    <div className="hmk_challenge-datebox">
+                {gift.purchasedStatus === '사용완료' && (
+                    <div className="hmk_used-overlay">
+                        <div className="hmk_used-text">사용 완료</div>
+                    </div>
+                )}
+                <div className="hmk_mobile_cargo-details">
+                    <div className="hmk_mobile_cargo-datebox">
                         <p>{gift.purchasedStatus}</p>
                     </div>
-                    <p className="hmk_challenge-title">{gift.name}</p>
+                    <p className="hmk_mobile_cargo-title">{gift.name}</p>
                 </div>
             </div>
         );
