@@ -159,6 +159,13 @@ const MobileDashboard = () => {
 
     const sortedChallenges = [...activeChallenges]
         .sort((a, b) => {
+            // 오늘의 미션 여부 먼저 확인
+            const aTodayMission = profileStore.hasTodayMission(a.roomNum);
+            const bTodayMission = profileStore.hasTodayMission(b.roomNum);
+
+            // 오늘의 미션이 있는 항목을 우선 정렬
+            if (aTodayMission && !bTodayMission) return -1;
+            if (!aTodayMission && bTodayMission) return 1;
             // 각 탭별 정렬 로직
             switch (activeTab) {
                 case 'created':  // 내가 방장 탭
