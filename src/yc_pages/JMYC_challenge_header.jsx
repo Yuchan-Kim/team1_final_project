@@ -163,8 +163,7 @@ const JMYCChallengeHeader = () => {
         setModalOpen(false);
         setSelectedUser(null);
     };
-
-
+ 
     // 도넛 차트 옵션 정의
     const chartOptions = {
         maintainAspectRatio: false,
@@ -193,18 +192,18 @@ const JMYCChallengeHeader = () => {
         },
     };
 
-    // 성적표용 도넛 차트 데이터
-    const chartData = selectedUser ? {
-        labels: ["완료", "미완료"],
-        datasets: [
-            {
-                data: [selectedUser.achievementRate, 100 - selectedUser.achievementRate],
-                backgroundColor: ["#4CAF50", "#E0E0E0"],
-                hoverBackgroundColor: ["#66BB6A", "#BDBDBD"],
-                borderWidth: 0
-            },
-        ],
-    } : null;
+  // 성적표용 도넛 차트 데이터
+  const chartData = selectedUser ? {
+    labels: ["완료", "미완료"],
+    datasets: [
+      {
+        data: [selectedUser.userAchievementRate, 100 - selectedUser.userAchievementRate],
+        backgroundColor: ["#007aff", "#E0E0E0"],
+        hoverBackgroundColor: ["#007aff", "#BDBDBD"],
+        borderWidth: 0
+      },
+    ],
+  } : null;
 
     // 그룹 챌린지 성공 여부 확인
     const groupChallengeSuccess = userDetails.groupChallenges?.every(
@@ -1129,7 +1128,7 @@ const JMYCChallengeHeader = () => {
                                             data={chartData}
                                             options={chartOptions}
                                         />
-                                        <span className="yc-completion-rate">{selectedUser.achievementRate}%</span>
+                                        <span className="yc-completion-rate">{selectedUser.userAchievementRate}%</span>
                                     </div>
 
                                     {/* 미션 상세 정보 */}

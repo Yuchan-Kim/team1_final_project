@@ -155,7 +155,7 @@
     display: flex;
     align-items: center;
     padding: 6px 12px;
-    background-color: #007bff; /* 변경된 배경색 (블루톤) */
+    background-color: #007bff88; /* 변경된 배경색 (블루톤) */
     color: white;
     border: none;
     border-radius: 5px; /* 더 둥근 버튼 */
@@ -166,7 +166,7 @@
 }
 
 .extend-button:hover:not(:disabled) {
-    background-color: #0056b3; /* 호버 시 배경색 변화 */
+    background-color: #007bff; /* 호버 시 배경색 변화 */
     transform: scale(1.05); /* 호버 시 살짝 확대 */
 }
 
@@ -179,27 +179,9 @@
     margin-right: 6px;
 }
 
-/* 모달 스타일 */
-.yc-modal-overlay-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    opacity: 0;
-    animation: modalFadeIn 0.3s forwards; /* 모달 페이드 인 애니메이션 */
-}
 
-@keyframes modalFadeIn {
-    to {
-        opacity: 1;
-    }
-}
+
+
 
 .yc-modal-header {
     background: white;
@@ -211,11 +193,6 @@
     animation: modalScaleIn 0.3s forwards; /* 모달 스케일 인 애니메이션 */
 }
 
-@keyframes modalScaleIn {
-    to {
-        transform: scale(1);
-    }
-}
 
 .yc-modal-buttons-header {
     margin-top: 20px;
@@ -235,21 +212,21 @@
 
 /* 모달 버튼 색상 변경 - 더 도전적인 색상 */
 .yc-modal-confirm-header {
-    background-color: #007bff; /* 네이비 블루 */
+    background-color: #007bff88; /* 네이비 블루 */
     color: white;
 }
 
 .yc-modal-confirm-header:hover {
-    background-color: #0056b3;
+    background-color: #007aff;
 }
 
 .yc-modal-cancel-header {
-    background-color: #ff9800; /* 다크 오렌지 */
+    background-color: #ae514787; /* 다크 오렌지 */
     color: white;
 }
 
 .yc-modal-cancel-header:hover {
-    background-color: #e68900;
+    background-color: #c0392b;
 }
 
 /* DatePicker 커스터마이징 */
@@ -270,12 +247,12 @@
 
 .react-datepicker__day--selected,
 .react-datepicker__day--keyboard-selected {
-    background-color: #007bff;
+    background-color: #007bff88;
     color: white;
 }
 
 .react-datepicker__day:hover {
-    background-color: #0056b3;
+    background-color: #007aff;
     color: white;
 }
 
@@ -305,6 +282,6 @@
 
 /* 추가적인 스타일링 */
 .insufficient-participants {
-    color: #f44336; /* 빨간색 */
+    color: #ae514787; /* 빨간색 */
     font-weight: bold;
 }
