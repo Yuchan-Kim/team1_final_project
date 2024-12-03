@@ -240,8 +240,11 @@ const MobileRecruiting = () => {
                                     <div className="hmk_challenge-badges">
                                         <span className="hmk_challenge-dday">D-{dDay}</span>
                                         <span className="hmk_challenge-participants">
-                                            {challenge.currentParticipants}/{challenge.maxParticipants}
+                                            {challenge.roomMinNum}/{challenge.roomMaxNum}
                                         </span>
+                                        <div className="hmk_challenge-participants hmk_challenge-part_point">
+                                            {challenge.roomPoint}pt
+                                        </div>
                                     </div>
                                     <p className="hmk_challenge-title">{challenge.roomTitle}</p>
                                 </div>
