@@ -128,8 +128,8 @@
     height: 30px;
     position: absolute; /* 텍스트와 독립적으로 위치 조정 */
     left: 15px; /* 버튼 내부 왼쪽 여백 */
-    top: 50%; /* 버튼 높이의 50% */
-    transform: translateY(-50%); /* 아이콘 수직 중앙 정렬 */
+    /*top: 50%; /* 버튼 높이의 50% */
+    /*transform: translateY(-50%); /* 아이콘 수직 중앙 정렬 */
     flex-shrink: 0; /* 아이콘 크기 고정 */
 }
 
