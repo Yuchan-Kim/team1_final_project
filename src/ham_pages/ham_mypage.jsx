@@ -193,7 +193,7 @@ const MyPage = () => {
             <Header />
             <div className="wrap ham_wrap">
                 <div className="hmk_main-container">
-                    <Sidebar />
+                <Sidebar />
                     <div className="hmk_main">
                         <Topbar />
                         <div className="hmk_stat-container">

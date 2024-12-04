@@ -148,7 +148,6 @@
 .jm-step8-step9-modal-icon {
     font-size: 40px;
     color: #007bff;
-    margin-bottom: 20px;
 }
 
 .jm-step8-step9-modal-title {
@@ -165,7 +164,7 @@
 
 .jm-step8-step9-modal-buttons {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     gap: 10px;
 }
 

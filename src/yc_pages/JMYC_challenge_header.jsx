@@ -1062,7 +1062,6 @@ const JMYCChallengeHeader = () => {
                                 ariaHideApp={false}
                             >
                                 <div className="yc-modal-header-date">
-                                    <p>새로운 시작 시간을 선택하세요:</p>
                                     <DatePicker 
                                         selected={selectedDate}
                                         onChange={handleDateChange}

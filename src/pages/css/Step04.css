@@ -63,7 +63,7 @@
 #jm-step4 #jm-step4-box-double select {
     padding: 6px;
     font-size: 14px;
-    border: 1px solid #ccc;
+    border: 1px solid #939393;
     border-radius: 6px; /* 둥근 모서리 */
     outline: none;
     transition: border-color 0.3s ease;
@@ -125,7 +125,7 @@
     width: 100%; /* 셀렉트 박스의 너비를 조정 */
     padding: 8px;
     font-size: 14px;
-    border: 1px solid #ccc;
+    border: 1px solid #939393;
     border-radius: 6px;
     outline: none;
     text-align: center;
@@ -167,7 +167,7 @@
     width: 380px; /* 가로폭을 1/3로 설정 */
     padding: 8px;
     font-size: 14px;
-    border: 1px solid #ccc;
+    border: 1px solid #939393;
     border-radius: 6px;
     outline: none;
     transition: border-color 0.3s ease;
@@ -202,7 +202,7 @@
     width: 300px; /* 가로폭을 1/3로 설정 */
     padding: 6px; /* 크기 감소 */
     font-size: 14px; /* 폰트 크기 축소 */
-    border: 1px solid #ccc;
+    border: 1px solid #939393;
     border-radius: 6px;
     outline: none;
     transition: border-color 0.3s ease;
@@ -213,7 +213,7 @@
     width: 380px; /* 가로폭을 1/3로 설정 */
     padding: 8px; /* 패딩 축소 */
     font-size: 14px; /* 텍스트 크기 축소 */
-    border: 1px solid #ccc;
+    border: 1px solid #939393;
     border-radius: 6px;
     outline: none;
     transition: border-color 0.3s ease;
@@ -239,7 +239,7 @@
     width: 400px; /* 가로폭을 1/3로 설정 */
     padding: 8px;
     font-size: 14px; /* 텍스트 크기 축소 */
-    border: 1px solid #ccc;
+    border: 1px solid #939393;
     border-radius: 6px;
     outline: none;
     transition: border-color 0.3s ease;
