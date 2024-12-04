@@ -303,9 +303,9 @@ const DH_JoinForm = () => {
                                 <img
                                     className="dy-apisocial-logins"
                                     src="https://challengedonkey.com/upload/icons/kakao-icon.png"
-                                    alt="카카오로 계속하기"
+                                    alt="카카오로 시작하기"
                                 />
-                                <span>카카오 로그인</span>
+                                <span>카카오로 시작하기</span>
                             </div>
                             <div className="dy-social-login-google dy-social-login" onClick={handleGoogleLogin}>
                                 <img
