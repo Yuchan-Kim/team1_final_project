@@ -148,7 +148,7 @@ const DH_LoginForm = () => {
                                         src="https://challengedonkey.com/upload/icons/google-icon.png"
                                         alt="구글로 로그인"
                                         onClick={() => {
-                                            /* Google 로그인 클릭 핸들러 */
+                                            <GoogleLoginComponent />
                                         }}
                                     />
                                     <span>구글 로그인</span>
@@ -159,7 +159,7 @@ const DH_LoginForm = () => {
                                         src="https://challengedonkey.com/upload/icons/naver-icon.png"
                                         alt="네이버로 로그인"
                                         onClick={() => {
-                                            /* Naver 로그인 클릭 핸들러 */
+                                            <NaverLogin />
                                         }}
                                     />
                                     <span>네이버 로그인</span>
