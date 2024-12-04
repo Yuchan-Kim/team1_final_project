@@ -444,16 +444,22 @@ const Main = () => {
                         </div>
                         {/* //list */}
 
-                        {/* 모달 열기 버튼 복구 */}
-                        <div className="btn">
-                            <button id="secondary" onClick={handleCreateRoom} aria-label="방 생성">
-                                
-                                <span>
-                                <img src="/img/conference-room.gif" alt="img"/>
-                                    
-                                </span>
-                            </button>
-                        </div>
+                       {/* 모달 열기 버튼 수정 */}
+                       <div className="btn">
+    <button id="secondary" onClick={handleCreateRoom} aria-label="방 생성">
+        {/* SVG 아이콘 사용 */}
+        <svg
+            className="btn-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+        >
+            <path d="M12 5v14m-7-7h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+        <span className="btn-text">방생성</span>
+    </button>
+</div>
 
                     </div>
                     {/* //board */}

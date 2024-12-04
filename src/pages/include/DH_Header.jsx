@@ -141,7 +141,7 @@ const DH_Header = () => {
 		if (isTokenExpired(token)) {
 			localStorage.removeItem('token');
 			localStorage.removeItem('authUser');
-			navigate("/user/loginform"); // 로그아웃 후 로그인 페이지로 이동
+			navigate("/"); // 로그아웃 후 로그인 페이지로 이동
 			alert("일정시간이 지나 로그아웃 됐습니다. 다시 로그인하고 이용해주세요.");
 			return;
 		}
@@ -257,7 +257,7 @@ const DH_Header = () => {
 
 					<div className="dy-menu">
 						<ol>
-							<li><Link to="/" className="dy-link" rel="noreferrer noopener">챌린지</Link></li>
+							<li><Link to="/mainlist" className="dy-link" rel="noreferrer noopener">챌린지</Link></li>
 							<li><Link to="/my/rank" className="dy-link" rel="noreferrer noopener">랭킹</Link></li>
 							<li><Link to="/pointstore/pointstoremain" className="dy-link" rel="noreferrer noopener">상점</Link></li>
 							<li><Link to="/customerservice" className="dy-link" rel="noreferrer noopener">고객센터</Link></li>

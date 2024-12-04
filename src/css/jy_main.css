@@ -316,53 +316,73 @@
     transform: translateY(-2px);
 }
 
-/* 방 생성 버튼 */
+/* 방 생성 버튼 컨테이너 */
 .jy_main .btn {
     position: fixed;
-    right: 30px;
-    bottom: 20px;
-    padding: 0;
+    right: 50px;
+    bottom: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 100;
 }
-
 /* 방 생성 버튼 스타일 */
 .jy_main #secondary {
-    width: 100px;
-    height: 100px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     border: none;
-    background: linear-gradient(135deg, #22487a 0%, #123870 100%);
-    color: #fff;
-    font-size: 16px;
+    background-color: #007bff88; /* 파란색 배경 */
+    color: #ffffff; /* 아이콘 및 텍스트 색상 */
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    position: relative; /* 오버레이를 위한 상대 위치 */
+    overflow: hidden;
 }
 
-.jy_main #secondary:hover {
-    transform: translateY(-8px) scale(1.05);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(135deg, #123870 0%, #22487a 100%);
+
+/* SVG 아이콘 스타일링 */
+.jy_main #secondary .btn-icon {
+    width: 40%;
+    height: 40%;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 /* 버튼 텍스트 스타일링 */
-.jy_main #secondary span {
+.jy_main #secondary .btn-text {
+    position: absolute;
+    opacity: 0;
+    transition: opacity 0.3s ease;
     font-size: 14px;
+    font-weight: bold;
     text-align: center;
-    line-height: 1.2;
+    color: #ffffff; /* 텍스트 색상 */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-.jy_main #secondary span img {
-    width: 80px;
-    height: 80px;
+/* 방 생성 버튼 호버 효과 */
+.jy_main #secondary:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    background-color: #0056b3; /* 호버 시 더 진한 파란색 */
 }
+
+.jy_main #secondary:hover .btn-icon {
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.jy_main #secondary:hover .btn-text {
+    opacity: 1;
+}
+
+
+
+
 
 /* 아이콘 바 섹션 */
 #icon-bar {
@@ -591,49 +611,14 @@
 .jy_main .btn {
     position: fixed;
     right: 30px;
-    bottom: 20px;
-    padding: 0;
+    bottom: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 100;
 }
 
-/* 방 생성 버튼 스타일 */
-.jy_main #secondary {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    background: linear-gradient(135deg, #22487a 0%, #123870 100%);
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-}
 
-.jy_main #secondary:hover {
-    transform: translateY(-8px) scale(1.05);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(135deg, #123870 0%, #22487a 100%);
-}
-
-/* 버튼 텍스트 스타일링 */
-.jy_main #secondary span {
-    font-size: 14px;
-    text-align: center;
-    line-height: 1.2;
-}
-
-.jy_main #secondary span img {
-    width: 80px;
-    height: 80px;
-}
 
 /* 아이콘 바 섹션 */
 #icon-bar {
