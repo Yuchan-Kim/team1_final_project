@@ -276,7 +276,7 @@
     min-width: 550px;
     background-color: #ffffff;
     border-radius: 10px; /* 카드 전체 모서리를 둥글게 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     overflow: hidden;
     transition: transform 0.3s;
     padding: 10px; /* 카드 안쪽 여백 추가 */

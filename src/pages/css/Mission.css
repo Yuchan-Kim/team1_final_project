@@ -99,7 +99,7 @@
 }
 
 .jm-roolset-contents-box {
-  width: 95%;
+  width: 97%;
   background: linear-gradient(135deg, #ffffff, #f7f9fa); /* 배경색 설정 */
   padding: 20px; /* 패딩을 약간 늘림 */
   margin: 0 auto 20px auto; /* 중앙 정렬 및 아래 마진 */
@@ -109,7 +109,7 @@
   height: 200px; /* 높이를 자동으로 조정 */
   flex-direction: column;
   gap: 12px; /* 갭을 약간 늘림 */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 강화 */
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.8); /* 그림자 추가 */
 }
 
 .jm-roolset-contents-box span {
@@ -118,7 +118,7 @@
   width: 100%;
   padding: 10px;
   
-  border: 1px solid #ccc;
+  border: 1px solid #939393;
   border-radius: 6px;
   box-sizing: border-box; /* Prevent overflow */
   height: 150px;; /* 높이를 자동으로 조정 */
@@ -129,7 +129,7 @@
   color: #727272;
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #939393;
   border-radius: 6px;
   box-sizing: border-box;
   font-size: 16px; /* Prevent overflow */
@@ -173,7 +173,7 @@
   border: 1px solid #d0d0d0;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.8); /* 그림자 추가 */
   min-width: 250px; /* 최소 너비 */
   animation: fadeIn 0.5s ease;
   margin: 0 auto;
@@ -215,7 +215,7 @@
   height: 290px; /* 도넛 차트 컨테이너 높이 */
   border: 1px solid #d0d0d0;
   background: linear-gradient(135deg, #f9f9f9, #ffffff);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.8); /* 그림자 추가 */
   padding: 20px;
   border-radius: 12px;
 }
@@ -261,7 +261,7 @@
   padding-block: 18px; /* 패딩을 늘려 여유 공간 확보 */
   padding-inline: 15px; /* 패딩을 늘려 여유 공간 확보 */
   background-color: #ffffff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.8); /* 그림자 추가 */
 }
 
 .jm-mission-main-content .jm-todo-user-add-form {
@@ -271,13 +271,13 @@
   padding: 22px; /* 패딩을 늘려 .jm-user-mission-add-fom {
 내용물 여유 공간 확보 */
   background-color: #ffffff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.8); /* 그림자 추가 */
 }
 
 /* MISSION LIST ITEMS */
 .jm-mission-main-content .jm-mission-add-list .jm-mission-items {
   display: flex;
-  border: solid 1px #ccc;
+  border: solid 1px #939393;
   border-radius: 3px;
   margin-block: 5px;
   padding: 20px; /* 패딩을 늘려 내용물 여유 공간 확보 */
@@ -315,7 +315,7 @@
 
 .jm-mission-main-content .jm-mission-add-list .jm-mission-items .jm-view-button {
   border: none;
-  background-color: #55555598;
+  background-color: #1d1d1d99;
   border-radius: 3px;
   padding: 5px 10px; /* 패딩을 늘려 버튼을 더 크게 만듦 */
   font-size: 12px;
@@ -325,7 +325,7 @@
 }
 
 .jm-mission-main-content .jm-mission-add-list .jm-mission-items .jm-view-button:hover {
-  background-color: #343a40;
+  background-color: #282828;
 }
 
 .jm-mission-main-content .jm-mission-add-list .jm-mission-items[style*="pointer-events: none"] {
@@ -360,7 +360,7 @@
   position: relative;
   width: 200px; /* 크기를 늘려줌 */
   height: 200px; /* 크기를 늘려줌 */
-  border: 2px dashed #e0e0e0;
+  border: 2px dashed #939393;
   border-radius: 10px; /* 경계 반경을 늘려줌 */
   overflow: hidden;
   background-color: #f9f9f9;
@@ -475,10 +475,10 @@
 
 /* 코멘트 입력 박스 */
 .jm-mission-main-content .jm-todo-user-add-form .jm-user-mission-add-fom .jm-comment-add-btn-container .jm-add-comment-box {
-  flex: 0 0 75%;
+  flex: 0 0 80%;
   padding: 12px;
   font-size: 16px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #939393;
   border-radius: 6px;
   resize: none;
   height: 80px;

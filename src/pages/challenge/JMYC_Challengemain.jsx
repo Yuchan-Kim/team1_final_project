@@ -95,6 +95,7 @@ const ChallengePage = () => {
       fetchTopUsers();
       fetchMissionAchievements();
       checkUserAuth();
+      console.log('missionList:', missionList)
     } else {
       setError("roomNum이 정의되지 않았습니다.");
     }
@@ -389,39 +390,61 @@ const ChallengePage = () => {
             {/* 개별 미션 요약 */}
             <div className='yc-mission-summary'>
               {missionList.length > 0 ? (
-                missionList.map((mission, index) => (
-                  <Link 
-                    to="#"
-                    className='yc-mission-item' 
-                    key={mission.missionNum}
-                  >
+                Object.entries(
+                  missionList.reduce((acc, mission) => {
+                    if (!acc[mission.missionName]) {
+                      acc[mission.missionName] = {
+                        missionNum: mission.missionNum,
+                        missionName: mission.missionName,
+                        missionMethod: mission.missionMethod,
+                        images: [],
+                      };
+                    }
+
+                    // 이미지 데이터가 존재할 경우 처리
+                    if (mission.missionImgName) {
+                      const imageArray = mission.missionImgName.split(',').map((img) => img.trim());
+                      acc[mission.missionName].images.push(...imageArray);
+                    }
+
+                    return acc;
+                  }, {})
+                ).map(([missionName, mission]) => (
+                  <div className='yc-mission-group' key={mission.missionNum}>
                     <h4>{mission.missionName}</h4>
-                    <img 
-                      src={`${process.env.REACT_APP_API_URL}/upload/${mission.missionImgName}` || "https://via.placeholder.com/150"} 
-                      alt={`${mission.missionName} 이미지`} 
-                      className="yc-mission-image" 
-                    />
+                    <div className='yc-mission-images'>
+                      {mission.images.length > 0 ? (
+                        mission.images.map((imgName, idx) => (
+                          <img
+                            key={idx}
+                            src={`${process.env.REACT_APP_API_URL}/upload/${imgName.trim()}`}
+                            alt={`${missionName} 이미지 ${idx + 1}`}
+                            className="yc-mission-image"
+                          />
+                        ))
+                      ) : (
+                        <p>이미지가 없습니다.</p>
+                      )}
+                    </div>
                     <div className="yc-mission-content">
                       <p>{mission.missionMethod}</p>
                     </div>
-
-                    {/* 더보기 버튼: 모달 열기 */}
-                    <button 
-                      className="yc-view-button" 
+                    <button
+                      className="yc-view-button"
                       onClick={(e) => {
-                        e.stopPropagation(); // 부모 Link 클릭 이벤트 전파 방지
-                        e.preventDefault();  // Link의 기본 동작 방지
-                        openModal(mission);  // 모달 열기
+                        e.stopPropagation();
+                        openModal(mission);
                       }}
                     >
                       + 더보기
                     </button>
-                  </Link>
+                  </div>
                 ))
               ) : (
                 <p>미션 데이터가 없습니다.</p>
               )}
             </div>
+
           </section>
         
         </main>

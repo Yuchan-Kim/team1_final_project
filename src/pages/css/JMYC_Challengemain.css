@@ -102,7 +102,7 @@
 /* 방 카드 내용 박스 */
 .jm-room-card-contents-box {
     background-color: var(--background-color);
-    border: solid 1px #3a3737;
+    border: solid 1px #939393;
     border-radius: 5px;
     padding: 10px;
     height: 110px; /* 고정 높이 */
@@ -166,7 +166,7 @@
     min-height: 320px;
     max-height: 300px; /* 최대 높이 설정 */
     background: linear-gradient(135deg, #ffffff, #f7f9fa); /* 배경색 설정 */
-    border: solid 1px #3a3737;
+    border: solid 1px #939393;
 
     overflow-y: auto; /* 세로 스크롤 활성화 */
     padding-bottom: 20px; 
@@ -285,7 +285,7 @@
     border: 1px solid #e0e0e0; /* 테두리 추가 */
     border-radius: 10px; /* 둥근 모서리 */
     margin-bottom: 15px; /* 박스 하단 여백 */
-    border: solid 1px #3a3737;
+    border: solid 1px #939393;
 
 }
 
@@ -363,7 +363,7 @@
     color: #000;
     transition: background-color var(--transition-duration) ease, transform var(--transition-duration) ease;
     width: 255px;
-    border: solid 1px #3a3737;
+    border: solid 1px #939393;
 
     flex-shrink: 0;
 }

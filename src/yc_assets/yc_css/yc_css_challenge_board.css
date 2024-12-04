@@ -50,7 +50,7 @@
 
     border-radius: 15px;
     padding: 20px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.8); /* 그림자 추가 */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -101,11 +101,11 @@
 /* 공지 아이템 */
 .yc_challenge_notice-item {
     background: #fdfdfd; /* 밝은 배경 */
-    border: 1px solid #ddd;
+    border: 1px solid #939393;
     border-radius: 10px;
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
     height:auto;
     
@@ -113,7 +113,7 @@
 
 .yc_challenge_notice-item:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
 
 /* 공지 아이템 헤더 */
