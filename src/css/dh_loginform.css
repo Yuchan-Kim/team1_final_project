@@ -2,8 +2,7 @@
 .dy-wrap {
     display: flex;
     justify-content: center; /* 가로 방향 중앙 정렬 */
-    align-items: center; /* 세로 방향 중앙 정렬 */
-    min-height: 80vh; /* 화면 전체 높이 */
+    min-height: 70vh; /* 화면 전체 높이 */
 }
 
 .dy-loginform {
@@ -11,6 +10,7 @@
     padding: 20px;
     border-radius: 8px; /* 모서리 둥글게 */
     text-align: center;
+    margin-top: 30px;
 }
 
 .dy-loginTitle {
@@ -98,7 +98,6 @@
 }
 
 .dy-social-login img {
-    width: 100%; /* 버튼 전체 크기에 맞게 조정 */
     height: auto; /* 비율 유지 */
     cursor: pointer;
     border-radius: 4px; /* 버튼 모서리 둥글게 */

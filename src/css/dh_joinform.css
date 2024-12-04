@@ -15,6 +15,7 @@
 
 /* 폼 컨테이너 스타일 */
 .dy-joinform {
+    margin-top: 30px;
     width: 100%;
     max-width: 350px;
     padding: 30px;
@@ -93,41 +94,63 @@
 }
 
 /* 소셜 로그인 버튼들 */
-.dy-api-joins {
+.dy-api-logins {
     display: flex;
     flex-direction: column;
+    gap: 20px;
     align-items: center;
-    gap: 15px;
-    margin-top: 20px;
 }
 
-.dy-social-join {
-    width: 100%;
-    max-width: 300px;
+.dy-social-login {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f1f1f1;
-    border-radius: 6px;
-    padding: 10px 0;
-    font-size: 14px;
-    font-weight: bold;
+    align-items: center; /* 수직 중앙 정렬 */
+    justify-content: center; /* 전체 텍스트와 아이콘 중앙 정렬 */
+    width: 320px; /* 버튼의 넓이 */
+    height: 50px; /* 버튼의 높이 */
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    text-decoration: none;
+    color: #fff; /* 텍스트 색상 */
+    font-size: 16px;
+    font-weight: bold;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    padding: 0 15px; /* 좌우 패딩 */
+    position: relative; /* 아이콘 위치 조정에 필요 */
 }
 
-.dy-social-join:hover {
-    background-color: #e2e6ea;
+.dy-social-login:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
-.dy-social-join.google {
-    border: 1px solid #ddd;
-    color: #333;
+.dy-apisocial-logins {
+    width: 30px;
+    height: 30px;
+    position: absolute; /* 텍스트와 독립적으로 위치 조정 */
+    left: 15px; /* 버튼 내부 왼쪽 여백 */
+    top: 50%; /* 버튼 높이의 50% */
+    transform: translateY(-50%); /* 아이콘 수직 중앙 정렬 */
+    flex-shrink: 0; /* 아이콘 크기 고정 */
 }
 
-.dy-social-join.naver {
-    border: 1px solid #ddd;
-    color: #2db400;
+/* 카카오 버튼 */
+.dy-social-login-kakao {
+    background-color: #FEE500; /* 카카오 노란색 */
+    border: 1px solid #FEE500;
+    color: #3C1E1E; /* 카카오 텍스트 색상 */
+}
+
+/* 구글 버튼 */
+.dy-social-login-google {
+    background-color: #FFFFFF; /* 구글 흰색 */
+    border: 1px solid #bfbfbf; /* 구글 빨간색 */
+    color: #333; /* 구글 텍스트 색상 */
+}
+
+/* 네이버 버튼 */
+.dy-social-login-naver {
+    background-color: #03C75A; /* 네이버 녹색 */
+    border: 1px solid #03C75A;
 }
 
 /* 하단 링크 */
@@ -155,12 +178,11 @@
     align-items: center;
 }
 
-.dy-api-login img {
-    width: 300px;
-    height: 45px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+.dy-apisocial-logins {
+    height: 25px;
+    margin-right: 12px;
+    object-fit: contain;
+    width: 25px;
 }
 
 .dy-api-login img:hover {

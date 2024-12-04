@@ -283,33 +283,39 @@ const DH_JoinForm = () => {
 
                             <div className="dy-middle">─────── 또는 ────────</div>
                             <div className="dy-api-logins">
-                                <div id="kakaoIdLogin">
-                                    <img className="dy-kakao-login"
-                                    src="/images/kakao_login_medium_wide.png"
-                                    alt="카카오로 계속하기"
-                                    onClick={handleKakaoLogin}
-                                    />
-                                </div>
-                                <div className="dy-social-login google">
+                                <div className="dy-social-login-kakao dy-social-login">
                                     <img
-                                        src="/images/custom_google_login.png"
+                                        className="dy-apisocial-logins"
+                                        src="http://13.125.216.39:9000/upload/icons/kakao-icon.png"
+                                        alt="카카오로 계속하기"
+                                        onClick={handleKakaoLogin}
+                                    />
+                                    <span>카카오 로그인</span>
+                                </div>
+                                <div className="dy-social-login-google dy-social-login">
+                                    <img
+                                        className="dy-apisocial-logins"
+                                        src="http://13.125.216.39:9000/upload/icons/google-icon.png"
                                         alt="구글로 로그인"
                                         onClick={() => {
                                             /* Google 로그인 클릭 핸들러 */
                                         }}
                                     />
+                                    <span>구글 로그인</span>
                                 </div>
-                                <div className="dy-social-login naver">
+                                <div className="dy-social-login-naver dy-social-login">
                                     <img
-                                        src="/images/custom_naver_login.png"
+                                        className="dy-apisocial-logins"
+                                        src="http://13.125.216.39:9000/upload/icons/naver-icon.png"
                                         alt="네이버로 로그인"
                                         onClick={() => {
                                             /* Naver 로그인 클릭 핸들러 */
                                         }}
                                     />
+                                    <span>네이버 로그인</span>
                                 </div>
                             </div>
-
+                            
                             <div className="dy-to-loginform"><Link to="/user/loginform" className="dy-link" rel="noreferrer noopener">이미 계정이 있나요? 여기에서 로그인하세요</Link></div>
                     </div>
                 </div>
