@@ -136,7 +136,7 @@ const DH_LoginForm = () => {
                                 <div className="dy-social-login-kakao dy-social-login">
                                     <img
                                         className="dy-apisocial-logins"
-                                        src="http://13.125.216.39:9000/upload/icons/kakao-icon.png"
+                                        src="https://challengedonkey.com/upload/icons/kakao-icon.png"
                                         alt="카카오로 계속하기"
                                         onClick={handleKakaoLogin}
                                     />
@@ -145,7 +145,7 @@ const DH_LoginForm = () => {
                                 <div className="dy-social-login-google dy-social-login">
                                     <img
                                         className="dy-apisocial-logins"
-                                        src="http://13.125.216.39:9000/upload/icons/google-icon.png"
+                                        src="https://challengedonkey.com/upload/icons/google-icon.png"
                                         alt="구글로 로그인"
                                         onClick={() => {
                                             /* Google 로그인 클릭 핸들러 */
@@ -156,7 +156,7 @@ const DH_LoginForm = () => {
                                 <div className="dy-social-login-naver dy-social-login">
                                     <img
                                         className="dy-apisocial-logins"
-                                        src="http://13.125.216.39:9000/upload/icons/naver-icon.png"
+                                        src="https://challengedonkey.com/upload/icons/naver-icon.png"
                                         alt="네이버로 로그인"
                                         onClick={() => {
                                             /* Naver 로그인 클릭 핸들러 */
