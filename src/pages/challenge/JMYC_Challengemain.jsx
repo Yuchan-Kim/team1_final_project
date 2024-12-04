@@ -255,6 +255,52 @@ const ChallengePage = () => {
     },
   };
 
+  const ImageSlider = ({ images, missionName }) => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+  
+    const handleNextImage = () => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    };
+  
+    const handlePrevImage = () => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === 0 ? images.length - 1 : prevIndex - 1
+      );
+    };
+  
+    return (
+      <div className="yc-slider-container">
+        {images.length > 0 ? (
+          <div className="yc-slider">
+            <img
+              className="yc-slider-image"
+              src={`${process.env.REACT_APP_API_URL}/upload/${images[currentIndex]}`}
+              alt={`${missionName} 이미지 ${currentIndex + 1}`}
+            />
+            {images.length > 1 && (
+              <div className="yc-slider-buttons">
+                <button
+                  className="yc-slider-btn prev"
+                  onClick={handlePrevImage}
+                >
+                  ◀
+                </button>
+                <button
+                  className="yc-slider-btn next"
+                  onClick={handleNextImage}
+                >
+                  ▶
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <p>이미지가 없습니다.</p>
+        )}
+      </div>
+    );
+  };
+  
   return (
     <>
       <TopHeader/>
@@ -389,61 +435,53 @@ const ChallengePage = () => {
           </div>
             {/* 개별 미션 요약 */}
             <div className='yc-mission-summary'>
-              {missionList.length > 0 ? (
-                Object.entries(
-                  missionList.reduce((acc, mission) => {
-                    if (!acc[mission.missionName]) {
-                      acc[mission.missionName] = {
-                        missionNum: mission.missionNum,
-                        missionName: mission.missionName,
-                        missionMethod: mission.missionMethod,
-                        images: [],
-                      };
-                    }
+  {missionList.length > 0 ? (
+    Object.entries(
+      missionList.reduce((acc, mission) => {
+        if (!acc[mission.missionName]) {
+          acc[mission.missionName] = {
+            missionNum: mission.missionNum,
+            missionName: mission.missionName,
+            missionMethod: mission.missionMethod,
+            images: [],
+          };
+        }
 
-                    // 이미지 데이터가 존재할 경우 처리
-                    if (mission.missionImgName) {
-                      const imageArray = mission.missionImgName.split(',').map((img) => img.trim());
-                      acc[mission.missionName].images.push(...imageArray);
-                    }
+        // 이미지 데이터가 존재할 경우 처리
+        if (mission.missionImgName) {
+          const imageArray = mission.missionImgName.split(',').map((img) => img.trim());
+          acc[mission.missionName].images.push(...imageArray);
+        }
 
-                    return acc;
-                  }, {})
-                ).map(([missionName, mission]) => (
-                  <div className='yc-mission-group' key={mission.missionNum}>
-                    <h4>{mission.missionName}</h4>
-                    <div className='yc-mission-images'>
-                      {mission.images.length > 0 ? (
-                        mission.images.map((imgName, idx) => (
-                          <img
-                            key={idx}
-                            src={`${process.env.REACT_APP_API_URL}/upload/${imgName.trim()}`}
-                            alt={`${missionName} 이미지 ${idx + 1}`}
-                            className="yc-mission-image"
-                          />
-                        ))
-                      ) : (
-                        <p>이미지가 없습니다.</p>
-                      )}
-                    </div>
-                    <div className="yc-mission-content">
-                      <p>{mission.missionMethod}</p>
-                    </div>
-                    <button
-                      className="yc-view-button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openModal(mission);
-                      }}
-                    >
-                      + 더보기
-                    </button>
-                  </div>
-                ))
-              ) : (
-                <p>미션 데이터가 없습니다.</p>
-              )}
-            </div>
+        return acc;
+      }, {})
+    ).map(([missionName, mission]) => (
+      <div className='yc-mission-item' key={mission.missionNum}>
+        <h4>{mission.missionName}</h4>
+
+        {/* 슬라이더 컴포넌트 */}
+        <ImageSlider images={mission.images} missionName={mission.missionName} />
+
+        <div className="yc-mission-content">
+          <p>{mission.missionMethod}</p>
+        </div>
+        <button
+          className="yc-view-button"
+          onClick={(e) => {
+            e.stopPropagation();
+            openModal(mission);
+          }}
+        >
+          + 더보기
+        </button>
+      </div>
+    ))
+  ) : (
+    <p>미션 데이터가 없습니다.</p>
+  )}
+</div>
+
+
 
           </section>
         
@@ -471,7 +509,6 @@ const ChallengePage = () => {
               />
               <div className="yc-modal-description_roomMain">
                 <h2 id="yc-modal-title">{selectedMission.missionName}</h2>
-                <p>{selectedMission.missionMethod}</p>
                 {/* 추가 정보가 있다면 여기에 추가 */}
               </div>
             </div>
