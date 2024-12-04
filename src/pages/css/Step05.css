@@ -48,7 +48,7 @@
 
 #jm-step5 #jm-step5-list-left .react-calendar {
     width: 100%;
-    border: solid 1px #ccc;
+    border: solid 1px #939393;
     border-radius: 6px;
     background-color: #f9f9f9;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -75,7 +75,7 @@
     font-size: 16px;
     font-weight: bold;
     color: #333333;
-    border: 1px solid #cccccc;
+    border: 1px solid #939393;
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -109,7 +109,7 @@
     max-width: 300px;
     padding: 8px;
     font-size: 14px;
-    border: 1px solid #cccccc;
+    border: 1px solid #939393;
     border-radius: 6px;
     outline: none;
     transition: border-color 0.3s ease;

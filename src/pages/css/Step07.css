@@ -21,7 +21,7 @@
 #jm-step7-mission-btn-plus {
     position: fixed; /* 부모 요소 내에서 고정 */
     top: 151px; /* 상단 여백 */
-    right: 200px; /* 왼쪽 여백 */
+    right: 530px; /* 왼쪽 여백 */
     z-index: 10; /* 다른 요소 위로 배치 */
     max-height: calc(100vh - 350px); /* 푸터 높이를 고려한 제한 */
 }

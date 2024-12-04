@@ -1,20 +1,11 @@
 @charset "UTF-8";
 /************************* < 상단바 스타일 > **************************/
-
-.wrap .hmk_main-container .hmk_main {
-    margin-left: 200px;
-    width: calc(100vw - 200px);
-    flex-grow: 1;
-    padding: 20px;
-    background-color: #fff;
-}
-
 .wrap .hmk_main-container .hmk_main .hmk_topbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    background-color: #e0e0e0;
+    padding: 10px;
+    background-color: #eeeeee;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
 }
@@ -22,7 +13,7 @@
 /* 프로필 이미지 및 편집 버튼 스타일 */
 .wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_Profile {
     
-    min-width: 260px;
+    min-width: 220px;
     /* 짜부러지지 않는 최소 넓이 */
     display: flex;
     align-items: center;
@@ -31,8 +22,8 @@
 /* 프로필 이미지 컨테이너 스타일 */
 .wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_Profile .hmk_profile-container {
     position: relative;
-    width: 110px;
-    height: 110px;
+    width: 80px;
+    height: 80px;
     border-radius: 30%;
     overflow: hidden;
 }
@@ -110,12 +101,9 @@
 
 /* 챌린지 현황 요약 테이블 스타일 */
 .wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     padding: 20px 0;
     margin-left: 30px;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     border-radius: 8px;
 }
 
@@ -141,14 +129,12 @@
 
 /* 데이터 폰트 스타일 및 구분선  */
 .wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics td {
-    font-size: 20px;
     font-weight: bold;
     color: #333;
     border-right: 1px solid #ccc;
 }
 
 .wrap .hmk_main-container .hmk_main .hmk_topbar .hmk_statistics th {
-    min-width: 100px;
     overflow-wrap: break-word;
     word-break: keep-all;
     line-height: 1.5;
