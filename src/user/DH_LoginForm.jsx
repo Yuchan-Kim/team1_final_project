@@ -1,13 +1,11 @@
 //import 라이브러리
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 //import 컴포넌트
 import Header from '../pages/include/DH_Header';
-import NaverLogin from '../ham_pages/NaverLogin';
-import GoogleLoginComponent from '../ham_pages/GoogleLogin';
 import Footert from "../pages/include/JM-Footer.jsx";
 
 //import css
@@ -34,6 +32,24 @@ const DH_LoginForm = () => {
         window.location.href = kakaoURL2;
     };
 
+    // 네이버 로그인 핸들러
+    const handleNaverLogin = () => {
+        const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_CLIENT_ID;
+        const NAVER_REDIRECT_URI = process.env.REACT_APP_NAVER_CALLBACK_URL;
+        const state = Math.random().toString(36).substr(2, 11);
+        const naverAuthURL = `https://nid.naver.com/oauth2.0/authorize?response_type=token&client_id=${NAVER_CLIENT_ID}&redirect_uri=${NAVER_REDIRECT_URI}&state=${state}`;
+        window.location.href = naverAuthURL;
+    };
+
+    // 구글 로그인 핸들러
+    const handleGoogleLogin = () => {
+        const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+        const GOOGLE_REDIRECT_URI = process.env.REACT_APP_GOOGLE_CALLBACK_URL;
+        const scope = 'email profile';
+        const googleAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=code&scope=${scope}`;
+        window.location.href = googleAuthURL;
+    };
+
     /*---라우터 관련------------------------------------------*/
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링) ----------*/
@@ -42,18 +58,18 @@ const DH_LoginForm = () => {
 
     /*---생명주기 + 이벤트 관련 메소드 ----------------------*/
     // 이메일
-    const handleEmail =(e)=> {
+    const handleEmail = (e) => {
         setUserEmail(e.target.value);
     }
 
     // 비밀번호
-    const handlePw =(e)=> {
+    const handlePw = (e) => {
         setUserPw(e.target.value);
     }
 
     // 로그인버튼 클릭했을때 (전송)
-    const handleLogin = (e)=> {
-        e.preventDefault(); 
+    const handleLogin = (e) => {
+        e.preventDefault();
 
         const userVo = {
             userEmail: userEmail,
@@ -63,7 +79,7 @@ const DH_LoginForm = () => {
 
         // 서버로 데이터 전송
         axios({
-            method: 'post', 
+            method: 'post',
             url: `${process.env.REACT_APP_API_URL}/api/users/login`,
 
             headers: { "Content-Type": "application/json; charset=utf-8" },    // post put
@@ -75,29 +91,29 @@ const DH_LoginForm = () => {
             console.log(response.data); //수신데이타
 
             // 응답처리
-            JSON.stringify(response.data.apiData); 
+            JSON.stringify(response.data.apiData);
             const authHeader = response.headers['authorization'];
 
             if (authHeader) {
-                const token = authHeader.split(' ')[1]; 
+                const token = authHeader.split(' ')[1];
                 localStorage.setItem("token", token);
 
             } else {    // 없는정보일떄
                 setErrorMessage("이메일과 비밀번호를 다시 확인해주세요.");
-                return;   
+                return;
             }
-            
+
             localStorage.setItem("authUser", JSON.stringify(response.data.apiData));
 
             // 응답처리
-            if (response.data.result ==='success') {
+            if (response.data.result === 'success') {
                 // 리다이렉트
-                navigate("/");       
-                
-            }else {
+                navigate("/");
+
+            } else {
                 alert("로그인 실패.");
             }
-            
+
         }).catch(error => {
             console.log(error);
         });
@@ -109,22 +125,22 @@ const DH_LoginForm = () => {
         <>
             <Header />
             {/* // header */}
-            
+
             <div className="dy-wrap">
                 <div className="dy-loginform">
                     <h1 className="dy-loginTitle">DONKEY에 로그인하기</h1>
-                    
+
                     <div className="dy-loginform-content">
                         {/* /dy-api-logins */}
                         <form action='' method='' onSubmit={handleLogin}>
                             <div className="dy-loginform-login">
                                 <div className="dy-login-word">이메일</div>
-                                <input type="text" className="dy-login-input"  value={userEmail} onChange={handleEmail} />
+                                <input type="text" className="dy-login-input" value={userEmail} onChange={handleEmail} />
                             </div>
                             <div className="dy-loginform-login">
                                 <div className="dy-login-word">비밀번호</div>
                                 <input type="password" className="dy-login-input" value={userPw} onChange={handlePw} />
-                                {errorMessage && 
+                                {errorMessage &&
                                     <div className="dy-error-message">{errorMessage}</div>
                                 }
                             </div>
@@ -133,38 +149,31 @@ const DH_LoginForm = () => {
                         </form>
                         <div className="dy-middle">─────── 또는 ────────</div>
                         <div className="dy-api-logins">
-                                <div className="dy-social-login-kakao dy-social-login">
-                                    <img
-                                        className="dy-apisocial-logins"
-                                        src="https://challengedonkey.com/upload/icons/kakao-icon.png"
-                                        alt="카카오로 계속하기"
-                                        onClick={handleKakaoLogin}
-                                    />
-                                    <span>카카오 로그인</span>
-                                </div>
-                                <div className="dy-social-login-google dy-social-login">
-                                    <img
-                                        className="dy-apisocial-logins"
-                                        src="https://challengedonkey.com/upload/icons/google-icon.png"
-                                        alt="구글로 로그인"
-                                        onClick={() => {
-                                            <GoogleLoginComponent />
-                                        }}
-                                    />
-                                    <span>구글 로그인</span>
-                                </div>
-                                <div className="dy-social-login-naver dy-social-login">
-                                    <img
-                                        className="dy-apisocial-logins"
-                                        src="https://challengedonkey.com/upload/icons/naver-icon.png"
-                                        alt="네이버로 로그인"
-                                        onClick={() => {
-                                            <NaverLogin />
-                                        }}
-                                    />
-                                    <span>네이버 로그인</span>
-                                </div>
+                            <div className="dy-social-login-kakao dy-social-login" onClick={handleKakaoLogin}>
+                                <img
+                                    className="dy-apisocial-logins"
+                                    src="https://challengedonkey.com/upload/icons/kakao-icon.png"
+                                    alt="카카오로 계속하기"
+                                />
+                                <span>카카오 로그인</span>
                             </div>
+                            <div className="dy-social-login-google dy-social-login" onClick={handleGoogleLogin}>
+                                <img
+                                    className="dy-apisocial-logins"
+                                    src="https://challengedonkey.com/upload/icons/google-icon.png"
+                                    alt="구글로 로그인"
+                                />
+                                <span>구글 로그인</span>
+                            </div>
+                            <div className="dy-social-login-naver dy-social-login" onClick={handleNaverLogin}>
+                                <img
+                                    className="dy-apisocial-logins"
+                                    src="https://challengedonkey.com/upload/icons/naver-icon.png"
+                                    alt="네이버로 로그인"
+                                />
+                                <span>네이버 로그인</span>
+                            </div>
+                        </div>
                         <div className="dy-to-joinform"><Link to="/user/joinform" className="dy-link" rel="noreferrer noopener">계정이 없나요? DONKEY에 가입하기</Link></div>
 
                     </div>
@@ -175,7 +184,7 @@ const DH_LoginForm = () => {
             {/* /wrap */}
 
             {/* 푸터 */}
-            <Footert/>
+            <Footert />
             {/* 푸터 끝 */}
         </>
     );

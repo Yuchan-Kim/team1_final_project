@@ -28,6 +28,22 @@ const DH_JoinForm = () => {
         window.location.href = kakaoURL2;
     };
 
+    const handleNaverLogin = () => {
+        const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_CLIENT_ID;
+        const NAVER_REDIRECT_URI = process.env.REACT_APP_NAVER_CALLBACK_URL;
+        const state = Math.random().toString(36).substr(2, 11);
+        const naverAuthURL = `https://nid.naver.com/oauth2.0/authorize?response_type=token&client_id=${NAVER_CLIENT_ID}&redirect_uri=${NAVER_REDIRECT_URI}&state=${state}`;
+        window.location.href = naverAuthURL;
+    };
+
+    const handleGoogleLogin = () => {
+        const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+        const GOOGLE_REDIRECT_URI = process.env.REACT_APP_GOOGLE_CALLBACK_URL;
+        const scope = 'email profile';
+        const googleAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=code&scope=${scope}`;
+        window.location.href = googleAuthURL;
+    };
+
     /*---라우터 관련------------------------------------------*/
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링) ----------*/
@@ -281,50 +297,42 @@ const DH_JoinForm = () => {
                             <button type="submit" className="dy-submit-btn">가입하기</button>
                         </form>
 
-                            <div className="dy-middle">─────── 또는 ────────</div>
-                            <div className="dy-api-logins">
-                                <div className="dy-social-login-kakao dy-social-login">
-                                    <img
-                                        className="dy-apisocial-logins"
-                                        src="https://challengedonkey.com/upload/icons/kakao-icon.png"
-                                        alt="카카오로 계속하기"
-                                        onClick={handleKakaoLogin}
-                                    />
-                                    <span>카카오 로그인</span>
-                                </div>
-                                <div className="dy-social-login-google dy-social-login">
-                                    <img
-                                        className="dy-apisocial-logins"
-                                        src="https://challengedonkey.com/upload/icons/google-icon.png"
-                                        alt="구글로 로그인"
-                                        onClick={() => {
-                                            /* Google 로그인 클릭 핸들러 */
-                                            <GoogleLoginComponent />
-                                        }}
-                                    />
-                                    <span>구글 로그인</span>
-                                </div>
-                                <div className="dy-social-login-naver dy-social-login">
-                                    <img
-                                        className="dy-apisocial-logins"
-                                        src="https://challengedonkey.com/upload/icons/naver-icon.png"
-                                        alt="네이버로 로그인"
-                                        onClick={() => {
-                                            <NaverLogin />
-                                        }}
-                                    />
-                                    <span>네이버 로그인</span>
-                                </div>
+                        <div className="dy-middle">─────── 또는 ────────</div>
+                        <div className="dy-api-logins">
+                            <div className="dy-social-login-kakao dy-social-login" onClick={handleKakaoLogin}>
+                                <img
+                                    className="dy-apisocial-logins"
+                                    src="https://challengedonkey.com/upload/icons/kakao-icon.png"
+                                    alt="카카오로 계속하기"
+                                />
+                                <span>카카오 로그인</span>
                             </div>
-                            
-                            <div className="dy-to-loginform"><Link to="/user/loginform" className="dy-link" rel="noreferrer noopener">이미 계정이 있나요? 여기에서 로그인하세요</Link></div>
+                            <div className="dy-social-login-google dy-social-login" onClick={handleGoogleLogin}>
+                                <img
+                                    className="dy-apisocial-logins"
+                                    src="https://challengedonkey.com/upload/icons/google-icon.png"
+                                    alt="구글로 시작하기"
+                                />
+                                <span>구글로 시작하기</span>
+                            </div>
+                            <div className="dy-social-login-naver dy-social-login" onClick={handleNaverLogin}>
+                                <img
+                                    className="dy-apisocial-logins"
+                                    src="https://challengedonkey.com/upload/icons/naver-icon.png"
+                                    alt="네이버로 시작하기"
+                                />
+                                <span>네이버로 시작하기</span>
+                            </div>
+                        </div>
+
+                        <div className="dy-to-loginform"><Link to="/user/loginform" className="dy-link" rel="noreferrer noopener">이미 계정이 있나요? 여기에서 로그인하세요</Link></div>
                     </div>
                 </div>
             </div>
             {/* /wrap */}
 
             {/* 푸터 */}
-            <Footert/>
+            <Footert />
             {/* 푸터 끝 */}
         </>
     );
