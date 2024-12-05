@@ -465,7 +465,7 @@ const YCChallengeSidebar = () => {
                             <p>온도: {weatherData.main.temp}°C</p>
                             <p>날씨: {weatherData.weather[0].description}</p>
                             <img
-                                src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
+                                src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
                                 alt="날씨 아이콘"
                             />
                         </div>
