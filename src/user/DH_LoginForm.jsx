@@ -79,27 +79,15 @@ const DH_LoginForm = () => {
         setUserPw(e.target.value);
     }
 
-    useEffect(() => {
-        try {
-            const urlParams = new URLSearchParams(window.location.search);
-            const code = urlParams.get('code');
-
-            if (code) {
-                const token = document.cookie
-                    .split('; ')
-                    .find(row => row.startsWith('token='))
-                    ?.split('=')[1];
-
-                if (token) {
-                    localStorage.setItem("token", token);
-                    navigate("/");
-                } else {
-                    setErrorMessage("로그인 처리 중 오류가 발생했습니다.");
-                }
-            }
-        } catch (error) {
-            console.error('Login error:', error);
-            setErrorMessage("로그인 처리 중 오류가 발생했습니다.");
+        useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+        const authUser = urlParams.get('authUser');
+        
+        if (token && authUser) {
+            localStorage.setItem('token', token);
+            localStorage.setItem('authUser', authUser);
+            navigate('/');
         }
     }, [navigate]);
 
