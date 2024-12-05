@@ -44,150 +44,151 @@ const DH_LoginForm = () => {
     // 구글 로그인 핸들러
     const handleGoogleLogin = () => {
         const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-        const GOOGLE_REDIRECT_URI = process.env.REACT_APP_GOOGLE_CALLBACK_URL;
-        const scope = 'email profile';
-        const googleAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=code&scope=${scope}`;
+        const GOOGLE_REDIRECT_URI = encodeURIComponent(`${process.env.REACT_APP_API_URL}/api/users/google/login`);
+        const scope = encodeURIComponent('email profile openid');
+        const googleAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=code&scope=${scope}&access_type=offline&prompt=consent`;
         window.location.href = googleAuthURL;
     };
+};
 
-    /*---라우터 관련------------------------------------------*/
+/*---라우터 관련------------------------------------------*/
 
-    /*---상태관리 변수들(값이 변화면 화면 랜더링) ----------*/
+/*---상태관리 변수들(값이 변화면 화면 랜더링) ----------*/
 
-    /*---일반 메소드 -----------------------------------------*/
+/*---일반 메소드 -----------------------------------------*/
 
-    /*---생명주기 + 이벤트 관련 메소드 ----------------------*/
-    // 이메일
-    const handleEmail = (e) => {
-        setUserEmail(e.target.value);
+/*---생명주기 + 이벤트 관련 메소드 ----------------------*/
+// 이메일
+const handleEmail = (e) => {
+    setUserEmail(e.target.value);
+}
+
+// 비밀번호
+const handlePw = (e) => {
+    setUserPw(e.target.value);
+}
+
+// 로그인버튼 클릭했을때 (전송)
+const handleLogin = (e) => {
+    e.preventDefault();
+
+    const userVo = {
+        userEmail: userEmail,
+        userPw: userPw
     }
+    console.log(userVo);
 
-    // 비밀번호
-    const handlePw = (e) => {
-        setUserPw(e.target.value);
-    }
+    // 서버로 데이터 전송
+    axios({
+        method: 'post',
+        url: `${process.env.REACT_APP_API_URL}/api/users/login`,
 
-    // 로그인버튼 클릭했을때 (전송)
-    const handleLogin = (e) => {
-        e.preventDefault();
+        headers: { "Content-Type": "application/json; charset=utf-8" },    // post put
 
-        const userVo = {
-            userEmail: userEmail,
-            userPw: userPw
+        data: userVo, // put, post, JSON(자동변환됨)
+
+        responseType: 'json' //수신타입 받을때
+    }).then(response => {
+        console.log(response.data); //수신데이타
+
+        // 응답처리
+        JSON.stringify(response.data.apiData);
+        const authHeader = response.headers['authorization'];
+
+        if (authHeader) {
+            const token = authHeader.split(' ')[1];
+            localStorage.setItem("token", token);
+
+        } else {    // 없는정보일떄
+            setErrorMessage("이메일과 비밀번호를 다시 확인해주세요.");
+            return;
         }
-        console.log(userVo);
 
-        // 서버로 데이터 전송
-        axios({
-            method: 'post',
-            url: `${process.env.REACT_APP_API_URL}/api/users/login`,
+        localStorage.setItem("authUser", JSON.stringify(response.data.apiData));
 
-            headers: { "Content-Type": "application/json; charset=utf-8" },    // post put
+        // 응답처리
+        if (response.data.result === 'success') {
+            // 리다이렉트
+            navigate("/");
 
-            data: userVo, // put, post, JSON(자동변환됨)
+        } else {
+            alert("로그인 실패.");
+        }
 
-            responseType: 'json' //수신타입 받을때
-        }).then(response => {
-            console.log(response.data); //수신데이타
+    }).catch(error => {
+        console.log(error);
+    });
 
-            // 응답처리
-            JSON.stringify(response.data.apiData);
-            const authHeader = response.headers['authorization'];
-
-            if (authHeader) {
-                const token = authHeader.split(' ')[1];
-                localStorage.setItem("token", token);
-
-            } else {    // 없는정보일떄
-                setErrorMessage("이메일과 비밀번호를 다시 확인해주세요.");
-                return;
-            }
-
-            localStorage.setItem("authUser", JSON.stringify(response.data.apiData));
-
-            // 응답처리
-            if (response.data.result === 'success') {
-                // 리다이렉트
-                navigate("/");
-
-            } else {
-                alert("로그인 실패.");
-            }
-
-        }).catch(error => {
-            console.log(error);
-        });
-
-    };
+};
 
 
-    return (
-        <>
-            <Header />
-            {/* // header */}
+return (
+    <>
+        <Header />
+        {/* // header */}
 
-            <div className="dy-wrap">
-                <div className="dy-loginform">
-                    <h1 className="dy-loginTitle">DONKEY에 로그인하기</h1>
+        <div className="dy-wrap">
+            <div className="dy-loginform">
+                <h1 className="dy-loginTitle">DONKEY에 로그인하기</h1>
 
-                    <div className="dy-loginform-content">
-                        {/* /dy-api-logins */}
-                        <form action='' method='' onSubmit={handleLogin}>
-                            <div className="dy-loginform-login">
-                                <div className="dy-login-word">이메일</div>
-                                <input type="text" className="dy-login-input" value={userEmail} onChange={handleEmail} />
-                            </div>
-                            <div className="dy-loginform-login">
-                                <div className="dy-login-word">비밀번호</div>
-                                <input type="password" className="dy-login-input" value={userPw} onChange={handlePw} />
-                                {errorMessage &&
-                                    <div className="dy-error-message">{errorMessage}</div>
-                                }
-                            </div>
-
-                            <button type="submit" className="dy-submit-btn">로그인</button>
-                        </form>
-                        <div className="dy-middle">─────── 또는 ────────</div>
-                        <div className="dy-api-logins">
-                            <div className="dy-social-login-kakao dy-social-login" onClick={handleKakaoLogin}>
-                                <img
-                                    className="dy-apisocial-logins"
-                                    src="https://challengedonkey.com/upload/icons/kakao-icon.png"
-                                    alt="카카오로 계속하기"
-                                />
-                                <span>카카오 로그인</span>
-                            </div>
-                            <div className="dy-social-login-google dy-social-login" onClick={handleGoogleLogin}>
-                                <img
-                                    className="dy-apisocial-logins"
-                                    src="https://challengedonkey.com/upload/icons/google-icon.png"
-                                    alt="구글로 로그인"
-                                />
-                                <span>구글 로그인</span>
-                            </div>
-                            <div className="dy-social-login-naver dy-social-login" onClick={handleNaverLogin}>
-                                <img
-                                    className="dy-apisocial-logins"
-                                    src="https://challengedonkey.com/upload/icons/naver-icon.png"
-                                    alt="네이버로 로그인"
-                                />
-                                <span>네이버 로그인</span>
-                            </div>
+                <div className="dy-loginform-content">
+                    {/* /dy-api-logins */}
+                    <form action='' method='' onSubmit={handleLogin}>
+                        <div className="dy-loginform-login">
+                            <div className="dy-login-word">이메일</div>
+                            <input type="text" className="dy-login-input" value={userEmail} onChange={handleEmail} />
                         </div>
-                        <div className="dy-to-joinform"><Link to="/user/joinform" className="dy-link" rel="noreferrer noopener">계정이 없나요? DONKEY에 가입하기</Link></div>
+                        <div className="dy-loginform-login">
+                            <div className="dy-login-word">비밀번호</div>
+                            <input type="password" className="dy-login-input" value={userPw} onChange={handlePw} />
+                            {errorMessage &&
+                                <div className="dy-error-message">{errorMessage}</div>
+                            }
+                        </div>
 
+                        <button type="submit" className="dy-submit-btn">로그인</button>
+                    </form>
+                    <div className="dy-middle">─────── 또는 ────────</div>
+                    <div className="dy-api-logins">
+                        <div className="dy-social-login-kakao dy-social-login" onClick={handleKakaoLogin}>
+                            <img
+                                className="dy-apisocial-logins"
+                                src="https://challengedonkey.com/upload/icons/kakao-icon.png"
+                                alt="카카오로 계속하기"
+                            />
+                            <span>카카오 로그인</span>
+                        </div>
+                        <div className="dy-social-login-google dy-social-login" onClick={handleGoogleLogin}>
+                            <img
+                                className="dy-apisocial-logins"
+                                src="https://challengedonkey.com/upload/icons/google-icon.png"
+                                alt="구글로 로그인"
+                            />
+                            <span>구글 로그인</span>
+                        </div>
+                        <div className="dy-social-login-naver dy-social-login" onClick={handleNaverLogin}>
+                            <img
+                                className="dy-apisocial-logins"
+                                src="https://challengedonkey.com/upload/icons/naver-icon.png"
+                                alt="네이버로 로그인"
+                            />
+                            <span>네이버 로그인</span>
+                        </div>
                     </div>
-                    {/* /dy-loginform-content */}
-                </div>
-                {/* /dy-loginform */}
-            </div>
-            {/* /wrap */}
+                    <div className="dy-to-joinform"><Link to="/user/joinform" className="dy-link" rel="noreferrer noopener">계정이 없나요? DONKEY에 가입하기</Link></div>
 
-            {/* 푸터 */}
-            <Footert />
-            {/* 푸터 끝 */}
-        </>
-    );
+                </div>
+                {/* /dy-loginform-content */}
+            </div>
+            {/* /dy-loginform */}
+        </div>
+        {/* /wrap */}
+
+        {/* 푸터 */}
+        <Footert />
+        {/* 푸터 끝 */}
+    </>
+);
 }
 
 export default DH_LoginForm;
