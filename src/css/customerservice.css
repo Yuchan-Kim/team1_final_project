@@ -4,22 +4,23 @@
 
 /* wrap 크기 설정 */
 .dy-wrap {
-    width: 80vw;
-    min-width: 1000px;
-    margin: 0 auto;
+    display: flex;
+    width: 80vw; /* 전체 너비를 80% 뷰포트 너비로 설정 */
+    margin: 0 auto; /* 중앙 정렬 */
     min-height: 100vh;
-    padding: 20px;
     box-sizing: border-box;
+    padding: 20px; /* 양 옆에 간격 추가 */
+    flex-direction: column;
 }
 
 
 /* 고객센터 메인 틀 */
 .dy-wrap .dy-customerservice {
-    margin-left: 110px; 
-    margin-right: 110px; 
-    margin-top: 70px;
-    box-sizing: border-box; 
-    padding: 0 20px;
+    flex: 1;
+    margin-left: 110px; /* 사이드바 너비 + 좌측 padding (120px + 40px) */
+    margin-right: 110px; /* 우측 간격 */
+    box-sizing: border-box; /* 패딩 포함하여 크기 계산 */
+    padding: 20px; /* 추가 패딩 */
 }
 
 /* 고객센터, 배너 */
