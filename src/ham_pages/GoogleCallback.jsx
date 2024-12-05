@@ -1,5 +1,6 @@
-// GoogleCallback.jsx
+import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 const GoogleCallback = () => {
     const navigate = useNavigate();
@@ -23,7 +24,7 @@ const GoogleCallback = () => {
                     navigate('/user/loginform');
                 });
         }
-    }, []);
+    }, [navigate, location]);
 
     return <div>구글 로그인 처리중...</div>;
 };
