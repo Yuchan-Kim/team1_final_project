@@ -8,6 +8,14 @@
     text-align: center;
 }
 
+.dy-wrap-join{
+    margin: 0 auto;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
 .dy-join-word {
     font-size: 14px;
     color: #666;
@@ -20,6 +28,7 @@
     max-width: 350px;
     padding: 30px;
     border-radius: 8px;
+    align-self: center;
 }
 
 /* 입력 필드 스타일 */
