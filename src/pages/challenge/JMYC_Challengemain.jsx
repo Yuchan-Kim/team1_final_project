@@ -525,7 +525,7 @@ const openModal = (mission) => {
         {selectedMission.images && selectedMission.images.length > 0 ? (
           <div className="yc-slider-container">
             <button
-              className="yc-slider-button prev"
+              className="yc-slider-btn prev"
               onClick={() =>
                 setModalImgIndex(
                   (prevIndex) =>
@@ -545,7 +545,7 @@ const openModal = (mission) => {
               />
             </div>
             <button
-              className="yc-slider-button next"
+              className="yc-slider-btn next"
               onClick={() =>
                 setModalImgIndex(
                   (prevIndex) => (prevIndex + 1) % selectedMission.images.length
