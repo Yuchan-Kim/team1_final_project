@@ -106,7 +106,7 @@ const YCChallengeSidebar = () => {
                 setIsLoading(false);
             }
         };
-
+        getUserLocation(); // 위치 정보 가져오기
         fetchData();
     }, [roomNum]);
 
@@ -401,7 +401,57 @@ const YCChallengeSidebar = () => {
     };
 
     const isDisabled = !(roomStatusNum === 4 || enteredUserAuth === 1 || (enteredUserAuth === 2 && (enteredUserStatusNum === 1) && roomStatusNum > 2));
+    const [weatherData, setWeatherData] = useState(null);
+    const [locationError, setLocationError] = useState(null);
+     // 위치 정보 가져오기 함수
+     const getUserLocation = () => {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    fetchWeatherData(latitude, longitude);
+                },
+                (error) => {
+                    console.error("위치 정보를 가져오는 중 오류 발생:", error);
+                    setLocationError(error);
+                    // 기본 위치로 설정 (서울)
+                    fetchWeatherData(37.5665, 126.9780); // 서울의 위도와 경도
+                }
+            );
+        } else {
+            console.error("Geolocation을 지원하지 않는 브라우저입니다.");
+            setLocationError(new Error("Geolocation not supported"));
+            // 기본 위치로 설정 (서울)
+            fetchWeatherData(37.5665, 126.9780); // 서울의 위도와 경도
+        }
+    };
 
+    const fetchWeatherData = async (latitude, longitude) => {
+        try {
+            const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
+
+            console.log(`Fetching weather data for lat: ${latitude}, lon: ${longitude}`);
+            
+            const response = await axios.get(
+                `https://api.openweathermap.org/data/2.5/weather`,
+                {
+                    params: {
+                        lat: latitude,
+                        lon: longitude,
+                        appid: apiKey,
+                        units: 'metric',
+                        lang: 'kr'
+                    },
+                    withCredentials: false,
+                } 
+            );
+
+            console.log('Weather API Response:', response.data);
+            setWeatherData(response.data);
+        } catch (error) {
+            console.error("날씨 정보를 가져오는 중 오류 발생:", error);
+        }
+    };
     return (
         <aside className="yc-challenge-sidebar_sidebar">
             {isLoading ? (
@@ -409,9 +459,19 @@ const YCChallengeSidebar = () => {
             ) : (
                 <>
                     {error && <div className="yc-error-message_sidebar">{error}</div>}
-
+                    {weatherData && (
+                        <div className="yc-weather-info-container">
+                            <p>{weatherData.name}</p>
+                            <p>온도: {weatherData.main.temp}°C</p>
+                            <p>날씨: {weatherData.weather[0].description}</p>
+                            <img
+                                src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
+                                alt="날씨 아이콘"
+                            />
+                        </div>
+                    )}
                     <nav className="yc-challenge-menu_sidebar">
-                        
+                   
                         <ul>
                             <li className="yc-challenge-sidebar-home_sidebar">
                                 <Link to={`/cmain/${roomNum}`} aria-label="홈">

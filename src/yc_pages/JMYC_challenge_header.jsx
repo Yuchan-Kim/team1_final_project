@@ -800,17 +800,7 @@ const JMYCChallengeHeader = () => {
     // ----------------------
     return (
         <>
-        {weatherData && (
-            <div className="yc-weather-info-container">
-                <p>{weatherData.name}</p>
-                <p>온도: {weatherData.main.temp}°C</p>
-                <p>날씨: {weatherData.weather[0].description}</p>
-                <img
-                    src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
-                    alt="날씨 아이콘"
-                />
-            </div>
-        )}
+       
 
         <div className="jm-challenge-header">
             {/* 로딩 및 에러 상태 처리 */}
