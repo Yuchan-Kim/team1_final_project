@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
 import YCChallengeStatistics from './yc_pages/YC_challenge_statistics';
 import YcChallengeBoard from './yc_pages/YC_challenge_board';
 import AdminMain from './admin/adminpages/AdminMain.jsx';
@@ -62,6 +63,14 @@ import Privacy from './ham_pages/Privacy.jsx'
 
 
 function App() {
+  // 페이지 접근 시 모바일 여부를 감지하여 리다이렉트하는 로직을 추가
+  useEffect(() => {
+    if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      if (!window.location.pathname.startsWith('/mobile')) {
+        window.location.href = "/mobile" + window.location.pathname;
+      }
+    }
+  }, []);
   return (
     <BrowserRouter> 
         <Routes>
