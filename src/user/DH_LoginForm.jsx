@@ -1,5 +1,5 @@
 //import 라이브러리
-import React, { useState, useEffect  } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -53,25 +53,27 @@ const DH_LoginForm = () => {
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
-        
+
         if (code) {
+            // 구글 로그인 응답 처리
             axios.get(`${process.env.REACT_APP_API_URL}/api/users/google/login?code=${code}`)
                 .then(response => {
+                    console.log('Google login response:', response.data);
+
                     if (response.data.result === 'success') {
-                        localStorage.setItem('token', response.headers.authorization.split(' ')[1]);
+                        const authHeader = response.headers['authorization'];
+                        if (authHeader) {
+                            localStorage.setItem('token', authHeader.split(' ')[1]);
+                        }
                         localStorage.setItem('authUser', JSON.stringify(response.data.apiData));
-                        navigate('/');
-                    } else {
-                        alert('구글 로그인에 실패했습니다.');
-                        navigate('/user/loginform');
+                        window.location.href = '/'; // 또는 navigate('/')
                     }
                 })
                 .catch(error => {
                     console.error('Google login error:', error);
-                    navigate('/user/loginform');
                 });
         }
-    }, [navigate]);
+    }, []);
 
     /*---라우터 관련------------------------------------------*/
 
