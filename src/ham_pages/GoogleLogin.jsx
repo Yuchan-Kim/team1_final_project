@@ -1,9 +1,11 @@
-// GoogleLogin.jsx
 import React from 'react';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const GoogleLoginComponent = () => {
+    const navigate = useNavigate();
+
     const handleSuccess = async (credentialResponse) => {
         try {
             const response = await axios.post(
@@ -14,7 +16,7 @@ const GoogleLoginComponent = () => {
             if (response.data.result === 'success') {
                 localStorage.setItem('token', response.headers.authorization.split(' ')[1]);
                 localStorage.setItem('authUser', JSON.stringify(response.data.apiData));
-                window.location.href = '/';
+                navigate('/');  // window.location.href 대신 navigate 사용
             }
         } catch (error) {
             console.error('Google login failed:', error);
@@ -29,7 +31,7 @@ const GoogleLoginComponent = () => {
                 useOneTap={false}
                 cookiePolicy={'single_host_origin'}
                 prompt="select_account"
-                ux_mode="popup"  // popup 모드 사용
+                ux_mode="popup"
             />
         </GoogleOAuthProvider>
     );
