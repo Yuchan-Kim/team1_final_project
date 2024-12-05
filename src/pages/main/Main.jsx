@@ -219,42 +219,9 @@ const Main = () => {
             responseType: 'json'
         })
         .then(response => {
-            if (response.data.result === "success") {
-                const closeRooms = response.data.apiData;
-
-                // 각 종료된 방의 전체 달성률 통계 가져오기
-                const updatedRooms = closeRooms.map(room => {
-                    return axios({
-                        method: 'get',
-                        url: `${process.env.REACT_APP_API_URL}/api/roomoverall/${room.roomNum}`,
-                        responseType: 'json'
-                    })
-                    .then(statResponse => {
-                        if (statResponse.data.result === "success") {
-                            // 전체 달성률 정보를 room 객체에 추가
-                            console.log(statResponse.data.apiData)
-                            return {
-                                ...room,
-                                achievementRate: statResponse.data.apiData.achievementRate
-                            };
-                        } else {
-                            console.log(statResponse.data.message);
-                            return room;
-                        }
-                    })
-                    .catch(statError => {
-                        console.log(statError);
-                        return room;
-                    });
-                });
-
-                // 모든 종료된 방의 전체 달성률 통계가 추가되면 상태 업데이트
-                Promise.all(updatedRooms).then(roomsWithStats => {
-                    setCloseRoomList(roomsWithStats);
-                });
-            } else {
-                console.log(response.data.message);
-            }
+            console.log(response.data.apiData);
+            setCloseRoomList(response.data.apiData);
+           
         })
         .catch(error => {
             console.log(error);
@@ -313,7 +280,7 @@ const Main = () => {
             <div id="jy_wrap" className="jy_wrap">
                 <div className="jy_main" id="jy_main">
                     <div id="board">
-                        <div id ="top_achieve">달성률 TOP 종료된 챌린지</div>
+                        <div id ="top_achieve"> 이벤트 챌린지</div>
                         
                         <div id='ad-bang'>
                            

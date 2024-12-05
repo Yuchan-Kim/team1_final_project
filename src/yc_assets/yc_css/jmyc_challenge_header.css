@@ -69,34 +69,9 @@
     align-self:flex-start;
 }
 
-.jm-c-start:hover {
-    background-color: #383E47;
-}
 
-/* 방장용 버튼 색상 변경 - 더 도전적인 색상 */
-.jm-room-header .jm-c-start.host {
-    background-color: #707070; /* 진한 주황색 */
-}
 
-.jm-room-header .jm-c-start.host:hover {
-    background-color: #e64a19;
-}
 
-.jm-room-header .jm-c-start.host.challenge-start {
-    background-color: #707070; /* 인디고 색상 */
-}
-
-.jm-room-header .jm-c-start.host.challenge-start:hover {
-    background-color: #303f9f;
-}
-
-.jm-room-header .jm-c-end.host {
-    background-color: #707070; /* 빨간색 */
-}
-
-.jm-room-header .jm-c-end.host:hover {
-    background-color: #d32f2f;
-}
 
 /* jm-room-header-bottom 스타일링 */
 .jm-room-header-bottom {
@@ -358,7 +333,17 @@
 }
 
 .jm-c-start:hover {
-    background-color: #383E47;
+    flex-grow: 0; 
+    flex-basis: auto;
+    padding: 5px 10px;
+    background-color: #707070;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background-color 0.3s ease;
+    align-self:flex-start;
 }
 
 /* 방장용 버튼 색상 변경 - 더 도전적인 색상 */
@@ -372,19 +357,25 @@
 
 .jm-room-header .jm-c-start.host.challenge-start {
     background-color: #707070; /* 인디고 색상 */
+    flex-grow: 0; 
+    flex-basis: auto;
+    padding: 5px 10px;
+    background-color: #707070;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background-color 0.3s ease;
+    align-self:flex-start;
 }
 
 .jm-room-header .jm-c-start.host.challenge-start:hover {
     background-color: #303f9f;
 }
 
-.jm-room-header .jm-c-end.host {
-    background-color: #707070; /* 빨간색 */
-}
 
-.jm-room-header .jm-c-end.host:hover {
-    background-color: #d32f2f;
-}
+
 
 /* jm-room-header-bottom 스타일링 */
 .jm-room-header-bottom {
