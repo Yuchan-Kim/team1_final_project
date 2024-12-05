@@ -45,9 +45,10 @@ const DH_LoginForm = () => {
     // 구글 로그인 핸들러
     const handleGoogleLogin = () => {
         const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-        const GOOGLE_REDIRECT_URI = encodeURIComponent(`${process.env.REACT_APP_API_URL}/api/users/google/login`);
+        // Redirect URI를 콜백 페이지로 변경
+        const GOOGLE_REDIRECT_URI = encodeURIComponent(`${process.env.REACT_APP_API_URL}/google/callback`);
         const scope = encodeURIComponent('email profile openid');
-        const googleAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=code&scope=${scope}&access_type=offline&prompt=consent`;
+        const googleAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=code&scope=${scope}`;
         window.location.href = googleAuthURL;
     };
 

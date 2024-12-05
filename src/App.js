@@ -56,6 +56,7 @@ import Uk from './user/UserKakaoLogin.jsx';
 import NaverLogin from './ham_pages/NaverLogin.jsx';
 import NaverLoginCallback from './ham_pages/NaverLoginCallback.jsx';
 import GoogleLogin from './ham_pages/GoogleLogin.jsx';
+import GoogleCallback from './ham_pages/GoogleCallback.jsx'; // callback for Google components 추가
 import Terms from './ham_pages/Terms.jsx';
 import Privacy from './ham_pages/Privacy.jsx'
 
@@ -113,6 +114,7 @@ function App() {
           <Route path="/naver/login" element={<NaverLogin />} />
           <Route path="/naver/callback" element={<NaverLoginCallback  />} />
           <Route path="/google/login" element={<GoogleLogin  />} />
+          <Route path="/google/callback" element={<GoogleCallback />} />
 
 
 
