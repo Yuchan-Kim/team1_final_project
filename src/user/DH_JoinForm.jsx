@@ -246,7 +246,7 @@ const DH_JoinForm = () => {
         <>
             <Header />
             {/* // header */}
-            <div className="dy-wrap">
+            <div className="dy-wrap-join">
                 <div className="dy-joinform">
                     <h1 className="dy-joinTitle">가입하고 원하는 콘텐츠를 즐기세요</h1>
 
