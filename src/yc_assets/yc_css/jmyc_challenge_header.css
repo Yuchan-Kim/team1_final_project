@@ -579,7 +579,6 @@
     width: 80px; /* 적당한 너비 설정 */
     background: linear-gradient(135deg, #ffffff, #f7f9fa); 
     border-radius: 8px; /* 둥근 모서리 */
-    padding: 10px; /* 내부 여백 */
     z-index: 1000; /* 다른 요소 위로 표시 */
 }
 
