@@ -1,8 +1,8 @@
 //import 라이브러리
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 //import 컴포넌트
 import Header from '../pages/include/DH_Header';
@@ -43,16 +43,25 @@ const DH_LoginForm = () => {
 
     // 구글 로그인 핸들러
     const handleGoogleLogin = () => {
-        const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-        // Redirect URI를 백엔드의 엔드포인트로 변경
-        const GOOGLE_REDIRECT_URI = encodeURIComponent(`${process.env.REACT_APP_API_URL}/api/users/google/login`);
-        const scope = encodeURIComponent('email profile openid');
-        const googleAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=code&scope=${scope}`;
-        window.location.href = googleAuthURL;
-    };
-    
+        try {
+            const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+            if (!GOOGLE_CLIENT_ID) {
+                console.error('Google Client ID is not configured');
+                return;
+            }
 
-    
+            const GOOGLE_REDIRECT_URI = encodeURIComponent(process.env.REACT_APP_GOOGLE_CALLBACK_URL);
+            const scope = encodeURIComponent('email profile openid');
+            const googleAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=code&scope=${scope}`;
+            window.location.href = googleAuthURL;
+        } catch (error) {
+            console.error('Google login error:', error);
+            setErrorMessage("구글 로그인 중 오류가 발생했습니다.");
+        }
+    };
+
+
+
     /*---라우터 관련------------------------------------------*/
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링) ----------*/
@@ -69,6 +78,30 @@ const DH_LoginForm = () => {
     const handlePw = (e) => {
         setUserPw(e.target.value);
     }
+
+    useEffect(() => {
+        try {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+
+            if (code) {
+                const token = document.cookie
+                    .split('; ')
+                    .find(row => row.startsWith('token='))
+                    ?.split('=')[1];
+
+                if (token) {
+                    localStorage.setItem("token", token);
+                    navigate("/");
+                } else {
+                    setErrorMessage("로그인 처리 중 오류가 발생했습니다.");
+                }
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            setErrorMessage("로그인 처리 중 오류가 발생했습니다.");
+        }
+    }, [navigate]);
 
     // 로그인버튼 클릭했을때 (전송)
     const handleLogin = (e) => {
@@ -100,6 +133,16 @@ const DH_LoginForm = () => {
             if (authHeader) {
                 const token = authHeader.split(' ')[1];
                 localStorage.setItem("token", token);
+
+                const cookieToken = document.cookie
+                    .split('; ')
+                    .find(row => row.startsWith('token='))
+                    ?.split('=')[1];
+
+                if (cookieToken) {
+                    // 쿠키의 토큰도 유효한지 확인
+                    localStorage.setItem("token", cookieToken);
+                }
 
             } else {    // 없는정보일떄
                 setErrorMessage("이메일과 비밀번호를 다시 확인해주세요.");
