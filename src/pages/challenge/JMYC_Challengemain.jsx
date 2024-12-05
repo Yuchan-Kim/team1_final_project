@@ -468,7 +468,6 @@ const openModal = (mission) => {
                     <ImageSlider images={mission.images} missionName={mission.missionName} />
 
                     <div className="yc-mission-content">
-                      <p>{mission.missionMethod}</p>
                     </div>
                     <button
                       className="yc-view-button"
