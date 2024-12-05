@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 //import 컴포넌트
 import Header from '../pages/include/DH_Header';
@@ -20,6 +20,7 @@ const DH_LoginForm = () => {
     const [errorMessage, setErrorMessage] = useState("");
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
     const REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
@@ -51,29 +52,47 @@ const DH_LoginForm = () => {
     };
 
     useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const code = urlParams.get('code');
+        const handleGoogleCallback = async () => {
+            const urlParams = new URLSearchParams(location.search);
+            const code = urlParams.get('code');
 
-        if (code) {
-            // 구글 로그인 응답 처리
-            axios.get(`${process.env.REACT_APP_API_URL}/api/users/google/login?code=${code}`)
-                .then(response => {
-                    console.log('Google login response:', response.data);
+            if (code) {
+                try {
+                    console.log('Google auth code:', code);  // 코드 확인용 로그
 
-                    if (response.data.result === 'success') {
+                    const response = await axios.get(
+                        `${process.env.REACT_APP_API_URL}/api/users/google/login?code=${code}`
+                    );
+                    console.log('Google login response:', response.data);  // 응답 확인용 로그
+
+                    if (response.data.result === 'success' && response.data.apiData) {
+                        // JWT 토큰 저장
                         const authHeader = response.headers['authorization'];
                         if (authHeader) {
-                            localStorage.setItem('token', authHeader.split(' ')[1]);
+                            const token = authHeader.split(' ')[1];
+                            localStorage.setItem('token', token);
                         }
+
+                        // 사용자 정보 저장
                         localStorage.setItem('authUser', JSON.stringify(response.data.apiData));
-                        window.location.href = '/'; // 또는 navigate('/')
+
+                        // 메인 페이지로 이동
+                        window.location.href = '/';  // navigate 대신 직접 리다이렉트
+                    } else {
+                        console.error('Login failed:', response.data.message);
+                        alert('로그인에 실패했습니다.');
+                        navigate('/user/loginform');
                     }
-                })
-                .catch(error => {
-                    console.error('Google login error:', error);
-                });
-        }
-    }, []);
+                } catch (error) {
+                    console.error('Login error:', error);
+                    alert('로그인 처리 중 오류가 발생했습니다.');
+                    navigate('/user/loginform');
+                }
+            }
+        };
+
+        handleGoogleCallback();
+    }, [navigate, location]);
 
     /*---라우터 관련------------------------------------------*/
 
