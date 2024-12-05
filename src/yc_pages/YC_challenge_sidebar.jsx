@@ -411,6 +411,7 @@ const YCChallengeSidebar = () => {
                     {error && <div className="yc-error-message_sidebar">{error}</div>}
 
                     <nav className="yc-challenge-menu_sidebar">
+                        
                         <ul>
                             <li className="yc-challenge-sidebar-home_sidebar">
                                 <Link to={`/cmain/${roomNum}`} aria-label="홈">

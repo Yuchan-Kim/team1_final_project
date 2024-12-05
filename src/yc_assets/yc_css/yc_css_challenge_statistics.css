@@ -42,7 +42,7 @@
   justify-content: center;
   align-items: center;
   gap: 20px; /* 그래프 간 간격 */
-  width: 50%;
+  width: 80%;
   flex-wrap: wrap; /* 필요시 줄 바꿈 */
 }
 
@@ -52,11 +52,12 @@
   border: 1px solid #e0e0e0;
   border-radius: 12px;
   padding: 15px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
   height: 250px; /* 차트 높이 지정 */
   flex: 1 1 30%; /* 유연한 너비, 한 줄에 세 개 */
   min-width: 280px; /* 최소 너비 설정 */
   animation: fadeIn 0.5s ease;
+  margin-bottom: 20px;
 }
 
 /* 추가 그래프 (막대 그래프) */
@@ -77,6 +78,8 @@
   display: flex;
   flex-direction: column;
   gap: 15px; /* 사용자 간 간격 증가 */
+  padding-top: 30px; 
+  border-top: 2px solid rgba(107, 107, 107, 0.52);
 }
 
 /* 사용자 카드 */
@@ -87,7 +90,7 @@
   background-color: #ffffff;
   border: 1px solid #e0e0e0;
   border-radius: 12px; /* 모서리 더 둥글게 */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* 그림자 강화 */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.8); /* 그림자 강화 */
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* 부드러운 hover 효과 */
   opacity: 0;
   transform: translateY(20px);

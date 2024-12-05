@@ -138,10 +138,12 @@
   .yc-bot-msg-box {
     display: flex;
     margin-bottom: 10px;
+    
   }
   
   .yc-user-msg-box {
     justify-content: flex-end;
+    
   }
   
   .yc-bot-msg-box {
@@ -159,12 +161,12 @@
   }
   
   .yc-user-msg {
-    background-color: #e0f7fa;
+    background-color: #007bff88;
     text-align: right;
   }
   
   .yc-bot-msg {
-    background-color: #f1f8e9;
+    background-color: #adadadcc;
     text-align: left;
   }
   
@@ -179,7 +181,7 @@
   
   .yc-chat-time {
     font-size: 12px;
-    color: #888;
+    color: #000000;
     text-align: right;
     margin-top: 5px;
   }

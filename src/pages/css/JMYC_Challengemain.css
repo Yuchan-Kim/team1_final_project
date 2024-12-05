@@ -434,7 +434,7 @@
 /* 차트 컨테이너 */
 .yc-chart-container {
     position: fixed; /* 고정된 위치 */
-    top: 80px; /* 헤더 아래에 위치 */
+    top: 90px; /* 헤더 아래에 위치 */
     right: 40px; /* 오른쪽 여백 */
     width: 200px; /* 넉넉한 크기 */
     min-height: 350px; /* 최소 높이 */

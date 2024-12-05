@@ -126,8 +126,8 @@
     border-radius: 10px;
     max-width: 400px;
     width: 100%;
-
-    right: 20px;
+    top: 280px;
+    right: 10px;
     bottom: 0px;
     transform: translate(0, 0);
     max-height: 90vh;
