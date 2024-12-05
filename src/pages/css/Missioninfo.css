@@ -185,46 +185,6 @@
   display: inline-block;
 }
 
-.yc-slider-container {
-  position: relative;
-  width: 100%;
-  text-align: center;
-}
-
-.yc-slider {
-  position: relative;
-  display: inline-block;
-}
-
-.yc-slider-image {
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-}
-
-.yc-slider-buttons {
-  position: absolute;
-  top: 50%;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  transform: translateY(-50%);
-}
-
-.yc-slider-btn {
-  background-color: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  border: none;
-  font-size: 10px;
-  padding: 5px 7px;
-  cursor: pointer;
-  border-radius: 50%;
-}
-
-.yc-slider-btn:hover {
-  background-color: rgba(0, 0, 0, 0.8);
-}
-
 .jm-task-comment-container {
   border: solid 1px #939393;
   border-radius: 5px;

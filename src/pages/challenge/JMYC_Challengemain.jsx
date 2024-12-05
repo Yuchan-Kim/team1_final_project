@@ -136,10 +136,15 @@ const ChallengePage = () => {
   }
 
   // 모달 열기 함수
-  const openModal = (mission) => {
-    setSelectedMission(mission);
-    setIsModalOpen(true);
-  };
+  const [modalImgIndex, setModalImgIndex] = useState(0);
+
+// openModal 함수 수정
+const openModal = (mission) => {
+  setSelectedMission(mission);
+  setModalImgIndex(0); // 모달을 열 때 항상 첫 번째 이미지를 표시
+  setIsModalOpen(true);
+};
+
 
   // 모달 닫기 함수
   const closeModal = () => {
@@ -435,54 +440,51 @@ const ChallengePage = () => {
           </div>
             {/* 개별 미션 요약 */}
             <div className='yc-mission-summary'>
-  {missionList.length > 0 ? (
-    Object.entries(
-      missionList.reduce((acc, mission) => {
-        if (!acc[mission.missionName]) {
-          acc[mission.missionName] = {
-            missionNum: mission.missionNum,
-            missionName: mission.missionName,
-            missionMethod: mission.missionMethod,
-            images: [],
-          };
-        }
+              {missionList.length > 0 ? (
+                Object.entries(
+                  missionList.reduce((acc, mission) => {
+                    if (!acc[mission.missionName]) {
+                      acc[mission.missionName] = {
+                        missionNum: mission.missionNum,
+                        missionName: mission.missionName,
+                        missionMethod: mission.missionMethod,
+                        images: [],
+                      };
+                    }
 
-        // 이미지 데이터가 존재할 경우 처리
-        if (mission.missionImgName) {
-          const imageArray = mission.missionImgName.split(',').map((img) => img.trim());
-          acc[mission.missionName].images.push(...imageArray);
-        }
+                    // 이미지 데이터가 존재할 경우 처리
+                    if (mission.missionImgName) {
+                      const imageArray = mission.missionImgName.split(',').map((img) => img.trim());
+                      acc[mission.missionName].images.push(...imageArray);
+                    }
 
-        return acc;
-      }, {})
-    ).map(([missionName, mission]) => (
-      <div className='yc-mission-item' key={mission.missionNum}>
-        <h4>{mission.missionName}</h4>
+                    return acc;
+                  }, {})
+                ).map(([missionName, mission]) => (
+                  <div className='yc-mission-item' key={mission.missionNum}>
+                    <h4>{mission.missionName}</h4>
 
-        {/* 슬라이더 컴포넌트 */}
-        <ImageSlider images={mission.images} missionName={mission.missionName} />
+                    {/* 슬라이더 컴포넌트 */}
+                    <ImageSlider images={mission.images} missionName={mission.missionName} />
 
-        <div className="yc-mission-content">
-          <p>{mission.missionMethod}</p>
-        </div>
-        <button
-          className="yc-view-button"
-          onClick={(e) => {
-            e.stopPropagation();
-            openModal(mission);
-          }}
-        >
-          + 더보기
-        </button>
-      </div>
-    ))
-  ) : (
-    <p>미션 데이터가 없습니다.</p>
-  )}
-</div>
-
-
-
+                    <div className="yc-mission-content">
+                      <p>{mission.missionMethod}</p>
+                    </div>
+                    <button
+                      className="yc-view-button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openModal(mission);
+                      }}
+                    >
+                      + 더보기
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <p>미션 데이터가 없습니다.</p>
+              )}
+            </div>
           </section>
         
         </main>
@@ -494,27 +496,80 @@ const ChallengePage = () => {
 
       {/* 모달 창 */}
       {isModalOpen && selectedMission && (
-        <div className="yc-modal-overlay_roomMain" onClick={closeModal}>
-          <div className="yc-modal_roomMain" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="modal-title">
-            {/* 닫기 아이콘 */}
-            <button className="yc-modal-close_roomMain" onClick={closeModal} aria-label="닫기">
-              <FontAwesomeIcon icon={faTimes} />
+  <div
+    className="yc-modal-overlay_roomMain"
+    onClick={closeModal}
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-title"
+  >
+    <div
+      className="yc-modal_roomMain"
+      onClick={(e) => e.stopPropagation()} // 클릭 이벤트 전파 방지
+    >
+      {/* 닫기 아이콘 */}
+      <button
+        className="yc-modal-close_roomMain"
+        onClick={closeModal}
+        aria-label="닫기"
+      >
+        <FontAwesomeIcon icon={faTimes} />
+      </button>
+
+      {/* 모달 내용 */}
+      <div className="yc-modal-content_roomMain">
+        {/* 미션 제목 */}
+        <h2 id="yc-modal-title">{selectedMission.missionName}</h2>
+
+        {/* 슬라이더 구현 */}
+        {selectedMission.images && selectedMission.images.length > 0 ? (
+          <div className="yc-slider-container">
+            <button
+              className="yc-slider-button prev"
+              onClick={() =>
+                setModalImgIndex(
+                  (prevIndex) =>
+                    (prevIndex - 1 + selectedMission.images.length) %
+                    selectedMission.images.length
+                )
+              }
+              disabled={selectedMission.images.length <= 1}
+            >
+              ◀
             </button>
-            {/* 모달 내용 */}
-            <div className="yc-modal-content_roomMain">
-              <img 
-                src={`${process.env.REACT_APP_API_URL}/upload/${selectedMission.missionImgName}` || "https://via.placeholder.com/300"} 
-                alt={`상세 이미지`} 
-                className="yc-modal-image_roomMain" 
+            <div className="yc-slider">
+              <img
+                src={`${process.env.REACT_APP_API_URL}/upload/${selectedMission.images[modalImgIndex].trim()}`}
+                alt={`${selectedMission.missionName} 이미지 ${modalImgIndex + 1}`}
+                className="yc-slider-image"
               />
-              <div className="yc-modal-description_roomMain">
-                <h2 id="yc-modal-title">{selectedMission.missionName}</h2>
-                {/* 추가 정보가 있다면 여기에 추가 */}
-              </div>
             </div>
+            <button
+              className="yc-slider-button next"
+              onClick={() =>
+                setModalImgIndex(
+                  (prevIndex) => (prevIndex + 1) % selectedMission.images.length
+                )
+              }
+              disabled={selectedMission.images.length <= 1}
+            >
+              ▶
+            </button>
           </div>
+        ) : (
+          <p>이미지가 없습니다.</p>
+        )}
+
+        {/* 미션 방법 */}
+        <div className="yc-mission-method">
+          <p>{selectedMission.missionMethod}</p>
         </div>
-      )}
+      </div>
+    </div>
+  </div>
+)}
+
+
 
       <YCProfileInfo
             isOpen={isProfileOpen}
