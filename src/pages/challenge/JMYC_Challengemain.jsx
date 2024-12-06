@@ -543,11 +543,26 @@ const openModal = (mission) => {
               ◀
             </button>
             <div className="yc-modal-slider">
-              <img
-                src={`${process.env.REACT_APP_API_URL}/upload/${selectedMission.images[modalImgIndex].trim()}`}
-                alt={`${selectedMission.missionName} 이미지 ${modalImgIndex + 1}`}
-                className="yc-modal-slider-image"
-              />
+              {selectedMission.images[modalImgIndex] &&
+              selectedMission.images[modalImgIndex].match(/\.(jpg|jpeg|png|gif)$/i) ? (
+                // 이미지 파일 처리
+                <img
+                  src={`${process.env.REACT_APP_API_URL}/upload/${selectedMission.images[modalImgIndex].trim()}`}
+                  alt={`${selectedMission.missionName} 이미지 ${modalImgIndex + 1}`}
+                  className="yc-modal-slider-image"
+                />
+              ) : selectedMission.images[modalImgIndex].match(/\.(mp4|webm|ogg|mov)$/i) ? (
+                // 동영상 파일 처리
+                <video
+                  src={`${process.env.REACT_APP_API_URL}/upload/${selectedMission.images[modalImgIndex].trim()}`}
+                  controls
+                  className="yc-modal-slider-video"
+                >
+                  동영상을 재생할 수 없습니다.
+                </video>
+              ) : (
+                <p>지원되지 않는 파일 형식입니다.</p>
+              )}
             </div>
             <button
               className="yc-slider-btn next"
