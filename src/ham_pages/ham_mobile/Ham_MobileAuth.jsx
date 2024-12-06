@@ -276,7 +276,7 @@ const Ham_MobileAuth = () => {
 
     const handleNaverLogin = () => {
         const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_CLIENT_ID;
-        const NAVER_REDIRECT_URI = process.env.REACT_APP_NAVER_REDIRECT_URI;
+        const NAVER_REDIRECT_URI = process.env.REACT_APP_NAVER_CALLBACK_URL;
         const state = generateRandomString(16); // CSRF 방지를 위한 상태 토큰 생성
         const naverAuthURL = `https://nid.naver.com/oauth2.0/authorize?client_id=${NAVER_CLIENT_ID}&response_type=code&redirect_uri=${NAVER_REDIRECT_URI}&state=${state}`;
         window.location.href = naverAuthURL;
@@ -284,7 +284,7 @@ const Ham_MobileAuth = () => {
 
     const handleGoogleLogin = () => {
         const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-        const GOOGLE_REDIRECT_URI = process.env.REACT_APP_GOOGLE_REDIRECT_URI;
+        const GOOGLE_REDIRECT_URI = process.env.REACT_APP_GOOGLE_CALLBACK_URL;
         const scope = encodeURIComponent('profile email');
         const googleAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=code&scope=${scope}&access_type=offline`;
         window.location.href = googleAuthURL;
