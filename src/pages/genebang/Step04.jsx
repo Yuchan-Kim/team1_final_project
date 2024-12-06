@@ -291,9 +291,15 @@ const handleHonestyScoreChange = (e) => {
                                         <h3>입장 포인트 설정</h3>
                                         <input
                                             placeholder={`최대 ${userPoints} pt`}
-                                            value={entryPoint}
+                                            value={roomType === 1 ? '' : entryPoint} // 룸 넘버가 1이면 비워둠
                                             onChange={handleEntryPointChange}
-                                            onBlur={handleEntryPointBlur}
+                                            onBlur={(e) => {
+                                                if (roomType === 1) {
+                                                    setEntryPoint(null); // 룸 넘버가 1일 경우 null로 설정
+                                                } else {
+                                                    handleEntryPointBlur(e);
+                                                }
+                                            }}
                                         />
                                     </div>
                                 )}
@@ -302,25 +308,29 @@ const handleHonestyScoreChange = (e) => {
                                 {roomType !== 1 && (
                                     <div>
                                         <h3>
-                                        <label>
-                                            <input
-                                                type="checkbox"
-                                                checked={isHonestyEnabled}
-                                                onChange={() => setIsHonestyEnabled(!isHonestyEnabled)}
-                                            />
-                                            입장 성실도 설정
-                                        </label>
+                                            <label>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={roomType === 1 ? false : isHonestyEnabled} // 룸 넘버가 1이면 항상 false
+                                                    onChange={() => {
+                                                        if (roomType !== 1) {
+                                                            setIsHonestyEnabled(!isHonestyEnabled);
+                                                        }
+                                                    }}
+                                                />
+                                                입장 성실도 설정
+                                            </label>
                                         </h3>
                                         <input
                                             className='jm-step4-Score'
                                             placeholder={`최대 ${userScore}`}
-                                            value={honestyScore}
+                                            value={roomType === 1 ? '' : honestyScore} // 룸 넘버가 1이면 비워둠
                                             onChange={handleHonestyScoreChange}
-                                            disabled={!isHonestyEnabled}
+                                            disabled={!isHonestyEnabled || roomType === 1} // 룸 넘버가 1일 경우 항상 비활성화
                                         />
                                     </div>
                                 )}
-
+                                
                                 {/* 지역 설정 */}
                                 <div id="jm-step4-box3">
                                     <h3>지역 설정</h3>

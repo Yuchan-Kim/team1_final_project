@@ -836,3 +836,8 @@ a.yc_challenge_statistics_enteredUser:hover {
   .yc-modal-close_roomMain:hover {
     color: #000;
   }
+
+  .jm-main-room-info-top {
+    display: flex;
+    justify-content: space-between;
+  }

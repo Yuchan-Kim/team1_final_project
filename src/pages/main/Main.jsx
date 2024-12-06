@@ -400,8 +400,13 @@ const Main = () => {
                                             <div className="jm-main-room-date">
                                                 <span>예상시작일</span> {room.roomStartDate}
                                             </div>
-                                            <div className="jm-main-room-date">
-                                                <span>기간</span> {room.periodType}주
+                                            <div className="jm-main-room-info-top">
+                                                <div className="jm-main-room-date">
+                                                    <span>기간</span> {room.periodType}주
+                                                </div>
+                                                <div className="jm-main-room-date">
+                                                    <span>성실도</span> {room.roomRate}
+                                                </div>
                                             </div>
                                             <div className="bang_info">
                                                 <div className="bang_info_left">
