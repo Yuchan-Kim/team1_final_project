@@ -353,6 +353,8 @@
   justify-content: center; /* 가로 중앙 정렬 */
   align-items: center; /* 세로 중앙 정렬 */
   overflow: hidden; /* 이미지가 컨테이너를 벗어나지 않도록 */
+  height: 250px;
+  min-height: 250px;
   }
   
   .yc-slider {
