@@ -951,7 +951,9 @@
     color: var(--text-color);
   }
   
-  
+  .jm-main-room-info-top {
+    background-color: #f9f9f9;
+  }
  
   
   
