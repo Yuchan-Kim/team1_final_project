@@ -183,7 +183,7 @@
 /* 챌린지 및 일반 방 배지 */
 .bang_level_challenge,
 .bang_level_normal {
-    margin: 8px 10px;
+    margin: 8px 4px;
 }
 
 .badge-challenge-event {
