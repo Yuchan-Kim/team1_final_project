@@ -284,9 +284,10 @@ const Ham_MobileAuth = () => {
     const handleGoogleLogin = () => {
         const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
         const GOOGLE_CALLBACK_URL = process.env.REACT_APP_GOOGLE_CALLBACK_URL;
+        const redirectPath = "/mobile/home"; // 모바일 경로
         const scope = encodeURIComponent('profile email');
         const mobileCallbackUrl = `${GOOGLE_CALLBACK_URL}?redirect=/mobile/home`;
-        const googleAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${mobileCallbackUrl}&response_type=code&scope=${scope}&access_type=offline`;
+        const googleAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${GOOGLE_CALLBACK_URL}&response_type=code&scope=${scope}&access_type=offline&state=${encodeURIComponent(redirectPath)}`;
         window.location.href = googleAuthURL;
     };
 
