@@ -355,7 +355,7 @@
     overflow: hidden; /* 이미지가 컨테이너를 벗어나지 않도록 */
     height: 250px; /* 고정 높이 */
     min-height: 250px; /* 최소 높이 */
-    background-color: #f9f9f9; /* 이미지가 없을 경우 배경색 */
+    border-radius: 8px;
   }
   
   .yc-slider {
@@ -372,6 +372,12 @@
     border-radius: 8px;
   }
   
+  .yc-slider-video {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+  }
   
   .yc-slider-buttons {
     position: absolute;
@@ -712,14 +718,6 @@ a.yc_challenge_statistics_enteredUser:hover {
     text-align: center;
   }
   
-  .yc-slider-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    max-height: 450px;
-  }
-  
   .yc-slider-image {
     width: 100%;
     max-height: 100%;
@@ -764,6 +762,14 @@ a.yc_challenge_statistics_enteredUser:hover {
     animation: modalScaleOut 0.3s forwards;
   }
 
+  .yc-slider-image {
+    max-width: 100%; /* 이미지 너비 제한 */
+    max-height: 100%; /* 이미지 높이 제한 */
+    object-fit: contain; /* 이미지 비율을 유지하며 컨테이너에 맞춤 */
+    margin: auto; /* 이미지 중앙 정렬 */
+    display: block; /* 블록 레벨로 설정 */
+    border-radius: 8px;
+  }
 
   /* 모달 창 */
 .yc-modal_roomMain {
@@ -779,6 +785,36 @@ a.yc_challenge_statistics_enteredUser:hover {
     transition: transform var(--transition-duration) ease;
   }
 
+  .yc-modal-slider-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: 350px;
+    margin-top: 10px;
+  }
+
+  .yc-modal-slider {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .yc-modal-slider-image {
+    max-width: 100%; /* 이미지 너비 제한 */
+    max-height: 100%; /* 이미지 높이 제한 */
+    object-fit: contain; /* 이미지 비율을 유지하며 컨테이너에 맞춤 */
+    margin: auto; /* 이미지 중앙 정렬 */
+    display: block; /* 블록 레벨로 설정 */
+    border-radius: 8px;
+  }
+  
+  .yc-modal-slider-video {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+
   /* 닫기 버튼 */
 .yc-modal-close_roomMain {
     position: absolute;
@@ -789,6 +825,12 @@ a.yc_challenge_statistics_enteredUser:hover {
     font-size: 20px;
     cursor: pointer;
     color: var(--dark-gray);
+  }
+
+  .yc-modal-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
   }
   
   .yc-modal-close_roomMain:hover {

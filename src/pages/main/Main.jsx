@@ -292,6 +292,9 @@ const Main = () => {
 
                                         className='ad-bang-list'
                                     >
+                                        <div className="bang_level_challenge">
+                                                <span className="badge-challenge-event">이벤트</span>
+                                                </div>
                                         <div className="ad-bang-image">
                                             <img 
                                                 src={close.roomThumbNail ? `${process.env.REACT_APP_API_URL}/upload/${close.roomThumbNail}` : "https://via.placeholder.com/180"} 

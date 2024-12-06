@@ -277,23 +277,29 @@ const openModal = (mission) => {
       <div className="yc-slider-container">
         {images.length > 0 ? (
           <div className="yc-slider">
-            <img
-              className="yc-slider-image"
-              src={`${process.env.REACT_APP_API_URL}/upload/${images[currentIndex]}`}
-              alt={`${missionName} 이미지 ${currentIndex + 1}`}
-            />
+            {['mp4', 'webm', 'ogg', 'mov'].includes(images[currentIndex].split('.').pop().toLowerCase()) ? (
+              <video
+                className="yc-slider-video"
+                src={`${process.env.REACT_APP_API_URL}/upload/${images[currentIndex]}`}
+                controls
+                autoPlay
+                muted
+              >
+                동영상을 재생할 수 없습니다.
+              </video>
+            ) : (
+              <img
+                className="yc-slider-image"
+                src={`${process.env.REACT_APP_API_URL}/upload/${images[currentIndex]}`}
+                alt={`${missionName} 이미지 ${currentIndex + 1}`}
+              />
+            )}
             {images.length > 1 && (
               <div className="yc-slider-buttons">
-                <button
-                  className="yc-slider-btn prev"
-                  onClick={handlePrevImage}
-                >
+                <button className="yc-slider-btn prev" onClick={handlePrevImage}>
                   ◀
                 </button>
-                <button
-                  className="yc-slider-btn next"
-                  onClick={handleNextImage}
-                >
+                <button className="yc-slider-btn next" onClick={handleNextImage}>
                   ▶
                 </button>
               </div>
@@ -522,7 +528,7 @@ const openModal = (mission) => {
 
         {/* 슬라이더 구현 */}
         {selectedMission.images && selectedMission.images.length > 0 ? (
-          <div className="yc-slider-container">
+          <div className="yc-modal-slider-container">
             <button
               className="yc-slider-btn prev"
               onClick={() =>
@@ -536,11 +542,11 @@ const openModal = (mission) => {
             >
               ◀
             </button>
-            <div className="yc-slider">
+            <div className="yc-modal-slider">
               <img
                 src={`${process.env.REACT_APP_API_URL}/upload/${selectedMission.images[modalImgIndex].trim()}`}
                 alt={`${selectedMission.missionName} 이미지 ${modalImgIndex + 1}`}
-                className="yc-slider-image"
+                className="yc-modal-slider-image"
               />
             </div>
             <button

@@ -186,6 +186,17 @@
     margin: 8px 10px;
 }
 
+.badge-challenge-event {
+    background-color: rgb(255, 183, 0); /* 투명도 조절 */
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-align: left;
+    box-shadow: var(--box-shadow);
+}
+
 .badge-challenge {
     background-color: rgba(255, 111, 97, 1.5); /* 투명도 조절 */
     color: #fff;
@@ -859,13 +870,15 @@
 
 /* 종료된 방 리스트 섹션 */
 #ad-bang {
-    display: grid;
+    display: flex;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
     margin-top: 20px;
   }
   
   .ad-bang-list {
+    flex-grow: 1;
+    width: 100%;
     display: flex;
     flex-direction: column;
     background-color: var(--background-color);
