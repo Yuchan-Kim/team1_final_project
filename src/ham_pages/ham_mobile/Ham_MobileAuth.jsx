@@ -140,44 +140,42 @@ const Ham_MobileAuth = () => {
         };
 
         try {
-            // 1. 로그인 요청
             const response = await axios({
                 method: 'post',
                 url: `${process.env.REACT_APP_API_URL}/api/users/login`,
                 headers: { "Content-Type": "application/json; charset=utf-8" },
                 data: userVo,
-                responseType: 'json'
+                responseType: 'json',
+                withCredentials: true // 쿠키 전송을 위해 필요
             });
 
-            console.log("로그인 응답:", response.data);
-
-            // 2. 사용자 정보 검증
             if (!response.data.apiData) {
                 setLoginError("사용자 정보를 받아오지 못했습니다.");
                 return;
             }
 
-            // 3. 토큰 검증
             const authHeader = response.headers['authorization'];
             if (!authHeader) {
                 setLoginError("이메일과 비밀번호를 다시 확인해주세요.");
                 return;
             }
 
-            // 4. 데이터 저장
             const token = authHeader.split(' ')[1];
+
+            // 쿠키로 토큰 저장 (httpOnly, secure 옵션 추가)
+            document.cookie = `token=${token}; path=/; domain=challengedonkey.com; max-age=86400; secure; samesite=strict`;
+
+            // localStorage에도 사용자 정보 저장
             localStorage.setItem("authUser", JSON.stringify(response.data.apiData));
             localStorage.setItem("token", token);
 
-            // 5. profileStore 설정
+            // profileStore 설정
             profileStore.setUserNum(response.data.apiData.userNum);
             profileStore.setToken(token);
             profileStore.setUserInfo(response.data.apiData);
 
-            // 6. 사용자 데이터 로드 완료 대기
             await profileStore.loadUserData();
 
-            // 7. 모든 데이터가 준비된 후 페이지 이동
             if (response.data.result === 'success') {
                 navigate("/mobile/home");
             } else {
@@ -276,17 +274,19 @@ const Ham_MobileAuth = () => {
 
     const handleNaverLogin = () => {
         const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_CLIENT_ID;
-        const NAVER_REDIRECT_URI = process.env.REACT_APP_NAVER_CALLBACK_URL;
+        const NAVER_CALLBACK_URL = process.env.REACT_APP_NAVER_CALLBACK_URL;
         const state = generateRandomString(16); // CSRF 방지를 위한 상태 토큰 생성
-        const naverAuthURL = `https://nid.naver.com/oauth2.0/authorize?client_id=${NAVER_CLIENT_ID}&response_type=code&redirect_uri=${NAVER_REDIRECT_URI}&state=${state}`;
+        const mobileCallbackUrl = `${NAVER_CALLBACK_URL}?redirect=/mobile/home`;
+        const naverAuthURL = `https://nid.naver.com/oauth2.0/authorize?client_id=${NAVER_CLIENT_ID}&response_type=code&redirect_uri=${mobileCallbackUrl}&state=${state}`;
         window.location.href = naverAuthURL;
     };
 
     const handleGoogleLogin = () => {
         const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-        const GOOGLE_REDIRECT_URI = process.env.REACT_APP_GOOGLE_CALLBACK_URL;
+        const GOOGLE_CALLBACK_URL = process.env.REACT_APP_GOOGLE_CALLBACK_URL;
         const scope = encodeURIComponent('profile email');
-        const googleAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=code&scope=${scope}&access_type=offline`;
+        const mobileCallbackUrl = `${GOOGLE_CALLBACK_URL}?redirect=/mobile/home`;
+        const googleAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${mobileCallbackUrl}&response_type=code&scope=${scope}&access_type=offline`;
         window.location.href = googleAuthURL;
     };
 
