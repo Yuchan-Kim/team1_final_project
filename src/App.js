@@ -67,7 +67,7 @@ function App() {
   useEffect(() => {
     if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
       if (!window.location.pathname.startsWith('/mobile')) {
-        window.location.href = "/mobile" + window.location.pathname;
+        window.location.href = "/mobile" ;
       }
     }
   }, []);
