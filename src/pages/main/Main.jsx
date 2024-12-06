@@ -302,19 +302,30 @@ const Main = () => {
                                             />
                                         </div>
                                         <div className="ad-bang-title">{close.roomTitle}</div>
-                                        <div className="ad-bang-score">
-                                            <svg className="circle_progress" width="60" height="60" viewBox="0 0 60 60">
-                                                <circle className="frame" cx="30" cy="30" r="27" strokeWidth="6" />
-                                                <circle className="bar" cx="30" cy="30" r="27" strokeWidth="6" style={{ '--percentage': close.currentParticipants || 0 }} />
-                                            </svg>
-                                            <strong className="value">
-                                                {close.currentParticipants ? close.currentParticipants + '%' : '통계 없음'}
-                                            </strong>
-                                        </div>
+                                            <div className="jm-main-room-date">
+                                                <span>예상시작일</span> {close.roomStartDate}
+                                            </div>
+                                            <div className="jm-main-room-date">
+                                                <span>기간</span> {close.periodType}주
+                                            </div>
+                                            <div className="bang_info">
+                                                <div className="bang_info_left">
+                                                    <div><span>인원</span> {close.roomMinNum}/{close.roomMaxNum}</div>
+                                                </div>
+                                                <div className="bang_info_right">
+                                                    <div><span>포인트</span> {close.roomPoint} pt</div>
+                                                </div>
+                                            </div>
+
+                                            <div className="bang_sub">
+                                                {close.roomKeyword.split(",").map((keyword, idx) => (
+                                                    <span key={idx} className="tab01">#{close.categoryName} #{keyword.trim()} #{close.regionName}</span>
+                                                ))}
+                                            </div>
                                     </Link>
                                 ))
                             ) : (
-                                <div>종료된 방이 없습니다.</div>
+                                <div>진행중인 이벤트가 없습니다.</div>
                             )}
                         </div>
                         {/* //ad-bang */}
