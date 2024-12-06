@@ -288,7 +288,8 @@ const Main = () => {
                                 closeRoomList.map((close, idx) => (
                                     <Link 
                                         to={`/cmain/${close.roomNum}`} 
-                                        key={idx} 
+                                        key={close.roomNum}
+
                                         className='ad-bang-list'
                                     >
                                         <div className="ad-bang-image">
@@ -304,10 +305,10 @@ const Main = () => {
                                         <div className="ad-bang-score">
                                             <svg className="circle_progress" width="60" height="60" viewBox="0 0 60 60">
                                                 <circle className="frame" cx="30" cy="30" r="27" strokeWidth="6" />
-                                                <circle className="bar" cx="30" cy="30" r="27" strokeWidth="6" style={{ '--percentage': close.achievementRate || 0 }} />
+                                                <circle className="bar" cx="30" cy="30" r="27" strokeWidth="6" style={{ '--percentage': close.currentParticipants || 0 }} />
                                             </svg>
                                             <strong className="value">
-                                                {close.achievementRate ? close.achievementRate + '%' : '통계 없음'}
+                                                {close.currentParticipants ? close.currentParticipants + '%' : '통계 없음'}
                                             </strong>
                                         </div>
                                     </Link>
