@@ -518,7 +518,7 @@ const JMYCChallengeHeader = () => {
                 // 포인트 기록 삽입
                 if (currentUserDetails) {
                     const totalPoints = Math.round(challengeRewardPoints + groupChallengePoints + bettingPoints);
-                    await insertPointHistory(currentUserDetails.userNum, totalPoints, currentUserDetails.achievementRate);
+                    insertPointHistory(currentUserDetails.userNum, totalPoints, currentUserDetails.achievementRate);
                 }
             } else {
                 alert(`챌린지 종료 실패: ${response.data.message}`);
