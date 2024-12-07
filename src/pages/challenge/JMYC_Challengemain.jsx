@@ -501,96 +501,94 @@ const openModal = (mission) => {
 
       {/* 모달 창 */}
       {isModalOpen && selectedMission && (
-  <div
-    className="yc-modal-overlay_roomMain"
-    onClick={closeModal}
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="modal-title"
-  >
-    <div
-      className="yc-modal_roomMain"
-      onClick={(e) => e.stopPropagation()} // 클릭 이벤트 전파 방지
-    >
-      {/* 닫기 아이콘 */}
-      <button
-        className="yc-modal-close_roomMain"
-        onClick={closeModal}
-        aria-label="닫기"
-      >
-        <FontAwesomeIcon icon={faTimes} />
-      </button>
-
-      {/* 모달 내용 */}
-      <div className="yc-modal-content_roomMain">
-        {/* 미션 제목 */}
-        <h2 id="yc-modal-title">{selectedMission.missionName}</h2>
-
-        {/* 슬라이더 구현 */}
-        {selectedMission.images && selectedMission.images.length > 0 ? (
-          <div className="yc-modal-slider-container">
+        <div
+          className="yc-modal-overlay_roomMain"
+          onClick={closeModal}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-title"
+        >
+          <div
+            className="yc-modal_roomMain"
+            onClick={(e) => e.stopPropagation()} // 클릭 이벤트 전파 방지
+          >
+            {/* 닫기 아이콘 */}
             <button
-              className="yc-slider-btn prev"
-              onClick={() =>
-                setModalImgIndex(
-                  (prevIndex) =>
-                    (prevIndex - 1 + selectedMission.images.length) %
-                    selectedMission.images.length
-                )
-              }
-              disabled={selectedMission.images.length <= 1}
+              className="yc-modal-close_roomMain"
+              onClick={closeModal}
+              aria-label="닫기"
             >
-              ◀
+              <FontAwesomeIcon icon={faTimes} />
             </button>
-            <div className="yc-modal-slider">
-              {selectedMission.images[modalImgIndex] &&
-              selectedMission.images[modalImgIndex].match(/\.(jpg|jpeg|png|gif)$/i) ? (
-                // 이미지 파일 처리
-                <img
-                  src={`${process.env.REACT_APP_API_URL}/upload/${selectedMission.images[modalImgIndex].trim()}`}
-                  alt={`${selectedMission.missionName} 이미지 ${modalImgIndex + 1}`}
-                  className="yc-modal-slider-image"
-                />
-              ) : selectedMission.images[modalImgIndex].match(/\.(mp4|webm|ogg|mov)$/i) ? (
-                // 동영상 파일 처리
-                <video
-                  src={`${process.env.REACT_APP_API_URL}/upload/${selectedMission.images[modalImgIndex].trim()}`}
-                  controls
-                  className="yc-modal-slider-video"
-                >
-                  동영상을 재생할 수 없습니다.
-                </video>
+
+            {/* 모달 내용 */}
+            <div className="yc-modal-content_roomMain">
+              {/* 미션 제목 */}
+              <h2 id="yc-modal-title">{selectedMission.missionName}</h2>
+
+              {/* 슬라이더 구현 */}
+              {selectedMission.images && selectedMission.images.length > 0 ? (
+                <div className="yc-modal-slider-container">
+                  <button
+                    className="yc-slider-btn prev"
+                    onClick={() =>
+                      setModalImgIndex(
+                        (prevIndex) =>
+                          (prevIndex - 1 + selectedMission.images.length) %
+                          selectedMission.images.length
+                      )
+                    }
+                    disabled={selectedMission.images.length <= 1}
+                  >
+                    ◀
+                  </button>
+                  <div className="yc-modal-slider">
+                    {selectedMission.images[modalImgIndex] &&
+                    selectedMission.images[modalImgIndex].match(/\.(jpg|jpeg|png|gif)$/i) ? (
+                      // 이미지 파일 처리
+                      <img
+                        src={`${process.env.REACT_APP_API_URL}/upload/${selectedMission.images[modalImgIndex].trim()}`}
+                        alt={`${selectedMission.missionName} 이미지 ${modalImgIndex + 1}`}
+                        className="yc-modal-slider-image"
+                      />
+                    ) : selectedMission.images[modalImgIndex].match(/\.(mp4|webm|ogg|mov)$/i) ? (
+                      // 동영상 파일 처리
+                      <video
+                        src={`${process.env.REACT_APP_API_URL}/upload/${selectedMission.images[modalImgIndex].trim()}`}
+                        controls
+                        className="yc-modal-slider-video"
+                      >
+                        동영상을 재생할 수 없습니다.
+                      </video>
+                    ) : (
+                      <p>지원되지 않는 파일 형식입니다.</p>
+                    )}
+                  </div>
+                  <button
+                    className="yc-slider-btn next"
+                    onClick={() =>
+                      setModalImgIndex(
+                        (prevIndex) => (prevIndex + 1) % selectedMission.images.length
+                      )
+                    }
+                    disabled={selectedMission.images.length <= 1}
+                  >
+                    ▶
+                  </button>
+                </div>
               ) : (
-                <p>지원되지 않는 파일 형식입니다.</p>
+                <p>이미지가 없습니다.</p>
               )}
+
+              {/* 미션 방법 */}
+              <div className="yc-mission-method">
+                <p>{selectedMission.missionMethod}</p>
+              </div>
             </div>
-            <button
-              className="yc-slider-btn next"
-              onClick={() =>
-                setModalImgIndex(
-                  (prevIndex) => (prevIndex + 1) % selectedMission.images.length
-                )
-              }
-              disabled={selectedMission.images.length <= 1}
-            >
-              ▶
-            </button>
           </div>
-        ) : (
-          <p>이미지가 없습니다.</p>
-        )}
-
-        {/* 미션 방법 */}
-        <div className="yc-mission-method">
-          <p>{selectedMission.missionMethod}</p>
         </div>
-      </div>
-    </div>
-  </div>
-)}
-
-
-
+      )}
+      
       <YCProfileInfo
             isOpen={isProfileOpen}
             onClose={closeProfile}
