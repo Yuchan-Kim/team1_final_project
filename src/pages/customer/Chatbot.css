@@ -113,7 +113,8 @@
     z-index: 999;
 
     pointer-events: none;
-    background-color: transparent; 
+    background-color: transparent;
+    overflow: hidden;
 }
 
 
@@ -126,13 +127,15 @@
     border-radius: 10px;
     max-width: 400px;
     width: 100%;
-    top: 280px;
-    right: 10px;
-    bottom: 0px;
+    /* top: 280px; */
+    right: 0;
+    bottom: 0;
     transform: translate(0, 0);
     max-height: 90vh;
     overflow-y: auto;
+    overflow-x: hidden;
     pointer-events: auto;
+    box-sizing: border-box;
 }
 
 .dy-customerservice-close-btn {
