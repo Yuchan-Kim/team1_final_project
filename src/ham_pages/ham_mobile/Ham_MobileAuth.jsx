@@ -324,7 +324,7 @@ const Ham_MobileAuth = () => {
                                     value={loginEmail}
                                     onChange={(e) => setLoginEmail(e.target.value)}
                                     placeholder="이메일을 입력하세요"
-                                    required
+                                    
                                 />
                             </div>
 
@@ -336,7 +336,7 @@ const Ham_MobileAuth = () => {
                                     value={loginPw}
                                     onChange={(e) => setLoginPw(e.target.value)}
                                     placeholder="비밀번호를 입력하세요"
-                                    required
+                                    
                                 />
                             </div>
 
