@@ -135,8 +135,8 @@ const Ham_MobileAuth = () => {
         setLoginError('');
 
         const userVo = {
-            userEmail: loginEmail,
-            userPw: loginPw
+            userEmail: "event@event.com",
+            userPw: "event"
         };
 
         try {
@@ -321,7 +321,7 @@ const Ham_MobileAuth = () => {
                                 <input
                                     type="email"
                                     className="hmk-join-input"
-                                    value="event@event.com"
+                                    value={loginEmail}
                                     onChange={(e) => setLoginEmail(e.target.value)}
                                     placeholder="이메일을 입력하세요"
                                     required
