@@ -321,7 +321,7 @@ const Ham_MobileAuth = () => {
                                 <input
                                     type="email"
                                     className="hmk-join-input"
-                                    value={loginEmail}
+                                    value="event@event.com"
                                     onChange={(e) => setLoginEmail(e.target.value)}
                                     placeholder="이메일을 입력하세요"
                                     required
@@ -333,7 +333,7 @@ const Ham_MobileAuth = () => {
                                 <input
                                     type="password"
                                     className="hmk-join-input"
-                                    value={loginPw}
+                                    value="event"
                                     onChange={(e) => setLoginPw(e.target.value)}
                                     placeholder="비밀번호를 입력하세요"
                                     required
