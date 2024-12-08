@@ -333,7 +333,7 @@ const Ham_MobileAuth = () => {
                                 <input
                                     type="password"
                                     className="hmk-join-input"
-                                    value="event"
+                                    value={loginPw}
                                     onChange={(e) => setLoginPw(e.target.value)}
                                     placeholder="비밀번호를 입력하세요"
                                     required
