@@ -412,7 +412,7 @@ const MobileMission = () => {
               className="hmk_mobile_mission-comment"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              placeholder="미션에 대한 코멘트를 입력하세요"
+              placeholder="<<이벤트>> 닉네임을 입력해 주세요"
             />
 
             <button
