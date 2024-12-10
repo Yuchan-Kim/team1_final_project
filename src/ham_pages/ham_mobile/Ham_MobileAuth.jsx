@@ -316,7 +316,7 @@ const Ham_MobileAuth = () => {
                     {isLogin ? (
                         // 로그인 폼
                         <form onSubmit={handleLogin}>
-                            <div className="hmk-joinform-group">
+                            {/* <div className="hmk-joinform-group">
                                 <label className="hmk-join-label">이메일</label>
                                 <input
                                     type="email"
@@ -344,26 +344,26 @@ const Ham_MobileAuth = () => {
                                 <div className="hmk-message hmk-error">
                                     &#8226; {loginError}
                                 </div>
-                            )}
+                            )} */}
 
                             <button type="submit" className="hmk-submit-btn">로그인</button>
 
-                            <div className="hmk-divider">───────  또는  ───────</div>
+                            {/* <div className="hmk-divider">───────  또는  ───────</div> */}
 
-                            <div className="hmk-social-logins">
+                            {/* <div className="hmk-social-logins">
                                 <Ham_KakaoLogin onLogin={handleSocialLogin} />
                                 <Ham_GoogleLogin onLogin={handleSocialLogin} />
                                 <Ham_NaverLogin onLogin={handleSocialLogin} />
-                            </div>
+                            </div> */}
 
-                            <div className="hmk-to-loginform">
+                            {/* <div className="hmk-to-loginform">
                                 <span
                                     className="hmk-link"
                                     onClick={() => setIsLogin(false)}
                                 >
                                     계정이 없으신가요? 여기에서 가입하세요
                                 </span>
-                            </div>
+                            </div> */}
                         </form>
                     ) : (
                         <form onSubmit={handleJoin}>

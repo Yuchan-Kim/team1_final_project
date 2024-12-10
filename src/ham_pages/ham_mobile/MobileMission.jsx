@@ -344,7 +344,7 @@ const MobileMission = () => {
                   {mission.isSubmitted && (
                     <div className="hmk_mission-submitted-badge">제출 완료</div>
                   )}
-                  <button
+                  {/* <button
                     className="hmk_mobile_mission-grid-item"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -353,7 +353,7 @@ const MobileMission = () => {
                     }}
                   >
                     상세보기
-                  </button>
+                  </button> */}
                 </div>
               </div>
             ))
