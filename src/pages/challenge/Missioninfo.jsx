@@ -683,11 +683,11 @@ const filteredHistories = useMemo(() => {
                                                     <span className="jm-task-title">{history.missionName}</span>
 
                                                     {/* 현재 evalType 표시 */}
+                                                    <span className="jm-eval-type">{history.evalType || '상태 없음'}</span>
 
                                                     {imgNames.length > 0 && (
                                                         <div className="jm-task-images">
                                                             <div className="jm-image-container">
-                                                            <span className="jm-eval-type">{history.evalType || '상태 없음'}</span>
                                                                 <img
                                                                     key={`img-${currentImgIndex}`}
                                                                     className="jm-task-img"
