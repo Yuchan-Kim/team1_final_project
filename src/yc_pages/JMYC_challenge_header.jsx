@@ -669,7 +669,7 @@ const JMYCChallengeHeader = () => {
                 }
             });
 
-            if (response.data.result === 'success') {
+            if (response.data.result === 'success') { 
                 console.log("사용자 인증 데이터:", response.data.apiData);
                 const userAuth = response.data.apiData; // enteredUserAuth 값 (0, 1, 2)
                 setUserAuthorization(userAuth);
